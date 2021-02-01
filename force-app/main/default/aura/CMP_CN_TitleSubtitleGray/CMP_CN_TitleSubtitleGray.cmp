@@ -1,0 +1,23 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name = "title"		type = "String"		description = "Title"/>
+    <aura:attribute name = "subtitle"	type = "String"		description = "Subtitle"/>
+    
+    <div class="titleSubtitle">
+        <!-- TITLE -->
+        <div class="slds-card__header slds-grid containerInformation">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title separation">
+                        <div class="title">{!v.title}</div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="subtitle">{!v.subtitle}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text_line"></div>
+    </div>
+</aura:component>

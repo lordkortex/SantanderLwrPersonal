@@ -1,0 +1,5 @@
+<aura:event type="APPLICATION" description="Event fired when a search must be performed in the table">
+    <aura:attribute name="accountNumber" type="String" description="Account number to be searched in Mulesoft"/>
+    <aura:attribute name="dateTo" type="String" description="Initial date to search the data"/>
+    <aura:attribute name="dateFrom" type="String" description="Final date to search the data"/>
+</aura:event>

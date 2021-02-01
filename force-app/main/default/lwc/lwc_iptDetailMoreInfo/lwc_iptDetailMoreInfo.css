@@ -1,0 +1,88 @@
+.cardContainerGPI_detail .cardExpand {
+    background-color: #f6f6f6;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card {
+    background-color: #f6f6f6;
+    border: none;
+    border-radius: 0;
+    padding: 24px;
+    box-shadow: none;
+    background: transparent;
+    border-width: 0;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+    border-radius: 0;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-card__header-title {
+    color: #444444;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-card__header-title .title {
+    font-size: 14px;
+    line-height: 21px;
+    font-family: "SantanderMicroText-Bd";
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-card__header-title .name,
+.cardContainerGPI_detail .cardExpand .slds-card .slds-card__header-subTitle .name {
+    font-size: 14px;
+    line-height: 20px;
+    font-family: "SantanderMicroText";
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: #767676;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-card__header-title .information,
+.cardContainerGPI_detail .cardExpand .slds-card .slds-card__header-subTitle .information {
+    font-size: 14px;
+    line-height: 20px;
+    font-family: "SantanderMicroText";
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: #0d0d0d;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-row {
+    display: flex;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-row:nth-child(odd) {
+    margin-bottom: 4px;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-row:nth-child(even) {
+    margin-bottom: 16px;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-row .slds-card__header {
+    padding: 0;
+    margin: 0;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-row .slds-col_GPI {
+    margin-right: 24px;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-row .slds-col_GPI:nth-child(1) {
+    width: 264px;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-row .slds-col_GPI:nth-child(2) {
+    width: 288px;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-row .slds-col_GPI:nth-child(3) {
+    width: 288px;
+}
+
+.cardContainerGPI_detail .cardExpand .slds-card .slds-row .slds-col_GPI:nth-child(4) {
+    width: 144px;
+}

@@ -1,0 +1,81 @@
+.THIS.accountCard {
+    background-color: #ffffff;
+    border: solid 1px #ececec;
+    border-radius: 4px;
+    margin: 8px 0;
+}
+
+.THIS .availableBalance,
+.THIS .availableDate,
+.THIS .availableBookDate,
+.THIS .availableBookBalance {
+    margin-left: 32px;
+    text-align: right;
+}
+
+.THIS .slds-card__header-title {
+    color: #444444;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.THIS .slds-card__header-title.bbDateFinal {
+    color: #9b9b9b;
+}
+
+.THIS .accountNumber {
+    color: #a2a2a2;
+    font-size: 14px;
+    height: 21px;
+    line-height: normal;
+}
+
+.THIS .avDecimals {
+    color: #9b9b9b;
+    font-family: SantanderTextW05-Bold;
+    font-size: 12px;
+}
+
+.THIS .avIntegerRegular {
+    color: #9b9b9b;
+    font-family: SantanderTextW05-Bold;
+    font-size: 16px;
+    line-height: 18px;
+}
+
+.THIS .bbDecimals {
+    color: #444444;
+    font-size: 10px;
+}
+
+.THIS .bbDecimalsBold {
+    color: #444444;
+    font-family: SantanderTextW05-Bold;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.THIS .bbIntegerRegular {
+    color: #444444;
+    font-size: 12px;
+}
+
+.THIS .bbInteger {
+    color: #444444;
+    font-family: SantanderTextW05-Bold;
+    font-size: 18px;
+    line-height: 18px;
+}
+
+.THIS .identity {
+    color: #444444;
+    font-size: 14px;
+    height: 20px;
+    line-height: normal;
+}
+
+.THIS .selectedAccount {
+    height: 64px;
+    margin: 0;
+    padding: 12px 24px;
+}

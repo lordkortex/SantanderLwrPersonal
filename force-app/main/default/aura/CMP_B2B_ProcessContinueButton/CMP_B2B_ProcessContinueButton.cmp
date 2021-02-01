@@ -1,0 +1,14 @@
+<aura:component >
+
+    <aura:attribute access="public" type="Aura.Action"  name="handleContinue" />
+
+    <div>
+        <footer class="slds-modal__footer">
+            <div class="slds-form-element">
+                <div class="slds-media__footer" tabindex="-1">
+                    <button id="buttonContinue" class="slds-button primary button_full" onclick="{!v.handleContinue}">{!$Label.c.B2B_Button_Continue}</button>
+                </div>
+            </div>
+        </footer>
+    </div>
+</aura:component>

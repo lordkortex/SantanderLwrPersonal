@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="When a tab is clicked">
+    <aura:attribute name="activateTab" type="String" description="The id of the clicked tab"/>
+</aura:event>

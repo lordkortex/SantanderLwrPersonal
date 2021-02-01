@@ -1,0 +1,39 @@
+<aura:component>
+    <aura:attribute name="currenciesExchange" type="List" description="Gets the exchange of currencies" />
+    <aura:attribute name="selectedCurrency" type="String" description="Contains the selected" />
+    <aura:attribute name="lastUpdateSelected" type="Boolean" default="true" description="Check if 'Last update' button is selected" />
+    <aura:attribute name="cardGrouping" type="String" description="Selected grouping for the cards"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+    
+
+    <aura:attribute name="start" type="Integer"  description="contains the pages for the carousel" />
+    <aura:attribute name="end" type="Integer"  description="contains the pages for the carousel" />
+
+    <c:CMP_ServiceComponent aura:id="Service" />
+
+        <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+        <article class="list-cards">
+            <aura:iteration items="{!v.currenciesExchange}" var="item" indexVar="index" start="{!v.start}" end="{!v.end}">
+                <aura:if isTrue="{!and(item.tipoDeCambio.accountNumber!=null,item.tipoDeCambio.accountNumber!=undefined)}"> 
+                    <div class="slds-card separationComponent">
+                        <div class="slds-card__body slds-grid">
+                            <div class="slds-col">
+                                <div class="title">{!item.tipoDeCambio.divisa}</div>
+                                <aura:if isTrue="{!item.tipoDeCambio.totalBalanceEquivalente != undefined}">
+                                    <c:CMP_displayAmount amount="{!item.tipoDeCambio.totalBalanceEquivalente}" wholeClass="subtitle" decimalClass="subtitle" numberFormat="{!v.userPreferredNumberFormat}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!and(item.tipoDeCambio.accountNumber!=null,item.tipoDeCambio.accountNumber!=undefined)}">
+                                    <div class="link" data-id="{!item.tipoDeCambio.divisa}" onclick="{!c.navigateToAccounts}">
+                                    <a class="text-link"  href="" data-title="{!$Label.c.View}">{!item.tipoDeCambio.accountNumber}&nbsp;{!item.tipoDeCambio.accountNumber == 1 ? $Label.c.Account : $Label.c.Accounts}<span class="icon-arrowRight_big"></span></a>
+                                    </div>
+                                </aura:if>
+                            </div> 
+                        </div>
+                    </div>
+                </aura:if>
+            </aura:iteration>
+
+        </article>
+            
+
+</aura:component>

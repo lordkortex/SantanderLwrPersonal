@@ -1,0 +1,113 @@
+.THIS.paymentProcessStep3 {
+    width: 808px;
+    outline: none; /*keep*/
+    /*margin-bottom: 64px; PARCHEADO
+    margin-top: 56px;  */
+    padding-top: 56px;
+}
+
+.THIS.paymentProcessStep3 .icon-arrowDown {
+    margin: 0 16px 24px 0;
+    display: inline-block; 
+ 
+}
+
+.THIS.paymentProcessStep3 .icon-arrowDown:before {
+	color: #444444;
+    font-size: 40px;
+}
+
+.THIS.paymentProcessStep3 .slds-text-heading_large{
+    color: #444444;
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    line-height: 34px;
+    margin-bottom: 32px;
+}
+
+.THIS.paymentProcessStep3 .slds-text-heading_subtitle {
+    color: #444444;
+	font-family: "SantanderMicroText-Bd";
+	font-size: 18px;
+    line-height: 27px;
+	margin-bottom: 16px;
+}
+
+/* NOTIFICATION */
+
+.THIS.paymentProcessStep3 .slds-box.availableBalance {
+    background-color: #137e84;
+	border: none;
+    border-radius: 4px;
+    height: 48px;
+    padding: 4px 16px;
+    min-width: 189px;
+    max-width: calc( 808px - 416px );
+}
+
+.THIS.paymentProcessStep3 .slds-box.availableBalance .slds-text-heading_small, 
+.THIS.paymentProcessStep3 .slds-box.availableBalance p {
+    color:#ffffff;
+	font-family: "SantanderMicroText";
+  	font-size: 14px;
+    line-height:21px;
+    margin-bottom: 0;
+}
+
+.THIS.paymentProcessStep3 .slds-box.availableBalance p {
+	font-family: "SantanderMicroText-Bd";
+}
+
+.THIS.paymentProcessStep3 .slds-box.indicativeRate {
+    border: none;
+    padding: 0px;
+    max-width: calc( 808px - 416px );
+    display: inline-block;
+}
+
+.THIS.paymentProcessStep3 .slds-box.indicativeRate .slds-text-heading_small span {
+    color: #444444;
+	font-family: "SantanderMicroText";
+  	font-size: 16px;
+    line-height:24px;
+}
+
+.THIS.paymentProcessStep3 .slds-box.indicativeRate .slds-text-heading_small .hour {
+    color: #767676;
+    margin-left: 12px;
+}
+
+.THIS.paymentProcessStep3 .slds-box.indicativeRate p {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    line-height: 17px;
+}
+
+.THIS.paymentProcessStep3 .slds-box.indicativeRate p .hour {
+	margin-left:16px;
+}
+.THIS.paymentProcessStep3 .textBox {
+    display: flex;
+    margin-top:4px;
+}
+.THIS.paymentProcessStep3 .textBox .text {
+    font-family: "SantanderMicroText";
+    font-size:12px;
+    line-height:18px;
+    color:#444444;  
+}
+.THIS.paymentProcessStep3 .textBox .textBold {
+    font-family: "SantanderMicroText-Bd";
+}
+.THIS.paymentProcessStep3 .textBox .icon-time {
+    margin: 0 4px 0 8px;
+}
+.THIS.paymentProcessStep3 .textBox .icon-time:before {
+    color: #444444;
+    font-size: 18px;
+}
+
+.THIS.heightTotal{
+    height: 100vh;
+}

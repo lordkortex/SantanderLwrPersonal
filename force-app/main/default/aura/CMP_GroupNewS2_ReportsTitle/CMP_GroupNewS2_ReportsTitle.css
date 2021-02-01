@@ -1,0 +1,22 @@
+.THIS .actions {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.THIS .actions div {
+    cursor: pointer;
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.THIS .actions div:last-child {
+	margin-right:0;
+}
+.THIS.slds-card__header {
+    padding: 0;
+    margin: 16px 16px 8px 0;
+}
+.THIS .slds-card__header-title{
+    color: #444444;
+}

@@ -1,0 +1,129 @@
+<!--
+Author:         A. Duarte Rausell
+Company:        Deloitte
+Description:    Account Converter parent component
+History
+<Date>			<Author>				<Description>
+22/06/2020		A. Duarte Rausell     	Initial version-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global" controller="CNT_AccountConverter">
+    
+    <!-- RESOURCES -->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- SERVICE COMPONENT -->
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="cashNexusIdValue" type="String"   default=""                                  description="Attribute to store the value of Cash Nexus Id Field"/>
+    <aura:attribute name="bicValue"         type="String"   default=""                                  description="Attribute to store the value of BIC Field"/>
+    <aura:attribute name="localIdValue"     type="String"   default=""                                  description="Attribute to store the value of Local Id Field"/>
+    <aura:attribute name="currencyList"     type="List"     default=""                                  description="List with the available currencies"/>
+    <aura:attribute name="currencyValue"    type="String"   default=""                                  description="Attribute to store the value of Currency Field"/>
+    <aura:attribute name="validValues"      type="Boolean"  default="false"                             description="Attribute to check if the fields have valid values"/>
+    <aura:attribute name="params"           type="Map"                                                  description="Attribute to store the values for the service's call"/>
+    <aura:attribute name="message"          type="String"   default=""                                  description="Attribute to store the success/error message"/>
+    
+    <div class="slds-card__header slds-grid headerTable">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title titleTable">{!$Label.c.nexusAccountConverter}</div>
+            </div>
+        </header>
+    </div>
+    <div class="slds-grid mr_Tracker" aura:id="searchArea">
+
+        <!-- HEADER WITH ERROR/SUCCESS MESSAGE -->
+        <div class="slds-card__header slds-grid headerTable">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-hide errorText" aura:id="errorText">{!v.message}</div>
+                    <div class="slds-hide successText" aura:id="successText">{!v.message}</div>
+                </div>
+            </header>
+        </div>
+
+        <!-- ID CASH NEXUS -->
+        <div class="slds-row">
+            <div class="slds-col input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <abbr class="requireText" title="Required field">* </abbr>
+                        <label  for="form-element-01">{!$Label.c.cashNexus}&nbsp;{!$Label.c.Id}</label>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input type="text" class="slds-input inputShadow inputLarge" value="{!v.cashNexusIdValue}" id="cashNexusIdField" maxlength="35"/>
+                        <div class="slds-hide errorText" aura:id="requiredText1">{!$Label.c.accountConverterRequiredId}</div>
+                    </div>
+                    
+                </div>
+            </div>
+        
+            <!-- BIC -->
+            <div class="slds-col input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <abbr class="requireText" title="Required field">* </abbr>
+                        <label  for="form-element-02">{!$Label.c.bic}</label>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input type="text" class="slds-input inputShadow inputLarge" value="{!v.bicValue}" id="bicField" maxlength="8"/>                                                    
+                        <div class="slds-hide errorText" aura:id="requiredText2">{!$Label.c.accountConverterRequiredBic}</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- ID BANCA LOCAL -->
+        <div class="slds-row">
+            <div class="slds-col input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <label  for="form-element-03">{!$Label.c.Local}&nbsp;{!$Label.c.Id}</label>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input type="text" class="slds-input inputShadow inputLarge" value="{!v.localIdValue}" id="localIdField" maxlength="35"/>                                                 
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- DIVISA -->
+            <div class="slds-col input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <label  for="form-element-04">{!$Label.c.currency}</label>
+                    </div>
+                    <!--<div class="slds-form-element__control">
+                        <input type="text" class="slds-input inputShadow inputLarge" value="{!v.currencyValue}" id="currencyField"/>
+                    </div>-->
+                    <div class="slds-form-element__control paddingInput">
+                        <div class="slds-combobox_container inputSize">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                   <div class="slds-combobox_container">
+                                        <c:CMP_Dropdown aura:id="currencyField" isSimpleDropdown="true" values="{!v.currencyList}" selectedValue="{!v.currencyValue}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="slds-form containerSearch" role="list">
+            <div class="slds-form__row">
+                <button onclick="{!c.clearButton}"  id = "clearB"  style="display: block;" class="slds-button slds-button_brand whiteButtonSmall">  {!$Label.c.clear} </button>
+                <button onclick="{!c.searchButton}" id = "searchB" style="display: block;" class="slds-button slds-button_brand redButtonSmall">    {!$Label.c.search}</button>
+                <button onclick="{!c.createButton}" id = "createB" style="display: none;"  class="slds-button slds-button_brand redButtonSmall">    {!$Label.c.Create}</button>
+                <button onclick="{!c.updateButton}" id = "updateB" style="display: none;"  class="slds-button slds-button_brand redButtonSmall">    {!$Label.c.Update}</button>
+                <button onclick="{!c.deleteButton}" id = "deleteB" style="display: none;"  class="slds-button slds-button_brand redButtonSmall">    {!$Label.c.delete}</button>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,265 @@
+.THIS div::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS div::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.THIS div::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+.THIS div::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+.THIS .icon-check:before,
+.THIS .icon-profile:before,
+.THIS .icon-viewProfile:before,
+.THIS .icon-trash:before {
+    font-size: 24px;
+}
+
+.THIS .slds-button:focus {
+    box-shadow: none;
+}
+
+.THIS .slds-cell-fixed {
+    background-color: #ececec;
+}
+
+.THIS .slds-scrollable_y{
+    max-height: 510px;
+}
+
+.THIS.slds-table--header-fixed_container {
+    background-color: #ececec;
+    border: 1px solid #ececec;
+}
+
+.THIS.slds-table--header-fixed_container:before {
+    border: unset;
+}
+
+.THIS .slds-table_striped tbody tr:nth-of-type(2n)>td {
+    background-color: #f9fcfd;
+}
+
+.THIS thead .slds-truncate {
+    font-size: 14px;
+    color: #444444;
+    font-family: SantanderTextW05-Bold;
+    padding: 6px 24px;
+}
+
+.THIS thead tr th:nth-child(1) {
+    width: 114px;
+}
+
+.THIS thead tr th:nth-child(2) .slds-truncate {
+    padding: 6px 16px;
+}
+
+.THIS thead tr th:nth-child(3),
+.THIS thead tr th:nth-child(4),
+.THIS thead tr th:nth-child(5) {
+    width: 32px;
+}
+
+.THIS thead tr th:nth-child(5) {
+    padding: 0 24px;
+}
+
+.THIS tbody tr td {
+    height: 34px;
+    padding: 0 24px;
+}
+
+.THIS tbody .slds-hint-parent {
+    border: 1px solid #ececec;
+    border-left: 0;
+}
+
+.THIS tbody .slds-truncate {
+    font-size: 12px;
+    font-family: SantanderTextW05-Regular;
+    color: #444444;
+}
+
+.THIS tbody tr td:nth-child(2) {
+    padding: 0 16px;
+}
+
+.THIS tbody tr td:nth-child(3),
+.THIS tbody tr td:nth-child(4),
+.THIS tbody tr td:nth-child(5) {
+    padding: 0 0 0 8px;
+}
+.THIS {
+}
+
+.THIS .button-order {
+	border: transparent;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #8dd9de;
+	height: 36px;
+	width: 100%;
+}
+
+.THIS .button-order:focus {
+	box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+.THIS .button-order:hover {
+	box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+.THIS .button-order .arrow {
+	border-left: 1px solid #d2f0f2;
+	bottom: 4px;
+	display: inline-block;
+	height: calc(100% - 8px);
+	position: absolute;
+	right: 0;
+	top: 4px;
+	width: 33px;
+}
+
+.THIS .button-order .button-arrow {
+	font-size: 24px;
+	line-height: 28px;
+}
+
+.THIS .button-selected {
+	font-size: 16px;
+}
+
+.THIS.container{
+    margin: 24px 0 18px 0;
+    padding: 0 8px;
+}
+
+.THIS .description{
+    color: #a2a2a2;
+    font-size: 12px;
+    margin-left: 16px;
+}
+
+.THIS .dropdown{
+    margin-right: 16px;
+    width: 176px;
+}
+
+.THIS .label {
+	align-items: center;
+	color: #444444;
+	display: flex;
+	font-size: 12px;
+	height: 36px;
+	margin-right: 16px;
+}
+
+.THIS .optionOrder {
+	align-items: center;
+	display: inline-flex;
+}
+
+.THIS .orderSelected {
+	align-items: center;
+	border: 0;
+	color: #444444;
+	display: flex;
+	font-size: 12px;
+	height: 24px;
+	padding: 0 33px 0 12px;
+	width: 100%;
+}
+
+.THIS .paddingOption {
+	padding: 8px 10px 8px 8px;
+}
+
+.THIS .nameOrder {
+	color: #444444;
+	font-size: 12px;
+}
+
+.THIS .redButtonSmall{
+    background-color: #ec0000;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ffffff;
+    font-family:"SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 32px;
+    margin: 0;
+    width: 88px;
+}
+
+.THIS .redButtonSmall:focus{
+    box-shadow: 0 0 2px 1px #dadada;
+} 
+
+.THIS .redButtonSmall:hover{
+    background-color: #cc0000;
+}
+
+.THIS .selectedValue-filled {
+	color: #444444;
+	font-size: 12px;
+}
+
+.THIS .selectedValue-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+
+.THIS .slds-dropdown {
+	border: none;
+	border-radius: 0 0 4px 4px;
+	box-shadow: 0 2px 3px 0 rgba(68, 68, 68, 0.24);
+	left: auto;
+	margin-top: 4px;
+	max-height: 176px;
+	min-width: inherit;
+	overflow-y: auto;
+	padding: 4px 0;
+	right: auto;
+	width: 100%;
+}
+
+.THIS .slds-icon {
+	margin-right: 8px;
+}
+
+.THIS .text{
+    align-items: center;
+    display: flex;
+}
+
+.THIS .title{
+    color: #444444;
+    font-size: 16px;
+    height: 23px;
+}
+
+/* SCROLL */
+.THIS .slds-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS .slds-dropdown::-webkit-scrollbar-track {
+    /*box-shadow: inset 0 0 5px #dadada;*/
+    border-radius: 10px;
+}
+
+.THIS .slds-dropdown::-webkit-scrollbar-track-piece{
+    background:white;
+}
+
+.THIS .slds-dropdown::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}

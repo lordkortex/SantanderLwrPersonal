@@ -1,0 +1,115 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Parent component of the movement history.
+History
+<Date>			<Author>		<Description>
+18/11/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component controller ="CNT_MovementHistoryParentController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    <!-- DATA ATIBUTTES -->  
+    <aura:attribute name="AccountList" type="List" description="List of accounts that comes from Global Position" />
+    <!-- Borrar Start -->
+  
+    <aura:attribute name="accountNumberAndEntity" type="String" description="account Number"/>
+    <aura:attribute name="accountNumberBank" type="String" description="account bank"/>
+
+    <aura:attribute name="extractDate" type="String" description="Extract date"/>
+    <aura:attribute name="SelectedAccount" type="String"  description ="Selected Account"/>
+    <aura:attribute name="accountName" type="String" description="Subsidiary Name"/>
+    <aura:attribute name="lastHistoryFinalBalance" type="Object" description="It's use to capture the first row of the table"/>
+    <aura:attribute name="accountInfoDataSearch" type="Object" description="List of accounts to compare and print data into info when apply the search"/>
+    <aura:attribute name="sourceMovementHistory" type="String" description="Attribute to kwown from where are navegating"/>
+    <aura:attribute name="currentNavigation" type="List" description="Array that stores the sequence of screens, to be able to displayed the correct breadcrumbs"/>
+    <aura:attribute name="isSearched" type="Boolean" default="false" description="attribute for kwon if the search go well and show the table"/>
+    <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+    <aura:attribute name="dataMovementHistory" type="List" description="Data shown in the table, it is populated by the component c:CMP_MovementHistoryTable"/>
+   
+    <aura:attribute name="availableBalanceParam" type="String" description="Avaiable balance field value of the account information component"/>
+    <aura:attribute name="dateParam" type="String" description="'To' field value of the account information component"/>
+    <aura:attribute name="finalAvailableDate" type="String" description="Final available date value"/>
+    <aura:attribute name="bookBalanceParam" type="String" description="Book balance field value of the account information component"/>
+    <aura:attribute name="doneRenderingParent" type="Boolean" default="false" description="Flag to indicate that the parent component has finished rendering"/>
+    <aura:attribute name="currencyTableHistoric" type="String" description="Currency of the account"/>
+    <aura:attribute name="dateFrom" type="Date" description="Field to fill with the date from"/>
+    <aura:attribute name="dateTo" type="Date" description="Field to fill with the date to"/>
+    <aura:attribute name="tablecomprobation" type="Boolean" description="For kwon if the source is global balance o historyofextracts"/>
+    <aura:attribute name="displayNoResultsMessage" type="Boolean" default="false" description="Flag activated when no results are returned from the server, for the given search"/>
+    <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+
+
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+
+    <!-- AURA HANDLER  -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler  name = "getDataBack" event="c:EVT_GetDataExtractBack" action = "{!c.gobackPage}" />
+
+    <!-- Title / breadcrumb (depends on page source) --> 
+    <aura:if isTrue="{!or(v.sourceMovementHistory == 'globalBalance',v.sourceMovementHistory =='historyofextracts')}">
+        <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.MovementHistory_History}" breadcrumb="['International_Treasury_Management', 'MovementHistory_History']" displayDownloadIcon= "{!v.displayDownloadIcon}"/>
+        <aura:set attribute="else">
+            <c:CMP_Title_Icon title="{!$Label.c.HistoryOfExtracts}"  displayDownloadIcon= "{!v.displayDownloadIcon}"/>
+        </aura:set>
+    </aura:if>
+
+    <!--Component to search from an account and a date or various dates.-->
+    <c:CMP_MovementHistorySearch AccountList="{!v.AccountList}" 
+                                    SelectedAccount="{!v.SelectedAccount}" 
+                                    accountNumberAndEntity="{!v.accountNumberAndEntity}" 
+                                    accountNumberBank="{!v.accountNumberBank}"
+                                    accountName="{!v.accountName}"
+                                    accountInfoDataSearch="{!v.accountInfoDataSearch}"
+                                    isSearched="{!v.isSearched}"
+                                    currencyTable ="{!v.currencyTable}"
+                                    availableBalanceParam ="{!v.availableBalanceParam}"
+                                    dateParam ="{!v.dateParam}"
+                                    bookBalanceParam ="{!v.bookBalanceParam}"
+                                    dateFrom="{!v.dateFrom}" 
+                                    dateTo="{!v.dateTo}"
+                                    source="{!v.sourceMovementHistory}"
+                                    doneRenderingParent="{!v.doneRenderingParent}"
+                                    finalAvailableDate="{!v.finalAvailableDate}"
+                                    displayNoResultsMessage="{!v.displayNoResultsMessage}"
+                                    displayDownloadIcon= "{!v.displayDownloadIcon}"/>
+
+    <!-- If the search or the service doesn't find data -->
+    
+    <aura:if isTrue="{!v.displayNoResultsMessage}">
+        <c:CMP_ResultsNotFound SelectedAccount="{!v.SelectedAccount}" dateFrom="{!v.dateFrom}" dateTo="{!v.dateTo}"/>
+    </aura:if>
+    
+    
+
+    <!-- <aura:if isTrue="{!and(or(v.isSearched , v.sourceMovementHistory == 'globalBalance' ),v.responseStatusFail == false)}">   -->
+    <aura:if isTrue="{!and(!v.displayNoResultsMessage, or(or(v.sourceMovementHistory == 'globalBalance', v.sourceMovementHistory == 'historyofextracts'),v.isSearched))}" >
+
+    <!--Contains the Info of the account
+        TODO Bind Variables-->
+        <!-- dateParam ="{!v.finalAvailableDate}"  Se sustituye por dateParam-->
+        <c:CMP_MovementHistoryAccountInformation  
+                    accountNumberAndEntity="{!v.accountNumberAndEntity}" 
+                    accountNumberBank="{!v.accountNumberBank}"
+                    accountName="{!v.accountName}"
+                    lastHistoryFinalBalance ="{!v.lastHistoryFinalBalance}"
+                    currencyTable ="{!v.currencyTable}"
+                    availableBalanceParam ="{!v.availableBalanceParam}"
+                    dateParam ="{!v.dateParam}"
+                    bookBalanceParam ="{!v.bookBalanceParam}"/>
+
+        
+       
+    
+        <!--Contains the table.-->
+    
+        <c:CMP_MovementHistoryTable  
+        accountNumberAndEntity="{!v.accountNumberAndEntity}" SelectedAccount="{!v.SelectedAccount}"
+        accountNumberBank="{!v.accountNumberBank}"  accountName="{!v.accountName}" 
+        lastHistoryFinalBalance="{!v.lastHistoryFinalBalance}" currencyTable ="{!v.currencyTable}"
+        dateFrom ="{!v.dateFrom}" dateTo ="{!v.dateTo}" dataMovementHistory="{!v.dataMovementHistory}"
+        noResultsFound="{!c.displayNoResultsFound}" source="{!v.currentNavigation}"
+        sourceMovementHistory="{!v.sourceMovementHistory}" dateParam = "{!v.dateParam}"
+        availableBalanceParam ="{!v.availableBalanceParam}" bookBalanceParam ="{!v.bookBalanceParam}"
+        displayNoResultsMessage ="{!v.displayNoResultsMessage}"  displayDownloadIcon= "{!v.displayDownloadIcon}"
+        />
+        
+    </aura:if>  
+</aura:component>

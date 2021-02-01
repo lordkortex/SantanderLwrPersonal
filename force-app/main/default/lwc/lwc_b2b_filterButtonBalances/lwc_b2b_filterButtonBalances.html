@@ -1,0 +1,81 @@
+<template>
+
+    <div class="slds-combobox_container">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+            <!-- Añadir la clase filterButton cuando el boton esté filtrado -->
+            <button class={buttonClass} onclick={handleDropdownButton}>{Label.B2B_Balance}
+                 <div class={showDropdownClass}></div>
+            </button>
+            <template if:true={showDropdownEqualsTrue} >
+                <section aria-describedby="dialog-body-id-4" aria-label="" class="slds-popover slds-popover_full-width" id="popover-unique-id-04" role="dialog">
+                    <div class="slds-popover__body" id="dialog-body-id-4">
+                        <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <div class="titleOptions">{Label.filterBy}</div>
+                                <!-- INPUT 1-->
+                                <div class={divInputClass}>
+                                    <template if:true={inputOneEqTrue}>
+                                        <label class="slds-form-element__label amountLabel" for="from">{Label.from2}</label>
+                                    </template>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        
+                                        <input type="text" 
+                                        id="from"  
+                                        data-id="from"   
+                                        placeholder={Label.from2} 
+                                        value={formattedValueFrom} 
+                                        class={inputClass} 
+                                        name="amount" 
+                                        onchange={valueChanges} 
+                                        oninput={handleInputAmount}  
+                                        onfocus={handleFocusAmount} 
+                                        onblur={handleBlurAmount} 
+                                        disabled={disabled} />
+                                    </div>
+                                </div>
+                                
+                                
+                                <!-- INPUT 2 -->
+                                <div class={divInputClass}>
+                                    <template if:true={inputTwoEqTrue}>
+                                        <label class="slds-form-element__label amountLabel" for="to">{Label.to}</label>
+                                    </template>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        
+                                        <input type="text" 
+                                        id="to" 
+                                        data-id="to"  
+                                        placeholder={Label.to}  
+                                        value={formattedValueTo} 
+                                        class={inputClass} 
+                                        name="amount" 
+                                        onchange={valueChanges} 
+                                        onfocus={handleFocusAmount} 
+                                        oninput={handleInputAmount} 
+                                        onblur={handleBlurAmount} 
+                                        disabled={disabled} />
+                                        <template if:true={errorAmountsEqualsTrue}>
+                                            <div class="errorText">
+                                                
+                                                {Label.PAY_ErrorToAmount}
+                                            </div>
+                                        </template>
+                                        <template if:false={errorAmountsEqualsTrue}>
+                                            <span class="slds-form-element__help"></span>
+                                        </template>
+                                        
+    
+                                    </div>
+                                </div> 
+                            </div>
+                        </fieldset>
+                    </div>
+                    <footer class="slds-popover__footer">
+                        <button class="slds-button slds-button_brand primary button_small" onclick={handlerApplyFilters}>{Label.apply}</button>
+                        <button class="slds-button slds-button_neutral secondary button_small" onclick={handlerClearFilters}>{Label.clearAll}</button>
+                    </footer>
+                </section>
+            </template>
+        </div>
+    </div>
+</template>

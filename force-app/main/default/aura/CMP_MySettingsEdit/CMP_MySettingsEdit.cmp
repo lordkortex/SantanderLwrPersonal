@@ -1,0 +1,102 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Component of the edit my settings pop up
+History
+<Date>			<Author>		        <Description>
+03/03/2020		Joaquin Vera Vallés     Initial version
+04/05/2020      Shahad Naji             Hide Currency field
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access = "Global" controller="CNT_UserSettingsController">
+
+    <aura:attribute name="UserInfoEdit"            type="Map" default="{}"     description="Contains the running user info" />
+    <aura:attribute name="UserPicklistValues"     type="Map"      description="Contains the edit Picklist data" />
+    <aura:attribute name="isEditing"              type="Boolean"  description="flag to check if is editing the user" />
+
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="{!$Label.c.close}">
+              <span class="slds-assistive-text">{!$Label.c.close}</span>
+            </button>
+            
+            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!$Label.c.MySettings_EditUserInfo}</h2>
+        
+          </header>
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <lightning:layout multipleRows="true">
+
+            
+            
+              <!-- User Language Block -->
+              <lightning:layoutItem size="6" padding="around-small">
+                  <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{!$Label.c.language}</div>
+                  <div class="slds-form-element__control">
+                    <div class="slds-form-element">
+                        <c:CMP_Dropdown aura:id="LanguageDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                        values="{!v.UserPicklistValues.languagesListLabel}" selectedValue="{!v.UserInfoEdit.Language}"/>
+                    </div>
+                  </div>
+              </lightning:layoutItem>
+              
+              <!-- User Time Zone Block -->
+              <lightning:layoutItem size="6" padding="around-small">
+                  <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{!$Label.c.timeZone}</div>
+                  <div class="slds-form-element__control">
+                    <div class="slds-form-element">
+                        <c:CMP_Dropdown aura:id="TimeZoneDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                        values="{!v.UserPicklistValues.TimeZoneListLabel}" selectedValue="{!v.UserInfoEdit.TimeZone}"/>
+                    </div>
+                  </div>
+              </lightning:layoutItem>
+  
+              <!-- User Currency Block -->
+              <!--
+              <lightning:layoutItem size="6" padding="around-small">
+                  <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{!$Label.c.currency}</div>
+                  <div class="slds-form-element__control">
+                    <div class="slds-form-element">
+                        <c:CMP_Dropdown aura:id="CurrencyDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                        values="{!v.UserPicklistValues.CurrenciesListLabel}" selectedValue="{!v.UserInfoEdit.Currency}"/>
+                    </div>
+                  </div>
+              </lightning:layoutItem>-->
+
+              <!-- User date format Block -->
+              <lightning:layoutItem size="6" padding="around-small">
+                  <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{!$Label.c.dateFormat}</div>
+                  <div class="slds-form-element__control">
+                    <div class="slds-form-element">
+                        <c:CMP_Dropdown aura:id="LocaleeDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                        values="{!v.UserPicklistValues.datesListLabel}" selectedValue="{!v.UserInfoEdit.DateFormat}"/>
+                    </div>
+                  </div>
+              </lightning:layoutItem>
+  
+              <!-- User number format Block -->
+              <lightning:layoutItem size="6" padding="around-small">
+                  <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{!$Label.c.numberFormat}</div>
+                  <div class="slds-form-element__control">
+                    <div class="slds-form-element">
+                        <c:CMP_Dropdown aura:id="LocaleDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                        values="{!v.UserPicklistValues.numbersListLabel}" selectedValue="{!v.UserInfoEdit.NumberFormat}"/>
+                    </div>
+                  </div>
+              </lightning:layoutItem>
+  
+  
+
+
+      
+            </lightning:layout>
+          </div>
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick="{!c.cancelEditClicked}">{!$Label.c.AdminRoles_Cancel}</button>
+            <button class="slds-button slds-button_brand" onclick="{!c.saveEditClicked}">{!$Label.c.AdminRoles_Save}</button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

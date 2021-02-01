@@ -1,0 +1,45 @@
+<template>
+    <div if:true={simple}>
+        <!-- SIMPLE CALENDAR -->
+        <div>
+            <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click calendar calendar--single">
+                <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                    <lightning-input type="date" name="inputSingle" value={datesZero} data-id="datefrom" onblur={handleBlurFrom} date-style="short" label={label.enterADate} variant="label-hidden" placeholder={placeholderSingle}></lightning-input>
+                </div>
+                <div class="textHelp">
+                    {helptext} 
+                </div>
+            </div>  
+        </div>      
+    </div>
+    <div if:false={simple}>
+        <!-- COMPOUND CALENDAR --> 
+        <div>
+            <div class="slds-form slds-form_compound calendar calendar--double">
+                <fieldset class="slds-form-element">
+                    <div class="slds-form-element__control ">
+                        <div class="slds-form-element__group">
+                            <div class="slds-form-element__row ">
+                                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                        <lightning-input type="date" data-id="dateFrom" onchange={handleBlurFrom} name="inputFrom" value={datefrom} date-style="short" label={label.enterADate} variant="label-hidden" placeholder={placeholderfrom} id="dateFrom" class="date_lwc"></lightning-input>  
+                                    </div>
+                                    <div class="textHelp">{helptextfrom}</div>
+                                    
+                                </div>
+                                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                        <lightning-input type="date" name="inputTo" value={dateto} data-id="dateTo" onchange={handleBlurTo} date-style="short" label={label.enterADate} variant="label-hidden" placeholder={placeholderto} id="dateTo" class="date_lwc"></lightning-input>
+                                    </div>
+                                    <div class="textHelp">
+                                        {helptextto}
+                                    </div>                                       
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>         
+        </div>        
+    </div>
+</template>

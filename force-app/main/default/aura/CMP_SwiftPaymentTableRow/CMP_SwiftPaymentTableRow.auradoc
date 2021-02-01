@@ -1,0 +1,44 @@
+<aura:documentation>
+    <aura:description>
+        <p style="font-weight: bold">"Swift Payment Table Row" is a row of GPI Tarcker payment table</p>
+        
+        <h3>History</h3>
+        
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>12/11/2019</td>
+                <td>Laura Espinel</td>
+                <td>Design</td>
+            </tr>
+            <tr>
+                <td>15/11/2019</td>
+                <td>Amanda Fernandez</td>
+                <td>Layout coding of the page</td>
+            </tr>
+            <tr>
+                <td>19/11/2019</td>
+                <td>R. Alexander Cervino</td>
+                <td>Lightning Component Initial Version</td>
+            </tr>
+            <tr>
+                <td>21/11/2019</td>
+                <td>Shahad Naji</td>
+                <td>Interactive web pages: Access payment details</td>
+            </tr>
+            <tr>
+                <td>02/12/2019</td>
+                <td>Shahad Naji</td>
+                <td>MuleSoft First Try Service callout</td>
+            </tr>
+            
+        </table>
+    </aura:description>
+    <aura:example name="ExampleName" ref="c:CMP_International_Treasury_Management" label="Label">
+        Example Description
+    </aura:example>
+</aura:documentation>

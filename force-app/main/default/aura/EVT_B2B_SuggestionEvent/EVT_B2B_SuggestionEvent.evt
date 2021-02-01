@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event fire when the suggestion is clicked.">
+    <aura:attribute type="Map" name="account" description="Account suggestion." />
+</aura:event>

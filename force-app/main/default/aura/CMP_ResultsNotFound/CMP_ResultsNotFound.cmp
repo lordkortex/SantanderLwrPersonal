@@ -1,0 +1,29 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+
+    <!-- DATA ATTRIBUTES -->
+    <aura:attribute name="SelectedAccount" type="String"  description ="Selected Account"/>
+    <aura:attribute name="dateFrom" type="date" default=""/>
+    <aura:attribute name="dateTo" type="date" default=""/>
+    <aura:attribute name="msg" type="String" description="Results not found description"/>
+    <aura:attribute name="showSearchAgain" type="boolean" default="true" description="Flag to check if is showing the search again button" />
+
+    <aura:registerEvent name="searchAgain" type="c:EVT_ResultsNotFoundSearchAgain"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <article class="slds-card">  
+        <div class="slds-card__body slds-card__body_inner rectangle slds-text-align_center">
+            <div class="icon-prohibited__gray iconNoResults"></div>
+            <p class="noResults">{!$Label.c.NoFoundResults}</p>
+            <aura:if isTrue="{!v.msg}">
+                <p class="textDescription">{!v.msg}</p>
+                <aura:set attribute="else">
+                    <p class="textDescription">{!$Label.c.NoFoundResultsDescription}</p>
+                </aura:set>
+            </aura:if>
+            <aura:if isTrue="{!v.showSearchAgain}"> 
+                <button class="slds-button slds-button_brand redButton" onclick="{!c.searchAgain}">{!$Label.c.SearchAgain}</button>
+            </aura:if>
+        </div>
+            
+    </article>
+</aura:component>

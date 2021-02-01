@@ -1,0 +1,118 @@
+<!--Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component for the account display
+History
+<Date>			<Author>		<Description>
+22/01/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_BackFrontPain002Table">
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <ltng:require styles="{!$Resource.Santander_Fonts + '/FONTS/SantanderTextW05-Bold.ttf'}" />
+
+    <aura:attribute name="paymentsPerPage" type="Integer" default="50"/>
+    <aura:attribute name="currentPage" type="Integer" default="1"/>
+    <aura:attribute name="oldPage" type="Integer" default="1"/>
+    <aura:attribute name="start" type="Integer" default="0" description="Object Counter"/>
+    <aura:attribute name="receivedList" type="List" access="global" description="A list of accounts provided by parent component"/>
+    <aura:attribute name="end" type="Integer"/>
+    <aura:attribute name="paginationReceivedList" type="List" access="global" description="A list of accounts provided by parent component"/>
+    <aura:attribute name="jsonArray" type="Object[]"/>
+    <aura:attribute name="paginatedPayments" type="List"/>
+    <aura:attribute name="sortsettledAmount" type="String" default='desc'/>
+    <aura:attribute name="sortvalueDate" type="String" default='desc'/>
+    <aura:attribute name="sortinstructed" type="String" default='desc'/>
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:attribute name="toDelete" type="Map"
+    default="{
+             account : '',
+             bic : ''                          
+             }"    />    
+    <aura:attribute name="isDelete" type="boolean" default="false"/>
+    <aura:attribute name="isOpen" type="Boolean" default="false"/>
+
+    <aura:handler name="change" value="{!v.filters}" action="{!c.getData}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildData}"/>
+    <aura:handler name="deletePain" event="c:EVT_Pain002Delete" action="{!c.deletePain002}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.isOpen}" action="{!c.updateList}"/>
+    <aura:handler name="change" value="{!v.isDelete}" action="{!c.updateList}"/>
+    
+    <c:CMP_BackFrontCreatePain002 isOpen="{!v.isOpen}" entity="{!v.filters}"/>
+
+    <c:CMP_BackFrontRemovePain002 isDelete="{!v.isDelete}" toDelete="{!v.toDelete}"/>
+    
+    <c:CMP_Pagination allData="{!v.receivedList}" paymentsPerPage="{!v.paymentsPerPage}" aura:id="pagination"/>
+
+    <div style="position: relative !important;">
+            <lightning:spinner aura:id="spinner" variant="brand" size="large" alternativeText="{!$Label.c.Loading+ '...'}"/>
+
+    <!-- TABLE -->  
+    <div class="slds-table--header-fixed_container">
+        <div class="slds-scrollable_y" >
+            <table class="slds-table slds-table_fixed-layout slds-table--header-fixed slds-table_resizable-cols slds-table_striped" aria-multiselectable="true" role="grid"> 
+                <!-- HEADER -->  
+                <thead >
+                    <th></th>
+                    <th class="slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_asc header colorHeader containerIconStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerStatus textHeader">
+                            <span class="slds-truncate">{!$Label.c.Account}</span>
+                        </div>
+                    </th>
+                    <th class="slds-text-align_right header  " scope="col">
+                    </th>
+                    
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Close Date" aria-sort="none" scope="col">
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerInstructed textHeader">
+                            <span class="slds-truncate">{!$Label.c.bic}</span>
+                        </div>
+                    </th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Close Date" aria-sort="none" scope="col">
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerInstructed textHeader">
+                            <span class="slds-truncate">{!$Label.c.channel}</span>
+                        </div>
+                    </th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="header colorHeader containerIconDetail" scope="col">
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerInstructed textHeader">
+                            <div class="button-search icon-add" onclick="{!c.openAddModal}"></div>  
+                        </div>
+                    </th>
+                </thead>
+
+                <tbody class="fontBody" >
+                    <aura:if isTrue="{!v.jsonArray.length>0}">
+
+                        <aura:iteration items="{!v.jsonArray}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index">
+                            <c:CMP_BackFronPain002TableRow item="{!item}" itemPosition="{!index}" isDelete="{!v.isDelete}" toDelete=""/>
+                        </aura:iteration>
+
+                        <aura:set attribute="else">
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{!$Label.c.noData}</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </aura:set>
+                    </aura:if>
+
+                </tbody>
+            </table> 
+        </div>
+    </div>
+</div>
+
+
+</aura:component>

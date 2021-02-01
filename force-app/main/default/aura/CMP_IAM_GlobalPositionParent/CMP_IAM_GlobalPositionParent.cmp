@@ -1,0 +1,169 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_GlobalPositionController">
+    
+    <!-- Resources-->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute type="Object" name="UserInfo" default="{}" description="Current running user info" />
+    
+    <!-- Page title attribute-->
+    <aura:attribute name="title" type="String" default="" description="Contains the page title" />
+    
+    <aura:attribute name="SelectedGrouping" type="String" default="{!$Label.c.Country}" />
+    
+    <!-- Spinner attributes -->
+    <aura:attribute name="loadingData" type="Boolean" default="false" description="Flag to indicate whether the info displayed in the screen has completely loaded"/>
+    <aura:attribute name="loadingUserInfo" type="Boolean" default="false" description="Flag to indicate whether the user info has completely loaded"/>
+    <aura:attribute name="firstTimeLoading" type="Boolean" default="false" description="Flag to indicate whether the user enters for the first time"/>
+    
+    <!-- Currency attributes block-->
+    <aura:attribute name="currencyList" type="List" description="contains the currency list of the user " />
+    <aura:attribute name="currenciesExchange" type="List" description="Gets the exchange of currencies" />
+    <aura:attribute name="selectedCurrency" type="String" description="Contains the selected" />
+    <aura:attribute name="mainCurrency" type="String" description="gets the main currency of the user" />
+    <aura:attribute name="mainCurrencyUser" type="String" description="gets the main currency of the user" />
+    
+    
+    <!-- Title book balance attributes -->
+    <aura:attribute name="lastInfoDate" type="String" description="Contains the last date of the info that brings the service" />
+    <aura:attribute name="lastInfoHour" type="String" description="Contains the last hour of the info that brings the service" />
+    
+    <aura:attribute name="totalBookBalance" type="String" default=" " description="Contains the total book balance" />
+    <aura:attribute name="totalBookBalanceMapped" type="Map" description="Gets the total Book balance in every currency" />
+    <aura:attribute name="avaibleBookBalance" type="String" default=" " description="Contains the avaible book balance" />
+    <aura:attribute name="availableBookBalanceMapped" type="Map" description="Gets the total available balance in every currency" />
+    
+    <!-- Account grouping -->
+    <aura:attribute name="countryGroupResponse" type="List" description="Gets the accounts grouped by country" />
+    <aura:attribute name="corporateGroupResponse" type="List" description="Gets the accounts grouped by corporate" />
+    
+    <!-- ExchangeTypes attributes -->
+    <aura:attribute name="ExchangeRatesToShow" type="List" description="List of exchange rates to show" />
+    <aura:attribute name="ExchangeRates" type="Map" description="Contains the exchange rates of the return" />
+    <aura:attribute name="eRatesLastModifiedDate" type="String" description="Most recent date of the exchange rates update in Salesforce currencies"/>
+    <aura:attribute name="eRatesLastModifiedDateMain" type="String" description="Most recent date of the exchange rates update in Salesforce currencies"/>
+    <aura:attribute name="headerLastModifiedDate" type="String" description="Most recent date of accounts update"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+    
+    <aura:attribute name="dataIsLoaded" type="Boolean" default="false" description="Flag to check if data is loaded" />
+    
+    <aura:attribute name="country" type="String" description="Terms and conditions country"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="agreedTerms" type="Boolean" default="False" description="True if current user is has agreed terms, else, false"/>
+    <aura:attribute name="isBIC" type="Boolean" default="False" description="True if current user is has agreed terms, else, false"/>
+    <aura:attribute name="isPL" type="Boolean" default="False" description="True if current user is from Poland"/>
+    <aura:attribute name="isOther" type="Boolean" default="False" description="True if current user is from Brasil"/>
+    <aura:attribute name="showTerms" default="false" type="Boolean" description="Show terms and conditions"/>
+    <aura:attribute name="isIE" type="boolean" default="false"/>
+    
+    <!-- SNJ - 23/04/2020 - Toast Attributes-->
+    <aura:attribute name="showToast" type="Boolean" default="false" description="Show error message"/>
+    <aura:attribute name="msgToast" type="String" description="Message to be shown through the toast"/>
+    <aura:attribute name="typeToast" type="String" description="Type of the toast: success, warning or error"/>
+    <aura:attribute name="toBeHiddenToast" type="Boolean" description="Hide Toast after a while"/>
+
+    <!-- GG - 15/09/2020 - No access scoped notification -->
+    <aura:attribute name="showNoAccessError" type="Boolean" default="false" description="Flag which indicates whether the user has access to Global Position"/>
+
+    <!-- JV - 03/11/2020 - No access scoped notification -->
+    <aura:attribute name="showError403" type="Boolean" default="false" description="Flag which indicates if a 403 error has ocurred"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.selectedCurrency}" action="{!c.updateCurrencies}"/>
+    
+    <aura:if isTrue="{!v.isIE}">
+        <!--Message if the Browser is IE-->
+        <c:CMP_IPTBrowserMessage/> 
+        
+        <aura:set attribute="else">
+            <!-- Component markup -->
+            <c:CMP_ServiceComponent aura:id="Service"/>
+
+            <!-- Show error if user has no access to Payments Tracker -->
+            <aura:if isTrue="{!v.showNoAccessError}">
+                <!--Error if Account service fails-->
+                <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.ERROR_NO_ACCESS_GP}"/>
+            </aura:if>
+            
+            <!-- Show error if user has no access to Global Position -->
+            <aura:if isTrue="{!v.showError403}">
+                <!--Error if Account service fails-->
+                <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.Error403}"/>
+            </aura:if>
+            
+            <aura:if isTrue="{!v.showTerms == false}">
+                
+                <!-- Spinner -->
+                <aura:if isTrue="{!or(v.loadingData, v.loadingUserInfo)}">
+                    <aura:if isTrue="{!v.firstTimeLoading}">
+                        <c:CMP_GlobalPositionSkeleton/>
+                        <aura:set attribute="else"> 
+                            <div class="spinnerclass">
+                                <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+                            </div>  
+                        </aura:set>
+                    </aura:if>
+
+                    <aura:set attribute="else">
+                       <aura:if isTrue="{!v.dataIsLoaded}">
+                            
+                            <!-- <c:CMP_ServiceComponent aura:id="Service"/> -->
+                            <div class="slds-grid slds-wrap slds-medium-nowrap slds-large-nowrap">
+                                <div class="slds-col--padded slds-size--12-of-12 slds-medium-size--8-of-12 slds-large-size--8-of-12 comm-layout-column column-content">
+                                    
+                                    <c:CMP_GlobalTitleTabs showOnlyLastUpdate="true" title="{!v.title}" lastUpdateSelected="true" lastInfoDate="{!v.lastInfoDate}" lastInfoHour="{!v.lastInfoHour}" showDateInfo="{!v.dataIsLoaded}" headerLastModifiedDate="{!v.headerLastModifiedDate}"/>
+                                    
+                                    <!--SNJ - 21/04/2020 - Adding CMP_Toast-->
+                                    <c:CMP_Toast type="{!v.typeToast}" show="{!v.showToast}" message="{!v.msgToast}" toBeHidden="{!v.toBeHiddenToast}"/>
+                                    
+                                    <aura:if isTrue="{!and(empty(v.countryGroupResponse), empty(v.corporateGroupResponse))}">
+                                        <c:CMP_GlobalConsolidatedAmount totalBookBalance="{!v.totalBookBalance}" avaibleBookBalance="{!v.avaibleBookBalance}" dropdownSelectedValue="{!v.SelectedGrouping}"
+                                                                        lastUpdateSelected="true" selectedCurrency="{!v.selectedCurrency}" dataIsLoaded="{!v.dataIsLoaded}" disableDropdown="true" userPreferredNumberFormat="{!v.userPreferredNumberFormat}"/>
+                                        <aura:set attribute="else">
+                                            <c:CMP_GlobalConsolidatedAmount totalBookBalance="{!v.totalBookBalance}" avaibleBookBalance="{!v.avaibleBookBalance}" dropdownSelectedValue="{!v.SelectedGrouping}"
+                                                                            lastUpdateSelected="true" selectedCurrency="{!v.selectedCurrency}" dataIsLoaded="{!v.dataIsLoaded}" disableDropdown="false" userPreferredNumberFormat="{!v.userPreferredNumberFormat}"/>
+                                        </aura:set>
+                                    </aura:if>
+                                    
+                                    
+                                    <aura:if isTrue="{!and($Label.c.Country == v.SelectedGrouping, v.dataIsLoaded)}">
+                                        
+                                        <c:CMP_GlobalAccountCardTable lastUpdateSelected="true" countryGroupResponse="{!v.countryGroupResponse}"
+                                                                      selectedCurrency="{!v.selectedCurrency}" SelectedGrouping="{!v.SelectedGrouping}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" isOneTrade="true"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!and(v.SelectedGrouping == $Label.c.Corporate, v.dataIsLoaded)}">
+                                        
+                                        <c:CMP_GlobalAccountCardTable lastUpdateSelected="true" countryGroupResponse="{!v.corporateGroupResponse}" 
+                                                                      selectedCurrency="{!v.selectedCurrency}" SelectedGrouping="{!v.SelectedGrouping}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" isOneTrade="true"/>
+                                    </aura:if>
+                                    
+                                </div>
+                                
+                                
+                                <div class="slds-col--padded slds-size--12-of-12 slds-medium-size--4-of-12 slds-large-size--4-of-12 comm-layout-column column-sidebar">
+                                    
+                                    <c:CMP_GlobalCurrencyDropdown currencyList="{!v.currencyList}" selectedCurrency="{!v.selectedCurrency}"/>
+                                    
+                                    <c:CMP_GlobalExchangeRatesTable selectedCurrency="{!v.selectedCurrency}" exchangeRates="{!v.ExchangeRatesToShow}" eRatesLastModifiedDate="{!v.eRatesLastModifiedDate}"
+                                                                    userPreferredNumberFormat="{!v.userPreferredNumberFormat}" userPreferredDateFormat="{!v.userPreferredDateFormat}"
+                                                                    eRatesLastModifiedDateMain="{!v.eRatesLastModifiedDateMain}"/>
+                                    
+                                    <c:CMP_GlobalBalanceByCurrencyTable lastUpdateSelected="true" currenciesExchange="{!v.currenciesExchange}" 
+                                                                        selectedCurrency="{!v.selectedCurrency}" cardGrouping="{!v.SelectedGrouping}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}"/>
+                                </div>
+                                
+                            </div>
+                       </aura:if>
+                    </aura:set>
+                </aura:if> 
+                
+            </aura:if>
+            
+            <!--<aura:if isTrue="{!or(v.country == 'PL', v.country == 'Other')}">-->
+            <aura:if isTrue="{!and(v.country != undefined, v.country != null, v.country == 'PL')}">
+                <c:CMP_TermsConditions aura:id="termsConditions" showModal="{!v.showTerms}" country="{!v.country}"/>
+            </aura:if>
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

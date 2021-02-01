@@ -1,0 +1,171 @@
+<template>
+    <div class="slds-grid filterAccounts">
+        <template if:true={displayDropdown}>
+            <div class="slds-form-element slds-combobox__Rg">     
+                <!-- DROPDOWN MARKUP -->
+                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                <c-lwc_cn_dropdown
+                    data-id="filterDropdown"
+                    issimpledropdown = "true"
+                    values={dropdownvalues}
+                    selectedvalue={dropdownselectedvalue} 
+                    valueplaceholder={dropdownPlaceholder}
+                    headerdropdown={dropdownheader}
+                    isdisabled={isDropdownDisabled}
+                    ondropdownvalueselected={handledropdownvalueselected}>
+                </c-lwc_cn_dropdown>                                 
+            </div>
+        </template>
+        <!-- FILTERS -->
+        <div class="filtersRow">
+            <label class="slds-form-element__label" for="text-input-id-1">{label.filterBy}</label>
+                <div class="slds-col"> 
+                    <template if:true={filterLengthNotNull}>    
+                        <!--PILL : MULTIPICKLIST-->                  
+                        <template for:each={filtersAux} for:item='filter'>         
+                            <div key={filter.Id}>
+                            <template if:true={filter.displayFilter}>               
+                                <div class="slds-combobox_container">            
+                                  <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" id={filter.name} name={filter.name} aria-haspopup="dialog" role="combobox" onblur={toggleFilterVisibility}> 
+                                        <template if:true={filter.filterTypeCheckbox}>                                           
+                                            <template if:true={filter.filterNumberCheckedZero}>                                                
+                                                <button data-id={filter.name} name={filter.name} class="slds-button slds-button_outline-brand" onclick={toggleFilterVisibility}>{filter.name}</button>  
+                                            </template>
+                                            <template if:true={filter.filterNumberCheckedGt}>
+                                                <button data-id={filter.name} name={filter.name} class="slds-button slds-button_outline-brand" onclick={toggleFilterVisibility}>{filter.label1}</button>  
+                                            </template>
+                                        </template>
+                                        <template if:true={filter.filterTypeText}>
+                                            <button data-id={filter.name} name={filter.name} class="slds-button slds-button_outline-brand" onclick={toggleFilterVisibility}>{filter.name}</button>  
+                                        </template>
+                                        <template if:true={filter.filterTypeDates}>
+                                            <button data-id={filter.name} name={filter.name}  class="slds-button slds-button_outline-brand" onclick={toggleFilterVisibility}>{filter.name}</button>  
+                                        </template>
+                                        <template if:true={filter.displayOptions}>
+                                            <div class="content_modal" data-id={filter.name}> 
+                                            <section aria-describedby="dialog-body-id-25" aria-label=""  class="slds-popover slds-popover_full-width slds-dropdown1" id={filter.name} role="dialog">
+                                                <div class="slds-popover__body" data-id="dialog-body-id-25">
+                                                    <div class="slds-dropdown__list">
+                                                        <fieldset class="slds-form-element">
+                                                            <div class="slds-form-element__control">
+                                                                <!-- List of options scenario -->
+                                                                <template if:true={filter.filterTypeCheckbox}>  
+                                                                  <!--  <aura:iteration items={filter.data} var="option" indexVar="optionIndex"> -->
+                                                                    <template for:each={filter.data} for:item="option" for:index="optionIndex">
+                                                                        <div key={option.index} id={option.index} data-id="option-list">                                                
+                                                                            <div class="slds-form-element__checks">
+                                                                                <div class="slds-checkbox">                 
+                                                                                <lightning-input  
+                                                                                    type="checkbox"                                                                              
+                                                                                    name={filter.name}
+                                                                                    class='lcheckboxac_lwc'
+                                                                                    options={option}
+                                                                                    value={option.value}
+                                                                                    checked={option.checked}
+                                                                                    onchange={checkOption}>
+                                                                                </lightning-input>       
+                                                                                
+                                                                                <!--lightning-checkbox-group 
+                                                                                    name={filter.name}
+                                                                                    class='lcheckboxac_lwc'
+                                                                                    options={option}
+                                                                                    value={option.value}
+                                                                                    onchange={checkOption}></lightning-checkbox-group-->
+                                                                                <label class="slds-checkbox__label" for={filter.label1}>
+                                                                                    <span class="slds-form-element__label checkboxLabel">{option.displayValue}</span>
+                                                                                </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </template> 
+                                                                </template>
+                                                                <!-- Calendar dates scenario -->
+                                                                <template if:true={filter.filterTypeDates}>
+                                                                    <div class="slds-form-element__group">
+                                                                        <div class="slds-form-element__row ">                                                                           
+                                                                            <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                                                <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                                                    <lightning-input data-id="dateFromInput" type="date" name="inputFrom" value={datesZero} date-style="short" label={calendarLabel} variant="label-hidden" placeholder={placeholderFrom} onchange={validateDate} autocomplete="off"></lightning-input>
+                                                                                </div>
+                                                                                <span class="textHelp">{calendarHelpText}</span>
+                                                                            </div>
+                                                                            <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                                                <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                                                    <lightning-input data-id="dateToInput" type="date" name="inputTo" value={datesOne} date-style="short" label={calendarLabel} variant="label-hidden" placeholder={placeholderTo} onchange={validateDate} autocomplete="off"></lightning-input>
+                                                                                </div>
+                                                                                <span class="textHelp">{calendarHelpText}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </template>
+                                                                <!-- Free text scenario (amounts) -->
+                                                                <template if:true={filter.filterTypeText}>   
+                                                                    <div class="slds-form-element__group">
+                                                                        <div class="slds-form-element__row ">        
+                                                                        <!--<input type="text" name={filter.name} data-id="AmountFrom" placeholder={label.from} class="slds-input" value={filter.selectedFilters.from} onblur={saveFreeTextData} autocomplete="off"/>-->
+                                                                        <lightning-input type="text" name={filter.name} data-id="AmountFrom"  placeholder={placeholderFrom} value={amountZero} onblur={saveFreeTextData} autocomplete="off"></lightning-input>
+                                                                        
+                                                                        <span class="textHelp"></span>
+                                                                        <template if:true={amountFormatError}>
+                                                                            <div  class="slds-form-element__help clr-red">{label.toAmountLowerThanFrom}</div>
+                                                                        </template>
+                                                                        <template if:true={showFormatError}>
+                                                                            <template if:false={iamC}>
+                                                                                <div  class="slds-form-element__help clr-red">{label.amountLowerThanZero}</div>
+                                                                            </template>
+                                                                        </template>
+                                                                        <!--<input type="text" name={filter.name} data-id="AmountTo" placeholder={label.to} class="slds-input" value={filter.selectedFilters.to} onblur={saveFreeTextData} autocomplete="off"/>-->
+                                                                        <lightning-input type="text" name={filter.name} data-id="AmountTo" placeholder={label.to} value={amountOne} onblur={saveFreeTextData} autocomplete="off"></lightning-input>
+                                                                        <span class="textHelp"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                                <footer class="slds-popover__footer">
+                                                    <button class="slds-button slds-button_neutral whiteButton" id={filter.name} name="clearBtn" onclick={clearFilters}>{label.clearAll}</button>
+                                                    <button class="slds-button slds-button_brand redButton" id={filter.name} name="filterBtn" onclick={applyFilters}>{label.apply}</button>
+                                                </footer>
+                                            </section> 
+                                        </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                        </template>                              
+                    </template>
+                    <template if:true={showadvancedfilters}>
+                        <!--FILTERS-->
+                        <div class="icon" onclick={openModal}>
+                            <span class="icon-filter"></span>
+                            <template if:true={numberActiveFiltersGt}>
+                                <span class="text-link">{numberActiveFiltersClass}</span>
+                            </template>
+                            <template if:false={numberActiveFiltersGt}>
+                                <span class="text-link">{label.advancedFilters}</span>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+        </div>
+        <div class="slds-col box-buttons">
+            <!--PRINT-->
+            <template if:true={displayprinticon}>
+                <div class="icon">
+                    <span class="text-link" onclick={printScreen}>{label.T_Print}</span>
+                    <span class="icon-print" onclick={printScreen}></span>
+                </div>
+            </template>
+            <!--DOWNLOAD-->
+            <template if:true={displaydownloadicon}>
+                <div class="icon">
+                    <span class="text-link" onclick={donwloadFile}>{label.T_Download}</span>
+                    <span class="icon-download" onclick={donwloadFile}></span>
+                </div>
+            </template>
+        </div>
+    </div>    
+</template>

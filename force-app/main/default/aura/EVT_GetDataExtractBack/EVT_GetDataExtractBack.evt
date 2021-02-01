@@ -1,0 +1,10 @@
+<aura:event type="COMPONENT" description="Event to send go back data to extracts and history of extracts">
+    <aura:attribute name="accountBack" type="String"  description ="account number to send go back" />
+    <aura:attribute name="dateToBack" type="String"  description ="Date to field to send go back" />
+    <aura:attribute name="datoToFromBack" type="String"  description ="Date from field to send go back" />
+    <aura:attribute name="sourceBreadCrumb" type="String" description="List breadcrumb" />
+    <aura:attribute name="isbackTransaction" type="Boolean"  description ="for kwon if we are going back to extracts page" />
+    <aura:attribute name="isbackHistoric" type="Boolean"  description ="for kwon if we are going back to Historic   page" />
+    <aura:attribute name="isbackGlobalbalance" type="Boolean"  description ="for kwon if we are going back to globalBalance page" />
+    <aura:attribute name="isbackTransactionPage" type="Boolean"  description ="for kwon if we are going back to globalBalance page" />
+</aura:event>

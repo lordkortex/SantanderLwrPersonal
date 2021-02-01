@@ -1,0 +1,12 @@
+<!--
+Author:         Joaquín Vera Vallés
+Company:        Deloitte
+Description:    Event to check if the radio is changed
+History
+<Date>			<Author>		  <Description>
+29/11/2019		Joaquín Vera     Initial version-->
+
+<aura:event type="COMPONENT" description="Instant Cash Management- fires when a checkbox is changed" >
+        <aura:attribute name="data" type="Object" description="Contains the data of the object where the radio is selchangedected"/>
+        <aura:attribute name="checked" type="Boolean" description="Checks if the radio button is checked"/>
+</aura:event>

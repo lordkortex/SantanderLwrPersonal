@@ -1,0 +1,98 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component for the swift payments table pagination
+History
+<Date>			<Author>		<Description>
+02/03/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="allData" type="List"/>
+    <aura:attribute name="currentPage" type="String" default="1"/>
+    <aura:attribute name="currentPageInt" type="Integer" default="1"/>
+    <aura:attribute name="pageList" type="List" default="['1']"/>
+    <aura:attribute name="start" type="Integer" default="0"/>
+    <aura:attribute name="end" type="Integer"/>
+    <aura:attribute name="pagesToShow" type="Integer" default="3"/>
+    <aura:attribute name="totalRetrieved" type="Integer"/>
+    <aura:attribute name="retrievedSeen" type="Integer"/>
+    <aura:attribute name="paymentsPerPage" type="Integer"/>
+    <aura:attribute name="dropdownCurrentPage" type="String" default="1"/>
+
+    <aura:registerEvent name="getPageEvent" type="c:EVT_SwiftPaymentTablePagination" />
+
+    <aura:handler name="change" value="{!v.dropdownCurrentPage}" action="{!c.selectedCurrentPage}"/>
+
+    <aura:handler name="change" value="{!v.currentPage}" action="{!c.buildData}"/>
+
+    <!--Method to restart de pagination index-->
+    <aura:method name="buildData" action="{!c.reInitPagination}">
+        <aura:attribute name="currentPage" type="String"/>
+    </aura:method>
+
+    <!--Method to initialize the pages number and index-->
+    <aura:method name="initPagination" action="{!c.initPagination}">
+        <aura:attribute name="allDataReceived" type="List"/>
+    </aura:method>
+
+    <div class="slds-card__header slds-grid pagination">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title results">
+                    <aura:if isTrue="{!v.currentPage lt v.pageList.length}">
+                        {!$Label.c.viewing}&nbsp;<span class="number">{!(1+(v.currentPage-1)*v.paymentsPerPage)}-{!(v.currentPage)*v.paymentsPerPage}</span>&nbsp;{!$Label.c.of}&nbsp;<span class="number">{!v.totalRetrieved}</span>&nbsp;{!$Label.c.Payments}
+                        <aura:set attribute="else">
+                            {!$Label.c.viewing}&nbsp;<span class="number">{!(1+(v.currentPage-1)*v.paymentsPerPage)}-{!v.totalRetrieved}</span>&nbsp;{!$Label.c.of}&nbsp;<span class="number">{!v.totalRetrieved}</span>&nbsp;{!$Label.c.Payments}
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+            <!--
+            <div class="label">
+                {!$Label.c.goToPage}
+            </div>
+
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container">
+                    <c:CMP_Dropdown aura:id="paginationDropdown" isSimpleDropdown="true" values="{!v.pageList}" selectedValue="{!v.dropdownCurrentPage}"/>
+                </div>
+            </div>-->
+
+            <div class="navigationPage">
+                <aura:if isTrue="{!v.currentPageInt>1}">
+                    <div class="button-pageLeft icon-arrowLeft_big" title="{!$Label.c.previousPage}" onclick="{!c.previousPage}"></div>
+                </aura:if>
+                <aura:if isTrue="{!and(v.pageList.length>v.pagesToShow,and(v.currentPageInt>1,v.start!=0))}">
+                    <div class="number__gray">1</div>
+                    <aura:if isTrue="{!v.currentPageInt>2}">
+                        <div class="number__gray">...</div>
+                    </aura:if>
+                </aura:if>
+
+                <aura:iteration items="{!v.pageList}" var="item" start="{!v.start}" end="{!v.end}">
+                        <aura:if isTrue="{!v.currentPage == item}">
+                                <div class="number__gray selected">{!item}</div>
+                            <aura:set attribute="else">
+                                <div class="number__gray">{!item}</div>
+                            </aura:set>
+                        </aura:if>
+                </aura:iteration>
+
+                <aura:if isTrue="{!and(v.currentPageInt!=v.pageList.length,or(v.pageList.length>v.currentPageInt+v.pagesToShow-1,v.currentPageInt==v.end))}">
+                    <aura:if isTrue="{!and(v.pageList.length-2>=v.currentPageInt,v.pageList.length-2>=v.end)}">
+                        <div class="number__gray ellipsis">...</div>
+                    </aura:if>
+                    <div class="number__gray">{!v.pageList.length}</div>
+                </aura:if>
+
+                <aura:if isTrue="{!and(v.pageList.length>1,v.pageList.length!=v.currentPageInt)}">
+                    <div class="button-pageRight icon-arrowRight_big" title="{!$Label.c.nextPage}" onclick="{!c.nextPage}"></div>
+                </aura:if>
+            </div>
+        </header>
+    </div>
+
+
+</aura:component>

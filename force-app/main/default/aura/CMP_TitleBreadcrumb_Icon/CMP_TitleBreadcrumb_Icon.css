@@ -1,0 +1,60 @@
+.THIS {
+}
+
+.THIS .actions{
+    display: flex;
+    justify-content: flex-end;
+    
+}
+.THIS.breadcrumbs{
+    margin: 32px 0 16px 0;
+}
+.THIS .button-back{
+    cursor: pointer;
+    font-size: 24px;
+    margin-right: 8px;
+}
+.THIS .button-download{
+    cursor: pointer;
+}
+.THIS .button-next{
+    
+    font-size: 16px;
+    margin: 0 4px;
+}
+
+.THIS .icon-arrowRight_big:before{
+    color: #444444;
+}
+
+.THIS .iconSize {
+    font-size:24px;
+}
+.THIS .iconSearch{
+    display: flex;
+    justify-content: center;
+    margin-right: 24px;
+    margin-left: 8px;
+    padding: 0px 8px 41px 8px;
+}
+.THIS .iconSearch:active{
+    background-color: #eff6f9;
+}
+.THIS .textBreadbrumbs{
+    align-items: center;
+    color: #767676;
+    display: flex;
+    font-size: 16px;
+    margin-left: 32px;
+    height: 23px;
+}
+.THIS .title{
+    align-items: center;
+    color: #000000;
+    display: flex;
+    font-family: SantanderHeadlineW05-Rg;
+    font-size: 20px;
+    height: 29px;
+    letter-spacing: normal;
+    line-height: normal; 
+}

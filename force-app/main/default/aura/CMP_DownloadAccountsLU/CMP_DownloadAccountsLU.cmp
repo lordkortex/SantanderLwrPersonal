@@ -1,0 +1,20 @@
+<aura:component controller="CNT_DownloadAccountsLUController">
+  <ltng:require scripts="{!$Resource.SheetJS}" />
+  <c:CMP_ServiceComponent aura:id="Service" />
+
+  <aura:attribute name="sortSelected" type="String" description="Accounts display order"/>
+  <aura:attribute name="consolidationCurrency" type="String" description="Selected option from the dropdown" />
+  <aura:attribute name="accountCountryList" type="List"  access="global" description="Each register of this list contains two attributes --> Key: Country and Value: List of Accounts" />
+  <aura:attribute name="accountCurrencyList" type="List" description="Each register of this list contains two attributes --> Key: Currency and Value: List of Accounts"/>
+  <aura:attribute name="accountSubsidiaryList" type="List" description="Each register of this list contains two attributes --> Key: Susidiary and Value: Lsit of Accounts"/>
+  <aura:attribute name="exchangeRatesString"  type="String" description="Contains the string of the exchange rates" />
+  <aura:attribute name="countryMap" type="List" description="contains the list of countries with their names" />
+  <aura:attribute name="currenciesExchange" type="List" description="contains the exchange of currencies" />
+  <aura:attribute name="globalBookBalance" type="String" default="0.0" description="The sum of book balance value of all accounts"/>
+  <aura:attribute name="globalAvailableBalance" type="String" default="0.0" description="The sum of available balance value of all accounts"/>
+  <aura:method    name="downloadAccountsExcel" action="{!c.downloadAccounts}" description="Method to download accounts in excel format"/>
+  
+  <!--AB - 12/11/2020 - INC773 -->
+  <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+
+</aura:component>

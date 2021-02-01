@@ -1,0 +1,36 @@
+<template>       
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalCancel" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container sizeS">  
+            <div class="  modal-content">  
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close" onclick={handleCancelNO} >
+                    <div class="icon-close_big"></div> 
+                    <span class="slds-assistive-text">{label.close}</span>
+                </button>
+                <div class="title">
+                    <h2 class="slds-modal__title">{label.B2B_DiscardPayment}</h2> <!-- id="modal-heading-01"-->
+                    <div if:true={fromDetailOrUtilityBar}>
+                        <h2 class="slds-modal__title">{label.B2B_CancelPayment}</h2> <!-- id="modal-heading-01"-->
+                    </div>
+                    <div class="title-line"></div>
+                </div>
+            </header>
+            <!--<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <p>If you get out of this transfer process, later you will not have the option to recover it.</p> 
+            </div>-->
+            <footer class="slds-modal__footer"> 
+                <div class="modal-footer-buttons">
+                    <button class="slds-button primary button_small button_full" onclick={handleCancelYES}>{label.B2B_DiscardPayment_YES}</button> 
+                    <button class="slds-button secondary button_small button_full" onclick={handleCancelNO}>{label.B2B_DiscardPayment_NO}</button>         
+                    <div if:true={fromDetailOrUtilityBar}>
+                        <button class="slds-button primary button_small button_full" onclick={handleCancelYES}>{label.B2B_CancelPayment_YES}</button> 
+                        <button class="slds-button secondary button_small button_full" onclick={handleCancelNO}>{label.B2B_CancelPayment_NO}</button>
+                    </div>
+                </div> 
+            </footer>  
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+
+</template>

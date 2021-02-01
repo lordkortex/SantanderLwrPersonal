@@ -1,0 +1,55 @@
+<!-- Author:       Diego Asis
+    Company:        Deloitte
+    Description:    Function to display only the necessary rows in the tables
+    History
+    <Date>			<Author>			<Description>
+	29/01/2020		Diego Asis		     Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="title" 		type="String" 	description="Modal title"/>
+    <aura:attribute name="question" 	type="String" 	description="Modal first part of the question"/>
+    <aura:attribute name="name" 		type="String" 	description="User name to modify"	default="Maria Yolanda del Valle Redondo"/>
+    <aura:attribute name="userId" 		type="String" 	description="User ID"/>
+    <aura:attribute name="showModal" 	type="Boolean" 	default="false"/>
+    
+    <aura:if isTrue="{!v.showModal}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container modal_authorize">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" >
+                        <div class="slds-button button-page icon-close" data-title="{!$Label.c.close}" onclick="{!c.btnClose}"></div> 
+                        <span class="slds-assistive-text">{!$Label.c.close}</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.title}</h2>
+                </header>            
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>{!v.question}{!v.name}{!$Label.c.areYouSure}</p>
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.Comments}</label>
+                        <div class="slds-form-element__control">
+                            <textarea id="textarea-id-01" class="slds-textarea" placeholder=""></textarea>
+                        </div>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <div class="slds-form-element">
+                        <div class="slds-media__body">
+                            <div class="keypad" data-title="No"><button class="slds-button slds-button_brand whiteButtonSmall" onclick="{!c.btnNo}">{!$Label.c.No}</button></div>
+                            <div data-title="Yes"><button class="slds-button slds-button_brand redButtonSmall" onclick="{!c.btnYes}">{!$Label.c.Yes}</button></div>              
+                        </div>
+                    </div>
+                    <!--<div class="slds-form-element">
+                    <div class="lastPillSmall">
+                        <button class="slds-button slds-button_brand whiteButtonSmall" title="No">No</button>
+                        <button class="slds-button slds-button_brand redButtonSmall" title="Yes">Yes</button>              
+                    </div>
+                </div>-->
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

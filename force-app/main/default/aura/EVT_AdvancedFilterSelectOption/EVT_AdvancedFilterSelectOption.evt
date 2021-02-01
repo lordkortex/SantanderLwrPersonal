@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Event fired to dynamically update the values on the other modal filter's dropdowns">
+    <aura:attribute name="filterName" type="String" description="Name of the filter"/>
+    <aura:attribute name="selectedOptions" type="List" description="List of checked options in the given filter"/>
+    <aura:attribute name="source" type="String" description="Source of the event"/>
+</aura:event>

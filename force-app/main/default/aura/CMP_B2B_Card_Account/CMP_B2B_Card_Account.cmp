@@ -1,0 +1,117 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" type="Map"     name="account"            default="{}"               description="Data of account to show." />
+    <aura:attribute access="public" type="Boolean" name="selected"           default="false"            description="Active launch event." />
+    <aura:attribute access="public" type="Boolean" name="beneficiaryDetails" default="false"            description="Show beneficiary details." />
+    <aura:attribute access="public" type="Map"     name="accountData"                                   description="Account data." />
+    <aura:attribute access="public" type="Boolean" name="lessThan6Accounts"  default="false"            description="Indicates if there are less than 6 accounts showed in the first step." />
+    <aura:attribute access="public" type="Map"     name="userData"                                      description="User data." />
+    
+    <aura:registerEvent name="selectedCard"     type="c:EVT_B2B_Selected_Card" />
+    <aura:registerEvent name="selectedAccount"  type="c:EVT_B2B_SelectedAccount" />
+
+    <div>
+        <div class="{!(v.beneficiaryDetails eq true ? 'content_account' : '')}">
+            <article class="{!'cardAccount slds-card' + (v.selected eq true ? ' card-selected' : '') + (v.beneficiaryDetails eq true ? ' card-alternative' : '')}" onclick="{!c.selectCard}">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-has-flexi-truncate">
+                        <div class="slds-media__body slds-grid">
+                            <h2 class="slds-card__header-title slds-truncate">{!v.account.displayNumber}</h2>
+                            <div class="slds-text-heading_small slds-truncate">{!v.account.alias}</div>
+                        </div>
+                        <aura:if isTrue="{!v.selected eq true}">
+                            <div class="slds-media__figure">
+                                <span class="icon icon-check_circle" />
+                            </div>
+                        </aura:if>
+                    </header>
+                </div>
+                <div class="slds-card__body">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-grid slds-has-flexi-truncate">
+                            <p class="slds-truncate slds-text-body_regular">{!v.account.subsidiaryName}</p>
+                        </div>
+                        <div class="slds-col slds-grid slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(empty(v.account.amountAvailableBalance))}">
+                                <p class="slds-truncate slds-text-body_regular">{!$Label.c.B2B_Available_Balance}</p>
+                            </aura:if> 
+                        </div>
+                    </div>                    
+                    <div class="slds-grid">
+                        <div class="slds-col slds-grid slds-has-flexi-truncate">              
+                                <p class="slds-truncate slds-text-body_regular text-red">{!v.account.bankName}</p>
+                        </div>                                                                                                          
+                        <div class="slds-col slds-grid slds-has-flexi-truncate">
+                            <aura:if isTrue="{! not(empty(v.account.amountAvailableBalance))}">
+                                <span class="slds-truncate slds-text-body_regular text-bold">
+                                    <c:CMP_displayAmount aura:id ="avaibleBalanceRow"
+                                            amount="{!v.account.amountAvailableBalance}" 
+                                            decimalClass=''
+                                            wholeClass=''
+                                            currency="{!v.account.currencyCodeAvailableBalance}"
+                                            numberFormat="{!v.userData.numberFormat}"/>
+                                    </span>
+                            </aura:if>
+                        </div>
+                    </div>    
+                </div>
+                <footer class="slds-card__footer">
+                    <div class="slds-media__figure">
+                        <img class="sizeFlag" src="{!$Resource.Flags + '/' + v.account.country + '.svg'}"/>
+                        <span class="slds-text-body_regular text-bold slds-truncate">{!v.account.countryName}</span>
+                    </div>
+                    <aura:if isTrue="{! not(empty(v.account.amountAvailableBalance))}">
+                        <div class="slds-box">
+                            <p class="slds-text-body_small">{!v.account.currencyCodeAvailableBalance}</p>
+                        </div>
+                    </aura:if>
+                </footer>
+            </article>
+            <aura:if isTrue="{!v.beneficiaryDetails eq true}">
+                <div class="info_account">
+                    <h5 class="slds-truncate">{!$Label.c.Recipient_details}</h5>
+                    <div class="slds-grid two-col">
+                        <div class="slds-col">
+                            <div class="slds-truncate slds-text-body_small">{!$Label.c.Account_Holder}</div>
+                            <div class="slds-truncate slds-text-body_regular">{!v.account.subsidiaryName}</div>
+
+                        </div>
+                        <div class="slds-col">
+                            <aura:if isTrue="{!v.account.country eq 'CL'}">
+                                <aura:if isTrue="{! not(empty(v.account.type))}">
+                                    <div class="slds-truncate slds-text-body_small">{!$Label.c.Account_Type}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{!v.account.type}</div>
+                                </aura:if>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <div class="slds-grid two-col">
+                        <div class="slds-col">
+                            <aura:if isTrue="{!and(v.account.country ne 'CL', v.account.country ne 'GB')}">
+                                <aura:if isTrue="{! not(empty(v.account.bankName))}">
+                                    <div class="slds-truncate slds-text-body_small">{!$Label.c.B2B_Recipient_bank}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{!v.account.bankName}</div>
+                                </aura:if>
+                            </aura:if>
+                            <aura:if isTrue="{!v.account.country eq 'CL'}">
+                                <aura:if isTrue="{! not(empty(v.accountData.documentNumber))}">
+                                    <div class="slds-truncate slds-text-body_small">{!$Label.c.RUT}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{!v.accountData.documentNumber}</div>
+                                </aura:if>
+                            </aura:if>
+                        </div>
+                        <div class="slds-col">
+                            <aura:if isTrue="{!and(v.account.country ne 'CL', v.account.country ne 'GB')}">
+                            <aura:if isTrue="{! not(empty(v.account.codigoBic))}">
+                                <div class="slds-truncate slds-text-body_small">{!$Label.c.B2B_Swift_code}</div>
+                                <div class="slds-truncate slds-text-body_regular">{!v.account.codigoBic}</div>
+                            </aura:if>
+                        </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

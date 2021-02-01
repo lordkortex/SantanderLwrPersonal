@@ -1,0 +1,51 @@
+<aura:component>
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- Referenced account -->
+    <aura:attribute name="account" type="Object"/>
+
+    <!--CARD-->
+    <article class="cardAccount slds-card card-selected">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-has-flexi-truncate">
+                <div class="slds-media__body slds-grid">
+                    <h2 class="slds-card__header-title slds-truncate">ES26 0110 7298 5555 8888 1589 </h2>
+                    <div class="slds-text-heading_small slds-truncate">Headquarters Spain</div>
+                </div>
+                <!-- ICONO CHECK -->
+                <!-- Este icono se muestra cuando la card está seleccionada -->
+                <div class="slds-media__figure">
+                    <span class="icon icon-check_circle"></span>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body">
+            <div class="slds-grid">
+                <div class="slds-col slds-grid slds-has-flexi-truncate">
+                    <p class="slds-truncate slds-text-body_regular">Boomers Bamboo</p>
+                </div>
+                <div class="slds-col slds-grid slds-has-flexi-truncate">
+                    <p class="slds-truncate slds-text-body_regular">Available Balance</p>
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-grid slds-has-flexi-truncate">
+                    <p class="slds-truncate slds-text-body_regular text-red">Banco Santander Spain</p>
+                </div>
+                <div class="slds-col slds-grid slds-has-flexi-truncate">
+                    <p class="slds-truncate slds-text-body_regular text-bold">25.480.903,50</p>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-card__footer">
+            <div class="slds-media__figure">
+                <img class="sizeFlag" src="{!$Resource.Flags + '/ES.svg'}"></img>
+                <span class="slds-text-body_regular text-bold slds-truncate">Spain</span>
+            </div>
+            <div class="slds-box">
+                <p class="slds-text-body_small">EUR</p>
+            </div>
+        </footer>
+    </article>
+
+</aura:component>

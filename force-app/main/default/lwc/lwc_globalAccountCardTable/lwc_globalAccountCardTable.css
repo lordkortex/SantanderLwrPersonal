@@ -1,0 +1,70 @@
+.cardsGlobal .card {
+    background-color: #f6f6f6;
+    border: solid 1px #cedee7;
+    border-radius: 4px;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    margin:0;
+    margin-bottom: 16px;
+    max-width: 392px;
+    padding: 16px;
+    box-shadow: 2px 2px 6px 2px rgba(206, 214, 219, 0.4);
+}
+.cardsGlobal .card:nth-child(2n+1) {
+    margin-right:24px;
+}
+.cardsGlobal .card .button-arrow {
+    display: inline-block;
+    vertical-align: middle;
+}
+.cardsGlobal .card .icon-arrowRight_big:before {
+    font-size: 24px;
+}
+.cardsGlobal .card .sizeFlag {
+    height: 24px;
+    width: 24px;
+}
+.cardsGlobal .card .slds-card__body {
+    margin-bottom: 0;
+}
+.cardsGlobal .card .slds-card__body .slds-media_center:first-child {
+    height: 21px;
+    margin-bottom: 4px;
+}
+.cardsGlobal .card .slds-card__header {
+    margin: 0;
+    padding:0; 
+}
+.cardsGlobal .card .slds-card__header-title {
+    color: #444444;
+    font-family: "SantanderMicroText-Bd";
+    font-size: 16px;
+    line-height: 24px;
+}
+.cardsGlobal .card .slds-media_center {
+    justify-content: space-between;
+}
+.cardsGlobal .card .slds-media__figure {
+    margin-right: 8px;
+}
+.cardsGlobal .card .slds-text-heading_medium {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 21px;
+}
+.cardsGlobal .card .slds-text-heading_medium.subtitle .decimals {
+    font-size: 18px;
+}
+.cardsGlobal .card .slds-text-heading_medium.subtitle .integer {
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 24px;
+}
+.cardsGlobal .card .text-link{
+    color: #ec0000;
+    font-size: 14px;
+    line-height: 21px;
+    text-decoration: none;
+}
+.cardsGlobal .card .text-link:hover {
+    color: #cc0000;
+}

@@ -1,0 +1,47 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <div class="slds-grid sideBar">
+        <div class="card">  
+            <article class="slds-card">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-media__figure">
+                            <div class="icon-mail icon" data-title="Mail"></div>
+                        </div>
+                        <div class="slds-media__body sendEmail">
+                            <div class="title">{!$Label.c.sendUsEmail}</div>
+                            <div class="subtitle">{!$Label.c.attentionByMail}</div>
+                            <!--
+                            <div class="emailContact" data-title="Go">
+                                <a class="emailContact" href="mailto:OneTradeClientService@gruposantander.com">OneTradeClientService@gruposantander.com</a>
+                                <div class="slds-media__figure arrow">
+                                    <div class="button-arrow icon-arrowRight_big" ></div>
+                                </div>
+                            </div>
+							-->
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div class="card">  
+            <article class="slds-card">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-media__figure">
+                            
+                            <div class="icon-phone icon" data-title="Phone"></div>
+                        </div>
+                        <div class="slds-media__body callUs">
+                            <div class="title">{!$Label.c.callUs}</div>
+                            <div class="subtitle">{!$Label.c.customerService}</div>
+                            <!--
+                            <div class="phoneNumber">915 123 123</div>
+							-->
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</aura:component>

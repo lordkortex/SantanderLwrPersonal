@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION" description="Event fired from filtering sections of the 'Service Profiling' screen">
+    <aura:attribute name="filterByCountry" type="String" description="Country to filter the accounts allowed for selection / table data"/>
+    <aura:attribute name="filterByAccount" type="String" description="Account to filter the accounts displayed in the table"/>
+    <aura:attribute name="filterByEntitlement" type="String" description="Entitlement to filter the accounts displayed in the table"/>
+    <aura:attribute name="filterDataTable" type="Boolean" description="Flag to indicate whether the data table or the multipicklist values must be filtered"/>
+</aura:event>

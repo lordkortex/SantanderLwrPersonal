@@ -1,0 +1,75 @@
+<template>    
+    <c-lwc_service-component></c-lwc_service-component>
+    <template if:true={accountcountNotZero}>
+        <div class="slds-card card"> 
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure" data-title={cardinfo.countryFullName}> 
+                        <template if:true={isCountrySelectedGrouping}>
+                            <!--<img class="sizeFlag" src={imgCardInfoCountryCode} onerror={defaultImage} /> -->
+                             <!-- AM - 28/09/2020 - Ebury Accounts -->
+                            <template if:true={isCountryFullNameEbury}>
+                                <img class="sizeFlag" src={imgCardEbury}  onerror={defaultImage}/>
+                            </template>
+                            <template if:false={isCountryFullNameEbury}>
+                                <img class="sizeFlag" src={imgCardInfoCountryCode}  onerror={defaultImage} />
+                            </template>         
+                        </template>
+                    </div>
+                    <div class="slds-media__body">                 
+                        <template if:true={isCountrySelectedGrouping}>
+                            <div class="slds-card__header-title">{cardinfo.countryFullName}</div>
+                        </template>
+                        <template if:true={isCorporateSelectedGrouping}>
+                            <div class="slds-card__header-title">{cardinfo.corporateName}</div>
+                        </template>
+                    </div>
+                   <!-- <div class="slds-media_small" onclick={navigateToAccounts}>
+                        <a class="text-link" href="" data-title={label.seeMyAccounts}>{cardinfo.accountCount} &nbsp;{label.Accounts}
+                            <span class="button-arrow icon-arrowRight_big"></span>
+                        </a>
+                    </div>  -->
+                    <div class="slds-media_small" onclick={navigateToAccounts}>
+                        <a class="text-link" href=""  data-title={label.seeMyAccounts}>{accountcount} &nbsp;{accountCountLabel} <!-- DA - 05/11/2020 - Permisos -->
+                            <span class="button-arrow icon-arrowRight_big"></span></a>
+                    </div>
+                </header>
+            </div>  
+            <div class="slds-card__body">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                
+                    <div class="slds-text-heading_medium">{label.Book_Balance}</div>
+                    <div class="slds-text-heading_medium subtitle">
+                        <template if:true={isNotCardInfoUndefined}>
+                            <c-lwc_display-amount 
+                                amount={cardinfo.totalBalance} 
+                                wholeclass="subtitle integer" 
+                                decimalclass="subtitle decimals" 
+                                currency={selectedcurrency} 
+                                numberformat={userpreferrednumberformat}
+                                data-id="currency1"
+                                data-currency="currency1">
+                            </c-lwc_display-amount>
+                        </template>
+                    </div>
+                    
+                </div>
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">  
+                    <div class="slds-text-heading_medium">{label.Available_Balance}</div>
+                    <div class="slds-text-heading_medium">
+                        <template if:true={isNotCardInfoUndefined}>
+                            <c-lwc_display-amount 
+                                amount={cardinfo.availableBalance} 
+                                whole-class="integer" 
+                                decimal-class="decimals" 
+                                currency={selectedcurrency} 
+                                number-format={userpreferrednumberformat} 
+                                data-id="currency2">
+                            </c-lwc_display-amount>
+                        </template>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

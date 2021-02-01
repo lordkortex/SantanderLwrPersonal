@@ -1,0 +1,388 @@
+/* ACCOUNT TRANSACTIONS CSS */
+.THIS.tableGPI {
+    padding-top: 0;
+}
+.THIS.tableGPI:before {
+    display: none;
+}
+.THIS .circle {
+    font-size: 24px;
+}
+.THIS .containerCategory {
+    width: calc(67px + 56px);
+}
+.THIS .containerIconDetail{
+    width: 105px;
+}
+.THIS .containerClientReference {
+    width: calc(264px + 32px);
+}
+.THIS .containerValueDate{
+    width: calc(75px + 40px);
+}
+.THIS .containerAmount {
+    width: calc(58px + 199px - 32px);
+}
+.THIS .containerBookDate {
+    width: calc(145px - 16px);
+}
+.THIS .containerBookBalance {
+    width: calc(99px + 116px);
+}
+
+/* ICON */
+
+.THIS.tableGPI .slds-button {
+    cursor: pointer;
+    padding-right: 16px;
+    justify-content: flex-end;
+    border: 0px;
+}
+.THIS .icon.icon-arrowRight_big {
+    color: #ec0000;
+}
+.THIS .icon.icon-arrowRight_big:hover {
+    color: #cc0000;
+}
+.THIS .icon.icon-arrowRight_big {
+    font-family: "SantanderMicroText" !important;
+    font-size: 14px;
+    line-height: 21px;
+}
+.THIS .icon.icon-arrowRight_big:before {
+    font-family: 'icomoon' !important;
+    font-size: 24px;
+    float: right;
+    width: 24px;
+    margin-left: 2px;
+}
+
+.THIS .icon-arrowDown, 
+.THIS .icon-arrowUp {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 0 4px;
+    vertical-align: sub;
+}
+.THIS .icon-arrowDown:before, 
+.THIS .icon-arrowUp:before {
+    color: #767676;
+}
+.THIS .slds-is-sortable .slds-th__action:hover, 
+.THIS .slds-is-sortable .slds-th__action:focus, 
+.THIS .slds-is-sortable.slds-has-focus .slds-th__action, 
+.THIS .slds-is-sortable.slds-has-focus .slds-th__action:hover, 
+.THIS .slds-is-sortable.slds-has-focus .slds-th__action:focus {
+    background-color: unset;
+}
+
+
+.THIS .slds-table--header-fixed thead th {
+    padding: 0 8px 0 0;
+}
+.THIS .slds-table_striped tbody tr > td {
+    box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+.THIS .slds-table_striped tbody tr:first-child > td{
+    box-shadow: inset 0 -1px 0 0 #cedee7, inset 0 1px 0 0 #cedee7;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n+1) > td {
+    background-color: #fcfefe;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > td {
+    background-color: #ffffff;
+}
+.THIS.slds-table--header-fixed_container,
+.THIS.slds-table_edit_container,
+.THIS.slds-is-relative{
+    margin-bottom: 16px;
+}
+
+.THIS .status {
+    font-family: SantanderTextW05-Bold;
+}
+.THIS tbody .nodata{
+    padding: 8px 16px 8px 24px;
+}
+.THIS tbody .nodata div{
+    color: #a2a2a2; 
+}
+.THIS tbody td{
+    padding: 0;
+    padding-left: 16px;
+}
+
+.THIS tbody td.slds-text-align_center{
+    padding: 16px;
+}
+
+.THIS tbody>tr {
+    height: 56px;
+}
+.THIS .slds-truncate{
+    color: #444444;
+    font-size: 14px;
+    line-height: 21px;
+    font-family: "SantanderMicroText";
+}
+
+.THIS .text.amountDecimals {
+    font-family: "SantanderMicroText-Bd";
+}
+.THIS .text.amountInteger {
+    font-family: "SantanderMicroText-Bd";
+    font-size: 18px;
+    line-height: 27px;
+}
+.THIS thead .slds-truncate {
+    color: #767676;
+    font-size: 14px;
+    font-weight: normal;
+    height: 20px;
+    line-height: 20px;
+    margin: 12px 0;
+    min-height: 20px;
+    padding: 0;
+    text-transform: uppercase;
+    letter-spacing: normal;
+    overflow: inherit;
+}
+.THIS thead tr th {
+    box-shadow: inset 0 1px 0 0 #cedee7;
+    padding: 0;
+    padding-left: 16px;
+}
+.THIS .slds-text-align_right .slds-grid.slds-grid_align-spread{
+    justify-content: flex-end;
+}
+
+/* SEARCH TRANSACTIONS CSS*/
+.THIS.tableSearch {
+	padding-top: 0;
+    width: 1224px;
+}
+.THIS.tableSearch:before {
+    display: none;
+}
+
+.THIS.tableSearch thead{
+    height: 44px;
+}
+/*.THIS.tableSearch tbody>tr {
+    height: 75px;
+}*/
+
+.THIS.tableSearch .slds-table thead th {
+    padding: 12px 0;
+}
+
+.THIS.tableSearch .slds-table td {
+    padding: 14px 0 15px 0;
+    vertical-align: super;
+}
+
+.THIS.tableSearch .slds-table thead th.containerCategory,
+.THIS.tableSearch .slds-table td.infoCategory {
+	width: 115px;
+    padding-right: 24px;
+}
+.THIS.tableSearch .slds-table thead th.containerIconDetail{
+    width: 81px;
+}
+.THIS.tableSearch .slds-table thead th.containerClientReference,
+.THIS.tableSearch .slds-table td.infoClient {
+    width: 288px;
+    padding-right: 24px;
+}
+.THIS.tableSearch .slds-table thead th.containerValueDate,
+.THIS.tableSearch .slds-table td.infoValueDate {
+	width: 115px;
+    padding-right: 40px;
+}
+.THIS.tableSearch .slds-table thead th.containerAmount,
+.THIS.tableSearch .slds-table td.infoAmount {
+	width: 224px;
+    padding-right: 24px;
+}
+.THIS.tableSearch .slds-table thead th.containerBookDate,
+.THIS.tableSearch .slds-table td.infoBookDate {
+    width: 121px;
+    padding-right: 24px;
+}
+.THIS.tableSearch .slds-table thead th.containerAccount,
+.THIS.tableSearch .slds-table td.infoAccount {
+	width: 280px;
+    padding-right: 24px;
+    padding-left: 16px;
+}
+
+.THIS .iconLinkContainer{
+    cursor: pointer;
+	display: flex;
+    align-items: center;
+    padding-right: 16px;
+}
+.THIS .icon-arrowRight_big:before {
+	font-size: 24px;
+}
+.THIS .icon-arrowDown, 
+.THIS .icon-arrowUp {
+    cursor: pointer;
+    font-size: 20px;
+    margin: 0 4px;
+    vertical-align: sub;
+}
+.THIS .icon-arrowDown:before, 
+.THIS .icon-arrowUp:before {
+	color: #767676;
+}
+.THIS .slds-is-sortable .slds-th__action:hover, 
+.THIS .slds-is-sortable .slds-th__action:focus, 
+.THIS .slds-is-sortable.slds-has-focus .slds-th__action, 
+.THIS .slds-is-sortable.slds-has-focus .slds-th__action:hover, 
+.THIS .slds-is-sortable.slds-has-focus .slds-th__action:focus {
+    background-color: unset;
+}
+.THIS .slds-table_striped tbody tr > td {
+	box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+.THIS .slds-table_striped tbody tr:first-child > td{
+    box-shadow: inset 0 -1px 0 0 #cedee7, inset 0 1px 0 0 #cedee7;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n+1) > td {
+	background-color: #fcfefe;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > td {
+	background-color: #ffffff;
+}
+.THIS.slds-table--header-fixed_container,
+.THIS.slds-table_edit_container,
+.THIS.slds-is-relative{
+	margin-bottom: 16px;
+}
+
+.THIS tbody .nodata{
+    padding: 8px 16px 8px 24px;
+}
+.THIS tbody .nodata div{
+    color: #a2a2a2; 
+}
+.THIS .slds-truncate{
+    color: #444444;
+    font-size: 14px;
+    line-height: 21px;
+    font-family: "SantanderMicroText";
+}
+.THIS .text-link{
+    font-size: 14px;
+    line-height: 24px;
+    font-family: "SantanderMicroText";
+    margin-right: 2px;
+}
+.THIS .text.amountDecimals {
+    font-family: "SantanderMicroText-Bd";
+}
+.THIS .text.amountInteger {
+    font-family: "SantanderMicroText-Bd";
+    font-size: 18px;
+    line-height: 27px;
+}
+.THIS thead .slds-truncate {
+    color: #767676;
+    font-size: 14px;
+    font-weight: normal;
+    height: 20px;
+    line-height: 20px;
+    min-height: 20px;
+    padding: 0;
+    text-transform: uppercase;
+    letter-spacing: normal;
+    overflow: inherit;
+}
+.THIS thead tr th {
+	box-shadow: inset 0 1px 0 0 #cedee7;
+}
+.THIS .slds-text-align_right .slds-grid.slds-grid_align-spread{
+	justify-content: flex-end;
+}
+
+@media print {
+   
+    .THIS.tableGPI  { 
+        width: 100%;
+        max-width: 100%;
+    }
+    .THIS .slds-table thead th,
+    .THIS .slds-table_striped tbody tr>td{
+        width: auto!important;
+        padding: 5px!important; 
+    }
+    .THIS tbody>tr {
+        height: auto;
+    }
+    .THIS.tableGPI  .slds-table thead th.containerIconDetail,
+    .THIS .icon-arrowDown, 
+    .THIS .icon-arrowUp,
+    .THIS .slds-table_striped tbody tr>td:last-child{
+        display:none;
+    }
+    .THIS thead .slds-truncate { 
+        font-size: 10px;
+    }
+    .THIS .slds-truncate { 
+        font-size: 10px; 
+    }
+    .THIS .text.amountInteger { 
+        font-size: 10px; 
+    }
+}
+
+@media print {
+   
+    .THIS.tableSearch { 
+        width: 100%;
+        max-width: 100%;
+    }
+    .THIS .slds-table thead th,
+    .THIS .slds-table_striped tbody tr>td{
+        width: auto!important;
+        padding: 5px!important; 
+    }
+     
+    .THIS.tableSearch .slds-table thead th.containerIconDetail,
+    .THIS .icon-arrowDown, 
+    .THIS .icon-arrowUp,
+    .THIS .slds-table_striped tbody tr>td:last-child{
+        display:none;
+    }
+    .THIS thead .slds-truncate { 
+        font-size: 10px;
+    }
+    .THIS tbody tr { 
+        page-break-inside: avoid;
+        page-break-before: always;
+    }
+    .THIS .slds-truncate { 
+        font-size: 10px; 
+        line-height: 1.5;
+    }
+    .THIS .text.amountInteger { 
+        font-size: 10px; 
+            line-height: 1.5;
+    }
+    .THIS.tableSearch .slds-table thead th.containerAccount {
+        width: 170px!important;
+    }
+    .THIS.tableSearch .slds-table thead th.containerClientReference {
+        width: 200px!important;
+    }
+     .THIS.tableSearch .slds-table thead th.containerAmount {
+        width: 100px!important;
+    }  
+    .THIS.tableSearch{
+        margin-top: 20px;
+    }
+     .THIS.tableSearch thead {
+            display: table-row-group;
+    }  
+}

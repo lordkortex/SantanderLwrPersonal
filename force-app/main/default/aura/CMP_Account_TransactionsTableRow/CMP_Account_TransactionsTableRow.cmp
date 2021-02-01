@@ -1,0 +1,120 @@
+<aura:component >
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="transactionRow" type="Map" description="Each of the transaction rows shown in the table"/>
+    <aura:attribute name="accountDetails" type="Map" description="Details of the account"/>
+    <aura:attribute name="sourcePage" type="String" description="This attribute is to know from which community page a users is accessing this component"/> 
+    <aura:attribute name="filters" type="List" description="Map of filters to be passed to the transaction detail page"/>  
+    <aura:attribute name="lastUpdate" type="Boolean" description="Flag used to navigate to a different page indicating that the data is last update"/> 
+    <aura:attribute name="isEndOfDay" type="Boolean" description="Flag to indicate whether we are on End of Day"/>
+    <aura:attribute name="accountsData"    type="List"     description="List returned by the Balances webservice. It contains data related to the user"/>
+    <aura:attribute name="accountCodeToInfo"    type="Map"     description="Map storing the account code and its related data (country, currency and bank)"/>
+    <aura:attribute name="selectedTimeframe" type="String" default="{!$Label.c.last7Days}" description="Default selected timeframe for the dropdown"/>
+    <aura:attribute name="dates" type="List" description="List containing the selected dates" />
+    <aura:attribute name="selectedFilters" type="List" description="Filters captured from the 'Apply filters' event"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+
+    <c:CMP_ServiceComponent aura:id="Service" />
+
+    <aura:if isTrue="{!v.sourcePage == 'accountTransactions'}">
+        <tr class="slds-hint-parent" aria-selected="false">
+            <td role="gridcell" class="infoBookDate">
+                <div class="slds-grid slds-grid_align-spread">
+                    <c:CMP_displayDate dateClass="slds-truncate text" date="{!v.transactionRow.obtTransacBusqueda.bookDate}" userDateFormat="{!v.userPreferredDateFormat}"/>
+                </div>
+            </td>
+
+            <td role="gridcell" class="infoValueDate">
+                <div class="slds-grid slds-grid_align-spread">
+                    <c:CMP_displayDate dateClass="slds-truncate text" date="{!v.transactionRow.obtTransacBusqueda.valueDate}" userDateFormat="{!v.userPreferredDateFormat}"/>
+                </div>
+            </td>
+            
+            <td role="gridcell" class="infoCategory">
+                <div class="slds-grid slds-grid_align-spread">
+                    <span class="slds-truncate text">{!v.transactionRow.obtTransacBusqueda.tipoTransaccion}</span>
+                </div>
+                
+            </td>
+            
+            <td role="gridcell" class="infoClientReference">
+                <div class="slds-grid slds-grid_align-spread">
+                    <span class="slds-truncate text">{!v.transactionRow.obtTransacBusqueda.refCliente}</span>
+                </div>
+            </td>
+            
+            <td class="slds-text-align_right infoAmount" role="gridcell">
+                <div class="slds-grid slds-grid_align-spread">
+                    <div class="slds-truncate" >
+                        <c:CMP_displayAmount amount="{!v.transactionRow.obtTransacBusqueda.importe}" decimalClass="text amountDecimals" wholeClass="text amountInteger" currency="{!v.transactionRow.obtTransacBusqueda.moneda}"
+                                             userFormat="{!v.userPreferredNumberFormat}"/>
+                    </div>
+                </div>
+            </td>
+        
+            <td class="slds-text-align_right" role="gridcell">
+                <div class="slds-grid slds-grid_align-spread">
+                    <div class="slds-truncate slds-button">
+                        <div class="icon icon-arrowRight_big" onclick="{!c.navigateToExtractDetail}">{!$Label.c.Detail}</div>
+                    </div>
+                </div>
+            </td>  
+        </tr>
+
+        <aura:set attribute="else">
+            <!-- Row data -->
+            <tr class="slds-hint-parent" aria-selected="false">
+                <td class="infoAccount" role="gridcell">
+                    <div class="slds-grid slds-grid_align-spread">
+                        <div class="slds-truncate">
+                            <div class="text">{!v.transactionRow.obtTransacBusqueda.cuentaExtracto}</div>
+                            <div class="text">{!v.transactionRow.obtTransacBusqueda.aliasCuentaPerfilado}</div>
+                        </div>
+                    </div>
+                </td>
+                
+                <td role="gridcell" class="infoBookDate">
+                    <div class="slds-grid slds-grid_align-spread">
+                        <c:CMP_displayDate dateClass="slds-truncate text" date="{!v.transactionRow.obtTransacBusqueda.bookDate}" userDateFormat="{!v.userPreferredDateFormat}"/>
+                    </div>
+                </td>
+                
+                <td role="gridcell" class="infoBookDate">
+                    <div class="slds-grid slds-grid_align-spread">
+                        <c:CMP_displayDate dateClass="slds-truncate text" date="{!v.transactionRow.obtTransacBusqueda.valueDate}" userDateFormat="{!v.userPreferredDateFormat}"/>
+                    </div>
+                </td>
+                
+                <td class="infoCategory" role="gridcell">
+                    <div class="slds-grid slds-grid_align-spread">
+                        <span class="slds-truncate text">{!v.transactionRow.obtTransacBusqueda.tipoTransaccion}</span>
+                    </div>
+                </td>
+                
+                <td class="infoClient" role="gridcell">
+                    <div class="slds-grid slds-grid_align-spread">
+                        <span class="slds-truncate text">{!v.transactionRow.obtTransacBusqueda.refCliente}</span>
+                    </div>
+                </td>
+                
+                <td class="slds-text-align_right infoAmount" role="gridcell">
+                    <div class="slds-grid slds-grid_align-spread">
+                        <div class="slds-truncate" >
+                            <c:CMP_displayAmount amount="{!v.transactionRow.obtTransacBusqueda.importe}" decimalClass="text amountDecimals" wholeClass="text amountInteger" currency="{!v.transactionRow.obtTransacBusqueda.moneda}"
+                                                 userFormat="{!v.userPreferredNumberFormat}"/>
+                        </div>
+                    </div>
+                </td>
+                
+                <td class="slds-text-align_center" role="gridcell">
+                    <div class="iconLinkContainer" onclick="{!c.navigateToExtractDetail}">
+                        <span class="text-link">{!$Label.c.Detail}</span>
+                        <span class="icon-arrowRight_big"></span>
+                    </div>
+                </td>
+                
+            </tr>
+        </aura:set>
+    </aura:if>
+
+</aura:component>

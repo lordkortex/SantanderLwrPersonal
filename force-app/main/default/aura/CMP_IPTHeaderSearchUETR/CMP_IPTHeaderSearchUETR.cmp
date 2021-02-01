@@ -1,0 +1,74 @@
+<aura:component controller="CNT_SwiftPaymentTable" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+
+    <!-- RESOURCES -->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="isSearched"  type="Boolean" default="false"   description="Check if we already searched or not"/>
+    <aura:attribute name="searchValue" type="String"  default=""        description="Text entered by user"/>
+    <aura:attribute name="noResults"   type="Boolean" default="false"   description="Check if we recived results to show or not"/>
+    <aura:attribute name="isIngested"  type="Boolean" default="false" 	description="Check if the payment is ingested in the system"/>
+    <aura:attribute name="iObject"	   type="Object"/>
+    <aura:attribute name="result"      type="Object"                    description="result searching by UETR code"/>
+    <aura:attribute name="comesFromTracker" type="Boolean" default="false" description="flag to check if back button is checked" />
+    
+    <!-- AM - 05/11/2020 - Portugal SSO Tracker -->
+    <aura:attribute name="comesFromSSO" type="Boolean" default="false" description="flag to check if comes from SSO with params" />
+    <aura:handler name="change" value="{!v.comesFromSSO}" action="{!c.checkSSO}"/>
+    
+    <!-- AM - 25/11/2020 - Nexus Tracker-->
+    <aura:attribute name="showBackButton" type="Boolean" default="false" description="flag to show back button or not" />
+
+<c:CMP_ServiceComponent aura:id="Service" />
+
+    <div class="slds-grid headerSearch">
+        <div class="slds-align_absolute-center">
+            <aura:if isTrue="{!v.showBackButton}">
+                <div class="slds-col">
+                    <button class="slds-button slds-truncate" onclick="{!c.goBack}">
+                        <div class="icon icon-arrowLeft_big">{!$Label.c.back}</div>
+                    </button>
+                </div>
+            </aura:if>
+
+        <div class="slds-col">
+            <div class="tooltip__content">
+                <div class="text">{!$Label.c.trackPaymentByUETR}</div>
+                <div class="tooltip tooltip_center__bottom">
+                    <button class="slds-button slds-button_icon" aria-describedby="help" aria-disabled="true">
+                        <span class="slds-button__icon icon icon-information"></span>
+                        <span class="slds-assistive-text">{!$Label.c.help}</span>
+                    </button>
+                    <!-- Añadir la clase "show" para verlo fijo  -->
+                    <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom" role="tooltip" id="help">
+                        <div class="slds-popover__body">
+                            <div class="title">{!$Label.c.TrackByUETR}</div>
+                            <div class="line"></div>
+                            <div class="text">{!$Label.c.TrackUETRHelpDetails}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search">
+                <div class="slds-form-element search">
+                    <div class="slds-form-element__control slds-input-has-icon">
+                        <!-- El siguiente button de cerrar debe estar oculto hasta que se vaya a escribir en el buscador -->
+                        <aura:if isTrue="{!not(empty(v.searchValue))}">
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" aria-hidden="{! if(not(empty(v.searchValue)),true, false)}" onclick="{!c.handleClear}">
+                                <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true"></div>
+                                <span class="slds-assistive-text">{!$Label.c.clear}</span>
+                            </button>
+                        </aura:if>
+                        <input type="search" maxlength="36" id="text-input-id-1" aura:id="uetr" value="{!v.searchValue}" onkeydown="{!c.setInputOnKeyDown}" onblur="{!c.setInputOnBlur}" placeholder="{!$Label.c.searchUETR}" class="{!'slds-input' + (!empty(v.searchValue) ? ' filledInput' : '')}" name="Search"/>
+                        <div class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true"></div>                     
+                    </div>
+                    <div class="slds-hide textHelp errorText" aura:id="uetrError">{!$Label.c.uetrError}</div>
+                                                                       
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</aura:component>

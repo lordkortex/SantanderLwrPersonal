@@ -1,0 +1,42 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+  
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="displayModal" type="Boolean" default="false" description="Flag to show / hide the entitlements modal"/>
+    <aura:attribute name="availableEntitlements" type="List" description="List of entitlements available for selection by default"/>
+    <aura:attribute name="selectableEntitlements" type="List" description="List of entitlements available for selection in the modal"/>
+    <aura:attribute name="selectedEntitlements" type="List" description="List of currently selected entitlements"/>
+    <aura:attribute name="account" type="String" description="Account whose entitlements are being updated"/>
+
+    <aura:handler name="change" value="{!v.displayModal}" action="{!c.setAvailableEntitlements}"/>
+
+    <aura:registerEvent name="entitlementUpdateEvent" type="c:EVT_ServiceProfilingDisplayChange"/>
+
+    <!-- MARKUP -->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:if isTrue="{!v.displayModal}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+              <header class="slds-modal__header">
+                  <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="{!$Label.c.T_Close}">
+                      <div class="slds-button button-page icon-delete" title="{!$Label.c.remove}"></div> 
+                      <span class="slds-assistive-text">{!$Label.c.close}</span>
+                  </button>
+                  <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!$Label.c.ServiceProfiling_EditEntitlements}</h2>
+              </header>
+              <div class="slds-modal__content" id="modal-content-id-1">
+                  <c:CMP_MultiSelectPicklist title="" valuesLeft="{!v.selectableEntitlements}" valuesRight="{!v.selectedEntitlements}" />
+              </div>
+              <footer class="slds-modal__footer slds-modal__footer_directional">
+                  <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                      <div class="slds-media__body lastPill">
+                          <button class="slds-button slds-button_brand whiteButton" title="{!$Label.c.clear}" onclick="{!c.closeModal}">{!$Label.c.cancel}</button>
+                          <button class="slds-button slds-button_brand redButton" title="{!$Label.c.apply}" onclick="{!c.updateEntitlements}">{!$Label.c.ServiceProfiling_Accept}</button>              
+                      </div>
+                  </div>
+              </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

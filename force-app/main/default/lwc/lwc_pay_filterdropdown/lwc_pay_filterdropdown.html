@@ -1,0 +1,113 @@
+<template>
+    <div if:true={isSimpleDropdown}>
+        <c-lwc_pay_filter-dropdown-checkbox onnotification={handleSelectValue}>
+        </c-lwc_pay_filter-dropdown-checkbox>
+        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+        <div class="slds-form-element dropdown">
+            <!-- DROPDOWN MARKUP -->
+            <!-- ESTADO 1: (Hasta que no se selecciona una opción | ENABLE): LA LABEL DEBE ELIMINARSE -->
+            <!-- ESTADO 2: (Se activa | FILLED): LA LABEL DEBE APARECER -->
+            <!-- ESTADO 3: (Se abre | OPEN): LA LABEL DEBE APARECER, EL ICONO pasa a ser icon-arrowUp_small (Se descomenta la línea comentada con  icon-arrowUp_small y se comenta la de icon-arrowDown_small ) -->
+            <!-- ESTADO 4: Opción seleccionada: LA LABEL DEBE APARECER, EL ICONO vuelve a ser icon-arrowDown_small  -->
+            <div if:true={valueIsNotEmpty}>
+                <label class="slds-form-element__label" for="text-input-id-1">{labelvar}</label>
+            </div>
+            <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                    
+                    <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                    <button class="slds-button button-order" aria-haspopup="true" disabled={isdisabled}>
+                        
+                        <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por
+                                                        selectedValue-filled -->
+                        <div if:true={valueIsNotEmpty}>
+                            <div class="slds-border_right selectedValue-filled">{selectedvaluestext}</div>
+                        </div>
+                        <div if:false={valueIsNotEmpty}>
+                            <div class="slds-border_right selectedValue-placeholder">{labelvar}</div>
+                        </div>
+                        <div class="slds-button__icon arrow" aria-hidden="true">
+                            <div class="button-arrow icon-arrowDown_small"></div>
+                            <div class="button-arrow icon-arrowUp_small"></div>
+                        </div>
+                        <span class="slds-assistive-text">{helptextdropdown}</span>
+                        
+                    </button>
+                    
+                    <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                    <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                    
+                    <!-- Cuando tenga que aparecer un mensaje de error -->
+                    <div class="errorText">{errortext}</div>
+                </div>
+                
+                <!-- Cuando el button esté disabled el dropdown se oculta -->
+                <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                    <ul class="slds-dropdown__list" role="menu" aria-label={helptextdropdown}>
+                        
+                        <template for:each={values} for:item='item'>
+                            
+                            <li key={item.value} class={item.class1} role="presentation" id={item.value} onclick={selectOption}>
+                                <a role="menuitemcheckbox" tabindex="0" aria-checked="true" >
+                                    <div class="slds-truncate optionOrder">{item.label}</div>
+                                </a>
+                            </li>
+                        </template>
+                    </ul>
+                </div>                
+            </div>            
+        </div>
+    </div>
+    <div if:false={isSimpleDropdown}>
+        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+        <div class="slds-form-element">
+            <!-- Escribir la clase show para verlo abierto-->
+            <div class="slds-combobox status">
+                <template if:true={valuesTextIsNotEmpty}>
+                    <label class="slds-form-element__label" for="combobox-id-49">{labelvar}</label>
+                </template>
+                <div class="slds-combobox__check slds-dropdown-trigger">
+                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                        <button class="slds-button button-order" aria-haspopup="true" disabled={isdisabled}>
+                            <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                            <template if:true={valuesTextIsNotEmpty}>
+                                <div class="slds-border_right selectedValue-filled">{selectedvaluestext}</div>
+                            </template>
+                            <template if:false={valuesTextIsNotEmpty}>
+                                    <div class="slds-border_right selectedValue-placeholder">{labelvar}</div>
+                            </template>
+                            <div class="slds-button__icon arrow" aria-hidden="true">
+                                <div class="button-arrow icon-arrowDown_small"></div>
+                                <div class="button-arrow icon-arrowUp_small"></div>
+                            </div>
+                            <span class="slds-assistive-text"></span>
+                        </button>
+                    </div>
+                    <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" id="popover-unique-id-04" role="dialog">
+                        <div class="slds-popover__body" id="dialog-body-id-25">
+                            <fieldset class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <template for:each={values} for:item="item">
+                                        <c-lwc_pay_filter-dropdown-checkbox
+                                            data-id="PAY_Checkbox" 
+                                            key={item}
+                                            checkid={item.valuecheckid}
+                                            checkvalue={item.value}
+                                            ischecked=false
+                                            checklabel={item.label}>
+                                        </c-lwc_pay_filter-dropdown-checkbox >
+                                    </template>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </section> 
+                </div>
+            </div>
+            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+            <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+            
+            <!-- Cuando tenga que aparecer un mensaje de error -->
+            <div class="errorText">{errortext}</div>
+        </div> 
+    </div>
+</template>

@@ -1,0 +1,44 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="question" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container modal_authorize">
+            <header class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" >
+            <div class="slds-button button-page icon-close" data-title="{!$Label.c.T_Close}"></div> 
+            <span class="slds-assistive-text">{!$Label.c.close}</span>
+            </button>
+            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!$Label.c.approveAction}</h2>
+            </header>            
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <p>You will proceed to approve the modification of user "María Yolanda del Valle Redondo". Are you sure?</p>
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.Comments}</label>
+                <div class="slds-form-element__control">
+                    <textarea id="textarea-id-01" class="slds-textarea" placeholder=""></textarea>
+                </div>
+            </div>
+        </div>
+        <footer class="slds-modal__footer">
+            <div class="slds-form-element">
+                    <div class="slds-media__body">
+                        <div class="keypad" data-title="{!$Label.c.No}"><button class="slds-button slds-button_brand whiteButtonSmall" >{!$Label.c.No}</button></div>
+                          <div data-title="{!$Label.c.Yes}"><button class="slds-button slds-button_brand redButtonSmall" >{!$Label.c.Yes}</button></div>              
+                    </div>
+                </div>
+                 <!--<div class="slds-form-element">
+                    <div class="lastPillSmall">
+                        <button class="slds-button slds-button_brand whiteButtonSmall" title="No">No</button>
+                        <button class="slds-button slds-button_brand redButtonSmall" title="Yes">Yes</button>              
+                    </div>
+                </div>-->
+        </footer>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

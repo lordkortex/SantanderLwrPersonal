@@ -1,0 +1,141 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />  
+    
+    <aura:attribute 	access="public" 	type="Map" 		name="currentUser"   									description="Current user data"/> 
+    <aura:attribute 	access="public" 	type="List" 	name="currencyDropdownList" 		default="[]" 		description="List of currencies that are displayed in the dropdown"/>
+    <aura:attribute 	access="public" 	type="List" 	name="statusDropdownList" 			default="[]" 		description="List of statuses that are displayed in the dropdown"/>
+    <aura:attribute 	access="public" 	type="List" 	name="paymentMethodDropdownList" 	default="[]" 		description="List of payment methods that are displayed in the dropdown"/>
+    <aura:attribute 	access="public" 	type="List" 	name="countryDropdownList" 			default="[]" 		description="List of countries that are displayed in the dropdown"/>
+    <aura:attribute 	access="public" 	type="List"		name="accounts" 		            default="[]"	    description="List of accounts"/>
+    <aura:attribute     access="public"     type="String"   name="searchedSourceAccount"        default=""          description="Search information placed in the source account search input." />
+    <aura:attribute     access="public"     type="Map"      name="selectedSourceAccount"        default="{}"        description="Source account selected from dropdown." />
+    <aura:attribute     access="public"     type="Boolean"  name="reloadAccounts"               default="false"     description="Retry the call to retrieve list of accounts." />
+    
+    <aura:attribute		access="public" 	type="Decimal" 	name="fromDecimal" 					default="" 			description="Search information placed in the From Amount search input."/>
+    <aura:attribute		access="public" 	type="Decimal" 	name="toDecimal" 					default="" 			description="Search information placed in the To Amount search input."/>
+    
+	<aura:attribute 	access="public" 	type="List" 	name="dates" 							default="['', '']" 	description="List containing the selected dates" />
+    
+    
+    <aura:attribute 	access="public" 	type="Boolean" 	name="showDownloadModal" 			default="false" 	description="Boolean to show or hide download modal (CMP_PaymentsLandingDownloadModal)"/>
+    <aura:attribute		access="public" 	type="Boolean"	name="showFilterModal"				default="false"		description="Boolean to show or hide advanced filter modat (CMP_PaymentsLandingFilterModal)"/>
+    <aura:attribute 	access="public" 	type="Boolean"	name="isLoading" 				    default="false"	    description="Controls whether the spinner shows when records are loading"/>
+    <aura:attribute 	access="public" 	type="String" 	name="clientReference" 					               	description="User input for client reference filter." />
+    <aura:attribute 	access="public" 	type="String" 	name="searchedString" 				default=""   		description="Search information placed in the account search input." />
+    <aura:attribute 	access="public" 	type="List" 	name="selectedStatuses" 			default="[]" 		description="List of selected statuses." />
+    <aura:attribute 	access="public" 	type="List" 	name="selectedCurrencies" 			default="[]" 		description="List of selected currencies." />
+    <aura:attribute 	access="public" 	type="Boolean" 	name="pendingOfMyAuthorization" 	default="false" 	description="True when 'Pending of my authorization' header option is clicked." />
+    <aura:attribute 	access="public" 	type="Boolean" 	name="isHeaderOptionSelected" 		default="false" 	description="True when a header option is selected." />
+    
+    <aura:attribute 	access="public"		type="Object"	name="selectedPaymentStatusBox"     default="" 			description="Selected payment status"/>    
+    
+    <aura:attribute		access="public"		type="String"	name="selectedMethod"		default=""		description="Payment method selected"/>
+    <aura:attribute 	access="public" 	type="String" 	name="selectedCountry" 	                default="" 	    description="Country selected from dropdown." />
+
+    <aura:attribute     access="public"     type="Boolean" 	name="resetSearch" 	                default="false" 	description="Reset search when the button is clicked." />
+    <aura:attribute 	access="public" 	type="Integer" 	name="filterCounter" 				default="0" 		description="Counts the number of types of filers selected (source account, amount, currency, status, payment method, client reference, destination country, date)"/>
+    <aura:attribute		access="public"		type="Boolean"	name="applyIsClicked"				default="false" />
+    
+    <aura:attribute 	access="public" 	type="Integer" 	name="numberOfPayments" 			default="0" 		description="Number of payments in the table"/>
+    <aura:attribute     access="public"     type="List"     name="availableStatuses" 	        default="[]"        description="List of status-reason pairs visible to front-end user"/>
+
+    <aura:handler 	name="init" 	value="{!this}" 						action="{!c.doInit}"/>
+    
+    <aura:handler 	name="saveFilters" 	action="{!c.handleFilter}" 	event="c:EVT_B2B_saveFilterAccounts" />
+    <aura:handler   name="change"       action="{!c.handleResetSearch}"        value="{!v.resetSearch}" />
+    <aura:handler   name="change"       action="{!c.handleApplySearch}"        value="{!v.applyIsClicked}" />      
+    <aura:handler 	name="change"       action="{!c.changeSelectedStatusBox}"   value="{!v.selectedPaymentStatusBox}" />
+    <aura:registerevent name="searchOperationsListFired" type="c:EVT_OperationsList"></aura:registerevent>
+
+    <c:CMP_B2B_Toast aura:id="toast"/>
+
+    <div class="searchFiltersAccounts">
+        <div class="slds-grid">
+            <div class="searchFilters">
+                <div class="slds-form-element search">
+                    <div class="slds-form-element__control slds-input-has-icon">
+                        
+                        <!-- El siguiente button de cerrar debe estar oculto hasta que se vaya a escribir en 
+                    el buscador -->
+                        <!-- El movimiento de la lupa y el placeholder está hecho mediante css -->
+                        <aura:if isTrue="{!not(empty(v.searchedString))}">
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick="{!c.clearInput}">
+                                <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true"></div>
+                                <span class="slds-assistive-text">{!$Label.c.clear}</span>
+                            </button>
+                        </aura:if>
+                        <!-- Cuando el input tenga un valor seleccionado se le tiene que añadir la clase filledInput -->
+                        <!--disabled="true"-->
+                        <input  type="search" id="text-input-id-1" placeholder="{!$Label.c.SearchPayments}" class="{!'slds-input' + (!empty(v.searchedString) ? ' filledInput' : '')}" name="search" value="{!v.searchedString}" onkeydown="{!c.setInputOnKeyDown}" onblur="{!c.setInputOnBlur}"/>
+                        
+                        <div class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true"></div>
+                        
+                    </div>
+                </div>
+                
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{!$Label.c.filterBy}</label>
+                    <div class="slds-form-element__control filters">
+                        
+                        <c:CMP_B2B_FilterButtonDropdown aura:id="filter" showDropdown="false" label="{!$Label.c.status}" name="status" filterList="{!v.statusDropdownList}" selectedFilters="{!v.selectedStatuses}" clearDropdown="{!v.resetSearch}"/>
+                        
+                        <c:CMP_B2B_FilterButtonDropdown aura:id="filter" showDropdown="false" label="{!$Label.c.currency}" name="currency"   filterList="{!v.currencyDropdownList}" selectedFilters="{!v.selectedCurrencies}" clearDropdown="{!v.resetSearch}" />
+                        
+                        <!--PILL 3 COMBOBOX--> 
+                        <div class="slds-combobox_container">
+                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                <!-- Añadir la clase filterButton cuando el boton esté filtrado -->
+                                <button class="{!((v.filterCounter > 0) ? 'slds-button buttons filterButton' : 'slds-button buttons')}" onclick="{!c.openFilterModal}">{!$Label.c.AllFilters}
+                                    <div class="numberSelected">
+                                        <span>{!v.filterCounter}</span>
+                                    </div>
+                                    
+                                    <div class="icon-more"></div>
+                                </button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="rightIcons">
+                
+                <!--DOWNLOAD-->
+                <button class="slds-button button_link" onclick="{!c.openDownloadModal}">{!$Label.c.download}       
+                    <span class="icon_left icon-download"></span>
+                </button> 
+                <!--PRINT-->
+                <button class="slds-button button_link" onclick="{!c.printScreen}">{!$Label.c.T_Print}         
+                    <span class="icon_left icon-print"></span>
+                </button> 
+                
+            </div>   
+        </div>
+        
+    </div>
+    
+    
+      
+    <aura:if isTrue="{!v.showFilterModal}"> 
+        <c:CMP_PaymentsLandingFilterModal aura:id="filterModal"
+                                          showFilterModal="{!v.showFilterModal}" currentUser="{!v.currentUser}" isLoading="{!v.isLoading}"                                          
+                                          clientReference="{!v.searchedString}"
+                                          currencyDropdownList="{!v.currencyDropdownList}" selectedCurrencies="{!v.selectedCurrencies}"
+                                          statusDropdownList="{!v.statusDropdownList}" selectedPaymentStatusBox="{!v.selectedPaymentStatusBox}" selectedStatuses="{!v.selectedStatuses}"
+                                          paymentMethodDropdownList="{!v.paymentMethodDropdownList}" selectedMethod="{!v.selectedMethod}"
+                                          countryDropdownList="{!v.countryDropdownList}"   selectedCountry="{!v.selectedCountry}"
+                                          accountList="{!v.accounts}"
+                                          searchedSourceAccount="{!v.searchedSourceAccount}"
+                                          account = "{!v.selectedSourceAccount}"
+                                          fromDecimal="{!v.fromDecimal}" toDecimal="{!v.toDecimal}"
+                                          dates="{!v.dates}"                                          
+                                          resetSearch="{!v.resetSearch}"
+                                          filterCounter="{!v.filterCounter}"
+                                          reloadAccounts="{!v.reloadAccounts}"  
+                                          applyIsClicked="{!v.applyIsClicked}"
+                                          />                             
+                                        
+    </aura:if>
+</aura:component>

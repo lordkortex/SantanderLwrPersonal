@@ -1,0 +1,71 @@
+.THIS.title_LastEndcontainer{
+    width: 100%;
+    margin: 24px 0 16px 0;  
+}
+
+.THIS .slds-col:last-child{
+    align-self: flex-end;
+}
+
+.THIS .slds-text-heading_medium {
+    color: #444444;
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    /* height: 34px; */
+    line-height: 34px;
+    margin-bottom:4px;
+}
+
+.THIS .slds-text-heading_subtitle{
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 24px;
+    color: #767676;
+    margin-bottom: 8px;
+}
+
+.THIS .text_line{
+    width:40px;
+    border-bottom: solid 3px #ec0000;
+}
+
+.THIS .slds-pill_container{
+    padding: 0;
+    border:none;
+    border-radius: 0;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+}
+
+.THIS .slds-pill_container .slds-pill{
+    margin: 0;
+    justify-content: center;
+    background-color: #eff6f9;
+    border: 1px solid #deedf2;
+    width: 124px;
+    border-radius: 4px 0 0 4px;
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 14px;
+    line-height: 21px;
+    color: #444444;
+}
+
+.THIS .slds-pill_container .slds-pill:last-child{
+    width: 118px;
+    border-radius: 0 4px 4px 0;
+    border-left: none;
+}
+
+.THIS .slds-pill_container .slds-pill:focus{
+    background-color: #ffffff;
+    color: #ec0000;
+    font-family: SantanderHeadlineW05-Bold;
+    box-shadow: none;    
+}
+
+.THIS .slds-pill_container > .slds-pill__active{
+    background-color: #ffffff;
+    color: #ec0000;
+    font-family: SantanderHeadlineW05-Bold;
+    box-shadow: none;   
+}

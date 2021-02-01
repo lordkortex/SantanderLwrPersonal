@@ -1,0 +1,124 @@
+.THIS {}
+
+.THIS.slds-box {
+    border: none;
+    padding: 0;
+}
+
+.THIS.slds-box .slds-box {
+    background-color: white;
+    margin: 30px 100px 50px;
+    padding: 0 0 25px 0;
+}
+
+.THIS.slds-box tbody .slds-hint-parent div {
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.THIS.slds-box tbody .slds-hint-parent .icon,
+.THIS.slds-box tbody .slds-hint-parent .slds-truncate {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.THIS.slds-box tbody .slds-hint-parent .icon .flag {
+    height: 24px;
+    width: 24px;
+}
+
+.THIS.slds-box .slds-hint-parent.border td {
+    padding: 25px;
+}
+
+.THIS.slds-box .slds-hint-parent.border td .slds-truncate {
+    font-family: "SantanderTextW05-Bold";
+    font-size: 18px;
+}
+
+.THIS.slds-box .slds-hint-parent:nth-child(2) {
+    border-top: 1px solid #d4d4d4;
+}
+
+.THIS.slds-box .slds-hint-parent:nth-child(2) td {
+    padding-top: 25px;
+}
+
+.THIS.slds-box .slds-hint-parent:nth-child(5) td:nth-child(2) .slds-truncate {
+    color: #ec0000;
+}
+
+.THIS.slds-box .slds-hint-parent:nth-child(6) td:nth-child(2) .slds-truncate {
+    font-size: 18px;
+}
+
+.THIS.slds-box tbody .slds-hint-parent .text {
+                font-size: 14px;
+}
+
+.THIS.slds-box .slds-hint-parent .slds-truncate {
+    font-family: "SantanderTextW05-Light";
+    font-size: 14px;
+}
+
+.THIS.slds-box .slds-hint-parent .slds-truncate.number{
+                margin-right:3px;
+}
+.THIS.slds-box .slds-hint-parent td:first-child {
+    padding-left: 25px;
+    width: 30%;
+}
+
+.THIS.slds-box .slds-hint-parent td:last-child .slds-truncate {
+    font-family: "SantanderTextW05-Bold";
+}
+
+.THIS.slds-box .slds-table td,
+.THIS.slds-box .slds-table th {
+    padding: 5px;
+}
+
+.THIS .slds-button.slds-button_brand.redButton {
+    background-color: #ec0000;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ffffff;
+    font-size: 18px;
+    height: 48px;
+    margin-bottom: 30px;
+    padding: 0 30px;
+    position: absolute;
+    right: 0;
+    min-width: 150px;
+}
+
+.THIS .slds-button.slds-button_brand.redButton[disabled] {
+    background-color: #aaa;
+   border: solid 1px #aaa;
+}
+
+.THIS .slds-button.slds-button_brand.textButton {
+    background-color: unset;
+    border: 0;
+    color: #ec0000;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 48px;
+    padding: 0;
+    padding-left: 30px;
+}
+
+.THIS .slds-button.slds-button_brand.redButton:focus,
+.THIS .slds-button.slds-button_brand.textButton:focus {
+    box-shadow: none;
+}
+
+.THIS .slds-button.slds-button_brand.textButton .icon-chevronLeft {
+    left: 0;
+    position: absolute;
+}
+
+.THIS .slds-button.slds-button_brand.textButton .icon-chevronLeft:before {
+    font-size: 30px;
+}

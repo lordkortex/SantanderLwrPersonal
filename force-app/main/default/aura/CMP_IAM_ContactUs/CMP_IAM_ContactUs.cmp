@@ -1,0 +1,50 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Help & Contact us screen 
+History
+<Date>			<Author>		    <Description>
+16/07/2020		Diego Asis     		Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <aura:attribute name= "phoneContactUs" type="String" description="Phone to use in contact us phone" />
+    <aura:attribute name= "mailContactUs" type="String" description="Mail to use in contact us phone" />
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <c:CMP_Title title="{!$Label.c.contactUs}"></c:CMP_Title>
+    
+    <div class="slds-grid slds-wrap">
+        <div class="first">           
+            <article class="slds-card slds-size_1-of-2">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-media__figure">
+                            <a href="{!'tel:'+ v.phoneContactUs}"><div class="icon-phone icon" data-title="{!$Label.c.phone}"></div></a> 
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="title">{!$Label.c.callUs}</div>
+                            <div class="subtitle">{!$Label.c.attentionByMail}</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div>           
+            <article class="slds-card slds-size_1-of-2">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-media__figure">
+                            <div class="icon-mail icon" data-title="{!$Label.c.Mail}"></div>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="title">{!$Label.c.sendUsEmail}</div>
+                            <div class="subtitle">{!$Label.c.customerService}</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</aura:component>

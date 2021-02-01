@@ -1,0 +1,214 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" controller="CNT_CountryBalance" >
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="cmpId" type="String" description="Component Id"/>
+    <aura:attribute name="iKey" type="String" description="Id Component"/>
+    <aura:attribute name="iRegister" type="Object" description="Register to display"/>
+    <aura:attribute name="iCurrency" type="String" description="The selected currency to make the required changes to calculate the amounts"/>
+    <aura:attribute name="iSortSelected" type="String" default="{!$Label.c.Country}" description="Accounts display order"/>
+    <aura:attribute name="iTabSelected" type="String" default="LastUpdateTab" description="Current selected tab"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="index" type="Integer" default="-1" description="The position of the current register to paint"/>
+    <aura:attribute name="countryName" type="String" description="Country Name"/> 
+    <aura:attribute name="bookBalance" type="String" default="0.00" description="The sum of book balance value of all accounts"/>
+    <aura:attribute name="availableBalance" type="String" default="0.00" description="The sum of available balance value of all accounts"/>
+    <aura:attribute name="accounts" type="List" description="Each register of this List contains two attributes: Key: Currency and Value: List of Accounts"/>
+    <aura:attribute name="isCardExpanded" type="Boolean" default="true" description="Flag to indicate whether the accounts in the card must be expanded or collapsed"/>
+    <aura:attribute name="tabsChange" type="Boolean"/>
+    <aura:attribute name="firstAccountCountryList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="firstTAccountCountryList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="isLastUpdate" type="Boolean" default="true" description="Flag to indicate whether to show Last Update / End of day"/>
+    <aura:attribute name="filters"    type="List"     description="List passed to the CMP_CN_Filters components to populate the filters"/>
+    <aura:attribute name="source" type="String" description="Source page to know where to navigate to and from"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+    <aura:attribute name="isOneTrade" type="Boolean" default="false" description="Flag to indicate whether the current screen is OneTrade"/>
+    <aura:attribute name="showCard" type="Boolean" default="false"/> <!-- DA - 23/11/2020 - Permisos -->
+    
+    <!--SNJ - 29/04/2020 - CURRENCY LIST-->
+    <aura:attribute name="iCurrencyList" type="List" description="Currency list"/>
+    <!--SNJ - 20/05/2020 - SPINNER ATTRIBUTE-->
+    <aura:attribute name="isLoading" type="Boolean"   default="true" description="Used to show the spinner if the data is loading"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.iCurrency}" action="{!c.updateCurrency}"/>
+    <aura:handler name="change" value="{!v.tabsChange}" action="{!c.tabsChange}"/>
+    
+    <aura:handler name="change" value="{!v.bookBalance}" action="{!c.displayAmountOne}"/>
+    <aura:handler name="change" value="{!v.availableBalance}" action="{!c.displayAmountTwo}"/>
+    
+    <aura:if isTrue="{!v.showCard}"><!-- DA - 23/11/2020 - Permisos -->
+        <div class="slds-card cardAccount" id="{!v.iKey + '_cardParent'}"> 
+            
+            <!--CARD PRINCIPAL-->
+            <div class="slds-card__header slds-grid contentCard" >
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <aura:if isTrue="{!v.iSortSelected == $Label.c.Country}">
+                        <div class="slds-media__figure icon">
+                            <!-- AM - 28/09/2020 - Ebury Accounts -->
+                            <aura:if isTrue="{!v.iRegister.key == $Label.c.Ebury}">
+                                <img class="eburySymbol" aura:id="countryImage"  src="{!$Resource.Images +'/ebury.svg'}"  onerror="{!c.defaultImage}"/>
+                            <aura:set attribute="else">
+                                <img class="sizeFlag" aura:id="countryImage"  src="{!$Resource.Flags + '/' + v.iRegister.key +'.svg'}"  onerror="{!c.defaultImage}"/>
+                            </aura:set> 
+                            </aura:if>
+                        </div>
+                    </aura:if>
+                    
+                    <div class="slds-media__body">
+                        <div class="slds-card__header-title">
+                            <span class="title">
+                                <aura:if isTrue="{!and(v.iSortSelected == $Label.c.Country, v.countryName != '')}">
+                                    {!v.countryName}
+                                <aura:set attribute="else">
+                                    {!v.iRegister.key}
+                                </aura:set>
+                                </aura:if>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="availableBalance">
+                        <div class="slds-card__header-title">
+                            <aura:if isTrue="{!v.iSortSelected == $Label.c.currency}">
+                                <aura:if isTrue="{!v.availableBalance}">
+                                    <span class="integer">
+                                       <!-- <aura:if isTrue="{!v.availableBalance != '0.00'}"> </aura:if>-->
+                                            <c:CMP_displayAmount aura:id="availableBalance" amount="{!v.availableBalance}" 
+                                                                 decimalClass="availableDecimals" 
+                                                                 wholeClass="availableInteger" 
+                                                                 currency="{!v.iRegister.key}"
+                                                                 numberFormat="{!v.userPreferredNumberFormat}"/>
+                                       
+                                        
+                                    </span>
+                                   <!-- <aura:set attribute="else">
+                                        <span class="decimals">
+                                            
+                                            <c:CMP_displayAmount aura:id="availableBalance" amount="0.00" 
+                                                                 decimalClass="availableDecimals" 
+                                                                 wholeClass="availableInteger" 
+                                                                 currency="{!v.iRegister.key}"/>
+                                            
+                                            
+                                        </span>
+                                    </aura:set>-->
+                                </aura:if>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.availableBalance}">                                    
+                                        <span class="integer">
+                                            
+                                                <c:CMP_displayAmount aura:id="availableBalance" amount="{!v.availableBalance}" 
+                                                                     decimalClass="availableDecimals" 
+                                                                     wholeClass="availableInteger" 
+                                                                     currency="{!v.iCurrency}"
+                                                                     numberFormat="{!v.userPreferredNumberFormat}"/>
+                                                                                  
+                                        </span>
+                                        <!-- <aura:set attribute="else">
+                                            <span class="decimals">
+                                                
+                                                <c:CMP_displayAmount aura:id="availableBalance" amount="0.00" 
+                                                                     decimalClass="availableDecimals" 
+                                                                     wholeClass="availableInteger" 
+                                                                     currency="{!v.iCurrency}"/>
+                                                
+                                                
+                                            </span>
+                                        </aura:set>-->
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <div class="bookBalance">
+                        <div class="slds-card__header-title">
+                            <aura:if isTrue="{!v.iSortSelected == $Label.c.currency}">
+                                <aura:if isTrue="{!v.bookBalance}">
+                                    <span class="integer">
+                                                                       
+                                            <c:CMP_displayAmount aura:id="bookBalance" amount="{!v.bookBalance}" 
+                                                                 decimalClass="bookDecimals" 
+                                                                 wholeClass="bookInteger" 
+                                                                 currency="{!v.iRegister.key}"
+                                                                 numberFormat="{!v.userPreferredNumberFormat}"/>
+                                        
+                                    </span>
+                                   <!--  <aura:set attribute="else">
+                                        <span class="decimals">                                        
+                                            <c:CMP_displayAmount  aura:id="bookBalance" amount="0.00" 
+                                                                 decimalClass="bookDecimals" 
+                                                                 wholeClass="bookInteger" 
+                                                                 currency="{!v.iRegister.key}"/>
+                                        </span>
+                                    </aura:set>-->
+                                </aura:if>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.bookBalance}">
+                                        <span class="integer"> 
+                                            
+                                                <c:CMP_displayAmount aura:id="bookBalance" amount="{!v.bookBalance}" 
+                                                                     decimalClass="bookDecimals" 
+                                                                     wholeClass="bookInteger" 
+                                                                     currency="{!v.iCurrency}"
+                                                                     numberFormat="{!v.userPreferredNumberFormat}"/>
+                                            
+                                        </span>
+                                      <!-- <aura:set attribute="else">
+                                            <span class="decimals">                                        
+                                                <c:CMP_displayAmount  aura:id="bookBalance" amount="0.00" 
+                                                                     decimalClass="bookDecimals" 
+                                                                     wholeClass="bookInteger" 
+                                                                     currency="{!v.iCurrency}"/>
+                                            </span>
+                                        </aura:set>-->
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                            
+                        </div>
+                    </div>
+                    <div class="iconContainer">
+                        <!-- <aura:if isTrue="{!not(v.isCardExpanded)}"> -->
+                        <!-- ICONO EXPANDIR -->
+                        <div id="{!v.cmpId}" aura:id="{!v.cmpId}" class="{!v.isLastUpdate == true ? 'iElement accountsCardLU icon expand slds-show' : 'iElement accountsCardEOD icon expand slds-show'}">
+                            <div class="button-arrow icon-arrowDown_small" data-title="{!$Label.c.Expand}" onclick="{!c.showAction}"></div> 
+                        </div>
+                        <!-- <aura:set attribute="else"> -->
+                        <!-- ICONO COLAPSAR -->
+                        <div id="{!v.cmpId}" aura:id="{!v.cmpId}" class="{!v.isLastUpdate == true ? 'iElement accountsCardLU icon collapse slds-hide' : 'iElement accountsCardEOD icon collapse slds-hide'}">
+                            <div class="button-arrow icon-arrowUp_small" data-title="{!$Label.c.Collapse}"  onclick="{!c.showAction}"></div>
+                        </div>
+                        <!--</aura:set> -->
+                        <!--</aura:if> -->
+                    </div>
+                    
+                    
+                </header>                        
+            </div>
+            
+            <aura:if isTrue="{!v.isCardExpanded}">
+                
+                <aura:iteration items="{!v.iRegister.value}" var="item" indexVar="key"> 
+            
+                    <c:CMP_AccountsCardRow iParentId="{!v.cmpId}" iKey="{!key}" iAccount="{!item}" 
+                    iTabSelected="{!v.iTabSelected}" isLastUpdate="{!v.isLastUpdate}" filters="{!v.filters}" 
+                    source="{!v.sourcePage}" firstAccountCountryList="{!v.firstAccountCountryList}" 
+                    firstTAccountCountryList="{!v.firstTAccountCountryList}" iRegister="{!v.iRegister}" 
+                    iSortSelected="{!v.iSortSelected}" iCurrency="{!v.iCurrency}" isLoading="{!v.isLoading}"
+                    userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}"
+                    isOneTrade="{!v.isOneTrade}"/>
+                    <!--<aura:if isTrue="{!(key+1 != v.iRegister.value.length)}">-->
+                    
+                    <aura:if isTrue="{!(key+1 > v.iRegister.value.length)}">
+                        <div class="containerLine">
+                            <hr class="line"/>
+                        </div>
+                    </aura:if>
+                </aura:iteration>   
+            </aura:if>
+            
+        </div>
+    </aura:if>
+</aura:component>

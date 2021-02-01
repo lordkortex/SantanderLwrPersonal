@@ -1,0 +1,26 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- Attributes -->
+    <aura:attribute name="title" type="String" description="Title to display"/>
+    <aura:attribute name="endOfDay" type="Boolean" default="false" description="Flag to show End of day / Last update"/>
+
+    <!-- Markup -->
+	<div class="slds-grid title_container">
+        <div class="slds-col title">
+            <div class="slds-text-heading_medium">{!v.title}</div>
+            <div class="text_line"></div>
+        </div>
+        <div class="slds-col">
+            <div class="slds-pill_container">
+                <button id="lastUpdatePill" class="{!v.endOfDay ? 'slds-pill' : 'slds-pill slds-pill__active'}" role="option" tabindex="0" aria-selected="true" onclick="{!c.togglePills}">
+                    <span class="slds-pill__label">{!$Label.c.LastUpdate}</span>
+                </button>
+                  
+                <button id="endOfDayPill" class="{!v.endOfDay ? 'slds-pill slds-pill__active' : 'slds-pill'}" role="option" tabindex="0" aria-selected="true" onclick="{!c.togglePills}">
+                    <span class="slds-pill__label">{!$Label.c.EndOfDay}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</aura:component>

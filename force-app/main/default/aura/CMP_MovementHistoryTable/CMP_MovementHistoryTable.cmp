@@ -1,0 +1,116 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Parent component Extracts history table.
+History
+<Date>			<Author>		<Description>
+16/01/2019		Teresa Santos Navarro     Initial version-->
+<aura:component controller ="CNT_MovementHistoryParentController" implements="forceCommunity:availableForAllPageTypes" access="global">
+  	<!-- DATA ATIBUTTES -->  
+    <aura:attribute name="dataMovementHistory" type="List" description="Movement data fill with the service"/>
+    <aura:attribute name="accountNumberAndEntity" type="String" description="Account number"/>
+    
+     <!-- PAGINATION ATTRIBUTES -->
+     <aura:attribute name="displayNoResultsMessage" type="Boolean" default="false" description="Flag activated when no results are returned from the server, for the given search"/>
+     <aura:attribute name="paymentsPerPage"  type="Integer" default="50" description="Movementes show per page"/>
+     <aura:attribute name="currentPage"      type="Integer"  default="1" description="current page pagination"/>
+     <aura:attribute name="oldPage"          type="Integer"  default="1" description="last page page pagination"/>
+     <aura:attribute name="start"            type="Integer"  default="0" description="Row number of the first displayed row"/>
+     <aura:attribute name="end"              type="Integer"  description="Row number of the last displayed row"/>
+     <aura:attribute name="paginatedHistory" type="List" description="History of the pagination"/>
+     <aura:attribute name="SelectedAccount" type="String" description="Selected account"/>
+     <aura:attribute name="accountName" type="String" description="Subsidiary name"/> 
+     <aura:attribute name="accountNumberBank" type="String" description="Account bank"/>
+     <aura:attribute name="lastHistoryFinalBalance"   type="Object"   description="Object to store all fields of one row"/>
+     <aura:attribute name="lastHistoryFinalBalanceAux"   type="Object" description="Object to work with the data store in lastHistoryFinalBalance" />
+     <aura:attribute name="availableBalanceParam" type="String" description="Avaiable balance field value of the account information component"/>
+     <aura:attribute name="bookBalanceParam" type="String" description="Book balance field value of the account information component"/>
+     <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+     <aura:attribute name="dateFrom" type="Date" description="Attribute to store the date from"/>
+     <aura:attribute name="dateTo" type="Date" description="Attribute to store the date to"/>
+     <aura:attribute name="sourceMovementHistory" type="String" description="Attribute to kwown from where are navegating"/>   
+     <aura:attribute name="source" type="List" description="Navigation path, used to display the correct breadcrumbs"/>
+     <aura:attribute name="dateParam" type="String" description="'To' field value of the account information component"/>
+     <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+     
+    <!-- attribute to hide the spinner -->
+    <aura:attribute name="showSpinner"   type="Boolean" default="false" description="Attribute to show or hide the spinner" />
+   
+     <!-- COMPONENT HANDLERS -->
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTableData}"/>
+    
+    <!-- EVENTS -->
+    <aura:registerEvent name="noResultsFound" type="c:EVT_MovementHistoryNoResults"/>
+    
+    <!-- MARKUP -->  
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+    
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <aura:handler name="change" value="{!v.source}" action="{!c.doInit}"/>
+    <aura:handler event="c:EVT_MovementHistorySearchData" action="{!c.fireNewSearch}"/>
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:if isTrue="{!v.showSpinner == false}">  
+        <div class="spinnerclass">
+            <lightning:spinner aura:id="spinner" variant="brand"  size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+        </div>
+    </aura:if> 
+
+   
+    <aura:if isTrue="{!v.showSpinner == true}">
+        <!-- PAGINATION -->
+        <c:CMP_Pagination allData="{!v.dataMovementHistory}" paymentsPerPage="{!v.paymentsPerPage}"  aura:id="pagination"/>
+        <!-- TABLE -->
+        <!-- <aura:if isTrue="{!v.showSpinner == true}">  </aura:if> -->
+        <div class="slds-table--header-fixed_container">
+            <div class="slds-scrollable_y">
+                <table class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped" aria-multiselectable="true" role="grid">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate slds-cell-fixed slds-th__action" title="{!$Label.c.MovementHistory_AvailableDate}">{!$Label.c.MovementHistory_AvailableDate}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-cell-fixed slds-th__action" title="{!$Label.c.MovementHistory_AvailableBalance}">{!$Label.c.MovementHistory_AvailableBalance}</div>                       
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-cell-fixed slds-th__action" title="{!$Label.c.MovementHistory_BookDate}">{!$Label.c.MovementHistory_BookDate}</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate slds-cell-fixed slds-th__action" title="{!$Label.c.MovementHistory_BookBalance}">{!$Label.c.MovementHistory_BookBalance}</div>
+                            </th>
+                            <th class="header colorHeader containerIcon" scope="col">
+                                <div class="slds-truncate slds-cell-fixed slds-th__action" title="{!$Label.c.actions}"></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                
+                
+                        <aura:iteration items="{!v.dataMovementHistory}" start="{!v.start}" end="{!v.end}" var="item" indexVar="index"> 
+                            <c:CMP_MovementHistoryTableRow HistoricoObject="{!item}"
+                                                        accountNumberAndEntity="{!v.accountNumberAndEntity}"
+                                                        accountNumberBank="{!v.accountNumberBank}"
+                                                        accountName="{!v.accountName}"
+                                                        SelectedAccount="{!v.SelectedAccount}"
+                                                        lastHistoryFinalBalance="{!v.lastHistoryFinalBalance}"
+                                                        lastHistoryFinalBalanceAux="{!v.lastHistoryFinalBalanceAux}"
+                                                        currencyTable = "{!v.currencyTable}"
+                                                        source="{!v.source}"
+                                                        sourceMovementHistory="{!v.sourceMovementHistory}"
+                                                        dateFrom="{!v.dateFrom}"
+                                                        dateTo="{!v.dateTo}"
+                                                        availableBalanceParam="{!v.availableBalanceParam}"
+                                                        bookBalanceParam="{!v.bookBalanceParam}"
+                                                        />
+                        </aura:iteration>
+                
+                    </tbody>
+            
+                </table>
+            
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

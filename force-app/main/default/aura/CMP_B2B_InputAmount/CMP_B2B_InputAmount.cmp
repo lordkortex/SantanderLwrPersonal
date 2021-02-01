@@ -1,0 +1,63 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public"     type="Boolean"      name="disabled"           default="false"                  description="input box is disabled" />
+    <aura:attribute access="public"     type="String"       name="accCurrency"                          description="currency to be displayed in input box" />
+    <aura:attribute access="public"     type="String"       name="inputType"                            description="In which input field was the amount entered source or recipient?" />
+    <aura:attribute access="public"     type="Decimal"      name="value" />
+    <aura:attribute access="public"     type="String"       name="formattedValue"     default="" />
+    <aura:attribute access="public"     type="Decimal"      name="decimalValue"       default="" />
+    <aura:attribute access="public"     type="String"       name="userInputValue"     default="" />
+    <aura:attribute access="private"    type="Boolean"      name="showMiniLabel"      default="false"   description="Control to show mini label." />
+    <aura:attribute access="public"     type="String"       name="inputId" />
+    <aura:attribute access="private"    type="String"       name="locale"             default="en" />
+    <aura:attribute access="private"    type="String"       name="decimalSeparator"   default="." />
+    <aura:attribute access="private"    type="String"       name="thousandsSeparator" default="," />
+    <aura:attribute access="public"     type="String"       name="errorMSG"           default=""        description="Indicates the errors when clicked on continue." />
+    <aura:attribute access="public"     type="String"       name="errorMSG_1"         default=""        description="Indicates the error when clicked on continue." />
+    <aura:attribute access="public"     type="String"       name="errorMSG_2"         default=""        description="Indicates the error when clicked on continue (if there are two errors)." />
+    <aura:attribute access="public"     type="Aura.Action"  name="handleChange"                         description="Action in SelectAmount to process amount in put by user." />
+    <aura:attribute access="public"     type="String"       name="numberFormat"                         description="User number format" />
+    <aura:attribute access="public"     type="Boolean"      name="isModified"                           description="Indicates if the input data has been modified." />
+    <aura:attribute access="public"     type="Map"          name="steps"                                description="Data of the steps." />
+    <aura:attribute access="public"     type="Boolean"      name="disableFrom"        default="false"   description="Disable the From field for CIB user when they input a value in the To field." />
+    <aura:attribute access="public"     type="Boolean"      name="disableTo"          default="false"   description="Disable the To field for CIB user when they input a value in the From field." />
+    <aura:attribute access="public"     type="Map"          name="accountData"                          description="Account data." />
+
+    <aura:handler name="init"   value="{!this}"         action="{!c.initComponent}" />
+    <aura:handler name="change" value="{!v.value}"      action="{!c.valueChanges}" />
+    <aura:handler name="change" value="{!v.errorMSG}"   action="{!c.errorChanges}" />
+
+    <aura:registerEvent name="changeInputAmount" type="c:EVT_B2B_InputAmount" />
+
+
+    <aura:method access="public" name="setInputAmount" action="{!c.setInputAmount}" description="Method to change the amount from parent component">
+        <aura:attribute name="inputId" type="String" />
+        <aura:attribute name="inputValue" type="String" />
+    </aura:method>
+
+    <div>
+        <div class="{!'slds-form-element input' + (not(empty(v.errorMSG)) ? ' error' :'')}">
+            <aura:if isTrue="{!and(v.disabled == false, (or(v.showMiniLabel eq true, not(empty(v.formattedValue)))))}">
+                <label id="amount-label" class="slds-form-element__label" for="{!v.inputId}">
+                    {!$Label.c.B2B_Amount_Input_Placeholder}
+                </label>
+            </aura:if>
+            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                <input type="text" id="{!v.inputId}"  value="{!v.formattedValue}" placeholder="{!$Label.c.B2B_Amount_Input_Placeholder}" class="slds-input" name="amount"  onchange="{!c.handleChangeAmount}" oninput="{!c.handleInputAmount}" onfocus="{!c.handleFocusAmount}" onblur="{!c.handleBlurAmount}" disabled="{!v.disabled eq true}"/>
+                <div class="slds-box">
+                    <p>{!v.accCurrency}</p>
+                </div>
+                <aura:if isTrue="{!not(empty(v.errorMSG))}">
+                    <div class="errorText">
+                        {!v.errorMSG_1}
+                        <aura:if isTrue="{!not(empty(v.errorMSG_2))}">
+                            <br/> {!v.errorMSG_2}
+                        </aura:if>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+    </div>
+</aura:component>

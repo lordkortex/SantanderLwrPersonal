@@ -1,0 +1,110 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Table row component for the transactions screen
+History
+<Date>			<Author>		    <Description>
+17/02/2020      Guillermo Giral     Initial version
+-->
+<aura:component>
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="transactionRow" type="Map"/>
+    <aura:attribute name="sourcePage" type="String" default="" description="This attribute is to know from which community page a users is accessing this component"/>    
+    <aura:attribute name="isSearching"  type="Boolean"  description="List if is searching for transactions"/>
+    
+    <!--ATTRIBUTES TO PASS FOR REDIRECTION-->
+    <aura:attribute name="accountName" type="String" default="" description="Account name"/>
+    <aura:attribute name="accountNumber" type="String" default="" description="Account number"/>
+    <aura:attribute name="bank" type="String" default="" description="Bank name"/>
+    <aura:attribute name="availableBalance" type="String" default="" description="Main amount"/>
+    <aura:attribute name="bookBalance" type="String" default="" description="Availbale amount"/>
+    <aura:attribute name="accountCurrency" type="String" default="" description="Account currency"/>
+    <aura:attribute name="showPills" type="Boolean" default="false" description="Flag to show/hide pills"/>
+    <aura:attribute name="pills" type="List" description="List of pill (strings) to be displayed"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <lightning:navigation aura:id="navService"/>
+    <c:CMP_ServiceComponent aura:id="service"/>
+
+    <!-- ROW MARKUP -->
+    <tr class="slds-hint-parent border" aria-selected="false">
+        <td class="containerAccount" role="gridcell">
+            <div class="slds-truncate" title="{!v.transactionRow.accountNumber}">{!v.transactionRow.accountNumber}</div>
+        </td>
+        <td class="containerBookDate" role="gridcell">
+            <div class="slds-truncate" title="{!v.transactionRow.bookDate}">{!v.transactionRow.bookDate}</div>
+        </td>
+        <td class="containerValueDate" role="gridcell">
+            <div class="slds-truncate" title="{!v.transactionRow.valueDate}">{!v.transactionRow.valueDate}</div>
+        </td>
+        <td class="containerCategory" role="gridcell">
+            <div class="slds-truncate" title="{!v.transactionRow.category}">{!v.transactionRow.category}</div>
+        </td>
+        <td role="gridcell"  class="containerClientRef">
+            <div class="slds-truncate" title="{!v.transactionRow.refCliente}">{!v.transactionRow.refCliente}</div>
+        </td>
+        <td class="slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                <c:CMP_displayAmount amount="{!v.transactionRow.amount}" decimalClass="balanceDecimals" wholeClass="balanceInteger" currency="{!v.transactionRow.currencyExtract}"/>
+            <!-- <span class="slds-truncate " title="330,00">
+                -330
+            </span>
+            <span class="slds-truncate " title="8.045.086,17 EUR">
+                ,00 EUR
+            </span> -->
+        </td>
+        <td class="slds-text-align_right" role="gridcell">
+                <c:CMP_displayAmount amount="{!v.transactionRow.bookBalance}" decimalClass="amountDecimals" wholeClass="amountInteger" currency="{!v.transactionRow.currencyExtract}"/>
+            <!-- <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                8.045.086
+            </span>
+            <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                ,17 EUR
+            </span> -->
+        </td>
+        <td class="slds-text-align_center" role="gridcell">
+            <div class="button-arrow icon-arrowRight_small" title="See detail" onclick="{!c.navigateToExtractDetail}"></div>
+        </td>
+    </tr>	
+    <!-- <tr class="slds-hint-parent border" aria-selected="false">         
+        <td role="gridcell" class="containerAccount">
+            aaaaaaaaaaaaa
+            <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+        </td>
+        <td role="gridcell" class="containerBookDate">
+            bbbbbbbbbb
+            <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+        </td>
+         <td role="gridcell" class="containerValueDate">
+            <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+        </td>
+       
+        <td role="gridcell"  class="containerCategory">
+                ccccccccccc
+            <div class="slds-truncate" title="BNK">BNK</div>
+        </td>
+        <td role="gridcell"  class="containerClientRef">
+            dddddddddd
+            <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+        </td>
+        <td class="slds-text-align_right containerAmount paddingAmount" role="gridcell">
+            <span class="slds-truncate " title="330,00">
+                -330
+            </span>
+            <span class="slds-truncate " title="8.045.086,17 EUR">
+                ,00 EUR
+            </span>
+        </td>
+        <td class="slds-text-align_right" role="gridcell">
+            <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                8.045.086
+            </span>
+            <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                ,17 EUR
+            </span>
+        </td>
+        <td class="slds-text-align_center " role="gridcell">   
+            <div class="button-arrow icon-arrowDown_small arrowDownFormat" title="See detail"></div>
+        </td>
+
+    </tr> -->
+</aura:component>

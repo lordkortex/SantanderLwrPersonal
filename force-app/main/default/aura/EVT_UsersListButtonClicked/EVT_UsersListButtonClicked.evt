@@ -1,0 +1,14 @@
+<!--Author:         Joaquín Vera Vallés
+Company:        Deloitte
+Description:    Event to send the button clicked from the list of users
+History
+<Date>			<Author>		<Description>
+21/01/2020		Joaquín Vera Vallés     Initial version-->
+<aura:event type="APPLICATION" description="">
+    <aura:attribute name="profileButtonClicked" type="Boolean"/>
+    <aura:attribute name="modifyButtonClicked" type="Boolean"/>
+    <aura:attribute name="viewButtonClicked" type="Boolean"/>
+    <aura:attribute name="regeneratePasswordButtonClicked" type="Boolean"/>
+    <aura:attribute name="deleteButtonClicked" type="Boolean"/>
+    <aura:attribute name="userInteraction"      type="Object" />
+</aura:event>

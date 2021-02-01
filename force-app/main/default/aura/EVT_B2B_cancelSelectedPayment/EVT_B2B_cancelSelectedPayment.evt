@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event that fire when the cancel button is pressed" >
+    <aura:attribute type="Boolean" name="cancelSelectedPayment"  description="Confirm that the selected payment is to be cancelled." />
+</aura:event>

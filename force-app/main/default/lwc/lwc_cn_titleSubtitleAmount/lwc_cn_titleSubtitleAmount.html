@@ -1,0 +1,46 @@
+<template>
+    <div class="cardTitleDetail">
+        <!-- TITLE -->
+        <div class="slds-card__header slds-grid containerInformation">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title separation">
+                        <template if:true={getCountryEbury}>
+                            <div class="title">{accountAlias}<img class="eburySymbol" src={eburyImage}></img></div>
+                        </template>
+                        <template if:false={getCountryEbury}>
+                            <div class="title">{accountAlias}</div>
+                        </template>
+
+                        <div class="col-amount">
+                            <div class="slds-card__header-title">
+                                <span class="space">{label.MovementHistory_Amount}</span>
+                                <div class="secondRow">
+                                    <c-lwc_display-amount amount={amount} decimalclass="number" wholeclass="number" currency={currencyacc}/></c-lwc_display-amount>
+                                </div>
+                            </div>
+                            <template if:true={getCountryEbury}>
+                                <div class="slds-card__header-subtitle">
+                                    <span class="space">{label.ResultingBalance}</span>
+                                    <div class="secondRow">
+                                        <c-lwc_display-amount amount={resultingamount} decimalclass="number" wholeclass="number" currency={currencyacc}/></c-lwc_display-amount>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <div class="slds-card__header-title">
+                        <template if:true={getCountryEbury}>
+                            <div class="bankAccount">{bankaccountinfoebury}</div>
+                        </template>
+                        <template if:false={getCountryEbury}>
+                            <div class="bankAccount">{bankaccountinfo}</div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text_line"></div>
+    </div>
+</template>

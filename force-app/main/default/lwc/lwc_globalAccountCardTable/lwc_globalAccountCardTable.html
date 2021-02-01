@@ -1,0 +1,42 @@
+<template>
+
+    <div class="slds-grid slds-wrap cardsGlobal">
+        <template for:each={countrygroupresponse} for:item="item">
+                <c-lwc_global-account-single-card 
+                    key={item}
+                    lastupdateselected={lastupdateselected} 
+                    selectedcurrency={selectedcurrency} 
+                    selectedgrouping={selectedgrouping} 
+                    userpreferredpumberformat={userpreferredpumberformat} 
+                    cardinfo={item}
+                    isonetrade={isonetrade}>
+                </c-lwc_global-account-single-card>
+        </template>
+    </div>
+</template>
+
+<!--
+    <aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="countryGroupResponse" type="List" description="Gets the accounts grouped by country" />
+    <aura:attribute name="selectedCurrency" type="String" description="Contains the selected" />
+    <aura:attribute name="SelectedGrouping" type="String" default="{!$Label.c.Country}" />
+    <aura:attribute name="lastUpdateSelected" type="Boolean" default="true" description="Check if 'Last update' button is selected" />
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+	
+	
+    <div class="slds-grid slds-wrap cardsGlobal">
+         
+    <aura:iteration items="{!v.countryGroupResponse}" var="item" indexVar="index">
+        <aura:if isTrue="{!v.selectedCurrency != item.tipoDeCambio.divisa}">
+            <c:CMP_GlobalAccountSingleCard lastUpdateSelected="{!v.lastUpdateSelected}" cardInfo="{!item}" 
+                        selectedCurrency="{!v.selectedCurrency}" SelectedGrouping="{!v.SelectedGrouping}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}"/>
+        </aura:if>
+    </aura:iteration>
+        
+    </div>
+</aura:component>
+-->

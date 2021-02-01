@@ -1,0 +1,10 @@
+<!--Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Event to send the search filters
+History
+<Date>			<Author>		<Description>
+04/03/2020		R. Alexander Cervino     Initial version-->
+<aura:event type="COMPONENT" description="CMP_IPTAdvancedFilters">
+    <aura:attribute name="filter" type="String"/>
+    <aura:attribute name="value" type="List"/>
+</aura:event>

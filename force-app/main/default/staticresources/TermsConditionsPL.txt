@@ -1,0 +1,506 @@
+<section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open welcomePack">
+                <div class="slds-modal__container modalTerms">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">label.termsConditions</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div class="textContainer">
+                            <div class="slds-text-heading_small">Rozdział 1: Postanowienia ogólne</div>
+                            <p style="text-align:center">§1</p>
+                            <p>Niniejsze Zasady określają warunki udostępniania Klientom przez Santander Bank Polska S.A. Usługi GTS oraz reguły wzajemnej współpracy pomiędzy Bankiem a Klientem w zakresie korzystania z tej Usługi.</p>
+                            <br></br>
+                            <p style="text-align:center">§2</p>
+                            <p>Użyte w dalszej części Zasad określenia oznaczają:</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li><span class="text-bold"> Bank Zagraniczny</span> – bank będący podmiotem z Grupy Santander, innym niż Bank, który prowadzi Rachunek Zagraniczny.</li>
+                                    <li><span class="text-bold"> Bank </span> – Santander Bank Polska Spółka Akcyjna z siedzibą w Warszawie.</li>
+                                    <li><span class="text-bold"> Doradcy iBiznes24 </span> – zespół pracowników Banku świadczących pomoc techniczną i merytoryczną na rzecz Klientów Usługi GTS i iBiznes24, z którymi sposób kontaktu został określony na <span class="text-bold"> Portalu Banku</span>.</li>
+                                    <li><span class="text-bold"> Grupa Kapitałowa Klienta </span> – oznacza grupę podmiotów prawnych, kontrolowaną przez lub będącą pod wspólną kontrolą przez jeden podmiot - w tym zakresie „kontrola” oznacza (a) posiadanie, bezpośrednio lub pośrednio, ponad 50% udziałów w podmiocie; lub (b) umocowanie do zarządzania lub wpływania na sposób zarządzania danym podmiotem oraz jego politykami, na mocy prawa głosu, umowy lub w inny sposób.</li>
+                                    <li><span class="text-bold"> Grupa Santander </span> – oznacza Banco Santander S.A, z siedzibą w Santander, Hiszpania oraz podmioty z nim blisko powiązane w rozumieniu art. 4 ust. 1 pkt 15 Prawa bankowego (w tym również podmioty które zostaną utworzone w przyszłości), a w szczególności podmioty wskazane w strukturze Grupy kapitałowej Santander Bank Polska S.A. opublikowanej na stronie internetowej Banku pod adresem <a href="https://static3.santander.pl/asset/S/t/r/Struktura_Grupy_Santander_89640.pdf" class="text-link">https://static3.santander.pl/asset/S/t/r/Struktura_Grupy_Santander_89640.pdf</a>.</li>
+                                    <li><span class="text-bold"> Istotny Dostawca </span> – inny podmiot Grupy Santander prowadzący działalność regulowaną, mający siedzibę w Hiszpanii lub w kraju, w którym Usługa  GTS lub jej część będzie mogła być wykonywana.</li>
+                                    <li><span class="text-bold"> Klient </span> – Posiadacz składający Wniosek rejestracyjny lub korzystający z Usługi GTS, w tym Klient korporacyjny, Klient SME.</li>
+                                    <li><span class="text-bold"> Klient  Stowarzyszony </span> – podmiot należący do  Grupy Kapitałowej Klienta.</li>
+                                    <li><span class="text-bold"> Klient Instytucjonalny </span> – osoba prawna/jednostka organizacyjna nie posiadająca osobowości prawnej, korzystająca z oferty produktów Banku dla tej grupy klientów.</li>
+                                    <li><span class="text-bold"> Klient korporacyjny </span> – Klient Instytucjonalny będący klientem Pionu Bankowości Biznesowej i Korporacyjnej lub Pionu  Bankowości Korporacyjnej i Inwestycyjnej.</li>
+                                    <li><span class="text-bold"> Klient SME </span> – Klient Instytucjonalny nie będący klientem Pionu Bankowości Biznesowej i Korporacyjnej lub Pionu Bankowości Korporacyjnej i Inwestycyjnej.</li>
+                                    <li><span class="text-bold"> Kod autoryzacyjny </span> – jednorazowy kod służący do Autoryzacji Dyspozycji; kodami autoryzacyjnymi są smsKod i kod generowany przez token.</li>
+                                    <li><span class="text-bold"> Mobilny podpis </span> – funkcja aplikacji usługi iBiznes24 mobile wykorzystywana jako narzędzie autoryzacji służące do uwierzytelniania Klienta/Użytkownika i do Autoryzacji jego Dyspozycji lub Wniosków lub Zleceń Trade Finance lub zleceń wpłat lub wypłat gotówkowych lub elektronicznych wypłat gotówkowych w ramach usługi iBiznes24 internet.</li>
+                                    <li><span class="text-bold"> Narzędzie autoryzacji </span> – w usłudze iBiznes24 internet token, telefon komórkowy, na który przesyłany jest smsKod Mobilny podpis, a w usłudze iBiznes24 mobile zaufane urządzenie mobilne.</li>
+                                    <li><span class="text-bold"> NIK </span> – nadawany przez Bank Numer Identyfikacyjny Klienta składający się z 8 cyfr, który jest wykorzystywany przez Klienta/Użytkownika w celu uwierzytelniania przy uruchamianiu i korzystaniu z usługi iBiznes24.</li>
+                                    <li><span class="text-bold"> Osoba Uprawniona </span> – Klient Stowarzyszony posiadająca uprawnienie lub pełnomocnictwo udzielone mu przez Klienta do obsługi Rachunków i Rachunków Zewnętrznych Klienta i korzystania z Usługi GTS  w imieniu lub na rzecz Klienta.</li>
+                                    <li><span class="text-bold"> Portal Banku </span> – strona internetowa Banku <a href="www.santander.pl" class="text-link">www.santander.pl</a>, na której dostępny jest serwis informacyjny Banku.</li>
+                                    <li><span class="text-bold"> Posiadacz  </span> – Firma, dla której Bank prowadzi Rachunek/Rachunki.</li>
+                                    <li><span class="text-bold"> Rachunek </span> – prowadzony przez Bank dla Posiadacza rachunek bankowy w tym rachunek kredytowy (kredyt w rachunku bieżącym), do których Bank oferuje usługę GTS.</li>
+                                    <li><span class="text-bold"> Rachunek Klienta Stowarzyszonego </span> – rachunek prowadzony w Banku dla Klienta Stowarzyszonego oferowany w usłudze GTS.</li>
+                                    <li><span class="text-bold"> Rachunek VAT </span> – rachunek bankowy prowadzony w złotych polskich przez Bank dla Posiadacza rachunku rozliczeniowego prowadzonego w złotych polskich, przeznaczony do rozliczania płatności VAT w trybie płatności podzielonej.</li>
+                                    <li><span class="text-bold"> Rachunek Zagraniczny </span> – Rachunek Zagraniczny Klienta oraz Rachunek Zagraniczny Klienta Stowarzyszonego.</li>
+                                    <li><span class="text-bold"> Rachunek Zagraniczny Klienta </span> – rachunek Klienta prowadzony przez Bank Zagraniczny, oferowany w Usłudze GTS.</li>
+                                    <li><span class="text-bold"> Rachunek Zagraniczny Klienta Stowarzyszonego </span> – rachunek Klienta Stowarzyszonego prowadzony przez Bank Zagraniczny, oferowany w Usłudze GTS.</li>
+                                    <li><span class="text-bold"> Regulacje </span> – umowy, w tym Umowa GTS, Zasady, oraz inne regulacje łączące Bank i Klienta, w szczególności regulaminy, zasady oraz Taryfa.</li>
+                                    <li><span class="text-bold"> Silne uwierzytelnianie Klienta/Użytkownika </span> – uwierzytelnianie zapewniające ochronę poufności danych w oparciu o zastosowanie co najmniej dwóch elementów należących do kategorii: 
+                                        <p>
+                                            <ul class="slds-list--dotted">
+                                                <li>wiedza o czymś, o czym wie wyłącznie Klient/Użytkownik.</li>
+                                                <li>posiadanie czegoś, co posiada wyłącznie Klient/Użytkownik.</li>
+                                                <li>cechy charakterystyczne Klienta/Użytkownika.</li>
+                                            </ul>
+                                        </p>
+                                    </li>
+                                    <li><span class="text-bold"> Skrzynka odbiorczank </span> – skrzynka w usłudze iBiznes24 internet, na którą Bank doręcza Klientowi Regulacje lub informacje o ich zmianach, odpowiedzi na reklamacje, a także informacje o sprawach organizacyjnych związanych z usługą iBiznes24 i Usługą GTS oraz komunikaty o treści marketingowej, a Klient może przesyłać wiadomości, w tym Reklamacje, do Banku.</li>
+                                    <li><span class="text-bold"> smsKod </span> – jednorazowy kod służący do uwierzytelniania Klienta/Użytkownika i Autoryzacji jego Dyspozycji lub Wniosków lub Zleceń Trade Finance lub zleceń wpłat lub wypłat gotówkowych lub elektronicznych wypłat gotówkowych w ramach usługi iBiznes24, przesyłany na żądanie Użytkownika na numer telefonu komórkowego wskazany przez Klienta w Umowie iBiznes24.</li>
+                                    <li><span class="text-bold"> SSO </span> – ang Single Sign On - Pojedyncze logowanie (SSO) pozwalające uwierzytelnionemu Użytkownikowi GTS jako Użytkownikowi usługi iBiznes24 na dostęp do usługi GTS bez konieczności ponownego uwierzytelnienia, o ile nie uległy zmianie parametry techniczne sesji użytkownika.</li>
+                                    <li><span class="text-bold"> Token  </span> – urządzenie kryptograficzne generujące jednorazowe kody służące do uwierzytelniania Klienta/Użytkownika i do Autoryzacji jego Dyspozycji lub Wniosków lub Zleceń Trade Finance lub zleceń wpłat lub wypłat gotówkowych lub elektronicznych wypłat gotówkowych w ramach usługi iBiznes24.</li>
+                                    <li><span class="text-bold"> Umowa GTS </span> – Umowa korzystania z Usług GTS (Global Trade Services) wraz załącznikami i późniejszymi aneksami do niej.</li>
+                                    <li><span class="text-bold"> Umowa iBiznes24 </span> – Umowa korzystania z Usługi Bankowości Elektronicznej iBiznes24 wraz załącznikami i późniejszymi aneksami do tej Umowy.</li>
+                                    <li><span class="text-bold"> Usługa Bankowości Elektronicznej iBiznes24 /usługa iBiznes24 </span> – dostęp do usług bankowych za pośrednictwem kanału elektronicznego internet z wykorzystaniem usługi (serwisu) iBiznes24 internet oraz udostępnionego w ramach usługi iBiznes24 internet usługi (serwisu).</li>
+                                    <li><span class="text-bold"> Usługa (Platforma) GTS </span> – dostęp do usług bankowych za pośrednictwem kanału elektronicznego internet z wykorzystaniem usługi (serwisu/platformy) GTS oraz udostępnionego w ramach usługi GTS, obejmująca:
+                                        <p>
+                                            <ul class="slds-list--dotted">
+                                                <li>Usługę dostępu do informacji o Rachunku lub Rachunku Klienta Stowarzyszonego polegającą na dostarczaniu informacji o Rachunku Klienta lub Rachunku Klienta Stowarzyszonego prowadzonego przez Bank albo przez Bank i innych dostawców prowadzących rachunki płatnicze dostępne online.</li>
+                                                <li>Usługę zarządzania Rachunkami Zagranicznymi  w Bankach Zagranicznych – udostępnienie możliwości zarzadzania przez Klienta za pośrednictwem Usługi GTS Rachunkami Zagranicznymi.</li>
+                                            </ul>
+                                        </p>
+                                    </li>
+                                    <li><span class="text-bold"> Uwierzytelnianie </span> – procedura umożliwiająca Bankowi weryfikację tożsamości Klienta/Użytkownika lub ważności stosowania konkretnego instrumentu płatniczego, łącznie ze stosowaniem indywidualnych danych uwierzytelniających.</li>
+                                    <li><span class="text-bold"> Użytkownik GTS </span> – osoba fizyczna, wskazana przez Klienta, posiadająca  NIK, Hasło, wykorzystujący token, smsKod lub Mobilny podpis, w ramach usługi iBiznes24.</li>
+                                    <li><span class="text-bold"> Wniosek rejestracyjny/modyfikacyjny </span> – oświadczenie woli Klienta złożone w formie pisemnej, w celu udostępnienia   Usługi GTS lub modyfikacji warunków korzystania z niej.</li>
+                                    <li><span class="text-bold"> Zablokowanie Usługi GTS </span> – czasowe uniemożliwienie dostępu Klienta lub wszystkich lub wybranych Użytkowników GTS/Osoby Uprawnionej do Usługi GTS dokonywane przez Bank na wniosek Klienta/Użytkownika  GTS/Osoby Uprawnionej lub bez takiego wniosku przez Bank.</li>
+                                    <li><span class="text-bold"> Zasady </span> – Zasady korzystania z usługi GTS, doręczane Klientowi składającemu Wniosek rejestracyjny.</li>
+                                    <li><span class="text-bold"> Zastrzeżenie Usługi GTS </span> – uniemożliwienie dostępu wszystkich lub wybranych Użytkowników GTS/Osób Uprawnionych do Usługi GTS i usługi iBiznes24; dostęp może być przywrócony na wniosek Klienta, ale wymaga ponownej aktywacji Usługi GTS oraz usługi iBiznes24 i wydania nowego Hasła.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+                            <p>Do niniejszych Zasad stosuje się pojęcia zdefiniowane w Zasadach korzystania z usług bankowości elektronicznej iBiznes24, o ile nie zdefiniowana inaczej w niniejszych Zasadach.</p>
+                            <br></br>
+
+                            <!-- SECCIÓN 2 -->
+                            <div class="slds-text-heading_small">Rozdział 2: Zakres funkcjonalny Usługi GTS</div>
+                            <p style="text-align:center">§3</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Usługa GTS umożliwia:
+                                        <p>
+                                            <ul class="slds-list--dotted">
+                                                <li>śledzenie statusu transakcji płatniczej innej niż krajowa wysyłana komunikatem SWIFT (ang. GPI Payments Tracker)  w czasie rzeczywistym, wraz z informacją o  momencie zaksięgowania płatności na rachunku odbiorcy. Poniżej szczegółowy opis GPI Payments Tracker - narzędzie zapewniające możliwość śledzenia w czasie rzeczywistym płatności międzynarodowych (innych niż krajowe) obejmuje:
+                                                    <p>&emsp; - informację o statusie zleconej prze Klienta transakcji płatniczej międzynarodowej w czasie rzeczywistym.</p>
+                                                    <p>&emsp; - informację o momencie realizacji transakcji płatniczej międzynarodowej i uznaniu rachunku bankowego odbiorcy.</p>
+                                                    <p>&emsp; - informację o całym przebiegu procesu realizacji transakcji płatniczej (począwszy od strony składającej dyspozycję do odbiorcy).</p>
+                                                    <p>&emsp; - szczegółowe informacje o prowizjach.</p>
+                                                    <p>&emsp; - informacje o czasie trwania każdego etapu procesu realizacji transakcji płatniczej.</p>
+                                                    <p>&emsp; - potwierdzenie uznania rachunku odbiorcy.</p>
+                                                </li>
+                                                <br></br>
+                                                <li>Usługę zarządzania Rachunkami Zagranicznymi  w Bankach Zagranicznych – udostępnienie możliwości zarzadzania przez Klienta za pośrednictwem Usługi GTS Rachunkami Zagranicznymi.
+                                                    <br></br><br></br>
+                                                    Instant Account Information - Informacja w czasie rzeczywistym o saldach na rachunkach w Banku oraz bankach będących podmiotami z Grupy i obejmuje:
+                                                    <p>&emsp; - Możliwość śledzenia w czasie rzeczywistym sald rachunków bankowych prowadzonych w Banku oraz skonsolidowanego salda na rachunkach bankowych prowadzonych przez</p>
+                                                    <p>&emsp;&nbsp;&nbsp;&nbsp; Banki Grupy Santander w różnych krajach.</p>
+                                                    <p>&emsp; - Przeliczanie wartość salda na rachunkach w czasie rzeczywistym na walutę wybraną przez Klienta.</p>
+                                                    <p>&emsp; - Możliwość grupowania lub szeregowania rachunków według określonych parametrów. </p>
+                                                    <p>&emsp; - możliwość sprawdzania historii rachunku i informacji o transakcjach na wszystkich rachunkach Klienta prowadzonych w Banku oraz w Bankach Grupy Santander.</p>
+                                                    <p>&emsp; - Możliwość  dostęp do następujących informacji: 
+                                                        <p style="text-indent :4em;">
+                                                            <ul class="slds-list--dotted">
+                                                                <li>o zgrupowanych rachunkach.</li>
+                                                                <li>o saldzie na rachunkach w ujęciu globalnym, wyrażonego w danej walucie rachunku; w tym dacie salda i ostatnich aktualizacjach.</li>
+                                                                <li>o dostępnych środkach w ujęciu globalnym, wyrażonych w jednej walucie.</li>
+                                                                <li>o numerach i nazwach rachunków.</li>
+                                                                <li>o nazwie banków prowadzących rachunek (należących do Grupy Santander).</li>
+                                                                <li>o walucie rachunku.</li>
+                                                                <li>o dostępnych środków w każdej walucie rachunków.</li>
+                                                            </ul>
+                                                        </p>
+                                                    </p>
+                                                    <p>&emsp; - Możliwość  dostęp do następujących informacji: 
+                                                        <p style="text-indent :4em;">
+                                                            <ul class="slds-list--dotted">
+                                                                <li>podgląd sald zintegrowanych; podglądu sald rachunków; grupowania informacji wg kraju, waluty, grupy itp.</li>
+                                                                <li>ustanawiania własnych kryteriów grupowania.</li>
+                                                                <li>przeliczania sald na jedną, wspólną walutę (w razie potrzeby).</li>
+                                                                <li>pokazywania/zwijania grup informacji na dowolnym etapie.</li>
+                                                                <li>przechodzenia w ramach jednego ekranu do trybu informacji na koniec dnia i wybieranie konkretnej daty.</li>
+                                                                <li>dostarczania i wyszukiwania informacji związanych z ruchami na rachunku:</li>
+                                                                    <p>&emsp; (i) wyszukiwania ruchów na konkretnym rachunku według dowolnego z dostępnych parametrów.</p>
+                                                                    <p>&emsp; (ii) pobierania.</p>
+                                                                    <p>&emsp; (iii) zmiany widoków i odświeżania.</p>
+                                                                    <p>&emsp; (iv) wybierania innego rachunku.</p>
+                                                                    <p>&emsp; (v) powrotu do widoku globalnego.</p>
+                                                                <li>dostarczania i wyszukiwania informacji związanych z historią sald rachunku:</li>
+                                                                    <p>&emsp; (i) wyszukiwania wg parametrów.</p>
+                                                                    <p>&emsp; (ii) wybierania innego rachunku.</p>
+                                                                    <p>&emsp; (iii) pobierania.</p>
+                                                                    <p>&emsp; (iv) powrotu do widoku globalnego.</p>
+                                                                <li>informacji związanych z rachunkiem:</li>
+                                                                    <p>&emsp; (i) podglądu wszystkich szczegółów.</p>
+                                                                    <p>&emsp; (ii) pobierania.</p>
+                                                                    <p>&emsp; (iii)	wybierania innego rachunku.</p>
+                                                                    <p>&emsp; (iv) powrotu do widoku globalnego.</p>
+                                                            </ul>
+                                                        </p>
+                                                    </p>                               
+                                                </li>
+                                                <br></br>
+                                                <li>uzyskiwanie informacji przez Klienta (lub uprawnionego Użytkownika) o Rachunku Klienta Stowarzyszonego lub Rachunku Zagranicznym Klienta Stowarzyszonego (na podstawie upoważnienia udzielonego Klientowi lub Użytkownikowi przez Klienta Stowarzyszonego) (ang. Instant Account Information) na zasadach i w zakresie określonym w Umowie GTS oraz niniejszych Zasadach.</li>
+                                            </ul>
+                                        </p>
+                                    </li>
+                                    <li>Usługa GTS jest serwisem internetowym, do korzystania z którego wymagany jest komputer osobisty podłączony do sieci internet wyposażony w przeglądarkę internetową.  Dostęp  do Usługi GTS wykonywany jest z poziomu usługi iBiznes24.</li>
+                                    <li>Wyposażenie techniczne (w szczególności komputer) oraz oprogramowanie konieczne do korzystania z usługi GTS Klient nabywa i utrzymuje na swój koszt. Powinno ono spełniać wymagania techniczne i operacyjne określone przez Bank.</li>
+                                    <li>Bank zastrzega sobie prawo rozszerzenia zakresu lub rezygnacji z niektórych funkcjonalności dostępnych w Usłudze GTS w przypadku:
+                                        <ul class="slds-list--dotted">
+                                            <li>wprowadzania nowych /zmiany powszechnie obowiązujących przepisów prawa.</li>
+                                            <li>zmian w ofercie Banku.</li>
+                                            <li>zmian technologii informatycznych wykorzystywanych w usłudze GTS.</li>
+                                        </ul>
+                                    </li>
+                                    <li>Bank będzie mógł świadczyć Usługi GTS bezpośrednio lub za pośrednictwem Istotnego Dostawcy. W takim wypadku wszelkie odniesienia do Banku zawarte w niniejszych Zasadach lub Umowie GTS należy traktować odpowiednio jako odniesienia do Istotnego Dostawcy o ile Umowa GTS lub Zasady nie stanowią inaczej.</li>
+                                    <li>Klient jest uprawniony do wskazania Osoby Uprawnionej do korzystania w jego imieniu lub na jego rzecz z Usługi GTS.</li>
+                                </ol>
+                                <br></br>
+                                <p style="text-align:center">§4</p>
+                                <ol class="slds-list--ordered">
+                                    <li>Usługa GTS, z zastrzeżeniem ust. 2 i 3 jest dostępna przez 24 godziny na dobę przez 7 dni w tygodniu.</li>
+                                    <li>Bank zastrzega sobie prawo dokonywania przerw w dostępie do usługi GTS lub jej poszczególnych funkcjonalności w związku z koniecznością przeprowadzania okresowej konserwacji, rozwiązania problemu związanego z bezpieczeństwem Usługi GTS. O powyższym fakcie Klient/Użytkownik GTS będzie informowany z odpowiednim wyprzedzeniem poprzez komunikaty zamieszczane na stronie przewodniej GTS.</li>
+                                    <li>Dostęp do usługi GTS lub jej poszczególnych funkcjonalności może również zostać ograniczony z powodu przerw w dostępie do usługi GTS wywołanych przez awarie i inne przyczyny niezależne od Banku, takie jak przypadki siły wyższej oraz utrudnienia po stronie zewnętrznej infrastruktury informatycznej, z której korzysta Klient i pozostającej poza kontrolą Banku.</li>
+                                </ol>
+                            </p>        
+                            <br></br>
+
+                            <!-- SECCIÓN 3 -->
+                            <div class="slds-text-heading_small">Rozdział 3: Warunki udostępnienia Usługi GTS</div>
+                            <p style="text-align:center">§5</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>W celu udostępnienia Usługi GTS  Klient doręcza upoważnionemu pracownikowi Banku Wniosek rejestracyjny.</li>
+                                    <li>Bank rozpatruje złożony Wniosek rejestracyjny w terminie maksymalnie 7 Dni roboczych Banku od daty jego złożenia. W przypadku wystąpienia wątpliwości Bank może poprosić Klienta o dodatkowe wyjaśnienia, co może spowodować wydłużenie czasu rozpatrywania Wniosku rejestracyjnego o okres niezbędny dla złożenia wyjaśnień.</li>
+                                    <li>Wniosek rejestracyjny oraz wszystkie formularze składane przez Klienta w związku z udostępnieniem i korzystaniem z Usługi GTS powinny być podpisane przez osoby uprawnione do składania oświadczeń woli w imieniu Klienta.</li>
+                                    <li>Bank może odrzucić Wniosek rejestracyjny w przypadku, gdy:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>Klient nie spełnia wymagań określonych w Zasadach.</li>
+                                            <li>Wniosek rejestracyjny zawiera błędy.</li>
+                                            <li>zaistnieją inne przyczyny uniemożliwiające pozytywne rozpatrzenie Wniosku rejestracyjnego.</li>
+                                        </ul>
+                                    <li>W przypadku odrzucenia Wniosku rejestracyjnego, Bank w ciągu 7 Dni roboczych Banku liczonych od daty jego wpływu bądź od daty złożenia wyjaśnień w sprawach budzących wątpliwości Banku, powiadamia Klienta w formie pisemnej, elektronicznej lub telefonicznie o odrzuceniu Wniosku rejestracyjnego z podaniem uzasadnienia.</li>
+                                    <li>W przypadku pozytywnego rozpatrzenia Wniosku rejestracyjnego staje się on załącznikiem do Umowy GTS.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+                            <p style="text-align:center">§6</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Udostępnienie Klientowi usługi GTS następuje po spełnieniu łącznie poniższych warunków:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>otwarcie i posiadanie w Banku dowolnego Rachunku.</li>
+                                            <li>posiadanie usługi iBiznes24.</li>
+                                            <li>przyjęcie przez Bank od Klienta Wniosku rejestracyjnego i jego pozytywne rozpatrzenie.</li>
+                                            <li>zawarcie Umowy GTS pomiędzy Klientem a Bankiem.</li>
+                                            <li>zarejestrowanie usługi GTS przez Bank (w tym zarejestrowanie Użytkowników).</li>
+                                            <li>weryfikacja tożsamości Użytkowników przez Bank.</li>
+                                        </ul>
+                                    <li>Umowa GTS powinna być podpisana przez osoby uprawnione do składania oświadczeń woli w imieniu Klienta.</li>
+                                    <li>Klient ma obowiązek wskazać w Umowie GTS osobę będącą Użytkownikiem, z którą Bank może się kontaktować w sprawach dotyczących usługi GTS i  iBiznes24.</li>
+                                    <li>Podstawą dokonania zmiany parametrów /modyfikacji usługi GTS jest złożenie przez Klienta Wniosku o modyfikację usługi iBiznes24 (użytkownicy) lub złożenie Wniosku rejestracyjnego/o modyfikację usługi GTS.</li>
+                                </ol>
+                                <br></br>
+                                <p style="text-align:center">§7</p>
+                                <p>
+                                    <ol class="slds-list--ordered">
+                                        <li>We Wniosku rejestracyjnym/modyfikacyjnym Klient wskazuje Użytkowników GTS, którymi mogą być dotychczasowi Użytkownicy usługi iBiznes24.</li>
+                                        <li>Uprawnienia dla Użytkowników GTS są identyczne jak uprawnienia nadane Użytkownikom w usłudze iBiznes24 w zakresie dostępu do Rachunków.</li>
+                                        <li>Klient w dowolnym momencie obowiązywania Umowy GTS może dokonać zmiany Użytkowników GTS oraz zakresu ich uprawnień. Zakres uprawnień dokonywany jest poprzez zmianę uprawnień do usługi iBiznes24. Zmiana w Usłudze GTS dotyczy tylko możliwości nadania dostępu lub odebrania dostępu dla danego Użytkownika GTS.</li>
+                                        <li>Dla każdego Użytkownika GTS Klient może ustalić odrębny zakres korzystania z Usługi GTS zgodny z zakresem określonym w Umowie GTS i Usłudze iBiznes24.</li>
+                                        <li>Rodzaj i zakres uprawnień korzystania  Usługi GTS dla Osoby Uprawnionej wynika z upoważnienia udzielonego przez Klienta określonego w Umowie GTS.</li>
+                                        <li>Zawarcie Umowy GTS nie skutkuje przyznaniem lub przekazaniem Klientowi przez Bank tytułu prawnego  do Platformy GTS na jakiejkolwiek podstawie.</li>
+                                    </ol>
+                                </p>
+                            </p>
+                            <br></br>
+
+                            <!-- SECCIÓN 4 -->
+                            <div class="slds-text-heading_small">Rozdział 4: Uwierzytelnianie Klienta/Użytkownika GTS</div>
+                            <p style="text-align:center">§8</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Uwierzytelnianie Klienta/Użytkownika GTS następuje w usłudze iBiznes24 internet na zasadach i zgodnie z wymogami określonymi dla usługi iBiznes24 internet. wymaga Silnego uwierzytelniania Klienta/Użytkownika GTS i polega na:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>podaniu numeru NIK i Hasła oraz.</li>
+                                            <li>podaniu jednorazowego kodu generowanego przez Token, podaniu smsKodu przesłanego na telefon komórkowy wskazany w Umowie iBiznes24 lub podaniu numeru PIN do Mobilnego podpisu.</li>
+                                        </ul>
+                                    <li>Logowanie użytkownika do platformy GTS następuje poprzez SSO (Single Sign On) z usługi iBiznes24 internet.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+
+                            <!-- SECCIÓN 5 -->
+                            <div class="slds-text-heading_small">Rozdział 5: Informacje udostępniane w usłudze GTS</div>
+                            <p style="text-align:center">§9</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>W Usłudze GTS dostępne są informacje o:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>Rachunkach bieżących Klienta oraz Rachunkach Klienta Stowarzyszonego (posiadanych przez Klienta w momencie zawarcia Umowy GTS i otwartych w przyszłości): historii i saldach na Rachunkach wszystkich otwartych i prowadzonych przez Bank.</li>
+                                            <li>Rachunkach Zagranicznych poprzez udostępnienie możliwości zarzadzania przez Klienta za pośrednictwem Usługi GTS Rachunkami Zagranicznymi.</li>
+                                            <li>statusie płatności międzynarodowych dokonywanych a Rachunkach oraz Rachunkach Zagranicznych, w czasie rzeczywistym, wraz z potwierdzeniem momentu zaksięgowania płatności na rachunku odbiorcy.</li>
+                                        </ul>
+                                    <li>Klient ma możliwość zlecenia wygenerowania raportów zawierających wybrane dane dotyczące jego Rachunków i Rachunków Zagranicznych. Raporty są udostępniane do przeglądania na ekranie lub w formie plików do pobrania, które Klient/Użytkownik GTS może zapisać na własnym komputerze w celu późniejszego ich odtworzenia.</li>
+                                    <li>Każdy Użytkownik Usługi GTS ma automatycznie nadany dostęp do informacji o Rachunkach bieżących na warunkach identycznych jak dla Użytkownika w usłudze iBiznes24.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+
+                        <!-- SECCIÓN 6 -->
+                        <div class="slds-text-heading_small">Rozdział 6: Zasady bezpieczeństwa Usługi GTS</div>
+                        <p style="text-align:center">§10</p>
+                        <p>
+                            <ol class="slds-list--ordered">
+                                    <li>Klient/Użytkownik GTS zobowiązany jest stosować się do zaleceń Banku w zakresie zasad bezpieczeństwa usługi GTS poprzez stosowanie zasad bezpieczeństwa usługi iBiznes24. Jeżeli połączenie z usługą GTS zostanie zerwane Użytkownik GTS powinien zalogować się ponownie do usługi GTS poprzez logowanie do usługi iBiznes24 Klient/Użytkownik GTS jest zobowiązany do należytego zabezpieczenia urządzeń (np. komputera osobistego, telefonu komórkowego), z wykorzystaniem których uzyskuje dostęp do usługi GTS. W tym celu Klient/Użytkownik GTS winien w szczególności:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>chronić urządzenia przed możliwym dostępem do urządzeń osób nieuprawnionych poza jego kontrolą.</li>
+                                            <li>chronić urządzenia przed tzw. oprogramowaniem złośliwym, na skutek którego urządzenia mogą działać niepoprawnie poza kontrolą Klienta/Użytkownika GTS.</li>
+                                            <li>zainstalować na urządzeniu/ach legalne oprogramowanie systemowe oraz antywirusowe.</li>
+                                            <li>stosować zapory sieciowej (firewall).</li>
+                                            <li>dokonywać aktualizacji zainstalowanego na urządzeniu/ach legalnego oprogramowania systemowego oraz antywirusowego.</li>
+                                            <li>nie instalować na urządzeniu/ach oprogramowania nieznanego pochodzenia.</li>
+                                            <li>nie otwierać i nie odpowiadać z urządzenia na wiadomości e-mail pochodzące od nieznanych nadawców.</li>
+                                            <li>nie otwierać na urządzeniu/ach plików nieznanego pochodzenia.</li>
+                                            <li>nie zezwalać innym osobom na zapisywanie ich odcisków palców w urządzeniu mobilnym wykorzystywanym przez Użytkownika GTS do Identyfikacji odciskiem palca.</li>
+                                            <li>nie zezwalać innym osobom na zapisywanie ich geometrii twarzy w urządzeniu mobilnym.</li>
+                                        </ul>
+                                    <li>Klient/Użytkownik GTS powinien poinformować niezwłocznie Bank o wszelkich podejrzanych przypadkach związanych z korzystaniem z usługi GTS, w szczególności o próbie dostępu do usługi GTS lub korzystania z usługi GTS przez osoby nieuprawnione. Zgłoszenia takiego Klient może dokonać telefonicznie u Doradców iBiznes24.</li>
+                                    <li>W przypadku wystąpienia oszustwa lub podejrzenia jego wystąpienia, lub wystąpienia zagrożeń dla bezpieczeństwa, Bank powiadomi o tym Klienta/Użytkownika GTS odpowiednio za pisemnie, telefonicznie, chyba że przekazanie takiej informacji byłoby nieuzasadnione ze względów bezpieczeństwa lub zabronione z mocy prawa.</li>
+                                    <li>Użytkownik GTS nie może wykorzystywać usługi GTS niezgodnie z jej przeznaczeniem, jak również podejmować jakichkolwiek działań niezgodnych z Umową lub niniejszymi Zasadami i załączonymi do nich dokumentami, mogących zakłócać poprawne funkcjonowanie systemów informatycznych Banku służących do świadczenia usługi GTS.</li>
+                            </ol>
+                        </p>
+                        <br></br> 
+                        
+                        <!-- SECCIÓN 7 -->
+                            <div class="slds-text-heading_small">Rozdział 7: Zablokowanie oraz zastrzeżenie Usługi GTS</div>
+                            <p style="text-align:center">§11</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Klient może zadecydować o zablokowaniu Usługi GTS dla wybranego Użytkownika GTS:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>telefonicznie za pośrednictwem Doradców iBiznes24.</li>
+                                        </ul>
+                                    <li>Odblokowania usługi iBiznes24 mobile Klient  może dokonać:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>Pisemnie składając dyspozycję do upoważnionego pracownika Banku.</li>
+                                        </ul>
+                                </ol>
+                            </p>
+                            <br></br>
+                            <p style="text-align:center">§12</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Bank ma prawo do Zablokowania Usługi GTS w przypadkach:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>zagrożenia bezpieczeństwa Usługi GTS lub podejrzenia dostępu do Usługi GTS przez osoby nieuprawnione.</li>
+                                            <li>gdy wymagają tego od Banku powszechnie obowiązujące przepisy prawa.</li>
+                                        </ul>
+                                    <li>W przypadku wystąpienia jednej ze wskazanych w ust. 1 przyczyn, Bank powiadomi Klienta o Zablokowaniu Usługi GTS niezwłocznie po takim zablokowaniu.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+                            <p style="text-align:center">§13</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Klient ma prawo do Zablokowania Usługi GTS na podstawie wniosku złożonego pracownikowi Banku.</li>
+                                    <li>Klient może odblokować Zablokowaną na jego wniosek Usługę GTS na podstawie wniosku złożonego upoważnionemu pracownikowi Banku.</li>
+                                    <li>Użytkownik GTS ma prawo do Zablokowania na swoje życzenie własnego dostępu do usługi GTS:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>telefonicznie za pośrednictwem Doradców iBiznes24.</li>
+                                        </ul>
+                                    <li>Odblokowanie Użytkownika GTS, o którym mowa w ust. 3 może zostać dokonane przez Klienta na podstawie pisemnej dyspozycji podpisanej przez upoważnione osoby.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+                            <p style="text-align:center">§14</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Klientowi/Użytkownikowi GTS przysługuje prawo do Zastrzeżenia Usługi GTS.</li>
+                                    <li>W przypadku wystąpienia podejrzeń o nieuprawnionym korzystaniu przez osoby trzecie z  Usługi  GTS należy niezwłocznie zgłosić Zastrzeżenie Usługi GTS:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>telefonicznie za pośrednictwem Doradców iBiznes24.</li>
+                                        </ul>
+                                    <li>Usunięcie Zastrzeżenia Usługi GTS może nastąpić wyłącznie poprzez upoważnionego pracownika Banku na podstawie pisemnej dyspozycji Klienta.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+
+                            <!-- SECCIÓN 8 -->
+                            <div class="slds-text-heading_small">Rozdział 8: Pomoc merytoryczna, techniczna dla Usługi GTS</div>
+                            <p style="text-align:center">§15</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                        <li>Klient/Użytkownik może uzyskać pomoc merytoryczną i techniczną dotyczącą Usługi GTS:</li>
+                                            <ul class="slds-list--dotted">
+                                                <li>dzwoniąc lub wysyłając e-maila do Doradców iBiznes24.</li>
+                                                <li>wysyłając wiadomość przez Skrzynkę odbiorczą usługi iBiznes24.</li>
+                                                <li>poprzez czat w usłudze iBiznes24.</li>
+                                            </ul>
+                                        <li>Doradcy iBiznes24 świadczą pomoc telefoniczną:</li>
+                                            <ul class="slds-list--dotted">
+                                                <li>W godzinach 8:00 – 18:00 w Dni robocze Banku  w zakresie przyjmowania zgłoszeń o wszelkich podejrzanych przypadkach związanych z korzystaniem z Usługi GTS oraz zgłoszeń Użytkowników GTS dotyczących Zastrzeżenia/Zablokowania/odblokowania Usługi GTS.</li>
+                                            </ul>
+                                        <li>Doradcy iBiznes24 w ramach pomocy telefonicznej udzielają informacji dotyczących Usługi GTS oraz wykonują dyspozycje Użytkownika GTS po dokonaniu jego identyfikacji za pomocą Dodatkowego hasła. Bank dopuszcza możliwość identyfikacji Użytkownika GTS także za pomocą innych danych znanych Użytkownikowi GTS lub numeru NIK i Hasła głosowego, o ile Użytkownik GTS złożył próbkę głosu w procesie dostępnym za pośrednictwem Infolinii Banku.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+
+                            <!-- SECCIÓN 9 -->
+                            <div class="slds-text-heading_small">Rozdział 9: Reklamacje</div>
+                            <p style="text-align:center">§16</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Klient ma prawo do składania reklamacji dotyczących  Usługi GTS, z wyłączeniem przypadków wskazanych w §4 ust. 2.</li>
+                                    <li>Klient może złożyć reklamację:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>ustnie: osobiście lub telefonicznie u Doradcy Bankowego lub Doradcy iBiznes24.</li>
+                                            <li>pisemnie: przesyłką pocztową na adres siedziby Banku lub jego dowolnej jednostki organizacyjnej zajmującej się obsługą Klienta lub poprzez kuriera lub posłańca lub osobiście w dowolnej jednostce organizacyjnej Banku zajmującej się obsługą Klienta.</li>
+                                            <li>w formie elektronicznej: poprzez formularz reklamacyjny na Portalu  Banku, a także za pośrednictwem usługi iBiznes24 z wykorzystaniem Skrzynki odbiorczej (w tym celu powinien jasno wskazać, że reklamacja dotyczy Usługi GTS), o ile umożliwia to aktywny Profil dostępny dla Klienta.</li>
+                                        </ul>
+                                        <p>Odpowiednie adresy oraz numery telefonów za pośrednictwem których reklamacja może być złożona dostępne są w jednostkach organizacyjnych Banku zajmujących się obsługą Klienta i wskazane są na Portalu Banku oraz w odpowiednich regulaminach usług świadczonych przez Bank.</p>
+                                    <li>Odpowiedź na reklamację, w zależności od charakteru sprawy i wyboru Klienta, zostanie udzielona do skrzynki odbiorczej usługi iBiznes24 uprawnionego Użytkownika GTS, listownie lub na adres e-mail, o ile został przez klienta wcześniej wskazany w regulacjach, bez zbędnej zwłoki, jednak nie później niż w ciągu 30 dni kalendarzowych od dnia otrzymania reklamacji. W szczególnie skomplikowanych przypadkach uniemożliwiających rozpatrzenie reklamacji i udzielenie odpowiedzi w terminie 30 dni kalendarzowych, termin ten może zostać wydłużony maksymalnie do 60 dni kalendarzowych, po uprzednim wyjaśnieniu przyczyn opóźnienia i wskazaniu okoliczności wymagających dodatkowego ustalenia.</li>
+                                    <li>Szczegółowe informacje dotyczące trybu wnoszenia i rozpatrywania reklamacji przez Bank dostępne są na Portalu Banku oraz w jednostkach organizacyjnych Banku zajmujących się obsługą Klienta.</li>
+                                    <li>Spór pomiędzy Klientem będącym osobą fizyczną a Bankiem w sytuacji nieuwzględnienia przez Bank reklamacji Klienta może być zakończony na drodze pozasądowego postępowania w sprawie rozwiązywania sporów przed Rzecznikiem Finansowym, na zasadach i w trybie określonym w ustawie z dnia 5 sierpnia 2015 r. o rozpatrywaniu reklamacji przez podmioty rynku finansowego i o Rzeczniku Finansowym.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+
+                        <!-- SECCIÓN 10 -->
+                            <div class="slds-text-heading_small">Rozdział 10: Obowiązki i zobowiązania Stron</div>
+                            <p style="text-align:center">§17</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Bank zobowiązuje się:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>udzielić dostępu do Usług GTS za pośrednictwem iBiznes24 zgodnie z Umową GTS i Zasadami.</li>
+                                            <li>w razie konieczności udzielić Klientowi wsparcia w uzyskaniu dostępu do Usług GTS i korzystaniu z nich.</li>
+                                        </ul>
+                                    <li>Klient zobowiązuje się:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>stosować się do wszystkich regulaminów i zasad obowiązujących w Banku regulujących zasady dostępu i korzystania z Usługi iBiznes24, a także wypełniać obowiązki określone w Umowie GTS i niniejszych Zasadach i wszelkich innych umowach zawartych z Bankiem koniecznych do korzystania z Usługi GTS.</li>
+                                            <li>uzyskać i posiadać wszelkie upoważnienia i zgody  konieczne w celu udostępnienia Klientowi korzystania z Usług GTS i wykonywania przez Bank jego obowiązków wynikających z Umowy GTS oraz dostarczyć takie upoważnienia i zgody do Bank przed rozpoczęciem korzystania z Usług GTS. Niezależnie od powyższych zapisów Bank zastrzega sobie prawo do uzyskania w razie potrzeby wszelkich upoważnień i zgód od Klientów Stowarzyszonych, których dotyczą są wykorzystywane lub przetwarzane w związku ze świadczeniem Usług GTS. W przypadku rozbieżności między upoważnieniami uzyskanymi przez Klienta i przez  Bank pierwszeństwo będą miały upoważnienia posiadane przez Bank.</li>
+                                            <li>powiadomić Bank Zagraniczny, od których Bank  musi uzyskać informacje o upoważnieniu lub zgodzie w celu świadczenia Usług GTS, o konieczności dostarczenia tych informacji do Banku za pośrednictwem komunikatów SWIFT.</li>
+                                            <li>Klient zobowiązuje się poinformować Osoby Uprawnione o zakresie nadanych im uprawnień oraz udostępnić tym osobom postanowienia Regulaminów oraz Zasad przez wskazanie ich m.in. na stronie internetowej Banku www.santander.pl lub poprzez ich udostępnienie w formie papierowej lub elektronicznej. Wykonanie dyspozycji, wniosków lub zleceń przez osoby, o których mowa  w ust. 1, upoważnia Bank do ich realizacji.</li>
+                                        </ul>
+                                    <br></br>
+                                    <p style="text-align:center">§18</p>
+                                    <li>Klient składa następujące oświadczenia i zapewnienia:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>posiada wszelkie upoważnienia i zgody wymagane do zawarcia niniejszej Umowy GTS oraz wykonywania wynikających z niej praw i obowiązków, w tym składania dyspozycji, wniosków lub zleceń dotyczących korzystania z Usług przez Klienta lub Osobę Uprawnioną oraz do otrzymywania informacji o Rachunkach Klienta Stowarzyszonego oraz o Rachunkach Zagranicznych Klienta Stowarzyszonego z wykorzystaniem Usługi.</li>
+                                            <li>oświadcza, że  wszelkie upoważnienia i zgody są ważne, autentyczne i nie zostały uchylone ani zmienione oraz jest odpowiedzialny za ich ważność, autentyczność oraz skuteczność.</li>
+                                            <li>posiada pełną zdolność do zawarcia i wykonywania Umowy GTS, a  korzystanie z Usług GTS nie stanowi i nie będzie stanowić naruszenia przepisów prawa, ani żadnego zapisu aktów założycielskich Klienta.</li>
+                                        </ul>
+                                </ol>
+                            </p>
+                            <br></br>
+
+                            <!-- SECCIÓN 11 -->
+                            <div class="slds-text-heading_small">Rozdział 11: Zakres odpowiedzialność</div>
+                            <p style="text-align:center">§19</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Bank nie ponosi odpowiedzialności za jakiekolwiek  straty poniesione przez Klienta w związku z korzystaniem z Usługi GTS lub Klienta Stowarzyszonego korzystających z Usługi GTS na podstawie upoważnienia Klienta, w szczególności za naruszenie bezpieczeństwa lub trudności techniczne, chyba że straty te wynikają z rażącego niedbalstwa lub umyślnej winy  Banku.  Bank nie będzie w żadnych okolicznościach ponosić odpowiedzialności za straty majątkowe lub utracone korzyści Klienta lub Klienta Stowarzyszonego korzystającego z Usługi GTS na podstawie upoważnienia Klienta.  za utratę danych, przerwy w działalności lub jakiekolwiek inne straty wynikające z korzystania lub niezdolności do korzystania z Usługi GTS, niezależnie od okoliczności ich powstania i od tego, czy roszczenia są wysuwane na podstawie umowy, popełnienia czynu niedozwolonego, czy też na innej podstawie – nawet jeżeli  Bank został wcześniej powiadomiony o możliwości takich roszczeń.</li>
+                                    <li>Bank nie ponosi wobec Klienta odpowiedzialności za żadne straty ani szkody, jeżeli nie był w stanie świadczyć Usługi GTS z przyczyn nieleżących po stronie Banku, w tym między innymi:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>niedostępności, awarii lub defektu jakiejkolwiek sieci komunikacyjnej lub kanału elektronicznego albo zakodowania danych, ich utraty podczas przesyłania albo przekazania w niewłaściwej postaci z jakiegokolwiek powodu, w tym defektów sieci komunikacyjnych lub pośredniej albo bezpośredniej awarii zasilania, sprzętu, przetwarzania danych lub łącz przesyłowych.</li>
+                                            <li>okoliczności uniemożliwiających Bankowi świadczenie Usług GTS z dowolnej przyczyny, w tym strajku lub innych akcji protestacyjnych mających bezpośredni wpływ na  wykonywanie Usługi GTS przez Bank, które nie wynikają z rażącego niedbalstwa lub umyślnej winy Banku.</li>
+                                            <li>wszelkich niedogodności doświadczonych przez Klienta  wskutek awarii, uszkodzenia łączy albo jakichkolwiek innych zdarzeń o podobnym charakterze, które pozostają poza kontrolą Banku i uniemożliwiają połączenie z systemem Banku, nie gwarantuje też, że informacje dostarczane przez inne instytucje pozostaną przez cały czas kompletne, aktualne i dostępne i nie przyjmuje odpowiedzialności za te informacje.</li>
+                                            <li>wszelkich szkód wynikających z pomyłek, błędów i nieprawidłowości informacji dostarczonych przez inne banki koniecznych do świadczenia Usługi GTS.</li>
+                                            <li>wszelkich potencjalnych błędów wynikających z awarii, opóźnień, przeciążeń, przerw w transmisji lub innych sytuacji nadzwyczajnych pozostających poza kontrolą  Bank, a mających wpływ na prawidłowe przesyłanie wiadomości SWIFT wykorzystywanych albo wymaganych do świadczenia Usługi GTS.</li>
+                                            <li>wszelkich strat lub kosztów powstałych w wyniku działania lub zaniechania działania przez spółkę SWIFT; wszelkich zobowiązań Klienta wobec SWIFT (lub związanej z nimi straty lub kosztu); lub strat lub kosztów, za które SWIFT byłby odpowiedzialny, gdyby nie wyłączenie lub ograniczenie odpowiedzialności, o których mowa w umowie ze SWIFT lub które zostało w inny sposób narzucone przez SWIFT.</li>
+                                        </ul>
+                                    <li>Na żądanie Klient zwolni Bank z odpowiedzialności z tytułu strat, zobowiązań i kosztów (w tym każdej straty, zobowiązania, opłat prawnych i innych kosztów poniesionych w wyniku obrony przed roszczeniem dotyczącym takiej odpowiedzialności lub zawartą ugodą) powstałych na skutek.</li>
+                                    <li>naruszenia  przez Klienta lub Klienta Stowarzyszonego korzystającego z Usługi GTS na podstawie upoważnienia Klienta, dowolnego zapewnienia, upoważnienia, obowiązującego prawa lub regulacji albo postanowienia Umowy GTS lub niniejszych Zasad.</li>
+                                    <li>Żadne postanowienia niniejszego §18 Zasad nie wyłączają ani nie ograniczają odpowiedzialności  Banku za jego  zawinione działania.</li>
+                                    <li>Bank nie będzie ponosił odpowiedzialności za szkodę poniesioną przez Klienta na skutek Zablokowania lub Zastrzeżenia Usługi GTS, jeśli jest to konieczne lub wymagane ze względów bezpieczeństwa lub technicznych Bank i nie wynika z winy Banku.</li>
+                                    <li>Odpowiedzialność Banku za niewykonanie lub nienależyte wykonanie Umowy jest wyłączona w przypadku siły wyższej. Przez „Siłę Wyższą” należy rozumieć strajk, wojna, zamieszki, rozruchy, stan wyższej konieczność zapewnienia zgodności z przepisami prawa lub nakazem, przepisami prawa, uszkodzenie sprzętu, oprogramowania lub sieci komunikacji (w tym sieci SWIFT), pożar, powódź, epidemie i inne okoliczności leżące poza kontrolą Stron wpływające na dostarczanie produktów i świadczenie Usługi GTS.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+
+                            <!-- SECCIÓN 12 -->
+                            <div class="slds-text-heading_small">Rozdział 12: Opłaty</div>
+                            <p style="text-align:center">§20</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Za korzystanie z usługi GTS, Bank pobiera od Klientów opłaty i prowizje ustalone w obowiązującej Taryfie, o ile nie zostały uzgodnione w Umowie GTS indywidualne opłaty i prowizje.</li>
+                                    <li>Taryfa dostępna jest w Oddziałach Banku oraz na Portalu Banku.</li>
+                                    <li>Bank zastrzega sobie możliwość zmian poszczególnych pozycji i stawek w Taryfie. Zakres oraz warunki dokonywania powyższych zmian określa Taryfa.</li>
+                                    <li>Opłaty i prowizje, o których mowa w ust. 1 pobierane są przez Bank z Rachunków wskazanych przez Klienta w Umowie GTS. Możliwe jest wskazanie innego Rachunku do pobierania opłaty abonamentowej i innego do pobierania opłat jednorazowych.</li>
+                                    <li>Rachunek wskazany w Umowie GTS do pobierania opłat jednorazowych dotyczy też pozostałych opłat i prowizji związanych z realizacją usługi GTS, dla których nie wskazano innego Rachunku dla pobrania opłat i prowizji.</li>
+                                    <li>W przypadku gdy Klient nie zapewni na Rachunku środków w odpowiedniej wysokości na pobranie opłat lub prowizji, o których mowa w ust. 1, Bank może obciążyć Rachunek należnymi opłatami lub prowizjami powodując wystąpienie zadłużenia na Rachunku albo obciążyć inny Rachunek Klienta prowadzony przez Bank, na którym znajdować się będą środki zapewniające pobranie opłaty lub prowizji. W przypadku powstania niedozwolonego zadłużenia stosuje się odpowiednie postanowienia ustalone w umowie dotyczącej prowadzenia danego Rachunku.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+
+                            <!-- SECCIÓN 13 -->
+                            <div class="slds-text-heading_small">Rozdział 13: Wypowiedzenie i rozwiązanie Umowy GTS</div>
+                            <p style="text-align:center">§21</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Umowa GTS może zostać rozwiązana przez każdą ze stron z zachowaniem jednomiesięcznego okresu wypowiedzenia dokonanego w formie pisemnej pod rygorem nieważności.</li>
+                                    <li>Umowa GTS może być rozwiązana na mocy zgodnego porozumienia Stron zawartego w formie pisemnej lub innej formie uzgodnionej przez Strony.</li>
+                                    <li>Umowa może być wypowiedziana przez Bank ze skutkiem natychmiastowym:</li>
+                                        <ul class="slds-list--dotted">
+                                            <li>w przypadku naruszenia przez Klienta postanowień Umowy GTS.</li>
+                                            <li>niewypełnienia przez Klienta dowolnego warunku lub wymogu związanego z korzystaniem z Usługi GTS lub iBiznes24.</li>
+                                            <li>w innych przypadkach określonych w Umowie ramowej o usługi bankowe, Umowie o IBiznes24 oraz Regulaminach lub zasadach mających zastosowanie do nich.</li>
+                                        </ul>
+                                    <li>Rozwiązanie Umowy GTS za wypowiedzeniem dokonane przez Bank uważa się za skutecznie doręczone z chwilą jego doręczenia lub awizowania przez pocztę pod wskazanym przez Klienta adresem do korespondencji.</li>
+                                    <li>Umowa GTS wygasa z chwilą rozwiązania umów wszystkich rachunków prowadzonych dla Klienta w Banku. Umowa GTS wygasa z chwilą utraty bytu prawnego Posiadacza (innego niż osoba fizyczna), przy braku sukcesji jego praw i obowiązków lub śmierci Posiadacza bądź w przypadku rozwiązania umów wszystkich rachunków prowadzonych dla Klienta w Banku.</li>
+                                    <li>Z chwilą  wypowiedzenia Umowy iBiznes24 Umowa GTS zostaje automatycznie wypowiedziana przy czym jej rozwiązanie następuje po upływie okresu wypowiedzenia przewidzianego dla Umowy iBiznes 24.</li>
+                                    <li>W przypadkach rozwiązania niniejszej Umowy tracą moc wszelkie udzielone przez Klienta pełnomocnictwa, upoważnienia i uprawnienia nadane w związku i w celu korzystania z Usług GTS, z wyjątkiem uprawnień nadanych w celu korzystania z usług iBiznes24.</li>
+                                    <li>Rozwiązanie Umowy GTS nie wpływa na prawa i zobowiązania nabyte przez Klienta i Bank do dnia rozwiązania tej umowy.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+
+                            <!-- SECCIÓN 14 -->
+                            <div class="slds-text-heading_small">Rozdział 14: Informacje udostępniane w usłudze GTS</div>
+                            <p style="text-align:center">§22</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Klient/Użytkownik GTS zobowiązuje się do korzystania z Usługi GTS zgodnie z postanowieniami Umowy GTS, niniejszymi Zasadami, Zasadami korzystania z usług bankowości elektronicznej iBiznes24 i innymi uregulowaniami stanowiącymi integralną część Umowy GTS oraz powszechnie obowiązującymi przepisami prawa oraz ponosi pełną odpowiedzialność za działania i zaniechania Użytkowników  GTS w tym zakresie. Klient zobowiązuje się do zapoznania Użytkownika z Regulacjami.</li>
+                                    <li>Bank zobowiązuje się informować Klienta o zmianach w niniejszych Zasadach oraz wszystkich dokumentach stanowiących integralną część Umowy GTS poprzez komunikację mailową na adresy wskazane w Umowie GTS lub poprzez komunikację wysyłaną na Skrzynkę odbiorczą wskazaną w Umowie ramowej o usługi bankowe. Brak wypowiedzenia Umowy GTS przez Klienta w terminie 14 dni od daty udostępnienia przez Bank informacji o zmianach, w trybie określonym powyżej, skutkuje akceptacją tych zmian.</li>
+                                    <li>Klient jest zobowiązany do niezwłocznego pisemnego zawiadomienia Banku o wszelkich zmianach danych zawartych w jego dokumentacji przechowywanej w Banku mających wpływ na korzystanie z Usługi GTS, w tym w szczególności do bieżącej aktualizacji listy Użytkowników GTS lub Osób Uprawnionych. Skutki niedopełnienia tego obowiązku obciążają wyłącznie Klienta.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+                            <p style="text-align:center">§23</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>W przypadku telefonicznego kontaktu Klienta lub Użytkownika GTS z Doradcami iBiznes24 w kwestii Usługi GTS przeprowadzana rozmowa będzie przez Bank rejestrowana, a ponadto Bank w celu identyfikacji rozmówcy zażąda podania Dodatkowego hasła. Bank dopuszcza możliwość identyfikacji Użytkownika także za pomocą innych danych znanych Użytkownikowi.</li>
+                                    <li>Klient oraz Użytkownik GTS wyrażają zgodę na nagrywanie rozmów, określonych w ust.1, oraz wykorzystanie rozmów dla celów dowodowych.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+                            <p style="text-align:center">§24</p>
+                            <p>
+                                <ol class="slds-list--ordered">
+                                    <li>Właściwym dla funkcjonowania Usługi GTS jest czas środkowoeuropejski.</li>
+                                    <li>Właściwym dla Banku organem nadzoru jest Komisja Nadzoru Finansowego.</li>
+                                </ol>
+                            </p>
+                            <br></br>
+                            <p style="text-align:center">§25</p>
+                            <p>O ile Umowa GTS, niniejsze Zasady lub inne uregulowania stanowiące integralną część Umowy GTS nie stanowią inaczej, do Usługi GTS nie mają zastosowania  w całości przepisy Ustawy z dnia 19 sierpnia 2011 r. o usługach płatniczych (Dz.U. z 2019 r., poz. 659 z późn. zm.).</p>
+                        </div>
+                    </div>
+		    <footer class="slds-modal__footer">
+            	   	<div class="slds-form-element__control">
+                		<div class="slds-checkbox">
+                    			<input type="checkbox" name="options" id="checkbox-unique-id-73" value="checkbox-unique-id-73" />
+                    			<label class="slds-checkbox__label" for="checkbox-unique-id-73" data-title-top-left="Check">
+                        			<span class="slds-checkbox_faux" ></span>
+                        			<span class="slds-form-element__label checkboxLabel">label.acceptTerms</span>
+                    			</label>
+                		</div>
+                		<button class="slds-button redButton" id="button-disabled-unique-id-73" disabled="true" data-title="Continue">label.continue</button>
+            		</div>
+        	  </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>

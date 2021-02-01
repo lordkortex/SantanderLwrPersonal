@@ -1,0 +1,23 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <!-- RESOURCES -->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="isSearched"  type="Boolean" default="true" description="Check if we already searched or not"/>
+    <aura:attribute name="searchValue" type="String"  default=""      description="Text entered by user"/>
+
+
+    <div class="UETRimage">
+        <div class="spinnerNoResults">
+            <div role="status" class="slds-spinner">
+                <span class="icon-prohibited"></span>
+            </div>
+            <div class="spinnerText">
+                <div class="title">{!$Label.c.paymentByUETRErrorTitle}</div>
+                <div class="subtitle">{!$Label.c.paymentByUETRErrorSub}</div>
+                <button class="slds-button primary button_big button_full" onclick="{!c.resetSearch}">{!$Label.c.resetSearch}</button>
+            </div>
+        </div>
+    </div>
+</aura:component>

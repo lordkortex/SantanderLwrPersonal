@@ -1,0 +1,224 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_AccountBalance">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="iAccount" type="Object" description="Account information"/>
+    <aura:attribute name="iKey" type="String" description="Id Component"/>
+    <aura:attribute name="iParentId" type="String" description="Parent Component Id"/>
+    <aura:attribute name="iTabSelected" type="String"  description="Current selected tab"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="cmpId" type="String" default="N/A" description="Component Id"/>
+    <aura:attribute name="isOpen" type="Boolean" default="False"/>
+    <aura:attribute name="updatedHour" type ="String" description="It's used to show the hour"/>
+    <aura:attribute name="isLastUpdate" type="Boolean" default="true" description="Flag to indicate whether to show Last Update / End of day"/>
+    <aura:attribute name="filters"    type="List"     description="List passed to the CMP_CN_Filters components to populate the filters"/>
+    <aura:attribute name="source" type="String" description="Source page to know where to navigate to and from"/>
+    <aura:attribute name="iRegister" type="Object" description="Register to display"/>
+    <aura:attribute name="firstAccountCountryList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="firstTAccountCountryList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <!--SNJ - 05/05/2020 - Redirect to Accounts-->
+    <aura:attribute name="iSortSelected" type="String" default="{!$Label.c.Country}" description="Accounts display order"/>
+    <aura:attribute name="iCurrency" type="String" description="The selected currency to make the required changes to calculate the amounts"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+    <aura:attribute name="isOneTrade" type="Boolean" default="false" description="Flag to indicate whether the current screen is OneTrade"/>
+   <!--SNJ - 20/05/2020 - SPINNER ATTRIBUTE-->
+   <aura:attribute name="isLoading" type="Boolean"   default="true" description="Used to show the spinner if the data is loading"/>
+   <!-- DA - 06/11/2020 - Permisos -->
+   <aura:attribute name="showAccount" type="Boolean"   default="true" description="Check if account is visible"/>
+   
+    <!--<aura:attribute name="parsedDate" type="String" default="" description="The date of an account on 'End of day' tab"/>
+    <aura:attribute name="parsedBookBalance" type="Decimal" default="" description="Book balance amount"/>
+    <aura:attribute name="parsedAvailableBalance" type="Decimal" default="" description="Book balance amount"/>-->
+    <!-- <aura:handler name="change" value="{!v.iAccount.amountMainBalance}" action="{!c.displayAmountOne}"/>
+    <aura:handler name="change" value="{!v.iAccount.amountAvailableBalance}" action="{!c.displayAmountTwo}"/> -->
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.convertDateFormat}"/>
+  <!-- <aura:handler name="change" value="{!v.iAccount.amountAvailableBalance}" action="{!c.displayAmountTwo}"/>    
+    <aura:handler name="change" value="{!v.iAccount.amountMainBalance}" action="{!c.displayAmountOne}"/>-->
+    
+    <lightning:navigation aura:id="navService"/>
+    <c:CMP_ServiceComponent aura:id="Service"/>
+    
+    <!-- DA - 06/11/2020 - Permisos -->
+    <aura:if isTrue="{!v.showAccount}">
+        <!--CARD ROW 1-->
+        <!--<div class="slds-card__header slds-grid contentAccount">-->
+        <div class="iElement container slds-hide slds-card__header slds-grid contentAccount">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">			
+                <!-- COLUMNA 1 -->
+                <div class="slds-combobox_container">
+                    <div class="slds-media__figure moreOptions slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox"  id="{!v.iKey + v.iParentId + '_options'}" data-index="{!v.iKey + '_options'}" onclick="{!c.displayOptions}"  >
+                        <button class="slds-button buttonSelected button-options icon-options__empty" data-title="{!$Label.c.MoreOptions}"></button>
+                        
+                        <!-- <aura:if isTrue="{!v.isOpen == true}"> -->
+                        <!-- <c:CMP_AccountsCardRowOptions iAccount="{!v.iAccount}" isCashNexus="{!v.isCashNexus}" iTabSelected="{!v.iTabSelected}"/> -->
+                        <section aria-describedby="dialog-body-id-97" aria-labelledby="dialog-heading-id-5" class="slds-popover slds-popover_prompt contextualMenu" role="dialog" id="popover-unique-id-03">
+                            <div class="slds-popover__body" id="dialog-body-id-97">
+                                <div class="slds-media">
+                                    <div class="slds-media__body">
+                                        <ul class="slds-dropdown__list " role="menu" aria-label="{!$Label.c.MoreOptions}">
+                                            <!-- Transactions access for Cash Nexus -->
+                                            <aura:if isTrue="{!not(v.isOneTrade)}">
+                                                <li class="slds-dropdown__item" role="presentation"  onclick="{!c.goToAccountTransactions}">
+                                                    <a class="slds-button">{!$Label.c.Account_Transactions}</a>
+                                                </li>
+                                            </aura:if>
+                                            <!-- Transactions access for One Trade -->
+                                            <aura:if isTrue="{!and(v.isOneTrade, v.iAccount.transactionsAllowed == true)}">
+                                                <li class="slds-dropdown__item" role="presentation"  onclick="{!c.goToAccountTransactions}">
+                                                    <a class="slds-button">{!$Label.c.Account_Transactions}</a>
+                                                </li>
+                                            </aura:if>
+                                            <!-- Payments Tracker access for Cash Nexus -->
+                                            <aura:if isTrue="{!not(v.isOneTrade)}">
+                                                <aura:if isTrue="{!and(v.iAccount.hasSwiftPayments=='YES', v.iTabSelected != 'EndOfDayTab')}">
+                                                    <li class="slds-dropdown__item" role="presentation" onclick="{!c.goToSwiftTracking}">
+                                                        <a class="slds-button" >{!$Label.c.PaymentsTracker}</a>
+                                                    </li>
+                                                </aura:if>
+                                                <aura:set attribute="else">
+                                                    <!-- Payments Tracker access for One Trade -->
+                                                    <aura:if isTrue="{!and(v.iAccount.hasSwiftPayments == 'true', v.iAccount.internationalPaymentsAllowed == true)}">
+                                                        <li class="slds-dropdown__item" role="presentation" onclick="{!c.goToSwiftTracking}">
+                                                            <a class="slds-button" >{!$Label.c.PaymentsTracker}</a>
+                                                        </li>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                            <li class="{!(v.isCashNexus == 'False' || v.iTabSelected == 'LastUpdateTab')? 'slds-dropdown__item slds-hide' : 'slds-dropdown__item slds-show'}" role="presentation" onclick="{!c.goToHistoryOfExtracts}">
+                                                <a class="slds-button">{!$Label.c.History_of_statements}</a>
+                                            </li>
+                                            <li class="slds-dropdown__item" role="presentation" onclick="{!c.goToAccountDetails}">
+                                                <a class="slds-button">{!$Label.c.Account_details}</a>
+                                            </li>
+                                        </ul> 
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <!-- </aura:if>  -->
+                    </div>
+                </div>
+                <!-- COLUMNA 2 -->
+                <div class="slds-card__header-title  country">
+                    <div class="slds-card__header-title slds-truncate">{!v.iAccount.countryName}</div>
+                </div>
+                <div class="slds-card__header-title accountAlias">
+                    <!-- Transactions hyperlink for One Trade -->
+                    <aura:if isTrue="{!and(v.isOneTrade, not(v.iAccount.transactionsAllowed))}">
+                        <!-- AM - 28/09/2020 - Ebury Accounts -->
+                        <aura:if isTrue="{!v.iAccount.countryName == $Label.c.Ebury}">
+                            <div class="slds-card__header-title slds-truncate eburyAccount">
+                                <p class="slds-card__header-title boldText" data-title="{!$Label.c.Account_Number}">{!v.iAccount.currencyCodeAvailableBalance}&nbsp;{!$Label.c.Ebury}&nbsp;{!$Label.c.Account}</p>
+                                <img class="eburySymbol" src="{!$Resource.Images +'/ebury.svg'}"/>
+                            </div>
+                        <aura:set attribute="else">
+                            <div class="slds-card__header-title slds-truncate">
+                                <p class="slds-card__header-title boldText" data-title="{!$Label.c.Account_Number}">{!v.iAccount.displayNumber}</p>
+                            </div>
+                        </aura:set>
+                        </aura:if>
+                    </aura:if>
+
+                    <!-- Transactions hyperlink for Cash Nexus -->
+                    <aura:if isTrue="{!or(not(v.isOneTrade), and(v.isOneTrade, v.iAccount.transactionsAllowed))}">
+                        <!-- AM - 28/09/2020 - Ebury Accounts -->
+                        <aura:if isTrue="{!v.iAccount.countryName == $Label.c.Ebury}">
+                            <div class="slds-card__header-title slds-truncate eburyAccount" onclick="{!c.goToAccountTransactions}">
+                                <a class="slds-card__header-title boldText" data-title="{!$Label.c.Account_Number}">{!v.iAccount.currencyCodeAvailableBalance}&nbsp;{!$Label.c.Ebury}&nbsp;{!$Label.c.Account}</a>
+                                <img class="eburySymbol" src="{!$Resource.Images +'/ebury.svg'}"/>
+                            </div>
+                        <aura:set attribute="else">
+                            <div class="slds-card__header-title slds-truncate" onclick="{!c.goToAccountTransactions}">
+                                <a class="slds-card__header-title boldText" data-title="{!$Label.c.Account_Number}">{!v.iAccount.displayNumber}</a>
+                            </div>
+                        </aura:set>
+                        </aura:if>
+                    </aura:if>
+
+                    <div class="slds-card__header-title slds-truncate">
+                        {!v.iAccount.alias}
+                    </div>
+                </div>
+                
+                <!-- COLUMNA 3 -->
+                <div class="slds-card__header-title subsidiaryBank">
+                    <div class="slds-card__header-title slds-truncate boldText">
+                        {!v.iAccount.subsidiaryName}
+                    </div>
+                    <div class="slds-card__header-title slds-truncate">
+                        {!v.iAccount.bankName}
+                    </div>
+                </div>
+                
+                <!-- COLUMNA 4 -->
+                <div class="slds-card__header-title updated">                 
+                    <div class="slds-card__header-title slds-truncate">                 
+                        <c:CMP_displayDate convertToUserTimezone="{!v.isLastUpdate}" userDateFormat="{!v.userPreferredDateFormat}" dateClass="" date="{!v.iAccount.lastUpdateAvailableBalanceMain}"/>                    
+                    </div>
+                    <div class="slds-card__header-title slds-truncate">
+                        <aura:if isTrue="{!v.isLastUpdate}" >
+                            {!v.updatedHour}
+                        </aura:if>
+                        <!-- {!v.iAccount.lastUpdateAvailableBalanceTime} -->
+                    </div>
+                </div>
+                
+                <!-- COLUMNA 5 -->
+                <div class="slds-card__header-title currency">
+                    <div class="slds-card__header-title boldText slds-truncate">{!v.iAccount.currencyCodeAvailableBalance}</div>
+                </div>
+                
+                <!-- COLUMNA 6 -->
+                <div class="slds-card__header-title availableBalance">            
+                    <aura:if isTrue="{!or(not(v.isOneTrade), and(v.isOneTrade, v.iAccount.balanceAllowed))}">
+                        <c:CMP_displayAmount aura:id ="avaibleBalanceRow"
+                                            amount="{!v.iAccount.amountAvailableBalance}" 
+                                            decimalClass="decimals boldText" 
+                                            wholeClass="integer boldText"
+                                            numberFormat="{!v.userPreferredNumberFormat}"/>
+                        <aura:set attribute="else">
+                            <span class="integer boldText"></span>
+                            <span class="decimals boldText"></span> 
+                            <span></span>
+                        </aura:set>
+                    </aura:if>
+                </div>            
+                
+                <!-- COLUMNA 7 -->
+                <div class="slds-card__header-title bookBalance">             
+                    <aura:if isTrue="{!or(not(v.isOneTrade), and(v.isOneTrade, v.iAccount.balanceAllowed))}">
+                        <c:CMP_displayAmount aura:id ="bookBalanceRow"
+                                            amount="{!v.iAccount.amountMainBalance}" 
+                                            decimalClass="decimals boldText" 
+                                            wholeClass="integer boldText"
+                                            numberFormat="{!v.userPreferredNumberFormat}"/>
+                        <aura:set attribute="else">
+                            <span class="integer boldText"></span>
+                            <span class="decimals boldText"></span> 
+                            <span></span>
+                        </aura:set>
+                    </aura:if>                
+                </div>
+                
+                <!-- COLUMNA 8 -->
+                <div class="slds-media__figure iconContainer">
+                    <!-- <div class="{!(v.isCashNexus == 'False' || v.iTabSelected == 'EndOfDayTab')? 'button-options icon-tracking slds-hide' : 'button-options icon-tracking slds-show'}" data-title="{!$Label.c.tracking}" onclick="{!c.goToSwiftTracking}"></div> -->
+                    <aura:if isTrue="{!v.isOneTrade}">
+                        <aura:if isTrue="{!and(v.iAccount.hasSwiftPayments == 'true', v.iAccount.internationalPaymentsAllowed == true)}">
+                            <div class="'button-options icon-tracking" data-title="{!$Label.c.tracking}" onclick="{!c.goToSwiftTracking}"></div>
+                        </aura:if>
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{!and(v.iAccount.hasSwiftPayments=='YES', v.iTabSelected != 'EndOfDayTab')}">
+                                <div class="'button-options icon-tracking" data-title="{!$Label.c.tracking}" onclick="{!c.goToSwiftTracking}"></div>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </header>
+        </div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,462 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?waeozu');
+  src:  url('fonts/icomoon.eot?waeozu#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?waeozu') format('truetype'),
+    url('fonts/icomoon.woff?waeozu') format('woff'),
+    url('fonts/icomoon.svg?waeozu#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-circle_check .path1:before {
+  content: "\e94f";
+  color: rgb(68, 68, 68);
+}
+.icon-circle_check .path2:before {
+  content: "\e950";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-circle_exclamation .path1:before {
+  content: "\e951";
+  color: rgb(204, 0, 0);
+}
+.icon-circle_exclamation .path2:before {
+  content: "\e952";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-circle_exclamation .path3:before {
+  content: "\e953";
+  margin-left: -1em;
+  color: rgb(255, 255, 255);
+}
+.icon-income-expenses:before {
+  content: "\e94e";
+  color: #ec0000;
+}
+.icon-reload:before {
+  content: "\e94d";
+  color: #ec0000;
+}
+.icon-international-transfer:before {
+  content: "\e94b";
+  color: #ec0000;
+}
+.icon-other-payments:before {
+  content: "\e94c";
+  color: #ec0000;
+}
+.icon-remove:before {
+  content: "\e94a";
+  color: #ec0000;
+}
+.icon-information:before {
+  content: "\e949";
+  color: #ec0000;
+}
+.icon-transferPayment:before {
+  content: "\e948";
+  color: #ec0000;
+}
+.icon-action:before {
+  content: "\e947";
+  color: #ec0000;
+}
+.icon-more:before {
+  content: "\e945";
+  color: #ec0000;
+}
+.icon-transfer:before {
+  content: "\e946";
+  color: #ec0000;
+}
+.icon-prueba:before {
+  content: "\e944";
+  color: #ec0000;
+}
+.icon-print:before {
+  content: "\e943";
+  color: #ec0000;
+}
+.icon-warning:before {
+  content: "\e942";
+  color: #ec0000;
+}
+.icon-details:before {
+  content: "\e941";
+  color: #ec0000;
+}
+.icon-success:before {
+  content: "\e940";
+  color: #ec0000;
+}
+.icon-close_big:before {
+  content: "\e93f";
+  color: #ec0000;
+}
+.icon-arrowDown:before {
+  content: "\e93d";
+  color: #ec0000;
+}
+.icon-arrowUp:before {
+  content: "\e93e";
+  color: #ec0000;
+}
+.icon-fx:before {
+  content: "\e93b";
+  color: #ec0000;
+}
+.icon-options__empty:before {
+  content: "\e93c";
+  color: #ec0000;
+}
+.icon-faq:before {
+  content: "\e928";
+  color: #ec0000;
+}
+.icon-filter:before {
+  content: "\e939";
+  color: #ec0000;
+}
+.icon-tracking:before {
+  content: "\e93a";
+  color: #ec0000;
+}
+.icon-doc103:before {
+  content: "\e937";
+  color: #ec0000;
+}
+.icon-docPDF:before {
+  content: "\e938";
+  color: #ec0000;
+}
+.icon-docXLS:before {
+  content: "\e918";
+  color: #ec0000;
+}
+.icon-time:before {
+  content: "\e92b";
+}
+.icon-time__gray:before {
+  content: "\e92c";
+  color: #b5b5b5;
+}
+.icon-timeError:before {
+  content: "\e92d";
+  color: #ec0000;
+}
+.icon-timeError__gray:before {
+  content: "\e92e";
+  color: #b5b5b5;
+}
+.icon-timeIn:before {
+  content: "\e92f";
+}
+.icon-timeIn__gray:before {
+  content: "\e930";
+  color: #b5b5b5;
+}
+.icon-timeOut:before {
+  content: "\e931";
+}
+.icon-timeOut__gray:before {
+  content: "\e932";
+  color: #b5b5b5;
+}
+.icon-document:before {
+  content: "\e933";
+  color: #ec0000;
+}
+.icon-settings:before {
+  content: "\e934";
+  color: #ec0000;
+}
+.icon-trackingSearch:before {
+  content: "\e935";
+  color: #ec0000;
+}
+.icon-trash:before {
+  content: "\e936";
+  color: #ec0000;
+}
+.icon-question:before {
+  content: "\e92a";
+  color: #ec0000;
+}
+.icon-add:before {
+  content: "\e900";
+  color: #ec0000;
+}
+.icon-alphabeticalOrderDown:before {
+  content: "\e901";
+  color: #ec0000;
+}
+.icon-alphabeticalOrderUp:before {
+  content: "\e902";
+  color: #ec0000;
+}
+.icon-arrowDown_big:before {
+  content: "\e903";
+  color: #ec0000;
+}
+.icon-arrowDown_small:before {
+  content: "\e904";
+  color: #ec0000;
+}
+.icon-arrowLeft_big:before {
+  content: "\e905";
+  color: #ec0000;
+}
+.icon-arrowLeft_small:before {
+  content: "\e906";
+  color: #ec0000;
+}
+.icon-arrowRight_big:before {
+  content: "\e907";
+  color: #ec0000;
+}
+.icon-arrowRight_small:before {
+  content: "\e908";
+  color: #ec0000;
+}
+.icon-arrowUp_big:before {
+  content: "\e909";
+  color: #ec0000;
+}
+.icon-arrowUp_small:before {
+  content: "\e90a";
+  color: #ec0000;
+}
+.icon-calendar:before {
+  content: "\e90b";
+  color: #ec0000;
+}
+.icon-caution:before {
+  content: "\e90c";
+  color: #ec0000;
+}
+.icon-check:before {
+  content: "\e90d";
+  color: #ec0000;
+}
+.icon-check_circle:before {
+  content: "\e90e";
+  color: #ec0000;
+}
+.icon-circle__blue:before {
+  content: "\e90f";
+  color: #1bb3bc;
+}
+.icon-circle__green:before {
+  content: "\e910";
+  color: #63ba68;
+}
+.icon-circle__orange:before {
+  content: "\e911";
+  color: #fc3;
+}
+.icon-circle__red:before {
+  content: "\e912";
+  color: #c00;
+}
+.icon-close:before {
+  content: "\e913";
+  color: #ec0000;
+}
+.icon-close_emptyCircle:before {
+  content: "\e914";
+  color: #ec0000;
+}
+.icon-close_filledCircle:before {
+  content: "\e915";
+  color: #ec0000;
+}
+.icon-collapse:before {
+  content: "\e916";
+  color: #ec0000;
+}
+.icon-copy:before {
+  content: "\e917";
+  color: #ec0000;
+}
+.icon-download:before {
+  content: "\e919";
+  color: #ec0000;
+}
+.icon-edit:before {
+  content: "\e91a";
+  color: #ec0000;
+}
+.icon-expand:before {
+  content: "\e91b";
+  color: #ec0000;
+}
+.icon-left:before {
+  content: "\e91c";
+  color: #ec0000;
+}
+.icon-mail:before {
+  content: "\e91d";
+  color: #ec0000;
+}
+.icon-options:before {
+  content: "\e91e";
+  color: #ec0000;
+}
+.icon-orderDown:before {
+  content: "\e91f";
+  color: #ec0000;
+}
+.icon-orderUp:before {
+  content: "\e920";
+  color: #ec0000;
+}
+.icon-phone:before {
+  content: "\e921";
+  color: #ec0000;
+}
+.icon-profile:before {
+  content: "\e922";
+  color: #ec0000;
+}
+.icon-prohibited:before {
+  content: "\e923";
+  color: #ec0000;
+}
+.icon-refresh:before {
+  content: "\e924";
+  color: #ec0000;
+}
+.icon-regeneratePassword:before {
+  content: "\e925";
+  color: #ec0000;
+}
+.icon-right:before {
+  content: "\e926";
+  color: #ec0000;
+}
+.icon-search:before {
+  content: "\e927";
+  color: #ec0000;
+}
+.icon-viewProfile:before {
+  content: "\e929";
+  color: #ec0000;
+}
+
+#modal-heading-01-12 {
+  font-family: cursive!important;
+}
+.input_lwc input{
+	border: 1px solid #deedf2;
+  border-bottom-color: #257fa4;
+  border-radius: 4px;
+  background-color: #f6fafc;
+  color: #444;
+  cursor: pointer;
+  font-family: SantanderMicroText;
+  font-size: 16px;
+  height: 48px;
+  line-height: 24px;
+  width: 240px;
+}
+.lcheckbox_lwc .slds-form-element__label{
+  color: #444444;
+  display: inline;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  font-size: 16px!important;
+  line-height: 40px;
+  vertical-align: middle;
+}
+.lcheckbox_lwc .slds-checkbox_faux {  
+  display: none;
+}
+.lcheckbox_lwc .slds-checkbox{
+  margin-left: 4px;
+  text-align: left;
+  padding-left: 16px;
+}
+.lcheckbox_lwc .slds-checkbox:hover {
+  background-color: #e8f3f6;
+  border-radius: 4px;
+}
+.lcheckboxac_lwc .slds-checkbox_faux {
+  width: 24px;
+  height: 24px;
+  border-color: #767676;
+  border-radius: 4px;
+}
+.lcheckboxac_lwc .slds-checkbox {
+  width: 100%;
+  text-align: left;
+  border-radius: 4px;
+  border-color: #767676;
+  cursor: pointer;
+  height: 31px;
+  margin-left: 12px;
+  margin-right: 8px;
+  width: 27px;
+}
+.fromdropdown .slds-checkbox {
+  align-items: center;
+  display: flex;
+  height: 36px;
+  margin-bottom: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.fromdropdown .slds-checkbox_faux {
+  border-radius: 4px;
+  color: #222222;
+  cursor: pointer;
+  height: 24px;
+  margin-left: 11px;
+  margin-right: 8px;
+  width: 24px;
+}
+
+.fromdropdown .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+  color: #444444;
+  display: inline;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  line-height: 24px;
+  vertical-align: middle;
+}
+.date_lwc input {
+  background-color: #f6fafc;
+  border-color: #deedf2;
+  border-width: 1px 1px 0 1px;
+  border-style: solid;
+  border-image: initial;
+  border-radius: 4px 4px 0 0;
+  box-shadow: inset 0 -1px 0 0 #257fa4;
+  display: inline-block;
+  height: 48px;
+  line-height: 36px;
+  padding: 0 1rem 0 .75rem;
+  transition: none;
+  width: 172px;
+  color: #444444;
+  font-size: 16px;
+}

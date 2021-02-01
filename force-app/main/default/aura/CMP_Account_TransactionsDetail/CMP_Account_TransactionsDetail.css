@@ -1,0 +1,290 @@
+.THIS.cardTransactionDetail {
+    background-color: #ffffff;
+    border: none;
+    padding: 0px;
+    margin-bottom: 16px;
+    font-family: "SantanderMicroText";
+}
+
+.THIS.cardTransactionDetail .information {
+	color: #444444;
+    display: flex;
+	font-size: 14px;
+	line-height: 20px;
+	margin-bottom: 16px;
+	position: relative;
+}
+
+.THIS.cardTransactionDetail .name {
+	color: #767676;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.THIS.cardTransactionDetail .slds-card__header:last-child .information {
+	margin-bottom: 0;
+}
+
+.THIS .iconLink{
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    margin-left: 8px;
+    height: 20px;
+}
+
+.THIS .icon-copy:before {
+	font-size: 24px;
+    margin-right: 4px;
+}
+
+.THIS .text-link{
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.THIS.cardTransactionDetail .slds-card__header.slds-grid {
+	margin: 0;
+	padding: 0;
+}
+
+.THIS.cardTransactionDetail .slds-card__header>.slds-card__header-title {
+    min-width: 266px;
+    margin-right: 46px;
+}
+
+
+/* EBURY */
+.THIS.slds-card + .slds-card {
+    margin-top: 26px;
+}
+
+.THIS.cardAccountDetail {
+    width: 808px;
+    border: none;
+}
+
+.THIS.cardAccountDetail .slds-card__header {
+    border-bottom: 1px solid #cedee7;
+    padding: 0;
+    margin: 0;
+}
+.THIS.cardAccountDetail .slds-card__header .slds-media__body {
+    height: 32px;
+    padding-bottom: 8px;
+}
+
+.THIS.cardAccountDetail .slds-card__body,
+.THIS.cardAccountDetail .slds-card__body_inner {
+    padding: 0;
+    margin: 0;
+}
+
+.THIS.cardAccountDetail .slds-card__body .firstCol {
+    width: 266px;
+    margin-right: 150px;
+}
+
+.THIS.cardAccountDetail .slds-card__body .textRow {
+    padding-top: 8px;
+}
+.THIS.cardAccountDetail .slds-card__body .textRow > div:nth-of-type(2){
+    margin-bottom: 8px;
+}
+
+.THIS.cardAccountDetail .slds-card__body .slds-grid {
+    max-width: fit-content;
+}
+
+.THIS.cardAccountDetail .slds-text-heading_small{
+    color: #444444;
+    font-family: "SantanderMicroText-Bd";
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: normal;
+}
+
+.THIS.cardAccountDetail .slds-text-body_regular{
+    color: #0d0d0d;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: normal;
+}
+
+.THIS.cardAccountDetail .text-grey{
+    color: #767676;
+}
+
+.THIS.cardAccountDetail .icon{
+    height: 40px;
+    margin-left: 16px;
+    width: 24px;
+}
+.THIS.cardAccountDetail .text-link{
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 24px;
+}
+
+.THIS.cardAccountDetail .icon.icon-copy:hover .text-link{
+    color: #cc0000;
+}
+
+.THIS.cardAccountDetail .icon.icon-copy{
+    display: inline-flex;
+    align-items: flex-end;
+    cursor: pointer;
+    margin-left: 8px;
+}
+
+.THIS.cardAccountDetail .icon-copy:before{
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.THIS.cardAccountDetail .icon-edit:before{
+    cursor: pointer;
+    position: absolute;
+    font-size: 24px;
+    top: 16px;
+}
+.THIS.cardAccountDetail .icon-edit:after{
+    position: absolute;
+    top: 28px;
+    left: 26px;
+    width: max-content;
+}
+.THIS.cardAccountDetail .slds-form-element__control {
+    display: flex;
+}
+.THIS.cardAccountDetail .slds-grid.slds-grid_align-spread {
+  	border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+	border-radius: 4px 4px 0px 0px;
+    background-color: #f6fafc;
+	cursor: pointer;
+	height: 48px;
+    width: max-content;
+    margin: 0;
+    margin-top: 4px;
+    padding: 0;
+}
+.THIS.cardAccountDetail .slds-input {
+    border: none;
+    border-radius: 0px;
+    background-color: transparent;
+    color: #444444;
+	cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+	height: 48px;
+    line-height: 24px;
+    padding: 12px 0;
+    padding-left: 16px;
+    padding-right: calc(16px + 24px + 24px + 24px + 8px);
+    width: 288px;
+}
+.THIS.cardAccountDetail .slds-input:focus {
+    border-bottom: 2px solid #257fa4;
+    color: #444444;
+}
+
+.THIS.cardAccountDetail .slds-button {
+    position: absolute;
+    right: calc(16px + 24px + 24px);
+    margin: 0;
+    border: none;
+    height: 48px;
+}
+.THIS.cardAccountDetail .slds-button:last-child {
+    position: absolute;
+    right: 16px;
+    margin: 0;
+    border: none;
+    height: 48px;
+}
+.THIS.cardAccountDetail .slds-grid.slds-grid_align-spread .slds-button .slds-button__icon.icon-check{
+    height: 24px;
+    width: 24px;
+    margin: 0;
+}
+
+.THIS.cardAccountDetail .icon-check:before {
+    position: absolute;
+    top: 16px;
+    right: 4px;
+    background-color: #9bc3d3;
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+    font-size: 12px;
+    padding: 2px;
+    color: #ffffff;
+}
+
+.THIS.cardAccountDetail .slds-grid.slds-grid_align-spread .slds-button .slds-button__icon.icon-close_filledCircle{
+    height: 24px;
+    width: 24px;
+    margin: 0;
+    padding: 2px;
+}
+.THIS.cardAccountDetail .icon-close_filledCircle:before {
+    font-size: 20px;
+    color: #cccccc;
+}
+
+.THIS.cardAccountDetail .textHelp{
+    align-items: center;
+	color: #444444;
+    display: flex;
+	font-family: "SantanderMicroText";
+	font-size: 12px;
+	height: 20px;
+    padding-left: 12px;
+}
+
+.THIS.cardAccountDetail ::-webkit-input-placeholder { color: #767676; }
+ 
+.THIS.cardAccountDetail :-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+.THIS.cardAccountDetail ::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+.THIS.cardAccountDetail :-ms-input-placeholder { color: #767676; }
+
+
+.THIS .slds-input:active, .THIS .slds-input:focus {
+    box-shadow: none;
+}
+
+.THIS.slds-card + .slds-card {
+    margin-top: 26px;
+}
+
+.THIS.cardAccountDetail.ebury .slds-card__body .firstCol {
+    width: 392px;
+    margin-right: 24px;
+}
+.THIS.cardAccountDetail.ebury .slds-card__body .secondCol {
+    width: 392px;
+}
+
+.THIS.cardAccountDetail.ebury .row{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 48px;
+    padding: 16px 0 8px 0;
+    border-bottom: 1px solid #cedee7;
+}
+
+.THIS.cardAccountDetail.ebury .row span{
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+
+.THIS.cardAccountDetail.ebury .eburySymbol{
+    margin-left: 8px;
+}

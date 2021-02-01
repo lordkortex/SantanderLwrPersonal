@@ -1,0 +1,72 @@
+<!--
+Author:         D. de Asis
+Company:        Deloitte
+Description:    Component to show the IPT
+History
+<Date>			<Author>		<Description>
+27/02/2020		D. de asis     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_WelcomePack_Controller">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="showModal" type="Boolean"/>
+    <aura:attribute name="selectedCheckbox" default="false" type="Boolean"/>
+    
+    <aura:if isTrue="{!v.showModal}">
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open welcomePack">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header slds-modal__header_empty">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick="{!c.closeModal}">
+                        <div class="slds-button button-page icon-close" data-title-top-center="{!$Label.c.close}"></div> 
+                        <span class="slds-assistive-text">{!$Label.c.close}</span>
+                    </button>
+                </header>
+                <body>
+                    <lightning:carousel disableAutoRefresh="false" disableAutoScroll="false" scrollDuration="8"> 
+                        <lightning:carouselImage
+                                                 src = "{!$Resource.Images + '/Welcome-pack-slide-001.svg'}"
+                                                 header = "{!$Label.c.welcomeHeader1}"
+                                                 description = "{!$Label.c.welcomeDes1}"
+                                                 alternativeText = "{!$Label.c.welcomeHeader1}" > 
+                        </lightning:carouselImage>
+                        <lightning:carouselImage
+                                                 src = "{!$Resource.Images + '/Welcome-pack-slide-002.svg'}"
+                                                 header = "{!$Label.c.welcomeHeader2}"
+                                                 description = "{!$Label.c.welcomeDes2}" 
+                                                 alternativeText = "{!$Label.c.welcomeHeader2}"> 
+                        </lightning:carouselImage>
+                        <lightning:carouselImage
+                                                 src = "{!$Resource.Images + '/Welcome-pack-slide-003.svg'}"
+                                                 header = "{!$Label.c.welcomeHeader3}"
+                                                 description = "{!$Label.c.welcomeDes3}"
+                                                 alternativeText = "{!$Label.c.welcomeHeader3}">
+                        </lightning:carouselImage>
+                        <lightning:carouselImage
+                                                 src = "{!$Resource.Images + '/Welcome-pack-slide-004.svg'}"
+                                                 header = "{!$Label.c.welcomeHeader4}"
+                                                 description = "{!$Label.c.welcomeDes4}"
+                                                 alternativeText = "{!$Label.c.welcomeHeader4}">
+                        </lightning:carouselImage>
+                        <lightning:carouselImage
+                                                 src = "{!$Resource.Images + '/Welcome-pack-slide-005.svg'}"
+                                                 header = "{!$Label.c.welcomeHeader5}"
+                                                 description = "{!$Label.c.welcomeDes5}"
+                                                 alternativeText = "{!$Label.c.welcomeHeader5}">
+                        </lightning:carouselImage>
+                    </lightning:carousel>
+                    <div class="slds-form-element carousel-footer">
+                        <div class="slds-form-element__control">
+                            <div class="slds-checkbox" data-title="Check">
+                                <input type="checkbox" name="options" id="checkbox-unique-id-73" value="checkbox-unique-id-73"/>
+                                <label class="slds-checkbox__label" for="checkbox-unique-id-73">
+                                    <span class="slds-checkbox_faux"></span>
+                                    <span class="slds-form-element__label checkboxLabel" >{!$Label.c.welcomeCheckbox}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </body>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

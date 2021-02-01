@@ -1,0 +1,80 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_IPTDetailParent">
+    
+    <aura:attribute name="paymentId" type="String" description="Payment Identifier" default="N/A"/>
+    <aura:attribute name="uetr" type="String" description="Payment Identifier" default="N/A"/>
+    <aura:attribute name="agent" type="String" description="Payment Account BIC"/>
+    <aura:attribute name="totalElapsedTime" type="String" />
+
+    <aura:attribute name="jsonObject" type="Object" description="Account payment received information"/>
+    <aura:attribute name="backfront" type="Boolean" default="false"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:attribute name="iObject" type="CNT_IPTDetailParent" />
+    <aura:attribute name="comesFromUETRSearch" type="boolean" default="false" description="Indicates if comes from the UETR search page"/>
+
+    <aura:attribute name="urlOK" type="Boolean" default="false"/>
+    <aura:attribute name="ready" type="Boolean" default="false"/>
+
+    <aura:attribute name="sendObject" type="Map"
+                    default="{
+                             currentBank : '',
+                             currentEntity : '',
+                             status : '',
+                             statusUpdate : '',
+                             totalAmount : 0,
+                             totalFee : 0,
+                             currency_aux : '',
+                             valueDate :  '',
+                             totalElapsedDate : '',
+                             orderingAccount : '',
+                             orderingBIC : '',
+                             beneficiaryAccount : '',
+                             beneficiaryBank : '',
+                             beneficiaryBIC : '',
+                             charges : ''                             
+                             }" description="Payment header information"/>
+    <aura:attribute name="trackingList" type="List" description="A movement list of a payment tracker" />
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+
+    <aura:attribute name="BICList" type="List"/>
+
+    <!--0 = do not show fees
+        1 = do not show amount
+        2 = show amount-->
+    <aura:attribute name="showFee" type="String" default="1"/>
+
+    <aura:handler name="paymentDetailEvent" event="c:EVT_IPTPaymentDetail" action="{!c.getDataEvent}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!--<aura:handler name="change" value="{!v.agent}" action="{!c.getInformationFromURL}"/>-->
+    
+
+   <!-- <aura:if isTrue="{!v.backfront==false}">
+        <c:CMP_TitleBreadcrumb title="{!$Label.c.Details}" breadcrumb="['International_Treasury_Management','SwiftPaymentsTitle', 'Details']"/>    
+    </aura:if>
+    <aura:if isTrue="{!v.showError == true}" >
+        <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.ERROR_NOT_RETRIEVED}"/>
+        <c:CMP_PaymentDetailsHeader iObject="{!v.iObject}" totalElapsedTime="{!v.totalElapsedTime}"/>
+        <aura:set attribute="else">
+            <c:CMP_PaymentDetailsHeader iObject="{!v.iObject}" totalElapsedTime="{!v.totalElapsedTime}"/>
+            {!v.iObject.stepList.length}
+            <aura:if isTrue="{!v.iObject.stepList.length > 0}">
+
+                <c:CMP_PaymentTracking iObject="{!v.iObject}"/>
+            </aura:if>
+        </aura:set>
+    </aura:if>
+-->
+    <aura:if isTrue="{!v.ready}">
+
+        <aura:if isTrue="{!v.showError == true}" >
+            <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.ERROR_NOT_RETRIEVED}"/>
+        </aura:if> 
+
+        <c:CMP_PaymentDetailsHeader iObject="{!v.iObject}" totalElapsedTime="{!v.totalElapsedTime}" showFee="{!v.showFee}" comesFromUETRSearch="{!v.comesFromUETRSearch}"/>
+
+
+        <aura:if isTrue="{!v.showError == false}">
+            <c:CMP_IPTDetailProgress iObject="{!v.iObject}" backfront="true" showFee="{!v.showFee}"/>
+        </aura:if>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,110 @@
+<!--
+Author:         Shahad Naji 
+Company:        Deloitte
+Description:    Main component of Global Balance community page
+History
+<Date>			<Author>		    <Description>
+01/09/2019		Laura Espinel		Design
+25/10/2019		Amanda Fernandez	Layout coding of the page
+28/10/2019		Shahad Naji     	Initial version
+28/10/2019		Shahad Naji 		Interactive web pages and Back-end development
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_International_Treasury_Management" >
+    
+    <aura:attribute name="rGlobalBalance" type="CNT_International_Treasury_Management" description="Last Update Global Balance Information"/>
+    <aura:attribute name="tGlobalBalance" type="CNT_International_Treasury_Management" description="Yesterday Global Balance Information"/>
+    
+    <aura:attribute name="accountCountryList" type="List"  access="global" description="Each register of this list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="accountCurrencyList" type="List" description="Each register of this list contains two attributes --> Key: Currency and Value: List of Accounts"/>
+    <aura:attribute name="accountSubsidiaryList" type="List" description="Each register of this list contains two attributes --> Key: Susidiary and Value: Lsit of Accounts"/>
+    
+    <aura:attribute name="tAccountCountryList" type="List"  access="global" description="Each register of this list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="tAccountCurrencyList" type="List" description="Each register of this list contains two attributes --> Key: Currency and Value: List of Accounts"/>
+    <aura:attribute name="tAccountSubsidiaryList" type="List" description="Each register of this list contains two attributes --> Key: Susidiary and Value: Lsit of Accounts"/>
+    
+    
+    <aura:attribute name="currentUserCurrency" type="String" default="EUR" description="User currency for default tab"/>
+    <aura:attribute name="tCurrentUserCurrency" type="String" default="EUR" description="User currency for 'End of day' tab"/>
+    <aura:attribute name="rCurrentUserCurrency" type="String" default="EUR" description="User currency for 'End of day' tab"/>
+    <aura:attribute name="currentUserLanguage" type="String" default="N/A" description="Community user language"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="agreedTerms" type="Boolean" default="False" description="True if current user is has agreed terms, else, false"/>
+    <aura:attribute name="isBIC" type="Boolean" default="False" description="True if current user is has agreed terms, else, false"/>
+    <aura:attribute name="sortSelected" type="String" default="{!$Label.c.GlobalBalanceOrderOne}" description="Accounts display order"/>
+    <aura:attribute name="tabSelected" type="String" default="LastUpdateTab" description="Current selected tab"/>
+    
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="type" type="String" default='success'/>
+    <aura:attribute name="show" type="Boolean" default='false'/>
+    <aura:attribute name="showTerms" default="false" type="Boolean" description="Show terms and conditions"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="Currency_Exchanger" event="c:EVT_Currency_Exchange" action="{!c.exchangeCurrency}"/>
+    <aura:handler name="GlobalBalanceSort" event="c:EVT_GlobalBalanceSort" action="{!c.doSort}"/>
+    <aura:handler name="GlobalBalanceTab" event="c:EVT_CurrentTabSelected" action="{!c.showHideContent}"/>
+    <aura:handler name="GlobalBalanceDownload" event="c:EVT_Download" action="{!c.download}"/>
+    <aura:handler name="termsConditionsEvent" event="c:EVT_TermsConditions" action="{!c.checkTerms}"/>
+    
+    <lightning:spinner aura:id="spinner" variant="brand"  size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+    
+    <aura:if isTrue="{!v.showTerms == false}">
+        
+        <c:CMP_Toast type="{!v.type}" show="{!v.show}" message="{!v.message}"/>    
+        <c:CMP_GlobalBalanceTabs isCashNexus="{!v.isCashNexus}"/>       
+        
+        
+        <div aura:id="LastUpdateTabContent" class="slds-show">
+            <aura:if isTrue="{!not(empty(v.rGlobalBalance.currencyList))}">
+                <c:CMP_CurrencyExchange accountCurrencies="{!v.rGlobalBalance.currencyList}"/>
+            </aura:if>
+            <aura:if isTrue="{!not(empty(v.rGlobalBalance.accountList))}">
+                <c:CMP_Global_Available_Balance accountList="{!v.rGlobalBalance.accountList}" currentCurrency="{!v.rCurrentUserCurrency}"/>
+            </aura:if>
+            <c:CMP_GlobalBalanceOrder sortSelected="{!v.sortSelected}" itabSelected="LastUpdateTab"/>    
+            <aura:if isTrue="{!v.sortSelected == $Label.c.GlobalBalanceOrderOne}">
+                <aura:iteration items="{!v.accountCountryList}" var="item" indexVar="key">            
+                    <c:CMP_CountryBalance iRegister="{!item}"  iCurrency="{!v.rCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" iTabSelected="LastUpdateTab" index="{!key}" isCashNexus="{!v.isCashNexus}"/>
+                </aura:iteration>
+            </aura:if>
+            <aura:if isTrue="{!v.sortSelected == $Label.c.GlobalBalanceOrderThree}">
+                <aura:iteration items="{!v.accountCurrencyList}" var="item" indexVar="key">         
+                    <c:CMP_CountryBalance iRegister="{!item}"  iCurrency="{!v.rCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" iTabSelected="LastUpdateTab" index="{!key}" isCashNexus="{!v.isCashNexus}"/>      
+                </aura:iteration>
+            </aura:if>
+            <aura:if isTrue="{!v.sortSelected == $Label.c.GlobalBalanceOrderTwo}">
+                <aura:iteration items="{!v.accountSubsidiaryList}" var="item" indexVar="key">
+                    <c:CMP_CountryBalance iRegister="{!item}"  iCurrency="{!v.rCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" iTabSelected="LastUpdateTab" index="{!key}" isCashNexus="{!v.isCashNexus}"/>
+                </aura:iteration>        
+            </aura:if>
+        </div>
+        
+        <div aura:id="EndOfDayTabContent" class="slds-hide">
+            <aura:if isTrue="{!not(empty(v.tGlobalBalance.currencyList))}">
+                <c:CMP_CurrencyExchange accountCurrencies="{!v.tGlobalBalance.currencyList}"/>
+            </aura:if>
+            <aura:if isTrue="{!not(empty(v.tGlobalBalance.accountList))}">
+                <c:CMP_Global_Available_Balance accountList="{!v.tGlobalBalance.accountList}" currentCurrency="{!v.tCurrentUserCurrency}"/>
+            </aura:if>
+            
+            <c:CMP_GlobalBalanceOrder sortSelected="{!v.sortSelected}" itabSelected="EndOfDayTab"/> 
+            <aura:if isTrue="{!v.sortSelected == $Label.c.GlobalBalanceOrderOne}">
+                <aura:iteration items="{!v.tAccountCountryList}" var="item" indexVar="key">            
+                    <c:CMP_CountryBalance iRegister="{!item}"  iCurrency="{!v.tCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" iTabSelected="EndOfDayTab" isCashNexus="{!v.isCashNexus}"/>
+                </aura:iteration>
+            </aura:if>
+            <aura:if isTrue="{!v.sortSelected == $Label.c.GlobalBalanceOrderThree}">
+                <aura:iteration items="{!v.tAccountCurrencyList}" var="item" indexVar="key">         
+                    <c:CMP_CountryBalance iRegister="{!item}"  iCurrency="{!v.tCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" iTabSelected="EndOfDayTab" isCashNexus="{!v.isCashNexus}"/>      
+                </aura:iteration>
+            </aura:if>
+            <aura:if isTrue="{!v.sortSelected == $Label.c.GlobalBalanceOrderTwo}">
+                <aura:iteration items="{!v.tAccountSubsidiaryList}" var="item" indexVar="key">
+                    <c:CMP_CountryBalance iRegister="{!item}"  iCurrency="{!v.tCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" iTabSelected="EndOfDayTab" isCashNexus="{!v.isCashNexus}"/>
+                </aura:iteration>        
+            </aura:if>
+        </div>
+    </aura:if>
+    
+    <c:CMP_TermsConditions aura:id="termsConditions" showModal="{!v.showTerms}"/>
+    
+</aura:component>

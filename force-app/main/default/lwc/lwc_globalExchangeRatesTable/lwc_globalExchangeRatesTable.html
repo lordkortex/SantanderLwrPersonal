@@ -1,0 +1,69 @@
+<template>
+    <!-- <aura:attribute name="selectedCurrency" type="String" description="contains the selected Currency" />
+    <aura:attribute name="exchangeRates" type="List" description="Contains the exchange rates" />
+    <aura:attribute name="upToDate" type="String" description="Date of the most recent currency exchange information from the BCE"/>
+    <aura:attribute name="upToHour" type="String" description="Hour of the most recent currency exchange information from the BCE"/>
+    <aura:attribute name="eRatesLastModifiedDate"  type="String" description="Most recent date of the exchange rates update in Salesforce currencies"/>
+    <aura:attribute name="eRatesLastModifiedDateMain" type="String" description="Most recent date of the exchange rates update in Salesforce currencies"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+
+    <aura:attribute name="rowsPerPage" type="Integer" default="6" description="Number of valuea that every page will contain" />
+    <aura:attribute name="pages" type="List" default="[1]" description="contains the pages for the carousel" />
+    <aura:attribute name="start" type="Integer"  description="contains the pages for the carousel" />
+    <aura:attribute name="end" type="Integer"  description="contains the pages for the carousel" /> -->
+	
+    <!--SNJ - 22/04/2020 - doInit to format date-->
+    
+    <!-- <aura:handler name="change" value="{!v.exchangeRates}" action="{!c.updateCarousel}"/> -->
+
+    <!-- <aura:handler name="change" value="{!v.eRatesLastModifiedDate}" action="{!c.displayBceTimestamp}" />  -->
+
+    <div class="slds-grid title_container">
+        <div class="slds-col">
+            <div class="slds-text-heading_medium">{label.consolidationExchangeRates}</div>
+            <div class="text_line"></div>
+            <div class="subtitle">{label.currencyExchangeSourceBCE}</div> 
+            <div if:true={isUpToDateHour}>
+                <div class="subtitle-date"> 
+                    <c-lwc_display-date
+                        aura:id="displayDate" 
+                        userdateformat={userpreferreddateformat}
+                        dateclass=""  
+                        date={upToDate}>
+                    </c-lwc_display-date>
+                </div>
+            </div>
+            <div if:false={isUpToDateHour}>
+                <div class="subtitle-date">N/A</div>
+            </div>
+        </div> 
+    </div>
+    <c-lwc_global-exchange-rates-single
+        exchangerates={exchangerates}
+        selectedcurrency={selectedcurrency}
+        start={start}
+        end={end}
+        userpreferrednumberformat={userpreferrednumberformat}>
+    </c-lwc_global-exchange-rates-single>
+
+    <div class="nav-carousel">
+        <a id={arrow.previous} class="slds-carousel__arrow arrow_left" href="javascript:void(0);" onclick={changePage}>
+            <span class="icon-arrowLeft_big"></span>
+        </a>
+            
+        <ul class="slds-carousel__indicators" role="tablist">
+            <template for:each={pages} for:item="item" >
+
+                <li key={item.pageNum} id={item.pageNum} class="slds-carousel__indicator" role="presentation">
+                    <a id={item.id} class="slds-carousel__indicator-action slds-is-active" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" onclick={changePage}></a>
+                </li>
+
+            </template>
+
+        </ul>
+        <a id={arrow.next} class="slds-carousel__arrow arrow_right" href="javascript:void(0);" onclick={changePage}>
+            <span class="icon-arrowRight_big" ></span>
+        </a>
+    </div> 
+</template>

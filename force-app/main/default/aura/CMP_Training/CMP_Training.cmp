@@ -1,0 +1,57 @@
+<!--
+Author:         Diego Asis
+Company:        Deloitte
+Description:    Training screen 
+History
+<Date>			<Author>		    <Description>
+27/01/2020		Diego Asis     		Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+	
+    <c:CMP_Title title="{!$Label.c.Training_Title}"></c:CMP_Title>
+    
+    <aura:attribute name="paymentsList" type="List" access="global" />
+    <aura:attribute name="beneficiaryList" type="List"/>
+    <aura:attribute name="usersList" type="List"/>
+    <aura:attribute name="rolesList" type="List"/>
+    <aura:attribute name="groupsList" type="List"/>
+    <aura:attribute name="authorisationsList" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+      <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <div class="slds-grid slds-wrap firstRow">
+        <div class="first">
+            <aura:if isTrue="{!not(empty(v.paymentsList))}">
+            	<c:CMP_Card title="{!$Label.c.Payments}" subtitle="{!v.paymentsList}"/>
+            </aura:if>
+        </div>
+        <div class="first">
+            <aura:if isTrue="{!not(empty(v.beneficiaryList))}">
+            	<c:CMP_Card title="{!$Label.c.Beneficiary}" subtitle="{!v.beneficiaryList}"/>
+            </aura:if>
+        </div>
+        <div >
+            <aura:if isTrue="{!not(empty(v.usersList))}">
+            	<c:CMP_Card title="{!$Label.c.Users}" subtitle="{!v.usersList}"/>
+            </aura:if>
+        </div>
+    </div>
+    <div class="slds-grid slds-wrap lastRow">
+        <div class="first">
+            <aura:if isTrue="{!not(empty(v.rolesList))}">
+            	<c:CMP_Card title="{!$Label.c.Roles}" subtitle="{!v.rolesList}"/>
+            </aura:if>
+        </div>
+        <div class="first">
+            <aura:if isTrue="{!not(empty(v.groupsList))}">
+            	<c:CMP_Card title="{!$Label.c.Groups}" subtitle="{!v.groupsList}"/>
+            </aura:if>
+        </div>
+        <div>
+            <aura:if isTrue="{!not(empty(v.authorisationsList))}">
+            	<c:CMP_Card title="{!$Label.c.AuthorisationPolicies}" subtitle="{!v.authorisationsList}"/>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,153 @@
+.THIS {
+    background-color: #ececec;
+}
+
+.THIS.amountDecimals{
+    font-family:"SantanderTextW05-Bold";
+    font-size: 10px;
+}
+
+.THIS div::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS div::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.THIS div::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+.THIS div::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+.THIS.slds-table--header-fixed_container .slds-scrollable_y {
+    max-height: 268px;
+}
+
+.THIS.slds-table_header-fixed_container::before,
+.THIS.slds-table--header-fixed_container:before {
+    border-bottom: 0;
+}
+
+.THIS .slds-table_striped tbody tr:nth-of-type(2n)>td,
+.THIS .slds-table_striped tbody tr:nth-of-type(2n)>th,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n)>td,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n)>th {
+    background-color: #f9fcfd;
+}
+
+.THIS tbody tr {
+    border: 1px solid #ececec;
+}
+
+.THIS tbody tr .slds-truncate {
+    display: inline-block;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.THIS tbody tr .slds-truncate.amountDecimals {
+    font-size: 10px;
+    line-height: 18px;
+}
+
+.THIS tbody tr td:last-child .slds-truncate.amountDecimals {
+    padding-top: 2px;
+}
+
+.THIS tbody tr td:last-child .slds-truncate.amountDecimals,
+.THIS tbody tr td:last-child .slds-truncate.amountInteger {
+    font-family: SantanderTextW05-Bold;
+}
+
+.THIS tbody tr td {
+    color: #444444;
+    padding: 0 24px;
+    text-align: right;
+}
+
+.THIS tbody tr td:first-child {
+    text-align: left;
+    width: 20%;
+}
+
+.THIS tbody tr td:nth-child(2) {
+    width: 25%;
+}
+
+.THIS tbody tr td:nth-child(3) {
+    text-align: center;
+    width: 35%;
+}
+
+.THIS tbody tr td:nth-child(3):hover {
+    color: #990000;
+}
+
+.THIS tbody tr td:nth-child(4) {
+    width: 20%;
+}
+
+.THIS tbody tr td:nth-child(3) .slds-truncate {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.THIS td {
+    height: 34px;
+    padding: 0;
+    padding-right: 10px;
+}
+
+.THIS thead .slds-text-title_caps {
+    display: table-row;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    letter-spacing: 0;
+    text-transform: initial;
+}
+
+.THIS thead tr th,
+.THIS thead tr th .slds-truncate {
+    background-color: #ececec;
+    color: #444444;
+    justify-content: center;
+}
+
+.THIS thead tr th .slds-truncate {
+    padding: 0 24px;
+    width: 25%;
+}
+
+.THIS thead tr th:first-child .slds-truncate {
+    justify-content: end;
+    width: 20%;
+}
+
+.THIS thead tr th:nth-child(2) .slds-truncate,
+.THIS thead tr th:nth-child(4) .slds-truncate {
+    justify-content: flex-end;
+}
+
+.THIS thead tr th:nth-child(2) .slds-truncate {
+    width: 25%;
+}
+
+.THIS thead tr th:nth-child(3) .slds-truncate {
+    width: 35%;
+}
+
+.THIS thead tr th:nth-child(4) .slds-truncate {
+    width: 20%;
+}
+
+.THIS.spinnerclass{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height:300px;
+}

@@ -1,0 +1,155 @@
+<!-- Author:       	 Diego Asis
+     Company:        Deloitte
+     Description:    Function to display only the necessary rows in the tables
+     History
+     <Date>			<Author>			<Description>
+ 	 04/02/2020		Diego Asis		     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_ViewAuthorization">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="breadCrumbs" type="List" default="['Authorizations','View']" description="Breadcrumbs for navigation"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="userId" 		type="String" description="User id"/>
+    <aura:attribute name="name" 		type="String" description="Name"/>
+    <aura:attribute name="surname"		type="String" description="Surname"/>
+    <aura:attribute name="type" 		type="String" description="Type"/>
+    <aura:attribute name="state" 		type="String" description="State"/>
+    <aura:attribute name="language" 	type="String" description="Language"/>
+    <aura:attribute name="timeZone" 	type="String" description="Time zone"/>
+    <aura:attribute name="numberFormat" type="String" description="Number format"/>
+    <aura:attribute name="dateFormat" 	type="String" description="Date format"/>
+    <aura:attribute name="email" 		type="String" description="Email"/>
+    <aura:attribute name="phone" 		type="String" description="Phone"/>
+    <aura:attribute name="address" 		type="String" description="Address"/>
+    
+    <!-- TITLE VIEW -->
+    <c:CMP_TitleBreadcrumb title="{!$Label.c.View}" breadcrumb="{!v.breadCrumbs}"/>
+    
+    <!-- HEADER TITLE -->
+    <c:CMP_TitleHeader title="{!$Label.c.userDetails}"/>
+    
+    <!-- USER DETAILS -->
+    <div class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.userId}
+                </div>
+                <div class="information">
+                    {!v.userId}
+                </div>
+            </div>
+        </div> 
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.name}
+                </div>
+                <div class="information">
+                    Trinidad
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.surname}
+                </div>
+                <div class="information">
+                    Hernandez Arias
+                </div>
+            </div> 
+        </div>  
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.type}
+                </div>
+                <div class="information">
+                    Administrator
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.State}
+                </div>
+                <div class="information">
+                    Enabled
+                </div>
+            </div>
+        </div>  
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.language}
+                </div>
+                <div class="information">
+                    Español
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.timeZone}
+                </div>
+                <div class="information">
+                    GMT +1
+                </div>
+            </div>
+        </div>  
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.numberFormat}
+                </div>
+                <div class="information">
+                    ###.###.###,##
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.dateFormat}
+                </div>
+                <div class="information">
+                    dd/mm/yyyy
+                </div>
+            </div>
+        </div>  
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.email}
+                </div>
+                <div class="information">
+                    thernandez@gmail.com
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.phone}
+                </div>
+                <div class="information">
+                    -
+                </div>
+            </div>
+        </div>  
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.address}
+                </div>
+                <div class="information">
+                    -
+                </div>
+            </div> 
+        </div>   
+    </div>
+    
+    <!-- BUTTON-->
+    <div class="slds-clearfix">
+        <div class="slds-float_left">
+            <button class="slds-button slds-button_brand whiteButton" title="{!$Label.c.return}" onclick="{!c.goBack}">{!$Label.c.return}</button>
+        </div>
+    </div>
+    
+</aura:component>

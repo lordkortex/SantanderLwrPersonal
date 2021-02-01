@@ -1,0 +1,106 @@
+.THIS {
+}
+
+.THIS .arrow {
+    width: 100%;
+    height: 100%;
+}
+
+.THIS .button-arrow {
+    font-size: 24px;
+}
+
+.THIS .button-currency {
+    height: 40px;
+    width: 114px;
+    float: right;
+}
+
+.THIS .button-selected {
+    font-size: 16px;
+}
+
+.THIS .change{
+    color: #444444;
+    font-size: 14px;
+    height: 20px;
+}
+
+.THIS .containerCurrency {
+    width: 20%;
+}
+
+.THIS .containerReference {
+    width: 80%;
+}
+
+.THIS.currency {
+    width: 100%;
+}
+
+.THIS.currencyExchange{
+    margin-bottom: 16px;
+    background-color: rgba(222, 237, 242, 0.4);
+    height: 88px;
+    display: flex;
+    padding: 22px 16px 22px 24px;
+}
+
+.THIS .currencySelected {
+    height: 38px;
+    padding: 10px 36px 10px 12px;
+    font-family:"SantanderTextW05-Bold";
+    font-size: 14px;
+    align-items: center;
+    display: flex;
+    color: #444444;
+    margin-top: -0.1%;
+}
+
+.THIS .date{
+    color: #8f8f8f;
+    font-family:"SantanderTextW05-Regular";
+    font-size: 12px;
+}
+
+.THIS .dropdownCurrencies {
+    min-width: inherit;
+    width: 184px;
+    padding: 4px 0;
+    right: 0;
+    left: auto;
+    margin-top: 4px;
+   
+}
+
+.THIS .iconMargin {
+    margin-right: 8px;
+}
+
+.THIS .nameCurrency {
+    font-size: 14px;
+}
+
+.THIS .optionCurrency {
+    display: inline-flex;
+    align-items: center;
+}
+
+.THIS .paddingOption {
+    padding: 8px 32px 8px 16px;
+}
+
+.THIS .reference{
+    color: #444444;
+    font-family:"SantanderTextW05-Bold";
+    font-size: 16px;
+    height: 23px;
+}
+
+.THIS .separationExchange{
+    margin-right: 32px;
+}
+
+.THIS .separationText{
+    margin-right: 8px;
+}

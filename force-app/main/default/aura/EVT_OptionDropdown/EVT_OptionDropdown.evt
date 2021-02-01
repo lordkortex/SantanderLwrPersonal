@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="CMP_AccountBalance">
+    <aura:attribute name="iCmpId" type="String" description="show/hide option dropdown"/>
+    <aura:attribute name="lst" type="List" description="Clicked Item"/>
+</aura:event>

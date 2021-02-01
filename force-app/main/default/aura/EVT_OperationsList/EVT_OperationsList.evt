@@ -1,0 +1,20 @@
+<aura:event type="COMPONENT" description="CMP_PaymentsLandingParent">
+    
+    
+    <aura:attribute name="operationGlobalId" 		type="String" description=""/>
+    <aura:attribute name="globalUserId" 			type="String" description="Current user global id"/>
+    <aura:attribute name="pendingAuthorization" 	type="Boolean" description=""/>
+    <aura:attribute name="latestOperationsFlag" 		type="Boolean" description=""/>
+    <aura:attribute name="sourceAccountList" 		type="List" description=""/>
+    <aura:attribute name="destinationData" 			type="Object" description=""/>	
+    <aura:attribute name="destinationCountry" 		type="String" description=""/>
+    <aura:attribute name="statusList" 				type="List" description=""/> 
+    <aura:attribute name="operationStatus" 			type="Map" description=""/>
+    <aura:attribute name="amountFrom" 				type="Decimal" description=""/>		
+    <aura:attribute name="amountTo" 				type="Decimal" description=""/>
+    <aura:attribute name="valueDateFrom" 			type="String" description=""/>
+    <aura:attribute name="valueDateTo" 				type="String" description=""/>
+    <aura:attribute name="currencyList" 			type="List" description=""/>
+    <aura:attribute name="paymentMethod" 			type="String" description=""/>    
+    <aura:attribute name="clientReference" 			type="String" description=""/>
+</aura:event>

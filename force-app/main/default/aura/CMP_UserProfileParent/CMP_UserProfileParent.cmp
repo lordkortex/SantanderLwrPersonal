@@ -1,0 +1,113 @@
+<!--
+Author:         Teresa Santos Navarro
+Company:        Deloitte
+Description:    Parent component of the user creation.
+History
+<Date>			<Author>		<Description>
+16/01/2019		Teresa Santos Navarro     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="CNT_GroupController">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <lightning:navigation aura:id="navService"/>
+
+    <!--ATTRIBUTES-->
+    <aura:attribute name="maxWidth"     type="Integer"  default="1184"  description="Default width for the page container"/>
+
+    <!-- PROGRESS BAR ATTRIBUTES -->
+    <aura:attribute name="stage1Finished" type="boolean" default ="false"/>
+    <aura:attribute name="stage2Finished" type="boolean" default ="false"/>
+    <aura:attribute name="currentStageNumber" type="Integer" default="1" description="Current stage of the user creation"/>
+
+    <!--<aura:attribute type="boolean" name="Step2dataExpanded" default="true" description="Checks if the values are expanded"/>-->
+    
+    <!-- COPY PROFILE ATTRIBUTES -->
+    <aura:attribute name="userToCopy" type="String" description="Where is the user beeing copied from" />
+
+    <aura:attribute name="tabSelected" type="String" description="Tab selected at step 2 of the user creation" />
+    <aura:attribute name="entitlementsList" type="List" description="List of all entitlements of data" default = "{!$Label.c.GroupNew_DownloadsSicCont}"/>
+    <aura:attribute name="entitlementName" type="List" description="Name of the entitlement" default = "[]"/>
+    
+    <!-- PROFILING TABLE ATTRIBUTES (STEP 3) -->
+    <aura:attribute name="profilingTableExpanded" type="Boolean" default="true" description="Expands the profiling table details"/>
+    <aura:attribute name="profilingTableInnerData" type="List" description="Data to be grouped in the table"/>
+
+    <!-- Navigation Attributes -->
+    <aura:attribute name="userName" type="String" description="Name of the user that is getting created" />
+    <aura:attribute name="userId" type="String" description="Id of the user"/>
+    <aura:attribute name="selectedValueRol" type="String" description="Selected role from the dropdown" />
+    <aura:attribute name="selectedValueGroup" type="String" description="Selected group from the dropdown" />
+    <aura:attribute name="rolesList" type="List"  description="List of roles to populate the dropdown" />
+    <aura:attribute name="groupsList" type="List"  description="List of groups to populate the dropdown" />
+    <aura:attribute name="isCancelling" type="Boolean" default="false" description="Attribute to check if the cancel modal is showing" />
+    <aura:attribute name="isNewUser" type="Boolean" default="false" description="Attribute to check if is a new user" />
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+
+    <!--Aura Handlers-->
+    
+    <aura:handler name="change" value="{!v.currentStageNumber}" action="{!c.populateProfilingTable}"/>
+    <aura:handler name="modalEvent" event="c:EVT_ModalWithTextEvent" action="{!c.cancelButtons}"/>
+
+    <aura:attribute name="hasProfile"     type="boolean" default="false" description="checks if has profiling the page where this comes from" />
+    <aura:attribute name="servicesList" type="List" default ="[]" description="Services from the step 2" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.currentStageNumber}" action="{!c.populateProfilingTable}"/>
+    <aura:handler name="change" value="{!v.hasProfile}" action="{!c.populateProfilingTable}"/>
+
+    <div style="{!'width:' + v.maxWidth + 'px;'}">
+        
+                
+            <!--TITLE--> 
+            <c:CMP_Title title="{!$Label.c.UserProfile}"/>
+            <!--PROGRESS BAR-->
+            <!--TO DO UserProfileProggres Cambiar componente progrres bar-->
+            <c:CMP_UserProfilingProressBar currentStageNumber="{!v.currentStageNumber}" stage1Finished="{!v.stage1Finished}" stage2Finished="{!v.stage2Finished}"/>
+            <!-- <c:CMP_GroupNewProgressBar currentStageNumber="{!v.currentStageNumber}" stage1Finished="{!v.stage1Finished}"/> -->
+            <!--HEADER-->
+            <c:CMP_UserNew_Header userId="{!v.userId}" userName="{!v.userName}" userRol="{!v.selectedValueRol}" userGroup="{!v.selectedValueGroup}" currentStageNumber="{!v.currentStageNumber}" stage1Finished="{!v.stage1Finished}"/>
+            
+            <!--STEP 1-->  
+            <aura:if isTrue="{!v.currentStageNumber == 1 }"> 
+            <!--User Details-->
+                <c:CMP_UserNew_Details 
+                selectedValueGroup ="{!v.selectedValueGroup}"
+                selectedValueRol ="{!v.selectedValueRol}"
+                rolesList="{!v.rolesList}"
+                groupsList="{!v.groupsList}"
+                />
+            </aura:if> 
+
+            <!--STEP 2-->
+            <aura:if isTrue="{!v.currentStageNumber == 2 }"> 
+                <!--Copy Profile User-->
+                <c:CMP_GroupNew_CopyProfile selectedValue ="{!v.userToCopy}" /> 
+                <!--Services of the Group-->
+                <c:CMP_UserNew_Services hasProfile="{!v.hasProfile}" servicesList="{!v.servicesList}" comesFrom="Profile-User" userId="{!v.userId}" userName="{!v.userName}" userRol="{!v.selectedValueRol}" userGroup="{!v.selectedValueGroup}"/>
+            </aura:if>
+
+            <!--STEP 3-->
+            <aura:if isTrue="{!v.currentStageNumber == 3 }">
+                <c:CMP_GroupNewS2_Tabs />
+                <c:CMP_GroupNewS2_ReportsTitle dataExpanded="{!v.profilingTableExpanded}"/>
+                <c:CMP_GroupNewS2_EntitlementsTable entitlementName="{!v.entitlementName}"/>
+                <c:CMP_GroupNewS2_ProfilingTable aura:id="profilingTable" dataExpanded="{!v.profilingTableExpanded}" 
+                                                 	data="{!v.profilingTableInnerData}" isSummary="false"/>
+            </aura:if> 
+        
+            <!--BUTTONS-->
+        <c:CMP_UserNewButtons 
+            currentStageNumber="{!v.currentStageNumber}" 
+            stage1Finished="{!v.stage1Finished}" 
+            stage2Finished="{!v.stage2Finished}" 
+            userId="{!v.userId}" userName="{!v.userName}" 
+            selectedValueRol="{!v.selectedValueRol}" selectedValueGroup="{!v.selectedValueGroup}"  isCancelling="{!v.isCancelling}" 
+            hasData="{!v.hasProfile}"
+            isNewUser="{!v.isNewUser}"/>
+        
+             <aura:if isTrue="{!v.isCancelling}">
+                <c:CMP_ModalWithText title="{!$Label.c.TextModal_CancelTransactionTitle}" subtitle="{!$Label.c.TextModal_CancelTransactionSubtitle}" isShowing="{!v.isCancelling}"/>
+             </aura:if>
+
+             
+    </div>
+</aura:component>

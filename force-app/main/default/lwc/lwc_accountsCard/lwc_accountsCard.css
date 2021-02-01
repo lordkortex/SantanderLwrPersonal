@@ -1,0 +1,383 @@
+.cardAccount{
+    border: solid 1px #cedee7;
+    border-radius: 4px;
+    margin-bottom: 24px;
+}
+
+.cardAccount .accountAlias .boldText {
+    text-decoration: underline;
+}
+.cardAccount .accountAlias .boldText:hover {
+    color: #990000;
+}
+.cardAccount .accountAlias .slds-truncate {
+    width: 236px;
+    margin-right: 24px;
+}
+.cardAccount .availableBalance {
+    justify-content: flex-end;
+    min-width: 162px;
+    text-align: right;
+    margin-right: 24px;
+}
+.cardAccount .availableBalance .slds-card__header-title {
+    color: #767676;
+    text-align: right;
+}
+.cardAccount .boldText{
+    font-family:"SantanderMicroText-Bd";
+}
+.cardAccount .bookBalance{
+    justify-content: flex-end;
+    margin-right: 16px;
+    min-width: 162px;
+    text-align: right;
+}
+
+.cardAccount .button-arrow{
+    cursor: pointer;
+    font-size: 24px;
+}
+.cardAccount .button-arrow:hover {
+    color: #CC0000;
+}
+.cardAccount .colFixed{
+    align-items: center;
+    display: flex; 
+}
+.cardAccount .colVariable{
+    align-items: center;
+    display: flex; 
+    justify-content: flex-end;
+    width:100%;
+}
+.cardAccount .contentAccount{
+    border-top: solid 1px #cedee7;
+    margin: 0;
+    padding: 0;
+    height: 74px;
+}
+.cardAccount .contentAccount header {
+    align-items: initial;
+}
+.cardAccount .contentAccount .iconContainer {
+    padding-top:16px;
+    margin-right: 16px;
+}
+.cardAccount .contentAccount .slds-card__header-title{
+    color: #444444;
+    font-size:14px;
+    font-family:"SantanderMicroText";
+    line-height: 21px;
+}
+.cardAccount .contentAccount .availableBalance .slds-card__header-title {
+    color: #767676;
+}
+
+.cardAccount .contentAccount .slds-card__header-title.boldText{
+    font-family:"SantanderMicroText-Bd";
+}
+.cardAccount .contentAccount .slds-truncate:first-child {
+    padding-top: 16px;
+}
+.cardAccount .contentAccount .availableBalance, 
+.cardAccount .contentAccount .bookBalance {
+    padding-top: 12px;
+}
+.cardAccount .contentCard{
+    height: 71px;
+    margin: 0px;
+    padding: 22px 16px 22px 24px;
+}
+.cardAccount .country .slds-truncate {
+    width: 112px;
+    margin-right: 24px;
+}
+.cardAccount .currency .slds-truncate {
+    width: 32px;
+    margin-right: 48px;
+}
+.cardAccount .decimals{
+    font-size: 14px;
+}
+.cardAccount .icon{
+    height: 32px;
+    width: 32px;
+    margin-right: 8px;
+}
+.cardAccount .icon-options__empty:before {
+    color: #ffffff;
+    cursor: pointer;
+    font-size:20px;
+}
+.cardAccount .icon-tracking{
+    cursor: pointer;
+    font-size: 24px;
+}
+.cardAccount .integer{
+    font-size:18px;
+    line-height: 27px;
+}
+.cardAccount .moreOptions{
+    align-items: center;
+    background-color: #ec0000;
+    display: flex;
+    height: 74px;
+    justify-content: center;
+    margin-right: 16px;
+    width: 24px;
+    position: relative;
+}
+.cardAccount .moreOptions.showDialogs .contextualMenu{
+    display:block;
+}
+.cardAccount .slds-card__header-title {
+    color: #444444;
+    font-family:"SantanderMicroText-Bd";
+    font-size: 18px;
+    line-height: 27px;
+}
+.cardAccount .subsidiaryBank .slds-truncate {
+    width: 180px;
+    margin-right: 24px;
+}
+.cardAccount .updated .slds-truncate{
+    width: 75px;
+    margin-right: 24px;
+}
+
+
+/*MENU CONTEXTUAL*/
+ .showBox{
+    display:block!important;
+}
+ .contextualMenu {
+    border: 1px solid #deedf2;
+    border-radius: 4px;
+    box-shadow: 2px 2px 6px 2px rgba(206, 214, 219, 0.4);
+    position: absolute;
+    top: 74px;
+    left: 0px;
+    min-height: auto;
+    width: auto;
+    padding: 0;
+    display:none;
+}
+
+ .contextualMenu .slds-popover__body{
+    padding: 0;
+}
+
+
+/*MENU CONTEXTUAL LISTADO LINKS*/
+
+ .contextualMenu .slds-media__body ul{
+    min-height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+ .contextualMenu .slds-media__body a{
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    transition: all 0.2s ease-in-out;
+    padding: 12px 16px 12px 16px;
+}
+ .contextualMenu .slds-media__body ul li:hover,
+ .contextualMenu .slds-media__body ul li:active{
+    outline: 0;
+    text-decoration: none;
+    background-color: rgba(14, 99, 172, 0.05);
+}
+ .contextualMenu .slds-media__body a:focus{
+    box-shadow: none;
+}
+ .iconContainer{
+    width: 24px;
+    height: 24px;
+}
+
+.cardAccount .integer .availableDecimals { 
+    font-size: 14px;
+} 
+.cardAccount .integer .bookDecimals { 
+    font-size: 14px;
+}
+.cardAccount  .slds-card__header-title.availableBalance { 
+    color: #767676; 
+}
+
+.spinnerclass{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height:300px;
+}
+
+/* PRINT  */
+@media print and (orientation: portrait){ 
+
+        .cardAccount.slds-card{
+            page-break-inside: avoid!important;
+        }
+	 .cardAccount .contentAccount header {
+           width: auto;
+        }
+        .cardAccount .contentCard {
+            padding: 22px 0 22px 12px!important;
+        }
+    
+        .cardAccount .country .slds-truncate{
+            width: 65px!important;
+            min-width: 65px!important;
+            margin-right: 6px!important;
+            margin-left: 12px!important;
+        }
+        .cardAccount .accountAlias .slds-truncate{
+            width: 109px!important;
+            min-width: 109px!important;
+            margin-right: 6px!important;
+        }
+        .cardAccount .subsidiaryBank .slds-truncate{
+            width: 124px!important;
+            min-width: 124px!important;
+            margin-right: 6px!important;
+        }
+        .cardAccount .updated .slds-truncate{
+            width: 65px!important;
+            min-width: 65px!important;
+            margin-right: 6px!important;
+        }
+        .cardAccount .currency .slds-truncate{
+            width: 60px!important;
+            min-width: 60px!important;
+            margin-right: 6px!important;
+            padding-left: 18px!important;
+        }
+        .cardAccount .availableBalance{
+            min-width: 115px!important;
+            width: 115px!important;
+            margin-right: 6px!important;
+            align-items: center!important;
+            justify-content: flex-end!important;
+            display: flex!important;
+        }
+        .cardAccount .bookBalance{
+           /*  padding-left: 16px!important;*/
+            min-width: 115px!important;
+          	/*margin-right: 6px!important;*/
+            width: 115px!important;
+            align-items: center!important;
+            justify-content: flex-end!important;
+            display: flex!important;
+
+        }
+   
+    
+        .cardAccount .availableBalance .slds-card__header-title {
+            color: #767676!important;
+        }
+
+         .contentAccount .slds-card__header-title,
+        .cardAccount .slds-card__header-title{
+            font-size: 10px!important;
+            line-height: 20px!important;
+            color: #444444!important;
+        	/* text-align:right!important; */
+        }
+
+       /*  .contentAccount  .integer, */
+        .cardAccount .decimals,
+    	.cardAccount .integer,
+    	.cardAccount .integer .availableDecimals,
+        .cardAccount .integer .bookDecimals{
+            font-size: 10px!important;
+            line-height: 20px!important;
+            color: #444444!important;
+        	text-align:left!important;
+        }
+    
+          .slds-media__figure.moreOptions {
+            margin-right: 4px;
+        }
+    
+         .moreOptions section,
+        .cardAccount .slds-media__figure.iconContainer,
+         .slds-media__figure.moreOptions,
+        .cardAccount header .iconContainer{
+            display: none;
+        }
+        
+    }
+        
+@media print and (orientation: landscape) {
+
+    .cardAccount.slds-card{
+        page-break-inside: avoid!important;
+    }
+
+      .contentCard {
+        padding: 22px 0 22px 24px!important;
+    }
+
+     .cardAccount .country .slds-truncate{
+         width: 80px!important;
+         min-width: 80px!important;
+        
+     }
+     .cardAccount .accountAlias .slds-truncate{
+         width: 159px!important;
+         min-width: 159px!important;
+      
+     }
+     .cardAccount .subsidiaryBank .slds-truncate{
+         width: 144px!important;
+         min-width: 144px!important;
+       
+     }
+     .cardAccount .updated .slds-truncate{
+         width: 75px!important;
+         min-width: 75px!important;
+       
+     }
+     .cardAccount .currency .slds-truncate{
+         width: 67px!important;
+         min-width: 67px!important;
+         
+     }
+     .cardAccount .availableBalance{
+         min-width: 148px!important;
+         width: 148px!important;
+ 		 align-items: center!important;
+         justify-content: flex-end!important;
+         display: flex!important;
+     }
+     .cardAccount .bookBalance{
+         padding-left: 16px!important;
+         min-width: 148px!important;
+         width: 148px!important;
+ 		 align-items: center!important;
+         justify-content: flex-end!important;
+         display: flex!important;
+     }
+ 
+      .contentAccount .slds-card__header-title,
+      .contentAccount  .integer,
+     .cardAccount .slds-card__header-title,
+     .cardAccount .decimals,
+     .cardAccount .integer,
+     .cardAccount .integer .availableDecimals,
+     .cardAccount .integer .bookDecimals{
+         font-size: 12px!important;
+         line-height: 20px!important;
+         color: #444444!important;
+     }
+ 
+      .moreOptions section,
+     .cardAccount .slds-media__figure.iconContainer,
+      header .iconContainer{
+         display: none;
+     }
+}

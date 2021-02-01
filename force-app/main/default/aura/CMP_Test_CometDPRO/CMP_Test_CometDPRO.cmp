@@ -1,0 +1,13 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="CNT_B2B_PaymentSummary">
+    <ltng:require scripts="{!$Resource.cometd}" afterScriptsLoaded="{!c.onCometdLoaded}" />
+
+    <aura:attribute name="sessionId"           type="String" />
+    <aura:attribute name="cometd"              type="Object" />
+    <aura:attribute name="cometdSubscriptions" type="Object[]" />
+
+    <aura:handler name="init"   action="{!c.initComponent}" value="{!this}" />
+
+    <div>
+        ¡Hello world!
+    </div>
+</aura:component>

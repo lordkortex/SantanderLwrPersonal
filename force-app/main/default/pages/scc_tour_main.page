@@ -1,0 +1,174 @@
+<apex:page >
+    <apex:stylesheet value="/apex/scc_tour_style"/>
+    <apex:includeScript value="/support/console/25.0/integration.js"/>
+    <script type="text/javascript">   
+        /***** Box Currently Showing Variable Controller *****/
+        var boxIsShowing = 0;
+        
+        /***** Set Tab Title Below In Single Quotes *****/
+        //sforce.console.getFocusedPrimaryTabId(function(result){
+        //  sforce.console.setTabTitle('Tour Agent Console', result.id);
+        //});
+        
+        /***** Function to Move Forward in Tour *****/
+        function tourNext(num){
+            var nextNum = num + 1;
+            document.getElementById('pop' + num).style.display="none";
+            document.getElementById('pop' + nextNum).style.display="block";
+        }
+        
+        /***** Function to Move Back in Tour *****/
+        function tourBack(num){
+            var backNum = num - 1;
+            document.getElementById('pop' + num).style.display="none";
+            document.getElementById('pop' + backNum).style.display="block";
+        }
+        
+        /***** Box Show Functionality *****/       
+        function showTour(num){
+            hideTour();
+            document.getElementById('pop' + num).style.display="block";
+            hoverIsOn = 0;
+        }
+        
+        /***** Hides All Boxes *****/
+        function hideTour(){
+            for(i = 1 ; i < 11 ; i++){
+                document.getElementById('pop' + i).style.display="none";
+            }
+        }
+    </script>
+    <body>
+        <div id="container">
+            <div id="content">
+                <!-- All Popup Information Boxes -->
+                
+                <!-- Welcome Box -->
+                <div id="pop1" class="popUps" style="">
+                    <h3>Bienvenue &#33;</h3>
+                    <p>Bienvenue dans la visite guidée de la console Service Cloud. Pour vos agents, la console est la principale interface de gestion des requêtes.</p>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=console2_about.htm&language=fr&siteLang=fr" class="midLinks" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(1)">Suivant&nbsp;&#62;&#62;</a>
+                    <span class="" title=""></span>
+                </div>
+                <!-- Customer Information Box -->
+                <div id="pop2" class="popUps" style="">
+                    <h3>Encadré en relief : Informations client</h3>
+                    <p>C'est ici que les agents consultent les informations client clés. Vous pouvez personnaliser toutes les sections de l'encadré en relief en fonction de votre business.</p>
+                    <a href="" class="" onclick="tourBack(2)">&#60;&#60;&nbsp;Retour</a>
+                    <span>|</span>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=customize_layoutcustomize_highlights_panel_config.htm&language=fr&siteLang=fr" class="midLinks" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(2)">Suivant&nbsp;&#62;&#62;</a>
+                    <div class="tourNum">1/10</div>
+                    <span class="pointTop" title=""></span>
+                </div>
+                <!-- Case Summary Box -->
+                <div id="pop3" class="popUps" style="">
+                    <h3>Encadré en relief : Résumé de la requête</h3>
+                    <p>Le résumé de la requête offre à vos agents un aperçu de l'objet de la requête.</p>
+                    <a href="" class="" onclick="tourBack(3)">&#60;&#60;&nbsp;Retour</a>
+                    <span>|</span>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=customize_layoutcustomize_highlights_panel_config.htm&language=fr&siteLang=fr" class="midLinks" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(3)">Suivant&nbsp;&#62;&#62;</a>
+                    <div class="tourNum">2/10</div>
+                    <span class="pointTop" title=""></span>
+                </div>
+                <!-- Case Status Box -->
+                <div id="pop4" class="popUps" style="">
+                    <h3>Encadré en relief : Statut de la requête</h3>
+                    <p>Le statut de la requête permet aux agents de connaître la priorité de la requête et le stade du processus de résolution.</p>
+                    <a href="" class="" onclick="tourBack(4)">&#60;&#60;&nbsp;Retour</a>
+                    <span>|</span>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=customize_layoutcustomize_highlights_panel_config.htm&language=fr&siteLang=fr" class="midLinks" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(4)">Suivant&nbsp;&#62;&#62;</a>
+                    <div class="tourNum">3/10</div>
+                    <span class="pointTopRight" title=""></span>
+                </div>
+                <!-- Knowledge Box -->
+                <div id="pop5" class="popUps" style="">
+                    <h3>Base de connaissances</h3>
+                    <p>La base de connaissances cherche systématiquement des réponses aux questions des agents pour permettre une clôture rapide des requêtes et éviter de perdre du temps en recherches.</p>
+                    <a href="" class="" onclick="tourBack(5)">&#60;&#60;&nbsp;Retour</a>
+                    <span>|</span>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=knowledge_whatis.htm&language=fr&siteLang=fr" class="midLinks" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(5)">Suivant&nbsp;&#62;&#62;</a>
+                    <div class="tourNum">4/10</div>
+                    <span class="pointRight" title=""></span>
+                </div>
+                <!-- Case Feed Box -->
+                <div id="pop6" class="popUps" style="">
+                    <h3>Flux de la requête</h3>
+                    <p>Le flux affiche l'historique de la requête à travers les différents canaux dans un format convivial.</p>
+                    <a href="" class="" onclick="tourBack(6)">&#60;&#60;&nbsp;Retour</a>
+                    <span>|</span>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=case_interaction_overview.htm&language=fr&siteLang=fr" class="midLinks" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(6)">Suivant&nbsp;&#62;&#62;</a>
+                    <div class="tourNum">5/10</div>
+                    <span class="pointLeft" title=""></span>
+                </div>
+                <!-- Case Publisher Box -->
+                <div id="pop7" class="popUps" style="">
+                    <h3>Éditeur de la requête</h3>
+                    <p>L'éditeur de la requête offre aux agents une plate-forme unique pour traiter toutes les requêtes qu'elles soient enregistrées via e-mail, téléphone ou Internet.</p>
+                    <a href="" class="" onclick="tourBack(7)">&#60;&#60;&nbsp;Retour</a>
+                    <span>|</span>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=case_interaction_overview.htm&language=fr&siteLang=fr" class="midLinks" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(7)">Suivant&nbsp;&#62;&#62;</a>
+                    <div class="tourNum">6/10</div>
+                    <span class="pointTop" title=""></span>
+                </div>
+                <!-- Feed Filters Box -->
+                <div id="pop8" class="popUps" style="">
+                    <h3>Filtres des flux</h3>
+                    <p>Avec les filtres des flux, les agents affichent les activités spécifiques d'une requête (e-mails, journaux d'appels ou notes de requête, par exemple).</p>
+                    <a href="" class="" onclick="tourBack(8)">&#60;&#60;&nbsp;Retour</a>
+                    <span>|</span>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=case_interaction_overview.htm&language=fr&siteLang=fr" class="midLinks" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(8)">Suivant&nbsp;&#62;&#62;</a>
+                    <div class="tourNum">7/10</div>
+                    <span class="pointLeftBottom" title=""></span>
+                </div>
+                <!-- Publisher Actions Box -->
+                <div id="pop9" class="popUps" style="">
+                    <h3>Action de la requête</h3>
+                    <p>L'action de la requête permet aux agents de réaliser diverses actions sur une requête : ajouter une note interne ou modifier le statut, par exemple.</p>
+                    <a href="" class="" onclick="tourBack(9)">&#60;&#60;&nbsp;Retour</a>
+                    <span>|</span>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=case_interaction_overview.htm&language=fr&siteLang=fr" class="midLinks" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(9)">Suivant&nbsp;&#62;&#62;</a>
+                    <div class="tourNum">8/10</div>
+                    <span class="pointTop" title=""></span>
+                </div>              
+                <!-- Primary Tabs Box -->                                               
+                <div id="pop10" class="popUps" style="">
+                    <h3>Onglets principaux</h3>
+                    <p>Avec les onglets principaux, les agents peuvent travailler sur plusieurs cas à la fois. Par ailleurs, ces onglets fournissent d'autres informations clés, telles que les données correspondant à un compte ou un contact.</p>
+                    <a href="" class="" onclick="tourBack(10)">&#60;&#60;&nbsp;Retour</a>
+                    <span>|</span>
+                    <a href="https://help.salesforce.com/apex/HTViewHelpDoc?id=console2_tabs.htm&language=fr&siteLang=fr" target="_blank">En savoir plus</a>
+                    <span>|</span>
+                    <a href="" class="" onclick="tourNext(10)">Suivant&nbsp;&#62;&#62;</a>
+                    <div class="tourNum">9/10</div>
+                    <span class="pointTop" title=""></span>
+                </div>
+            </div>
+        </div>
+        <!-- Close tab Box -->
+        <div id="pop11" class="popUps" style="">
+            <h3>Le tour est joué !</h3>
+            <p>Vous connaissez maintenant les fonctionnalités de la console agent. Fermez cet onglet et retournez à l'onglet Prise en main pour en savoir plus sur le Service Cloud.</p>
+            <a href="" class="" onclick="tourBack(11)">&#60;&#60;&nbsp;Retour</a>
+            <div class="tourNum">10/10</div>
+            <span class="pointTop" title=""></span>
+        </div>
+    </body>
+</apex:page>

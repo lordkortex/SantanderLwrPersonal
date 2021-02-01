@@ -1,0 +1,35 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to implements the search pills
+History
+<Date>			<Author>		<Description>
+05/12/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+
+    <aura:attribute name="pillsContainer" type="List"/>
+
+    <aura:registerEvent name="clearSearch" type="c:EVT_SearchPillsClear" />
+    <aura:registerEvent name="clearConcretePill" type="c:EVT_ClearConcretePill" />
+    
+    <div class="slds-media pillContainer pillsPadding">
+        <div class=" slds-media__body ">           
+            <aura:iteration items="{!v.pillsContainer}" var="item">
+                <aura:if isTrue="{!item[1]!=null}">
+                    <div class="slds-pill  fillPill" role="option" tabindex="0" aria-selected="true">
+                        <span class="slds-pill__label textPill" >{!item[1]}</span>
+                        <div class="slds-icon_container slds-pill__remove" title="{!$Label.c.remove}" onclick="{!c.removePill}">
+                            <div class="slds-button button-page icon-delete sizeXPill" title="{!$Label.c.remove}" onclick="{!c.removePill}" id="{!item[0]}"></div> 
+                            <span class="slds-assistive-text">{!$Label.c.remove}</span>
+                        </div>
+                    </div>
+                </aura:if>
+            </aura:iteration>
+        </div>
+        <div class="slds-media__figure lastPill" role="option" tabindex="0" aria-selected="true">
+            <div class="slds-button button-page icon-deleteAll" title="{!$Label.c.remove}" onclick="{!c.clearSearch}"></div>
+        </div> 
+    </div>    
+    
+</aura:component>

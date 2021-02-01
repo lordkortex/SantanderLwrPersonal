@@ -1,0 +1,104 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Parent component of my settings
+History
+<Date>			<Author>		<Description>
+03/03/2020		Joaquin Vera Vallés     Initial version
+04/05/2020      Shahad Naji             Hide Currency field
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="CNT_UserSettingsController">
+
+
+  <aura:attribute name="UserInfo"               type="Map"      description="Contains the running user info" />
+  <aura:attribute name="UserInfoEdit"           type="Map"      description="Contains the running user info" />
+  
+  <aura:attribute name="UserPicklistValues"     type="Map"      description="Contains the edit Picklist data" />
+
+  <aura:attribute name="isEditing"              type="Boolean"  description="flag to check if is editing the user" />
+  <aura:attribute name="isChangingPassword"     type="Boolean"  description="flag to check if is changing the password" />
+  
+  <c:CMP_ServiceComponent aura:id= "Service"/>
+
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+  <div class="c-container">
+
+    <div class="slds-text-heading_large">{!$Label.c.T_MyProfile}</div>
+
+    <hr />
+
+    <!-- BUTTONS -->
+    <div class="button-container">
+      <lightning:button variant="brand-outline" label="{!$Label.c.edit}" title="{!$Label.c.edit}" onclick="{!c.editButtonClicked }" />
+      <aura:if isTrue="{!v.UserInfo.isCashNexus == 'true'}">
+        <lightning:button variant="brand-outline" label="{!$Label.c.Change_Password}" title="{!$Label.c.Change_Password}" onclick="{!c.changePasswordButtonClicked }" />
+      </aura:if>
+    </div>
+
+  <lightning:layout multipleRows="true">
+    <!-- LANGUAJE BLOCK -->
+    <lightning:layoutItem size="6" padding="around-small">
+        <div class="slds-form-element slds-form-element_readonly">
+            <span class="slds-form-element__label">{!$Label.c.language}</span>
+            <div class="slds-form-element__control">
+                <div class="slds-form-element__static">{!v.UserInfo.Language}</div>
+            </div>
+        </div>
+      </lightning:layoutItem>
+
+      
+      <!-- TIME ZONE BLOCK -->
+    
+      <lightning:layoutItem size="6" padding="around-small">
+        <div class="slds-form-element slds-form-element_readonly">
+            <span class="slds-form-element__label"> {!$Label.c.timeZone} </span>
+            <div class="slds-form-element__control">
+                <div class="slds-form-element__static">{!v.UserInfo.TimeZone}</div>
+            </div>
+        </div>
+      </lightning:layoutItem>
+
+      <!-- CURRENCY BLOCK -->
+     <!-- <lightning:layoutItem size="6" padding="around-small">
+        <div class="slds-form-element slds-form-element_readonly">
+            <span class="slds-form-element__label">{!$Label.c.currency}</span>
+            <div class="slds-form-element__control">
+                <div class="slds-form-element__static">{!v.UserInfo.Currency}</div>
+            </div>
+        </div>
+      </lightning:layoutItem>-->
+
+      <!-- DATE FORMAT -->
+      <lightning:layoutItem size="6" padding="around-small">
+        <div class="slds-form-element slds-form-element_readonly">
+            <span class="slds-form-element__label">{!$Label.c.dateFormat}</span>
+            <div class="slds-form-element__control">
+                <div class="slds-form-element__static">{!v.UserInfo.DateFormat}</div>
+            </div>
+        </div>
+      </lightning:layoutItem>
+
+      <!-- LOCALE BLOCK -->
+      <lightning:layoutItem size="6" padding="around-small">
+        <div class="slds-form-element slds-form-element_readonly">
+            <span class="slds-form-element__label">{!$Label.c.numberFormat}</span>
+            <div class="slds-form-element__control">
+                <div class="slds-form-element__static">{!v.UserInfo.NumberFormat}</div>
+            </div>
+        </div>
+      </lightning:layoutItem>
+
+          
+      
+    </lightning:layout>
+  </div>
+
+  <aura:if isTrue="{!v.isEditing}">
+    <c:CMP_MySettingsEdit UserPicklistValues="{!v.UserPicklistValues}" isEditing="{!v.isEditing}" UserInfoEdit="{!v.UserInfoEdit}"/>
+  </aura:if>
+
+  <aura:if isTrue="{!v.isChangingPassword}">
+    <c:CMP_MySettingsChangePassword isChangingPassword="{!v.isChangingPassword}" />
+  </aura:if>
+</aura:component>

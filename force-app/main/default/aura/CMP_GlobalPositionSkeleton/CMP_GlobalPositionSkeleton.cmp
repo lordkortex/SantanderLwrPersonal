@@ -1,0 +1,247 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+         <!-- Añadir la clase fadeOut para que haya un fundido y desaparezca la animación  -->
+	
+    <!-- NAVIGATION -->
+    <div class="contentMotion"> 
+        <div class="navBar">
+            <div class="box_gray_dark navPrimary"></div>
+            <div class="box_gray_medium30 navSecondary"></div>
+    
+        </div>
+        <div class="slds-grid">
+    
+    
+            <!-- CONTENT -->
+            <div class="slds-col--padded slds-size--12-of-12 slds-medium-size--8-of-12 slds-large-size--8-of-12 comm-layout-column column-content">
+                <div class="contentContent">   
+                    <div class="blockMotion contentTitle"> 
+                        <div class="text-title">
+                            <div class="title box_motion1 box_gray_medium30"></div> 
+                            <div class="subtitle box_motion3 box_gray_medium10"></div>
+                        </div>
+                        <div class="pills box_motion2 box_gray_medium10"></div>
+                    </div> 
+                    
+                    <div class="blockMotion contentTotalBookBalance">
+                        <div class="dropdown box_motion1 box_gray_medium10"></div>
+                        <div>
+                            <div class="number">
+                                <div class="numberFile1 box_motion3 box_gray_medium10"></div>
+                                <div class="numberFile2 box_motion2 box_gray_medium30"></div> 
+                            </div>
+                            <div class="textNumber">
+                                <div class="textNumberFile1 box_motion2 box_gray_medium10"></div>
+                                <div class="textNumberFile2 box_motion1 box_gray_medium10"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="blockMotion contentLink">
+                        <div class="line contentExchangeBox2 box_motion3 box_gray_medium10"></div>
+                    </div>
+                    <div class="contentCards"> 
+                        <div class="blockMotion contentCard contentCard1 box_gray_medium10">
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft1 box_motion1 box_white"> </div>
+                                <div class="contentCardRight1 box_motion_R1 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft2 box_motion2 box_white"> </div>
+                                <div class="contentCardRight2 box_motion_R2 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft3 box_motion3 box_white"> </div>
+                                <div class="contentCardRight3 box_motion_R3 box_white"> </div>
+                            </div>
+                        </div>
+                        
+                        <div class="blockMotion contentCard contentCard2 box_gray_medium10">
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft1 box_motion2 box_white"> </div>
+                                <div class="contentCardRight1 box_motion_R2 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft2 box_motion1 box_white"> </div>
+                                <div class="contentCardRight2 box_motion_R1 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft3 box_motion3 box_white"> </div>
+                                <div class="contentCardRight3 box_motion_R3 box_white"> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" contentCards"> 
+                        <div class="blockMotion contentCard contentCard3  box_gray_medium10">
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft1 box_motion2 box_white"> </div>
+                                <div class="contentCardRight1 box_motion_R2 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft2 box_motion1 box_white"> </div>
+                                <div class="contentCardRight2 box_motion_R1 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft3 box_motion3 box_white"> </div>
+                                <div class="contentCardRight3 box_motion_R3 box_white"> </div>
+                            </div>
+                        </div>
+                        
+                        <div class="blockMotion contentCard contentCard4 box_gray_medium10">
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft1 box_motion3 box_white"> </div>
+                                <div class="contentCardRight1 box_motion_R3 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft2 box_motion2 box_white"> </div>
+                                <div class="contentCardRight2 box_motion_R2 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft3 box_motion1 box_white"> </div>
+                                <div class="contentCardRight3 box_motion_R1 box_white"> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contentCards"> 
+                        <div class="blockMotion contentCard contentCard5 box_gray_medium10">
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft1 box_motion1 box_white"> </div>
+                                <div class="contentCardRight1 box_motion_R1 box_white"> </div>
+                            </div>
+                            <div class="blockMotion contentCardCol">
+                                <div class="contentCardLeft2 box_motion2 box_white"> </div>
+                                <div class="contentCardRight2 box_motion_R2 box_white"> </div>
+                            </div>
+                            <div class="blockMotion contentCardCol">
+                                <div class="contentCardLeft3 box_motion3 box_white"> </div>
+                                <div class="contentCardRight3 box_motion_R3 box_white"> </div>
+                            </div>
+                        </div>
+                        
+                        <div class="blockMotion contentCard contentCard6 box_gray_medium10">
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft1 box_motion3 box_white"> </div>
+                                <div class="contentCardRight1 box_motion_R3 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft2 box_motion2 box_white"> </div>
+                                <div class="contentCardRight2 box_motion_R2 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft3 box_motion1 box_white"> </div>
+                                <div class="contentCardRight3 box_motion_R1 box_white"> </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="contentCards"> 
+                        <div class="blockMotion contentCard contentCard7 box_gray_medium10">
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft1 box_motion1 box_white"> </div>
+                                <div class="contentCardRight1 box_motion_R1 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft2 box_motion3 box_white"> </div>
+                                <div class="contentCardRight2 box_motion_R3 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft3 box_motion2 box_white"> </div>
+                                <div class="contentCardRight3 box_motion_R2 box_white"> </div>
+                            </div>
+                        </div>
+                        
+                        <div class="blockMotion contentCard contentCard8 box_gray_medium10">
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft1 box_motion1 box_white"> </div>
+                                <div class="contentCardRight1 box_motion_R1 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft2 box_motion3 box_white"> </div>
+                                <div class="contentCardRight2 box_motion_R3 box_white"> </div>
+                            </div>
+                            <div class="contentCardCol">
+                                <div class="contentCardLeft3 box_motion2 box_white"> </div>
+                                <div class="contentCardRight3 box_motion_R2 box_white"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    		</div>
+            
+            
+            <!-- SIDEBAR -->
+            <div class="skeletonSidebar">
+               <div class="sidebarContent">
+                   <div class="blockMotion contentDropdown"> 
+                       <div class="contentDropdownBox box_motion3 box_white"></div> 
+                   </div> 
+                   <div class="blockMotion contentExchange">
+                       <div class="contentExchangeBox box_motion1 box_gray_medium10"></div>
+                       <div class="contentExchangeBox2 box_motion2 box_gray_medium10"></div>
+                   </div>
+                   <div class=" contentExchangeList">   
+                       <div class="blockMotion contentExchangeCol box_motion1 box_gray_medium20"> </div>
+                       <div class="blockMotion contentExchangeCol box_motion_R1 box_gray_medium20"> </div> 
+                       <div class="blockMotion contentExchangeCol box_motion2 box_gray_medium20"> </div>
+                       <div class="blockMotion contentExchangeCol box_motion_R2 box_gray_medium20"> </div>
+                       <div class="blockMotion contentExchangeCol box_motion3 box_gray_medium20"> </div>
+                       <div class="blockMotion contentExchangeCol box_motion_R3 box_gray_medium20"> </div>
+                   </div>
+                   <div class="blockMotion contentGlobal"> 
+                       <div class="contentGlobalBox box_motion2 box_gray_medium10"></div>
+                       <div class="contentGlobalBox2 box_motion3 box_gray_medium10"></div>
+                   </div>
+                   <div class="contentGlobalList"> 
+                       <div class="blockMotion contentGlobalCol contentGlobalCol1"> 
+                           <div class="contentGlobalTit box_motion2 box_gray_medium20"> </div> 
+                           <div class="contentGlobalText box_motion1 box_gray_medium10"> </div>
+                           <div class="contentGlobalText box_motion3 box_gray_medium10"> </div>
+                       </div> 
+                       <div class="blockMotion contentGlobalCol contentGlobalCol2"> 
+                           <div class="contentGlobalTit box_motion_R2 box_gray_medium20"> </div> 
+                           <div class="contentGlobalText box_motion_R1 box_gray_medium10"> </div>
+                           <div class="contentGlobalText box_motion_R3 box_gray_medium10"> </div>
+                       </div> 
+                       <div class="blockMotion contentGlobalCol contentGlobalCol3"> 
+                           <div class="contentGlobalTit box_motion3 box_gray_medium20"> </div> 
+                           <div class="contentGlobalText box_motion2 box_gray_medium10"> </div>
+                           <div class="contentGlobalText box_motion1 box_gray_medium10"> </div>
+                       </div> 
+                       <div class="blockMotion contentGlobalCol contentGlobalCol4"> 
+                           <div class="contentGlobalTit box_motion_R3 box_gray_medium20"> </div> 
+                           <div class="contentGlobalText box_motion_R2 box_gray_medium10"> </div>
+                           <div class="contentGlobalText box_motion_R1 box_gray_medium10"> </div>
+                       </div> 
+                       <div class="blockMotion contentGlobalCol contentGlobalCol5"> 
+                           <div class="contentGlobalTit box_motion2 box_gray_medium20"> </div> 
+                           <div class="contentGlobalText box_motion1 box_gray_medium10"> </div>
+                           <div class="contentGlobalText box_motion3 box_gray_medium10"> </div>
+                       </div> 
+                       <div class="blockMotion contentGlobalCol contentGlobalCol6"> 
+                           <div class="contentGlobalTit box_motion_R2 box_gray_medium20"> </div> 
+                           <div class="contentGlobalText box_motion_R1 box_gray_medium10"> </div>
+                           <div class="contentGlobalText box_motion_R3 box_gray_medium10"> </div>
+                       </div> 
+                   </div> 
+                   <div class="blockMotion contentGlobalFoot">
+                       <div class="contentGlobalBox box_motion2 box_gray_medium10"></div>
+                   </div>
+                </div>
+     	 	</div>
+         
+         <div class="sliderLoading">
+             <div class="backgroundLoading"> 
+             </div>
+             <div class="sliderText">
+                 <div class="cabecera">
+                     <img class="logo-red" src="{!$Resource.Images + '/logo_symbol_red.svg'}"/> 
+                     <div class="pretitle">{!$Label.c.GPSkeleton_didYouKnow}</div>
+                 </div>  
+                 <!--<div class="title title1">International payments between Santander <br></br> bank accounts are instantaneous</div>-->
+                 <div class="title title1">{!$Label.c.GPSkeleton_internationalPayments} <br></br>{!$Label.c.GPSkeleton_internationalPayments2}</div>
+                 <div class="title title2">{!$Label.c.GPSkeleton_balancesAccounts} <br></br> {!$Label.c.GPSkeleton_balancesAccounts2}</div>
+                 <div class="title title3">{!$Label.c.GPSkeleton_trackPayments} <br></br> {!$Label.c.GPSkeleton_trackPayments2}</div>
+             </div> 
+         </div>
+        </div>
+    </div>
+
+</aura:component>

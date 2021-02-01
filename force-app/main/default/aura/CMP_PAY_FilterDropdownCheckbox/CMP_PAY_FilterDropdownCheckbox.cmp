@@ -1,0 +1,15 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute access="public" name="checkId" type="String" default="" description="Id of the checkbox"/>
+    <aura:attribute access="public" name="checkValue" type="String" default="" description="Value of the checkbox"/>
+    <aura:attribute access="public" name="isChecked" type="Boolean" default="false" description="Flag to check and uncheck the component"/>
+    <aura:attribute access="public" name="checkLabel" type="String" default="" description="Label of the checkbox"/>
+    <aura:registerEvent name="selectValue" type="c:EVT_PAY_DropdownSelectValue"/>
+    <div class="slds-checkbox">
+        <input type="checkbox" name="options" id="{!v.checkId}" value="{!v.checkValue}" checked="{!v.isChecked}" onclick="{!c.handleCheckbox}"/>
+        <label class="slds-checkbox__label" for="{!v.checkId}">
+            <span class="slds-checkbox_faux"></span>
+            <span class="slds-form-element__label">{!v.checkLabel} </span>
+        </label>
+    </div>
+    
+</aura:component>

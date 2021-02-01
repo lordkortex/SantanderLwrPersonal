@@ -1,0 +1,43 @@
+<section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open welcomePack">
+                <div class="slds-modal__container modalTerms">
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">label.termsConditions Spain</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <div class="textContainer">
+                            <div class="slds-text-heading_small">label.termsConditionsUse</div>
+                            <p>label.terms1a&nbsp;<a class="text-link" data-title="webNexus">label.webNexus</a>&nbsp;label.terms1b</p>
+                            <p>label.terms2</p>
+                            <div class="slds-text-heading_small">label.intelectualProperty</div>
+                            <p>label.terms3</p>
+                            <p>label.terms4</p>
+                            <div class="slds-text-heading_small">label.responsibility</div>
+                            <p>label.terms5a&nbsp;<a class="text-link" data-title="webNexus">label.webNexus</a>label.terms5b</p>
+                            <p>label.terms6a&nbsp;<a class="text-link" data-title="webNexus">label.webNexus</a>label.terms6b</p>
+                            <p>label.terms7</p>
+                            <p>label.terms8</p>
+                            <p>label.terms9</p>
+                            <p>label.terms10</p>
+                            <p>label.terms11</p>
+                            <div class="slds-text-heading_small">label.modifications</div>
+                            <p>label.terms12</p>
+                            <div class="slds-text-heading_small">label.lawJurisdiction</div>
+                            <p>label.terms13</p>
+                            <p>label.terms14</p>
+                        </div>
+                    </div>
+		    <footer class="slds-modal__footer">
+            	   	<div class="slds-form-element__control">
+                		<div class="slds-checkbox">
+                    			<input type="checkbox" name="options" id="checkbox-unique-id-73" value="checkbox-unique-id-73" />
+                    			<label class="slds-checkbox__label" for="checkbox-unique-id-73" data-title-top-left="Check">
+                        			<span class="slds-checkbox_faux" ></span>
+                        			<span class="slds-form-element__label checkboxLabel">label.acceptTerms</span>
+                    			</label>
+                		</div>
+                		<button class="slds-button redButton" id="button-disabled-unique-id-73" disabled="true" data-title="Continue">label.continue</button>
+            		</div>
+        	  </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>

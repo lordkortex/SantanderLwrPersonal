@@ -1,0 +1,118 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Grouped table to show the entitlement grouped by account and country
+History
+<Date>			<Author>		    <Description>
+27/01/2020		Guillermo Giral     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="dataExpanded" type="Boolean" default="true" description="Expands the accounts/entitlement data tree"/>
+    <aura:attribute name="data" type="List" description="Data to be filtered in the table"/>
+    <aura:attribute name="filteredData" type="List" description="Filtered data to be displayed in the table"/>
+    <aura:attribute name="filters" type="Map" default="{}" description="Map containing the values for the different filters (account, entitlement, country)"/>
+    <aura:attribute name="grouping" type="List" description="List of values to group the table data"/>
+    <aura:attribute name="isSummary" type="Boolean"  default="true" description="Hide the table buttons if is summary"/>
+    <aura:attribute name="countryMap" type="Map" description="Auxiliar attribute to pass the country mapping to the component"/>
+    <aura:attribute name="tableContainsData" type="Boolean" default="false" description="Flag indicating whether the table contains any data"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="rowDisplayChange" event="c:EVT_ServiceProfilingDisplayChange" action="{!c.handleRowsActions}"/>
+    <aura:handler event="c:EVT_ServiceProfilingDisplayTableChange" action="{!c.handleTableChange}"/>
+    <aura:handler event="c:EVT_ServiceProfilingFilter" action="{!c.onFilterEvent}"/>
+    <aura:handler name="change" value="{!v.data}" action="{!c.filterData}"/>
+    <aura:handler name="change" value="{!v.filteredData}" action="{!c.checkTableData}"/>
+
+    <!-- METHODS -->
+    <aura:method name="buildTable" action="{!c.buildTable}" description="Builds the table with the data passed to the component">
+        <aura:attribute name="innerData" type="List" description="List of data to be grouped"/>
+        <aura:attribute name="grouping" type="List" description="List of groups"/>
+    </aura:method>
+
+    <aura:method name="addNewData" action="{!c.addNewData}" description="Adds data to the table, if not already existing">
+        <aura:attribute name="newData" type="List" description="List of data to be inserted. The format is the same as for innerData"/>
+    </aura:method>
+
+    <aura:method name="updateEntitlements" action="{!c.updateEntitlements}" description="Updates the entitlements associated with a given accuont">
+        <aura:attribute name="currentAccount" type="String" description="Account whose entitlements are going to be updated"/>
+        <aura:attribute name="newEntitlements" type="List" description="List of udpated entitlements"/>
+    </aura:method>
+
+    <!-- COMPONENT MARKUP -->
+    <!-- Profiling table header -->
+    <div class="slds-card__header slds-grid pagination">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title results">
+                    <aura:if isTrue="{!v.filteredData.length > 0}">
+                        1-{!v.filteredData.length} / {!v.filteredData.length}
+                    </aura:if>
+                    <aura:if isTrue="{!v.filteredData.length == 0}">
+                        0-{!v.filteredData.length} / {!v.filteredData.length}
+                    </aura:if>
+                </div>
+            </div>
+        </header>
+    </div>
+    
+    <!-- Table -->
+    <div class="slds-table--header-fixed_container tableReports">
+        <div class="slds-scrollable_y">
+            <table class="slds-table slds-table_fixed-layout slds-table--header-fixed slds-table_resizable-cols slds-no-row-hover slds-table_striped" role="grid"> 
+                <!-- Table header -->    
+                <thead >
+                    <tr class="slds-text-title_caps">
+                        <th scope="col">
+                            <div class="slds-truncate slds-cell-fixed backgroundHeader" title=""></div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate slds-cell-fixed backgroundHeader">
+                                <span class="slds-truncate " title="{!$Label.c.Accounts}">{!$Label.c.Accounts}</span>
+                            </div>
+                        </th>
+                        <th scope="col">
+                            <div class=" slds-truncate slds-cell-fixed backgroundHeader">
+                                <span class="slds-truncate" title="{!$Label.c.ServiceProfiling_Entitlements}">{!$Label.c.ServiceProfiling_Entitlements}</span>
+                                
+                            </div>
+                        </th>
+                        <th class="containerIcon" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                        <th class="containerIcon" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                    </tr>
+                </thead>
+                
+                <!-- Table body -->  
+                <aura:if isTrue="{!v.filteredData.length > 0}">
+                    <tbody class="fontBody"> 
+                        <aura:iteration items="{!v.filteredData}" var="item" indexVar="index"> 
+                            <c:CMP_GroupNewS2_ProfilingTableRow group="{!item}" rowIndex="{!index}" isSummary="{!v.isSummary}"/>
+                        </aura:iteration>
+                    </tbody>
+                    <aura:set attribute="else">
+                        <tbody class="fontBody">
+                            <!-- ROW NO DATA -->
+                            <tr class="slds-hint-parent border" aria-selected="false">
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title=""></div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title="">{!$Label.c.ServiceProfiling_NoDataAvailable}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title=""></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </aura:set>
+                </aura:if>
+            </table>
+        </div>
+    </div>
+    
+</aura:component>

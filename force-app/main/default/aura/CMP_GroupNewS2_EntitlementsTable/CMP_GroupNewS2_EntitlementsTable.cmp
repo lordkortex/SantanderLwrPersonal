@@ -1,0 +1,55 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Entitlements with no associate accounts table
+History
+<Date>			<Author>		    <Description>
+13/02/2020		Guillermo Giral     Initial version
+-->
+<aura:component>
+    
+    <aura:attribute name="entitlementName" type="List" description="Name of the entitlements"/>
+    <aura:attribute name="isSummary" type="Boolean" description="Flag to indicate whether the table is view-only mode"/>
+
+    <aura:handler event="c:EVT_ServiceProfilingDisplayTableChange" action="{!c.removeRow}"/>
+
+    <div class="slds-table--header-fixed_container">
+        <div class="slds-scrollable_y">
+            <table class="slds-table slds-table_fixed-layout slds-table--header-fixed slds-table_resizable-cols slds-no-row-hover slds-table_striped" role="grid">
+                <!-- HEADER -->
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col">
+                            <div class="slds-truncate slds-cell-fixed backgroundHeader">
+                                <span class="slds-truncate " title="{!$Label.c.GroupNew_EntAssociateAcc}">{!$Label.c.GroupNew_EntAssociateAcc}</span>
+                            </div>
+                        </th>
+                        <th scope="col" class="containerIcon">
+                            <div class="slds-truncate" title=""></div>
+                        </th>
+                    </tr>
+                </thead>
+                <!-- BODY -->
+                <tbody>
+                    <!-- ROW  -->
+                    <tr role="gridcell">
+                        <td role="gridcell">
+                            <aura:if isTrue="{!v.entitlementName.length > 0}">
+                                <div class="slds-truncate" title="">{!v.entitlementName[0]}</div>
+                            <aura:set attribute="else">
+                                <div class="slds-truncate nodata" title="">{!$Label.c.ServiceProfiling_NoDataAvailable}</div>
+                            </aura:set>
+                            </aura:if>
+                        </td>
+                        <td role="gridcell">
+                            <aura:if isTrue="{! and(v.entitlementName.length > 0, v.isSummary == false)}">
+                                <button id="trashButton" class="slds-button slds-button_icon icon-trash" title="{!$Label.c.T_Delete}" onclick="{!c.removeRow}"></button>
+                            </aura:if>
+                        </td> 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+</aura:component>

@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Event used to accept or reject an authorization in the pending table">
+    <aura:attribute name="title" type="String" description="title of delete pop-up" />
+    <aura:attribute name="question" type="String" description="first bullet of delete pop-up" />
+    <aura:attribute name="showDeletePopup" type="Boolean" description="to show pop-up" />
+</aura:event>

@@ -1,0 +1,25 @@
+.THIS .slds-dropdown__item {
+    padding:5px;
+}
+
+.THIS .nameOrder {
+    color: #767676;
+    font-family: SantanderMicroText; 
+    font-size: 12px;
+}
+
+.THIS .optionOrder { 
+    display: inline-flex;
+    width: 100%; 
+}
+
+.THIS .paddingOption {
+    margin-top: 0;
+    padding: 5px 11px; 
+    display: block;
+}
+
+.THIS .paddingOption:hover {
+	border-radius: 4px;
+  	background-color: #e5f1f5;
+}

@@ -1,0 +1,55 @@
+.number {
+    font-size: 32px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.19;
+}
+.currency {
+    font-size: 24px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height:444;
+    line-height: 29px;
+}
+
+.numberTitle.bookInteger {
+    font-size: 32px;
+    font-family: "SantanderHeadlineW05-Bold";
+    color: #444444;
+    line-height: 38px;
+}
+
+.numberTitle.bookDecimals {
+    font-size: 24px;
+    font-family: "SantanderHeadlineW05-Bold";
+    color: #444444;
+    line-height: 29px;
+}
+
+.numberTitle > .bookDecimals {
+    font-size: 24px;
+    font-family: "SantanderHeadlineW05-Bold";
+    color: #444444;
+    line-height: 29px;
+}
+
+.numberTitle.bookDivisa {
+    font-size: 24px;
+    font-family: "SantanderHeadlineW05-Bold";
+    color: #444444;
+    line-height: 29px;
+}
+
+.subtitle.integer{
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 24px;
+}
+.subtitle.decimals {
+    font-size: 18px;
+}
+
+.bookDecimals { 
+    font-size: 14px;
+}
+
+.availableDecimals { 
+    font-size: 14px;
+}

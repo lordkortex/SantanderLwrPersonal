@@ -1,0 +1,45 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to implement the new input dropdown
+History
+<Date>			<Author>		<Description>
+27/02/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    
+    <aura:attribute name="valuePlaceholder" type="String" default="Select one" description="Value selected in the dropdown by default"/>
+
+    <aura:attribute name="settledFrom" type="Double"/>
+    <aura:attribute name="settledTo" type="Double"/>
+
+    <aura:attribute name="settledErrorFrom" type="String"/>
+    <aura:attribute name="settledErrorTo" type="String"/>
+    <!--<aura:handler name="change" value="{!v.settledTo}" action="{!c.updatePlaceHolder}"/>
+    <aura:handler name="change" value="{!v.settledFrom}" action="{!c.updatePlaceHolder}"/>-->
+
+    <aura:registerEvent name="updateFilterDropdown" type="c:EVT_updateFilter" />
+
+    <div class="slds-combobox_container">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="dialog" role="combobox">
+            <button class="slds-button slds-button_outline-brand buttonSelected buttonAccounts">{!v.valuePlaceholder}</button>
+            <section aura:id="button" aria-describedby="dialog-body-id-25" aria-label="" class="slds-popover slds-popover_full-width amountCombobox slds-dropdown" id="popover-unique-id-02" role="dialog">
+                 <div class="slds-popover__body" id="dialog-body-id-25">
+                     <fieldset class="slds-form-element">
+                       <div class="slds-form-element__control">
+                        <ui:inputNumber placeholder="{!$Label.c.from}"  maxlength="17" class="slds-input" format="{!$Locale.numberFormat}" value="{!v.settledFrom}" aura:id="settledFrom"/>                                                    
+                        <span class="textHelp">{!v.settledErrorFrom}</span>
+                        <ui:inputNumber placeholder="{!$Label.c.to}"  maxlength="17" class="slds-input" format="{!$Locale.numberFormat}" value="{!v.settledTo}" aura:id="settledTo"/>                                                    
+                        <span class="textHelp">{!v.settledErrorTo}</span>
+                       </div>
+                   </fieldset>
+                </div>
+                <footer class="slds-popover__footer">
+                   <button class="slds-button slds-button_neutral whiteButton"  onclick="{!c.clear}">{!$Label.c.clearAll}</button>
+                   <button class="slds-button slds-button_brand redButton" onclick="{!c.apply}" >{!$Label.c.apply}</button>
+                </footer>
+            </section>
+        </div>
+    </div>
+
+</aura:component>

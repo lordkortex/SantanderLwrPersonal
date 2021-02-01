@@ -1,0 +1,11 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="type" type="String" default='warning'/>
+    <aura:attribute name="show" type="Boolean" default='false'/>
+
+    <aura:handler name="showToast" event="c:EVT_Toast" action="{!c.showToast}"/>
+    <c:CMP_Toast type="{!v.type}" show="{!v.show}" message="{!v.message}"/>
+    
+    <c:CMP_Title title="{!$Label.c.DownloadBalance_DocumentDownload}" subtitle="{!$Label.c.DownloadBalance_DocumentDownloadSubtitle}"/>
+    <c:CMP_DownloadBalanceMovements/>
+</aura:component>

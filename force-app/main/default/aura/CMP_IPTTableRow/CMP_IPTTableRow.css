@@ -1,0 +1,31 @@
+.THIS td.status:active{
+     box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+
+.THIS .icon-circle__blue:hover:before,
+.THIS .icon-circle__blue:focus:before {
+    color: #1bb3bc;
+}
+
+.THIS .icon-circle__red:hover:before,
+.THIS .icon-circle__red:focus:before {
+    color: #c00;
+}
+
+.THIS .icon-circle__orange:hover:before,
+.THIS .icon-circle__orange:focus:before {
+    color: #fc3;
+}
+
+.THIS .icon-circle__green:hover:before,
+.THIS .icon-circle__green:focus:before {
+    color: #63ba68;
+}
+
+.THIS .slds-table th:active, .THIS .slds-table [role="gridcell"]:active {
+    box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+
+.THIS .slds-table_striped tbody tr:first-child > td:active{
+    box-shadow: inset 0 -1px 0 0 #cedee7, inset 0 1px 0 0 #cedee7;
+}

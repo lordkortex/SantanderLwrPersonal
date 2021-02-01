@@ -1,0 +1,39 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Visual Component containing the name of the group inserted in step 1 (Step 2)
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version
+-->
+<aura:component>
+    <aura:attribute name="groupName" type="String" description="name of the group"/>
+    <aura:attribute name="serviceName" type="String" description="Name of the service"/>
+
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+
+                <div class="name">
+                    <div class="slds-card__header-title name">
+                        {!$Label.c.GroupNew_Name}
+                    </div>
+                    <div class="slds-card__header-title information">
+                        {!v.groupName}
+                    </div>
+                </div>
+                <aura:if isTrue="{!and(v.serviceName != '', v.serviceName != undefined)}">
+                    <div class="rol">
+                        <div class="slds-card__header-title name">
+                            {!$Label.c.GroupNew_Service}
+                        </div>
+                        <div class="slds-card__header-title information">
+                            {!v.serviceName}
+                        </div>
+                    </div>
+                </aura:if>
+            </header>
+        </div>
+    </article>
+
+</aura:component>

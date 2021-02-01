@@ -1,0 +1,116 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Component to show the currency dropdown and information about the screen
+History
+<Date>			<Author>		    <Description>
+28/02/2020		Pablo Tejedor     	Initial version
+08/04/2020		Guillermo Giral   	Bug fixing, upToDate + upToHour not calculating correctly
+28/04/2020      Shahad Naji         Diactivate dropdown when selectedTimeframe is "currency"
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_CurrencyExchange">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="currencies" type="List" default="" description="List of values to populate the dropdown" />
+    <aura:attribute name="selectedCurrency" type="String" description="Selected option from the dropdown" />
+    <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text" /> 
+    <aura:attribute name="isLastUpdate" type="Boolean" default="true"/>
+    <aura:attribute name="accountCurrencies" type="List" description="A list of the users account currencies"/>
+    <aura:attribute name="currentCurrency" type="Object" description="Selected currency"/>
+    <aura:attribute name="upToDate" type="String" default="N/A" description="Updating date of conversion rates in salesforce"/>
+    <aura:attribute name="upToHour" type="String" default="N/A" description="Updating date of conversion rates in salesforce"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="true" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="isoCodeList" type="List" description="A list of available Currency Iso Codes for current logged user"/>
+    <aura:attribute name="corporateCurrency" type="Object" description="Corporate currency"/>
+    <aura:attribute name="currencyList" type="List" description="List of currencies available for current logged user"/>
+    <aura:attribute name="fireNavigationEvent" type="Boolean" default="false" description="Flag to make the component fire an event on breadcrumb click"/>
+    <aura:attribute name="source" type="String" description="Indicates the source screen, to display the breadcrumbs accordingly"/>
+    <aura:attribute name="iAccount" type="Object" description="Account information"/>
+    <aura:attribute name="thisTest" type="List"/>
+    <aura:attribute name="selectedTimeframe" type="String" default="{!$Label.c.Country}" description="Default selected groupby for the dropdown"/>
+    <aura:attribute name="accountLastUpdate" type="String" description="Last update of account list"/>
+    <aura:attribute name="upToDateAux" type="String" default="N/A" description="Updating date of conversion rates in salesforce"/>
+    <aura:attribute name="upToHourAux" type="String" default="N/A" description="Updating date of conversion rates in salesforce"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+    
+    <!-- Methods -->
+    <aura:method name="calculateLastUpdated" action="{!c.calculateLatestDate}" description="Given the accounts list, calculates the latest date">
+        <aura:attribute name="isLastUpdate" type="Boolean" description="Indicates whether the data is Last Update / End of day"/>
+        <aura:attribute name="accountsInfo" type="List" description="List of accounts returned from the balance tree"/>
+        <aura:attribute name="theUpdate" type="String" description="Last update of account list"/>  
+        <aura:attribute name="theUpdateMain" type="String" description="Last update of account list without changing GMT timezone to user's one"/>  
+    </aura:method>
+    
+    <aura:method name="selectCurrency" action="{!c.selectCurrency}" description="Select a currency from another component">
+        <aura:attribute name="currencyIsoCode" type="String" description="Iso code of the currency to be selected"/>
+    </aura:method>
+    
+    <!-- Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> 
+    <aura:handler name="dropdownExchangeCurrency" event="c:EVT_DropdownValueSelected" action="{!c.selectCurrency}"/>
+    
+    <!-- Events -->
+    
+    <aura:registerEvent name="AccountsTab" type="c:EVT_SelectedTab"/>
+    <!-- <aura:registerEvent name="GlobalBalanceTab" type="c:EVT_CurrentTabSelected"/>-->  
+    <aura:registerEvent name="Currency_Exchanger" type="c:EVT_Currency_Exchange"/>
+    <aura:registerEvent name="navigateBack" type="c:EVT_TitleSubtitleNavigate"/>
+    <aura:registerEvent name="launchToast" type="c:EVT_ShowToast"/>
+    
+    <!-- Component markup -->
+    
+    <div class="slds-grid title_container">
+        <div class="slds-col">
+            <aura:if isTrue="{!v.source == 'home'}">
+                <div class="slds-text-heading_medium">
+                    <div class="button-back icon-arrowLeft_big" onclick="{!c.goBack}"></div>
+                    <span class="text-link" onclick="{!c.goBack}">{!$Label.c.GlobalPosition}</span>
+                </div>
+            </aura:if>
+            <div class="slds-text-heading_medium subtitle">{!$Label.c.Accounts}</div>
+            <aura:if isTrue="{!v.isLastUpdate}">
+                <!--<div class="slds-text-heading_subtitle">{!$Label.c.Accounts_Updated}&nbsp;  <c:CMP_displayDate dateClass="" date="{!v.upToDate}"/>,{!v.upToHour}&nbsp;</div>-->
+                <div class="slds-text-heading_subtitle">{!$Label.c.Accounts_Updated}&nbsp;  <c:CMP_displayDate aura:id="displayDate" userDateFormat="{!v.userPreferredDateFormat}" dateClass="" date="{!v.upToDate}"/>, {!v.upToHour}&nbsp;</div>
+                <aura:set attribute="else">
+                    <div class="slds-text-heading_subtitle">{!$Label.c.Accounts_Updated}&nbsp;<c:CMP_displayDate convertToUserTimezone="false" aura:id="displayDate"  userDateFormat="{!v.userPreferredDateFormat}" dateClass="" date="{!v.upToDate}"/></div> 
+                </aura:set>
+            </aura:if>
+            
+            <div class="text_line"></div>
+        </div>
+        
+        <aura:if isTrue="{!v.isCashNexus}">
+            <div class="slds-col">
+                <div class="slds-pill_container ">
+                    <button class="{!v.isLastUpdate ? 'slds-pill slds-pill__active' : 'slds-pill'}" role="option" tabindex="0" aria-selected="true" data-title="{!$Label.c.LastUpdate}" onclick="{!c.LastUpdateTab}">
+                        <span class="slds-pill__label">{!$Label.c.LastUpdate}</span>
+                    </button>
+                    
+                    <button class="{!v.isLastUpdate ? 'slds-pill' : 'slds-pill slds-pill__active'}" role="option" tabindex="0" aria-selected="true" data-title="{!$Label.c.EndOfDay}" onclick="{!c.EndOfDayTab}">
+                        <span class="slds-pill__label">{!$Label.c.EndOfDay}</span>
+                    </button>
+                </div>
+            </div>
+        </aura:if>
+        
+        <div class="">
+            <div class="slds-form-element slds-combobox__Rg">    
+                <!-- DROPDOWN MARKUP -->
+                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                <aura:if isTrue="{!or(v.selectedTimeframe == $Label.c.currency, empty(v.accountCurrencies))}">
+                    
+                    <c:CMP_CN_Dropdown aura:id="currenciesDropdown" isSimpleDropdown="true" values="{!v.thisTest}"
+                                       selectedValue="{!$Label.c.selectOne}" headerDropdown="{!$Label.c.ConsolidationCurrency}" isDisabled="true"/>
+                    <aura:set attribute="else">
+                        <c:CMP_CN_Dropdown aura:id="currenciesDropdown" isSimpleDropdown="true" values="{!v.thisTest}"
+                                           selectedValue="{!v.selectedCurrency}" headerDropdown="{!$Label.c.ConsolidationCurrency}" isDisabled="false"/>
+                    </aura:set>
+                </aura:if>
+                
+            </div>
+        </div>
+    </div>
+</aura:component>

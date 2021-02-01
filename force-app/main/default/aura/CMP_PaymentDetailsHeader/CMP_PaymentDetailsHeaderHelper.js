@@ -1,0 +1,5 @@
+({
+	getInformation : function(component, event) {
+		
+	}
+})

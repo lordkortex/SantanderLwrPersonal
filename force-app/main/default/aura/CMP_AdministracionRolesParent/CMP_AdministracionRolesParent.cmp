@@ -1,0 +1,73 @@
+<!--
+	Author:         Pablo Tejedor & Guillermo Giral
+    Company:        Deloitte
+	Description:    Parent component for the Roles window
+    History
+    <Date>			<Author>			<Description>
+    26/12/2019		Pablo Tejedor   	Initial version
+    09/01/2020      Guillermo Giral     Final version
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+   
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="data"             type="List"     description="Data displayed in the roles table"/>
+    <aura:attribute name="dataSaveSuccess"  type="Boolean"  default="false"  description="Flag to display the toast message on save success"/>
+    
+    <lightning:navigation aura:id="navService"/>
+
+    <!-- COMPONENT MARKUP -->
+    <!--Title -->
+    <c:CMP_Title title="{!$Label.c.AdminRoles_Roles}"/>
+
+    <!-- Toast message-->
+    <aura:if isTrue="{!v.dataSaveSuccess}">
+        <div class="demo-only">
+            <div class="slds-notify_container slds-is-relative">
+                <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+                    <span class="slds-assistive-text">Success</span>
+                    <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="Description of icon when needed">
+                        <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin" aria-hidden="true">
+                            <div class="button-selected icon-check"></div>
+                        </div>
+                    </span>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small">{!$Label.c.AdminRoles_RoleSuccess}</h2>
+                    </div>
+                    <div class="slds-notify__close">
+                        <button class="slds-button slds-button_icon" title="Close" onclick="{!c.clearToast}">
+                            <div class="slds-button__icon slds-button__icon_hint icon-delete" aria-hidden="true"></div>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- Table title -->
+    
+    <div class="slds-card__header slds-grid pagination">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title results">
+                {!$Label.c.AdminRoles_RolesList}
+                </div>
+            </div>
+        </header>
+    </div>
+
+    <!-- Table -->
+    <c:CMP_AdministracionRolesTable aura:id="rolesTable" tableData="{!v.data}"/>
+
+    <!-- Buttons -->
+    
+    <div class="slds-clearfix">
+        <div class="slds-float_left">
+            <button class="slds-button slds-button_brand whiteButton" title="Cancel" onclick="{!c.resetValues}">{!$Label.c.AdminRoles_Cancel}</button>
+        </div>
+        <div class="slds-float_right">
+            <button class="slds-button slds-button_brand redButton" title="Save" onclick="{!c.sendRoleData}">{!$Label.c.AdminRoles_Save}</button>
+        </div>
+    </div>
+   
+</aura:component>

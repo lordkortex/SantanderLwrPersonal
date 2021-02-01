@@ -1,0 +1,55 @@
+.spinnerLoading{
+    position: absolute;
+    height:6rem; 
+    width: 100%;
+    left: 0;
+
+}
+ .spinnerLoading .slds-spinner{
+    display: flex;
+    justify-content: center;
+    top: 128px; /*keep to align spinner on background*/
+    z-index: 0;
+}
+ .spinnerLoading .spinnerText {
+    text-align: center;
+    position: relative;
+    top: 152px; /*keep to align spinner on background*/
+    margin-top: 8px;
+    /* z-index: 0; */
+}
+
+ .spinnerLoading .spinnerText .title{
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 20px;
+    line-height: 28px;
+    color: #444444;
+    margin-bottom: 4px;
+}
+
+ .spinnerLoading .spinnerText .subtitle{
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+
+ .spinnerLoading  .slds-spinner::before, 
+ .spinnerLoading  .slds-spinner::after, 
+ .spinnerLoading  .slds-spinner__dot-a::before, 
+ .spinnerLoading  .slds-spinner__dot-b::before, 
+ .spinnerLoading  .slds-spinner__dot-a::after, 
+ .spinnerLoading  .slds-spinner__dot-b::after {
+    content: "";
+    background: #ec0000;
+    height: 8px;
+    width: 8px;
+}
+
+/*spinner background*/
+.table-background{
+    background-image: url('/sfsites/c/resource/Images/table.svg');
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    height: 384px;
+}

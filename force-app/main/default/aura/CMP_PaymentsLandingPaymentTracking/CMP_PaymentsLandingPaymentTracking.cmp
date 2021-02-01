@@ -1,0 +1,404 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute access="public" type="Boolean" name="showMoreAuth"      default="false"             description="Boolean to show or hide more detail in Authorization"/>
+    <aura:attribute access="public" type="Boolean" name="showMoreInProg"    default="false"             description="Boolean to show or hide more detail in In Progress"/>
+    <aura:attribute access="public" type="String"  name="paymentStatus"     default="Not authorized"    description="Status of payment"/>
+    <aura:attribute access="public" type="Integer" name="trackingStep"      default="1"                 description="Integer to control the active tracking step: 1-Creation, 2-Authorization, 3-In Progress, 4-Completed"/>
+    
+    <aura:attribute access="public" type="List"    name="approvedAuthorizers"       default="['Paula Díaz', 'Juan Miguel']"     description="Approved authorizers"/>
+    <aura:attribute access="public" type="List"    name="pendingAuthorizers"        default="[Roberto Íñigo', 'Edward Jones']"  description="Pending authorizers"/>
+    <aura:attribute access="public" type="String"  name="transactionCreator"        default="Dani García"                       description="Transaction creator"/>
+    <aura:attribute access="public" type="String"  name="statusCode"                description="Status Code"/>
+    <aura:attribute access="public" type="String"  name="reasonCode"                description="Reason Code"/>
+    <aura:attribute access="public" type="List"     name="statusHistory"            description="List of status changes indicated as objects with status, reason and statusDate"/>
+    <aura:attribute access="public" type="Map"      name="payment"                  description="Details of the payment"/>
+    <aura:attribute access="public" type="List"     name="creation"                 description="List of contents for Creation section"/>
+    <aura:attribute access="public" type="List"     name="authorization"            description="List of contents for Authorization section"/>
+    <aura:attribute access="public" type="List"     name="inProgress"               description="List of contents for In Progress section"/>
+    <aura:attribute access="public" type="List"     name="completed"                description="List of contents for Completed section"/>
+    <aura:attribute access="public" type="User"     name="currentUser"   				                description="Current user data"/> 
+    <aura:attribute access="public" type="Integer"  name="authorizationLength"   	description="Number of comments in the authorization step"/> 
+    <aura:attribute access="public" type="Map"      name="authorizationTopLine"   	description="Most recent status change in the authorization step"/> 
+    
+
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
+
+    <div class="slds-progress slds-progress_vertical trackingPayment">
+        
+        <div class="sectionTitle">{!$Label.c.PAY_TransactionTracking}</div>  
+        <ol class="slds-progress__list">
+            
+            <!-- STEP 1: CREATION -->
+            <!-- Añadir la clase slds-is-active en el siguiente <li> si el item está activo, o slds-is-completed si el paso ya se ha completado-->
+            <li class="{!'slds-progress__item'+(v.trackingStep > 1 ?' slds-is-completed':(v.trackingStep == 1 ? ' slds-is-active': ' item_disabled'))}">
+                <div class="slds-icon_container slds-progress__marker slds-progress__marker_icon progressBar">
+                    <div class="slds-media__figure containerIcon">
+                        <span class="iconActive"></span>
+                    </div>
+                    <div class="slds-media__figure containerIcon">
+                        <span class="icon-circle_check"><span class="path1"></span><span class="path2"></span></span>
+                    </div>
+                    <div class="slds-media__figure containerIcon">
+                        <span class="icon-circle_exclamation"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+                    </div>
+                </div>
+                <div class="slds-progress__item_content">
+                    <h2 class="stepTitle">{!$Label.c.PAY_Creation}</h2>
+                    <div class="slds-grid">
+                        <div class="slds-col">
+                            <div class="row textRegular grey">
+                                <!-- <span>25/04/2020, 10:11</span> -->
+                                <!-- <span>{!v.creation[0].statusDate}</span> -->
+                                <span>
+                                    <c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.creation[0].statusDate}"/> {!', ' + v.creation[0].time}
+                                </span>
+                                <span class="dash slds-text-align_center">-</span>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <!-- <span class="textRegular">Transaction created by<span class="textBold">{!v.transactionCretor}.</span></span> -->
+                            <span class="textRegular">{!v.creation[0].comment1}<span class="textBold">{!v.creation[0].comment2}</span></span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            
+            <!-- STEP 2: AUTHORIZATION -->
+            <!-- Añadir la clase slds-is-active en el siguiente <li> si el item está activo, o slds-is-completed si el paso ya se ha completado-->
+            <!-- Añadir la clase item_info si el item muestra información adicional -->
+            <!-- Añadir la clase item_error si ha ocurrido un error -->
+            <!-- Añadir la clase item_disabled si el item está deshabilitado -->
+            <li class="{!'slds-progress__item'+(v.trackingStep > 2 ?' slds-is-completed':(v.trackingStep == 2 ? ' slds-is-active': ' item_disabled'))}">
+                <div class="slds-icon_container slds-progress__marker slds-progress__marker_icon progressBar">
+                    <div class="slds-media__figure containerIcon">
+                        <span class="iconActive yellow"></span>
+                    </div>
+                    <div class="slds-media__figure containerIcon">
+                        <span class="icon-circle_check"><span class="path1"></span><span class="path2"></span></span>
+                    </div>
+                    <div class="slds-media__figure containerIcon">
+                        <span class="icon-circle_exclamation"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+                    </div>
+                </div>
+
+                
+                
+                <!-- Añadir la clase unfolded al siguiende <div> para mostrar el detalle desplegado -->
+                <div class="{!'slds-progress__item_content' + (v.showMoreAuth ? ' unfolded':'')}">
+                    <h2 class="stepTitle">{!$Label.c.Authorization}</h2>
+                    <div class="slds-grid">
+                        <aura:if isTrue="{!not(v.showMoreAuth)}">
+                            <div class="slds-col">
+                                <div class="row textRegular grey">
+                                    <span>
+                                        <c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.authorizationTopLine.statusDate}"/> {!', ' + v.authorizationTopLine.time}
+                                    </span>
+                                    <span class="dash slds-text-align_center">-</span>
+                                </div>
+                                <aura:if isTrue="{!v.authorization.length > 1}">
+                                    <div class="link-details">
+                                    <button class="slds-button button_link" onclick="{!c.moreAuth}">{!$Label.c.MoreDetail}<span class="icon_right icon-arrowDown_small"></span></button>
+                                    </div>
+                                </aura:if>
+                            </div>
+                            <div class="slds-col">
+                                <span class="textRegular">{!v.authorizationTopLine.comment1}<span class="textBold">{!v.authorizationTopLine.comment2}</span></span>
+                            </div>
+                        </aura:if>
+                    </div>
+                    
+                    <!-- Details -->
+                    <div class="details">
+                        <ol>                        
+                            <aura:iteration items="{!v.authorization}" var="item" indexVar="index">
+                                <li class="slds-grid">
+                                    <div class="slds-col">
+                                        <div class="row textRegular grey">
+                                            <span>
+                                                <c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!item.statusDate}"/> {!', ' + item.time}
+                                            </span>
+                                            <span class="dash slds-text-align_center">-</span>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <span class="textRegular">{!item.comment1}<span class="textBold">{!item.comment2}</span></span>
+                                    </div>
+                                </li>
+                            </aura:iteration>
+                        </ol>
+                        <div class="link-details">
+                            <button class="slds-button button_link" onclick="{!c.lessAuth}">{!$Label.c.LessDetail}<span class="icon_right icon-arrowUp_small"></span></button>
+                        </div>
+                    </div>
+                   
+                    
+                    <!-- Alerts -->
+                    <div class="toast">
+                        <!-- INFORMATIVE TOAST -->
+                        <!-- Ocultar este toast si no es necesario mostrar información adicional -->
+                        <div class="slds-notify_container slds-is-fixed toast_static">
+                            <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                            <div class="slds-notify slds-notify_toast slds-theme_info action slds-scrollable_y" role="status">
+                                <span class="slds-assistive-text">information</span>
+                                <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top icon-information button-selected" data-title="Information"></span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">Notification title</h2>
+                                    <p class="notifyText">Body text</p>
+                                    <!-- ACTION BUTTON --> 
+                                    <button class="slds-button slds-button_icon icon-action">
+                                        <span class="action">View</span>
+                                    </button>
+                                </div>
+                                <div class="slds-notify__close">
+                                    <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- ERROR TOAST -->
+                        <!-- Este toast se mostrará cuando el <li class="slds-progress__item"> tenga la clase item_error. -->
+                        <div class="slds-notify_container toast_static slds-is-fixed">
+                            <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                            <div class="slds-notify slds-notify_toast slds-theme_error slds-scrollable_y" role="status">
+                                <span class="slds-assistive-text">error</span>
+                                <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top  button-selected icon-close_emptyCircle" data-title="Error"></span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">Notification title</h2>
+                                    <p class="notifyText">Body text</p>
+                                    <!-- ACTION BUTTON -->
+                                    <button class="slds-button slds-button_icon icon-action">
+                                        <span class="action">Action</span>
+                                    </button>
+                                </div>
+                                <div class="slds-notify__close">
+                                    <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            
+            <!-- STEP 3: IN PROGRESS -->
+            <!-- Añadir la clase slds-is-active en el siguiente <li> si el item está activo, o slds-is-completed si el paso ya se ha completado-->
+            <!-- Añadir la clase item_info si el item muestra información adicional -->
+            <!-- Añadir la clase item_error si ha ocurrido un error -->
+            <!-- Añadir la clase item_disabled si el item está deshabilitado -->
+            <!-- <li class="{!'slds-progress__item'+(v.trackingStep > 3 ?' slds-is-completed item_info':(v.trackingStep == 3 ? ' slds-is-active item_info': ' item_disabled'))}">
+                <div class="slds-icon_container slds-progress__marker slds-progress__marker_icon progressBar">
+                    <div class="slds-media__figure containerIcon">
+                        <span class="iconActive"></span>
+                    </div>
+                    <div class="slds-media__figure containerIcon">
+                        <span class="icon-circle_check"><span class="path1"></span><span class="path2"></span></span>
+                    </div>
+                    <div class="slds-media__figure containerIcon">
+                        <span class="icon-circle_exclamation"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+                    </div>
+                </div> -->
+                <!-- Añadir la clase unfolded al siguiende <div> para mostrar el detalle desplegado -->
+                <!-- <div class="{!'slds-progress__item_content' + (v.showMoreInProg ? ' unfolded':'')}">
+                    <h2 class="stepTitle">{!$Label.c.PAY_InProgress}</h2>
+                    <div class="slds-grid">
+                        <div class="slds-col">
+                            <div class="textRegular grey row">
+                                <span>25/04/2020, 10:11</span>
+                                <span class="dash slds-text-align_center">-</span>
+                            </div>
+                            <div class="link-details">
+                              <button class="slds-button button_link" onclick="{!c.moreInProg}">{!$Label.c.MoreDetail}<span class="icon_right icon-arrowDown_small"></span></button>
+                            </div>
+                        </div>
+                        <div class="slds-col">
+                            <span class="textRegular">Payment approved by bank and released to external bank.</span>
+                        </div>
+                    </div> -->
+                    <!-- Details -->
+                    <!-- <div class="details">
+                        <ol>
+                            <li class="slds-grid">
+                                <div class="slds-col">
+                                    <div class="row textRegular grey">
+                                        <span>25/04/2020, 10:11</span>
+                                        <span class="dash slds-text-align_center">-</span>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <span class="textRegular">Payment authorized by<span class="textBold">{!'Paula Diaz ('+$Label.c.PAY_Director+')'}</span></span>
+                                </div>
+                            </li>
+                            <li class="slds-grid">
+                                <div class="slds-col">
+                                    <div class="row textRegular grey">
+                                        <span>25/04/2020, 10:11</span>
+                                        <span class="dash slds-text-align_center">-</span>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <span class="textRegular">Payment authorized by<span class="textBold">{!'Juan Miguel ('+$Label.c.PAY_Manager+')'}</span></span>
+                                </div>
+                            </li>
+                            <li class="slds-grid">
+                                <div class="slds-col">
+                                    <div class="row textRegular grey">
+                                        <span>25/04/2020, 10:11</span>
+                                        <span class="dash slds-text-align_center">-</span>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <span class="textRegular">Payment authorized by<span class="textBold">{!'Roberta Íñigo ('+$Label.c.PAY_Analyst+')'}</span></span>
+                                </div>
+                            </li>
+                            <li class="slds-grid">
+                                <div class="slds-col">
+                                    <div class="row textRegular grey">
+                                        <span>25/04/2020, 10:11</span>
+                                        <span class="dash slds-text-align_center">-</span>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <span class="textRegular">Payment authorized by<span class="textBold">{!'Edward Jones ('+$Label.c.PAY_Analyst+')'}</span></span>
+                                </div>
+                            </li>
+                        </ol>
+                        <div class="link-details">
+                            <button class="slds-button button_link" onclick="{!c.lessInProg}">{!$Label.c.LessDetail}<span class="icon_right icon-arrowUp_small"></span></button>
+                        </div>
+                    </div> -->
+                    
+                    <!-- Alerts -->
+                    <!-- <div class="toast"> -->
+                        <!-- INFORMATIVE TOAST -->
+                        <!-- Ocultar este toast si no es necesario mostrar información adicional -->
+                        <!-- <div class="slds-notify_container slds-is-fixed toast_static"> -->
+                            <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                            <!-- <div class="slds-notify slds-notify_toast slds-theme_info action slds-scrollable_y" role="status">
+                                <span class="slds-assistive-text">information</span>
+                                <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top icon-information button-selected" data-title="Information"></span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">International payment information</h2>
+                                    <p class="notifyText">25/04/2020, 10:11 - Payment being processed by recipient bank.</p> -->
+                                    <!-- ACTION BUTTON : link to International payment tracker when it is available--> 
+                                    <!-- <button class="slds-button slds-button_icon icon-action">
+                                        <span class="action">View</span>
+                                    </button>
+                                </div>
+                                <div class="slds-notify__close">
+                                    <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
+                                </div>
+                            </div>
+                        </div> -->
+                        
+                        <!-- ERROR TOAST -->
+                        <!-- Este toast se mostrará cuando el <li class="slds-progress__item"> tenga la clase item_error. -->
+                        <!-- <div class="slds-notify_container toast_static slds-is-fixed"> -->
+                            <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                            <!-- <div class="slds-notify slds-notify_toast slds-theme_error slds-scrollable_y" role="status">
+                                <span class="slds-assistive-text">error</span>
+                                <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top  button-selected icon-close_emptyCircle" data-title="Error"></span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">Notification title</h2>
+                                    <p class="notifyText">Body text</p> -->
+                                    <!-- ACTION BUTTON -->
+                                    <!-- <button class="slds-button slds-button_icon icon-action">
+                                        <span class="action">Action</span>
+                                    </button>
+                                </div>
+                                <div class="slds-notify__close">
+                                    <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li> -->
+            
+            <!-- STEP 4: COMPLETED -->
+            <!-- Añadir la clase slds-is-active en el siguiente <li> si el item está activo o slds-is-completed si el paso ya se ha completado-->
+            <!-- Añadir la clase item_success junto con la clase slds-is-completed si el proceso se ha completado con éxito -->
+            <!-- Añadir la clase item_error si ha ocurrido un error -->
+            <!-- Añadir la clase item_disabled si el item está deshabilitado -->
+            <!-- <li class="{!'slds-progress__item'+(v.trackingStep > 4 ?' slds-is-completed':(v.trackingStep == 4 ? ' slds-is-active': ' item_disabled'))}"> -->
+            <li class="{!'slds-progress__item'+(v.trackingStep > 4 ?' slds-is-completed':(v.trackingStep == 4 ? (v.payment.paymentStatus == '999' ? ' slds-is-completed item_error' : ' slds-is-completed item_success'): ' item_disabled'))}">
+                <div class="slds-icon_container slds-progress__marker slds-progress__marker_icon progressBar">
+                    <div class="slds-media__figure containerIcon">
+                        <span class="iconActive red"></span>
+                    </div>
+                    <div class="slds-media__figure containerIcon">
+                        <span class="icon-circle_check"><span class="path1"></span><span class="path2"></span></span>
+                    </div>
+                    <div class="slds-media__figure containerIcon">
+                        <span class="icon-circle_exclamation"><span class="path1"></span><span class="path2"></span><span class="path3"></span></span>
+                    </div>
+                </div>
+                <div class="slds-progress__item_content">
+                    <aura:if isTrue="{!v.payment.paymentStatus == '999'}">
+                        <h2 class="stepTitle">{!$Label.c.PAY_Rejected}</h2>
+                        <aura:set attribute="else">
+                            <h2 class="stepTitle">{!$Label.c.completed}</h2>
+                        </aura:set>
+                    </aura:if>
+                    <!-- <h2 class="stepTitle">{!$Label.c.completed}</h2> -->
+                    
+                    <!-- Alerts -->
+                    <div class="toast">
+                        
+                        <!-- SUCCESS TOAST -->
+                        <!-- Este toast se mostrará si el <li class="slds-progress__item"> tiene la clase item_success -->
+                        <div class="slds-notify_container toast_static slds-is-fixed">
+                            <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                            <div class="slds-notify slds-notify_toast slds-theme_success slds-scrollable_y" role="status">
+                                <span class="slds-assistive-text">success</span>
+                                <span class="slds-icon_container slds-icon-utility-success  slds-m-right_small slds-no-flex slds-align-top  button-selected icon-check_circle" data-title="Success"></span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">{!v.completed[0].comment1}</h2>
+                                    <p class="notifyText">
+                                        <c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.completed[0].statusDate}"/> {!', ' + v.completed[0].time + ' - ' + v.completed[0].comment2}
+                                    
+                                    </p>
+                                    <!-- ACTION BUTTON -->
+                                    <button class="slds-button slds-button_icon icon-action">
+                                        <span class="action">Action</span>
+                                    </button> 
+                                </div>
+                                <div class="slds-notify__close">
+                                    <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
+                                </div>
+                            </div>
+                        </div> 
+                        
+                        <!-- ERROR TOAST -->
+                        <!-- Este toast se mostrará si el <li class="slds-progress__item"> tiene la clase item_unsuccess -->
+                        <div class="slds-notify_container toast_static slds-is-fixed">
+                            <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                            <div class="slds-notify slds-notify_toast slds-theme_error slds-scrollable_y" role="status">
+                                <span class="slds-assistive-text">error</span>
+                                <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top  button-selected icon-close_emptyCircle" data-title="Error"></span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">Notification title</h2>
+                                    <p class="notifyText">Body text</p>
+                                    <!-- ACTION BUTTON -->
+                                    <button class="slds-button slds-button_icon icon-action">
+                                        <span class="action">Action</span>
+                                    </button>
+                                </div>
+                                <div class="slds-notify__close">
+                                    <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </li>
+        </ol>
+        
+        <div aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" role="progressbar">
+            <span class="slds-assistive-text">Progress: 25%</span>
+        </div>
+    </div>
+    
+</aura:component>

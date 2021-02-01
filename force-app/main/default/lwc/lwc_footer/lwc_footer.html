@@ -1,0 +1,11 @@
+<template>
+    <footer class="footer">
+        <a class="link" onclick={goToLegalInformation}>{label.legalInformation}</a>
+        <span class="separation"> | </span>
+        <a class="link" onclick={goToPrivacy}>{label.privacy}</a>
+        <template if:true={countrycondition}>
+            <span class="separation"> | </span>
+            <a class="link" onclick={goToTerms}>{label.termsConditions}</a>
+        </template>
+    </footer>
+</template>

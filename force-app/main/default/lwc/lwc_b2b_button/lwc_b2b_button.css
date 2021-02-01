@@ -1,0 +1,43 @@
+.icon.icon-close,
+ .icon.icon-time,
+ .icon.icon-arrowLeft_big {
+   color: #ec0000;
+   font-family: "SantanderMicroText" !important;
+   font-size: 14px;
+   line-height: 24px;
+   cursor: pointer;
+}
+
+ .icon.icon-arrowLeft_big:before {
+   font-family: 'icomoon' !important;
+   font-size: 24px;
+   float: left;
+   margin-right: 4px;
+   height: 24px;
+}
+
+ .icon.icon-close:before,
+ .icon.icon-time:before {
+   font-family: 'icomoon' !important;
+   font-size: 24px;
+   float: right;
+   margin-left: 4px;
+}
+
+ .icon.icon-close:hover,
+ .icon.icon-time:hover,
+ .icon.icon-arrowLeft_big:hover,
+ .icon.icon-close:hover:before,
+ .icon.icon-time:hover:before,
+ .icon.icon-arrowLeft_big:hover:before {
+   color: #cc0000;
+}
+
+ .icon.icon-close:active,
+ .icon.icon-time:active,
+ .icon.icon-arrowLeft_big:active,
+ .icon.icon-close:active:before,
+ .icon.icon-time:active:before,
+ .icon.icon-arrowLeft_big:active:before {
+   color: #990000;
+}

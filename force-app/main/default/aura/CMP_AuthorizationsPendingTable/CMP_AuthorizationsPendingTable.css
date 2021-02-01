@@ -1,0 +1,187 @@
+.THIS .administrator{
+	width: 248px;
+}
+.THIS .administrator .slds-truncate{
+	padding-left:24px;
+}
+.THIS .authorizeAction{
+	width: 687px;
+}
+.THIS .border {
+	border: 1px solid #ececec;
+    border-right: 2px solid #ececec;
+}
+.THIS .containerIcon {
+	width:32px;
+}
+.THIS .containerIcon:nth-of-type(3n) {
+	padding: 0 24px;
+}
+.THIS div::-webkit-scrollbar {
+    width: 6px;
+}
+.THIS div::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+.THIS div::-webkit-scrollbar-track-piece{
+    background:transparent;
+}
+.THIS div::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+.THIS.pendingTable{
+    background-color: #ececec;
+}    
+.THIS.pendingTable .slds-button_icon{
+	font-size:24px;
+}
+.THIS.pendingTable .slds-scrollable_y{
+	max-height: 424px;
+}
+.THIS.pendingTable .slds-truncate {
+    color: #444444;
+    font-size: 12px;
+}
+.THIS.pendingTable thead .slds-truncate {
+	background-color: #ececec;
+    color: #444444;
+    font-family: SantanderTextW05-Bold;  
+    font-size: 14px;
+    letter-spacing: normal;
+    text-transform: initial;
+}
+.THIS .requestDate{
+	width: 137px;
+}
+.THIS .slds-button:focus {
+    box-shadow: none;
+}
+.THIS.slds-table--header-fixed_container::before {
+	display:none;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > td, 
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > th, 
+.THIS .slds-table--striped tbody tr:nth-of-type(2n) > td, 
+.THIS .slds-table--striped tbody tr:nth-of-type(2n) > th {
+    background-color: #f9fcfd;
+}
+.THIS td{
+    height: 34px;
+    padding: 0 8px;
+}
+.THIS td:first-child {
+	padding-left:24px;
+}
+.THIS td:last-child {
+	padding: 0;
+}
+.THIS td:nth-last-child(2),.THIS td:nth-last-child(3) {
+	padding:0 8px 0 0;
+}
+
+
+/* TOOLTIPS DIV
+.THIS div[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+.THIS div[data-title]:after {
+     background-color: #ffffff;
+     bottom: -1.6em;
+     border-radius: 5px;  
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;  
+     box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    color: #444444;
+    content: attr(data-title);
+    font-family:"SantanderTextW05-Regular";
+    font-size:12px;
+    height:24px;
+    right: 80%;
+    opacity: 0;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    visibility: hidden; 
+    white-space: nowrap;    
+    width:auto;
+    z-index: 99999;
+}
+
+.THIS  div[data-title] {
+    position: relative;
+}*/
+
+/* TOOLTIPS DIV*/
+.THIS td[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+.THIS td[data-title]:after {
+     background-color: #ffffff;
+     bottom: -1.6em;
+     border-radius: 5px;  
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;  
+     box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    color: #444444;
+    content: attr(data-title);
+    font-family:"SantanderTextW05-Regular";
+    font-size:12px;
+    height:24px;
+    left: 0%;
+    opacity: 0;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    visibility: hidden; 
+    white-space: nowrap;    
+    width:auto;
+    z-index: 99999;
+}
+
+.THIS  td[data-title] {
+    position: relative;
+}
+
+
+/*************PRUEBA*****************/
+.THIS td.slds-text-align_right[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+.THIS td.slds-text-align_right[data-title]:after{
+     background-color: #ffffff;
+     bottom: -1.6em;
+     border-radius: 5px;  
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;  
+     box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    color: #444444;
+    content: attr(data-title);
+    font-family:"SantanderTextW05-Regular";
+    font-size:12px;
+    height:24px;
+    left: 50%;
+    opacity: 0;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    visibility: hidden; 
+    white-space: nowrap;    
+    width:auto;
+    z-index: 99999;
+}
+
+.THIS  td.slds-text-align_right[data-title] {
+    position: relative;
+}

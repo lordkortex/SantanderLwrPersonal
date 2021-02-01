@@ -1,0 +1,707 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component for showing the legal information
+History
+<Date>			<Author>		<Description>
+22/01/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_termsFooter">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="country" default="Other" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- BRAZIL -->
+    <aura:if isTrue="{!v.country eq 'Other'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Política de Privacidade</div>
+            <div class="text_line"></div>
+        </div>
+        <div class="privacyInfoContainer">
+            <p>Alinhados com as melhores práticas e calcados em sua filosofia de transparência e respeito aos clientes Santander, apresentamos os princípios básicos da Política de Privacidade On-Line (chamada “Política de Privacidade”).</p>
+            <p>Tratam-se das diretrizes adotadas pelo Santander em relação à coleta, armazenamento, utilização e todas as demais formas de tratamento das informações pessoais dos clientes e visitantes, para acesso e uso dos nossos serviços pelos sites institucionais e pelo internet banking do Santander e empresas do Conglomerado Santander (denominados "Serviços").</p>
+            <br></br>
+            <div class="slds-text-heading_small">1. Definições</div>
+            <p>
+                <ul class="slds-list--dotted">
+                    <li>Agentes de tratamento: o controlador e o operador.</li> 
+                    <li>Controlador: pessoa natural ou jurídica, de direito público ou privado, a quem competem as decisões referentes ao tratamento de dados pessoais.</li>
+                    <li>Dado Pessoal: toda e qualquer informação relacionada a pessoa natural identificada ou identificável.</li>
+                    <li>Dado Pessoal Sensível: dado pessoal sobre origem racial ou étnica, convicção religiosa, opinião política, filiação a sindicato ou a organização de caráter religioso, filosófico ou político, dado referente à saúde ou à vida sexual, dado genético ou biométrico, quando vinculado a uma pessoa natural.</li>
+                    <li>Operador: pessoa natural ou jurídica, de direito público ou privado, que realiza o tratamento de dados pessoais em nome do controlador;</li>
+                    <li>Titular: pessoa natural a quem se referem os dados pessoais que são objeto de tratamento.</li>
+                    <li>Tratamento: toda operação realizada com dados pessoais, como as que se referem a coleta, produção, recepção, classificação, utilização, acesso, reprodução, transmissão, distribuição, processamento, arquivamento, armazenamento, eliminação, avaliação ou controle da informação, modificação, comunicação, transferência, difusão ou extração.</li>
+                </ul>
+            </p>
+            <br></br>
+            <div class="slds-text-heading_small">2. Quem é a responsável pelo tratamento dos dados pessoais (Controlador)?</div>
+            <p>É o Banco Santander (Brasil) S.A., sociedade anônima aberta inscrita no CNPJ/MF nº 90.400.888/0001-42, com sede na Av. Presidente Juscelino Kubitscheck 2041/2235, Vila Olímpia, São Paulo/SP, CEP: 04543-011 e/ou demais empresas do Grupo Santander. (“Santander”).</p>
+            <br></br>
+            <div class="slds-text-heading_small">3. Para quais finalidades os dados pessoais são tratados?</div>
+            <p>Nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/18), o Santander realiza o tratamento de seus dados pessoais com finalidades específicas e de acordo com as bases legais previstas na respectiva Lei, tais como: para o devido cumprimento das obrigações legais e
+                regulatórias, para o exercício regular de direitos e para a proteção do crédito, bem como sempre que necessário para a execução dos contratos firmados com seus clientes ou para atender aos interesses legítimos do Santander, de seus clientes ou de terceiros. Para qualquer outra
+                finalidade, para a qual o consentimento do titular deve ser coletado, o tratamento estará condicionado à manifestação livre, informada e inequívoca do titular.
+            </p>
+            <p> O Santander, na condição de controlador dos dados nos termos da legislação, poderá tratar, coletar, armazenar e compartilhar com as sociedades sob controle direto ou indireto do Santander (“Conglomerado Santander”), sempre com a estrita observância à Lei, seus
+                dados pessoais e informações cadastrais, financeiras e de operações ativas e passivas e serviços contratados para: (i) garantir maior segurança e prevenir fraudes; (ii) assegurar sua adequada identificação, qualificação e autenticação; (iii) prevenir atos relacionados à
+                lavagem de dinheiro e outros atos ilícitos; (iv) realizar análises de risco de crédito; (v) aperfeiçoar o atendimento e os produtos e serviços prestados; (vi) fazer ofertas de produtos e serviços adequados e relevantes aos seus interesses e necessidades de acordo
+                com o seu perfil; e (vii) outras hipóteses baseadas em finalidades legítimas, como apoio e promoção de atividades do Santander e do Conglomerado Santander ou para a prestação de serviços que beneficiem os clientes.
+            </p>
+            <p>O Santander compartilha infraestrutura, sistemas e tecnologia com outras empresas do Conglomerado Santander para fornecer uma experiência inovadora, relevante, consistente e segura em todos os produtos e serviços das empresas do Conglomerado Santander.</p>
+            <p>Ainda, processamos informações sobre você nas empresas do Conglomerado Santander com este objetivo, conforme permitido pela lei aplicável e de acordo com esta política.</p>
+            <p>Ressaltamos que novos serviços online, disponibilizados pelo Santander, estarão automaticamente sujeitos à Política de Privacidade vigente à época de sua utilização.</p>
+            <p>Queremos oferecer a melhor experiência durante a sua navegação em nossos sites e também na internet.</p>
+            <br></br>
+            <div class="slds-text-heading_small">4. Tratamos quais dados pessoais?</div>
+            <p>
+                <table class="slds-table--bordered">
+                    <tr>
+                        <th>Origens de dados pessoais</th>
+                        <th>Conjunto de dados pessoais</th>
+                        <th>Famílias de finalidades</th>
+                    </tr>
+                    <br></br>
+                    <tr>
+                        <td>Os dados foram obtidos: <br></br>(i) diretamente do titular <br></br>quando da contratação dos <br></br>produtos e serviços desta <br></br>instituição financeira ou em <br></br>simulações em fase de <br></br>proposta; ou <br></br>(ii) de fontes externas
+                            <br></br>legítimas, com devido <br></br>embasamento legal ou <br></br>contratual; ou <br></br>(iii) em razão de eventual <br></br>compartilhamento de dados <br></br>previamente autorizado pelo <br></br>titular às empresas do Grupo <br></br>Santander.</td>
+                        <td>Nome <br></br>Nome Social <br></br>Data de nascimento <br></br>Sobrenome <br></br>CPF <br></br>Carteira de identidade <br></br>Carteira Nacional de <br></br>habilitação (CNH) <br></br>Carteira de Trabalho e <br></br>Previdência Social (CTPS)
+                            <br></br>Cédula de identidade de <br></br>estrangeiro (CIE), <br></br>Registro Nacional de <br></br>Estrangeiros (RNE); <br></br>Protocolo de solicitação da <br></br>CIE <br></br>Protocolo do pedido de <br></br>refúgio de que trata o art. 21
+                            <br></br>da Lei nº 9.474 de 22 de <br></br>julho de 1997 <br></br>Passaporte <br></br>Guia de acolhimento de que <br></br>trata o § 3 do artº 101 da Lei <br></br>nº 8.069, de 13 de julho de <br></br>1990 (Estatuto da criança e <br></br>do Adolescente).
+                            <br></br>Idade <br></br>Nacionalidade <br></br>E-mail <br></br>Naturalidade <br></br>Nome da mãe <br></br>Nome do pai <br></br>Endereço Residencial <br></br>Endereço Comercial <br></br>Estado Civil <br></br>Sexo <br></br>Telefones residencia
+                            <br></br>Telefones comercial <br></br>Telefones celular <br></br>Condição Pessoal (Espólio, <br></br>interdito, deficiente, etc...) <br></br>Renda <br></br>Patrimônio <br></br>IMEI do celular <br></br>Origem racial <br></br>Geolocalização <br></br>Foto armazenada
+                            <br></br>Biometria <br></br>Agência e conta <br></br>Pessoa Politicamente exposta <br></br>Título de eleitor <br></br>Documentos profissionais <br></br>(CREA, OAB e etc) <br></br>PIS/NIS - Programa de <br></br>integração sociall</td>
+                        <td>
+                            <ul class="slds-list--dotted">
+                                <li>Cumprir obrigações <br></br>regulatórias ou legais;</li>
+                                <li>Exercer direito de defesa <br></br>em processo judicial, <br></br>administrativo ou arbitral;</li>
+                                <li>Cumprir decisões de <br></br>autoridades, administrativas <br></br>ou judiciais;</li>
+                                <li>Verificar a sua identidade e <br></br>garantir maior segurança <br></br>durante a sua navegação em <br></br>nossos canais, bem como <br></br>adotar procedimentos de <br></br>prevenção à fraude, com o <br></br>intuito de oferecer proteção <br></br>ao titular ou ao Banco;</li>
+                                <li>Executar ações em virtude <br></br>de relações pré-contratuais, <br></br>ou durante a vigência de <br></br>ontratação (ciclo de vida do <br></br>produto) ou pós-contratação <br></br>(retenção, cobrança, etc);</li>
+                                <li>Analisar perfil para <br></br>concessão de crédito, Know <br></br>Your Customer (KYC) ou <br></br>gestão de riscos, de acordo <br></br>com as Políticas Internas do <br></br>Banco ou nos termos da <br></br>regulação setorial;</li>
+                                <li>Tratar reclamações, <br></br>dúvidas e solicitações<br></br>(Atendimento ao Cliente, <br></br>SAC, Ouvidoria) e prestação <br></br>de suporte ao titular;</li>
+                                <li>Realizar pesquisa de <br></br>satisfação de <br></br>produtos/serviços;</li>
+                                <li>Proceder com auditorias;</li>
+                                <li>Analisar dados para <br></br>aperfeiçoar a usabilidade, <br></br>experiência e interatividade <br></br>na utilização dos nossos <br></br>portais, sites e aplicativos;</li>
+                                <li>Fazer ofertas e/ou fornecer <br></br>recomendações mais <br></br>assertivas às suas <br></br>necessidades ou interesses, <br></br>inclusive mediante <br></br>campanhas de marketing ou <br></br>de simulações realizadas;</li>
+                                <li>Realizar pesquisas de <br></br>comunicação e marketing de <br></br>relacionamento, para <br></br>melhorar nossos produtos e <br></br>serviços;</li>
+                                <li>Promover campanhas, <br></br>bolsas, patrocínios e eventos;</li>
+                                <li>Utilizar cookies, conforme <br></br>esta Política;</li>
+                                <li>Realizar manutenção e a <br></br>atualização cadastral.</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+            </p>
+            <br></br>
+            <div class="slds-text-heading_small">5. Uso de cookies</div>
+            <p>Usamos Cookies para que você tenha a melhor experiência em nosso portal. Mas o que o que são Cookies? Cookies são pequenos arquivos gravados no dispositivo de acesso de usuário, enquanto este navega na internet, são armazenados em seu navegador e ajudam a armazenar suas preferências e a personalizar seu acesso.</p>
+            <p>Para entender melhor como funcionam, você pode acessar o link abaixo: <a href="https://www.santander.com.br/institucional-santander/seguranca/sobre-o-uso-de-cookies" class="text-link">https://www.santander.com.br/institucional-santander/seguranca/sobre-o-uso-de-cookies</a></p>
+            <p>Assim, podemos usar cookies e coletar, tratar, armazenar e/ou compartilhar (com as empresas do Conglomerado Santander e outros parceiros) informações de sua navegação, para:</p>
+            <p>
+                <ul class="slds-list--dotted">
+                    <li>permitir que a navegação seja mais eficiente e rápida;</li>
+                    <li>aperfeiçoar sua usabilidade, experiência e interatividade na utilização dos nossos portais, sites, aplicativos, e-mails e durante a sua navegação na internet;</li>
+                    <li>fazer ofertas e/ou te dar informações mais assertivas e relevantes às suas necessidades e interesses;</li>
+                    <li>buscar maior eficiência em relação à frequência e continuidade da nossa comunicação com você;</li>
+                    <li>responder suas dúvidas e solicitações;</li>
+                    <li>realizar pesquisas de comunicação e marketing de relacionamento, para melhorar nossos produtos e serviços, bem como apuração de estatísticas em geral.</li>
+                </ul>
+            </p> 
+            <p>Lembramos que você pode, a qualquer momento, ativar em seu navegador mecanismos para informá-lo quando os cookies estiverem acionados ou, ainda, impedir que sejam ativados.</p>
+            <p>Você pode desativar os cookies não-essenciais para a utilização dos Serviços através das preferências do seu navegador. Sem eles, sua navegação pode se tornar limitada e algumas funcionalidades dos sites podem ficar comprometidas. Veja as definições sobre cookies em
+                cada um dos navegadores. <br></br><a href="https://support.microsoft.com/en-us/help/4468242/microsoft-edge-browsing-data-and-privacy" class="text-link">Internet Explorer</a>&nbsp;/&nbsp;
+                <a href="https://support.mozilla.org/pt-BR/kb/desative-cookies-terceiros-impedir-rastreamento?redirectlocale=pt-BR&amp;redirectslug=desative-cookies-no-firefox-parar-rastreamento" class="text-link">Firefox</a>&nbsp;/&nbsp;
+                <a href="https://support.google.com/accounts/answer/61416?hl=pt-BR" class="text-link">Google Chrome</a>&nbsp;/&nbsp;
+                <a href="https://support.apple.com/kb/PH21411?viewlocale=pt_BR&amp;locale=en_US" class="text-link">Safari</a>
+            </p>
+            <br></br>
+            <div class="slds-text-heading_small">6. Tratamento de informações pessoais</div>
+            <p>Para o fornecimento dos Serviços online aos seus clientes, o Santander adota recursos avançados visando a proteção das informações pessoais dos usuários e de seus Serviços.</p>
+            <p>As informações de caráter pessoal dos usuários dos Serviços do Santander, entendendo-se por informações pessoais todas aquelas que forem relacionadas a pessoa natural identificada ou identificável, inclusive informações pessoais sensíveis (que tratem sobre origem racial ou étnica, convicção religiosa, opinião política, filiação a sindicato ou a organização de caráter religioso, filosófico ou político, dado referente à saúde ou à vida sexual, dado genético ou biométrico, quando vinculado a uma pessoa natural), como: o nome completo do usuário,
+                endereço físico e eletrônico, número de telefone, RG, CPF, biometria, número de cartão de crédito, situação financeira e patrimonial, preferências e padrões de acesso ("informações pessoais"), não são divulgadas pelo Santander, exceto nas hipóteses expressamente mencionadas nesta Política.
+            </p>
+            <p>Tais informações são coletadas por meio dos canais de atendimento e armazenadas utilizandose rígidos padrões de sigilo e integridade, bem como controles de acesso físico e lógico, observando-se sempre os mais elevados princípios éticos e legais.</p>
+            <p>Caso o usuário decida fornecer suas informações pessoais nos sites institucionais e/ou no internet banking para usufruir dos Serviços online do Santander, inclusive as informações pessoais sensíveis, tais informações serão tratadas atendendo às finalidades definidas em contrato de prestação de serviços e nos Termos e Condições de Uso.</p>
+            <p>Uma vez provido das informações pessoais a respeito do usuário, o Santander poderá utilizar, de acordo com o seu interesse legítimo, os dados do usuário para o fim de enviar publicidade, direcionada por e-mail ou por quaisquer outros meios de comunicação, contendo informações sobre o Santander e compartilhar com empresas do Conglomerado Santander para oferta de produtos e serviços de seu interesse. Entretanto, fica reservado ao usuário o direito de, a
+                qualquer momento, inclusive no ato da disponibilização das informações pessoais, informar ao Santander, por meio dos canais de comunicação disponíveis para o cadastramento de tais informações, do não interesse em receber tais anúncios, inclusive por e-mail (opt-out), hipótese em que o Santander interromperá tais serviços no menor tempo possível. Para cancelar sua inscrição, consulte as instruções de opt-out presentes no rodapé dos nossos emails.
+            </p>
+            <br></br>
+            <div class="slds-text-heading_small">7. Transferência internacional</div>
+            <p>Os dados pessoais tratados em decorrência do uso dos Serviços serão processados pelo Santander ou pelo Conglomerado Santander em conformidade com legislação vigente aplicável.</p>
+            <p>O Santander está sediado no Brasil, mas pode realizar o tratamento de dados pessoais em outros países através da contratação de empresas parceiras, estas que, por sua vez, estarão submetidas às obrigações desta Política de Privacidade.</p>
+            <br></br>
+            <div class="slds-text-heading_small">8. Como respondemos aos requerimentos legais?</div>
+            <p>Quando alguma autoridade requerer o acesso a seus dados pessoais e este pedido estiver respaldado por lei vigente, o Santander compartilhará as suas informações. Nestes casos, o Santander irá fornecer as informações estritamente necessárias para o cumprimento do pedido ou de nosso programa de integridade.</p>
+            <br></br>
+            <div class="slds-text-heading_small">9. Exercício de direitos</div>
+            <p>Em cumprimento à regulamentação aplicável, quando de sua vigência, no que diz respeito ao tratamento de dados pessoais, em especial a Lei Geral de Proteção de Dados (Lei nº 13.709/2018), o Santander respeita e garante a você, a possibilidade de apresentação de solicitações baseadas nos seguintes direitos:</p>
+            <p>
+                <ol class="slds-list--ordered">
+                    <li>a confirmação da existência de tratamento;</li>
+                    <li>o acesso aos dados;</li>
+                    <li>a correção de dados incompletos, inexatos ou desatualizados;</li>
+                    <li>a anonimização, bloqueio ou eliminação de dados desnecessários, excessivos ou tratados em desconformidade com a Lei;</li>
+                    <li>a portabilidade dos dados a outro fornecedor;</li>
+                    <li>a eliminação dos dados tratados com consentimento do Usuário, exceto nas hipóteses de guarda legal e outras dispostas em Lei;</li>
+                    <li>a obtenção de informações sobre as entidades públicas ou privadas com as quais o Santander compartilhou seus dados;</li>
+                    <li>a informação sobre a possibilidade de não fornecer o seu consentimento, bem como de ser informado sobre as consequências, em caso de negativa;</li>
+                    <li>a revogação do consentimento;</li>
+                    <li>a oposição aos tratamentos realizados com fundamento em uma das hipóteses de dispensa de consentimento, em caso de eventual descumprimento ao disposto na Lei Geral de Proteção de Dados;</li>
+                    <li>a revisão de decisões tomadas unicamente com base em tratamento automatizado de dados pessoais que afetem os interesses dos titulares de dados, respeitados os segredos comercial e industrial do Santander, tais como, mas não limitando-se, àqueles pautados em critérios de risco de crédito, de prevenção a fraudes ou de decorrentes de execução de contrato.</li>
+                </ol>
+            </p>
+            <p>O Santander empreenderá todos os esforços para atender tais pedidos no menor espaço de tempo possível. No entanto, mesmo em caso de requisição de exclusão, será respeitado o prazo de armazenamento mínimo de informações de usuários de aplicações de internet, determinado pela legislação brasileira, dentre outras determinações legais aplicáveis.</p>
+            <br></br>
+            <div class="slds-text-heading_small">10. Como tratamos as suas informações de forma segura?</div>
+            <p>O acesso às informações pessoais coletadas, armazenadas ou de outra forma tratadas pelo Santander é restrito aos profissionais autorizados ao uso direto dessas informações, e necessário à prestação de seus Serviços, sendo limitado o uso para outras tarefas.</p>
+            <p>É exigido, também, de toda organização ou do indivíduo contratado para a prestação de serviços de apoio, que sejam cumpridas as Políticas de Segurança da Informação e o Código de Ética adotado pelo Santander.</p>
+            <p>O Santander poderá revelar as informações pessoais que tenha recebido nas seguintes hipóteses:</p>
+            <p>
+                <ul class="slds-list--dotted">
+                    <li>sempre que estiver obrigado a revelá-las, seja em virtude de dispositivo legal, ato de autoridade competente, ordem ou mandado judicial;</li>
+                    <li>aos seus parceiros comerciais e/ou prestadores de serviço, a fim de atender à solicitação de serviços efetuada pelos usuários;</li>
+                    <li>aos órgãos de proteção e defesa de crédito e prestadores de serviços autorizados pelo Santander a defender seus direitos e créditos;</li>
+                    <li>aos órgãos que administrem cadastros de consumidores;</li>
+                    <li>aos seus controladores, às empresas por ele controladas, as empresas a ele coligadas ou por qualquer forma associadas, no Brasil ou no exterior;</li>
+                    <li>para outras instituições financeiras, desde que dentro dos parâmetros legais estabelecidos para tanto, podendo, nesta hipótese, o usuário, a qualquer tempo, cancelar esta autorização;</li>
+                    <li>aos parceiros do Santander para realização de cursos online.</li>
+                </ul>
+            </p>
+            <p>O Santander trabalha exaustivamente para assegurar que as informações divulgadas para os clientes sejam verdadeiras e íntegras, contando com controles apurados de monitoramento das informações fornecidas. Sua participação no processo é revisar as informações, valores e informativos e enviar para o usuário, um comunicado de qualquer discrepância nas informações fornecidas.</p>
+            <br></br>
+            <div class="slds-text-heading_small">11. Extensão dos efeitos</div>
+            <p>Os termos da Política de Privacidade aqui expostos serão aplicados exclusivamente às informações pessoais e informações pessoais sensíveis, conforme acima definido, que venham a ser disponibilizadas ao Santander, pelo usuário, para a utilização de seus produtos e serviços.</p>
+            <p>Por consequência, a Política de Privacidade aqui exposta não será aplicável a qualquer outro serviço online que não os disponibilizados pelo Santander, incluídos aqueles sites que estejam de alguma forma vinculados ao Santander, por meio de links ou quaisquer outros recursos tecnológicos, e, ainda, a quaisquer outros sites que, de qualquer forma, venham a ser conhecidos ou utilizados pelo Santander.</p>
+            <p>Nesse sentido, alertarmos aos usuários que os referidos sites podem conter política de privacidade diversa da adotada pelo Santander ou podem até mesmo não adotar qualquer política nesse sentido, não se responsabilizando, o Santander, por qualquer violação aos direitos de privacidade dos usuários que venha a ser praticada pelos referidos sites.</p>
+            <br></br>
+            <div class="slds-text-heading_small">12. Interpretação dos termos</div>
+            <p>As palavras e os termos constantes desta Política de Privacidade aqui não expressamente definidos, grafados em português ou em qualquer outro idioma, bem como, quaisquer outros de linguagem técnica e/ou financeira ou não, que, eventualmente, durante a vigência do presente instrumento, no cumprimento de direitos e obrigações assumidos por ambas as partes,
+                sejam utilizados para identificar a prática de quaisquer atos, deverão ser compreendidos e interpretados em consonância com o conceito internacionalmente consagrado.
+            </p>
+            <br></br>
+            <div class="slds-text-heading_small">13. Anexos</div>
+            <p>A presente Política de Privacidade, para todos os fins e efeitos de direito, faz parte integrante e indissociável do Contrato para Operacionalização dos Serviços Santander.</p>
+            <br></br>
+            <div class="slds-text-heading_small">14. Solicitações e Reclamações</div>
+            <p>Caso você tenha alguma solicitação ou reclamação, pedimos que entre em contato pelo nosso SAC. Ao entrar em contato, pediremos alguns dados pessoais para confirmarmos a sua identidade.</p>
+            <p>Eventualmente, outras informações podem ser solicitadas para confirmar a sua identidade com o objetivo de melhor atender à sua solicitação ou reclamação, havendo dúvida sobre a veracidade ou legitimidade das informações informadas.</p>
+            <br></br>
+            <div class="slds-text-heading_small">15. Disposições Gerais</div>
+            <p>Eventuais omissões ou meras tolerâncias das partes no exigir o estrito e pleno cumprimento desta Política de Privacidade e/ou de prerrogativas decorrentes dele ou da lei, não constituirão novação ou renúncia, nem afetarão o exercício de quaisquer direitos aqui previstos, que poderão ser plena e integralmente exercidos, a qualquer tempo.</p>
+            <p>Caso se perceba que uma disposição é nula, as disposições restantes desta Política de Privacidade permanecerão em pleno vigor e um termo válido substituirá o termo nulo, refletindo nossa intenção, tanto quanto possível.</p>
+            <br></br>
+            <div class="slds-text-heading_small">16. Lei aplicável e resolução de conflitos</div>
+            <p>Toda e qualquer controvérsia oriunda dos termos expostos na presente Política de Privacidade serão solucionados de acordo com a lei brasileira, sendo competente o foro da cidade de São Paulo, Estado de São Paulo, com exclusão de qualquer outro por mais privilegiado que seja.</p>
+            <p>Fica claro, ainda, que a utilização de Serviços e as ordens comandadas fora do território brasileiro, ou ainda as decorrentes de operações iniciadas no exterior podem estar sujeitas também à legislação e jurisdição das autoridades dos países onde forem comandadas ou iniciadas.</p>
+            <br></br>
+            <div class="slds-text-heading_small">17. Dispositivos Móveis</div>
+            <p>Para garantir uma eficiente utilização dos aplicativos do Santander, sem que o seu uso fique prejudicado, é importante que você nos forneça as autorizações descritas abaixo:</p>
+            <br></br>
+            <div class="slds-text-heading_small">a) Localização</div>
+            <p>Necessário para envio de pushs personalizados e funcionamento do localizador de agências. O Santander pode usar a sua localização para prevenção a fraudes.</p>
+            <br></br>
+            <div class="slds-text-heading_small">b) Telefone (fazer e gerenciar chamadas telefônicas)</div>
+            <p>Necessário para identificação do dispositivo. É o nome do aparelho que aparece na opção “Desbloqueio de Aparelho” no internet banking e também necessário para a realização de ligação telefônica nas funções de “click to call” disponível em Previdência, por exemplo. O Santander armazena o nome do telefone e seu ID (IMEI), como descrito acima, apenas para
+                conseguir realizar o processo de desbloqueio para a realização de transações financeiras. Essas	informações não são compartilhadas com terceiros.
+            </p>
+            <br></br>
+            <div class="slds-text-heading_small">c) Acessar fotos, mídias e arquivos do seu dispositivo.</div>
+            <p>Necessário para criação de comprovantes ao final da transação e selecionar foto na galeria para inclusão de foto de perfil.</p>
+            <p>As duas permissões abaixo só serão solicitadas caso o cliente necessite atribuir uma foto de perfil, pagar contas e boletos e realizar uma recarga.</p>
+            <p>
+                <ul class="slds-list--dotted">
+                    <li>Tirar fotos e gravar vídeos. Necessário para atribuir uma foto de perfil, pagar boleto/conta pela câmera ou QR Code de outros sites.</li>
+                    <li>Acessar os contatos. Necessário caso queira realizar uma recarga selecionando um contato que está registrado na agenda do aparelho. Nenhuma informação da agenda de contatos é usada e/ou armazenada pelo Santander.</li>
+                </ul>
+            </p>
+            <br></br>
+            <div class="slds-text-heading_small">d) Touch ID (iOS)/ Impressão Digital (Android).</div>
+            <p>Os clientes com a função ativada e com digitais cadastradas no aparelho (iOS a partir do iPhone 5S e Android para dispositivos que possuem sensor biométrico) poderão acessar os aplicativos do Santander, caso queiram, sem a digitação de sua senha de acesso.</p>
+            <p>Qualquer biometria cadastrada no aparelho permitirá acesso aos aplicativos do Santander. O cliente é o responsável por habilitar ou desabilitar a função em questão.</p>
+            <p>Essa funcionalidade permitirá o acesso aos aplicativos do Santander, porém não substitui a senha do cartão de segurança Santander ou ID Santander para efetivação das transações.</p>
+            <p>O Santander não tem acesso às biometrias cadastradas no aparelho, sendo essas restritas à Apple e Google, conforme os termos da Política de Privacidade dessas empresas.</p>
+            <br></br>
+            <p>Atualização: Fevereiro de 2020.
+                <br></br>Copyright © 2020.
+                <br></br>Santander
+                <br></br>Todos os direitos reservados.
+                <br></br>Instituição Financeira autorizada a funcionar pelo Banco Central do Brasil.
+                <br></br>Banco Santander (Brasil) S.A., CNPJ: 90.400.888/0001-42
+                <br></br>Av. Presidente Juscelino Kubitscheck 2041/2235 – Vila Olímpia – São Paulo/SP.
+            </p>
+        </div>
+    </aura:if>
+
+    <!-- CASH NEXUS -->
+    <aura:if isTrue="{!v.country eq 'CN'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{!$Label.c.privacy}</div>
+            <div class="text_line"></div>
+        </div>
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.privacyNexus1}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus2}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus3_1}&nbsp;{!$Label.c.privacyNexus3_2}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus4}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus5}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus6}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus7}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.privacyNexusTitle}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.privacyNexus8}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus9}</p>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- SPAIN -->
+    <aura:if isTrue="{!v.country eq 'ES'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{!$Label.c.privacy}</div>
+            <div class="text_line"></div>
+        </div>
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.privacyNexus1}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus2}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus3_1}&nbsp;{!$Label.c.privacyNexus3_2}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus4}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus5}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus6}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus7}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.privacyNexusTitle}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.privacyNexus8}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus9}</p>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- GREAT BRITAIN -->
+    <aura:if isTrue="{!v.country eq 'GB'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{!$Label.c.privacy}</div>
+            <div class="text_line"></div>
+        </div>
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.privacyNexus1}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus2}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus3_1}&nbsp;{!$Label.c.privacyNexus3_2}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus4}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus5}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus6}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus7}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.privacyNexusTitle}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.privacyNexus8}</p>
+                <p></p>
+                <p>{!$Label.c.privacyNexus9}</p>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- CHILE -->
+    <aura:if isTrue="{!v.country eq 'CL'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Privacidad</div>
+            <div class="text_line"></div>
+        </div>
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>La información relativa al tratamiento de datos de los interesados se refleja en la Política de Privacidad de la Plataforma.
+                <br></br><br></br>   
+                <a href="https://banco.santander.cl/personas/politicas-de-seguridad-de-uso-del-portal" class="text-link">https://banco.santander.cl/personas/politicas-de-seguridad-de-uso-del-portal</a></p>
+            </div>
+        </div>
+    </aura:if>
+    
+    <!-- MEXICO -->
+    <aura:if isTrue="{!v.country eq 'MX'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Privacidad</div>
+            <div class="text_line"></div>
+        </div>
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>
+                    Mediante el presente AVISO DE PRIVACIDAD, las entidades integrantes del Grupo Financiero Santander México, informan a Usted los términos en que serán tratados los Datos Personales que recaben, por lo cual, le recomendamos que lea atentamente la siguiente información:
+                    <br></br>
+                </p>
+             	<!-- SECCIÓN 1 -->
+                 <div class="slds-text-heading_small">1. DEFINICIONES</div>
+                 <p>
+                 Para efectos del presente AVISO DE PRIVACIDAD, los términos que se indican a continuación, tendrán los significados que en este documento se señalan, ya sea que estén redactados en singular o en plural:
+                 <br></br>
+                 </p>
+                 <p>
+                 <ol class="slds-list--ordered">
+                 	<li><span class="text-bold">“Datos Personales”:</span> Cualquier información concerniente a una persona física identificada o identificable.</li>
+                    <li><span class="text-bold">“Datos Personales Sensibles”:</span> Aquellos Datos Personales que afecten a la esfera íntima del Titular, o cuya utilización indebida pueda dar origen a cualquier tipo de discriminación o conlleve un riesgo grave para el Titular. Están considerados dentro de esta categoría aquellos datos que puedan revelar aspectos personales del Titular, como origen racial, étnico, estado de salud presente y futuro, información genética, creencias religiosas, filosóficas y morales, afiliación sindical, opiniones políticas, preferencia sexual o situación financiera. También serán considerados como datos sensibles aquellos relacionados a menores de edad.</li>
+                    <li><span class="text-bold">Dato Biométrico.-</span> Datos personales obtenidos a partir de un tratamiento técnico específico, relativos a las características físicas, fisiológicas o conductuales de una persona física que permitan o confirmen la identificación única de dicha persona, como imágenes faciales o datos dactiloscópicos.</li>
+                    <li><span class="text-bold">“Derechos ARCO”:</span> Derecho del Titular de los Datos Personales al solicitar al Responsable el Acceso, Rectificación, Cancelación u Oposición respecto de dichos datos, conforme a lo previsto en la LFPDPPP y su Reglamento.</li>
+                    <li><span class="text-bold">“Disociación”:</span> El procedimiento mediante el cual los Datos Personales no pueden asociarse al Titular ni permitir, por su estructura, contenido o grado de desagregación, la identificación del mismo.</li>
+                    <li><span class="text-bold">“Encargado”:</span> La persona física o moral que sola o conjuntamente con otras personas físicas o morales trate Datos Personales a nombre y mediante instrucción del Responsable, conforme a los procesos, términos y condiciones que este le señale.</li>
+                    <li><span class="text-bold">“Entidad Comercial”:</span> a las sociedades que de manera habitual otorguen créditos, préstamos o financiamientos al público.</li>
+                    <li><span class="text-bold">“Entidad Financiera”:</span> a las instituciones de crédito, a las sociedades financieras de objeto múltiple reguladas y no reguladas, a las sociedades financieras populares, a las sociedades financieras comunitarias, a las sociedades cooperativas de ahorro y préstamo, a las entidades financieras que actúen como fiduciarias en fideicomisos que otorguen crédito, préstamo o financiamiento al público, las uniones de crédito y las instituciones de tecnología financiera.</li>
+                    <li><span class="text-bold">“Instituto”:</span> Instituto Nacional Electoral.</li>
+                    <li><span class="text-bold">“LFPDPPP”:</span> Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</li>
+                    <li><span class="text-bold">“Reglamento”:</span> Reglamento de la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.</li>
+                    <li><span class="text-bold">“Responsable”:</span> Es cada entidad perteneciente al Grupo Financiero Santander México, que actuando en lo individual o en conjunto con otras entidades del mismo Grupo Financiero recabe Datos Personales para su tratamiento conforme a las finalidades señaladas en este AVISO DE PRIVACIDAD. A estos efectos, podrá ser Responsable:
+                    	<br></br><br></br>
+                        <ul class="slds-list--dotted">
+                        	<li>Banco Santander México, S.A., Institución de Banca Múltiple, Grupo Financiero Santander México</li>
+                            <li>Casa de Bolsa Santander, S.A. de C.V., Grupo Financiero Santander México</li>
+                            <li>Santander Consumo, S.A. de C.V., SOFOM, E.R., Grupo Financiero Santander México</li>
+                            <li>Santander Vivienda, S.A. de C.V., SOFOM, E.R., Grupo Financiero Santander México</li>
+                            <li>Santander Inclusión Financiera, S.A. de C.V., SOFOM, E.R., Grupo Financiero Santander México</li>
+                        </ul>     
+                     </li>
+                    <li><span class="text-bold">“Titular”:</span> La persona física a quien corresponden los Datos Personales.</li>
+                    <li><span class="text-bold">“Transferencia”:</span> La comunicación de Datos Personales dentro o fuera del territorio nacional, realizada a persona distinta del Titular o del Responsable.</li>
+                    <li><span class="text-bold">“Usuario”:</span> a cualquier persona física, moral o Fideicomiso que, directamente o a través de algún comisionista contratado por la Entidad respectiva al amparo del artículo 46 Bis-1 de la Ley de Instituciones de Crédito y demás disposiciones aplicables, realice Operaciones con la Entidad de que se trate, o utilice los servicios que le ofrezca dicha Entidad, sin tener una relación comercial permanente con esta.</li>
+                 </ol>
+              	 </p>
+             	<!-- SECCIÓN 2 -->
+                 <div class="slds-text-heading_small">2. IDENTIDAD Y DOMICILIO DEL RESPONSABLE</div>
+                 <p>
+                 El Responsable a que se refiere el <span class="text-bold">numeral 1</span>, inciso 1.12., del presente AVISO DE PRIVACIDAD, manifiesta que es una sociedad legalmente constituida bajo las leyes Mexicanas y responderá individualmente de los Datos Personales que recabe y señala como domicilio para todos los efectos y obligaciones relacionadas con el presente AVISO DE PRIVACIDAD el inmueble ubicado en Avenida Prolongación Paseo de la Reforma, número 500, Colonia Lomas de Santa Fe, C.P. 01219, en la Ciudad de México, México.
+				 <br></br>
+                 </p>
+             	<!-- SECCIÓN 3 -->
+                 <div class="slds-text-heading_small">3. DATOS PERSONALES RECABADOS POR EL RESPONSABLE</div>
+                 <p>
+                     Para el cumplimiento de las finalidades señaladas en el <span class="text-bold">numeral 4</span> del presente AVISO DE PRIVACIDAD, el Responsable le informa que recabará las siguientes categorías de Datos Personales: <span class="text-bold">(i)</span> Datos de Identificación; <span class="text-bold">(ii)</span> Datos de Contacto; <span class="text-bold">(iii)</span> Información sobre sus características físicas, mejor conocidos como datos biométricos, tales como el reconocimiento de voz, la (s) huella (s) dactilar (es) y/o algún elemento de reconocimiento facial; <span class="text-bold">(iv)</span> Datos laborales; <span class="text-bold">(v)</span> Datos académicos o profesionales; <span class="text-bold">(vi)</span> Datos migratorios; <span class="text-bold">(vii)</span> Datos patrimoniales y/o financieros; <span class="text-bold">(viii)</span> Información sobre sus preferencias o vivencias en la contratación o uso de determinados bienes o servicios; y <span class="text-bold">(ix)</span> Datos Personales Sensibles tales como: padecimientos o enfermedades pasadas y presentes, enfermedades patológicas relevantes u operaciones.
+                 	<br></br><br></br>
+                     Le informamos que los Datos Personales a que se refieren los numerales <span class="text-bold">(iii)</span> y <span class="text-bold">(ix)</span> que se recaben del Titular serán obtenidos únicamente en forma directa; es decir en forma personal o a través de los Medios Electrónicos que el Responsable ponga a su disposición, quedando el Responsable obligado a recabar su consentimiento en los términos del presente AVISO DE PRIVACIDAD previamente a su tratamiento, y en forma expresa y comprobable, así como explicar los beneficios que le conlleva al Titular el servicio de verificación de los datos que contiene su credencial para votar, en los casos que así corresponda.
+                 	<br></br><br></br>
+                     Por lo que refiere a los Datos Personales a que se refiere el numeral <span class="text-bold">(ix)</span>, éstos se tratarán con la finalidad exclusiva de realizar y dar seguimiento al proceso de contratación de productos financieros catalogados como Seguros que se comercializan por la empresa Zurich Santander Seguros México, S.A., por lo que la intervención del Responsable (Banco Santander México, S.A., Institución de Banca Múltiple, Grupo Financiero Santander México) en dicho tratamiento será en calidad de Encargado; lo anterior a fin de dar cumplimiento a lo convenido entre el Titular y la empresa Zurich Santander Seguros México, S.A.
+                 	<br></br><br></br>
+                     Los Datos Personales de las categorías <span class="text-bold">(i)</span> a <span class="text-bold">(ii)</span> y <span class="text-bold">(iv) a (viii)</span> a que se refiere el párrafo primero del presente numeral, podrán ser recabados por el Responsable ya sea personalmente o a través de los Medios Electrónicos que éste último ponga a su disposición; o a través de agentes, promotores, comisionistas, proveedores o socios comerciales con el propósito de dar seguimiento a una solicitud de contratación realizada por el Titular; de dar cumplimiento a un contrato o acuerdo con el Titular; o para requerir el cumplimiento de acuerdos o contratos suscritos con el Titular, y en su caso a través de los sistemas administrados por Banco de México en apego a las disposiciones legales aplicables. Los Datos Personales Sensibles referidos en la categoría <span class="text-bold">(ix)</span> serán tratados conforme al Aviso de Privacidad de Zurich Santander Seguros México, S.A.
+                     <br></br><br></br>
+                     El Responsable podrá realizar las investigaciones, obtener fotografías, realizar entrevistas, y en general, realizar las acciones que considere necesarias a efecto de comprobar por sí o a través de terceros contratados particularmente para ello, la veracidad de los Datos Personales que les fueron proporcionados por el Titular.
+                     <br></br><br></br>
+                     El Responsable podrá, al amparo del presente AVISO DE PRIVACIDAD, verificar, adicionar o cumplimentar los Datos Personales recabados directamente del Titular o de quien ejerza la representación del Titular conforme a la legislación vigente, así como aquellos Datos Personales de terceros que sean proporcionados por el Titular, tales como información sobre sus beneficiarios, referencias, obligados solidarios, avales, fiadores, usuarios de Banca Electrónica, proveedores, tarjetahabientes adicionales, cotitulares o fideicomisarios según resulte aplicable conforme al servicio o producto solicitado o contratado por el Titular. Será responsabilidad del Titular informar a las personas antes señaladas respecto de la información que proporcionó al Responsable y los fines de su entrega, así como el contenido del presente AVISO DE PRIVACIDAD.
+                     <br></br><br></br>
+                     El Titular manifiesta que los Datos Personales proporcionados al Responsable son veraces y actualizados y se obliga a comunicar al Responsable cualquier modificación a los Datos Personales proporcionados con la mayor brevedad posible a través de los formatos designados para ello que se encuentran en la red de sucursales de Banco Santander México, S.A., Institución de Banca Múltiple, Grupo Financiero Santander México.
+                     <br></br><br></br>
+                 </p>
+             	<!-- SECCIÓN 4 -->
+                 <div class="slds-text-heading_small">4. FINALIDADES DEL TRATAMIENTO DE LOS DATOS</div>
+                 <p>
+                 	 Los Datos Personales que el Responsable recabe serán utilizados para atender las siguientes finalidades:
+                 	 <br></br><br></br>
+                     Como <span class="text-bold">finalidades primarias:</span>
+                     <br></br>
+                 </p>
+                 <p>
+                 <ul class="slds-list--dotted">
+                 	 <li>Corroborar la identidad del Titular y la veracidad de la información y documentos que proporcione como propios, así como la de sus beneficiarios, referencias, obligados solidarios, avales, fiadores o fideicomisarios según resulte aplicable conforme al servicio o producto contratado y en observancia de las disposiciones vigentes en materia de conocimiento del cliente y prevención de lavado de dinero.</li>
+                     <li>Verificar la coincidencia de las huellas dactilares proporcionada por el Titular, contra la información contenida en la base de datos administrada por el Instituto, conforme a los estándares abiertos de comparación de huella digital establecidos por el referido Instituto e integrar el resultado de dicha verificación al expediente de identificación del Titular. En aquellos casos en los que el Instituto no confirme la coincidencia entre la huella dactilar proporcionada por el Titular y la base de datos administrada por el Instituto o no sea posible llevar a cabo la comparación de dicha información, el Responsable podrá solicitar al Titular, la actualización de la información proporcionada.</li>
+                     <li>Verificar la coincidencia de algún elemento de reconocimiento facial, contra la información contenida por el Instituto o cualquier otra autoridad emisora de identificaciones oficiales, que en términos de las disposiciones aplicables permita confirmar la identidad del Titular, e integrar el resultado de dicha verificación al expediente de identificación del Titular. En aquellos casos en que la autoridad no confirme la coincidencia entre el elemento de reconocimiento facial proporcionado por el Titular y la base de datos que en su caso administre dicha autoridad, o no sea posible llevar a cabo la comparación de los Datos Personales del Titular, el Responsable podrá solicitar al Titular, la actualización de la información proporcionada.</li>
+                     <li>Realizar el análisis de la información proporcionada por el Titular, a fin de determinar conforme a las disposiciones legales vigentes el nivel de riesgo, viabilidad de pago, perfil transaccional, y en general, realizar cualquier otra evaluación que sea requerida por la normativa o resulte conveniente para el otorgamiento de servicios financieros.</li>
+                     <li>Formalizar una relación contractual entre el Titular y el Responsable y prestar los servicios financieros contratados conforme a lo pactado entre las partes, y en su caso, requerir su cumplimiento.</li>
+                     <li>Integrar expedientes y Bases de Datos, y dar tratamiento a los mismos, ya sea directamente por el Responsable o a través de un tercero, con el fin de que el Responsable pueda prestar los servicios financieros propios de su objeto y reportar a las autoridades administrativas y jurisdiccionales dicha información cuando así lo establezcan las disposiciones legales vigentes.</li>
+                     <li>Cumplir con la regulación vigente en materia de protección civil, así como con los Programas Internos de Protección Civil y las políticas en materia de seguridad física para el acceso a las instalaciones, oficinas o sucursales del Responsable, tales como sistemas de video vigilancia y acceso a instalaciones.</li>
+                     <li>Otorgar al Titular o a los terceros que este designe, los beneficios que pudieran derivar de los programas, campañas, rifas, sorteos o concursos a los que este se haya inscrito, en cumplimiento a los Términos y Condiciones publicados en cada caso, ya sea en forma directa o a través de entidades comerciales que en calidad de Encargados presten servicios al Responsable para este fin particular.</li>
+ 				 </ul>
+              	 </p>
+                 <p>
+                     De manera adicional, el Responsable podrá utilizar los Datos Personales del Titular para las siguientes <span class="text-bold">finalidades secundarias:</span>
+                     <br></br>
+                </p>
+                <p>
+                	<ul class="slds-list--dotted">
+                		<li>Ofrecer al Titular una ampliación o mejora de los productos o servicios financieros contratados.</li>
+                    	<li>Ofrecer beneficios, promociones o descuentos al Titular que tengan por objeto incentivar o premiar el uso de los productos o servicios financieros que comercializa el Responsable.</li>
+                    	<li>Dar seguimiento a una solicitud de contratación de algún producto o servicio financiero ofrecido por el Responsable al Titular.</li>
+                    	<li>Invitar al Titular eventos, conferencias o talleres que tengan por objeto dar a conocer diversos productos y servicios financieros que comercializa el Responsable.</li>
+                    	<li>Enviar al Titular encuestas de calidad y satisfacción, respecto de los servicios prestados, los productos contratados o relacionados con la participación del Titular en promociones o eventos organizados por el Responsable.</li>
+                    	<li>Generar información estadística relacionada con el uso que hace el Titular, de los productos y/o servicios prestados u operados por el Responsable.</li>
+                    	<li>Resguardar en una base de datos información sobre las características físicas de aquellas personas que pretendan contratar o realizar operaciones con el Responsable mediante el uso de una credencial para votar o cualquier documento de identificación oficial cuya información no coincida con los registros administrados por la autoridad emisora de dicho documento; y a transferir a otras Entidades Financieras o Comerciales dicha información con el fin de prevenir el robo de identidad de aquellos Titulares que tengan una relación jurídica con el Responsable al amparo de un contrato de servicios o que realicen operaciones con el Responsable en su carácter de Usuarios.</li>
+                	</ul>
+                </p>
+                <p>
+                 	 El Responsable hace de su conocimiento que con el registro de su(s) huella(s) dactilar(es) o de algún elemento de reconocimiento facial, se entenderá que usted autoriza en forma expresa y comprobable al Responsable a verificar su identidad contra los registros administrados por el Instituto o cualquier otra autoridad emisora de documentos oficiales, según corresponda; a integrar el resultado de la autenticación en el expediente de identificación y a resguardar en una base de datos su información para contratación de servicios financieros o la realización de operaciones futuras con el Responsable.
+                 	 <br></br><br></br>
+                     El Responsable le informa que al otorgar su consentimiento para el tratamiento de sus Datos Personales, Usted autoriza al Responsable a utilizarlos para el envío de información publicitaria por los medios que el Responsable tenga a su alcance, tales como el correo electrónico, telefonía celular (mensaje SMS, MMS) redes sociales, o cualquier otro medio de comunicación electrónica similar que pueda llegar a desarrollarse, así como al envío y recopilación de información a través de encuestas de calidad.
+                     <br></br><br></br>
+                     En caso de que el Titular se adhiera a cualquiera de las promociones, Programas de lealtad, de recompensas, de beneficios, o decide registrarse, enrolarse o solicita al Responsable su incorporación como participante en algún evento organizado por el Responsable, se entenderá que otorga su consentimiento para el tratamiento de sus datos conforme a las finalidades secundarias a que se refiere el presente numeral y en su caso para transferir sus Datos Personales a terceros cuando ello resulte preciso o conveniente para que el Responsable pueda dar cumplimiento a las obligaciones derivadas de la relación jurídica entre el Titular y el Responsable
+                     <br></br><br></br>
+                     Le informamos que el Responsable cuenta con sistemas de video vigilancia al interior y exterior de sus oficinas y sucursales. Las imágenes y sonidos captados por las cámaras serán utilizados para seguridad del Titular, así como para el monitoreo y control de acceso físico a sus instalaciones.
+                     <br></br><br></br>
+                    El mismo tratamiento a que se refiere el presente AVISO DE PRIVACIDAD, tendrán los Datos Personales recabados en lo futuro, sin perjuicio de lo cual el Titular podrá ejercer en cualquier momento su derecho de oposición, según lo dispone el <span class="text-bold">numeral 8</span> de este AVISO DE PRIVACIDAD.
+                     <br></br>
+                </p>
+             	<!-- SECCIÓN 5 -->
+                 <div class="slds-text-heading_small">5 OPCIONES Y MEDIOS QUE EL RESPONSABLE OFRECE A LOS TITULARES PARA LIMITAR EL USO O DIVULGACIÓN DE SUS DATOS</div>
+                 <p>
+                     <span class="text-bold">Usted podrá solicitar la actualización, limitar el uso o divulgación de sus Datos Personales, y en su caso, informarse de cualquier aspecto relacionado con el tratamiento de los mismos</span>, en cualquier momento enviando un correo electrónico a la dirección unidad_pd@santander.com.mx
+                 	 <br></br><br></br>
+                     Para ejercer este derecho deberá seguir el procedimiento a que se refiere el <span class="text-bold">numeral 8</span> del presente AVISO DE PRIVACIDAD.
+                     <br></br><br></br>
+                     El Titular tendrá un plazo de 5 (cinco) días hábiles para que, de ser el caso, manifieste su negativa al Responsable para el tratamiento de sus Datos Personales conforme a las finalidades secundarias descritas en el <span class="text-bold">numeral 4</span> de este AVISO DE PRIVACIDAD. Si el Titular no manifiesta dentro de los referidos 5 (cinco) días hábiles su negativa para el tratamiento de sus Datos Personales conforme a las finalidades secundarias informadas, se entenderá que ha otorgado su consentimiento para el tratamiento de los mismos.
+                     <br></br><br></br>
+                     En caso de que Usted desee limitar o suspender el tratamiento de sus Datos Personales para su uso con fines publicitarios o de promoción además podrá inscribirse en el Registro Público de Usuarios (REUS) de la Comisión Nacional para la Protección y Defensa de los Usuarios de Servicios Financieros (CONDUSEF) a través de su página de internet <a href="https://www.condusef.gob.mx" class="text-link">https://www.condusef.gob.mx</a>.
+                 	<br></br>
+                </p>
+             	<!-- SECCIÓN 6 -->
+                 <div class="slds-text-heading_small">6. TRATAMIENTO DE LOS DATOS PERSONALES Y TRANSFERENCIA DE DATOS</div>
+                 <p>
+                     Conforme a lo previsto en la LFPDPPP y su Reglamento, el Responsable le informa que <span class="text-bold">no será necesario el consentimiento</span> del Titular para el tratamiento de los Datos Personales cuando: <span class="text-bold">(i)</span> esté previsto en una Ley, <span class="text-bold">(ii)</span> los Datos Personales figuren en fuentes de acceso público; <span class="text-bold">(iii)</span> los Datos Personales se sometan a un procedimiento previo de Disociación, <span class="text-bold">(iv)</span> tenga el propósito de cumplir obligaciones derivadas de una relación jurídica entre el titular y el responsable, <span class="text-bold">(v)</span> exista una situación de emergencia que potencialmente pueda dañar a un individuo en su persona o en sus bienes, <span class="text-bold">(vi)</span> sean indispensables para la atención médica, la prevención, diagnóstico, la prestación de asistencia sanitaria, tratamientos médicos o la gestión de servicios sanitarios, mientras el Titular no esté en condiciones de otorgar el consentimiento, en los términos que establece la Ley General de Salud y demás disposiciones jurídicas aplicables y que dicho tratamiento de datos se realice por una persona sujeta al secreto profesional u obligación equivalente, o <span class="text-bold">(vii)</span> se dicte resolución de autoridad competente.
+                 	 <br></br><br></br>
+                     Asimismo, se le informa que con la aceptación del presente AVISO DE PRIVACIDAD se entiende que el Titular otorga su autorización para que el Responsable transfiera sus Datos Personales a terceros, ya sean mexicanos o extranjeros <span class="text-bold">sin que para ello se requiera recabar nuevamente su consentimiento</span>, cuando la transferencia se ubique en alguno de los supuestos siguientes: <span class="text-bold">(i)</span> esté prevista en una Ley o Tratado en los que México sea parte; <span class="text-bold">(ii)</span> sea necesaria para salvaguardar la salud del Titular, entre los que se encuentra, la prevención o el diagnóstico médico, la prestación de asistencia sanitaria, tratamiento médico o la gestión de servicios médicos <span class="text-bold">(iii)</span> la transferencia sea efectuada a sociedades subsidiarias o afiliadas bajo el control común de cualquiera del Responsable o a una sociedad matriz o a cualquier sociedad del mismo grupo de el Responsable que opere bajo los mismos procesos y políticas internas;<span class="text-bold">(iv)</span> sea necesaria en razón de un contrato celebrado o por celebrar en interés del Titular; <span class="text-bold">(v)</span> sea necesaria o legalmente exigida para la salvaguarda de un interés público, o para la procuración o administración de justicia; <span class="text-bold">(vi)</span> sea precisa para el reconocimiento, ejercicio o defensa de un derecho en un proceso judicial; y, <span class="text-bold">(vii)</span> sea precisa para el mantenimiento o cumplimiento de una relación jurídica entre el Titular y el Responsable.
+                     <br></br><br></br>
+                     Las personas morales que se ubican en los casos de excepción antes mencionados son las siguientes:
+                     <br></br>
+                 </p>
+                 <p>
+                 <ol class="slds-list--ordered">
+                 	<li>Entidades integrantes del Grupo Financiero Santander México:</li>
+                     <br></br>
+                     	<ul class="slds-list--dotted">
+                     		<li>Grupo Financiero Santander México, S.A. de C.V.</li>
+                            <li>Banco Santander México, S.A., Institución de Banca Múltiple, Grupo Financiero Santander México.</li>
+                            <li>Casa de Bolsa Santander, S.A. de C.V., Grupo Financiero Santander México.</li>
+                            <li>Santander Consumo, S.A. de C.V., Sociedad Financiera de Objeto Múltiple, Entidad Regulada.</li>
+                            <li>Santander Vivienda, S.A. de C.V., Sociedad Financiera de Objeto Múltiple, Entidad Regulada.</li>
+                            <li>Santander Inclusión Financiera, S.A. de C.V. Sociedad Financiera de Objeto Múltiple, Entidad Regulada.</li>
+                     	</ul>
+                    <li>Entidades de Servicios Complementarios o Auxiliares:</li>
+                     <br></br>
+                     	<ul class="slds-list--dotted">
+                     		<li>Santander Servicios Corporativos, S.A. de C.V.</li>
+                            <li>Santander Servicios Especializados, S.A. de C.V.</li>
+                            <li>Santander Tecnología México, S.A. de C.V.</li>
+                     	</ul>             	
+                    <li>Entidades con las que la transmisión de Datos Personales es necesaria en razón de un contrato celebrado o por celebrar en interés del Titular como socios comerciales o de negocios con los cuales las entidades del Grupo Financiero Santander México tenga algún contrato celebrado mediante el cual se ofrezcan productos y servicios como por ejemplo tarjetas de marca compartida, redención de puntos en el programa recompensas, servicios de asistencia por ser tarjetahabientes, entre otros, como es el caso:</li>
+                     <br></br>
+                     <ul class="slds-list--dotted">
+                     		<li>Zurich Santander Seguros México, S.A, derivado de la contratación de algún seguro por el Titular.</li>
+                            <li>Payback México S. de R.L. de C.V., derivado de la adhesión del Titular a programas de Recompensas.</li>
+                            <li>Fundación Luz Saviñon, I.A.P. por la prestación de servicios financieros conjuntos.</li>
+                            <li>Infoasist Información y Asistencia S. de R.L. de C.V., derivado de la contratación de algún producto de crédito que tenga aparejada una asistencia.</li>
+                            <li>Aerovías de México, S.A. de C.V. y PLM Premier S.A.P.I. de C.V., al ser socios comerciales.</li>
+                     	</ul>            
+                     <li>Entidades con las que la transmisión de Datos Personales es necesaria o legalmente exigida para la salvaguarda de un interés público, o para la procuración o administración de justicia:</li>
+                     	<br></br>
+                     	<ol class="slds-list--ordered">
+                     		<li>
+                            	<p>
+                                	En cumplimiento a las disposiciones legales vigentes, se informa al Titular que en todas las transferencias internacionales que haya ordenado al Responsable, sus Datos Personales serán transferidos el mismo día de la fecha de operación al Banco de México a través del Sistema de Acopio de Información Financiera administrado por dicha autoridad, quedando los Datos Personales del Titular a disposición de los Participantes del referido Sistema.
+                                    <br></br><br></br>
+                                    El Titular autoriza al Responsable, en su carácter de entidad Participante, a consultar y obtener información y documentación de su persona, a través de los sistemas administrados por Banco de México, así como a realizar consultas periódicas de la información del Titular durante el tiempo que este mantenga una relación jurídica con el Responsable, conforme a lo previsto en las disposiciones legales aplicables, con el propósito de prevenir y detectar actos, omisiones, u operaciones que pudieran favorecer, prestar ayuda, auxilio, o cooperación de cualquier especie para la comisión de los delitos de operaciones con recursos de procedencia ilícita y financiamiento al terrorismo.
+                                    <br></br>
+                                </p>
+                            </li>
+                            <li>En caso que se presente al Responsable piezas (billetes o monedas metálicas) presuntamente falsos, o marcados con mensajes o alterados, el Responsable procederá a su retención conforme a lo establecido por las disposiciones de Banco de México y la Ley Monetaria de los Estados Unidos Mexicanos. Acto seguido recabará los Datos Personales del tenedor de la pieza para extenderle un recibo conforme a lo dispuesto por las disposiciones legales vigentes, en el entendido de que información recabada en dicho recibo se transferirá al Banco de México para efectos de identificación del tenedor, y con la finalidad de que en su caso pueda ser contactado para informarle el resultado del dictamen sobre la pieza.</li>
+                     	</ol> 
+                     <br></br>
+                     <li>Entidades con las que la transmisión de Datos Personales es precisa para el mantenimiento o cumplimiento de una relación jurídica entre el Titular y el Responsable.</li>
+                     	<br></br>
+                     	<ol class="slds-list--ordered">
+                     		<li>El Responsable obtendrá la(s) huella(s) dactilar(es) del Titular, o algún elemento de reconocimiento facial para su autenticación, cuyo resultado se hará constar en el expediente de identificación del Titular, en cumplimiento a las disposiciones legales vigentes. Con el registro de su(s) huella(s) dactilar(es) o de algún elemento de reconocimiento facial, se entenderá que el Titular autoriza en forma expresa y comprobable al Responsable a verificar su identidad contra los registros administrados por el Instituto o cualquier otra autoridad emisora de documentos oficiales, según corresponda; a integrar el resultado de la autenticación en el expediente de identificación y a resguardar en una base de datos su información para contratación de servicios financieros o la realización de operaciones futuras con el Responsable.</li>
+                     	</ol>   
+                     </ol>
+              	 </p>
+                 <p>
+                     Asimismo le informamos que las remisiones nacionales e internacionales de Datos Personales entre el Responsable y sus Encargados no requerirán ser informadas al Titular. Bajo esta categoría se clasifican las transferencias de información con aquellas Entidades Financieras o comerciales con las que el Responsable suscriba algún convenio o acuerdo para la el ofrecimiento, prestación u otorgamiento de beneficios a sus clientes o para la prestación de servicios conjuntos.
+                     <br></br><br></br>
+                     Sin perjuicio de lo anterior, el Responsable se compromete a velar por el cumplimiento de los principios de protección de Datos Personales establecidos por la LFPDPPP y su Reglamento y a adoptar las medidas necesarias para su aplicación, así como a exigir su cumplimiento a las personas físicas o morales a los que se llegue a transferir o se conceda el acceso a sus Datos Personales, con el fin de dar a Usted un servicio adecuado y con la mejor calidad. Por lo anterior, el Responsable le informa que toda comunicación girada por correo electrónico o a través de Internet, tales como servicios de mensajería electrónica no protegidos, tales como redes sociales, páginas de internet distintas a las señaladas expresamente por el Responsable como oficiales o sitios web no identificados por el Responsable como propios puede ser objeto de intercepción de la información, pérdida o posibles alteraciones en el mensaje o en los datos remitidos, en cuyo caso, el Titular no podrá exigir al Responsable al que gira dicha comunicación, indemnización por cualquier daño resultante por la intercepción, sustracción, pérdida o alteración relacionada con dicha comunicación.
+                     <br></br>
+                 </p>
+             	<!-- SECCIÓN 7 -->
+                 <div class="slds-text-heading_small">7. USO DE MEDIOS ELECTRÓNICOS O REMOTOS (POLÍTICA DE COOKIES)</div>
+                 <p>
+                 En caso de que el Titular haga uso de plataformas, sitios, aplicaciones o solicite los servicios del Responsable mediante el uso de dispositivos electrónicos o proporcione sus Datos Personales por cualquiera de dichos canales (en adelante y en su conjunto los “Medios Electrónicos”), el Titular entiende, acepta y reconoce que:
+                 <br></br>
+                 </p>
+                 <p>
+                 <ol class="slds-list--ordered">
+                 	<li>Los Medios Electrónicos pueden incluir enlaces a sitios web de terceros ajenos al Responsable, respecto de los cuales, este último no asume ninguna titularidad, obligación o responsabilidad alguna.</li>
+                    <li>Los servicios que presta el Responsable a través de los Medios Electrónicos podrán recopilar información del Titular tales como tipo de navegador, sistema operativo, visitas a otros sitios de internet o llevar a cabo su identificación como Usuario, a través "cookies" o "web beacons" en cuyo caso le será informado ese momento sobre el uso de esas tecnologías. Para que el Titular pueda deshabilitar estos programas, deberá de acceder a las "opciones de internet" ubicadas en la sección de las "Herramientas", o funciones similares, del navegador que utilice.</li>
+				 </ol>
+              	 </p>
+                 <p>
+                     El sitio web del Responsable (<a href="http://www.santander.com.mx" class="text-link">www.santander.com.mx</a>) y sus aplicaciones (SuperMóvil, SuperWallet) utilizan "Cookies" que el Responsable podrá colocar en su dispositivo de acceso y hacer uso ellas. El uso de “Cookies” tiene como finalidad agilizar el inicio de una nueva sesión; guardar la configuración del usuario del sitio y/o sus aplicaciones; agilizar la inter-actuación con los contenidos; mejorar la experiencia del usuario del sitio y/o sus aplicaciones almacenando sus preferencias en el dispositivo de acceso, eliminando la necesidad de especificar repetidamente la misma información y solo mostrar contenido personalizado y publicidad de acuerdo a sus preferencias en sus posteriores visitas, así como facilitar al Responsable el análisis de dicha información con el objetivo de mejorar el rendimiento del sitio y/o sus aplicaciones.
+                     <br></br><br></br>
+                     De igual forma el Responsable podrá hacer uso de “Cookies” para recabar información sobre las preferencias del usuario del sitio y/o aplicaciones en la utilización de contenidos con el fin de ofrecer promociones, descuentos, programas y en general, enviar al usuario del sitio y/o sus aplicaciones publicidad basada en sus intereses.
+                     <br></br><br></br>
+                     Con el uso de los Medios Electrónicos, Usted reconoce y autoriza al Responsable al uso de "Cookies" y "web beacons"
+                     <br></br><br></br>
+                     <ul class="slds-list--dotted">
+                     	<li>Una “Cookie” es un archivo de texto situado por un servidor web en el disco duro del internauta que lo visita con información sobre sus preferencias y pautas de navegación.</li>
+						<li>Un “web beacon”, es una imagen usada exclusivamente para cuantificar el número de visitas o monitorear el comportamiento del cliente.</li>                     
+                     </ul>
+                 </p>
+                 <p>
+                	El Responsable podrá ampliar el contenido del sitio y/o sus aplicaciones o crear nuevos Medios Electrónicos en cuyo caso estos se regirán por el presente AVISO DE PRIVACIDAD.
+                     <br></br>
+                 </p>
+             	<!-- SECCIÓN 8 -->
+                 <div class="slds-text-heading_small">8. MEDIOS PARA EJERCER LOS DERECHOS DE ACCESO, RECTIFICACIÓN, CANCELACIÓN U OPOSICIÓN (DERECHOS ARCO)</div>
+                 <p>
+                 	El Titular, por sí o mediante representante legal debidamente acreditado, tiene reconocidos y podrá ejercitar los Derechos ARCO que le otorga la LFPDPPP y su Reglamento frente al Responsable, de conformidad con lo siguiente.
+                 	<br></br><br></br>
+                 	(Derechos ARCO)
+                 </p>
+                 <p>
+                 	<ul class="slds-list--dotted">
+                 		<li>ACCESO: conocer información específica que el Responsable tiene en su posesión;</li>
+                    	<li>RECTIFICACIÓN: solicitar la rectificación de Datos Personales en caso de que no estén actualizados, sean inexactos o incompletos, para ejercer este derecho se deberá entregar la documentación que acredite la rectificación solicitada de acuerdo a los Datos Personales;</li>
+                    	<li>CANCELACIÓN: bloqueo y posterior eliminación de Datos Personales de nuestras bases de datos cuando considere que la misma no está siendo utilizada adecuadamente o para los fines que dieron origen a la relación jurídica;</li>
+                    	<li>OPOSICIÓN: oponerse al uso para fines específicos de sus Datos Personales.</li>
+                 	</ul>
+              	 </p>
+                 <p>
+                 	El ejercicio de cualquiera de los Derechos ARCO no impide el ejercicio de alguno otro derecho.
+                 	<br></br><br></br>
+                 	Para el ejercicio de cualquiera de los derechos ARCO el Titular o su representante legal podrán solicitar un formato de ejercicio de Derechos ARCO a la dirección de correo electrónico unidad_pd@santander.com.mx, en adelante el “Formato”.
+                 	<br></br><br></br>
+				    Dicho Formato se deberá llenar, firmar y devolver a la misma dirección de correo electrónico acompañado de la documentación que más adelante se señala, misma que deberá enviarse para su evaluación escaneada y legible, con objeto de que el Responsable pueda llevar a cabo la autenticación del Titular que requiera ejercer sus Derechos ARCO:                  
+                	<br></br>
+                </p>
+                <p>
+                	<ul class="slds-list--dotted">
+                 		<li>Identificación oficial vigente del Titular Será válido alguno de los siguientes documentos: Credencial del Instituto Nacional Electoral, Pasaporte emitido por la Secretaría de Relaciones Exteriores, Cartilla del servicio Militar Nacional o Cédula Profesional.</li>
+                    	<li>En los casos en que el Titular ejerza sus Derechos ARCO a través de un representante legal, además de acreditar la identidad de ambos (Titular y el Representante legal), se deberá enviar a la citada dirección de correo, una copia legible del poder notarial otorgado al representante legal, o en su caso carta poder firmada ante dos testigos o declaración en comparecencia del Titular por el cual se otorgan facultades para llevar a cabo este trámite ante el Responsable.</li>
+                    	<li>En caso de que se quiera ejercer el derecho de rectificación, el Titular o su representante legal deberán enviar a la dirección de correo electrónico unidad_pd@santander.com.mx la documentación que sustente su petición.</li>
+                	</ul>
+                 </p>
+                 <p>
+                 	El Responsable comunicará al Titular en un plazo máximo de 20 (veinte) días hábiles contados desde la fecha en que reciban en el correo electrónico unidad_pd@santander.com.mx, la respuesta a su solicitud de acceso, rectificación, cancelación u oposición. Si la solicitud presentada al o el Responsable resulta procedente y el Responsable recibe del Titular o su representante legal la documentación a que se refiere el presente numeral, el resultado de la resolución, se hará efectiva dentro de los 15 (quince) días hábiles siguientes a la fecha en que se comunique la respuesta.
+                 	<br></br><br></br>
+                 	El Responsable podrá ampliar éste plazo hasta por 20 (veinte) días hábiles más, cuando el caso lo amerite, previa notificación de dicha situación al Titular.
+                 	<br></br><br></br>
+					La resolución adoptada por el Responsable será comunicada al Titular a través de uno de los canales elegido por éste último, los cuales se mencionan en el Formato que se envía por el Titular al Responsable por correo electrónico.                	<br></br>
+                	<br></br>
+                    En los casos en que el Titular desee revocar la autorización otorgada al Responsable respecto de los Datos Personales proporcionados, deberá realizar la solicitud correspondiente en los mismos términos establecidos en el presente AVISO DE PRIVACIDAD para ejercer sus derechos ARCO.
+                    <br></br><br></br>
+                    La entrega de los Datos Personales será gratuita previa acreditación de su identidad ante el Responsable. Por excepción, en aquellos casos en los que derivado de la solicitud particular del Titular, se genere al Responsable gastos justificados de envío; y en su caso costos por la de reproducción o por la generación de copias u otros formatos que tengan como motivo atender la solicitud del Titular, el Titular deberá abonar, en los casos en que lo amerite, dichos gastos al Responsable, situación que se informará al Titular por el Responsable previa la entrega de datos. 
+                    <br></br><br></br>
+                    Si la misma persona, ya sea por si como Titular o a través de un representante legal, reitera su solicitud entrega de Datos Personales en un periodo menor a doce meses contados a partir de la última entrega de información, el Responsable podrá solicitar al Titular o su representante legal, el pago de los costos de reimpresión de dicha información los cuales no serán por ningún motivo mayores a tres días de Salario Mínimo General Vigente en el Distrito Federal. En caso de que existan modificaciones sustanciales al presente AVISO DE PRIVACIDAD que motiven nuevas consultas, no procederá el cobro de reimpresiones a que se refiere este párrafo. 
+                    <br></br><br></br>
+                    En aquellos casos en los que el Titular desee ejercer el derecho de Acceso a sus Datos Personales, la información solicitada será proporcionada a través del medio que este haya elegido en el Formato de solicitud de ejercicio de Derechos ARCO. En el supuesto en el que el Responsable no cuente con Datos Personales del Titular requirente, se lo informarán por los medios a través de los cuáles realizó la solicitud. 
+                    <br></br><br></br>
+                    Para cualquier duda o aclaración respecto del procedimiento y medios para ejercer sus Derechos Arco, favor de enviar un correo a la Unidad de Protección de Datos Personales a la dirección unidad_pd@santander.com.mx. 
+                    <br></br><br></br>
+                     En caso de que el Titular revoque la autorización otorgada al Responsable para el tratamiento de sus Datos Personales bajo alguna de las finalidades identificadas como <span class="text-bold">primarias</span> en el <span class="text-bold">numeral 4</span> del presente AVISO DE PRIVACIDAD, dicha revocación podrá implicar la suspensión de los servicios prestados por el Responsable a fin de dar cumplimiento a las disposiciones legales vigentes o a las políticas internas del Responsable. 
+                    <br></br>    
+                </p>
+             	<!-- SECCIÓN 9 -->
+                 <div class="slds-text-heading_small">9. PROCEDIMIENTO Y MEDIO POR EL CUAL EL RESPONSABLE COMUNICARÁ A LOS TITULARES DE CAMBIOS AL AVISO DE PRIVACIDAD</div>
+                 <p>
+                 	El Responsable se reserva el derecho a realizar cambios en el presente AVISO DE PRIVACIDAD, los cuales serán dados a conocer mediante su publicación en la página <a href="http://www.santander.com.mx" class="text-link">www.santander.com.mx</a> o aquella que la llegara a sustituir.
+                 	<br></br><br></br>
+                     Asimismo, se informa al Titular que cuenta con el derecho a oponerse al tratamiento de sus Datos Personales en caso de no estar de acuerdo con las modificaciones que pudiera presentar este AVISO DE PRIVACIDAD, para ello, deberá enviar una solicitud a la dirección de correo electrónico a que se refiere el <span class="text-bold">numeral 8</span> del presente AVISO DE PRIVACIDAD. (unidad_pd@santander.com.mx) 
+                    <br></br><br></br>
+                    Les informamos que la autoridad competente para resolver cualquier conflicto derivado de la aplicación a la Ley Federal de Protección de Datos Personales en Posesión de los Particulares y su Reglamento es el Instituto Nacional de Acceso a la Información y Datos Personales (INAI) y puedes saber más del tema en su página <a href="http://www.inai.org.mx" class="text-link">www.inai.org.mx</a>
+                    <br></br><br></br>
+                     <span class="text-bold">El presente AVISO DE PRIVACIDAD se modificó por última ocasión el 22 de mayo de 2020. </span>
+                    <br></br>
+                 </p>
+            </div>
+        </div>
+    </aura:if>
+    
+         <!-- PORTUGAL -->
+    <aura:if isTrue="{!v.country eq 'PT'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Política de Privacidade</div>
+            <div class="text_line"></div>
+        </div>
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>
+					O Banco Santander, S.A. elaborou uma política de privacidade, estabelecendo os meios e procedimentos necessários para a sua execução.                  <br></br>
+                </p>
+                <p>
+					De acordo com a Ley Orgánica de Protección de Datos de Carácter Personal (LO 15/1999 de 13 de dezembro), dados pessoais são entendidos como “toda a informação relativa a uma pessoa singular identificada ou identificável”.                   <br></br>
+                </p>
+				<p>
+                 	Os únicos dados pessoais aos quais o Banco Santander, S.A. terá acesso serão dados disponibilizados voluntariamente pelo utilizador. Nesse sentido, informamos desde já, que para a contratação de alguns produtos/serviços disponibilizados através da Internet serão solicitados os seus dados pessoais. Assim, nos casos em que os dados pessoais do utilizador sejam expressamente solicitados, se não os fornecer, não poderá aceder nem utilizar os respetivos serviços e conteúdos. A título de exemplo, podem ser solicitados dados de identificação, dados de solvência - quando exigidos pela natureza da operação - e quaisquer outros que, consoante o caso, sejam legalmente exigidos ou necessários para dar resposta a informações solicitadas ou para a prestação de um determinado serviço. Os dados de carácter voluntário são recolhidos pelo Banco Santander, S.A. para os fins indicados na cláusula de Proteção de Dados que será mencionada mais adiante. As políticas de privacidade de cada uma das filiais do Banco Santander estão disponíveis nos Avisos Legais nas suas respetivas páginas da internet.
+				 <br></br>
+                </p>
+				<p>
+					De acordo com a lei aplicável, o Banco Santander adotou medidas técnicas e organizativas adequadas para manter o nível de segurança exigido no tratamento dos dados pessoais. Está igualmente equipado de mecanismos precisos que pretendem evitar, na medida do possível, o tratamento não autorizado, alterações ilícitas, furto e perda de dados.				 <br></br>
+                	<br></br>
+                </p>
+                <p>
+                    Não obstante, se o utilizador publicar dados pessoais online que sejam acessíveis ao público, poderá receber mensagens não solicitadas de outras pessoas e, assim, dar a conhecer os seus dados pessoais a terceiros.
+                    <br></br>
+                </p>
+                <p>
+                    Pelas razões anteriormente mencionadas, recomenda-se a máxima diligência nesta matéria e o uso de todas as ferramentas de segurança que tenha à sua disposição, não sendo o Banco Santander responsável pelo furto, alterações ou perdas de dados realizados de forma ilícita.
+                    <br></br>
+                </p>
+                <p>
+                    O utilizador tem o direito de acesso aos dados que lhe digam respeito, bem como à sua retificação, de opor-se ao seu tratamento e de solicitar o seu apagamento, podendo exercer estes direitos por escrito ao cuidado da direção que figura na Cláusula de Proteção de Dados que será mencionada mais adiante. Pode igualmente revogar, a qualquer momento, a autorização que concedeu para a utilização ou transferência dos seus dados pessoais, sem prejuízo do direito do Banco Santander em cessar o contrato ou a operação em causa, quando tais dados pessoais sejam essenciais para a realização dos mesmos. Poderá também modificar os dados pessoais que, através das páginas da internet, tenha fornecido ao Banco Santander.
+                    <br></br>
+                </p>
+        	</div>
+    	</div>
+    </aura:if>
+
+    <!-- POLAND -->
+    <aura:if isTrue="{!v.country eq 'PL'}">
+        <c:CMP_PrivacyPoland />
+    </aura:if>
+    
+    <!--<div class="slds-col titleContainer">
+     <div class="slds-text-heading_medium">{!$Label.c.privacy}</div>
+     <div class="text_line"></div>
+    </div> 
+
+    <div class="privacyInfoContainer">
+        <div class="slds-text-heading_small">{!$Label.c.privacyPolicyTitle}</div>
+        <div class="slds-text-body_regular">
+            <p>{!$Label.c.privacy1}</p>
+            <p></p>
+            <p>{!$Label.c.privacy2}</p>
+            <p></p>
+            <p>{!$Label.c.privacy3}</p>
+            <p></p>
+            <p>{!$Label.c.privacy4}</p>
+            <p></p>
+            <p>{!$Label.c.privacy5}</p>
+            <p></p>
+            <p>{!$Label.c.privacy6}</p>
+            <p></p>
+            <p>{!$Label.c.privacy7}</p>
+        </div>
+        <div class="slds-text-heading_small">{!$Label.c.dataProtectionClause}</div>
+        <div class="slds-text-body_regular">
+            <p>{!$Label.c.dataProtectionClause1}</p>
+            <p></p>
+            <p>{!$Label.c.dataProtectionClause2}</p>
+        </div>
+        
+        <div class="slds-text-body_regular">{!$Label.c.legal27}</div>
+    </div>-->
+</aura:component>

@@ -1,0 +1,1140 @@
+.THIS.slds-modal {
+    background: rgba(68,68,68,0.7);
+    overflow-y: auto;
+}
+.THIS .slds-modal__container{
+    width: 936px;
+    max-width: 936px;
+    min-width: 936px;
+    padding: 0;
+    height: auto;
+    margin: 108px auto;
+    box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+}
+ 
+.THIS .modal-content{
+display: flex;
+    flex-direction: column;
+    position: relative;
+    max-height: 100%;
+    background:#fff;
+    border-radius: 4px; 
+}
+
+.THIS .slds-col:nth-child(odd){
+    padding-right: 24px;
+    flex: 1 1;
+}
+.THIS .slds-modal__close{
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    font-size: 18px; 
+    width: 24px;
+    height: 24px;
+}
+.THIS .slds-modal__close .icon-close_big{
+    font-size:24px
+}
+
+/* Header */
+.THIS   .slds-modal__header{ 
+    box-shadow: none;
+    border: none; 
+    text-align: left;
+    padding:40px 64px;
+}
+
+.THIS .modal-content .title .slds-modal__title{
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 28px; 
+    line-height: 1.21; 
+    color: #444444;     
+    position: relative; 
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; 
+    padding: 0;
+    margin-bottom: 8px;
+}
+.THIS .modal-content .title .title-line{
+    width: 40px;
+    height: 3px;
+    background-color: #ec0000;
+}
+
+/* CONTENT  */
+.THIS .modal-content.allFilters  .slds-modal__content{ 
+    background: #fff;
+    padding:0 64px 40px 64px;
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 20px; 
+    line-height: 1.4; 
+    color: #444444; 
+    overflow: visible;
+    position: relative;
+}
+
+.THIS .slds-modal__content:last-child {
+    box-shadow: none;
+    border-radius: 0 0 4px 4px;
+}
+
+.THIS .modal-content.allFilters .slds-modal__content p{
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 1.5;
+    color: #767676;
+    margin-bottom: 24px;
+}
+
+.THIS .modal-content.allFilters .slds-modal__content h3{
+    font-family: SantanderMicroText-Bd;
+    font-size: 18px;
+    line-height: 27px;
+    letter-spacing: normal;
+    color: #444444;
+    margin-bottom: 16px;
+}
+
+/* FOOTER  */
+.THIS .slds-modal__footer {
+    border-bottom-right-radius:none;
+    border-bottom-left-radius: none;
+    text-align: left;
+    box-shadow: none;
+    border-top: none;
+    padding: 0;
+}
+
+
+.THIS .slds-row {
+    margin-bottom:4px;
+}
+.THIS .modal-content.allFilters  .accounts .inputLookup__single:last-of-type{
+    margin-bottom: 16px;
+}
+.THIS .amountCurrency .slds-row:last-child,
+.THIS .paymentDetails .slds-row:last-child{
+    margin-bottom: 20px;
+}
+
+.THIS .comboInputs,
+.THIS .slds-row {
+    display: flex;
+}
+.THIS .hyphenInput {
+    width: 24px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+}
+.THIS .modal-content.allFilters .slds-modal__content .hyphenInput p{
+    font-family: SantanderHeadline;
+    margin-bottom: 0;
+    line-height: 48px;
+    text-justify: center;
+}
+
+.THIS .modal-content.allFilters .slds-modal__footer .slds-button + .slds-button {
+    margin-left: 24px;
+}
+
+/* FORM ITEMS  */
+/* INPUTS */
+.THIS .modal-content.allFilters .comboInputs .slds-form-element.input {
+    width: 392px;
+    min-height: 68px;
+}
+.THIS .modal-content.allFilters .slds-form-element.dropdown {
+    min-height: 68px;
+}
+.THIS .modal-content.allFilters .paymentDetails .slds-form-element.input {
+    width: 392px;
+    min-height: 68px;
+}
+
+.THIS .modal-content.allFilters .slds-form-element__label {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    z-index: 2;
+}
+
+.THIS .modal-content.allFilters .input .slds-form-element__label + .slds-form-element__control .slds-input {
+    padding: 19px 16px 5px 16px;
+}
+.THIS .modal-content.allFilters .slds-input{
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+    padding: 0 70px 0 16px;
+    min-width: 392px;
+    background-color: #f6fafc;
+}
+.THIS .modal-content.allFilters .slds-input:active,
+.THIS .modal-content.allFilters .slds-input:focus {
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+.THIS .modal-content.allFilters .slds-form-element__help {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 16px;
+    margin-top: 0;
+}
+
+/* DISABLED*/
+.THIS .modal-content.allFilters .slds-input[disabled] {
+    background-color: #f6f6f6;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    color: #767676;
+}
+.THIS .modal-content.allFilters .slds-input[disabled] + .slds-box {
+    cursor: not-allowed;
+}
+.THIS .modal-content.allFilters .slds-input[disabled]:active, 
+.THIS .modal-content.allFilters .slds-input[disabled]:focus {
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}
+.THIS .modal-content.allFilters .button-order[disabled] .button-arrow.icon-arrowDown_small:before,
+.THIS .modal-content.allFilters .button-order[disabled] .button-arrow.icon-arrowUp_small:before {
+    color: #cccccc;
+}
+.THIS .modal-content.allFilters .button-order[disabled] {
+    background-color: #f6f6f6;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    cursor: not-allowed;
+    box-shadow: none;
+    color: #767676;
+}
+.THIS .modal-content.allFilters .button-order[disabled] .selectedValue-filled {
+    color: #767676;
+}
+.THIS .modal-content.allFilters .button-order[disabled]:hover {
+    box-shadow: none;
+}
+.THIS .modal-content.allFilters .button-order[disabled]:active, 
+.THIS .modal-content.allFilters .button-order[disabled]:focus {
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}
+
+.THIS ::-webkit-input-placeholder { color: #767676; }
+ 
+.THIS :-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+.THIS ::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+.THIS :-ms-input-placeholder { color: #767676; }
+
+.THIS :focus::-webkit-input-placeholder{color:transparent;}
+
+
+/* INPUT */
+.THIS .modal-content.allFilters .inputLookup__single {
+    width: 808px;
+    min-height:72px;
+} 
+
+.THIS .modal-content.allFilters .inputLookup__single .slds-combobox {
+    display: inline-block;
+    width: 100%;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-button {
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-button__icon {
+    height: 24px;
+    margin: 0;
+    padding: 2px;
+    width: 24px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-combobox__form-element {
+    height:48px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-combobox__input:active,
+.THIS .modal-content.allFilters .inputLookup__single .slds-combobox__input:focus {
+    border-color: none;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-form-element__help {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 16px;
+    margin-top: 0;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-form-element__label {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;   
+    z-index: 2;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-form-element__label + .slds-combobox .slds-combobox__form-element .slds-input {
+    padding: 19px 44px 5px 16px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-input{
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    padding: 0 44px 0 16px; 
+    background-color: #f6fafc;
+}
+
+/* SCROLLBAR */
+.THIS ::-webkit-input-placeholder { 
+    color: #767676;
+}
+.THIS :-moz-placeholder { 
+    color: #767676;
+}
+.THIS ::-moz-placeholder { 
+    color: #767676;
+}
+.THIS :-ms-input-placeholder { 
+   color: #767676;
+}
+.THIS :focus::-webkit-input-placeholder{
+    color:transparent;
+}
+
+/* DROPDOWN */
+.THIS .modal-content.allFilters .inputLookup__single .slds-box {
+    background-color: #ffffff;
+    border: 1px solid #cedee7;
+    border-radius: 2px;
+    bottom: 0;
+    height: 24px;
+    min-width: 40px;
+    padding: 0 8px;
+    right: 0;
+    top: 0;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-box p{
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    line-height: 22px;
+    text-align: center;
+}
+
+.THIS .modal-content.allFilters .inputLookup__single .slds-dropdown {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 404px;
+    top: 48px;
+    z-index: 4;
+    height: 342px;
+    background-color: transparent; 
+    box-shadow: 0 -3px 6px 0 rgba(206, 214, 219, 0.4);
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-dropdown .slds-listbox__option:hover {
+    cursor: auto;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-listbox li:hover {
+    box-shadow: 2px 2px 6px 2px rgba(206, 214, 219, 0.4);
+    transform: translate(0px, 0px);
+}
+.THIS .modal-content.allFilters .inputLookup__single div.slds-media.slds-listbox__option.slds-listbox__option_entity.slds-listbox__option_term.slds-has-focus{
+    background-color: white;
+}
+
+.THIS .modal-content.allFilters .inputLookup__single .slds-listbox .slds-listbox__item{
+    border-radius:0;
+}
+
+.THIS .modal-content.allFilters .inputLookup__single .slds-listbox .slds-listbox__item:last-child {
+    border-radius: 0 0 4px 4px;
+}
+
+.THIS .modal-content.allFilters .inputLookup__single .slds-listbox .slds-listbox__item:nth-child(odd) {
+    background-color: white;
+
+}
+
+.THIS .modal-content.allFilters .inputLookup__single .slds-listbox .slds-listbox__item:nth-child(even) {
+    background-color: #f9fcfd;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-listbox_vertical .slds-listbox__option:hover {
+    background-color: unset;
+    cursor: pointer;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-listbox .slds-media {
+    align-items: initial;
+    height: 56px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-media {
+    align-items: center;
+    border-bottom: 1px solid #cedee7;
+    height: 53px;
+    padding: 16px 16px 15px 16px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-media .slds-listbox__option-meta {
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-media .slds-listbox__option-text {
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 26px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-media .slds-listbox__option-text.bold {
+    font-family: "SantanderMicroText-Bd";
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-media .slds-listbox__option-text mark{
+    font-family: "SantanderMicroText-Bd";
+    margin: 0 4px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-truncate.account {
+    margin-right: 32px;
+    width: 275px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-truncate.business {
+    margin-right: 32px;
+    width: 201px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-truncate.country {
+    margin-right:8px;
+    width:188px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-truncate.country .slds-icon.slds-icon_small {
+    height: 21px;
+    line-height: 21px;
+    width: 21px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-truncate.country .slds-icon.slds-icon_small .sizeFlag {
+    height:21px;
+    width:21px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-truncate.country .slds-media__body {
+    display:inline-block;
+    max-width: 164px;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-truncate.country .slds-media__figure {
+    display: inline-block;
+    margin:0;
+    vertical-align: top;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-truncate.country .slds-media .slds-listbox__option-text.bold {
+    margin-bottom:0;
+}
+
+.THIS .calendar .slds-form-element__label {
+    font-family:SantanderTextW05-Regular;
+    font-weight: normal;
+    font-size: 14px;
+    color: #444444;
+    margin: 0 0 4px 0;
+    padding: 0;
+} 
+
+/* CALENDAR */
+/* .THIS .modal-content .slds-form-element.calendar .slds-input__icon {	
+    bottom: 0;	
+    height: 24px;	
+    margin: auto;	
+    right: 16px;	
+    top: 0;	
+    width: 24px;	
+}	
+.THIS .modal-content .slds-form-element.calendar .slds-input__icon.close {	
+    right: 64px;	
+    pointer-events: auto;	
+    cursor: pointer;	
+    position: absolute;	
+    z-index: 2;	
+}	
+.THIS .modal-content .slds-form-element.calendar .slds-button__icon.icon-close_filledCircle {	
+    height: 24px;	
+    margin: 0;	
+    justify-content: center;	
+    align-items: center;	
+    display: flex;	
+    width: 24px;	
+}	
+.THIS .modal-content .slds-form-element.calendar .icon-close_filledCircle:before {	
+    color: #cccccc;	
+    font-size: 20px;	
+}
+
+.THIS .modal-content.allFilters .calendar .slds-form-element.slds-dropdown-trigger.slds-dropdown-trigger_click > .slds-form-element__label.doubleCalendar + .slds-form-element__control .slds-input {
+    padding: 19px 56px 5px 16px;
+}
+	
+.THIS .modal-content .calendar .slds-form-element__control .slds-button.close + .slds-form-element .slds-form-element.slds-dropdown-trigger.slds-dropdown-trigger_click .slds-input  {	
+    padding-right: 104px;	
+}
+.THIS .modal-content.allFilters .calendar .slds-form-element__label:nth-child(even){
+    left: 224px;
+}
+
+.THIS .paymentDetails .calendar > .slds-form-element{
+    display: contents;
+}
+
+.THIS input.slds-input::selection,
+.THIS .paymentDetails .calendar input::-webkit-keygen-select {
+    text-shadow: none;
+    color: #444444!important;
+    background: white!important;
+}
+.THIS .paymentDetails .calendar input:-internal-autofill-selected {
+    -webkit-appearance: menulist-button;
+    background-color: white!important;
+    color: #444444!important;
+    background-image: none !important;
+}
+
+.THIS .paymentDetails .calendar input:focus {
+    box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+
+.THIS .paymentDetails .calendar input::placeholder,
+.THIS .paymentDetails .calendar input::-moz-placeholder,
+.THIS .paymentDetails .calendar input::-webkit-input-placeholder,
+.THIS .paymentDetails .calendar input:-ms-input-placeholder,
+.THIS .paymentDetails .calendar input:-moz-placeholder  {
+    font-family: "SantanderMicroText";
+    color: #444444;
+    font-size: 16px;
+} */
+
+/* .THIS .paymentDetails .calendar .slds-button{
+    left: -16px;
+    bottom: 14px;
+} */
+
+/* 
+.THIS .paymentDetails .calendar h2.slds-align-middle{
+    font-family:SantanderTextW05-Regular;
+    font-size: 12px;
+    height: 1.5rem;
+    line-height: 1.3rem;
+    text-align: center;
+    color: #444444;
+}
+
+.THIS .paymentDetails .calendar .slds-align-middle .slds-button{
+    left: 0;
+    bottom: 3px;
+    display: flex;
+    align-items: center;
+}
+
+.THIS .paymentDetails .calendar .slds-align-middle .slds-button__icon{
+   width: 16px;
+   height: 16px;
+}
+
+.THIS .paymentDetails .calendar .slds-button_icon-bare {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    height: 24px;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    width: 24px;
+}
+
+.THIS .paymentDetails .calendar .slds-button_icon-bare:before {
+    color: #ec0000;
+    content: "\e90b";
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.THIS .paymentDetails .calendar .slds-button_icon-bare svg {
+    display: none;
+}
+
+.THIS .paymentDetails .calendar .slds-input__icon.slds-input__icon_right {
+    bottom: 0;
+    height: 24px!important;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px!important;
+}
+
+.THIS .paymentDetails .calendar .slds-form_compound .slds-form-element__row >.slds-form-element+.slds-form-element {
+    padding-left: 12px;
+    padding-right: 0;
+    margin:0;
+}
+.THIS .paymentDetails .slds-has-error .slds-form-element__help {
+    width: 172px;
+}
+
+.THIS .paymentDetails .calendar .slds-button__icon svg{
+    font-size: 12px;
+}
+
+.THIS .paymentDetails .calendar .textHelp {
+    color: #444444;
+    display: inline-block;
+    font-size: 12px;
+    height: 18px;
+    padding-left: 12px;
+}
+.THIS .paymentDetails .calendar .slds-datepicker.slds-dropdown {
+    position: absolute!important;
+    width: 309px!important;
+    max-width: 309px!important;
+    min-width: 309px!important;
+    left: 150px!important;
+    right: 0px!important;
+    top: auto!important;
+    visibility: visible!important;
+    z-index: 4!important;
+}
+.THIS .paymentDetails .calendar .slds-datepicker {
+    padding: 16px 0 0 8px!important;
+    width: 309px!important;
+    height: 356px;
+    margin-bottom: 0!important;
+    font-size: 0.75rem;
+    box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4)!important;
+    transform: translateX(-50%);
+    border:none!important;
+    border-radius: 0 4px 4px 4px!important;
+    margin-left: 6px;
+    background-color: white;  
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-button:focus {
+    box-shadow: none;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-button__icon {
+    fill: #ec0000;
+}
+
+.THIS .paymentDetails .slds-datepicker .slds-datepicker__filter.slds-grid {
+    padding: 2px 0 0 0;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-datepicker__month {
+    position: relative;
+    width: 309px;
+    right: 9px;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-datepicker__month thead tr {
+    text-transform: uppercase;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-datepicker__month thead th {
+    color: #444444;
+    font-size: 12px;
+    width: 28px;
+    height: 18px;
+    font-family: "SantanderHeadlineW05-Rg";
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-day,
+.THIS .paymentDetails .calendar .slds-datepicker th,
+.THIS .paymentDetails .calendar h2,
+.THIS .paymentDetails .calendar .slds-select {
+    font-family: SantanderMicroText;
+    font-size: 12px;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-day {
+    padding: 0;
+    margin-top:4px!important;
+    margin-bottom: 4px!important;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker th{
+    width: 28px!important;  
+    height: 18px!important; 
+    margin: 0!important;    
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker td{
+     width: 28px!important;  
+    height: 28px!important; 
+     margin: 0!important;        
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker th > span,
+.THIS .paymentDetails .calendar .slds-datepicker td > span{
+    font-family: "SantanderHeadlineW05-Rg";
+        font-size: 12px;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker th:first-of-type,
+.THIS .paymentDetails .calendar .slds-datepicker td:first-of-type {
+    padding: 0 0 0 12px!important;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-select_container {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    margin-bottom: 4px!important;
+    margin-right: 14px;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-select_container:after {
+    border: none;
+    bottom: 13px;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 15.2px; 
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+.THIS .paymentDetails .calendar .slds-datepicker .slds-select_container:before {
+    border: none;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 4px; 
+    top: 13px;
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-select_container .slds-assistive-text{
+    display: none;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-text-link {
+    color: #ec0000;
+    font-family: SantanderTextW05-Bold;
+    font-size: 12px;
+    padding-top: 12px;
+    text-decoration: none;
+    margin-top: 6px;
+    padding:0;
+    display: flex;
+    justify-content: center;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker .slds-text-link:hover{
+    color: #CC0000;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker td {
+    padding: 0;
+}
+
+.THIS .paymentDetails .calendar .slds-datepicker td.slds-is-selected > .slds-day {
+    background: #444444;
+}
+
+.THIS .paymentDetails .calendar .slds-select {
+   border-radius: 4px;
+   border: solid 1px #cedee7;
+   font-family: SantanderMicroText;
+   font-size: 12px;
+   line-height: 18px;
+   color: #444444;
+   width: 75px;
+   height: 32px;
+}
+.THIS.paymentProcess-step5-HU40 .calendar .slds-form-element__help {
+    display: none;
+}
+.THIS.paymentProcess-step5-HU40 .calendar .slds-has-error .slds-input {
+    box-shadow: none;
+}
+.THIS.paymentProcess-step5-HU40 .calendar .helperText{
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 16px;
+    margin-top: 0;
+    display:block;
+}
+
+.THIS .paymentDetails .calendar .slds-select:focus{
+    box-shadow:none;
+    border: solid 1px #cedee7;
+    color: #444444;
+} */
+
+
+/* CHECK BOX  */
+ .THIS .modal-content.allFilters .slds-form-element__label + .slds-combobox__check .slds-dropdown-trigger_click .button-order .slds-border_right {
+    padding: 19px 0px 5px 16px;
+}
+.THIS .slds-combobox.status,
+.THIS .slds-form-element.calendar {
+    min-height: 68px;
+}
+
+/* ERROR INPUT */
+.THIS .modal-content.allFilters .error .slds-form-element__help {
+    display: none;
+}
+.THIS .modal-content.allFilters .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    display: none;
+}
+.THIS .modal-content.allFilters .error .errorText {
+    display: block;
+}
+.THIS .modal-content.allFilters .error .slds-form-element__label {
+    color: #cc0000;
+}
+.THIS .modal-content.allFilters .error .slds-input,
+.THIS .modal-content.allFilters .error .button-order{
+    border-bottom: 1px solid #cc0000;
+    box-shadow: none;
+}
+.THIS .modal-content.allFilters .error .slds-input:active,
+.THIS .modal-content.allFilters .error .slds-input:focus,
+.THIS .modal-content.allFilters .error .button-order:active,
+.THIS .modal-content.allFilters .error .button-order:focus,
+.THIS .modal-content.allFilters .error .button-order:hover {
+    box-shadow: inset 0 -1px 0 0 #cc0000;
+    box-shadow: none;
+}
+
+.THIS .modal-content.allFilters .error.calendar .helperText{
+    display: none;
+}
+
+.THIS .modal-content.allFilters .helperText + .errorText {
+    display: none;
+}
+.THIS .modal-content.allFilters .error .errorText {
+    display: block;
+}
+
+/* DISABLED INPUT */
+.THIS .modal-content.allFilters .inputLookup__single .slds-input[disabled] {
+    background-color: #f6f6f6;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    color: #767676;
+}
+.THIS .modal-content.allFilters .inputLookup__single .slds-input[disabled] + .slds-button {
+    cursor: not-allowed;
+}
+
+.THIS .modal-content.allFilters .inputLookup__single .slds-input[disabled]:active, 
+.THIS .modal-content.allFilters .inputLookup__single .slds-input[disabled]:focus {
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}
+/*CLEAR TEXT BUTTONS*/
+.THIS .modal-content.allFilters .input .slds-button {
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+}
+.THIS .modal-content.allFilters .input .slds-button__icon {
+    height: 24px;
+    margin: 0;
+    padding: 2px;
+    width: 24px;    
+}
+.THIS .modal-content.allFilters .input .icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;    
+}
+
+/* NEW CALENDAR*/
+
+.THIS .calendar .slds-form-element__label {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    z-index: 2;
+}
+
+.THIS .calendar .hyphenInput {
+    width: 24px;
+    height: 48px;
+}
+
+.THIS .calendar .hyphenInput p {
+    font-family: SantanderHeadline;
+    margin-bottom: 0;
+    line-height: 48px;
+    text-justify: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.THIS .field.input {
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+    padding: 0 70px 0 16px;
+    min-width: 392px;
+    background-color: #f6fafc;
+}
+
+.THIS .calendar .slds-form-element .slds-form-element__label+.slds-form-element__control .uiInput .field.input {
+    padding: 19px 56px 5px 16px;
+    color: #444444;
+}
+
+.THIS .calendar .slds-form-element__control .slds-button.close~.form-element.uiInput .field.input {
+    padding-right: 104px;
+}
+
+.THIS .calendar .field.input:active,
+.THIS .calendar .field.input:focus {
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+
+.THIS .calendar .slds-input__icon {
+    pointer-events: auto;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+}
+
+.THIS .calendar .slds-input__icon.close {
+    right: 64px;
+    z-index: 2;
+}
+
+.THIS .calendar .slds-button__icon.icon-calendar {
+    width: 24px;
+    height: 24px;
+}
+
+.THIS .calendar .icon-calendar:before {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.THIS .calendar .slds-form-element__help {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 16px;
+    margin-top: 0;
+}
+
+.THIS .calendar .slds-form.slds-form_compound {
+    min-height: 72px;
+}
+
+.THIS .calendar .slds-form-element__row {
+    margin: 0;
+}
+
+.THIS .calendar .slds-input__icon {
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+}
+
+.THIS .calendar .slds-button__icon.icon-close_filledCircle {
+    height: 24px;
+    margin: 0;
+    padding: 2px;
+    width: 24px;
+}
+
+.THIS .calendar .icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;
+}
+
+
+/* ERROR INPUT */
+
+.THIS .calendar.error .helperText {
+    display: none;
+}
+
+.THIS .calendar.error .slds-form-element__help {
+    display: none;
+}
+
+.THIS .calendar .errorText {
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    display: none;
+}
+
+.THIS .calendar.error .errorText {
+    display: block;
+}
+
+.THIS .calendar.error .slds-form-element__label {
+    color: #cc0000;
+}
+
+.THIS .calendar.error .field.input {
+    border-bottom: 1px solid #cc0000;
+    box-shadow: none;
+}
+
+.THIS .calendar.error .field.input:active,
+.THIS .calendar.error .field.input:focus {
+    box-shadow: inset 0 -1px 0 0 #cc0000;
+    box-shadow: none;
+}
+
+.THIS .datePicker-openIcon.display {
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+    background: none;
+    z-index: 2;
+}
+
+
+/* DISABLED*/
+
+.THIS .slds-button__icon.disabled,
+.THIS .calendar.disabled .slds-input__icon {
+    display: none;
+}
+
+.THIS .slds-button__icon.disabled {
+    margin: 14px 18px;
+    width: 20px;
+    height: 20px;
+}
+
+.THIS .calendar.disabled .slds-button__icon.disabled {
+    display: block;
+}
+
+.THIS .calendar.disabled .slds-button__icon.disabled {
+    right: 18px;
+    pointer-events: auto;
+    cursor: pointer;
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.THIS .calendar.disabled .slds-button__icon.disabled .icon-prohibited {
+    height: 20px;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 20px;
+}
+
+.THIS .slds-button__icon.disabled .icon-prohibited {
+    font-size: 20px;
+    cursor: not-allowed;
+}
+
+.THIS .slds-button__icon.disabled .icon-prohibited:before {
+    color: #767676;
+}
+
+.THIS .calendar.disabled .field.input {
+    background-color: #ececec!important;
+    border: solid 1px #cccccc!important;
+    cursor: not-allowed;
+    box-shadow: none!important;
+    color: #767676!important;
+}

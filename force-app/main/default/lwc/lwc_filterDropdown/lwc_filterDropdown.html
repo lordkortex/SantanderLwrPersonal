@@ -1,0 +1,56 @@
+<template>  	
+	<div class="slds-combobox_container">
+		<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click pillContainer" aria-expanded="false" aria-haspopup="dialog" role="combobox">
+
+			<div class="slds-button slds-button_outline-brand buttonSelected buttonAccounts">
+				<template if:false={issimpledropdown}>
+					<template if:true={selectedvaluesLengthMoreThan0}>
+						{valueplaceholder}&nbsp;<span class="number">({selectedvaluesLength})</span>
+					</template>
+					<template if:false={selectedvaluesLengthMoreThan0}>
+						{valueplaceholder}
+					</template>
+				</template>
+				<template if:true={issimpledropdown}>
+					<template if:true={selectedvalueValid}>
+						{valueplaceholder}&nbsp;<span class="number">(1)</span>
+					</template>
+					<template if:false={selectedvalueValid}>
+						{valueplaceholder}
+					</template>
+				</template>
+
+				<div data-id="button" aria-describedby="dialog-body-id-25" aria-label="" class={bodyclass} id="popover-unique-id-02" role="dialog">
+					<div class="slds-popover__body" id="dialog-body-id-25">
+						<fieldset class="slds-form-element">
+							<div class="slds-form-element__control">
+								<template if:false={issimpledropdown}>
+									<lightning-checkbox-group name="Checkbox Group"
+									class='lcheckboxac_lwc'
+									options={optionsO}
+									value={valueV}
+									onchange={selectoptionhtml}></lightning-checkbox-group>
+								</template>
+								<template if:true={issimpledropdown}>
+									<lightning-radio-group name="Checkbox Group"
+									options={values}
+									id="radio"
+									class='lcheckbox_lwc'
+									value={selectedCurrentValue}
+									data-id="data"
+									onchange={selectoptionhtml}
+									type="button"></lightning-radio-group>
+								</template>
+							</div>
+						</fieldset>
+					</div>
+					<footer class="slds-popover__footer">
+					<button class="slds-button slds-button_neutral whiteButton" onclick={clear}>{label.clearAll}</button>
+					<button class="slds-button slds-button_brand redButton" onclick={apply}>{label.apply}</button>
+					</footer>
+				</div>
+			<!--</aura:set>-->
+			</div>
+		</div>
+	</div>
+</template>

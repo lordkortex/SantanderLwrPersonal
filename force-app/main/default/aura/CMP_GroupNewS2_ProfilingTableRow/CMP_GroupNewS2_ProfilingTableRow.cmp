@@ -1,0 +1,102 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Profiling table row, includes actions to delete
+                accounts / countries and edit entitlements
+History
+<Date>			<Author>		    <Description>
+27/01/2020		Guillermo Giral     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="group" type="Map" description="Map to display the data grouped by country"/>
+    <aura:attribute name="rowIndex" type="Integer" description="Row index"/>
+    <aura:attribute name="displayRow" type="Boolean" default="true" description="Flag to collapse/expand the rows belonging to the same country"/>
+    <aura:attribute name="isSummary" type="Boolean" default="true" description="Hide the table buttons if it's read only summary"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:registerEvent name="rowDisplayChange" type="c:EVT_ServiceProfilingDisplayChange"/>
+
+    <!-- COMPONENT MARKUP -->
+    <tr class="slds-hint-parent border" aria-selected="false">
+        <td class="slds-text-align_center" role="gridcell">   
+            <div class="{!v.group.displayRow ? 'button-arrow icon-arrowUp_small' : 'button-arrow icon-arrowDown_small'}"
+                    id="{!v.rowIndex + 'collapseArrow'}" title="{!$Label.c.seeDetail}" onclick="{!c.toggleRow}"></div>
+        </td>
+        
+        <td role="gridcell">
+            <div class="slds-truncate" title="">{!v.group.country}</div>
+        </td>
+        <td role="gridcell">
+            <div class="slds-truncate" title=""></div>
+        </td>
+        <td class="containerIcon" role="gridcell">
+            <div class="slds-truncate" title=""></div>
+        </td>
+        <td class="containerIcon" role="gridcell">
+            <aura:if isTrue="{!v.isSummary}">
+                <button class="slds-button slds-button_icon icon-trash" onclick="{!c.onDeleteCountryRow}" title="{!$Label.c.delete}"></button>
+            </aura:if>
+        </td>
+    </tr>
+
+    <aura:if isTrue="{!v.group.displayRow}">
+        <div class="detailCard">
+            <table class="slds-table slds-table_fixed-layout slds-table_resizable-cols slds-no-row-hover slds-table_striped" aria-multiselectable="true" role="grid"> 
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                        <th class="containerIcon" scope="col"></th>
+                        <th class="containerIcon" scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:if isTrue="{!v.group.rows.length > 0}">
+                        <aura:iteration items="{!v.group.rows}" var="row" indexVar="rowIndex">
+                            <tr>
+                                <td role="gridcell"></td>
+                                <td class="accountsDetails" role="gridcell">
+                                    <div class="slds-truncate" title="">
+                                        {!row.account}
+                                    </div>
+                                </td>
+                                <td role="gridcell">
+                                    <aura:iteration items="{!row.entitlement}" var="entitlement" indexVar="entitlementIndex">
+                                        <div class="slds-truncate" title="">
+                                            {!entitlement}
+                                        </div>
+                                    </aura:iteration>
+                                </td>                           
+                                <td class="containerIcon" role="gridcell">
+                                    <aura:if isTrue="{!v.isSummary}">
+                                        <button id="{!row.account}" class="slds-button slds-button_icon icon-edit" 
+                                                name="{!entitlement}" onclick="{!c.onModifyEntitlementRow}" title="{!$Label.c.T_Modify}"></button>
+                                    </aura:if>
+                                </td>
+                                <td class="containerIcon" role="gridcell">
+                                    <aura:if isTrue="{!v.isSummary}">
+                                        <button class="slds-button slds-button_icon icon-trash" name="{!row.account}" onclick="{!c.onDeleteAccountRow}" title="{!$Label.c.T_Delete}"></button>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <tr>
+                                <td role="gridcell"></td>
+                                <td class="accountsDetails" role="gridcell">
+                                    <div class="slds-truncate" title="">
+                                        {!$Label.c.GroupNew_NoData}
+                                    </div>
+                                </td>  
+                            </tr>
+                        </aura:set>
+                    </aura:if>
+                </tbody>
+            </table>
+        </div>
+    </aura:if>
+</aura:component>

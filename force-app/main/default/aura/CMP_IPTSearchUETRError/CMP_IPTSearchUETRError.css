@@ -1,0 +1,98 @@
+.THIS.UETRimage{
+    padding: 0;
+    max-width: 1224px;
+    width: 100%;
+    margin: auto;
+}
+.THIS.UETRimage .textInfo{
+    min-height: 17px;
+}
+
+.THIS.UETRimage .textInfo p{
+    font-family: SantanderMicroText;
+    font-size: 12px;
+    line-height: 17px;
+    color: #767676;   
+}
+
+.THIS.UETRimage .textInfo p > span{
+    font-family: SantanderMicroText-Bd;
+    font-size: 12px;
+    line-height: 17px;
+    color: #767676;
+}
+/* .THIS.UETRimage .spinnerNoResults{
+    position: absolute;
+    height:6rem; 
+    width: 100%;
+    left: 0;
+
+} */
+.THIS.UETRimage .spinnerNoResults .slds-spinner{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    top: 129px;
+     z-index: 0;
+}
+.THIS.UETRimage .spinnerNoResults .spinnerText {
+    text-align: center;
+    position: relative;
+    top:104px;
+    margin-top: 8px;
+    /* z-index: 0;  */
+}
+
+.THIS.UETRimage .spinnerNoResults .spinnerText .title{
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 20px;
+    line-height: 28px;
+    color: #444444;
+    margin-bottom: 4px;
+}
+
+.THIS.UETRimage .spinnerNoResults .spinnerText .subtitle{
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    color: #767676;
+}
+.THIS.UETRimage .spinnerNoResults .icon-prohibited{
+    font-size: 48px;
+}
+.THIS.UETRimage .spinnerNoResults .icon-prohibited::before{
+    color: #cccccc;
+}
+
+.THIS.UETRimage .spinnerNoResults .slds-button.primary.button_big.button_full {
+    margin-top: 32px;
+}
+
+.THIS.UETRimage .spinnerNoResults .primary.button_full {
+    min-width: 184px;
+}
+
+.THIS.UETRimage .spinnerNoResults .primary {
+    background-color: #ec0000;
+    border-radius: 100px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    padding: 4px 16px;
+}
+.THIS.UETRimage .spinnerNoResults .slds-button {
+    display: inline-block;
+}
+
+.THIS.UETRimage .spinnerNoResults .slds-button:not(.button_disabled).primary:hover {
+    background-color: #cc0000;
+    color: #ffffff;
+    border: 1px solid #cc0000;
+}
+.THIS.UETRimage .spinnerNoResults .slds-button:not(.button_disabled).primary:active {
+    background-color: #990000;
+    color: #ffffff;
+    border: 1px solid #990000;
+}

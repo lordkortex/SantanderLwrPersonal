@@ -1,0 +1,77 @@
+.THIS .separationComponent { 
+    border:none;
+    border-radius:0;   
+    background:transparent;
+    margin:0;
+    width:50%;
+}
+.THIS .separationComponent:nth-child(2n+1){
+    border-right: solid 1px #cccccc; 
+}
+.THIS .separationComponent:nth-child(2n+2) .slds-col{
+   padding-left:12px;
+}
+.THIS .separationComponent:nth-child(1) .slds-col,
+.THIS .separationComponent:nth-child(2) .slds-col{
+   padding-top: 0;
+   border-top: none;
+}
+.THIS .separationComponent:nth-child(5) .slds-col,
+.THIS .separationComponent:nth-child(6) .slds-col{
+    padding-bottom: 0px;
+}
+.THIS .separationComponent .slds-card__body{
+    margin: 0;
+    padding-right: 24px;
+}
+.THIS .separationComponent .slds-col{ 
+    border-top: solid 1px #cccccc;
+    padding: 8px 0;
+    width: 100%;
+}
+.THIS .title {
+    color: #444444;
+    font-family:"SantanderMicroText-Bd";
+    font-size: 16px;
+    line-height: 1.5;
+}
+.THIS .subtitle {
+    color: #444444;
+    font-family:"SantanderMicroText";
+    font-size: 14px;
+    line-height: 1.5;
+}
+ 
+.THIS .text-link {
+    color: #ec0000;
+    font-family:"SantanderMicroText";
+    font-size: 14px;
+    line-height: 1.5;
+    position: relative;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+.THIS .text-link >span{
+    width: 24px;
+    height: 24px;
+}
+.THIS .icon-arrowRight_big:before {
+    font-size: 24px; 
+    position: absolute;
+    top: 2px;
+}
+
+ 
+
+
+.THIS .text-link:hover, .THIS .icon-arrowRight_big:hover:before {
+    color: #cc0000;
+}
+
+.THIS.list-cards {
+    margin-bottom: 20px;
+    display:flex;
+    flex-direction:row;
+    flex-wrap:wrap;
+}

@@ -1,0 +1,91 @@
+.THIS {
+}
+
+.THIS .button.button__active{
+    background: #FFFFFF;
+    border: 5px solid #1bb3bc;
+    box-shadow: none;
+    height: 22px;
+    width: 22px;
+}
+
+.THIS .button.button__completed{
+    background: #1BB3BC;
+    border-color: #1BB3BC;
+    box-shadow: none;
+    height: 22px;
+    width: 22px;
+}
+
+.THIS .button.button__disabled{
+    background: #FFFFFF;
+    border: 5px solid #d4d4d4;
+    box-shadow: none;
+    height: 22px;
+    width: 22px;
+}
+
+.THIS .button-check{
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.THIS .completed{
+    background-color: #1BB3BC;
+}
+
+.THIS .icon-check:before{
+    color: white;
+}
+
+.THIS .label{
+    color: #1BB3BC;
+    font-size: 12px;
+    height: 18px;
+    margin-top: 7px;
+}
+
+.THIS .marginSteps{
+    margin: 0 60px;
+}
+
+.THIS .progressBar{
+    background-color: #FFFFFF;
+    height: 3px;
+    margin-top: 1px;
+}
+
+.THIS.progressIndicator{
+    margin: 20px 0;
+    max-width: 100%;
+}
+
+.THIS .step{
+    display: inline;
+    text-align: center;
+    width: 100%;
+}
+
+
+.THIS .slds-progress__item.slds-is-active .slds-progress__marker:focus{
+    box-shadow: none;
+}
+
+.THIS .slds-progress__item.slds-is-active .slds-progress__marker:hover{
+    border-color: #1BB3BC;
+}
+
+.THIS .textStep{
+    color: #a8a8a8;
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-transform: uppercase; 
+}
+
+.THIS .textStep__active{
+    color: #333333;
+    font-family:"SantanderTextW05-Bold";
+    font-size: 12px;
+    margin-bottom: 12px;
+    text-transform: uppercase;   
+}

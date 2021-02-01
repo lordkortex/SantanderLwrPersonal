@@ -1,0 +1,9 @@
+<aura:component>
+    <aura:attribute access="public" type="String" name="label" default="" />
+    <aura:attribute access="public" type="String" name="icon" default="" />
+    <aura:attribute access="public" type="Aura.Action" name="click" />
+
+    <button class="slds-button slds-truncate" onclick="{!v.click}">
+        <div class="{!'icon ' + v.icon}">{!v.label}</div>
+    </button>
+</aura:component>

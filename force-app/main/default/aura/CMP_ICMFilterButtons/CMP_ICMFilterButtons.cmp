@@ -1,0 +1,13 @@
+<aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" >
+    
+    <aura:attribute name="accountNumber" type="String"/>
+    <aura:attribute name="listAccountPais" type="List"/>
+    <aura:attribute name="countryCode" type="List"/>
+    
+    <aura:iteration items="{!countryCode}" var="a"> 
+                
+                    <img  aura:id="countryImage" class="flag" src="{!$Resource.Flags + '/' + a + '.svg'}"  onerror="{!c.defaultImage}" />
+                   
+    </aura:iteration>
+    
+</aura:component>

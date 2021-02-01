@@ -1,0 +1,126 @@
+<aura:component controller='CNT_PaymentsMethod' implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute access="public" type="List"    name="countryDropdownList"   default="[]"                    description="List of values to populate the dropdown" />
+    <aura:attribute access="public" type="String"  name="selectedCountry"       default=""                      description="Selected option from the dropdown" />
+    <aura:attribute access="public" type="String"  name="helpTextDropdown"      default="Show More"             description="Dropdown help text" /> 
+    <aura:attribute access="public" type="String"  name="bookToBookPage"        default='payments-b2b'/>
+    <aura:attribute access="public" type="String"  name="singlePage"            default='payments-single'/>
+    <aura:attribute access="public" type="Boolean"  name="showToast"                                            description="Indicates if the toast is shown." />
+
+    <lightning:navigation aura:id="navService"/>
+    
+    <div class="paymentType-container">
+		<!--<div class="slds-text-heading_large slds-text-align_center">Select type of payment</div>-->
+        <!-- GRID -->
+        <div class="slds-grid slds-wrap paymentType-grid">
+            <!--CARD-->
+            <div class="slds-col">
+                <article class="cardPayment slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-has-flexi-truncate">
+                            <div class="slds-media__figure">
+                                <!-- single payment icon -->
+                                <span class="icon icon-transferPayment"></span>
+                            </div>
+                            <div class="slds-media__body">
+                                <!-- texto single payment -->
+                                <h2 class="slds-card__header-title">{!$Label.c.PAY_betweenMyAccounts}</h2><!--9814: delete slds-truncate-->
+                                <!--<span class="card_subtitle slds-truncate">{!$Label.c.PAY_betweenMyAccounts}</span>--><!--9814: delete grid subtitle-->
+                            </div>
+                        </header>
+                    </div>
+                    <footer class="slds-card__footer">
+                        <button class="slds-button primary" onclick="{!c.goToBooktoBook}">{!$Label.c.PAY_Type_Single}</button>
+                        <!-- <button class="slds-button primary" >Multiple</button>  -->
+                    </footer>                    
+                </article>
+            </div>
+            
+            <!--CARD-->
+            <div class="slds-col">
+                <article class="cardPayment multiple slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-has-flexi-truncate">
+                            <div class="slds-media__figure">
+                                <!-- multiple payment icon: domestic transfer -->
+                                <span class="icon icon-transfer"></span>
+                            </div>
+                            <div class="slds-media__body">                                
+                                <!-- texto multiple payment domestic transfer -->
+                                <h2 class="slds-card__header-title">{!$Label.c.PAY_DomesticTransfer}</h2> <!--9814: delete slds-truncate-->
+                                <!--<span class="card_subtitle slds-truncate">{!$Label.c.PAY_toThirdParties}</span>--><!--9814: delete grid subtitle-->
+                            </div>
+                        </header>
+                    </div>
+                    <footer class="slds-card__footer">
+                        <button class="slds-button primary" onclick="{!c.goToSingle}">{!$Label.c.PAY_Type_Single}</button>
+                        <button class="slds-button primary" onclick="{!c.goToMultiple}">{!$Label.c.PAY_Type_Multiple}</button> 
+                    </footer>                    
+                </article>
+            </div>
+
+            
+            <!--CARD-->
+            <div class="slds-col">
+                <article class="cardPayment multiple international slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-has-flexi-truncate">
+                            <div class="slds-media__figure">
+                                
+                                <!-- multiple payment icon: international transfer -->
+                                <span class="icon icon-international-transfer"></span>
+
+                            </div>
+                            <div class="slds-media__body">
+                                
+                                <!-- texto multiple payment internacional transfer -->
+                                <h2 class="slds-card__header-title">{!$Label.c.PAY_InternationalTransfer}</h2> <!--9814: delete slds-truncate-->
+                                <!--<span class="card_subtitle slds-truncate">{!$Label.c.PAY_toThirdParties}</span>--><!--9814: delete grid subtitle-->
+                                
+                            </div>
+                        </header>
+                    </div>
+                    <footer class="slds-card__footer">
+                        <button class="slds-button primary" onclick="{!c.goToSingle}">{!$Label.c.PAY_Type_Single}</button>
+                        <button class="slds-button primary" onclick="{!c.goToMultiple}">{!$Label.c.PAY_Type_Multiple}</button> 
+                    </footer>                    
+                </article>
+            </div>
+            
+            
+            <!--CARD-->
+            <div class="slds-col">
+                <article class="cardPayment otherPayment slds-card">
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-has-flexi-truncate">
+                            <div class="slds-media__figure">
+                                <!-- other payments icon -->
+                                <span class="icon icon-other-payments"></span>
+                            </div>
+                            <div class="slds-media__body">
+                                <!-- texto other payments -->
+                                <h2 class="slds-card__header-title">{!$Label.c.PAY_OtherPayments}</h2><!--9814: delete slds-truncate-->
+                            </div>
+                        </header>
+                    </div>
+                    <div class="slds-card__body">
+                    	<!-- DROPDOWN -->
+                        <div class="dropdownContainer">
+                            <c:CMP_PAY_FilterDropdown values="{!v.countryDropdownList}" selectedValue="{!v.selectedCountry}" 
+                                                              helpTextDropdown="{!$Label.c.Show_More}" isSimpleDropdown="true" label="{!$Label.c.Country}" 
+                                                              isDisabled="false" valuesPlaceholder=""
+                                                              errorText="{!$Label.c.IncorrectInputFormat}"/>   
+                        </div>
+                    </div>
+                    <footer class="slds-card__footer">
+                    </footer>                    
+                </article>
+            </div>
+            
+        </div>
+    </div>
+    
+    </aura:component>

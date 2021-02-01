@@ -1,0 +1,50 @@
+/* MODAL FULL SCREEN */
+.THIS.modalFullScreen .slds-modal__container.process {
+    min-width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f6fafc;
+    padding: 0px;
+}
+
+/* MODAL CONTENT */
+.THIS.modalFullScreen .slds-modal__content {
+    background-color: #f6fafc;
+    width: 100%; 
+    margin-bottom: 40px;
+    top: 76px;
+    position: relative;
+    height: calc(100% - 76px);
+    padding-bottom: 40px;
+}
+
+.THIS.modalFullScreen .slds-modal__content:last-child {
+	box-shadow: none;
+}
+
+.THIS.modalFullScreen .slds-modal__content .slds-grid__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* SEPARATION LINE */
+.THIS.modalFullScreen .slds-modal__content .slds-grid__content .separation-line {
+    margin-top: 40px;
+    width: 100%;
+    /*margin-bottom: 40px; PARCHEADO */
+    height: 1px;
+    background-color: #cedee7;
+    outline: none;
+}
+
+/* PARCHEADO
+.THIS.modalFullScreen .slds-modal__content .slds-grid__content .first-step {
+    margin-top: 56px;
+}
+*/
+
+.THIS.modalFullScreen .slds-modal__content .slds-grid__content .no-border {
+    outline: none;
+}

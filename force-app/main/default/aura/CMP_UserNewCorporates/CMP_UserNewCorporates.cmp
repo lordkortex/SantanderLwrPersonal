@@ -1,0 +1,131 @@
+<!--
+Author:         Joaquín Vera Vallés
+Company:        Deloitte
+Description:    Contains the corporates block for creating a new user
+History
+<Date>			<Author>		        <Description>
+05/02/2020		Joaquín Vera Vallés     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="corporatesListBack" type="List" description="List of values to populate the dropdown" />
+    <aura:attribute name="corporatesListFront" type="List" default="[]"     description="List of values that are going to be shown" />
+    <aura:attribute name="selectedValues" type="List" description="Selected option from the dropdown" />
+    <aura:attribute name="showDropdown" type="Boolean" default="true" description="Flag to check if the Corporates dropdown is shown" />
+
+    <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text" />
+
+    <!-- MODAL ATTRIBUTES -->
+    <aura:attribute name="showModal"        type="Boolean" default="false"              description="Flag to check if the modal is showing" />
+    <aura:attribute name="modalToShow"      type="String"  default="ConfirmCreation"    description="Checks what modal is going to  be shown" />
+    <aura:attribute name="corporateClicked" type="String"  default=""                   description="Contains the corporate that is clicked" />
+    
+
+    <aura:attribute name="selectedCorporates" type="List" default="[]" description="List of selected corporates" />
+
+    <aura:handler name="DeleteUserEvent" event="c:EVT_DeleteUserModalBox" action="{!c.deletionConfirmed}"/>
+
+    <aura:if isTrue="{!v.showDropdown}">
+        <div class="slds-form pillContainer" role="list">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col" role="listitem">
+                    <!-- Añadir la clase error para el estado de error-->
+                    <!-- <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin error">-->
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.Corporate}</div>
+                        <div class="slds-form-element">
+                            <!-- DROPDOWN MARKUP -->
+                            <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                <c:CMP_Dropdown isSimpleDropdown="false" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                                                values="{!v.corporatesListFront}" selectedValues="{!v.selectedValues}"/>
+                            </div>
+                        </div>
+                            <div class="slds-form-element button">
+                            <div class="slds-media__body lastPill">
+                                <div data-title="{!$Label.c.add}"><button class="slds-button slds-button_brand redButton" onclick="{!c.addValue}">{!$Label.c.add}</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </aura:if>  
+
+    <!--TABLE-->
+    <div class="slds-table--header-fixed_container slds-table_edit_container slds-is-relative">
+        <div class="slds-scrollable_y">
+            <table aria-multiselectable="true" class="slds-table slds-table_edit slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped slds-table_fixed-layout" role="grid">
+                <!--HEADER-->
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" >{!$Label.c.CorporateName}</span>
+                            </div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                    </tr>
+                </thead>
+                
+                <!--BODY-->
+                <tbody>
+                    <aura:if isTrue="{!v.selectedCorporates.length == 0}">
+                        <tr aria-selected="false" class="slds-hint-parent">
+                            <td class="noAvailable" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate" >{!$Label.c.GroupNew_NoData}</span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate"></span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate" ></span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate" ></span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate" ></span>
+                                </span>
+                            </td>
+                        </tr>
+                    </aura:if>
+
+                    <aura:iteration items="{!v.selectedCorporates}" var="item">
+                        <tr aria-selected="false" class="slds-hint-parent">
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate" >{!item}</span>
+                                </span>
+                            </td>
+                            <td role="gridcell">
+                                <button id="{!item}" class="slds-button slds-button_icon icon-trash" data-title-left="{!$Label.c.T_Delete}" onclick="{!c.deleteItem}"></button>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <aura:if isTrue="{!and(v.showModal, v.modalToShow == 'DeleteCorporate')}">
+        <c:CMP_DeleteUserModalBox aura:id="DeleteCorporateModal" isShowing="{!and(v.showModal, v.modalToShow == 'DeleteCorporate')}"  firstText="{!v.corporateClicked}" />
+    </aura:if>
+    <!-- MODALS LIST -->
+    <!-- <c:CMP_DeleteUserModalBox isShowing="{!and(v.showModal, v.modalToShow == 'ConfirmCreation')}" firstText="{!v.corporateClicked}"/> -->
+
+    <!-- <c:CMP_DeleteUserModalBox isShowing="{!and(v.showModal, v.modalToShow == 'DeleteCorporate')}" titleText="" firstText="" secondText=""/> -->
+</aura:component>
