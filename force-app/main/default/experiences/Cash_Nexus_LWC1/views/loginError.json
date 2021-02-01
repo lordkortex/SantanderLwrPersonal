@@ -1,0 +1,55 @@
+{
+  "appPageId" : "6293261f-ef19-48f9-b6aa-e26dc87b6340",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "ebe0f463-4990-4d4d-85a1-0075915847c4",
+  "label" : "Login Error",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "salesforceIdentity:communityLogo2",
+      "id" : "f25c23b5-8ead-401b-a2e5-23bb4ef2730a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "9dc67508-8acc-4920-80eb-26e07f277b94",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "richTextValue" : "<p><br></p><p><br></p><p><b style=\"color: rgb(0, 41, 102);\">Ops... we found a problem processing your request.</b></p><p><b style=\"color: rgb(0, 41, 102);\">&nbsp;</b></p><p><b style=\"color: rgb(0, 41, 102);\">You may have tried to access using a wrong URL.</b></p><p><b style=\"color: rgb(0, 41, 102);\">To access OneTrade use the following link:</b></p><p><a href=\"https://santanderonetrade.com/cashnexus/services/auth/sso/GlobalIDNexus\" target=\"_self\">https://santanderonetrade.com/cashnexus/services/auth/sso/GlobalIDNexus</a></p><p><br></p><p><b style=\"color: rgb(0, 41, 102);\">&nbsp;If the problem persists, please contact your support center.</b></p><p><b style=\"color: rgb(0, 41, 102);\">﻿</b></p><p style=\"text-align: center;\"><br></p>"
+      },
+      "componentName" : "forceCommunity:richTextInline",
+      "id" : "1b308e7e-54e2-4a7d-a303-de196365df24",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "d510b619-d4fd-469e-a12c-656c4160ec6f",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "58189da0-7271-4619-b75a-6d5ffdaa1e39",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Login Error"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "1722f47f-3dc2-4b7a-8360-4c65ebfad183",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "bf6893c0-9dc0-46de-8de9-899f4171c245",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Login",
+  "type" : "view",
+  "viewType" : "login-error"
+}

@@ -1,0 +1,37 @@
+{
+  "appPageId" : "beb23a20-8c4d-48f6-acd1-459be2fe37b7",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "0f822177-be7a-435c-8652-8eac7dff7287",
+  "label" : "Balance Download",
+  "regions" : [ {
+    "id" : "1f33c667-8fd2-4221-a525-37d880c8fe80",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "0cd8bd39-bc2c-4216-9ff5-84ed295a2129",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "026f8238-1f87-425e-81fc-d958e1c0daaf",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Balance Download"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "cc11c515-f7e7-471f-af0a-a9888914259b",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "d438a5ec-ad73-4c8f-9b87-5b6b545b2191",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-balance-download"
+}

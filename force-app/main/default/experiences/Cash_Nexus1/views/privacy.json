@@ -1,0 +1,45 @@
+{
+  "appPageId" : "e8c77d68-95a8-4cd0-a8eb-172820329aaa",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "848aa6f7-2294-4978-8d5b-c35eb94fed4a",
+  "label" : "Privacy",
+  "regions" : [ {
+    "id" : "1460a9e9-f345-4b20-96c7-c634946a438f",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_Privacy",
+      "id" : "03751e17-c201-4bfe-8add-7a6cd40cb8c0",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "ff6239d5-b57a-48de-a0f7-9cf28e64e593",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "4fa3748e-7a7c-48c0-a06f-eecd1140e3e5",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Privacy"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "da90e989-9714-4ea1-b2ee-92a7040a38a5",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0d5c05c7-6f7a-4684-a80e-30db81542153",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-privacy"
+}

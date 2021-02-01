@@ -1,0 +1,57 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsTwoCol84Layout",
+  "id" : "a673cfc7-730f-43f2-bc08-944ed640f8da",
+  "label" : "Help and Contact Us",
+  "regions" : [ {
+    "id" : "cfeda3d7-c25b-4b65-8b6f-4c3c2c67e5d3",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lwc_helpContactUs",
+      "id" : "bed7e8ec-b33c-47a6-96ef-cb543176f561",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "efe42467-d758-4ae1-84ab-2e205bd1521c",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lwc_helpContactUsSideBar",
+      "id" : "2fa14b09-d6b4-4974-a300-a1c5a12e7db6",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "94810471-e931-4094-a3cc-f3c93c7ca4ea",
+    "regionName" : "sidebar",
+    "type" : "region"
+  }, {
+    "id" : "20425594-04be-403a-9427-c44ee52205c0",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Help and Contact Us"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "af171ea4-35a8-431c-b7e7-dfa136e3c859",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "8edf006e-e191-498c-8d89-7cde8efaf1c3",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-help-and-contact-us"
+}

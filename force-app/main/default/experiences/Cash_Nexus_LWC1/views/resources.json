@@ -1,0 +1,62 @@
+{
+  "appPageId" : "e8c77d68-95a8-4cd0-a8eb-172820329aaa",
+  "componentName" : "siteforce:sldsTwoCol84Layout",
+  "id" : "f3191ffb-fde2-48f4-946f-0b5792bc97bf",
+  "label" : "Resources",
+  "regions" : [ {
+    "id" : "35e2c2e8-4234-4214-8d82-15fa40c3414d",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "librariesHeaderLabel" : "Libraries",
+        "showWorkspaceImage" : true
+      },
+      "componentName" : "forceCommunity:workspacesList",
+      "id" : "21044457-8d95-4a7a-93cc-d10ca5ec7f9f",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e7edbe6c-944a-4f92-a91b-48699beb1f16",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "title" : "Popular Now"
+      },
+      "componentName" : "forceChatter:recommendationsBig",
+      "id" : "8ba324dd-3195-47ac-833e-3944fc5622be",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "50f2894a-b30f-450d-ae2d-b8c0555ad24d",
+    "regionName" : "sidebar",
+    "type" : "region"
+  }, {
+    "id" : "8ff03b21-751b-4d53-952f-930988a50cd7",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Resources"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "683f11b9-e32b-45ac-834c-3742d2bbfab0",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "de68cf27-3f58-4790-9e12-a213ead86ab2",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "files"
+}

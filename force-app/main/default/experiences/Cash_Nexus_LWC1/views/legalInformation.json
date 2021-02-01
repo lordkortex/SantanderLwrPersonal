@@ -1,0 +1,45 @@
+{
+  "appPageId" : "e8c77d68-95a8-4cd0-a8eb-172820329aaa",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "8c70639e-3d82-444b-a2d0-bb19cb2fa4a9",
+  "label" : "Legal Information",
+  "regions" : [ {
+    "id" : "94eefc5a-bdd6-4b3a-9ffb-27d661ba1aaf",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_LegalInformation",
+      "id" : "2556ccee-c9ec-4f50-b98d-8ee444e559f4",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "698552c4-a609-42a3-a854-a58a9954482a",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "466871ea-40c2-40f9-b896-bb66febf27f4",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Legal Information"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "d55a7964-26de-4e58-9077-ba62126447d6",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "dbc7177f-b637-41a2-ad7a-24fde82f6635",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-legal-information"
+}

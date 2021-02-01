@@ -1,0 +1,45 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "4f9a8d33-8d8e-4fc9-8ab3-eba183e9d969",
+  "label" : "Transaction Detail",
+  "regions" : [ {
+    "id" : "a01f075c-7143-4fd8-98e3-f405a91bf4c9",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_Account_TransactionsDetail",
+      "id" : "241d9be4-ac55-44fd-9f3c-857a1e8bfdc4",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "3d84e603-d50b-4fc4-aa15-cd88420b97d1",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "39a2c126-d671-4bf2-aef1-3aab1102e59b",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Transaction Detail"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "0df664eb-8a64-4e07-8ffd-ae77e1de1944",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4e5c4493-3b84-45d6-a745-286feca2d66c",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-transaction-detail-view"
+}

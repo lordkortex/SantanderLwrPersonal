@@ -1,0 +1,55 @@
+{
+  "appPageId" : "6293261f-ef19-48f9-b6aa-e26dc87b6340",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "504407ce-e2a2-41c8-aa56-0992b52cfc57",
+  "label" : "LoginErrorES",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "salesforceIdentity:communityLogo2",
+      "id" : "f3c21726-890f-4d3d-b83d-42879c4fe2e5",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "c754bdff-a3f6-42e8-9ecf-dc2cf8f72a46",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "richTextValue" : "<p><br></p><p><br></p><p><b style=\"color: rgb(0, 41, 102);\">Vaya... hemos encontrado con un problema al procesar su solicitud.</b></p><p><b style=\"color: rgb(0, 41, 102);\">&nbsp;</b></p><p><b style=\"color: rgb(0, 41, 102);\">Es posible que el link que utilizaste para acceder sea incorrecto. Para acceder a OneTrade utilice el siguiente enlace:</b></p><p><a href=\"https://santanderonetrade.com/cashnexus/services/auth/sso/GlobalIDNexus\" target=\"_self\">https://santanderonetrade.com/cashnexus/services/auth/sso/GlobalIDNexus</a></p><p><b style=\"color: rgb(0, 41, 102);\">&nbsp;</b></p><p><b style=\"color: rgb(0, 41, 102);\">Si el problema persiste, por favor contacte con su centro de soporte.</b></p><p style=\"text-align: center;\">&nbsp;</p><p style=\"text-align: center;\"><br></p>"
+      },
+      "componentName" : "forceCommunity:richTextInline",
+      "id" : "920363da-c605-48c0-8769-edb7cb6be532",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "2f2332f1-bb3a-4eb7-b0b2-0ba7d12a3748",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "e6e02f80-3a1d-49e5-9669-466114b628a4",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : ""
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "50fac59a-eaf2-42a9-a279-03f5b1decbe6",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "bcd3306d-78f9-457f-957f-8f198a2c0f31",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Login",
+  "type" : "view",
+  "viewType" : "login-error"
+}

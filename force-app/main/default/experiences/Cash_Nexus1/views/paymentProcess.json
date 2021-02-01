@@ -1,0 +1,45 @@
+{
+  "appPageId" : "e8c77d68-95a8-4cd0-a8eb-172820329aaa",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "f3aa7564-18a1-4659-820f-661b0972d43d",
+  "label" : "Payment Process",
+  "regions" : [ {
+    "id" : "bd8ab771-6af6-445c-b90e-efc3fdd893b5",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_ICMParent",
+      "id" : "6a745706-1d42-4ba1-8590-f782a21dd6f2",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e6399200-c8ab-4d5f-ba8c-ba6a9f8c603a",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "50092f90-42d3-4108-ac7d-fe75a62f3b49",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Payment Process"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "882bbabc-7dc5-4abd-8fba-ef064031a58c",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "107ce4fc-4295-4d43-841d-eb875515c770",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-payment-process"
+}

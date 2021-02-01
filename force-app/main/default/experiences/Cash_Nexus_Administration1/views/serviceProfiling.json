@@ -1,0 +1,45 @@
+{
+  "appPageId" : "df182685-247b-43d5-aa8c-ffddc091be2b",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "855103cd-156f-4e3f-af26-513daf0ec79c",
+  "label" : "Service Profiling",
+  "regions" : [ {
+    "id" : "228e825a-2f57-4c52-87c0-6d35954c37c7",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_GroupNewProfileParent",
+      "id" : "2d964e11-7569-48d3-83ef-7bf30fb2e1b2",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "bf2dc0de-3c90-4e98-8ceb-7a062261b55c",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "a5c3dede-b62a-46d7-a23e-de461e113209",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Service Profiling"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "2b2c8106-a094-45a4-9cfb-96288c6dd7b5",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "568ae636-51e3-475e-b544-15094f575159",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-service-profiling"
+}

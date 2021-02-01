@@ -1,0 +1,45 @@
+{
+  "appPageId" : "df182685-247b-43d5-aa8c-ffddc091be2b",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "4eed8704-b0a8-4417-8537-8ac027abd50d",
+  "label" : "Log Admin",
+  "regions" : [ {
+    "id" : "96efba6f-f4e3-4594-96bb-8c1a1a552b97",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_LogAdminParent",
+      "id" : "b7ba419b-84d7-4fda-8bc2-8916b98c1bad",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "f7ecccd1-20cb-48a3-ac6f-4ab66460da97",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "d53de2eb-ba89-4949-aa28-514455691a7e",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Log Admin"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "04991fae-5e8b-455a-be4c-43a78718f2e3",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "c3083139-5898-472a-b79c-4dd9bfc7971a",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-log-admin"
+}

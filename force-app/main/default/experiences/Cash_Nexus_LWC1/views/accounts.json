@@ -1,0 +1,45 @@
+{
+  "appPageId" : "e8c77d68-95a8-4cd0-a8eb-172820329aaa",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "fc36f2c6-a0fc-4987-9bbd-6a66565b3ced",
+  "label" : "Accounts",
+  "regions" : [ {
+    "id" : "9ffb2717-93f6-47fd-a0ba-fb6070e451e0",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_AccountsParent",
+      "id" : "5fdbce38-769d-4399-9b03-50b5610d09c0",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "8fc3ef8c-fe37-41e6-afcb-687747a9439a",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "b3ed26d3-fb29-469c-9b34-1388a136a264",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Accounts"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "48574700-6e42-4a6e-a52f-b954683f8678",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "8bb0ffc8-057c-4c53-b926-6cef03ac2ef6",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-accounts"
+}

@@ -1,0 +1,45 @@
+{
+  "appPageId" : "df182685-247b-43d5-aa8c-ffddc091be2b",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "46574673-a795-4199-bb18-94ba9357b109",
+  "label" : "User Group Profile Summary",
+  "regions" : [ {
+    "id" : "e69136be-008f-4dbe-8b30-4817cc3ea275",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_UserGroupProfileSummary",
+      "id" : "5ad41209-2312-4ae5-9ba6-3ece4f940f96",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e12de42b-04af-4fb5-8fa8-d131e0366437",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "e02c5aba-4b82-428a-a861-75c4ff2d22e8",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "User Group Profile Summary"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "32352543-fc42-42bc-a803-d46196a4a19d",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e166394e-dfeb-4602-946e-ed4ee3782cbf",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-user-group-profile-summary"
+}

@@ -1,0 +1,45 @@
+{
+  "appPageId" : "beb23a20-8c4d-48f6-acd1-459be2fe37b7",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "d8a335cb-9dab-4b08-a65f-ba97ecf52325",
+  "label" : "GPI Tracker",
+  "regions" : [ {
+    "id" : "8e27ef27-a15d-4eb2-bf0b-1f4d197224cc",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_SwiftPayments",
+      "id" : "d0379102-c1bb-480c-8a4d-ec8e6efd7e17",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5f2ea751-69b4-445e-a7f1-b307611087a1",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "b37e15a6-b49b-483d-8842-18a310282efe",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "GPI Tracker"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "9ca6dbf6-d1bc-44fc-b959-9caab1c30e15",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a235692a-2358-4aee-a04e-6b0234d4778c",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-swifttracking"
+}

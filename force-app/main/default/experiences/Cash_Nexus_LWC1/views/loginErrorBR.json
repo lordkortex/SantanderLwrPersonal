@@ -1,0 +1,55 @@
+{
+  "appPageId" : "6293261f-ef19-48f9-b6aa-e26dc87b6340",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "5c35f0b2-68bc-45e5-84e4-297e7316f9b9",
+  "label" : "LoginErrorBR",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "salesforceIdentity:communityLogo2",
+      "id" : "c9fedff2-3acf-40a5-ba6a-b9897acf1a95",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "684cd3d6-933d-46aa-b879-585ff5f67ae9",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "richTextValue" : "<p><br></p><p><br></p><p><b style=\"color: rgb(0, 41, 102);\">﻿Ops ... encontramos um problema ao processar sua solicitação.</b></p><p><b style=\"color: rgb(0, 41, 102);\">&nbsp;</b></p><p><b style=\"color: rgb(0, 41, 102);\">Você pode ter tentado acessar usando um URL errado.</b></p><p><b style=\"color: rgb(0, 41, 102);\">Para acessar o OneTrade, use o seguinte link:</b></p><p><a href=\"https://santanderonetrade.com/cashnexus/services/auth/sso/GlobalIDNexus\" target=\"_self\">https://santanderonetrade.com/cashnexus/services/auth/sso/GlobalIDNexus</a></p><p><b style=\"color: rgb(0, 41, 102);\">&nbsp;</b></p><p><b style=\"color: rgb(0, 41, 102);\">Se o problema persistir, entre em contato com o centro de suporte.</b></p><p><b style=\"color: rgb(0, 41, 102);\">﻿</b></p><p style=\"text-align: center;\"><br></p>"
+      },
+      "componentName" : "forceCommunity:richTextInline",
+      "id" : "7234eac4-6af2-41ef-be4d-96f23dccef26",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "54757523-ef16-482c-bf7b-3d2621deb0a4",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "28927fe4-f10f-4f0c-a6e7-be4c61849066",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : ""
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "afd63eee-e7b2-469e-8239-9fd237cfaa0f",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "25b0a62a-9101-4b33-9788-f965a535fd66",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Login",
+  "type" : "view",
+  "viewType" : "login-error"
+}

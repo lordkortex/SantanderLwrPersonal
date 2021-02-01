@@ -1,0 +1,37 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "c5c8b77d-db85-4787-8cb2-3561a0b5e822",
+  "label" : "PaymentLandingPaymentDetail",
+  "regions" : [ {
+    "id" : "926109b1-fcdf-4d70-97b9-4914e3108b07",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "28f98679-85ad-47c0-a9af-8e024556b405",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "09d24771-3e7d-4fd9-a2ac-7c33f8a0e3e7",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "PaymentLandingPaymentDetail"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "9ae9053d-a48c-40a3-abf6-e41cdc701014",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "387ffee8-af1c-48c7-9034-0af22493417f",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-paymentlandingpaymentdetail"
+}

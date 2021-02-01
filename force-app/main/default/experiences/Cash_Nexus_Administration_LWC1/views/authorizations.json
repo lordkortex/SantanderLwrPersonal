@@ -1,0 +1,45 @@
+{
+  "appPageId" : "df182685-247b-43d5-aa8c-ffddc091be2b",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "69e11960-196d-48fb-b064-4c836cc8c9b6",
+  "label" : "Authorizations",
+  "regions" : [ {
+    "id" : "d36052d4-15f2-45db-9a9d-0c5f9f91e688",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_AuthorizationsParent",
+      "id" : "12247fac-8f27-4af4-8eb3-553adc84266f",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "013f16fd-54fb-4459-bea4-1e169180ea33",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "e049d0e6-db4f-4dbe-83d7-1e5abbd9bb97",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Authorizations"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "542424b4-f6dc-4b3b-8826-e534a394cb18",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1eb7d9f2-db04-47dc-b3fe-301febfb9653",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-authorizations"
+}

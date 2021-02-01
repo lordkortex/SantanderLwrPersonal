@@ -1,0 +1,48 @@
+{
+  "appPageId" : "533789f8-c30e-48f4-8e7a-918ec47c3158",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "012f6ebd-3fd5-4c8b-91c6-8b02a43272df",
+  "label" : "Adoption Logins",
+  "regions" : [ {
+    "id" : "8a662c5e-91cd-4a5b-bc9a-732070aeb3ba",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "height" : "900",
+        "recordId" : "01Z1x000000DL8CEAW"
+      },
+      "componentName" : "forceCommunity:dashboard",
+      "id" : "bcae4c93-a4a0-4b7a-9fa2-3e772cb045e7",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "f0f8dae2-4f27-4daf-ae39-fb9db20b4186",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "16e58099-7ca8-45be-8378-c03272446151",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Adoption Logins"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "058f545b-496c-415d-ad63-68e3f4a9c2f8",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "fffb77c6-66f3-4b72-9423-f5631f800837",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Za2Nxuamk38CjbD8Srahh1hpYfl0hb",
+  "type" : "view",
+  "viewType" : "custom-adoption-logins"
+}

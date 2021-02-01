@@ -1,0 +1,37 @@
+{
+  "appPageId" : "267bcb91-a3a0-4000-af64-e184c1fd4cca",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "9a14c65f-c78b-4e4b-923c-574500adae4f",
+  "label" : "Login Error",
+  "regions" : [ {
+    "id" : "93f3b5fc-e814-4948-878c-dbdb72ca21ee",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "9d33e440-adc9-42ff-a511-618de1f8784f",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "00a5b56d-c947-4628-8c10-abbbc86f3c68",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Login Error"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "32228eb4-c6a9-4c69-abe3-ce26da2fde7a",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "e925e893-ada4-4eaa-ba2d-3b7265cb14c4",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Login",
+  "type" : "view",
+  "viewType" : "login-error"
+}

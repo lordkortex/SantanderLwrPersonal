@@ -1,0 +1,45 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "eab99344-ff50-4ad6-8fe9-1ea7dda948fc",
+  "label" : "Payment Landing",
+  "regions" : [ {
+    "id" : "84e21d29-4f38-4c43-a144-ee3f9a44ab12",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_PaymentsLandingParent",
+      "id" : "096966dc-f706-4800-ab07-5da11dd34c7f",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4ed82345-61bb-4e9e-a4c4-8de6cd888d6b",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "c3ca99dd-02ab-4537-a2bb-c955ef262f02",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Payment Landing"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "4bc1a26f-1d27-42e6-971b-adbacfb8a2a0",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "7e91e798-236c-4895-bee8-517d12ad2148",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-payment-landing"
+}

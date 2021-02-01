@@ -1,0 +1,45 @@
+{
+  "appPageId" : "e8c77d68-95a8-4cd0-a8eb-172820329aaa",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "fde67943-4af5-4c74-b30c-7689ceb9e878",
+  "label" : "Transaction Search",
+  "regions" : [ {
+    "id" : "e40876b6-bace-4e02-a14b-9da3dc1fd730",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_SearchTransactionsParent",
+      "id" : "a344faf8-44ef-4fb6-a831-a9e2d2efa5ea",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "015f48db-6c66-4851-a6c5-e3932965028f",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "05b9a7aa-0d48-44d2-a157-74f9944e3ff2",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Transaction Search"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "dd9bed2e-144f-42e0-874c-542a161345b2",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5ebbd494-cac4-4224-a903-f3402b208625",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-transaction-search"
+}

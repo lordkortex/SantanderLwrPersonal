@@ -1,0 +1,45 @@
+{
+  "appPageId" : "e8c77d68-95a8-4cd0-a8eb-172820329aaa",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "ee46ea1a-78d7-4d24-94de-effb4cdc39bd",
+  "label" : "Account Transactions",
+  "regions" : [ {
+    "id" : "76717acd-2ce5-43cf-aa04-6b834004f5bf",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_Account_TransactionsParent",
+      "id" : "031c6ac3-6e5d-4ebf-b15f-0929e1788c50",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "ddf0a093-8776-45cf-8d4c-ef00f224959e",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "bccb9b2e-9fbc-46be-acf9-574a5526f735",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Account Transactions"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "356678e8-884b-46d2-a26b-6667d2c16395",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "421921b5-9acb-429c-8e25-c1961c25167f",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-account-transactions"
+}

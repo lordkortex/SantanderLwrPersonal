@@ -1,0 +1,45 @@
+{
+  "appPageId" : "df182685-247b-43d5-aa8c-ffddc091be2b",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "b242a29d-13b6-471f-a69b-1fcd5b3b3867",
+  "label" : "Roles",
+  "regions" : [ {
+    "id" : "96208156-02bd-4b84-b831-0eef57633017",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_AdministracionRolesParent",
+      "id" : "bfde0707-1b57-4b0f-a329-cfe155f3056e",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "bf080f73-e6fe-4753-b2c7-1b2880da1a89",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "3bcbbc59-6609-4102-9074-5e9a17ed5590",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Roles"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "7ef1e9e8-0926-4efe-847f-89f382a93f6d",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1014e0ac-5bee-4814-8b84-b07fa4d2c434",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-roles"
+}

@@ -1,0 +1,45 @@
+{
+  "appPageId" : "baed5a42-32d7-4e02-8500-3aa7e76c7d4b",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "8fd53dd9-bc69-4e46-bfc2-875df64f25d9",
+  "label" : "Contact us",
+  "regions" : [ {
+    "id" : "60e05553-45aa-4173-b533-70b2a05ceeb9",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lwc_helpContactUs",
+      "id" : "8834fb0a-48c3-41ec-b856-9a92f8ddf743",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "4ddab38c-2ffd-4c76-a21d-6c43086b9278",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "0b21e82a-95ad-442a-aa96-f9abdb634b00",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Contact us"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "a646dd1e-50dd-4996-baa3-a68f47239c89",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "bbeb15aa-d3f7-4245-89b0-5b359491b227",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-contact-us"
+}

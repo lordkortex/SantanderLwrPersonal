@@ -1,0 +1,37 @@
+{
+  "appPageId" : "baed5a42-32d7-4e02-8500-3aa7e76c7d4b",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "fbdbd77a-dc4e-4e36-bc8e-e583642d291d",
+  "label" : "Topic Catalog",
+  "regions" : [ {
+    "id" : "0b7c0836-6fc6-4cf8-8bee-8ae8aa34d692",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "b5ed2766-60c5-46d7-a1b3-3d334529fe74",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "96e7e6ea-0469-4db7-bcfc-3b225583df75",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Topic Catalog"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "c58fabe8-85ce-4105-be5c-c1f8b3eea997",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "c8f1758c-b6a8-4fa2-9766-2b3d2b8e1d16",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "topic-catalog"
+}

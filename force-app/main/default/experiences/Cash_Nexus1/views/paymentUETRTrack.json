@@ -1,0 +1,45 @@
+{
+  "appPageId" : "e8c77d68-95a8-4cd0-a8eb-172820329aaa",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "4992daef-0795-4a57-bc65-aeb2341abc6b",
+  "label" : "Payment UETR Track",
+  "regions" : [ {
+    "id" : "d0055d86-5d82-4fbf-a244-027d75f84336",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_IPTTrackUETRParent",
+      "id" : "ed17b333-676c-4af7-981f-94976c421470",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "7e28a604-ea48-42c3-9054-64a9312d055c",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "9ddabd46-7f6b-4b27-b2f4-3dc0fc013385",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Payment UETR Track"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "1c8a2408-6e92-408d-a22c-395d9edae7de",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "00fa293c-5e2d-418f-a147-ce5347323746",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-payment-uetr-track"
+}

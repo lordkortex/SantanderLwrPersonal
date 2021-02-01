@@ -1,0 +1,45 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "853c187e-5660-485c-b0a1-5bd0e5c0165e",
+  "label" : "International Payments Tracker",
+  "regions" : [ {
+    "id" : "6a0fdd8b-98e0-4f72-b0a2-dbd33d74cec9",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_IPTParent",
+      "id" : "10949d74-435d-4a03-a14f-fb1d0d61f082",
+      "renderPriority" : "HIGHEST",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "6e92638e-d592-4029-94e8-5450a4dc0207",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "3cb1f29d-c061-43f1-9f6f-54b69ec9838d",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "International Payments Tracker"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "ef2d1a31-bfbc-42ce-adf0-7e91add92a2d",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "d418dd0d-dd8c-4b37-9f46-fcefc7e90f5b",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-international-payments-tracker"
+}
