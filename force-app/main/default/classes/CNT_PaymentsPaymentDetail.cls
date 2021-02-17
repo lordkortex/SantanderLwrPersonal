@@ -72,12 +72,13 @@ public with sharing class CNT_PaymentsPaymentDetail {
         String output = wsObject.updateStatus(status, reason);
         return output;
     }*/
-    @AuraEnabled
+    //DEPRECATED
+   @AuraEnabled
     public static ReturnValue sendToService (String paymentId, String status, String reason) {  
         ReturnValue response = null;
         try{
-            
             WS_TrackingPaymentOperation wsObject = new WS_TrackingPaymentOperation(paymentId);
+         
             String output = wsObject.updateStatus(status, reason);
             if(String.isNotBlank(output)){
                 if(output == 'OK'){
@@ -100,7 +101,6 @@ public with sharing class CNT_PaymentsPaymentDetail {
     public static ReturnValue updatePaymentStatusReason (String paymentId, String status, String reason) {  
         ReturnValue response = null;
         try{
-            
             WS_TrackingPaymentOperation wsObject = new WS_TrackingPaymentOperation(paymentId);
             String output = wsObject.updateStatus(status, reason);
             if(String.isNotBlank(output)){
@@ -119,6 +119,7 @@ public with sharing class CNT_PaymentsPaymentDetail {
         }
         return response;
     }
+    
 
     /*----------------------------------------------------------------------------------
     Author:         Adrian Munio
@@ -128,10 +129,18 @@ public with sharing class CNT_PaymentsPaymentDetail {
     History:
     <Date>          <Author>            <Description>
     16/09/2020      Adrian Munio        Initial version
+	26/11/2020		Shahad Naji			Method to call ServiceCustomerTransactionalLimits to get value pf ReturnValue
+	21/01/2021		Shahad Naji			Try-Catch
     ----------------------------------------------------------------------------------*/
     @AuraEnabled
     public static ReturnValue reverseLimits (String operationId, String serviceId, WRAPPER_PaymentDetail.OperationDetail paymentData){
-        ReturnValue response = CNT_B2B_REDOModal.reverseLimits(operationId, serviceId, paymentData);
+        ReturnValue response = null;
+        try{
+            response = ControllerCustomerTransactionalLimits.reverseLimits(paymentData);
+        }catch (Exception e) {
+            System.debug('CNT_PaymentsPaymentDetail.reverseLimits: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            response = new ReturnValue(false, null, e.getMessage());
+        }
         return response;
     }
 
@@ -168,7 +177,7 @@ public with sharing class CNT_PaymentsPaymentDetail {
             sourceAccountData.currencyCodeAvailableBalance = payment.sourceCurrency;
             sourceAccountData.alias = payment.sourceAccountHolder;
             sourceAccountData.aliasEntidad = payment.sourceBank;
-            sourceAccountData.codigoCorporate = '';
+            sourceAccountData.codigoCorporate = payment.sourceData.customerId;
             sourceAccountData.country = payment.sourceCountry;
             sourceAccountData.codigoBic = payment.sourceSwiftCode;
             WRAPPER_AccountList.AccountDetails recipientAccountData =  new WRAPPER_AccountList.AccountDetails();
@@ -182,12 +191,13 @@ public with sharing class CNT_PaymentsPaymentDetail {
             }
             String callType = 'ONL';
             String requestType = 'T';
-            
+            String requestPurpose = 'Nominal_request';
             if (feesBoolean == true && payment.fees != null) {
                 sendAmount =  Decimal.valueOf(payment.fees);
                 receiveAmount = null;
                 callType =  'ONI';
                 requestType = 'I';
+                requestPurpose = 'Fee_request';
             }
             
             WS_ExchangeRate exchangeRate = new WS_ExchangeRate(paymentId, 'b2b', requestType, callType, accountData, 120000);

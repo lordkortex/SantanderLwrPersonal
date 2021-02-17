@@ -1,4 +1,5 @@
 ({
+    //$Label.c.CNF_payment_productId_002
     initComponent : function(component, event, helper) {
         component.set('v.subject', '');
         component.set('v.description', '');
@@ -8,10 +9,10 @@
         
         let clientReference = component.get('v.clientReference');
         var msg;
-
+        
         if(component.get('v.action') == 'Reject'){
             //msg = 'You are requesting that "{0}" has to be rejected';
-            msg = $A.get('$Label.c.PAY_hasToBeRejected');
+            msg = $A.get('$Label.c.PAY_hasToBeRejected');           
         }else{
             //msg = 'You are requesting that "{0}" has to be reviewed';
             msg = $A.get('$Label.c.PAY_hasToBeReviewed');
@@ -120,11 +121,8 @@
     23/11/2020		Shahad Naji			Call reverseLimit method when the paymentId is about to be rejected and its paymentId value equals to 'international_instant_payment'
     */
     sendProcess: function (component, event, helper) {
-      	var action = component.get("v.action");
-        var promise_aux = new Promise(function(resolve){
-            resolve('OK');
-        });
-        
+        var action = component.get("v.action");
+        var variable = 'review';
         new Promise($A.getCallback(function (resolve, reject) {
             component.set('v.spinner', true);
             resolve('Ok');
@@ -135,21 +133,25 @@
         })).then($A.getCallback(function (value) {
             return helper.sendNotification(component, event, helper);
         })).then($A.getCallback(function (value) {
-            if(action == 'Reject'){
-                let paymentObj = component.get('v.payment');
-                if(!$A.util.isEmpty(paymentObj)){
-                    let paymentId = paymentObj.productId;
-                    if(!$A.util.isEmpty(paymentId)){
-                        if(paymentId == 'international_instant_payment'){
-                            return helper.reverseLimits(component, event, helper); 
-                        }else{
-                            return promise_aux;
-                        }                    
-                    }                    
-                }
-            }else{
-                return promise_aux; 
-            }
+            helper.sendToLanding(component, event, helper, variable, true);
+        })).catch($A.getCallback(function (error) {
+            console.log(error);
+        })).finally($A.getCallback(function () {
+            console.log('OK');
+            component.set('v.spinner', false);
+        }));
+        /*
+        var action = component.get("v.action");
+        
+        new Promise($A.getCallback(function (resolve, reject) {
+            component.set('v.spinner', true);
+            resolve('Ok');
+        })).then($A.getCallback(function (value) {
+            return helper.validateInput(component, event, helper);
+        })).then($A.getCallback(function (value) {
+            return helper.updatePaymentData(component, event, helper);
+        })).then($A.getCallback(function (value) {
+            return helper.sendNotification(component, event, helper);
         })).then($A.getCallback(function (value) {
             helper.closeModal(component, helper, null);
             var msg = '';
@@ -166,6 +168,7 @@
                     method = 'goToPaymentDetail';
                 }
             } 
+            var body = '';
             helper.showSuccessToast(component, event, helper, msg, body, method);
             $A.get('e.force:refreshView').fire();
         })).catch($A.getCallback(function (error) {
@@ -176,6 +179,7 @@
         })).finally($A.getCallback(function () {
             component.set('v.spinner', false);
         }));
+        */
     },
 
 
@@ -193,6 +197,58 @@
       var url =  "c__currentUser="+JSON.stringify(component.get("v.currentUser")) +"&c__paymentID="+paymentID;
       var page = 'landing-payment-details';
       helper.goTo(component, event, page, url);
+    },
+    //$Label.c.PAY_sendRejected
+    handleReject : function(component, event, helper){
+        var variable = 'reject';
+        new Promise($A.getCallback(function (resolve, reject) {
+            component.set('v.spinner', true);
+            resolve('Ok');
+        })).then($A.getCallback(function (value) {
+            return  helper.validateInput(component, event, helper);
+        })).then($A.getCallback(function (value) {            
+            return helper.reverseLimits(component, event, helper);             
+        })).then($A.getCallback(function (value) {
+            return helper.updatePaymentData(component, event, helper);
+        })).then($A.getCallback(function (value) {
+            return helper.sendNotification(component, event, helper);
+        })).then($A.getCallback(function (value) {
+            helper.sendToLanding(component, event, helper, variable, true);
+        })).catch($A.getCallback(function (error) {
+            console.log(error);
+        })).finally($A.getCallback(function () {
+            console.log('OK');
+            component.set('v.spinner', false);
+        }));
+       /* helper.validateInput(component, event, helper).then($A.getCallback(function (value) {            
+            return helper.reverseLimits(component, event, helper);             
+        })).then($A.getCallback(function (value) {
+            return helper.updatePaymentData(component, event, helper);
+        })).then($A.getCallback(function (value) {
+            return helper.sendNotification(component, event, helper);
+        })).then($A.getCallback(function (value) {
+            helper.closeModal(component, helper, null);
+            var msg = $A.get('$Label.c.PAY_sendRejected');
+            var body = '';
+            var utilityBar = component.get('v.fromUtilityBar');
+            var method = '';
+            if (!$A.util.isEmpty(utilityBar)) {
+                if(utilityBar == true) {
+                    method = 'goToPaymentDetail';
+                }
+            } 
+            helper.showSuccessToast(component, event, helper, msg, body, method);
+            $A.get('e.force:refreshView').fire();
+        })).catch($A.getCallback(function (error) {
+            console.log(error);
+            if (error.title != null) {
+                helper.showToast(component, event, helper, error.title, error.body, error.noReload);
+            }
+        })).finally($A.getCallback(function () {
+            component.set('v.spinner', false);
+        }));
+        */
     }
+    
 
 })

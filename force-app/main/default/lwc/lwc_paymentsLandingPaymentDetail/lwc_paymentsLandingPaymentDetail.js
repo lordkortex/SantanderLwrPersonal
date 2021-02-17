@@ -7,10 +7,15 @@
     19/06/2020      Bea Hill            Initial version
 */
 
-import { LightningElement, track, api, wire } from "lwc";
-import { helper  } from './lwc_paymentsLandingPaymentDetailHelper.js';
+import locale from '@salesforce/i18n/locale';
+import shortFormat from '@salesforce/i18n/dateTime.shortDateFormat';
+import timezone from '@salesforce/i18n/timeZone';
 
-//Import Apex Methods
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
+import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
+import { LightningElement, track, api, wire } from "lwc";
+import { NavigationMixin } from 'lightning/navigation';
+import { helper  } from './lwc_paymentsLandingPaymentDetailHelper.js';
 
 
 //Import Labels
@@ -37,7 +42,7 @@ import PAY_Beneficiary_bank from '@salesforce/label/c.PAY_Beneficiary_bank';
 import beneficiaryAccount from '@salesforce/label/c.beneficiaryAccount';
 import PAY_SwiftCode from '@salesforce/label/c.PAY_SwiftCode';
 import PAY_ProcessDate from '@salesforce/label/c.PAY_ProcessDate';
-import PaymentID from '@salesforce/label/c.PaymentID';
+import PaymentIDLabel from '@salesforce/label/c.PaymentID';
 import reference from '@salesforce/label/c.reference';
 import MoreDetail from '@salesforce/label/c.MoreDetail';
 import LessDetail from '@salesforce/label/c.LessDetail';
@@ -51,23 +56,55 @@ import PAY_SendToReview from '@salesforce/label/c.PAY_SendToReview';
 import PAY_trySaveAgain from '@salesforce/label/c.PAY_trySaveAgain';
 import PAY_goToGpiTracker from '@salesforce/label/c.PAY_goToGpiTracker';
 import cancel from '@salesforce/label/c.cancel';
+import ERROR_NOT_RETRIEVED from '@salesforce/label/c.ERROR_NOT_RETRIEVED';
+import B2B_Error_Problem_Loading from '@salesforce/label/c.B2B_Error_Problem_Loading';
+import B2B_Error_Check_Connection from '@salesforce/label/c.B2B_Error_Check_Connection';
+import PAY_SentFrom from '@salesforce/label/c.PAY_SentFrom';
+import PAY_Creation from '@salesforce/label/c.PAY_Creation';
+import Authorization from '@salesforce/label/c.Authorization';
+import PAY_InProgress from '@salesforce/label/c.PAY_InProgress';
+import completed from '@salesforce/label/c.completed';
+import PAY_Rejected from '@salesforce/label/c.PAY_Rejected';
+import Pay_YesDiscard from '@salesforce/label/c.Pay_YesDiscard';
+import No from '@salesforce/label/c.No';
+import Int from '@salesforce/label/c.Int';
+import PAY_DiscardDate1 from '@salesforce/label/c.PAY_DiscardDate1';
+import PAY_DiscardDate2 from '@salesforce/label/c.PAY_DiscardDate2';
+import PAY_ThePaymentHasBeenCanceled from '@salesforce/label/c.PAY_ThePaymentHasBeenCanceled';
+
 
 
 export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(LightningElement) {
 
-    @api loading = false;
     @api showCancelModal = false;
     @api showMoreDetail = false;
     @api landingPage;
     
-    
+    @track isLoading = false;
+    @track isRendered;
+    @track fromUtilityBar = false;
+    @track fromDetail = false;
     @track action;
     @track showRedo;
     @track spinner;
+    @track currentUser;
+    @track continente;
+    @track signLevel;
+    @track trackingstep;
+    @track opStep1DataValueData;
     
-    
+    @track paymentID;
     @track payment = [];
     @track actions = [];
+
+    @track showDiscardModal // Indicates if the discard payment modal is show.;
+    @track convertToUserTimezone;
+    @track dateToFormat;
+    @track formattedDate;
+    @track signCheck;
+    @track clientReference;
+
+    
 
     
     dinamycClasses = {  transactionDetail: {true: 'transactionDetail unfolded', false: 'transactionDetail' }};
@@ -98,7 +135,7 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
         beneficiaryAccount,
         PAY_SwiftCode,
         PAY_ProcessDate,
-        PaymentID,
+        PaymentIDLabel,
         reference,
         MoreDetail,
         LessDetail,
@@ -111,7 +148,22 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
         PAY_SendToReview,
         PAY_trySaveAgain,
         PAY_goToGpiTracker,
-        cancel
+        cancel,
+        ERROR_NOT_RETRIEVED,
+        B2B_Error_Problem_Loading,
+        B2B_Error_Check_Connection,
+        PAY_SentFrom,
+        PAY_Creation,
+        Authorization,
+        PAY_InProgress,
+        completed,
+        PAY_Rejected,
+        Pay_YesDiscard,
+        No,
+        Int,
+        PAY_DiscardDate1,
+        PAY_DiscardDate2,
+        PAY_ThePaymentHasBeenCanceled
     };
 
 
@@ -123,34 +175,89 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
     <Date>          <Author>            <Description>
 	19/06/2020      Bea Hill            Initial version
     */
-    doInit(){
+    connectedCallback(){
+        this.doInit();
+    }
 
 
-        helper.getUrlParams()
-        .then(result => {
-            return helper.getPaymentDetails();
+    /*
+	Author:        	Bea Hill
+    Company:        Deloitte
+	Description:    Get user info, set mock data for demo, and get params from URL
+    History:
+    <Date>          <Author>            <Description>
+	19/06/2020      Bea Hill            Initial version
+    */
+   renderedCallback() {
+        loadStyle(this, santanderStyle + '/style.css');
+    }
+
+    /*
+	Author:        	Bea Hill
+    Company:        Deloitte
+	Description:    Get user info, set mock data for demo, and get params from URL
+    History:
+    <Date>          <Author>            <Description>
+	19/06/2020      Bea Hill            Initial version
+    */
+    //@api async  doInit(event) {
+    doInit(event) {
+        //this.isLoading = true;
+        this.showRedo = false;
+        this.convertToUserTimezone = true;
+        this.signCheck = false;
+        this.landingPage = 'landing-payments';
+
+        helper.getURLParams()
+        .then((result) => {
+            console.log('Operation getURLParams ' + result);
+            this.currentUser = result.currentUserAttribute;
+            this.paymentID = result.paymentIDAttribute;
+            return helper.getPaymentDetails(event,this.paymentID);
         })
-        .then(result => {
-            return helper.getSignatureLevel();
+        .then((result) => {
+            console.log('Operation getPaymentDetails ' + result);
+            this.payment  = result.paymentDetailAttribute;
+            this.clientReference = this.payment.clientReference;
+            this.opStep1DataValueData =  this.payment.operationStep1Data.valueDate;
+            return helper.getSignatureLevel(event,this.paymentID);
         })
-        .then(result => {
-            return helper.configureButtons();
+        .then((result) => {
+            console.log('Operation getSignatureLevel ' + result);
+            this.signCheck = true;
+            this.signLevel = result.signLevelAttribute;
+            this.template.querySelector("c-lwc_payments-landing-payment-tracking").helperInit(this.payment, this.currentUser,this.signLevel);
+            return helper.configureButtons(event,this.payment, this.currentUser,this.signLevel);
         })
-        .then(result => {
-            return helper.getUserData();
+        .then((result) => {
+            console.log('Operation configureButtons ' + result);
+            this.actions = result.actionsAttribute;
+            return helper.getCurrentUserData();
         })
-        .then(result => {
+        .then((result) => {
+            console.log('Operation getUserData ' + result);
+            this.currentUser = result.userDataAttribute;
             return helper.getAccountData();
         })
-        .catch(error => {
-            console.log('error', error);
+        .then((result) => {
+            console.log('Operation getAccountData ' + result);
+            this.accountData = result.accountDataAttribute;
         })
-        .finally(() => this.loading = false );
-
-
-     
+        .catch((error) => {
+            console.log('Error doInit: ' + error);
+            this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
+        })
+        .finally(() => {
+            console.log('Operation Finally ');
+            this.isLoading = false ;
+            this.template.querySelectorAll('c-lwc_display-date').forEach(element => {
+                element.formatDate();
+            });
+            this.enableActions();
+        })
     }
-  
+
+
     /*
 	Author:        	Bea Hill
     Company:        Deloitte
@@ -162,7 +269,7 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
     handleBack(event) {
         var url = '';
         var page = this.landingPage;
-        helper.goTo(page, url);
+        this.goTo(page, url);
        
     }
 
@@ -214,7 +321,7 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
     26/06/2020      Shahad Naji         Hide page scroll
     */
     goToRedo(event) {
-        document.querySelector('.comm-page-custom-landing-payment-details').style.overflow = 'hidden';
+        //document.querySelector('.comm-page-custom-landing-payment-details').style.overflow = 'hidden';
         this.action = 'Review';
         this.showRedo = true;
     }
@@ -228,57 +335,88 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
 	23/06/2020      Adrian Munio        Initial version
     */
     goToReject(event) {
-        document.querySelector('.comm-page-custom-landing-payment-details').style.overflow = 'hidden';
+        //document.querySelector('.comm-page-custom-landing-payment-details').style.overflow = 'hidden';
         this.action = 'Reject';
         this.showRedo = true;
-     }
-
-    /*
-    Author:        	Adrian Munio
-    Company:        Deloitte
-    Description:    Go to Discard page on clicking 'Discard' button
-    History:
-    <Date>          <Author>            <Description>
-    14/09/2020      Adrian Munio        Initial version
-    */
-    goToDiscard(event){
-        this.spinner = true;
-        /*helper.handleDiscardPayment(component, event, helper).catch($A.getCallback(function (error) {
-            console.log('error');
-        })).finally($A.getCallback(function() {
-            this.spinner = true;
-        }));*/
+        
     }
 
 
-     /*
+    /*
+	Author:        	Adrian Munio
+    Company:        Deloitte
+	Description:    Go to Reject page on clicking 'Reject' button
+    History:
+    <Date>          <Author>            <Description>
+	23/06/2020      Adrian Munio        Initial version
+    */
+    @api closeAction(){
+        this.showRedo = false;
+    }
+
+
+
+      /*
 	Author:        	Bea Hill
     Company:        Deloitte
 	Description:    Handle clicking 'Edit payment' button; prepare data to send and navigate to payment process
     History:
     <Date>          <Author>            <Description>
 	23/06/2020      Bea Hill            Initial version
+    27/11/2020		Shahad Naji			Removes transaction from transactional counters for accumulated limits according to 
+    									the productId of the selected payment 
     */
-   handleEdit(event){
-        /*return helper.updateStatusEditPayment(component, event, helper)
-        .then($A.getCallback(function (value) { 
+    handleEdit(event) {
+
+        helper.reverseLimits(event,this.payment)
+        .then(value  => { 
+                return helper.updateStatusEditPayment(event,this.paymentID);
+        })
+        .then(value => { 
             var page = 'payments-b2b';
             var url ='';
             var source= 'landing-payment-details';
-            var paymentId = component.get('v.paymentID');
-            if (!$A.util.isEmpty(paymentId)) {
+            var paymentId = this.paymentID;
+            if (paymentId != undefined && paymentId != null) {
                 url = 
-                'c__source=' + source +
-                '&c__paymentId=' + paymentId +
-                '&c__paymentDetails=' + JSON.stringify(component.get('v.payment'));
+                    'c__source=' + source +
+                    '&c__paymentId=' + paymentId +
+                    '&c__paymentDetails=' + JSON.stringify(this.payment);
             }
-            helper.goTo(component, event, page, url);
-        })).catch($A.getCallback(function (error) {
+            this.goTo(page, url);
+        }).catch(error => {
             console.log('Error edit: ' + error);
-        })).finally($A.getCallback(function() {
-            component.set('v.spinner', false);
-        }));*/
+            this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
+        }).finally(() => {
+            this.spinner = false;
+        });
     }
+
+
+
+       /*
+	Author:        	Adrian Munio
+    Company:        Deloitte
+	Description:    Handle clicking 'Reuse payment' button; prepare data to send and navigate to payment process
+    History:
+    <Date>          <Author>            <Description>
+	25/08/2020      Adrian Munio        Initial version
+    */
+    handleReuse (event) {
+        var page = 'payments-b2b';
+        var url ='';
+        var source= 'landing-payment-details';
+        var paymentId = this.paymentID;
+        if (paymentId != undefined) {
+            url = 
+                'c__source=' + source +
+                '&c__reuse=' + true +
+                '&c__paymentDetails=' + JSON.stringify(this.payment);
+        }
+        this.goTo(page, url);
+        
+    }
+
 
     /*
 	Author:        	Adrian Munio
@@ -288,42 +426,33 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
     <Date>          <Author>            <Description>
 	25/08/2020      Adrian Munio        Initial version
     */
-    handleReuse(event){
-        //helper.createNewPayment(component, event, helper);
-    }
-
-    /*
-	Author:        	Adrian Munio
-    Company:        Deloitte
-	Description:    Handle clicking 'Reuse payment' button; prepare data to send and navigate to payment process
-    History:
-    <Date>          <Author>            <Description>
-	25/08/2020      Adrian Munio        Initial version
-    */
-    handleAuthorize(event){
-		let signature = component.get('v.signLevel');
-        if (signature.lastSign == 'true') {
-            component.set('v.isLoading', true);
-            helper.reloadFX(component, event, helper, false)
-            .then($A.getCallback(function (value) {
-                return helper.reloadFX(component, event, helper, true);
-            })).then($A.getCallback(function (value) {
-                return helper.checkAccounts(component, event, helper);
-            })).then($A.getCallback(function (value) {
+   handleAuthorize (event) {
+		let signature = this.signLevel;
+        if (signature != null && signature.lastSign === 'true') {
+            this.isLoading = true;
+            helper.reloadFX(event, false, this.paymentID, this.payment, this.accountData)
+            .then(value => {
+                return helper.reloadFX( event, true, this.paymentID, this.payment, this.accountData);
+            })
+            .then(value => {
+                this.payment = value.paymentAttribute;
+                return helper.checkAccounts(event,this.payment);
+            })
+            .then(value => {
                 var page = 'authorizationfinal'; 
                 var url = '';
                 var source = 'landing-payment-details';
-                var paymentId = component.get('v.paymentID');
-                var paymentDraft = component.get('v.payment');
-                var payment = component.get('v.payment');
+                var paymentId = this.paymentID;
+                var paymentDraft = this.payment;
+                var payment = this.payment;
                 console.log(payment.fees);
-                if (!$A.util.isEmpty(paymentDraft.feesDRAFT)) {
+                if (paymentDraft.feesDRAFT != undefined) {
                     payment.fees = paymentDraft.feesDRAFT;
                 }
-                if (!$A.util.isEmpty(paymentDraft.FXFeesOutputDRAFT)) {
+                if (paymentDraft.FXFeesOutputDRAFT != undefined) {
                 	payment.FXFeesOutput = paymentDraft.FXFeesOutputDRAFT;
                 }
-                if (!$A.util.isEmpty(paymentDraft.feesFXDateTimeDRAFT)) {
+                if (paymentDraft.feesFXDateTimeDRAFT != undefined) {
                 	payment.feesFXDateTime = paymentDraft.feesFXDateTimeDRAFT;
                 }
                 if (payment.sourceCurrency != payment.beneficiaryCurrency) {
@@ -334,50 +463,52 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
                     payment.amountOperative = paymentDraft.amountOperativeDRAFT;
                     payment.FXoutput = paymentDraft.FXoutputDRAFT;
                     payment.FXDateTime = paymentDraft.FXDateTimeDRAFT;
-                    if (!$A.util.isEmpty(paymentDraft.amountSendDRAFT)) {
+                    if (paymentDraft.amountSendDRAFT != undefined) {
                     	payment.amountSend = paymentDraft.amountSendDRAFT;
                     }
-                    if (!$A.util.isEmpty(paymentDraft.amountReceiveDRAFT)) {
+                    if (paymentDraft.amountReceiveDRAFT != undefined) {
                     	payment.amountReceive = paymentDraft.amountReceiveDRAFT;
                     }
                 }
                 
                 var total = 0;
-                if (!$A.util.isEmpty(payment.fees)) {
+                if (payment.fees != undefined) {
                     total = parseFloat(payment.amountSend) + parseFloat(payment.fees);
                 }else{
                     total = parseFloat(payment.amountSend)
                 }
                 payment.totalAmount = total;
                 
-                component.set('v.payment', payment);
+                this.payment = payment; 
                 
-                if (!$A.util.isEmpty(paymentId)) {
+                if (paymentId != undefined) {
                     url = 
                         'c__source=' + source +
                         '&c__paymentId=' + paymentId +
-                        '&c__paymentDetails=' + JSON.stringify(component.get('v.payment')) +
+                        '&c__paymentDetails=' + JSON.stringify(this.payment) +
                         '&c__signatoryDetails=' + JSON.stringify(signature);
                 }
-                helper.goTo(component, event, page, url);
-            })).catch($A.getCallback(function (error) {
+                this.goTo( page, url);
+            }).catch(error => {
                 console.log(error);
-            })).finally($A.getCallback(function() {
-                component.set('v.isLoading', false);
-            }));
+                this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
+
+            }).finally( () => {
+                this.isLoading = false;
+            });
         } else {
             var page = 'authorizationfinal'; 
             var url = '';
             var source = 'landing-payment-details';
-            var paymentId = component.get('v.paymentID');
-            if (!$A.util.isEmpty(paymentId)) {
+            var paymentId = this.paymentID;
+            if (paymentId != undefined) {
                 url = 
                 'c__source=' + source +
                 '&c__paymentId=' + paymentId +
-                '&c__paymentDetails=' + JSON.stringify(component.get('v.payment')) +
+                '&c__paymentDetails=' + JSON.stringify(this.payment) +
                 '&c__signatoryDetails=' + JSON.stringify(signature);
             }
-            return helper.goTo(component, event, page, url);
+            this.goTo(page, url);
         }
     }
     
@@ -389,92 +520,468 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
     <Date>          <Author>            <Description>
     24/08/2020      Antonio Duarte      Notifications demo version
     */
-    handleReject(event){
-        component.find('Service').callApex2(component, helper,'c.sendNotification', {'notifType' : 'reject'}, helper.notificationSent);
-    }
-    
-    /*
-	Author:        	Antonio Matachana
-    Company:        
-	Description:    Show modal when cancel button is pressed
-    History:
-    <Date>          <Author>            <Description>
-    09/11/2020      Antonio Matachana       Initial version
-    */
-   showCancelPaymentModal(event){
-        component.set('v.fromUtilityBar', false);
-        component.set('v.fromDetail', true);
-        component.set('v.showCancelModal', true);
+    handleReject (event) {
+        this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_paymentsLandingPaymentDetail',controllermethod:'sendNotification',actionparameters:{'notifType' : 'reject'}});
     }
 
     /*
-	Author:        	Antonio Matachana
+    Author:        	Antonio Matachana
     Company:        
-	Description:    Execute cancelSelectedPayment if button cancel is pressed
+    Description:    Show modal when cancel button is pressed
     History:
     <Date>          <Author>            <Description>
     09/11/2020      Antonio Matachana       Initial version
     */
-    handleCancelSelectedPayment(event) {
-        component.set('v.showCancelModal', false);
-        let cancel = event.getParam('cancelSelectedPayment');
+    showCancelPaymentModal (event) {
+        this.fromUtilityBar = false;
+        this.fromDetail = false;
+        this.showCancelModal = true;
+    }
+
+    /*
+    Author:         Antonio Matachana
+    Company:        
+    Description:    Execute cancelSelectedPayment if button cancel is pressed
+    History:
+    <Date>          <Author>                <Description>
+    09/11/2020      Antonio Matachana       Initial version
+    */
+   handleCancelSelectedPayment(event) {
+        this.showCancelModal = false; 
+        var cancel = event.detail.cancel;
         if (cancel) {
-                helper.cancelSelectedPayment(component, helper);
+            //this.isLoading = true;
+            helper.reverseLimits(event,this.payment)
+            .then(value => {
+                this.action = 'Cancel';
+                return helper.cancelSelectedPayment(event, this.payment);
+            })
+            .then(value => {
+                if(value === 'ok'){
+                    var payment = this.payment;
+                    var msg = this.label.PAY_ThePaymentHasBeenCanceled;
+                    this.clientReference = payment.clientReference;
+                    msg = msg.replace('{0}', this.clientReference);
+                    this.showToastMode( event, msg, '', true, 'success');
+                }else{
+                    return Promise.resolve('OK');
+                }
+            })
+            .catch(error => {
+                console.log('Error handleCancelSelectedPayment: ' + error);
+                this.showToastMode( event, this.label.B2B_Error_Problem_Loading, error, true, 'error');
+            }).finally(() => {      
+                this.isLoading = false;          
+            })
         }
     }
 
+    /***********************************************************************************************************/
 
-    get isLoading(){
-        return this.loading == true;
+    /*
+        Author:         Julián Hoyos
+        Company:        
+        Description:    Method to show Discard Pop-up
+        History:
+        <Date>          <Author>                <Description>
+        01/01/2021      Julian Hoyos       Initial version
+    */
+    handleshowDiscardModal() {
+        var formatDate =  this.currentUser.dateFormat;
+        this.formatUserDate(formatDate)
+        .then(value => { 
+            this.showDiscardModal = true;
+            return Promise.resolve('OK');            
+        })
+        .catch(error => {
+            console.log('Error reject: ' + error);
+        })
+        .finally(() => {
+        });
+        
+    }
+
+    /*
+        Author:         Julián Hoyos
+        Company:        
+        Description:    Method to control discard payment from Discard Pop-up
+        History:
+        <Date>          <Author>                <Description>
+        01/01/2021      Julian Hoyos       Initial version
+    */
+    handleDiscard(event) {
+        this.showDiscardModal = false;
+        this.spinner = true;    
+        return helper.goToDiscard(event,this.payment)
+        .then(value => { 
+            this.sendToLanding(event, true);
+        }).catch(error => {
+            console.log(error);
+            this.showToastMode(event, this.label.B2B_Error_Problem_Loading, error, true, 'error');
+        }).finally(() => {
+            console.log('OK');
+            this.spinner = false;
+        });
+    }
+
+    /*
+        Author:         Julián Hoyos
+        Company:        
+        Description:    Method to close Discard Pop-up
+        History:
+        <Date>          <Author>                <Description>
+        01/01/2021      Julian Hoyos       Initial version
+    */
+    handleCloseDiscard(event) {
+        this.showDiscardModal = false;
+    }
+
+    /*
+        Author:         Julián Hoyos
+        Company:        
+        Description:    Method to control send to landing from action
+        History:
+        <Date>          <Author>                <Description>
+        01/01/2021      Julian Hoyos       Initial version
+    */
+    /*sendToLanding(event) {
+        if (this.source != 'landing-payment-details') {
+            helper.sendToLanding(event, helper,false);
+        } else {
+            window.history.back();
+        }
+    }*/
+
+
+    reload(){
+        return '';
+        
+    }
+
+
+    showToastMode (event, title, body, noReload, mode) {
+        //https://salesforcesas.home.blog/2019/07/16/lwc-selectors-identification-of-elements/
+        //var errorToast  = this.template.querySelector("c-lwc_b2b_toast[data-my-id=errorToast]");
+        var errorToast  = this.template.querySelector("c-lwc_b2b_toast");
+
+        if (errorToast != undefined && errorToast != null) {
+            if (mode === 'error') {
+                errorToast.openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload);
+            }
+            if (mode ==='success') {
+                errorToast.openToast(true, false, title,  body,  'Success', 'success', 'success', noReload);
+            }
+        }
+    }
+
+    showToast ( event, title, body, noReload) {
+        //var errorToast = component.find('errorToast');
+        var errorToast  = this.template.querySelector("lwc_b2b_toast");
+        if (errorToast != undefined && errorToast != null) {
+            errorToast.openToast(false, false, title, body, 'Error', 'warning', 'warning', noReload);
+        }
+    }
+
+       //PARCHE_FLOWERPOWER JHM
+    //CÓDIGO REPLICADO A FALTA DE AVERIGUAR COMO UTILIZAR LA FUNCIÓN .FIND DE UN MÉTODO DE OTRO COMPONENTE
+    formatUserDate(response){
+        return new Promise( (resolve, reject) => {  
+            // If a date format exists for the User, make use of the given format
+            // If not, the Locale's short date format is used
+            var dateString = this.payment.draftDate;
+            var format = (response != '' && response != null) ? response : shortFormat;
+
+            if(dateString != "N/A" && dateString != undefined){
+                if(this.convertToUserTimezone){
+                    this.dateToFormat = new Date(dateString.substring(0,4), parseInt(dateString.substring(5,7)) - 1, dateString.substring(8,10), dateString.substring(11,13), dateString.substring(14,16), 0, 0 );
+                    this.dateToFormat.setMinutes(this.dateToFormat.getMinutes() - this.dateToFormat.getTimezoneOffset());
+                    this.getDateStringBasedOnTimezone(this.dateToFormat);
+                    if(this.formattedDate != "Invalid Date"){
+                        switch(format){
+                            case "dd/MM/yyyy" :
+                                this.formattedDate = dateString.substring(8,10) + "/" + dateString.substring(5,7) + "/" + dateString.substring(0,4);
+                                break;
+                            case "MM/dd/yyyy" :
+                                this.formattedDate = dateString.substring(5,7) + "/" + dateString.substring(8,10) + "/" + dateString.substring(0,4);
+                                break;
+                        }
+                        this.payment.draftDate = this.formattedDate;
+                    }else {
+                        this.payment.draftDate = dateString;
+                    }
+                    
+                } else {
+                    this.formattedDate = "";
+                    switch(format){
+                        case "dd/MM/yyyy" :
+                            this.formattedDate = dateString.substring(8,10) + "/" + dateString.substring(5,7) + "/" + dateString.substring(0,4);
+                            break;
+                        case "MM/dd/yyyy" :
+                            this.formattedDate = dateString.substring(5,7) + "/" + dateString.substring(8,10) + "/" + dateString.substring(0,4);
+                            break;
+                    }
+                    this.payment.draftDate = this.formattedDate;
+                } 
+            } else {
+                this.payment.draftDate = "N/A";
+            }
+            //console.log('showdisplayeddate::::: ', this.showdisplayeddate);
+            resolve('ok');
+        }, this); 
+
+    }
+
+
+    getDateStringBasedOnTimezone(dateToFormat){
+        try{
+            this.formattedDate = dateToFormat.toLocaleString({timeZone: timezone});		
+        }catch(e){
+            console.log(e);
+        }
+    }
+
+      /*
+    Author:        	Beatrice Hill
+    Company:        Deloitte
+    Description:    Go to page with lightning navigation
+    History:
+    <Date>          <Author>            <Description>
+    23/06/2020      Beatrice Hill       Adapted from CMP_AccountsCardRow
+    */
+   async goTo(page, url){
+
+        if(url != undefined && url != ''){
+            helper.encrypt(url)
+            .then((results) => {
+                this[NavigationMixin.Navigate]({
+                    "type": "comm__namedPage",
+                    "attributes": {
+                        "pageName": page
+                    },
+                    'state': {
+                        'params': results
+                    }
+                });
+        
+            })
+            .catch((error) => {
+                console.log('Error doInit: ' + error);
+            })
+            .finally(() => {
+                console.log('Operation Finally ');
+            })
+        }else{
+                this.results  = '';
+                this[NavigationMixin.Navigate]({
+                    "type": "comm__namedPage",
+                    "attributes": {
+                        "pageName": page
+                    },
+                    'state': {
+                        'params': results
+                    }
+            });
+        }
+    }
+    
+
+    sendToLanding (event,discard) {
+        var url = 'c__discard=' + discard;
+        this.goTo(this.landingPage, url);
+    }
+
+
+    enableActions(){
+        this.actions.edit= true;
+        this.actions.discard= true;
+        this.actions.reuse= true;
+        this.actions.addToTemplate= false;
+        this.actions.authorize= true;
+        this.actions.reject= true;
+        this.actions.sendToReview= true;
+        this.actions.trySaveAgain= false;
+        this.actions.gpiTracker= false;
+        this.actions.cancel= true;
+    }
+
+    get isPaymentRejected(){
+        return (this.payment.paymentStatus === '999' || this.payment.paymentStatus === '998');
+    }
+
+    get isPaymentInProgress(){
+        return this.payment.trackingStep === 'In progress';
+    }
+
+    get isPaymentOnHold(){
+        return this.payment.paymentStatus === '800';
+    }
+
+    get isPaymentCompleted(){
+        return ( this.payment.trackingStep === 'Completed');
+    }
+
+    get isPaymentPending(){
+        return (this.payment.trackingStep === 'Authorization');
+    }
+
+    get isPaymentFeesEmpty(){
+        return this.payment.fees === undefined || this.payment.fees === null;
+    }
+
+    get isPaymentEmpty(){
+        return this.payment === undefined || this.payment === null;
     }
 
     get isShowCancelModal(){
-        return this.showCancelModal == true;
+        return this.showCancelModal === true;
     }
 
-    get isShowMoreDetailClass() {
-        return  this.dinamycClasses.dropdownDisabled[this.showMoreDetail];
+    get subDate(){
+        return this.label.PAY_SentFrom + ' ' + this.payment.sourceBank;
     }
 
-    get isPaymentRejected() {
-         //{!or(v.payment.paymentStatus == '999',v.payment.paymentStatus == '998')}"
-        return  this.dinamycClasses.dropdownDisabled[this.showMoreDetail];
-     }
-
-    get isPaymentInProgress() {
-        //"{!v.payment.trackingStep == 'In progress'}"
-       return  this.dinamycClasses.dropdownDisabled[this.showMoreDetail];
+    get userPreferredNumberFormat(){
+        var numberFormat = '###.###.###,##';
+        if(this.currentUser != undefined){
+            numberFormat = this.currentUser.numberFormat;
+        }
+        return numberFormat;
+    }
+    
+    get userPreferredDateFormat(){
+        var dateFormat = 'MM/dd/yyyy';
+        if(this.currentUser != undefined){
+            dateFormat = this.currentUser.dateFormat;
+        }
+        return dateFormat;
     }
 
-    get isPaymentOnHold() {
-        //"{!v.payment.paymentStatus == '800'}"
-       return  this.dinamycClasses.dropdownDisabled[this.showMoreDetail];
+    get statusUpdateDate(){
+        return this.payment.statusUpdateDate;
     }
 
-    get isPaymentCompleted() {
-        //{!or(v.payment.trackingStep == 'Completed', v.payment.paymentStatus == '103')}
-       return  this.dinamycClasses.dropdownDisabled[this.showMoreDetail];
+    get currentUserDataString(){
+        return JSON.stringify(this.currentUser);
     }
 
-    get isPaymentPending() {
-        //{!and(v.payment.trackingStep == 'Authorization', v.payment.paymentStatus != '999')}
-       return  this.dinamycClasses.dropdownDisabled[this.showMoreDetail];
+    get paymentString(){
+        return JSON.stringify(this.payment);
     }
 
-    get subDate() {
-        //{label.PAY_SentFrom + ' ' + v.payment.sourceBank}
-       return  this.dinamycClasses.dropdownDisabled[this.showMoreDetail];
+    get isShowMoreDetailClass(){
+        return 'transactionDetail' + (this.showMoreDetail ? ' unfolded':'');
     }
 
-    get isPaymentFeesEmpty() {
-        //{! empty(v.payment.fees)}"
-       return  this.dinamycClasses.dropdownDisabled[this.showMoreDetail];
+    get paymentOperationStep1Data(){
+        return this.opStep1DataValueData;
     }
 
-    get isNotLoadingAndPaymentEmpty() {
-        //"{!and(v.isLoading == false, not(empty(v.payment)))}"
-       return  this.dinamycClasses.dropdownDisabled[this.showMoreDetail];
+    get isNotLoadingAndPaymentEmpty(){
+        return (this.isLoading == false &&  (this.payment != undefined && this.payment != null));
     }
-   
+
+    get isPaymentStatus001(){
+        return this.payment.paymentStatus === '001';
+    }
+
+    get isPaymentStatus002(){
+        return this.payment.paymentStatus === '002';
+    }
+
+    get isPaymentStatus003(){
+        return this.payment.paymentStatus === '003';
+    }
+
+    get isPaymentStatus997(){
+        return this.payment.paymentStatus === '997';
+    }
+
+    get isPaymentStatus101(){
+        return this.payment.paymentStatus === '101';
+    }
+
+    get isPaymentStatus201(){
+        return this.payment.paymentStatus === '201';
+    }
+
+    get isPaymentStatus998(){
+        return this.payment.paymentStatus === '998';
+    }
+
+    get isPaymentStatus202(){
+        return this.payment.paymentStatus === '202';
+    }
+    
+    get isPaymentStatus999(){
+        return this.payment.paymentStatus === '999';
+    }
+
+    get isPaymentStatus102(){
+        return this.payment.paymentStatus === '102';
+    }
+
+    get isPaymentStatus801(){
+        return this.payment.paymentStatus === '801';
+    }
+
+    get isPaymentStatus800(){
+        return this.payment.paymentStatus === '800';
+    }
+
+    get isPaymentStatus103(){
+        return this.payment.paymentStatus === '103';
+    }
+
+    get isPaymentDestinationCountryCL(){
+        return this.payment.destinationCountry === 'CL';
+    }
+
+    get isParsedCommercialCodeNotEmpty(){
+        return this.payment.parsedCommercialCode != undefined && this.payment.parsedCommercialCode != null ;
+    }
+
+    get isSourceFeeDataNotEmpty(){
+        return this.payment.sourceFeeData != undefined && this.payment.sourceFeeData != null 
+         && (this.payment.sourceFeeData.name != '' || this.payment.sourceFeeData.parsedCountry != '' );
+
+        
+    }
+
+    get isSourceFeeDataSourceAgentNotEmpty(){
+        return this.payment.sourceFeeData != undefined && this.payment.sourceFeeData != null
+                && this.payment.sourceFeeData.sourceAgent != undefined 
+                && this.payment.sourceFeeData.sourceAgent != null 
+                && this.payment.sourceFeeData.sourceAgent.name != '';
+    }
+
+    get isSourceFeeDataSourceAccountNotEmpty(){
+        return this.payment.sourceFeeData != undefined && this.payment.sourceFeeData != null
+                    && this.payment.sourceFeeData.sourceAccount != undefined && this.payment.sourceFeeData.sourceAccount != null ;
+    }
+
+    get isSourceFeeDataSourceAccountAccountIdNotEmpty(){
+        return this.payment.sourceFeeData != undefined && this.payment.sourceFeeData != null
+                    && this.payment.sourceFeeData.sourceAccount != undefined && this.payment.sourceFeeData.sourceAccount != null 
+                    && this.payment.sourceFeeData.sourceAccount.accountId != undefined 
+                    && this.payment.sourceFeeData.sourceAccount.accountId != null
+                    && this.payment.sourceFeeData.sourceAccount.accountId != '' ;
+    }
+
+    get isShowDiscardModal(){
+        return this.showDiscardModal === true;
+    }
+
+    get headingMsg(){
+        return this.label.PAY_discardPayment + ' ' + this.payment.clientReference + ' ' + this.label.Int;
+    }
+
+    get contentMsg(){
+        return this.label.PAY_DiscardDate1 + ' ' + this.payment.draftDate + ' ' + this.label.PAY_DiscardDate2;
+    }
+
+    
+    get contentMsg(){
+        return this.label.PAY_DiscardDate1 + ' ' + this.payment.draftDate + ' ' + this.label.PAY_DiscardDate2;
+    }
 
 }

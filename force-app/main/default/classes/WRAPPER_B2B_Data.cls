@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 02-17-2021
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * Modifications Log 
+ * Ver   Date         Author                               Modification
+ * 1.0   02-17-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+**/
 global with sharing class WRAPPER_B2B_Data {
 
     global with sharing class PaymentAmount {
@@ -26,6 +36,11 @@ global with sharing class WRAPPER_B2B_Data {
         global WS_ExchangeRate.OUTPUT convertedTransactionFeeServiceResponse {get;set;}
         @AuraEnabled
         global WS_ExchangeRate.OUTPUT exchangeRateServiceResponse {get;set;}
+        @AuraEnabled
+        global Decimal baseAmount {get;set;}
+        @AuraEnabled
+        global String baseCurrency {get;set;}
+        
     }
 
     global with sharing class AccountData {

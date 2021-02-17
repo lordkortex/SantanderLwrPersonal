@@ -1,0 +1,202 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-16-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   02-14-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+     <!-- DROPDOWN ATTRIBUTES -->
+    <!-- <aura:attribute                         type="List"         name="values"                       default="['CSV','PDF','XML']"   description="List of values to populate the dropdown" />
+    <aura:attribute                         type="String"       name="selectedValue"                                                description="Selected option from the dropdown"/>
+    <aura:attribute                         type="String"       name="helpTextDropdown"             default="Show More"             description="Dropdown help text"/> 
+    <aura:attribute access="public"         type="Boolean"      name="disabled"                     default="false"                 description="Disable input field and apply disabled styles."/>
+    <aura:attribute access="public"         type="String"       name="value"                        default=""                      description="Text entered by user"/>
+    <aura:attribute access="public"         type="Integer"      name="charactersMax"                default="140"                   description="Character limit"/>
+    <aura:attribute access="public"         type="Integer"      name="charactersRemaining"          default="140"                   description="Characters remaining until reaching the limit"/>
+    <aura:attribute access="public"         type="String"       name="placeholder"                  default="User text"             description="Text for minilabel and placeholder of input field."/>
+    <aura:attribute access="public"         type="String"       name="source"                       default=""                      description="Origin page"/>
+    <aura:attribute access="public"         type="Map"          name="payment"                      default="{}"/>
+    <aura:attribute access="public"         type="User"         name="currentUser"   				                                description="Current user data"/> 
+    <aura:attribute access="public"         type="Boolean"      name="showRedo"                     default="false"/>
+    <aura:attribute access="public"         type="String"       name="subject"                      default=""/>
+    <aura:attribute access="public"         type="String"       name="description"                  default=""/>
+    <aura:attribute access="public"         type="String"       name="errorSubject"                 default=""/>
+    <aura:attribute access="public"         type="Boolean"      name="reviewSent"/>
+    <aura:attribute access="private"        type="Boolean"      name="showMiniLabel"                default="false"                 description="Control to show mini label fro Subject field."/>
+    <aura:attribute access="public"         type="Integer"      name="charactersMaxSubject"         default="50"                    description="Character limit for Subject"/>
+    <aura:attribute access="public"         type="Integer"      name="charactersRemainingSubject"   default="50"                    description="Characters remaining until reaching the limit"/>
+    <aura:attribute access="public"         type="String"       name="clientReference"              default=""/>
+    <aura:attribute access="public"         type="String"       name="headlineMessage"              default="{label.CMP_B2B_REDOMaterial}"/>
+    <aura:attribute access="public"         type="String"       name="action"                       default=""/>
+    <aura:attribute access="private"        type="Boolean"      name="spinner"                                                      description="Show spinner"/>
+    <aura:attribute access="public"         type="Boolean"      name="fromUtilityBar"/>
+
+
+    <aura:registerEvent     name="toastEvent" type="c:EVT_OpenModal"/>
+    <aura:handler           name="goToPaymentDetail"        event="c:EVT_PAY_GoToPaymentDetail"     action="{!c.goToPaymentDetail}" /> -->
+    
+    <!-- <c:CMP_ServiceComponent aura:id="service"/> -->
+    <template if:true={showredo}>
+
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container modal_m">  
+        <div class="modal-content">
+            
+            <!-- MODAL HEADER -->
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close"  onclick={goBack}>
+                    <div class="icon-close_big"></div> 
+                    <span class="slds-assistive-text">{label.close}</span>
+                </button>
+
+                <!-- <aura:if isTrue="{!v.action == 'Reject'}"> --> 
+                <template if:true={actionReject}>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.sendPaymentForReject}</h2>
+                </template>
+                    <!-- <aura:set attribute="else"> --> 
+                <template if:false={actionReject}>
+                    <h2 id="modal-heading-02" class="slds-modal__title slds-hyphenate">{label.sendPaymentForRedo}</h2>
+                </template>
+            </header>
+            
+            <!-- MODAL CONTENT -->
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                <!-- <aura:if isTrue="{!v.action == 'Reject'}"> -->
+                <template if:true={actionReject}>
+                    <h3 class="modalContent-title">{headlinemessage}</h3>
+                    <p class="modalContent-subtitle">{label.CMP_B2B_REJECTHelp}</p>
+                </template>
+                    <!-- <aura:set attribute="else"> -->
+                <template if:false={actionReject}>
+                        <h3 class="modalContent-title">{headlinemessage}</h3>
+                        <p class="modalContent-subtitle">{label.CMP_B2B_REDOHelp}</p>
+                </template>
+                
+                
+                <!-- INPUT -->
+                <!-- <div class="inputContainer">
+                    <c:CMP_B2B_Description charactersMax='50' charactersRemaining='50' grow='true' placeholder='{label.Subject}' value="{!v.subject}" errorMSG="{!v.errorSubject}"/>
+                </div> -->
+                <div class="inputContainer">
+                       
+                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                    <!-- <div class="{!'slds-form-element input' + (empty(v.errorSubject) ? '' : ' error' )}"> -->
+                    <div class={errorSubjectClass}>
+                        
+                        <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                        <!-- <aura:if isTrue="{!or(v.showMiniLabel eq true, not(empty(v.subject)))}"> -->
+                        <template if:true={checkShowMiniLabel}>
+                            <label class="slds-form-element__label" for="text-input-id-1">{label.Subject}</label>
+                        </template>
+                        
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            
+                            <!-- Cuando el input esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                            <input type="text" data-id="subject-input" placeholder={label.Subject} class="slds-input" name="User input text" value={subject} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>
+                            
+                            <!-- Icono de cruz para eliminar una vez seleccionada una opción -->
+                            <!-- <aura:if isTrue="{!not(empty(v.subject))}"> -->
+                            <template if:true={isSubject}>
+                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={handleClear}>
+                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                    <span class="slds-assistive-text">Clear the text input</span>
+                                </button>
+                            </template>
+                            
+                            
+                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                            <!-- <div class="slds-form-element__help">50 characters maximum</div> -->
+                            
+                            <!-- Cuando el texto introducido sea erronea saldrá un mensaje de error -->
+                            <!-- <div class="errorText">Error! Incorrect user input format.</div> -->
+                            
+                            <!-- <aura:if isTrue="{!not(empty(v.errorSubject))}"> -->
+                            <template if:true={getErrorSubject}>
+                                <div class="errorText">{errorsubject}</div>
+                            </template>
+                                <!-- <aura:set attribute="else"> -->
+                            <template if:false={getErrorSubject}>
+                                    <div class="slds-form-element__help">
+                                        <!-- <span>{!'Max '+v.characterMax+' characters'</span> -->
+                                        <span> {charactersremainingsubject}&nbsp;{label.charactersRemaining}</span>
+                                    </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- TEXTAREA -->
+                <div class="textareaContainer">
+                    <!-- <c:CMP_B2B_Description charactersMax='{!v.charactersMax}' charactersRemaining='{!v.charactersRemaining}' placeholder="{label.MovementHistory_Description+' ('+$Label.c.optional+')'}" value="{!v.description}"/>-->
+                    <c-lwc_b2b_description charactersmax={charactersmax} charactersremaining={charactersremaining} placeholder={getplaceholder} value={description} error-msg={errorDescription}/></c-lwc_b2b_description>
+                </div>
+
+                <!-- INFORMATION TOAST -->
+                <!-- añadir la clase toast_static para evitar que el toast flote en medio de la pantalla -->
+                <div class="slds-notify_container slds-is-fixed toast_static">
+                    <div class="slds-notify slds-notify_toast slds-theme_info slds-scrollable_y" role="status">
+                        <span class="slds-assistive-text">{label.payment}</span>
+                        <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top icon-information button-selected" data-title="Information"></span>
+                        <div class="slds-notify__content">  
+                            
+                            <!-- <aura:if isTrue="{!v.action == 'Reject'}"> -->
+                            <template if:true={actionReject}>
+                                <h2 class="slds-text-heading_small">{label.paymentProcessing}</h2>
+                                <p class="modalContent-subtitle">{label.CMP_B2B_REJECTPaymentProcessing}</p>
+                            </template>
+                                
+                                <!-- <aura:set attribute="else"> -->
+                            <template if:false={actionReject}>
+                                    <h2 class="slds-text-heading_small">{label.PAY_reviewMessage}</h2>
+                                    <!--<p class="notifyText">{label.CMP_B2B_REDOPaymentStatus}</p>-->
+                            </template>
+                            
+                            <!-- ACTION BUTTON -->  
+                            <button class="slds-button slds-button_icon icon-action">
+                                <span class="action">Action</span>
+                            </button>
+                        </div>
+                        <div class="slds-notify__close">
+                            <button class="slds-button slds-button_icon icon-close_big" data-title-top-right={label.close}></button>
+                        </div> 
+                    </div>
+                </div>
+                
+                <!-- MODAL FOOTER -->
+                <div class="slds-modal__footer"> 
+                    <div class="modal-footer-buttons">
+                        <!-- <aura:if isTrue="{!v.action == 'Reject'}"> -->
+                        <template if:true={actionReject}>
+                            <button class="slds-button primary button_small button_full" onclick={handleReject}>{label.PAY_SendToReject}</button>
+                        </template>    
+                            <!-- <aura:set attribute="else"> -->
+                        <template if:false={actionReject}>
+                                <button class="slds-button primary button_small button_full" onclick={sendProcess}>{label.PAY_SendToReview}</button>
+                        </template>
+                        <button class="slds-button secondary button_small button_full" onclick={goBack}>{label.cancel}</button>         
+                    </div> 
+                </div>   
+            </div>
+        </div>
+
+        <!-- <c:CMP_B2B_Toast aura:id="toast" /> -->
+        <c-lwc_b2b_toast data-id="toast"></c-lwc_b2b_toast>
+
+        <template if:true={spinner}>
+             <!-- <lightning:spinner alternativeText="Loading" size="medium"  -->
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+        </div>
+        
+    </section>
+
+    <div class="slds-backdrop slds-backdrop_open"></div> 
+    </template> 
+</template>

@@ -1,19 +1,20 @@
-/*
+/*----------------------------------------------------------------------------------
 Author:         Guillermo Giral
 Company:        Deloitte
 Description:    Wrapper class to get the details of a payment
 Test Class:     WRAPPER_PaymentDetail_Test
-History:
-<Date>          <Author>                <Description>
-23/07/2020      Guillermo Giral         Initial version
-*/
+History
+<Date>			<Author>				<Description>
+23/07/2020      Guillermo Giral        	Initial version
+13/01/2021		Shahad Naji 			Add operationAmountBaseCurrency structure
+----------------------------------------------------------------------------------*/
 global class WRAPPER_PaymentDetail {
 
     @AuraEnabled
-    global OperationResponse operationResponse {get;set;}
+    global OperationResponse operationResponse;
 
     global WRAPPER_PaymentDetail () {}
-    
+
     global class ConceptsList {
         @AuraEnabled
         global String conceptId {get;set;}
@@ -25,7 +26,7 @@ global class WRAPPER_PaymentDetail {
         global StandardPrice standardPrice {get;set;}
         @AuraEnabled
         global ConceptAmount conceptAmount {get;set;}
-        
+
         global ConceptsList () {}
     }
 
@@ -35,6 +36,8 @@ global class WRAPPER_PaymentDetail {
         @AuraEnabled
         global String customerId {get;set;}
         @AuraEnabled
+        global String companyGlobalId {get;set;}
+        @AuraEnabled
         global SourceAddress destinationAddress {get;set;}
         @AuraEnabled
         global SourceAccount destinationAccount {get;set;}
@@ -42,33 +45,33 @@ global class WRAPPER_PaymentDetail {
         global SourceAgent destinationAgent {get;set;}
         @AuraEnabled
         global String country {get;set;}
-        
-        global DestinationData() {}
+
+        global DestinationData () {}
     }
 
     global class OperationAmount {
         @AuraEnabled
         global String tcurrency {get;set;}
         @AuraEnabled
-        global Decimal amount {get;set;}
-        
-        global OperationAmount() {}
+        global Double amount {get;set;}
+
+        global OperationAmount () {}
     }
 
     global class FxComercialMargin {
         @AuraEnabled
         global String fxComercialMarginCurrency {get;set;}
         @AuraEnabled
-        global Decimal fxComercialMarginAmount {get;set;}
+        global Double fxComercialMarginAmount {get;set;}
 
-        global FxComercialMargin() {}
+        global FxComercialMargin () {}
     }
 
     global class CounterValueOperationAmount {
         @AuraEnabled
         global String tcurrency {get;set;}
         @AuraEnabled
-        global Decimal amount {get;set;}
+        global Double amount {get;set;}
         @AuraEnabled
         global String tradeCurrency {get;set;}
 
@@ -77,14 +80,14 @@ global class WRAPPER_PaymentDetail {
 
     global class SpecialFixedRatePrice {
         @AuraEnabled
-        global Decimal specialRate {get;set;}
+        global Double specialRate {get;set;}
         @AuraEnabled
-        global Decimal specialMinimumAmount {get;set;}
+        global Double specialMinimumAmount {get;set;}
         @AuraEnabled
-        global Decimal specialMaximumAmount {get;set;}
+        global Double specialMaximumAmount {get;set;}
         @AuraEnabled
         global String tcurrency {get;set;}
-        
+
         global SpecialFixedRatePrice () {}
     }
 
@@ -99,7 +102,7 @@ global class WRAPPER_PaymentDetail {
         global String flowIndicator {get;set;}
         @AuraEnabled
         global IntermediateAgentAccount intermediateAgentAccount {get;set;}
-        
+
         global OperationStep2Data () {}
     }
 
@@ -120,15 +123,16 @@ global class WRAPPER_PaymentDetail {
         @AuraEnabled
         global String country {get;set;}
 
-        global SourceAddress () {}  
+        global SourceAddress () {}
     }
-    
 
     global class SourceData {
         @AuraEnabled
         global String name {get;set;}
         @AuraEnabled
         global String customerId {get;set;}
+        @AuraEnabled
+        global String companyGlobalId {get;set;}
         @AuraEnabled
         global SourceAddress sourceAddress {get;set;}
         @AuraEnabled
@@ -139,7 +143,7 @@ global class WRAPPER_PaymentDetail {
         global String country {get;set;}
         @AuraEnabled
         global String parsedCountry {get;set;}
-        
+
         global SourceData () {}
     }
 
@@ -172,6 +176,8 @@ global class WRAPPER_PaymentDetail {
         global String chargeBearer {get;set;}
         @AuraEnabled
         global OperationAmount operationAmount {get;set;}
+        @AuraEnabled
+        global OperationAmountBaseCurrency operationAmountBaseCurrency {get;set;}
         @AuraEnabled
         global CounterValueOperationAmount counterValueOperationAmount {get;set;}
         @AuraEnabled
@@ -219,7 +225,7 @@ global class WRAPPER_PaymentDetail {
         @AuraEnabled
         global String beneficiaryAlias {get;set;}
         @AuraEnabled
-        global Decimal amount {get;set;}
+        global Double amount {get;set;}
         @AuraEnabled
         global String paymentCurrency {get;set;}
         @AuraEnabled
@@ -271,7 +277,7 @@ global class WRAPPER_PaymentDetail {
         @AuraEnabled
         global String beneficiaryCurrency {get;set;}
         @AuraEnabled
-        global Decimal tradeAmount {get;set;}
+        global Double tradeAmount {get;set;}
         @AuraEnabled
         global String feesCurrency {get;set;}
         @AuraEnabled
@@ -298,6 +304,12 @@ global class WRAPPER_PaymentDetail {
         global Boolean addFees {get;set;}
         @AuraEnabled
         global String userDefinedAmount {get;set;}
+        @AuraEnabled
+        global String draftDate {get;set;}
+        @AuraEnabled
+        global ReviewAdditionalData reviewAdditionalData {get;set;}
+        @AuraEnabled
+        global RejectAdditionalData rejectAdditionalData {get;set;}
 
         global OperationDetail () {}
     }
@@ -323,7 +335,7 @@ global class WRAPPER_PaymentDetail {
         @AuraEnabled
         global String valueDateEfx {get;set;}
         @AuraEnabled
-        global Decimal customerExchangeRate {get;set;}
+        global Double customerExchangeRate {get;set;}
         @AuraEnabled
         global FxComercialMargin fxComercialMargin {get;set;}
         @AuraEnabled
@@ -341,10 +353,10 @@ global class WRAPPER_PaymentDetail {
         global String statusDate {get;set;}
         @AuraEnabled
         global String globalUserId {get;set;}
-        
+
         global OperationStatus () {}
     }
-    
+
     global class OperationStatusHistory {
         @AuraEnabled
         global String status {get;set;}
@@ -368,10 +380,10 @@ global class WRAPPER_PaymentDetail {
 
     global class SpecialFixedAmountPrice {
         @AuraEnabled
-        global Decimal specialFixedAmount {get;set;}
+        global Double specialFixedAmount {get;set;}
         @AuraEnabled
         global String tcurrency {get;set;}
-        
+
         global SpecialFixedAmountPrice () {}
     }
 
@@ -379,21 +391,21 @@ global class WRAPPER_PaymentDetail {
         @AuraEnabled
         global String productName {get;set;}
         @AuraEnabled
-        global Decimal totalPrice {get;set;}
+        global Double totalPrice {get;set;}
         @AuraEnabled
         global String tcurrency {get;set;}
         @AuraEnabled
         global List<CurrencyList> currencyList {get;set;}
-        
+
         global PricingDetails () {}
     }
 
     global class CcyCountervalue {
         @AuraEnabled
-        global Decimal ccyCountervalueAmount {get;set;}
+        global Double ccyCountervalueAmount {get;set;}
         @AuraEnabled
         global String ccyCountervalueCurrency {get;set;}
-        
+
         global CcyCountervalue () {}
     }
 
@@ -404,8 +416,21 @@ global class WRAPPER_PaymentDetail {
         global String currencyName {get;set;}
         @AuraEnabled
         global List<ConceptsList> conceptsList {get;set;}
-        
+
         global CurrencyList () {}
+    }
+
+    global class StandardFixedRatePrice {
+        @AuraEnabled
+        global Double standardRate {get;set;}
+        @AuraEnabled
+        global Double standardMinimumAmount {get;set;}
+        @AuraEnabled
+        global Double standardMaximumAmount {get;set;}
+        @AuraEnabled
+        global String tcurrency {get;set;}
+
+        global StandardFixedRatePrice () {}
     }
 
     global class SourceAccount {
@@ -415,7 +440,7 @@ global class WRAPPER_PaymentDetail {
         global String accountId {get;set;}
         @AuraEnabled
         global String tcurrency {get;set;}
-        
+
         global SourceAccount () {}
     }
 
@@ -424,7 +449,7 @@ global class WRAPPER_PaymentDetail {
         global String specialPriceLevel {get;set;}
         @AuraEnabled
         global List<SpecialTiersList> specialTiersList {get;set;}
-        
+
         global SpecialPrice () {}
     }
 
@@ -455,82 +480,68 @@ global class WRAPPER_PaymentDetail {
         global OperationNominalFxDetails operationNominalFxRefundDetails {get;set;}
         @AuraEnabled
         global OperationFeesFxDetails operationFeesFxRefundDetails {get;set;}
-        
+
         global RefundDetails () {}
     }
 
     global class StandardPrice {
-        @AuraEnabled
         global List<StandardTiersList> standardTiersList {get;set;}
-        
+
         global StandardPrice () {}
     }
 
     global class SpecialTiersList {
         @AuraEnabled
-        global Decimal specialAmountTier {get;set;}
+        global Double specialAmountTier {get;set;}
         @AuraEnabled
         global String specialAmountTierType {get;set;}
         @AuraEnabled
         global SpecialFixedRatePrice specialFixedRatePrice {get;set;}
         @AuraEnabled
         global SpecialFixedAmountPrice specialFixedAmountPrice {get;set;}
-        
+
         global SpecialTiersList () {}
     }
 
     global class NominalAmountNoMarkUp {
         @AuraEnabled
-        global Decimal amount {get;set;}
+        global Double amount {get;set;}
         @AuraEnabled
         global String tcurrency {get;set;}
-        
+
         global NominalAmountNoMarkUp () {}
     }
 
     global class ConceptAmount {
         @AuraEnabled
-        global Decimal amount {get;set;}
+        global Double amount {get;set;}
         @AuraEnabled
         global String tcurrency {get;set;}
         @AuraEnabled
-        global Decimal fixing {get;set;}
-        
-        global ConceptAmount () {}
-    }
+        global Double fixing {get;set;}
 
-    global class StandardFixedRatePrice {
-        @AuraEnabled
-        global Decimal standardRate {get;set;}
-        @AuraEnabled
-        global Decimal standardMinimumAmount {get;set;}
-        @AuraEnabled
-        global Decimal standardMaximumAmount {get;set;}
-        @AuraEnabled
-        global String tcurrency {get;set;}
-        
-        global StandardFixedRatePrice () {}
+        global ConceptAmount () {}
     }
 
     global class StandardFixedAmountPrice {
         @AuraEnabled
-        global Decimal standardFixedAmount {get;set;}
+        global Double standardFixedAmount {get;set;}
         @AuraEnabled
         global String tcurrency {get;set;}
-        
+
         global StandardFixedAmountPrice () {}
     }
 
     global class StandardTiersList {
         @AuraEnabled
-        global Decimal standardAmountTier {get;set;}
+        global Double standardAmountTier {get;set;}
         @AuraEnabled
         global String standardAmountTierType {get;set;}
         @AuraEnabled
         global StandardFixedRatePrice standardFixedRatePrice {get;set;}
         @AuraEnabled
         global StandardFixedAmountPrice standardFixedAmountPrice {get;set;}
-        
+
         global StandardTiersList () {}
     }
 
@@ -541,7 +552,7 @@ global class WRAPPER_PaymentDetail {
         global String name {get;set;}
         @AuraEnabled
         global String address {get;set;}
-        
+
         global SourceAgent () {}
     }
 
@@ -556,18 +567,18 @@ global class WRAPPER_PaymentDetail {
         global String flowIndicator {get;set;}
         @AuraEnabled
         global IntermediateAgentAccount intermediateAgentAccount {get;set;}
-        
+
         global OperationStep1Data () {}
     }
 
     global class OperationResponse {
         @AuraEnabled
         global OperationDetail operationDetail {get;set;}
-           // @AuraEnabled
+        // @AuraEnabled
         // global String customerIndicator {get;set;}
         @AuraEnabled
         global RefundDetails refundDetails {get;set;}
-        
+
         global OperationResponse () {}
     }
 
@@ -583,26 +594,21 @@ global class WRAPPER_PaymentDetail {
         @AuraEnabled
         global String valueDateEfx {get;set;}
         @AuraEnabled
-        global Decimal customerExchangeRate {get;set;}
-        
+        global Double customerExchangeRate {get;set;}
+
         global OperationFeesFxDetails () {}
     }
 
     global class OperationNominalFxRollbackDetails {
-        @AuraEnabled
-        global String fxCountervalueId {get;set;}
-        @AuraEnabled
-        global String priceType {get;set;}
-        @AuraEnabled
-        global CcyCountervalue ccyCountervalue {get;set;}
-        @AuraEnabled
-        global String valueDateEfx {get;set;}
-        @AuraEnabled
-        global Decimal customerExchangeRate {get;set;}
-        
+        global String fxCountervalueId;
+        global String priceType;
+        global CcyCountervalue ccyCountervalue;
+        global String valueDateEfx;
+        global Double customerExchangeRate;
+
         global OperationNominalFxRollbackDetails () {}
 
-        global OperationNominalFxRollbackDetails (String fxCountervalueId, String priceType, CcyCountervalue ccyCountervalue, String valueDateEfx, Decimal customerExchangeRate) {
+        global OperationNominalFxRollbackDetails (String fxCountervalueId, String priceType, CcyCountervalue ccyCountervalue, String valueDateEfx, Double customerExchangeRate) {
             this.fxCountervalueId = fxCountervalueId;
             this.priceType = priceType;
             this.ccyCountervalue = ccyCountervalue;
@@ -610,7 +616,33 @@ global class WRAPPER_PaymentDetail {
             this.customerExchangeRate = customerExchangeRate;
         }
     }
+
+    global class ReviewAdditionalData {
+        @AuraEnabled
+        global String subject {get;set;}
+        @AuraEnabled
+        global String description {get;set;}
+
+        global ReviewAdditionalData () {}
+    }
+
+    global class RejectAdditionalData {
+        @AuraEnabled
+        global String subject {get;set;}
+        @AuraEnabled
+        global String description {get;set;}
+
+        global RejectAdditionalData () {}
+    }
     
+    global class OperationAmountBaseCurrency{
+        @AuraEnabled
+        global Double amount {get;set;}
+        @AuraEnabled
+        global String tcurrency {get;set;}
+        global OperationAmountBaseCurrency(){}
+    }
+
     global static WRAPPER_PaymentDetail parse (String json) {
         return (WRAPPER_PaymentDetail) System.JSON.deserialize(json, WRAPPER_PaymentDetail.class);
     }

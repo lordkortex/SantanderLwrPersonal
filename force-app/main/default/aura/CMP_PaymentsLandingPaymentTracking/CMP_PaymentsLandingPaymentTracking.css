@@ -3,11 +3,16 @@
     padding-bottom: 8px;
 }
 
+.THIS .toast{
+    margin-top: 16px;
+    max-width: 560px;
+}
+
 /* TEXT STYLES */
 .THIS .sectionTitle { 
     color: #444444;
     font-family:"SantanderHeadlineW05-Rg";
-    font-size: 20px;
+    font-size: 24px;
     line-height: 28px;
     min-height: 28px;
     margin-bottom: 8px;
@@ -110,6 +115,7 @@
     display: flex;
     align-items: flex-start;
     padding-top: 16px;
+    max-width: 912px;
 }
 
 .THIS .slds-progress__item:first-child {
@@ -146,7 +152,6 @@
 
 .THIS .slds-progress__item .slds-progress__item_content {
     margin: 0;
-    max-width: 560px;
     padding-bottom: 0;
 }
 .THIS .slds-progress__item .slds-progress__item_content .slds-grid{
@@ -156,8 +161,12 @@
 .THIS .slds-progress__item .slds-progress__item_content .details .slds-grid{
     margin-top: 8px;
 }
+
+.THIS .slds-progress__item .slds-progress__item_content .slds-grid .slds-col:first-child{
+    max-width: calc(118px + 24px);
+}
+
 .THIS .slds-progress__item .slds-progress__item_content .slds-grid .slds-col:first-child .row{
-    min-width: calc(118px + 24px);
     display: flex;
     justify-content: flex-start;
 }
@@ -175,7 +184,8 @@
     justify-content: flex-start;
 }
 
-.THIS .slds-progress__item .slds-progress__item_content .slds-notify_container{
+.THIS .slds-progress__item .slds-progress__item_content .toast,
+.THIS .slds-progress__item  .slds-progress__item_content .slds-notify_container{
     display: none;
 }
 
@@ -235,8 +245,9 @@
 
 /* TRACKING STATES */
 /* INFO */
+.THIS .slds-progress__item.item_info .slds-progress__item_content .toast,
 .THIS .slds-progress__item.item_info .slds-progress__item_content .toast .slds-notify_container:first-child {
-    display: flex;
+    display: block;
 }
 
 /* ERROR - UNSUCCESS */
@@ -251,21 +262,25 @@
     display: none;
 }
 
-
+.THIS .slds-progress__item.item_info .slds-icon_container .containerIcon, /*para que salga el punto excalmativo con el toast informativo*/
 .THIS .slds-progress__item.item_error .slds-icon_container .containerIcon,
 .THIS .slds-progress__item.slds-is-completed.item_error .slds-icon_container .containerIcon,
 .THIS .slds-progress__item.slds-is-active.item_error .slds-icon_container .containerIcon {
     display: none;
 }
 
+.THIS .slds-progress__item.item_info .slds-icon_container .containerIcon:nth-child(3), /*para que salga el punto excalmativo con el toast informativo*/
 .THIS .slds-progress__item.item_error .slds-icon_container .containerIcon:nth-child(3),
 .THIS .slds-progress__item.slds-is-completed.item_error .slds-icon_container .containerIcon:nth-child(3),
 .THIS .slds-progress__item.slds-is-active.item_error .slds-icon_container .containerIcon:nth-child(3) {
     display: flex;
 }
-.THIS .slds-progress__item.item_error .slds-progress__item_content .toast .slds-notify_container:last-child {
-    display: flex;
+.THIS .slds-progress__item.item_error.step4 .slds-progress__item_content .toast,
+.THIS .slds-progress__item.item_error.step4 .slds-progress__item_content .toast .slds-notify_container:last-child {
+    display: block;
 }
+/*modificado para que salga el punto excalmativo (!) sin el toast de error para el paso 4*/
+.THIS .slds-progress__item.slds-is-active.item_info .slds-icon_container .containerIcon:nth-child(1), /*para que salga el punto excalmativo con el toast informativo*/
 .THIS .slds-progress__item.item_info.item_error .slds-progress__item_content .toast .slds-notify_container:first-child,
 .THIS .slds-progress__item.item_success.item_error .slds-progress__item_content .toast .slds-notify_container:first-child{
     display: none;
@@ -275,8 +290,9 @@
 .THIS .slds-progress__item.item_success .slds-icon_container .containerIcon:nth-child(2) span span:first-child:before {
     color: #63ba68;
 }
+.THIS .slds-progress__item.item_success .slds-progress__item_content .toast,
 .THIS .slds-progress__item.item_success .slds-progress__item_content .toast .slds-notify_container:first-child {
-    display: flex;
+    display: block;
 }
 
 /* DISABLED */
@@ -349,6 +365,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    align-self: flex-start;
 }
 
 .THIS .slds-notify__content .slds-text-heading_small{
@@ -363,6 +380,14 @@
     font-size: 16px; 
     line-height: 1.5; 
     color: #444444; 
+}
+
+.THIS .toast .toastDescription {
+    margin-top: 16px;
+}
+
+.THIS .toast .toastDescription span{
+    margin-left: 8px;
 }
 
 .THIS .slds-notify__content .action{ 

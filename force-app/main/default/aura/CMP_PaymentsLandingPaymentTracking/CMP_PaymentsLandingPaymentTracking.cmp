@@ -20,9 +20,11 @@
     <aura:attribute access="public" type="User"     name="currentUser"   				                description="Current user data"/> 
     <aura:attribute access="public" type="Integer"  name="authorizationLength"   	description="Number of comments in the authorization step"/> 
     <aura:attribute access="public" type="Map"      name="authorizationTopLine"   	description="Most recent status change in the authorization step"/> 
-    
-
-
+    <aura:attribute access="public" type="String"   name="subject"                  description="Subject declared when sent to review"/>
+    <aura:attribute access="public" type="String"   name="description"              description="Description declared when sent to review"/>
+    <aura:attribute access="public" type="Boolean"  name="isOtherAuthorizer"        description="Current user is an authorizer and didn't send the payment to review"/>
+    <aura:attribute access="public" type="Map"     	name="signLevel"         		/>
+    <aura:attribute access="public" type="String"   name="reviewSenderGlobalId"     description="GlobalId of the user that send the payment to review"/>
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />  
 
@@ -71,7 +73,7 @@
             <!-- Añadir la clase item_info si el item muestra información adicional -->
             <!-- Añadir la clase item_error si ha ocurrido un error -->
             <!-- Añadir la clase item_disabled si el item está deshabilitado -->
-            <li class="{!'slds-progress__item'+(v.trackingStep > 2 ?' slds-is-completed':(v.trackingStep == 2 ? ' slds-is-active': ' item_disabled'))}">
+            <li class="{!'slds-progress__item'+(v.trackingStep > 2 ?' slds-is-completed':(v.trackingStep == 2 ? ' slds-is-active'  + (v.payment.paymentStatus == '999' ? ' item_error':''): ' item_disabled'))+(v.paymentStatus == 'In review' ? ' item_info':'')}">
                 <div class="slds-icon_container slds-progress__marker slds-progress__marker_icon progressBar">
                     <div class="slds-media__figure containerIcon">
                         <span class="iconActive yellow"></span>
@@ -141,16 +143,23 @@
                         <!-- Ocultar este toast si no es necesario mostrar información adicional -->
                         <div class="slds-notify_container slds-is-fixed toast_static">
                             <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
-                            <div class="slds-notify slds-notify_toast slds-theme_info action slds-scrollable_y" role="status">
+                            <div class= "{!'slds-notify slds-notify_toast'+(v.currentUser.globalId == v.payment.userGlobalId ?' slds-theme_warning slds-scrollable_y': ' slds-theme_info slds-scrollable_y')}" role="status">
                                 <span class="slds-assistive-text">information</span>
                                 <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top icon-information button-selected" data-title="Information"></span>
                                 <div class="slds-notify__content">
-                                    <h2 class="slds-text-heading_small">Notification title</h2>
-                                    <p class="notifyText">Body text</p>
-                                    <!-- ACTION BUTTON --> 
-                                    <button class="slds-button slds-button_icon icon-action">
-                                        <span class="action">View</span>
-                                    </button>
+                                    <h2 class="slds-text-heading_small">{!$Label.c.PAY_sendReview_toast}</h2>
+                                    <aura:if isTrue="{!v.isOtherAuthorizer}">
+                                        <p class="notifyText">{!$Label.c.PAY_feedbackOtherAuth_toast}</p>    
+                                    <aura:set attribute="else">
+                                            <p class="notifyText">{!$Label.c.PAY_feedback_toast}</p>
+                                            <div class="toastDescription">
+                                              <p class="slds-text-heading_small">{!$Label.c.PAY_subject_toast} <span class="notifyText">{!v.subject}</span></p>
+                                                <aura:if isTrue="{!and(v.description != undefined, v.description != null)}">
+                                                 <p class="slds-text-heading_small">{!$Label.c.PAY_description_toast} <span class="notifyText">{!v.description}</span></p>
+                                                </aura:if>
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
                                 </div>
                                 <div class="slds-notify__close">
                                     <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
@@ -160,16 +169,16 @@
                         
                         <!-- ERROR TOAST -->
                         <!-- Este toast se mostrará cuando el <li class="slds-progress__item"> tenga la clase item_error. -->
-                        <div class="slds-notify_container toast_static slds-is-fixed">
+                        <!-- <div class="slds-notify_container toast_static slds-is-fixed"> -->
                             <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
-                            <div class="slds-notify slds-notify_toast slds-theme_error slds-scrollable_y" role="status">
+                            <!-- <div class="slds-notify slds-notify_toast slds-theme_error slds-scrollable_y" role="status">
                                 <span class="slds-assistive-text">error</span>
                                 <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top  button-selected icon-close_emptyCircle" data-title="Error"></span>
                                 <div class="slds-notify__content">
                                     <h2 class="slds-text-heading_small">Notification title</h2>
-                                    <p class="notifyText">Body text</p>
+                                    <p class="notifyText">Body text</p> -->
                                     <!-- ACTION BUTTON -->
-                                    <button class="slds-button slds-button_icon icon-action">
+                                    <!-- <button class="slds-button slds-button_icon icon-action">
                                         <span class="action">Action</span>
                                     </button>
                                 </div>
@@ -177,7 +186,7 @@
                                     <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </li>
@@ -322,7 +331,7 @@
             <!-- Añadir la clase item_error si ha ocurrido un error -->
             <!-- Añadir la clase item_disabled si el item está deshabilitado -->
             <!-- <li class="{!'slds-progress__item'+(v.trackingStep > 4 ?' slds-is-completed':(v.trackingStep == 4 ? ' slds-is-active': ' item_disabled'))}"> -->
-            <li class="{!'slds-progress__item'+(v.trackingStep > 4 ?' slds-is-completed':(v.trackingStep == 4 ? (v.payment.paymentStatus == '999' ? ' slds-is-completed item_error' : ' slds-is-completed item_success'): ' item_disabled'))}">
+            <li class="{!'step4 slds-progress__item'+(v.trackingStep > 4 ?' slds-is-completed':(v.trackingStep == 4 ? (v.payment.paymentStatus == '999' ? ' slds-is-completed item_error' : ' slds-is-completed item_success'): ' item_disabled'))}">
                 <div class="slds-icon_container slds-progress__marker slds-progress__marker_icon progressBar">
                     <div class="slds-media__figure containerIcon">
                         <span class="iconActive red"></span>
@@ -378,8 +387,10 @@
                                 <span class="slds-assistive-text">error</span>
                                 <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top  button-selected icon-close_emptyCircle" data-title="Error"></span>
                                 <div class="slds-notify__content">
-                                    <h2 class="slds-text-heading_small">Notification title</h2>
-                                    <p class="notifyText">Body text</p>
+                                    <h2 class="slds-text-heading_small">{!v.completed[0].comment1}</h2>
+                                    <p class="notifyText">
+                                        <c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.completed[0].statusDate}"/> {!', ' + v.completed[0].time + ' - ' + v.completed[0].comment2}
+                                    </p>
                                     <!-- ACTION BUTTON -->
                                     <button class="slds-button slds-button_icon icon-action">
                                         <span class="action">Action</span>

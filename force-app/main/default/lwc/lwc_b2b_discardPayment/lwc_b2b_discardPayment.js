@@ -6,12 +6,12 @@ import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
 
 // DESCOMENTAR LAS LABELS UNA VEZ ESTÉN EN EL ENTORNO
 import close from '@salesforce/label/c.close';
-// import B2B_DiscardPayment from '@salesforce/label/c.B2B_DiscardPayment';
-// import B2B_CancelPayment from '@salesforce/label/c.B2B_CancelPayment';
-// import B2B_DiscardPayment_YES from '@salesforce/label/c.B2B_DiscardPayment_YES';
-// import B2B_DiscardPayment_NO from '@salesforce/label/c.B2B_DiscardPayment_NO';
-// import B2B_CancelPayment_YES from '@salesforce/label/c.B2B_CancelPayment_YES';
-// import B2B_CancelPayment_NO from '@salesforce/label/c.B2B_CancelPayment_NO';
+import B2B_DiscardPayment from '@salesforce/label/c.B2B_DiscardPayment';
+import B2B_CancelPayment from '@salesforce/label/c.B2B_CancelPayment';
+import B2B_DiscardPayment_YES from '@salesforce/label/c.B2B_DiscardPayment_YES';
+import B2B_DiscardPayment_NO from '@salesforce/label/c.B2B_DiscardPayment_NO';
+import B2B_CancelPayment_YES from '@salesforce/label/c.B2B_CancelPayment_YES';
+import B2B_CancelPayment_NO from '@salesforce/label/c.B2B_CancelPayment_NO';
 
 export default class Lwc_b2b_discardPayment extends LightningElement {
 

@@ -169,60 +169,69 @@
  History
  <Date>			<Author>			    <Description>	    
  16/09/2020		Shahad Naji				Initial version
- 12/11/2020      Julian Hoyos            Change the values of reject atributes
+ 12/11/2020     Julian Hoyos            Change the values of reject atributes
  */    
- reverseLimits : function (component, event, helper){
-     return new Promise($A.getCallback(function (resolve, reject) {
-        /* var action = component.get("c.reverseLimits");
-         action.setParams({ 
-             operationId : component.get("v.payment.paymentId"),
-             serviceId : "add_international_payment_internal",
-             paymentData : component.get("v.payment")
-         });
-         action.setCallback(this, function(response) {
-             var state = response.getState();
-             if (state === "SUCCESS") {
-                 var  output = response.getReturnValue();
-                 if(output.success){
-                     resolve("ok");
-                 }else{
-                     reject({
-                         'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
-                         'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
-                         'noReload': false
-                     });
-                 }
-             }
-             
-             else if (state === "ERROR") {
-                 var errors = response.getError();
-                 if (errors) {
-                     if (errors[0] && errors[0].message) {
-                         console.log("Error message: " + 
-                                     errors[0].message);
-                     }
-                 } else {
-                     console.log("Unknown error");
-                 }
-                 reject({
-                     'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
-                     'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
-                     'noReload': false
-                 });
-             }else{
-                 console.log("Another error");
-                 reject({
-                     'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
-                     'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
-                     'noReload': false
-                 });
-             }
-         });       
-         $A.enqueueAction(action);*/
-         //PARCHE_FLOWERPOWER_SNJ
-         resolve('OK');
-     }), this);
- },
+    reverseLimits : function (component, event, helper){
+        return new Promise($A.getCallback(function (resolve, reject) {
+            var action = component.get("c.reverseLimits");    
+            var paymentObj = component.get("v.payment");  
+            action.setParams({ 
+                paymentData : paymentObj
+            }); action.setCallback(this, function(response) {
+                var state = response.getState();
+                if (state === "SUCCESS") {
+                    var  output = response.getReturnValue();
+                    if (output.success) { 
+                        if(!$A.util.isEmpty(output.value)){
+                            if (returnValue.value.limitsResult.toLowerCase() != ok.toLowerCase()) { 
+                                resolve('ok'); 
+                            }else{
+                                reject({
+                                    'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
+                                    'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
+                                    'noReload': false
+                                });
+                            }
+                        }else{
+                            resolve('ok'); 
+                        }                    
+                    } else {
+                        reject({
+                            'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
+                            'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
+                            'noReload': false
+                        });
+                        
+                    }
+                }
+                
+                else if (state === "ERROR") {
+                    var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log("Error message: " + 
+                                        errors[0].message);
+                        }
+                    } else {
+                        console.log("Unknown error");
+                    }
+                    reject({
+                        'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
+                        'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
+                        'noReload': false
+                    });
+                }else{
+                    console.log("Another error");
+                    reject({
+                        'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
+                        'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
+                        'noReload': false
+                    });
+                }
+            });       
+            $A.enqueueAction(action);
+        }), this);
+    },
  
  /*
  Author:        	R. Alex Cerviño
@@ -243,8 +252,40 @@
          let maxCharsDescription = component.get('v.charactersMax');
          let maxCharsSubject = component.get('v.charactersMaxSubject');
          if (!$A.util.isEmpty(subject)) {
+            
              if (description.length < maxCharsDescription && subject.length < maxCharsSubject) {
                  resolve("ok");
+             }
+             else if (subject.length > maxCharsSubject){//meter mensaje de caracteres en lugar del actual
+               // var msg = $A.get('$Label.c.B2B_Error_Enter_Input');//please enter
+                //component.set('v.errorSubject', msg.replace('{0}', $A.get("$Label.c.Subject")));
+                let length = subject.length;
+			    maxCharsSubject = maxCharsSubject - length;
+                var substraction = maxCharsSubject * -1;
+                var msg = $A.get("$Label.c.PAY_ErrorCharacters");
+                if(msg != undefined && msg != null){
+                    msg  = msg.replace("{0}", substraction);
+                }
+                component.set('v.errorSubject', msg);
+                reject({
+                    'title': null,
+                    'body': null,
+                    'noReload': null
+                });  
+             } else{
+                let length = description.length;
+                maxCharsDescription = maxCharsDescription - length;
+                var substraction = maxCharsDescription * -1;
+                var msg = $A.get("$Label.c.PAY_ErrorCharacters");
+                if(msg != undefined && msg != null){
+                    msg  = msg.replace("{0}", substraction);
+                }
+                component.set('v.errorDescription', msg);
+                reject({
+                    'title': null,
+                    'body': null,
+                    'noReload': null
+                }); 
              }
          } else {
              var msg = $A.get('$Label.c.B2B_Error_Enter_Input');
@@ -359,6 +400,36 @@ encrypt : function(component, data){
             $A.enqueueAction(action);
     });
   
+},
+/*
+ Author:        	Julian Hoyos MArtinez
+ Company:        Deloitte
+ Description:    Go to landing
+ History
+ <Date>			<Author>			<Description>
+ 14/01/2021      Julian Hoyos        Initial Version
+ */
+sendToLanding: function (component, event, helper, variable, signed) {
+    let navService = component.find('navService');
+    var url = '';
+    if (variable === 'review'){
+         url = 'c__review=' + signed;
+    } else if (variable === 'reject'){
+         url = 'c__reject=' + signed;
+    }
+    this.encrypt(component, url)
+    .then($A.getCallback(function (results) {
+        let pageReference = {
+            'type': 'comm__namedPage',
+            'attributes': {
+                'pageName': component.get('v.handleCancel')
+            },
+            'state': {
+                'params': results
+            }
+        }
+        navService.navigate(pageReference);
+    }));
 }
 
  

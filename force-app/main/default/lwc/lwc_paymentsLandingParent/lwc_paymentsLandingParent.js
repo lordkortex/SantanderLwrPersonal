@@ -13,7 +13,10 @@ import getUserData from '@salesforce/apex/CNT_PaymentsLandingParent.getUserData'
 import decryptData from '@salesforce/apex/CNT_PaymentsLandingParent.decryptData';
 import removeFile from '@salesforce/apex/CNT_PaymentsLandingParent.removeFile';
 import downloadPayments from '@salesforce/apex/CNT_PaymentsLandingParent.downloadPayments';
-
+import callToAccountsWithoutAttributions from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.callToAccountsWithoutAttributions';
+import discardAccountsByCountry from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.discardAccountsByCountry';
+import encryptAccountsData from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.encryptAccountsData';
+import decryptAccountsData from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.decryptAccountsData';
 
 //Import labels
 import B2B_Error_Problem_Loading from '@salesforce/label/c.B2B_Error_Problem_Loading';
@@ -26,6 +29,9 @@ import success from '@salesforce/label/c.success';
 import authorizeSuccess from '@salesforce/label/c.authorizeSuccess';
 import FCCError from '@salesforce/label/c.FCCError';
 import FCCErrorDescription from '@salesforce/label/c.FCCErrorDescription';
+import PAY_AccountsCache from '@salesforce/label/c.PAY_AccountsCache';
+import refreshBalanceCollout from '@salesforce/label/c.refreshBalanceCollout';
+
 
 
 export default class lwc_paymentsLandingParent extends LightningElement{
@@ -41,73 +47,125 @@ export default class lwc_paymentsLandingParent extends LightningElement{
 		success,
 		authorizeSuccess,
 		FCCError,
-		FCCErrorDescription,
+        FCCErrorDescription,
+        PAY_AccountsCache,
+        refreshBalanceCollout,
+
     }
 
-    @track currentUser //Current user data
+    @track currentUser = {}; //Current user data
     @track accountData  //Current account data
-    @track transferTypeParams 
-    @track singleNumRecords //Number of records in Single tab
-    @track multipleNumRecords //Number of records in Multiple tab
-    @track isSingleTabSelected //Attribute which detemines which tab is selected
-    @track singlePaymentStatusBoxes //A collection that contains the number of records of each payment status of Single tab
-    @track selectedPaymentStatusBox //Selected payment status
-    @track initialSinglePaymentList //List of single tab payments that are displayed in the table
-    @track singlePaymentList //List of single tab payments that are displayed in the table
+    @track transferTypeParams = {}; 
+    @track singleNumRecords = 0; //Number of records in Single tab
+    @track multipleNumRecords = 0; //Number of records in Multiple tab
+    @track isSingleTabSelected = true; //Attribute which detemines which tab is selected
+    @track singlePaymentStatusBoxes = []; //A collection that contains the number of records of each payment status of Single tab
+    @track selectedPaymentStatusBox = '';//Selected payment status
+    @track initialSinglePaymentList = []; //List of single tab payments that are displayed in the table
+    @track singlePaymentList = []; //List of single tab payments that are displayed in the table
     @track isSingleDataLoaded //Attribute which detemines wheather single data tab has been loaded or not
-    @track showDownloadModal //Boolean to show or hide download modal (lwc_paymentsLandingDownloadModal)
-    @track showFilterModal //Boolean to show or hide advanced filter modat (lwc_paymentsLandingFilterModal)
-    @track accounts //List of accounts
-    @track hasSearched //Controls wheather the user has made a search or not
-    @track isLoading //Controls whether the spinner shows when records are loading
-    @track showMethodModal //Controls whether the Payment Methods modal is open or not
-    @track resetSearch //Reset search when the button is clicked.
-    @track reload //Indicates if the conection with the service should be retried.
-    @track noService //No service so show empty table without spinner or error message if no payments.
-    @track singleCurrencyDropdownList //List of currencies that are displayed in the dropdown in Single tab
-    @track singleStatusDropdownList //List of statuses that are displayed in the dropdown in Single tab
-    @track singlePaymentMethodDropdownList //List of payment methods that are displayed in the dropdown in Single tab
-    @track singleCountryDropdownList //List of countries that are displayed in the dropdown in Single tab
-    @track simpleCountryDropdownList //List of countries displayed in Payment Method Modal dropdown
-    @track availableStatuses //List of status-reason pairs visible to front-end user
-    @track searchedString //Search information placed in the account search input.
-    @track selectedStatuses //List of selected statuses.
-    @track selectedCurrencies //List of selected currencies.
-    @track selectedMethod //Selected payment method.
-    @track pendingOfMyAuthorization //True when 'Pending of my authorization' header option is clicked.
-    @track isHeaderOptionSelected //True when a header option is selected.
-    @track filterCounter //Counts the number of types of filers selected (source account, amount, currency, status, payment method, client, reference, destination country, date)
-    @track showSpinner //Controls whether the spinner shows when whole page is loading
-    @track filteredPaymentList //List of payments filtered by the selected filters
-    @track reloadAccounts //Retry the call to retrieve list of accounts.
-    @track selectedRows //List of payment IDs selected in the table
-    @track isAllSelected   //Controls weather all rows are selected or not
+    @track showDownloadModal = false; //Boolean to show or hide download modal (lwc_paymentsLandingDownloadModal)
+    @track showFilterModal = false; //Boolean to show or hide advanced filter modat (lwc_paymentsLandingFilterModal)
+    @track accounts = []; //List of accounts
+    @track hasSearched = false; //Controls wheather the user has made a search or not
+    @track isLoading = false; //Controls whether the spinner shows when records are loading
+    @track showMethodModal = false; //Controls whether the Payment Methods modal is open or not
+    @track resetSearch = false; //Reset search when the button is clicked.
+    @track reload = false; //Indicates if the conection with the service should be retried.
+    @track noService = false; //No service so show empty table without spinner or error message if no payments.
+    @track singleCurrencyDropdownList = []; //List of currencies that are displayed in the dropdown in Single tab
+    @track singleStatusDropdownList = []; //List of statuses that are displayed in the dropdown in Single tab
+    @track singlePaymentMethodDropdownList = []; //List of payment methods that are displayed in the dropdown in Single tab
+    @track singleCountryDropdownList = []; //List of countries that are displayed in the dropdown in Single tab
+    @track simpleCountryDropdownList = []; //List of countries displayed in Payment Method Modal dropdown
+    @track availableStatuses = []; //List of status-reason pairs visible to front-end user
+    @track searchedString = ''; //Search information placed in the account search input.
+    @track selectedStatuses = []; //List of selected statuses.
+    @track selectedCurrencies = []; //List of selected currencies.
+    @track selectedMethod = ''; //Selected payment method.
+    @track pendingOfMyAuthorization = false; //True when 'Pending of my authorization' header option is clicked.
+    @track isHeaderOptionSelected = false; //True when a header option is selected.
+    @track filterCounter = 0; //Counts the number of types of filers selected (source account, amount, currency, status, payment method, client, reference, destination country, date)
+    @track showSpinner = true; //Controls whether the spinner shows when whole page is loading
+    @track filteredPaymentList = []; //List of payments filtered by the selected filters
+    @track reloadAccounts = false; //Retry the call to retrieve list of accounts.
+    @track selectedRows = []; //List of payment IDs selected in the table
+    @track isAllSelected = false; //Controls weather all rows are selected or not
 
     connectedCallback() {
         loadStyle(this, santanderStyle + '/style.css');
+        this.doInit();
     }
 
-    getClassFullScreen(){
-        return (showSpinner ? 'contentPayments slds-is-relative' : 'contentPayments');
+    get getClassFullScreen(){
+        return (this.showSpinner ? 'contentPayments slds-is-relative' : 'contentPayments');
+    }
+
+    openModal(){
+        this.showMethodModal = true;
+    }
+
+    closeModal(){
+        this.showMethodModal = false;
     }
     
-    doInit(event) {
-        this.doInitHelper(event);
-    }
+    doInit() {
+        this.showSpinner = true;
+        var isSingleTabSelected = this.isSingleTabSelected;
+        if (isSingleTabSelected == true) {
+            Promise.all([this.getURLParams()])
+            .then((value) => {
+                console.log('1. getURLParams ok');
+                return this.getCurrentUserData();
+            }, this)
+            .then((value) => {
+                console.log('2. getCurrentUserData ok');
+                return this.getAccountData();
+            }, this)    
+            .then((value) => {
+                console.log('3. getAccountData ok');
+                return this.getAccountsToList(this.currentUser); //GAA este método no existe en ningún sitio
+            }, this)
+            .then((value) => {
+                console.log('4. getAccountsToList ok');
+                return this.handleAccountsToList(JSON.parse(JSON.stringify(value)));
+            }, this)
+            .then((value) => {
+                console.log('5. handleAccountsToList ok');
+                return this.getPaymentsStatuses(isSingleTabSelected);
+            }, this)
+            .then((value) => {
+                console.log('6. getPaymentsStatuses ok');
+                return this.getPaymentsInformation(isSingleTabSelected);
+            }, this)
+            .catch((error) => {
+                console.log('### lwc_paymentsLandingParent ### doInit() ::: Catch error: ' + JSON.stringify(error));
+                this.showToast(error.title, error.body, error.noReload);
+            })
+            .finally(() => {
+                //document.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';
+                //this.template.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';
+                this.template.querySelector(".contentPayments").style.overflow = 'auto';
+                this.showSpinner = false;
+            });
+        } else {
+            console.log('### lwc_paymentsLandingParent ### doInit() ::: else');
+        }
+    }   
 
-    displayData(event) {
+    displayData() {
         this.showSpinner = true;
         this.noService = false;
         var isSingleTabSelected = this.isSingleTabSelected;
         if (isSingleTabSelected == true) {
             this.resetSearch = true;
             this.isSingleDataLoaded = false;
-            Promise.all([this.getCurrentUserData(event)])
+            Promise.all([this.getCurrentUserData()])
             .then( value => {
-                return this.getPaymentsStatuses(event, isSingleTabSelected);
+                return this.getPaymentsStatuses(isSingleTabSelected);
             }, this)
             .then( value => {
-                return this.getPaymentsInformation(event, isSingleTabSelected);
+                return this.getPaymentsInformation(isSingleTabSelected);
             }, this)
             .catch( error => {
                 console.log('### lwc_paymentsLandingParent ### displayData(event) ::: Catch error:' + error);
@@ -119,7 +177,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
         }
     }
         
-    handleHeaderSearch(event) {
+    handleHeaderSearch() {
         var selectedStatus = this.selectedPaymentStatusBox;
         if (selectedStatus) {
             var statusLst = [];
@@ -149,7 +207,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
             auxGetAccounts
             .catch((error) => {
                 console.log(error);
-                this.showToast(event, error.title, error.body, error.noReload);
+                this.showToast(error.title, error.body, error.noReload);
             })
             .finally(() => {
                this.showSpinner = false;
@@ -163,7 +221,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
         let reload = event.getParam('reload');
         let landing = event.getParam('landing');
         if (reload && landing) {
-            this.doInitHelper(event);
+            this.doInit(event);
         }
     }
 
@@ -215,7 +273,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
         if (params) {
             fileFormat = params.format;
         }
-        this.getDocumentId(event, fileFormat)
+        this.getDocumentId(fileFormat)
         .then((documentId) => {
             return this.downloadFile(event, documentId);
         })
@@ -223,7 +281,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
             this.removeFile(event, documentId);
         }, this)
         .catch((error) => {
-            this.showToast(event, error.title, error.body, error.noReload);
+            this.showToast(error.title, error.body, error.noReload);
         })
         .finally(() => this.showSpinner = false);
 
@@ -240,7 +298,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
             }
         }, this)
         .catch((error) {
-            this.showToast(event, error.title, error.body, error.noReload);
+            this.showToast(error.title, error.body, error.noReload);
         })
         .finally( () => this.showSpinner = false);
         }));
@@ -249,109 +307,67 @@ export default class lwc_paymentsLandingParent extends LightningElement{
     
     displaySendToReviewToast(event) {
         if(event){
-            this.showToast(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true);
+            this.showToast(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true);
         }
     }
-
-    doInitHelper(event) {
-       this.showSpinner = true;
-       this.noService = false;
-        var isSingleTabSelected = this.isSingleTabSelected;
-        if (isSingleTabSelected == true) {
-            Promise.all([
-                this.getURLParams(event)
-            ])
-            .then((value) => {
-                return this.getCurrentUserData();
-            }, this)
-            .then((value) => {
-                return this.getAccountData();
-            }, this)
-            .then((value) => {
-                return this.getAccountsToList(this.currentUser, this.accountData);
-            }, this)
-            .then((value) => {
-                return this.handleAccountsToList(value);
-            }, this)
-            .then((value) => {
-                return this.getPaymentsStatuses(event, isSingleTabSelected);
-            }, this)
-            .then((value) => {
-                return this.getPaymentsInformation(event, isSingleTabSelected);
-            }, this)
-            .catch((error) => {
-                console.log('### lwc_paymentsLandingParent ### doInitHelper ::: Catch error: ' + error);
-                this.showToast(event, error.title, error.body, error.noReload);
-            })
-            .finally(() => {
-                document.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';
-                this.showSpinner = false;
-            });
-        } else {
-            console.log('### lwc_paymentsLandingParent ### doInitHelper ::: else');
-        }
-    }    
     
-    getCurrentUserData(event) {
-        return new Promise((resolve, reject) => {
+    getCurrentUserData() {
+        var errorLoading = this.label.B2B_Error_Problem_Loading;
+        var errorCheckConnection = this.label.B2B_Error_Check_Connection;
+        var thisp = this;
+        return new Promise(function(resolve, reject) {
             getUserData()
             .then((result) => {
+                var currentUser = {};
+                console.log('GAA getCurrentUserData result: ' + JSON.stringify(result.value.userData));
                 if (result.success) {
                     if(result.value){
                         if(result.value.userData){
-                           this.currentUser = result.value.userData;
-                            resolve('getCurrentUserData_OK');
+                            currentUser = JSON.parse((JSON.stringify(result.value.userData)));//result.value.userData;
+                            thisp.currentUser = currentUser;
+                            resolve(result.value.userData);
+                            //resolve(result.value.userData);
                         }else{
                             reject({
-                                'title': this.label.B2B_Error_Problem_Loading,
-                                'body': this.label.B2B_Error_Check_Connection,
+                                'title': errorLoading,
+                                'body': errorCheckConnection,
                                 'noReload': false
                             });
                         }
                     }else{
                         reject({
-                            'title': this.label.B2B_Error_Problem_Loading,
-                            'body': this.label.B2B_Error_Check_Connection,
+                            'title': errorLoading,
+                            'body': errorCheckConnection,
                             'noReload': false
                         });
                     }                       
                     
                 } else {
                     reject({
-                        'title': this.label.B2B_Error_Problem_Loading,
-                        'body': this.label.B2B_Error_Check_Connection,
+                        'title': errorLoading,
+                        'body': errorCheckConnection,
                         'noReload': false
                     });
                 }
             })
             .catch((errors) => {
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log('Error message: ' + errors[0].message);
-                    }
-                }
+                console.log('### lwc_paymentsLandingParent ### getCurrentUserData() ::: Catch Error: ' + errors);
                 reject({
-                    'title': this.label.B2B_Error_Problem_Loading,
-                    'body': this.label.B2B_Error_Check_Connection,
+                    'title': errorLoading,
+                    'body': errorCheckConnection,
                     'noReload': false
                 });
             })
-            /*
-            else if (state === 'INCOMPLETE') {
-                reject({
-                    'title': this.label.B2B_Error_Problem_Loading,
-                    'body': this.label.B2B_Error_Check_Connection,
-                    'noReload': false
-                });
-            } 
-            */    
         }, this); 
     }
     
     getAccountData() {
-        return new Promise((resolve, reject) => {
+        var errorNotRetrieved = this.label.ERROR_NOT_RETRIEVED;
+        var thisp = this;
+        return new Promise(function(resolve, reject) {
             getAccountData()
             .then((result) => {
+                var accountData = {};
                 if (result.success) {
                     if (result.value.cib) {
                         accountData.cib = result.value.cib;
@@ -374,18 +390,20 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                         accountData.companyId = '2119'; // Añadir un error
                     }
                 }
-                this.accountData = accountData;
-                resolve('getAccountData_OK');
+                thisp.accountData = JSON.parse(JSON.stringify(accountData));
+                console.log('GAA getAccountData result: ' + JSON.stringify(accountData));
+                resolve(accountData);
             })
             .catch((errors) => {
+                console.log('### lwc_paymentsLandingParent ### getAccountData() ::: Catch Error: ' + errors);
                 if (errors) {
                     if (errors[0] && errors[0].message) {
                         console.log("Error message: " + errors[0].message);
                     }
                 }
                 reject({
-                    'header': this.label.ERROR_NOT_RETRIEVED,
-                    'text': this.label.ERROR_NOT_RETRIEVED,
+                    'header': errorNotRetrieved,
+                    'text': errorNotRetrieved,
                     'noReload': true
                 });
             })              
@@ -393,14 +411,16 @@ export default class lwc_paymentsLandingParent extends LightningElement{
     }
     
     handleAccountsToList(value) {	
-        return new Promise((resolve, reject) => {
+        var titleError = this.label.B2B_Error_Problem_Loading;
+        var bodyError = this.label.B2B_Error_Check_Connection;
+        this.accounts = value ? value : this.accounts;
+        return new Promise(function(resolve, reject) {
             if (value) {
-                this.accounts = value;
                 resolve('handleAccountsToList_OK');
             } else {
                 reject({
-                    'title': this.label.B2B_Error_Problem_Loading,
-                    'body': this.label.B2B_Error_Check_Connection,
+                    'title': titleError,
+                    'body': bodyError,
                     'noReload': false
                 });
             }
@@ -411,7 +431,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
     /*
     getCurrentAccounts(event) {	
         let accountList = this.accounts;
-        return new Promise((resolve, reject) => {
+        return new Promise(function(resolve, reject) {
             if (!accountList) {
                 var isCashNexusUser =  this.currentUser.isNexus;
                 console.log('global user id: ' + isCashNexusUser);                
@@ -425,7 +445,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                     } else {
                          console.log(this.label.B2B_Problem_accounts);
                          //this.showAccountsToast = true;
-                         this.showToast(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, false);
+                         this.showToast(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, false);
                      }
                      resolve('La ejecucion ha sido correcta.');
                 })
@@ -438,7 +458,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                         console.log(this.label.B2B_Problem_accounts);
                     }
                     //this.showAccountsToast = true;
-                    this.showToast(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, false);
+                    this.showToast(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, false);
                     reject(this.label.ERROR_NOT_RETRIEVED);
                 })
             }
@@ -446,69 +466,68 @@ export default class lwc_paymentsLandingParent extends LightningElement{
     }
     */    
     
-    getPaymentsStatuses(event, isSingleTabSelected) {
-        return new Promise((resolve, reject) => {
-            var accounts = this.accounts;
-            var globalUserId = this.currentUser.globalId;
-            var errorTitle = this.label.B2B_Error_Problem_Loading;
-            var errorBody = this.label.B2B_Error_Check_Connection;
-            var errorNoReload = false;
+    getPaymentsStatuses(isSingleTabSelected) {
+        var accounts = this.accounts;
+        var globalUserId = this.currentUser.globalId;
+        var errorTitle = this.label.B2B_Error_Problem_Loading;
+        var errorBody = this.label.B2B_Error_Check_Connection;
+        var errorNoReload = false;
+        var thisp = this;
+        return new Promise(function(resolve, reject) {
             getPaymentsStatuses({
                 'accountList': accounts,
                 'globalUserId': globalUserId
             })
             .then((result) => {
                 if (result.success) {  
-                    if (result != null &&  result != undefined && isSingleTabSelected) {
+                    if (result && isSingleTabSelected) {
                         if (result.value) {
                             if (result.value.output) {
                                 if (result.value.output.paymentStatusList) {                  
-                                   this.singlePaymentStatusBoxes = result.value.output.paymentStatusList;
+                                    thisp.singlePaymentStatusBoxes = result.value.output.paymentStatusList;
                                 }
                                 if (result.value.output.totalNumberOfRecords) {                  
-                                   this.singleNumRecords = result.value.output.totalNumberOfRecords;
+                                    thisp.singleNumRecords = result.value.output.totalNumberOfRecords;
                                 }
                                 resolve('ok');
                             } else {
                                 resolve('error statusHeader');
-                                this.showToast(event, errorTitle, errorBody, errorNoReload);
+                                thisp.showToast(errorTitle, errorBody, errorNoReload);
                             }
                         } else {
                             resolve('error statusHeader');
-                            this.showToast(event, errorTitle, errorBody, errorNoReload);
+                            thisp.showToast(errorTitle, errorBody, errorNoReload);
                         }
                     } else {
                         resolve('error statusHeader');
-                        this.showToast(event, errorTitle, errorBody, errorNoReload);
+                        thisp.showToast(errorTitle, errorBody, errorNoReload);
                     }                      
                 } else {
                     resolve('error statusHeader');
-                    this.showToast(event, errorTitle, errorBody, errorNoReload);
+                    thisp.showToast(errorTitle, errorBody, errorNoReload);
                 }
             })  
             .catch((errors) => {
+                console.log('lwc_paymentsLandingError');
                 if (errors) {
                     if (errors[0] && errors[0].message) {
                         console.log('Error message: ' + errors[0].message);
                     }
                 }
                 resolve('error statuseHeader');
-                this.showToast(event, errorTitle, errorBody, errorNoReload);
-            })       
-            /*
-            else if (state === 'INCOMPLETE') {
-            resolve('error statusHeader');
-            this.showToast(event, errorTitle, errorBody, errorNoReload);
-            }
-            */
-                     
+                thisp.showToast(errorTitle, errorBody, errorNoReload);
+            })         
         }, this); 
     }
        
-    getPaymentsInformation(event, isSingleTabSelected) {
-        return new Promise((resolve, reject) => {
+    getPaymentsInformation(isSingleTabSelected) {
+        var titleError = this.label.B2B_Error_Problem_Loading;
+        var bodyError = this.label.B2B_Error_Check_Connection;
+        var accounts = this.accounts;
+        var thisp = this;
+        return new Promise(function(resolve, reject) {
             getPaymentsInformation({     
-                'accountList': this.accounts
+                'accountList': accounts
             })
             .then((result) => {
                 if(isSingleTabSelected){
@@ -516,28 +535,28 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                         if(result.success){
                             if(result.value){
                                 if(result.value.output){
-                                    this.singleStatusDropdownList = result.value.output.statusList;
-                                    this.singleCurrencyDropdownList = result.value.output.currencyList;
-                                    this.singlePaymentMethodDropdownList = result.value.output.paymentTypeList;
-                                    this.singleCountryDropdownList = result.value.output.countryList;
-                                    this.simpleCountryDropdownList = result.value.output.countryList;                                         
-                                    this.initialSinglePaymentList = result.value.output.paymentsList;
-                                    this.singlePaymentList = result.value.output.paymentsList;
-                                    this.template.querySelector('paymentsLandingTable').setComponent(result.value.output.paymentsList);                                        
-                                    this.isSingleDataLoaded = true;
-                                    this.availableStatuses = result.value.output.availableStatuses;
+                                    thisp.singleStatusDropdownList = result.value.output.statusList;
+                                    thisp.singleCurrencyDropdownList = result.value.output.currencyList;
+                                    thisp.singlePaymentMethodDropdownList = result.value.output.paymentTypeList;
+                                    thisp.singleCountryDropdownList = result.value.output.countryList;
+                                    thisp.simpleCountryDropdownList = result.value.output.countryList;                                         
+                                    thisp.initialSinglePaymentList = result.value.output.paymentsList;
+                                    thisp.singlePaymentList = result.value.output.paymentsList;
+                                    thisp.template.querySelector('paymentsLandingTable').setComponent(result.value.output.paymentsList);                                        
+                                    thisp.isSingleDataLoaded = true;
+                                    thisp.availableStatuses = result.value.output.availableStatuses;
                                     resolve('getPaymentsInformation_OK'); 
                                 }else{
                                     reject({
-                                        'title': this.label.B2B_Error_Problem_Loading,
-                                        'body': this.label.B2B_Error_Check_Connection,
+                                        'title': titleError,
+                                        'body': bodyError,
                                         'noReload': false
                                     }); 
                                 } 
                             }else{
                                 reject({
-                                    'title': this.label.B2B_Error_Problem_Loading,
-                                    'body': this.label.B2B_Error_Check_Connection,
+                                    'title': titleError,
+                                    'body': bodyError,
                                     'noReload': false
                                 });
                             }
@@ -545,36 +564,36 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                         }else{
                             if(result.value){
                                 if(result.value.output){
-                                    this.singleStatusDropdownList = result.value.output.statusList;
-                                    this.singleCurrencyDropdownList = result.value.output.currencyList;
-                                    this.singlePaymentMethodDropdownList = result.value.output.paymentTypeList;
-                                    this.singleCountryDropdownList = result.value.output.countryList;
-                                    this.simpleCountryDropdownList = result.value.output.countryList;
-                                    this.isSingleDataLoaded = true;
+                                    thisp.singleStatusDropdownList = result.value.output.statusList;
+                                    thisp.singleCurrencyDropdownList = result.value.output.currencyList;
+                                    thisp.singlePaymentMethodDropdownList = result.value.output.paymentTypeList;
+                                    thisp.singleCountryDropdownList = result.value.output.countryList;
+                                    thisp.simpleCountryDropdownList = result.value.output.countryList;
+                                    thisp.isSingleDataLoaded = true;
                                     reject({
-                                        'title': this.label.B2B_Error_Problem_Loading,
-                                        'body': this.label.B2B_Error_Check_Connection,
+                                        'title': titleError,
+                                        'body': bodyError,
                                         'noReload': false
                                     }); 
                                 }else{
                                     reject({
-                                        'title': this.label.B2B_Error_Problem_Loading,
-                                        'body': this.label.B2B_Error_Check_Connection,
+                                        'title': titleError,
+                                        'body': bodyError,
                                         'noReload': false
                                     }); 
                                 }
                             }else{
                                 reject({
-                                    'title': this.label.B2B_Error_Problem_Loading,
-                                    'body': this.label.B2B_Error_Check_Connection,
+                                    'title': titleError,
+                                    'body': bodyError,
                                     'noReload': false
                                 });
                             }
                         }
                     }else{
                         reject({
-                            'title': this.label.B2B_Error_Problem_Loading,
-                            'body': this.label.B2B_Error_Check_Connection,
+                            'title': titleError,
+                            'body': bodyError,
                             'noReload': false
                         }); 
                     }
@@ -587,25 +606,16 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                     }
                 }
                 reject({
-                    'title': this.label.B2B_Error_Problem_Loading,
-                    'body': this.label.B2B_Error_Check_Connection,
+                    'title': titleError,
+                    'body': bodyError,
                     'noReload': false
                 });
-            })              
-            /*        
-            else if (state === 'INCOMPLETE') {
-                reject({
-                    'title': this.label.B2B_Error_Problem_Loading,
-                    'body': this.label.B2B_Error_Check_Connection,
-                    'noReload': false
-                });
-            }
-            */ 
+            })
         }, this);
     }
     
     searchOperationsList(event) {        
-        return new Promise( (resolve, reject) => {
+        return new Promise(function(resolve, reject) {
             var globalUserId = event.getParam('globalUserId'); 
             var pendingAuthorization = event.getParam('pendingAuthorization'); 
             var latestOperationsFlag = false;//event.getParam('latestOperationsFlag'); 
@@ -660,33 +670,22 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                 this.template.querySelector('paymentsLandingTable').setComponent(null);
                 this.singlePaymentList = null;
                 reject(this.label.ERROR_NOT_RETRIEVED);
-            })
-            /*
-            } else if (state === 'INCOMPLETE') {
-                reject(this.label.ERROR_NOT_RETRIEVED);
-            });
-            */        
+            })       
         }, this); 
     }
     
-    showToast(event, title, body, noReload) {
-        var errorToast = this.template.querySelector('[data-id="errorToast"]');
-        this.noService = true;
-        if (errorToast) {
-            errorToast.openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload, true);
-        }
+    showToast(title, body, noReload) {
+        this.template.querySelector('c-lwc_b2b_toast').openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload, true);
     }
     
-    showSuccessToast(event, title, body) {
-        var successToast = this.template.querySelector('[data-id="successToast"]');
-        this.noService = true;
-        if (successToast) {
-            successToast.openToast(false, false, title,  body, 'Success', 'success', 'success', true, true);
-        }
+    showSuccessToast(title, body) {
+       this.template.querySelector('c-lwc_b2b_toast').openToast(false, false, title,  body, 'Success', 'success', 'success', true, true);
     }    
     
-    getDocumentId(event, fileFormat) {
-        return new Promise( function (resolve, reject) {
+    getDocumentId(fileFormat) {
+        var errorLoading = this.label.B2B_Error_Problem_Loading;
+        var errorCheckConnection = this.label.B2B_Error_Check_Connection;
+        return new Promise(function(resolve, reject) {
             var documentId = '';
             downloadPayments({
                 "accountList": this.accounts,
@@ -704,34 +703,34 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                                 }
                                 var toastText = this.label.PAY_fileDownloaded;
                                 toastText = toastText.replace("{0}", fileName);
-                                this.showSuccessToast(event, this.label.PAY_downloadSuccessful, toastText);
+                                this.showSuccessToast(this.label.PAY_downloadSuccessful, toastText);
                                 resolve(documentId);
                             }else {
                                 reject({
-                                    'title': this.label.B2B_Error_Problem_Loading,
-                                    'body': this.label.B2B_Error_Check_Connection,
+                                    'title': errorLoading,
+                                    'body': errorCheckConnection,
                                     'noReload': true
                                 });
                             }
                         } else {
                             reject({
-                                'title': this.label.B2B_Error_Problem_Loading,
-                                'body': this.label.B2B_Error_Check_Connection,
+                                'title': errorLoading,
+                                'body': errorCheckConnection,
                                 'noReload': true
                             });
                         }
                     } else {
                         reject({
-                            'title': this.label.B2B_Error_Problem_Loading,
-                            'body': this.label.B2B_Error_Check_Connection,
+                            'title': errorLoading,
+                            'body': errorCheckConnection,
                             'noReload': true
                         });
                     }
                     
                 } else {
                     reject({
-                        'title': this.label.B2B_Error_Problem_Loading,
-                        'body': this.label.B2B_Error_Check_Connection,
+                        'title': errorLoading,
+                        'body': errorCheckConnection,
                         'noReload': true
                     });
                 }
@@ -743,21 +742,11 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                     }
                 }
                 reject({
-                    'title': this.label.B2B_Error_Problem_Loading,
-                    'body': this.label.B2B_Error_Check_Connection,
+                    'title': errorLoading,
+                    'body': errorCheckConnection,
                     'noReload': true
                 });
             })
-            /*
-            if (state === 'INCOMPLETE') { GAA
-                    reject({
-                        'title': this.label.B2B_Error_Problem_Loading,
-                        'body': this.label.B2B_Error_Check_Connection,
-                        'noReload': true
-                    });
-                } 
-            });    
-            */    
         }, this); 
     }    
     
@@ -782,15 +771,17 @@ export default class lwc_paymentsLandingParent extends LightningElement{
     }
     
     downloadFile(event, documentId) {
-        return new Promise( (resolve, reject) => {
+        var errorLoading = this.label.B2B_Error_Problem_Loading;
+        var errorCheckConnection = this.label.B2B_Error_Check_Connection;
+        return new Promise(function(resolve, reject) {
             if(documentId!=null && documentId!='' && documentId!=undefined){
                 var domain = this.label.domainCashNexus;
                 window.location.href = domain+'/sfc/servlet.shepherd/document/download/'+documentId+'?operationContext=S1';
                 resolve(documentId);
             } else {
                 reject({
-                    'title': this.label.B2B_Error_Problem_Loading,
-                    'body': this.label.B2B_Error_Check_Connection,
+                    'title': errorLoading,
+                    'body': errorCheckConnection,
                     'noReload': true
                 });
             }
@@ -800,7 +791,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
     decrypt(data) {
         try {
             var result = "null"; 
-            return new Promise(function (resolve, reject) {
+            return new Promise(function(resolve, reject) {
                 decryptData({ 
                     str : data 
                 })
@@ -826,7 +817,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
         }
     }
 
-    getURLParams(event) {
+    getURLParams() {
         try {
             var sPageURLMain = decodeURIComponent(window.location.search.substring(1));
             var sURLVariablesMain = sPageURLMain.split('&')[0].split("=");
@@ -834,7 +825,7 @@ export default class lwc_paymentsLandingParent extends LightningElement{
             var sPageURL;
             if (sURLVariablesMain[0] == 'params') {
                 if (sURLVariablesMain[1] != '' && sURLVariablesMain[1] != undefined && sURLVariablesMain[1] != null) {
-                    //this.decrypt(sURLVariablesMain[1]).then($A.getCallback(function (results) {
+                    //this.decrypt(sURLVariablesMain[1]).then( (results) {
                     this.decrypt(sURLVariablesMain[1]).then( (results) => {
                         sURLVariablesMain[1] === undefined ? 'Not found' : sPageURL = results;
                         var sURLVariables = sPageURL.split('&');
@@ -843,20 +834,189 @@ export default class lwc_paymentsLandingParent extends LightningElement{
                             sParameterName = sURLVariables[i].split('=');
                             if (sParameterName[0] === 'c__signed') {
                                 if(sParameterName[1] && sParameterName[1] != 'false'){
-                                    this.showSuccessToast(event, this.label.success, this.label.authorizeSuccess);
+                                    this.showSuccessToast(this.label.success, this.label.authorizeSuccess);
                                 }
                             }
                             if (sParameterName[0] === 'c__FFCError') {
                                 if (sParameterName[1] && sParameterName[1] == 'true') {
-                                    this.showToast(event, this.label.FCCError, this.label.FCCErrorDescription, true);
+                                    this.showToast(this.label.FCCError, this.label.FCCErrorDescription, true);
                                 }
                             }
                         }
                     });
                 }
+            } else{
+                //console.log('GAA No existen parámetros en la URL: ' + sURLVariablesMain);
             }
+        
         } catch (e) {
             console.log('### lwc_paymentsLandingParent ### getURLParams(event) ::: Catch error: ' + e);
         }
+    }
+
+    getAccountsToList(userData) {
+        var errorLoading = this.label.B2B_Error_Problem_Loading;
+        var errorProblemAccounts = this.label.B2B_Problem_accounts;
+        var errorCheckConnection = this.label.B2B_Error_Check_Connection;
+        return new Promise( (resolve, reject) => {
+            let key = 'AccountsToList';
+            this.handleRetrieveFromCache(key)
+            .then( (value) => {
+                if (value) {
+                    resolve(value);
+                } else {
+                    this.callToAccountsWithoutAttributions(userData)
+					.then( (value) => {
+                        return this.discardAccountsByCountry(userData, value);
+                    }).then( (value) => {
+                        return this.handleSaveToCache(key, value);
+                    }).then( (value) => {
+                        resolve(value);
+                    }).catch( (error) => {
+                        console.log(error);
+                        reject({
+                            'title': errorLoading,
+                            'body': errorProblemAccounts,
+                            'noReload': false
+                        });
+                    });
+                }
+            }).catch( (error) => {
+                console.log(error);
+                reject({
+                    'title': errorLoading,
+                    'body': errorCheckConnection,
+                    'noReload': false
+                });
+            });
+        }, this);
+    }
+
+    handleRetrieveFromCache(key) {
+        return new Promise( (resolve, reject) => {
+            const PAY_AccountsCache = this.label.PAY_AccountsCache;
+            if (PAY_AccountsCache === 'false') {
+                resolve(null);
+            } else {
+                let userId = this.userId;
+                let data = window.localStorage.getItem(userId + '_' + key);
+                let timestamp = window.localStorage.getItem(userId + '_' + key + '_timestamp');
+                let isFreshData = timestamp != 'null' && timestamp != undefined && ((new Date() - new Date(Date.parse(timestamp))) < parseInt(this.label.refreshBalanceCollout) * 60000);
+                console.log(timestamp);
+                console.log(isFreshData);
+                if (data && isFreshData) {
+                    decryptAccountsData({ 
+                        str : data
+                    })
+                    .then( response =>{
+                        let stateRV = response;
+                        if (stateRV.success == true) {
+                            if (stateRV.value.result) {
+                                let result = stateRV.value.result;
+                                resolve(JSON.parse(result));
+                            } else {
+                                reject('REJECT');
+                            }                           
+                        } else {
+                            reject('REJECT');
+                        }
+                    })
+                    .catch( error => {
+                        let errors = error;
+                        if (errors) {
+                            if (errors[0] && errors[0].message) {
+                                console.log('Error message: ' + errors[0].message);
+                            }
+                        }
+                        reject('REJECT');
+                    })
+                } else {
+                    resolve(undefined);
+                }
+            }
+        });
+    }
+
+    callToAccountsWithoutAttributions(nexus) {
+        return new Promise( (resolve, reject) => {
+            callToAccountsWithoutAttributions({
+                'userData': nexus
+            })
+            .then( (result) => {
+                var stateRV = result;
+                if (stateRV.success) {
+                    resolve(stateRV.value.accountList);
+                } else {
+                    reject('callToAccountsWithAttributions_ERROR');
+                }
+            })
+            .catch( (errors) => {
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log('Error message: ' + errors[0].message);
+                    }
+                }
+                reject('callToAccountsWithAttributions_ERROR');
+            })           
+        }, this);
+    }
+
+    discardAccountsByCountry(userData, accountList){
+        return new Promise( (resolve, reject) => {
+            discardAccountsByCountry({
+                'userData': userData,
+                'accountList': accountList
+            })
+            .then( (result) => {
+                var stateRV = result;
+                if (stateRV.success) {
+                    resolve(stateRV.value.accountList);
+                } else {
+                    reject('discardAccountsByCountry_ERROR');
+                }
+            })
+            .catch( (erros) => {
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log('Error message: ' + errors[0].message);
+                    }
+                }
+                reject('discardAccountsByCountry_ERROR');
+            })
+        }, this);
+    }
+
+    handleSaveToCache(key, data) {
+        const PAY_AccountsCache = this.label.PAY_AccountsCache;
+        return new Promise( (resolve, reject) => {
+            if (PAY_AccountsCache === 'false') {
+                resolve(data);
+            } else {
+                let userId = this.userId
+                encryptAccountsData({
+                    str : JSON.stringify(data)
+                })
+                .then( response => {
+                    let stateRV = response;
+                    if (stateRV.success) {
+                        let result = stateRV.value.result;
+                        window.localStorage.setItem(userId + '_' + key, result);
+                        window.localStorage.setItem(userId + '_' + key + '_timestamp', new Date());
+                        resolve(data);
+                    } else {
+                        reject('REJECT');
+                    }
+                })
+                .catch( error => {
+                    let errors = error;
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log('Error message: ' + errors[0].message);
+                        }
+                    }
+                    reject('REJECT');
+                })
+            }
+        });
     }
 }

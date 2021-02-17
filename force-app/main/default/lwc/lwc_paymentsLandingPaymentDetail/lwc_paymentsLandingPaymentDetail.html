@@ -1,27 +1,38 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-16-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   02-14-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
 <template>
 
     <c-lwc_service-component data-id='Service'></c-lwc_service-component>
     <c-lwc_b2b_toast data-id="errorToast" reload={reload}></c-lwc_b2b_toast>
-    <c-lwc_b2b_toast data-id="successToast" reload={reload}></c-lwc_b2b_toast>
 
-    <!--<template if:true={!not(empty(v.payment))}>
-        <c:CMP_B2B_REDOModal payment="{payment}" showRedo="{showRedo}" clientReference="{payment.clientReference}" action="{action}"/>
-    </template>-->
+    <!--<template if:false={isPaymentEmpty}>-->
+        <template if:true={showRedo}>
+            <c-lwc_b2b_redomodal payment={payment} showredo={showRedo} client-reference={clientReference}  action={action} oncloseactionevent={closeAction}></c-lwc_b2b_redomodal>
+        </template>
+    <!--</template>-->
 
-  
     <div class="slds-is-relative">
         <div class="slds-grid breadcrumbs">
             <div class="slds-col slds-size-1-of-2">
-                <button class="slds-button button_link" onclick={handleBack}><span class="icon_left icon-arrowLeft_big"></span>{label.back}</button>
+                <button class="slds-button button_link" onclick={handleBack}><span
+                        class="icon_left icon-arrowLeft_big"></span>{label.back}</button>
                 <div class="slds-text-heading_medium">
                     {label.PAY_TransactionDetail}
                 </div>
             </div>
             <div class="slds-col slds-size-1-of-2">
-                <button class="slds-button button_link" onclick={printScreen}><span class="icon_left icon-print"></span>{label.T_Print}</button>
+                <button class="slds-button button_link" onclick={printScreen}><span
+                        class="icon_left icon-print"></span>{label.T_Print}</button>
             </div>
         </div>
-
 
         <div class={isShowMoreDetailClass}>
             <div class="paymentStatus">
@@ -32,99 +43,114 @@
                                 <div class="col-status">
                                     <div class="status-title">
                                         <!-- REJECTED -->
-                                        <template if:true={isPaymentRejected}>
+                                        <!--<template if:true={isPaymentRejected}>
+                                            <span class="status_rejected">{payment.parsedPaymentStatus}</span>
+                                        </template>-->
+                                        <!-- IN PROGRESS -->
+                                        <!-- <template if:true={isPaymentInProgress}>
+                                            <span class="status_inProgress">{payment.parsedPaymentStatus}</span>
+                                        </template>-->
+                                        <!-- ON HOLD -->
+                                        <!-- <template if:true={isPaymentOnHold}>
+                                            <span class="status_onHold">{payment.parsedPaymentStatus}</span>
+                                        </template>-->
+                                        <!-- COMPLETED -->
+                                        <!-- <template if:true={isPaymentCompleted}>
+                                            <span class="status_completed">{payment.parsedPaymentStatus}</span>
+                                        </template>-->
+                                        <!-- PENDING AUTHORIZATION -->
+                                        <!-- <template if:true={isPaymentPending}>
+                                            <span class="status_pending">{payment.parsedPaymentStatus}</span>
+                                        </template>-->
+                                        <template if:true={isPaymentStatus001}>
+                                            <span class="status_draft">{payment.parsedPaymentStatus}</span>
+                                        </template>
+                                        <template if:true={isPaymentStatus002}>
+                                            <span class="status_pending">{payment.parsedPaymentStatus}</span>
+                                        </template>
+                                        <template if:true={isPaymentStatus003}>
+                                            <span class="status_review">{payment.parsedPaymentStatus}</span>
+                                        </template>
+                                        <template if:true={isPaymentStatus997}>
                                             <span class="status_rejected">{payment.parsedPaymentStatus}</span>
                                         </template>
-                                        <!-- IN PROGRESS -->
-                                        <template if:true={isPaymentInProgress}>
-                                            <span class="status_inProgress">{payment.parsedPaymentStatus}</span>
-                                        </template>
-                                        <!-- ON HOLD -->
-                                        <template if:true={isPaymentOnHold}>
-                                            <span class="status_onHold">{payment.parsedPaymentStatus}</span> 
-                                        </template>
-                                        <!-- COMPLETED -->
-                                        <template if:true={isPaymentCompleted}>
+                                        <template if:true={isPaymentStatus101}>
                                             <span class="status_completed">{payment.parsedPaymentStatus}</span>
                                         </template>
-                                        <!-- PENDING AUTHORIZATION -->
-                                        <template if:true={isPaymentPending}>
-                                            <span class="status_pending">{payment.parsedPaymentStatus}</span>
+                                        <template if:true={isPaymentStatus201}>
+                                            <span class="status_inProgress">{payment.parsedPaymentStatus}</span>
+                                        </template>
+                                        <template if:true={isPaymentStatus998}>
+                                            <span class="status_rejected">{payment.parsedPaymentStatus}</span>
+                                        </template>
+                                        <template if:true={isPaymentStatus202}>
+                                            <span class="status_inProgress">{payment.parsedPaymentStatus}</span>
+                                        </template>
+                                        <template if:true={isPaymentStatus999}>
+                                            <span class="status_rejected">{payment.parsedPaymentStatus}</span>
+                                        </template>
+                                        <!-- <template if:true="{!item.paymentStatus == ''}">
+                                                <span class="slds-badge badgeInProgress" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </template> -->
+                                        <template if:true={isPaymentStatus102}>
+                                            <span class="status_completed">{payment.parsedPaymentStatus}</span>
+                                        </template>
+                                        <template if:true={isPaymentStatus801}>
+                                            <span class="status_onHold">{payment.parsedPaymentStatus}</span> 
+                                        </template>
+                                        <template if:true={isPaymentStatus800}>
+                                            <span class="status_onHold">{payment.parsedPaymentStatus}</span> 
+                                        </template>
+                                        <template if:true={isPaymentStatus103}>
+                                            <span class="status_completed">{payment.parsedPaymentStatus}</span>
                                         </template>
                                     </div>
                                     <div class="subDate">{subDate}</div>
                                     <div class="date">{label.PAY_StatusUpdate}&nbsp;
-                                        <!--<c:CMP_displayDate aura:id="displayDate"  userDateFormat="{currentUser.dateFormat}" dateClass="" date="{payment.statusUpdateDate}"/></div>-->
-                                        <!--<c-lwc_display-date userdateformat={userPreferredDateFormat} dateclass="" date={lastinfodate}></c-lwc_display-date>-->
+                                        <c-lwc_display-date userdateformat={userPreferredDateFormat} dateclass="" date={statusUpdateDate}></c-lwc_display-date>
+                                    </div>
                                 </div>
                                 <div class="col-transactionFees">
                                     <div class="slds-card__header-title separation transaction">
                                         <span class="space">{label.amount}</span>
-                                        <template if:false={isLoading}>
                                             <div>
-                                                <!--c:CMP_displayAmount 
-                                                amount="{payment.amountReceive}" 
-                                                decimalClass="currency" 
-                                                wholeClass="number" 
-                                                currencyClass="currency" 
-                                                currency="{payment.paymentCurrency}" 
-                                                numberFormat="{currentUser.numberFormat}" />
-
-                                                <c-lwc_display-amount 
-                                                    data-id="bookBalance"
-                                                    amount={_bookBalance} 
-                                                    decimalclass="bookDecimals" 
-                                                    wholeclass="bookInteger" 
-                                                    currencyClass="currency" 
-                                                    currency={icurrency} 
-                                                    numberformat={userpreferrednumberformat}>
-                                                </c-lwc_display-amount>-->
-
-
+                                                <c-lwc_display-amount data-id="amountReceive"
+                                                    amount={payment.amountReceive} decimalclass="currency"
+                                                    wholeclass="number" currencyclass="currency"
+                                                    currency={payment.paymentCurrency}
+                                                    numberformat={userPreferredNumberFormat}>
+                                                </c-lwc_display-amount>
                                             </div>
-                                        </template>
                                     </div>
                                     <div class="slds-card__header-title fees separation">
-                                    <span class="space">{label.Fees}</span>
-                                    <template if:false={isLoading}>
-                                        <span class="numberFee">
-                                            <template if:true={isPaymentFeesEmpty}>
-                                                {label.PAY_Not_Available}
-                                            </template>
-                                            <template if:false={isPaymentFeesEmpty}>
-                                                    <!--<c:CMP_displayAmount 
-                                                    amount="{payment.fees}" 
-                                                    currency="{payment.feesCurrency}" 
-                                                    numberFormat="{currentUser.numberFormat}" />
-
-                                                    <c-lwc_display-amount 
-                                                    data-id="bookBalance"
-                                                    amount={_bookBalance} 
-                                                    decimalclass="bookDecimals" 
-                                                    wholeclass="bookInteger" 
-                                                    currencyClass="currency" 
-                                                    currency={icurrency} 
-                                                    numberformat={userpreferrednumberformat}>
-                                                </c-lwc_display-amount>-->
-                                            </template>
-                                        </span>
-                                    </template>  
+                                        <span class="space">{label.Fees}</span>
+                                            <span class="numberFee">
+                                                <template if:true={isPaymentFeesEmpty}>
+                                                    {label.PAY_Not_Available}
+                                                </template>
+                                                <template if:false={isPaymentFeesEmpty}>
+                                                    <c-lwc_display-amount data-id="amountReceive"
+                                                        amount={payment.fees} 
+                                                        currency={payment.feesCurrency}
+                                                        numberformat={userPreferredNumberFormat}>
+                                                    </c-lwc_display-amount>
+                                                </template>
+                                            </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-			
-			
-			
+
             <div class="paymentInformation">
                 <table class="slds-table slds-table_cell-buffer slds-no-row-hover">
                     <thead>
                         <tr class="slds-line-height_reset">
                             <th class="" scope="col">
-                                <div class="slds-truncate ">{label.from}</div>
+                                <div class="slds-truncate ">{label.fromlabel}</div>
                             </th>
                             <th class="" scope="col">
                                 <div class="slds-truncate">{label.to}</div>
@@ -167,13 +193,13 @@
                             </td>
                             <td data-label="Charges">
                                 <div class="slds-truncate">{payment.chargeBearer}</div>
-                            </td>   
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-			
-			
+
+
             <div class="paymentInformation_detail">
                 <div class="slds-grid">
                     <div class="slds-col">
@@ -208,7 +234,12 @@
                             <p class="slds-truncate">{payment.parsedDestinationCountry}</p>
                         </div>
                         <div class="row">
-                            <p class="slds-truncate">{label.PAY_SwiftCode}</p>
+                            <template if:true={isPaymentDestinationCountryCL}>
+                                <p class="slds-truncate">{label.RUT}</p>
+                            </template>
+                            <template if:false={isPaymentDestinationCountryCL}>
+                                <p class="slds-truncate">{label.PAY_SwiftCode}</p>
+                            </template>
                             <p class="slds-truncate">{payment.beneficiarySwiftCode}</p>
                         </div>
                     </div>
@@ -216,44 +247,89 @@
                         <div class="row">
                             <p class="slds-truncate">{label.PAY_ProcessDate}</p>
                             <p class="slds-truncate">
-                                <template if:false={isLoading}>
-                                    <!--<c:CMP_displayDate userDateFormat="{currentUser.dateFormat}" dateClass="" date="{payment.operationStep1Data.valueDate}"/>
-                                    <c-lwc_display-date userdateformat={userPreferredDateFormat} dateclass="" date={lastinfodate}></c-lwc_display-date>-->
-                                </template>        
+                                    <c-lwc_display-date id='paymentOperationStep1DataId' userdateformat={userPreferredDateFormat} dateclass="" date={paymentOperationStep1Data}></c-lwc_display-date>
                             </p>
                         </div>
                         <div class="row">
-                            <p class="slds-truncate">{label.PaymentID}</p>
+                            <p class="slds-truncate">{label.PaymentIDLabel}</p>
                             <p class="slds-truncate">{payment.paymentId}</p>
                         </div>
                         <div class="row">
                             <p class="slds-truncate">{label.reference}</p>
                             <p class="slds-truncate">{payment.subject}</p>
                         </div>
+                        <template if:true={isParsedCommercialCodeNotEmpty}>
+                            <div class="row">
+                                <p class="slds-truncate">{label.PAY_CommercialCode}</p>
+                                <p class="slds-truncate">{payment.parsedCommercialCode}</p>
+                            </div>
+                        </template>
                     </div>
                 </div>
+
+                 <!--if cuenta de comisiones-->
+                <template if:true={isSourceFeeDataNotEmpty}>
+                    <template if:true={isSourceFeeDataSourceAccountNotEmpty}>
+                        <template if:true={isSourceFeeDataSourceAccountAccountIdNotEmpty}>
+                            <div class="extendedDetails">
+                                <div class="slds-truncate slds-text-heading_medium">{label.PAY_ExpensesAccount}</div>
+                                <div class="slds-grid">
+                                    <div class="slds-col">
+                                        <div class="row">
+                                            <p class="slds-truncate">{label.PAY_AccountHolder}</p> !!!!
+                                            <p class="slds-truncate">{payment.sourceFeeData.name}</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="slds-truncate">{label.Corporate}</p> !!!!
+                                            <p class="slds-truncate">{payment.sourceFeeData.name}</p>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="row">
+                                            <p class="slds-truncate">{label.Country}</p> !!!!
+                                            <p class="slds-truncate">{payment.sourceFeeData.parsedCountry}</p>
+                                        </div>
+                                        <div class="row">
+                                            <p class="slds-truncate">{label.PAY_AccountNumber}</p> !!!!
+                                            <template if:true={isSourceFeeDataSourceAccountAccountIdNotEmpty}>
+                                                <p class="slds-truncate">{payment.sourceFeeData.sourceAccount.accountId}</p>
+                                            </template>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="row">
+                                            <p class="slds-truncate">{label.PAY_AccountBank}</p> !!!!
+                                            <template if:true={isSourceFeeDataSourceAgentNotEmpty}>
+                                                <p class="slds-truncate">{payment.sourceFeeData.sourceAgent.name}</p>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </template>
             </div>
-			
-			
+
             <div class="links">
                 <button class="slds-button button_link" onclick={moreDetail}>{label.MoreDetail}<span class="icon_right icon-arrowDown_small"></span></button>
                 <button class="slds-button button_link" onclick={lessDetail}>{label.LessDetail}<span class="icon_right icon-arrowUp_small"></span></button>
             </div>
-			
-			
-            <template if:false={isLoading}>
-                <div class="actions">
+
+            <div class="actions">
                     <template if:true={actions.edit}>
                         <button class="slds-button secondary button_small button_full" onclick={handleEdit}>{label.editPayment}</button>
                     </template>
                     <template if:true={actions.discard}>
-                        <button class="slds-button secondary button_small button_full" onclick={goToDiscard}>{label.PAY_discardPayment}</button>
+                        <button class="slds-button secondary button_small button_full"  onclick={handleshowDiscardModal}>{label.PAY_discardPayment}</button>
                     </template>
                     <template if:true={actions.reuse}>
                         <button class="slds-button secondary button_small button_full" onclick={handleReuse}>{label.PAY_reusePayment}</button>
                     </template>
                     <template if:true={actions.addToTemplate}>
-                        <button class="slds-button secondary button_small button_full">{label.PAY_addToTemplate}</button>
+                        <button
+                            class="slds-button secondary button_small button_full">{label.PAY_addToTemplate}</button>
                     </template>
                     <template if:true={actions.authorize}>
                         <button class="slds-button primary button_small button_full" onclick={handleAuthorize}>{label.Authorize}</button>
@@ -265,36 +341,41 @@
                         <button class="slds-button secondary button_small button_full" onclick={goToRedo}>{label.PAY_SendToReview}</button>
                     </template>
                     <template if:true={actions.trySaveAgain}>
-                        <button class="slds-button secondary button_small button_full">{label.PAY_trySaveAgain}</button>
+                        <button
+                            class="slds-button secondary button_small button_full">{label.PAY_trySaveAgain}</button>
                     </template>
                     <template if:true={actions.gpiTracker}>
-                        <button class="slds-button secondary button_small button_full" >{label.PAY_goToGpiTracker}</button>
+                        <button
+                            class="slds-button secondary button_small button_full">{label.PAY_goToGpiTracker}</button>
                     </template>
                     <template if:true={actions.cancel}>
                         <button class="slds-button secondary button_small button_full" onclick={showCancelPaymentModal}>{label.cancel}</button>
                     </template>
-                </div>
-            </template>
+            </div>
             <template if:true={isNotLoadingAndPaymentEmpty}>
-                <!--<c:CMP_PaymentsLandingPaymentTracking paymentStatus="{payment.parsedPaymentStatus}" payment="{payment}" currentUser="{currentUser}" />-->
+                <c-lwc_payments-landing-payment-tracking
+                    paymentstatus={payment.parsedPaymentStatus}
+                    payment={payment}
+                    currentuser={currentUser} 
+                    sign-level={signLevel}
+                ></c-lwc_payments-landing-payment-tracking>
             </template>
-			 
-	    </div>
         </div>
-
-
-
-
-
         <template if:true={isLoading}>
-            <!--<lightning:spinner alternativeText="Loading" size="medium" />-->
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
         </template>
         <template if:true={isShowCancelModal}>
-                <!--<c:CMP_B2B_DiscardPayment fromUtilityBar="{fromUtilityBar}" fromDetail="{fromDetail}"/>-->
+            <c-lwc_b2b_discard-payment fromutilitybar={fromUtilityBar} fromdetail={fromDetail} oncancelpayment={handleCancelSelectedPayment}></c-lwc_b2b_discard-payment>
+        </template>
+        <template if:true={isShowDiscardModal}>
+            <c-cmp-pay-modal-remove 
+                onsaveaction={handleDiscard}
+                oncloseaction={handleCloseDiscard}
+                heading-msg={headingMsg}
+                content-msg={contentMsg}
+                primary-btn={label.Pay_YesDiscard}
+                secondary-btn={label.No}>
+            </c-cmp-pay-modal-remove>
         </template>
     </div>
-    
-
-    
-
 </template>

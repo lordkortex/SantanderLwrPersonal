@@ -1,9 +1,9 @@
 /* BREADCRUMBS ACTIONS */
-.THIS .breadcrumbs{
+.breadcrumbs{
     padding: 0 0 16px;
 }
 
-.THIS .breadcrumbs .slds-text-heading_medium {
+.breadcrumbs .slds-text-heading_medium {
     align-items: center;
     color: #444444;
     display: flex;
@@ -13,45 +13,44 @@
     font-family: "SantanderHeadlineW05-Rg";
 }
 
-.THIS .breadcrumbs .slds-col:last-child{
+.breadcrumbs .slds-col:last-child{
     display: flex;
     align-items: flex-end;
     justify-content: flex-end;
 }
-.THIS .breadcrumbs .slds-button + .slds-button{
+.breadcrumbs .slds-button + .slds-button{
     margin-left: 24px;
 }
 /* GENERAL */
-.THIS .transactionDetail {
+.transactionDetail {
 	width: 100%;
 	padding: 0 0 16px 0;  
 }
 
 /* PAYMENT STATUS */
-.THIS .paymentStatus{
-     margin-bottom: 16px;
+.paymentStatus{
+     margin-bottom: 24px;
 }
-.THIS .paymentStatus .containerInformation {
+.paymentStatus .containerInformation {
     margin: 0;
     padding: 0;
-    margin-bottom: 16px;
 }
 
 /* TEXT STYLES */
-.THIS .paymentStatus .slds-card__header-title {
+.paymentStatus .slds-card__header-title {
     font-size: 14px;
     line-height: 1.5;
     font-family: "SantanderMicroText";
     color: #444444;
 }
 
-.THIS .paymentStatus .slds-card__header-title  .number{
+.paymentStatus .slds-card__header-title  .number{
     font-size: 32px;
     font-family: "SantanderHeadlineW05-Bold";
     line-height: 38px;
 }
 
-.THIS .paymentStatus .slds-card__header-title  .currency{
+.paymentStatus .slds-card__header-title  .currency{
     font-size: 24px;
     font-family: "SantanderHeadlineW05-Bold";
     line-height: 38px;
@@ -59,38 +58,57 @@
 
 
 /* COLUMNS AND ROWS */
-.THIS .paymentStatus .separation{
+.paymentStatus .separation{
     display: flex;
     justify-content: space-between;
 }
 
-.THIS .paymentStatus .separation.transaction { 
+.paymentStatus .separation.transaction { 
     height: 38px;
     align-items: baseline;
 } 
  
-.THIS .paymentStatus .space{
+.space{
     margin-right: 24px;
 }
 
-.THIS .paymentStatus .fees{
+.paymentStatus .space{
+    margin-right: 24px;
+}
+
+.paymentStatus .fees{
     margin-top: 4px;
 }
 
-.THIS .paymentStatus .subDate{
+.paymentStatus .subDate{
     margin-top: 4px;
 }
 
-.THIS .paymentStatus .date {
+.paymentStatus .date {
 	margin-top: 4px;
     color: #767676;
 }
 
 
+
 /* STATUS */
+.paymentStatus .slds-card__header-title .status-title{
+    height: 38px;
+    display: flex;
+    align-items: flex-end;
+}
 
-.THIS .paymentStatus .slds-card__header-title  .status_pending {
+.paymentStatus .slds-card__header-title  .status_pending {
     color: #444444;
+    font-size: 20px; 
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
+    letter-spacing: normal;
+}
+
+.paymentStatus .slds-card__header-title  .status_review {
+    color: #9e3667;
     font-size: 28px; 
     font-weight: normal;
     font-family: "SantanderHeadlineW05-Rg";
@@ -98,25 +116,35 @@
     letter-spacing: normal;
 }
 
-.THIS .paymentStatus .slds-card__header-title  .status_inProgress {
+.paymentStatus .slds-card__header-title  .status_draft {
+    color: #767676;
+    font-size: 28px; 
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Rg";
+    line-height: 38px;
+    letter-spacing: normal;
+}
+
+
+.paymentStatus .slds-card__header-title  .status_inProgress {
     color: #1bb3bc;
-    font-size: 28px; 
+    font-size: 20px; 
     font-weight: normal;
-    font-family: "SantanderHeadlineW05-Rg";
-    line-height: 38px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
     letter-spacing: normal;
 }
 
-.THIS .paymentStatus .slds-card__header-title  .status_rejected {
+.paymentStatus .slds-card__header-title  .status_rejected {
     color: #cc0000;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: normal;
-    font-family: "SantanderHeadlineW05-Rg";
-    line-height: 38px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
     letter-spacing: normal;
 }
 
-.THIS .paymentStatus .slds-card__header-title .status_rejected_subtitle{
+.paymentStatus .slds-card__header-title .status_rejected_subtitle{
     color: #cc0000;
     font-size: 14px; 
     font-weight: normal;
@@ -125,33 +153,26 @@
     letter-spacing: normal;
 }
 
-.THIS .paymentStatus .slds-card__header-title  .status_onHold {
+.paymentStatus .slds-card__header-title  .status_onHold {
     color: #ffcc33;
-    font-size: 28px; 
+    font-size: 20px; 
     font-weight: normal;
-    font-family: "SantanderHeadlineW05-Rg";
-    line-height: 38px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
     letter-spacing: normal;
 }
 
-.THIS .paymentStatus .slds-card__header-title  .status_completed {
+.paymentStatus .slds-card__header-title  .status_completed {
     color:#63ba68;
-    font-size: 28px;
+    font-size: 20px;
     font-weight: normal;
-    font-family: "SantanderHeadlineW05-Rg";
-    line-height: 38px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
     letter-spacing: normal;
-}
-
-
-/* SEPARATION LINE */
-.THIS .text_line{
-  	width: 40px;
-  	border-bottom: 3px solid #ec0000;
 }
 
 /* PAYMENT INFORMATION */
-.THIS .paymentInformation {
+.paymentInformation {
     margin: 0;
     padding: 0;
     background-color: #ffffff;
@@ -159,7 +180,7 @@
     padding: 0 0 16px 16px;
 }
  
-.THIS .paymentInformation thead tr > th{
+.paymentInformation thead tr > th{
     min-width: calc(272px + 40px);
    	max-width: calc(272px + 40px);
     padding: 0;
@@ -173,13 +194,13 @@
     font-weight: normal;
 }
 
-.THIS .paymentInformation thead tr th:last-child{
+.paymentInformation thead tr th:last-child{
     min-width: 272px;
    	max-width: 272px;
     padding-right: 0;
 }
 
-.THIS .paymentInformation tbody tr > td{
+.paymentInformation tbody tr > td{
     min-width: calc(272px + 40px);
    	max-width: calc(272px + 40px);
    	padding: 0;
@@ -191,17 +212,17 @@
    	color: #444444;
 }
 
-.THIS .paymentInformation tbody tr:last-child > td {
+.paymentInformation tbody tr:last-child > td {
     font-family: "SantanderMicroText-Bd";
 }
 
-.THIS .paymentInformation tbody tr > td:nth-last-child(2),
-.THIS .paymentInformation tbody tr > td:nth-last-child(3) {
+.paymentInformation tbody tr > td:nth-last-child(2),
+.paymentInformation tbody tr > td:nth-last-child(3) {
     min-width: calc(168px + 40px);
   	max-width: calc(168px + 40px);
 }
 
-.THIS .paymentInformation tbody tr > td:last-child{
+.paymentInformation tbody tr > td:last-child{
     min-width: 168px;
   	max-width: 168px;
     padding-right: 0;
@@ -209,30 +230,41 @@
 
 
 /* PAYMENT DETAILS */
-.THIS .paymentInformation_detail{
+.paymentInformation_detail{
     background-color: #f6fafc;
     border-bottom: 1px solid #cedee7;
     padding: 16px;
-    padding-bottom: 0;
 }
 
-.THIS .paymentInformation_detail .slds-col{
+.paymentInformation_detail .slds-col{
     min-width: calc(272px + 40px);
     max-width: calc(272px + 40px);
     padding-right: 40px;
 }
 
-.THIS .paymentInformation_detail .slds-col:last-child{
+.paymentInformation_detail .slds-col:last-child{
     min-width: 376px;
-    max-width: 376px;
+    max-width: 568px;
     padding-right: 0;
 }
 
-.THIS .paymentInformation_detail .slds-col .row{
-    margin-bottom: 16px;
+.paymentInformation_detail > .slds-grid .slds-col:last-child .row:nth-child(3){
+    margin-bottom: 9px;
+}
+.paymentInformation_detail > .slds-grid .slds-col:last-child .row:nth-child(3) > p:last-child{
+    min-height: 42px;
+    max-height: 42px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
-.THIS .paymentInformation_detail .slds-col .row p{
+.paymentInformation_detail .slds-col .row{
+    margin-bottom: 30px;
+}
+
+.paymentInformation_detail .slds-col .row p{
     font-family: "SantanderMicroText";
     font-size: 14px;
     line-height: 21px;
@@ -240,33 +272,33 @@
     color: #444444;
 }
 
-.THIS .paymentInformation_detail .slds-col .row > p + p{
+.paymentInformation_detail .slds-col .row > p + p{
     font-family: "SantanderMicroText-Bd";
 }
 
 /* LINKS */
-.THIS .transactionDetail .links{
+.transactionDetail .links{
     display: flex;
     justify-content: flex-end;
     margin-top: 8px;
 }
 
 /* BUTTON ACTIONS*/
-.THIS .transactionDetail .actions .slds-button + .slds-button {
+.transactionDetail .actions .slds-button + .slds-button {
     margin-left: 24px;
 }
 
 /* STATES */
 /* DEFAULT */
-.THIS .transactionDetail .paymentInformation_detail,
-.THIS .transactionDetail .links .button_link:last-child{
+.transactionDetail .paymentInformation_detail,
+.transactionDetail .links .button_link:last-child{
     display: none;
 }
 /* UNFOLDED */
-.THIS .transactionDetail.unfolded .paymentInformation_detail,
-.THIS .transactionDetail.unfolded .links .button_link:last-child{
+.transactionDetail.unfolded .paymentInformation_detail,
+.transactionDetail.unfolded .links .button_link:last-child{
     display: block;
 }
-.THIS .transactionDetail.unfolded .links .button_link:first-child{
+.transactionDetail.unfolded .links .button_link:first-child{
     display: none;
 }

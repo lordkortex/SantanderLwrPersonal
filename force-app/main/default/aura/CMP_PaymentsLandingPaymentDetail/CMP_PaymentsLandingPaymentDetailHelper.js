@@ -36,7 +36,7 @@
             navService.navigate(pageReference);
         }
     },
-
+    
     /*
     Author:        	Bea Hill
     Company:        Deloitte
@@ -72,7 +72,7 @@
             $A.enqueueAction(action);
         }));
     },
-
+    
     /*
     Author:         Guillermo Giral
     Company:        Deloitte
@@ -116,7 +116,7 @@
             }
         }), this);
     },
-
+    
     /*
     Author:         Adrian Munio
     Company:        Deloitte
@@ -125,11 +125,11 @@
     <Date>          <Author>        <Description>
     31/08/2020      Adrian Munio    Initial version
     */
-    createNewPayment: function (component, event, helper) {
+    /*createNewPayment: function (component, event, helper) {
         return new Promise($A.getCallback(function (resultCreate) {
             var action = component.get('c.createPayment');
             action.setParams({
-                'payment': component.get('payment'),
+                'payment': component.get('v.payment'),
                 // 'sourceAccountData': sourceAccount,
                 // 'recipientAccountData': beneficiaryAccount,
                 'userData': component.get('v.currentUser'),
@@ -156,8 +156,8 @@
             });
             $A.enqueueAction(action);
         }), this);
-    },
-
+    },*/
+    
     /*
     Author:        	Bea Hill
     Company:        Deloitte
@@ -199,7 +199,7 @@
             $A.enqueueAction(action);
         }), this);
     },
-
+    
     /*
     Author:         R. Alexander Cervino
     Company:        Deloitte
@@ -241,7 +241,7 @@
             console.error(e);
         }
     },
-
+    
     /*
     Author:        	Bea Hill
     Company:        Deloitte
@@ -275,18 +275,18 @@
                 isCreator = true;
             }
             let actions = {
-                'edit': false,
-                'discard': false,
-                'reuse': false,
-                'addToTemplate': false,
-                'trySaveAgain': false, //saveForLater
-                'authorize': false,
-                'reject': false,
-                'sendToReview': false,
-                'gpiTracker': false,
-                'cancel':false
+                'edit': true,
+                'discard': true,
+                'reuse': true,
+                'addToTemplate': true,
+                'trySaveAgain': true, //saveForLater
+                'authorize': true,
+                'reject': true,
+                'sendToReview': true,
+                'gpiTracker': true,
+                'cancel':true
             }
-            if (status == '001' || status == 'Draft') {
+            /*if (status == '001' || status == 'Draft') {
                 if (reason == '000') {
                     actions.edit = isCreator;
                     actions.discard = isCreator;
@@ -368,7 +368,7 @@
             }
             if (status == '997' || status == 'Not authorized') {
                 if (reason == '001') {
-                   actions.reuse = isCreator;
+                    actions.reuse = isCreator;
                 }
             }
             if (status == '998' || status == 'Canceled') {
@@ -389,14 +389,16 @@
                 } else if (reason == '003') {
                     actions.reuse = isCreator;
                 } else if (reason == '004') {
-                    //no tiene acciones
+                    //no aparece para usuarios front
+                }else if (reason == '103') {
+                    // 999-103 ha cambiado a 999-002
                 }
             }
-            component.set('v.actions', actions);
+            component.set('v.actions', actions);*/
             resolve('La ejecucion ha sido correcta.');
         }), this);
     },
-
+    
     /*
     Author:        	R. cervinpo
     Company:        Deloitte
@@ -416,6 +418,7 @@
                         console.log(returnValue);
                         component.set('v.signLevel', returnValue);
                     }
+                    component.set('v.signCheck', true);
                     resolve('La ejecucion ha sido correcta.');
                 } else if (actionResult.getState() == 'ERROR') {
                     var errors = actionResult.getError();
@@ -427,12 +430,13 @@
                         console.log('problem getting list of payments msg2');
                     }
                     reject($A.get('$Label.c.ERROR_NOT_RETRIEVED'));
+                    component.set('v.signCheck', true);
                 }
             });
             $A.enqueueAction(action);
         }), this);
     },
-
+    
     showToastMode: function (component,event, helper, title, body, noReload, mode) {
         var errorToast = component.find('errorToast');
         if (!$A.util.isEmpty(errorToast)) {
@@ -440,18 +444,18 @@
                 errorToast.openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload);
             }
             if (mode =='success') {
-                errorToast.openToast(true, false, title,  body,  'Success', 'success', 'success', noReload);
+                errorToast.openToast(true, false, title,  body,  'Success', 'success', 'success', true, true);
             }
         }
     },
-
+    
     showToast: function (component, event, helper, title, body, noReload) {
         var errorToast = component.find('errorToast');
         if (!$A.util.isEmpty(errorToast)) {
             errorToast.openToast(false, false, title, body, 'Error', 'warning', 'warning', noReload);
         }
     },
-
+    
     /*
     Author:         R. cervinpo
     Company:        Deloitte
@@ -520,11 +524,11 @@
             $A.enqueueAction(action);
         }), this);
     },
-
+    
     reloadFX: function (component, event,  helper, feesBoolean) {
         return new Promise($A.getCallback(function (resolve, reject) {
-            var paymentId = component.get('v.paymentID');
-            var payment = component.get('v.payment');
+            let paymentId = component.get('v.paymentID');
+            let payment = component.get('v.payment');
             let feesAmount = ($A.util.isEmpty(payment.fees) ? '' : payment.fees);
             let feesCurrency = ($A.util.isEmpty(payment.feesCurrency) ? '' : payment.feesCurrency);
             if (feesBoolean == true && (($A.util.isEmpty(feesAmount) || $A.util.isEmpty(feesCurrency)) || (!$A.util.isEmpty(feesAmount) && (payment.sourceCurrency == feesCurrency)))) {
@@ -532,8 +536,8 @@
             } else if (feesBoolean == false && payment.sourceCurrency == payment.beneficiaryCurrency) {
                 resolve('ok');
             } else {
-                var accountData = component.get('v.accountData');
-                var action = component.get('c.getExchangeRate');
+                let accountData = component.get('v.accountData');
+                let action = component.get('c.getExchangeRate');
                 action.setParams({
                     'paymentId': paymentId,
                     'accountData': accountData,
@@ -542,7 +546,7 @@
                 }); 
                 action.setCallback(this, function (actionResult) {
                     if (actionResult.getState() == 'SUCCESS') {
-                        var stateRV = actionResult.getReturnValue();
+                        let stateRV = actionResult.getReturnValue();
                         if (stateRV.success) {
                             if (feesBoolean == true) {
                                 if (!$A.util.isEmpty(stateRV.value.convertedAmount)) {
@@ -551,7 +555,9 @@
                                 if (!$A.util.isEmpty(stateRV.value.output)) {
                                     payment.FXFeesOutputDRAFT = stateRV.value.output;
                                 }
-								payment.feesFXDateTimeDRAFT = helper.getCurrentDateTime(component, event, helper);
+                                if (!$A.util.isEmpty(stateRV.value.fxTimer)) {
+                                    payment.feesFXDateTimeDRAFT = stateRV.value.fxTimer;
+                                }
                             } else {
                                 if (!$A.util.isEmpty(stateRV.value.exchangeRate)) {
                                     payment.tradeAmountDRAFT = stateRV.value.exchangeRate;
@@ -565,63 +571,36 @@
                                     payment.amountOperativeDRAFT = stateRV.value.convertedAmount;
                                     
                                     if(stateRV.value.amountObtained == 'send'){
-                                    	payment.amountSendDRAFT = stateRV.value.convertedAmount;
+                                        payment.amountSendDRAFT = stateRV.value.convertedAmount;
                                     }
                                     if(stateRV.value.amountObtained == 'received'){
-                                    	payment.amountReceiveDRAFT = stateRV.value.convertedAmount;
+                                        payment.amountReceiveDRAFT = stateRV.value.convertedAmount;
                                     }
                                 }
                                 if (!$A.util.isEmpty(stateRV.value.output)) {
                                     payment.FXoutputDRAFT = stateRV.value.output;
                                 }
+                                if (!$A.util.isEmpty(stateRV.value.fxTimer)) {
+                                    payment.FXDateTimeDRAFT = stateRV.value.fxTimer;
+                                }
                                 
-                                
-                                payment.FXDateTimeDRAFT = helper.getCurrentDateTime(component, event, helper);
                             }
                             component.set('v.payment', payment);
                             resolve('ok');
                         } else {
-                            reject('ko');
                             helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
+                            reject('ko');
                         }
                     } else {
-                        reject('ko');
                         helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
+                        reject('ko');
                     }
                 });
                 $A.enqueueAction(action);
             }
         }), this);
     },
-
-    getCurrentDateTime: function (component, event, helper) {
-        var today = new Date();
-        var month = today.getMonth() + 1;
-        if (month < 10) {
-            month = '0' + month;
-        }
-        var day = today.getDate();
-        if (day < 10) {
-            day = '0' + day;
-        }
-        var date = today.getFullYear() + '-' + month + '-' + day;
-        var hours = today.getHours();
-        if (hours < 10) {
-            hours = '0' + hours;
-        }
-        var minutes = today.getMinutes();
-        if (minutes < 10) {
-            minutes = '0' + minutes;
-        }
-        var seconds = today.getSeconds();
-        if (seconds < 10) {
-            seconds = '0' + seconds;
-        }
-        var time = hours + ':' + minutes + ':' + seconds;
-        var dateTime = date + 'T' + time;       
-        return dateTime; 
-    },
-    
+  
     getUserData: function (component, event,helper) {
         return new Promise($A.getCallback(function (resolve, reject) {
             var action = component.get('c.getUserData');
@@ -630,22 +609,6 @@
                     var userData = {};
                     var stateRV = actionResult.getReturnValue();
                     if (stateRV.success) {
-                        /*
-                        if (!$A.util.isEmpty(stateRV.value.userId)) {
-                            userData.userId = stateRV.value.userId;
-                        } 
-                        if (!$A.util.isEmpty(stateRV.value.isNexus)) {
-                            userData.isNexus = stateRV.value.isNexus;
-                        } else { // FLOWERPOWER_PARCHE_CPC
-                            userData.isNexus = false;
-                        }
-                        if (!$A.util.isEmpty(stateRV.value.numberFormat)) {
-                            userData.numberFormat = stateRV.value.numberFormat;
-                        }
-                        if (!$A.util.isEmpty(stateRV.value.globalId)) {
-                            userData.globalId = stateRV.value.globalId;
-                        } 
-                        */
                         if (!$A.util.isEmpty(stateRV.value)) {
                             userData = stateRV.value.userData;
                         }
@@ -665,7 +628,7 @@
             $A.enqueueAction(action);
         }), this);  
     },
-
+    
     getAccountData: function (component, event, helper) {
         return new Promise($A.getCallback(function (resolve, reject) {
             var action = component.get('c.getAccountData');
@@ -705,26 +668,74 @@
             $A.enqueueAction(action);
         }), this);  
     },
-
+    
     notificationSent: function (component, helper, response) {
         console.log('notification sent');
     },
-
+    
     /*
     Author:        	Adrian Munio
     Company:        Deloitte
-    Description:    Makes the callout to ancel a previously validated transaction, 
+    Description:    Makes the callout to Cancel a previously validated transaction, 
                     which removes it from transactional counters for accumulated limits
     History:
     <Date>          <Author>                <Description>	    
     16/09/2020      Adrian Munio            Initial version
+    27/11/2020		Shahad Naji				Removes transaction from transactional counters for accumulated limits according to 
+    										the productId of the selected payment
     */    
-    reverseLimits : function (component, event, helper){
-        return new Promise($A.getCallback(function (resolve, reject) {
+    reverseLimits: function (component, event, helper) {
+        return new Promise($A.getCallback(function (resolve, reject) {            
             var action = component.get('c.reverseLimits');
-            action.setParams({ 
-                'operationId': component.get('v.payment').paymentId,
-                'serviceId': 'add_international_payment_internal',
+            action.setParams({               
+                'paymentData': component.get('v.payment')
+            });
+            action.setCallback(this, function (response) {
+                var state = response.getState();
+                if (state === 'SUCCESS') {
+                    var  output = response.getReturnValue();
+                    if (output.success) { 
+                        let ok = 'ok';
+                        if(!$A.util.isEmpty(output.value)){
+                            if (returnValue.value.limitsResult.toLowerCase() != ok.toLowerCase()) { 
+                                resolve('ok'); 
+                            }else{
+                                helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
+                                reject('ko');
+                            }
+                        }else{
+                            resolve('ok'); 
+                        }                    
+                    } else { 
+                        helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
+                        reject('ko');  
+                    }
+                } else if (state === 'ERROR') {
+                    var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log('Error message: ' +  errors[0].message);
+                        }
+                    } else {
+                        console.log('Unknown error');
+                    }
+                    helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
+                    reject('ko');
+                }else{
+                    helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
+                    console.log('Another error');
+                    reject('ko');
+                }
+            });       
+            $A.enqueueAction(action); 
+        }), this);
+    },
+    
+    /*
+    reverseLimits: function (component, event, helper) {
+        return new Promise($A.getCallback(function (resolve, reject) {           
+            var action = component.get('c.reverseLimits');
+            action.setParams({              
                 'paymentData': component.get('v.payment')
             });
             action.setCallback(this, function (response) {
@@ -751,10 +762,10 @@
                     reject('ko');
                 }
             });       
-            $A.enqueueAction(action);
+            $A.enqueueAction(action); 
         }), this);
-    },
-
+    },*/
+    
     /*
     Author:        	Adrian Munio
     Company:        Deloitte
@@ -762,20 +773,21 @@
     History:
     <Date>          <Author>            <Description>
     15/09/2020      Adrian Munio        Initial version
+    23/11/2020      Antonio Matachana   Edit status
     */
     handleDiscardPayment: function (component, event, helper) {
         return new Promise($A.getCallback(function (resolve, reject) {
             component.set('v.action', 'Discard');
             var action = component.get('c.updatePaymentStatusReason');
             action.setParams({ 
-                'paymentId' : component.get('v.payment').paymentId,
-                'status' : '990',
-                'reason' : '001'
+                'paymentId': component.get('v.payment').paymentId,
+                'status': '990',
+                'reason': '001'
             });
             action.setCallback(this, function (response) {
                 var state = response.getState();
                 if (state === 'SUCCESS') {
-                    var  output = response.getReturnValue();
+                    var output = response.getReturnValue();
                     if (output.success) {
                         resolve('ok');
                     } else {
@@ -803,7 +815,7 @@
         }), this);
     },
     
-     /*
+    /*
     Author:        	Antonio Matachana
     Company:        
     Description:    Send the status change to the service and refresh page
@@ -811,12 +823,13 @@
     <Date>          <Author>            <Description>
     09/11/2020      Antonio Matachana      
     */
-   cancelSelectedPayment: function (component, event, helper) {
+    cancelSelectedPayment: function (component, event, helper) {
         return new Promise($A.getCallback(function (resolve, reject) {
             component.set('v.action', 'Cancel');
+            var payment = component.get('v.payment');
             var action = component.get('c.updatePaymentStatusReason');
             action.setParams({ 
-                'paymentId' : component.get('v.payment').paymentId,
+                'paymentId' : payment.paymentId,
                 'status' : '998',
                 'reason' : '003'
             });
@@ -825,8 +838,15 @@
                 if (state === 'SUCCESS') {
                     var  output = response.getReturnValue();
                     if (output.success) {
+                        
+                        /* var msg = $A.get('$Label.c.PAY_ThePaymentHasBeenCanceled');
+                        var clientReference = payment.clientReference;
+                        msg = msg.replace('{0}', clientReference);
+                      helper.showToastMode(component, event, helper, msg, '', true, 'success');*/
+                        
                         resolve('ok');
-                        $A.get('e.force:refreshView').fire();
+                        //$A.get('e.force:refreshView').fire();
+                        
                     } else {
                         helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
                         reject('ko');
@@ -850,8 +870,8 @@
             });       
             $A.enqueueAction(action);
         }), this);
-    },
-      /*
+   },
+    /*
     Author:         Antonio Matachana
     Company:        
     Description:    Send the status change to the service when edit payment from pending status
@@ -859,7 +879,7 @@
     <Date>          <Author>                <Description>
     20/11/2020      Antonio Matachana       Initial version
     */
-   updateStatusEditPayment: function (component, helper) {
+    updateStatusEditPayment: function (component, helper) {
         return new Promise($A.getCallback(function (resolve, reject) {
             component.set('v.action', 'Cancel');
             //var payment = component.get('v.paymentDetails');
@@ -904,5 +924,124 @@
             });       
             $A.enqueueAction(action);
         }), this);
+    },
+    /*
+    Author:        	Adrian Munio
+    Company:        Deloitte
+    Description:    Go to Discard page on clicking 'Discard' button
+    History:
+    <Date>          <Author>            <Description>
+    14/09/2020      Adrian Munio        Initial version
+    */
+    goToDiscard: function (component, event, helper) {
+        
+        /*helper.reverseLimits(component, event, helper)  
+    .then($A.getCallback(function (value) { 
+        return helper.handleDiscardPayment(component, event, helper);
+    })).catch($A.getCallback(function (error) {
+        console.log('error');
+    })).finally($A.getCallback(function() {
+        component.set('v.spinner', false);
+    }));*/
+       
+       /*
+   helper.handleDiscardPayment(component, event, helper)
+    .catch($A.getCallback(function (error) {
+        console.log('error');
+    })).finally($A.getCallback(function() {
+        component.set('v.spinner', false);
+    }));
+*/
+       //PARCHE_FLOWERPOWER JHM DESCARTAR PAGO DESDE DETALLE DEL PAGO Y RECARGAR PAGINA ACTUAL SIN SALIR DEL DETALLE DEL PAGO
+       
+       return new Promise($A.getCallback(function (resolve, reject) {       
+           component.set('v.spinner', true);  
+           return helper.reverseLimits(component, event, helper)
+           .then($A.getCallback(function (value) { 
+               return helper.handleDiscardPayment(component, event, helper);
+           })).catch($A.getCallback(function (error) {
+               console.log('Error discard: ' + error);
+               reject('ko');
+           })).finally($A.getCallback(function() {
+               component.set('v.spinner', false);
+               resolve('ok');
+           }));
+       }), this); 
+       
+       ////PARCHE_FLOWERPOWER_MWB 
+       /*component.set('v.spinner', true);
+    helper.reverseLimits(component, event, helper)  
+    .then($A.getCallback(function (value) { 
+        return helper.handleDiscardPayment(component, event, helper);
+    })).catch($A.getCallback(function (error) {
+        console.log('Error goToDiscard: ' + error);
+    })).finally($A.getCallback(function() {
+        component.set('v.spinner', false);
+    }));*/
+   },
+    sendToLanding: function (component, event, helper, discard) {
+        let navService = component.find('navService');
+        var url = 'c__discard=' + discard;
+        this.encrypt(component, url)
+        .then($A.getCallback(function (results) {
+            let pageReference = {
+                'type': 'comm__namedPage',
+                'attributes': {
+                    'pageName': component.get('v.landingPage')
+                },
+                'state': {
+                    'params': results
+                }
+            }
+            navService.navigate(pageReference);
+        }));
+    },
+    
+    //PARCHE_FLOWERPOWER JHM
+    //CÓDIGO REPLICADO A FALTA DE AVERIGUAR COMO UTILIZAR LA FUNCIÓN .FIND DE UN MÉTODO DE OTRO COMPONENTE
+    formatUserDate : function(component, response) {
+        return new Promise($A.getCallback(function (resolve, reject) {  
+        // If a date format exists for the User, make use of the given format
+        // If not, the Locale's short date format is used
+        var dateString = component.get("v.payment.draftDate");
+        var format = (response != '' && response != null) ? response : $A.get("$Locale.shortDateFormat");
+        
+        if(dateString != "N/A" && dateString != undefined){
+            if(component.get("v.convertToUserTimezone")){
+                var dateToFormat = new Date(dateString.substring(0,4), parseInt(dateString.substring(5,7)) - 1, dateString.substring(8,10), dateString.substring(11,13), dateString.substring(14,16), 0, 0 );
+                dateToFormat.setMinutes(dateToFormat.getMinutes() - dateToFormat.getTimezoneOffset());
+                $A.localizationService.getDateStringBasedOnTimezone($A.get("$Locale.timezone"), dateToFormat, function(formattedDate){
+                    if(formattedDate != "Invalid Date"){
+                        switch(format){
+                            case "dd/MM/yyyy" :
+                                formattedDate = formattedDate.substring(8,10) + "/" + formattedDate.substring(5,7) + "/" + formattedDate.substring(0,4);
+                                break;
+                            case "MM/dd/yyyy" :
+                                formattedDate = formattedDate.substring(5,7) + "/" + formattedDate.substring(8,10) + "/" + formattedDate.substring(0,4);
+                                break;
+                        }
+                        component.set("v.payment.draftDate", formattedDate);
+                    } else {
+                        component.set("v.payment.draftDate", dateString);
+                    }
+                });
+            } else {
+                var formattedDate = "";
+                switch(format){
+                    case "dd/MM/yyyy" :
+                        formattedDate = dateString.substring(8,10) + "/" + dateString.substring(5,7) + "/" + dateString.substring(0,4);
+                        break;
+                    case "MM/dd/yyyy" :
+                        formattedDate = dateString.substring(5,7) + "/" + dateString.substring(8,10) + "/" + dateString.substring(0,4);
+                        break;
+                }
+                component.set("v.payment.draftDate", formattedDate);
+            } 
+        } else {
+            component.set("v.payment.draftDate", "N/A");
+        }
+             resolve('ok');
+               }), this); 
     }
+    
 })

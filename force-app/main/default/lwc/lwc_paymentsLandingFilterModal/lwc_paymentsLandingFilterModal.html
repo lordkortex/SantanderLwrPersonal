@@ -1,0 +1,345 @@
+<template>
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <template if:true={showToast}>
+                <c-lwc_b2b_toast showtoast={showToast} bodytext={toastText} notificationtitle={toastTitle} functiontypetext={toastType} reload={reloadAccounts}></c-lwc_b2b_toast>
+        </template>
+        
+        <div class="slds-modal__container">  
+            <div class="modal-content allFilters">  
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close"  onclick={closeFilterModal}>
+                        <div class="icon-close_big"></div> 
+                        <span class="slds-assistive-text">{label.close}</span>
+                    </button>
+                    <div class="title"> 
+                        <h2 id="modal-heading-01"  class="slds-modal__title">{label.AllFilters}</h2> 
+                        <div class="title-line"></div>
+                    </div>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>{label.AllFilters_Subtitle}</p>
+                    <div class="accounts">
+                        <h3>{label.Accounts}</h3>
+                        <!-- Cuando salga un error en el input añadir la clase "error" al siguiente div -->
+                        <!-- Esto hará que desaparezca el helpText y aparezca el errorText -->
+
+                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                        <!-- Esto hará que desaparezca el helpText y aparezca el errorText -->
+                        
+                        <div class={getlookupClass}>
+                            
+                            <!-- La label solo se mostrará en el momento en el que se vaya a escribir en el input -->
+                            <template if:true={showMiniLabelORsearchSourceNE}>
+                                <label class="slds-form-element__label" for="combobox-id-14">{label.PAY_Source}</label>
+                            </template>
+                            
+                            <!-- Añadir la clase slds-is-open al div siguiente para mostrar el desplegable -->
+                            <div class={showDropdownClass} aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                    
+                                    <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                                    
+                                    <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id-14" aria-autocomplete="list" 
+                                        aria-controls="listbox-id-11" autocomplete="off" role="textbox" 
+                                        placeholder={accountsSourcePlaceholder} value={accountSourceValue} 
+                                        disabled={disabled} readonly={isAccountNE}
+                                        oninput={handleSourceInputSearch} onfocus={handleSourceFocusSearch} onblur={handleSourceBlurSearch}/>
+                                    
+                                    <!-- Icono de cruz para eliminar una vez seleccionada una opción -->
+                                    <template if:false={disabled}>
+                                        <template if:true={searchedsourceaccountORaccountNE}>
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" 
+                                                    onclick={handleClearInput} disabled={disabled}>
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">{label.B2B_Clear_text_input}</span>
+                                            </button>
+                                        </template>
+                                    </template>
+                                
+                                    <!-- Descomentar una de las siguientes líneas en el caso de que haya o texto de ayuda, o texto de error  -->
+                                <!--  <div if:true={!and(empty(v.searchedSourceAccount), empty(v.errorMSG))}>
+                                        <div class="slds-form-element__help">{!$Label.c.B2B_Alias_AccNo_Iban}</div>
+                                    </div>-->
+                                    <template if:true={errormsgEmptyAccount}>
+                                        <div class="errorText">{errormsg}</div> 
+                                    </template>
+                                </div>
+                                <div id="listbox-id-11" class="slds-dropdown slds-dropdown_length-6 slds-dropdown_fluid" role="listbox">
+                                    
+                                    <!-- Esto debe mostrar el resultado de busqueda según lo que se ha escrito -->
+                                    
+                                    <div aria-selected="true" id="option0" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                <!--Suggestions for<mark>“ES21 0049”</mark>(5 results)-->
+                                                {isEmptyAccountSuggestions}<mark><q>{searchedsourceaccount}</q></mark>({accountsuggestions.length} &nbsp; {label.results_lowercase}){isEmptyAccountSuggestions2}
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                       <!-- <template for:each={accountsuggestions}  for:item='item' for:index='index'>
+                                            <li role="presentation" key={item} class="slds-listbox__item ">
+                                                <c-lwc_b2b_account-suggestion account={item} onclick={handleClickSuggestion} showmore="false" ></c-lwc_b2b_account-suggestion>
+                                            </li>
+                                        </template>    -->  
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> 
+                        
+                    </div>
+                    <div class="amountCurrency">
+                        <h3>{label.amount} &amp; {label.currency}</h3> 
+                        <div class="slds-row">    
+                            <div class="comboInputs">
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class={errorAmountClass}>
+                                    
+                                    <!-- Cuando no haya nada escrito en el input la label se oculta
+                                y cuando se escriba algo la label aparece -->
+                                    <template if:true={showFromMiniLabelORformattedValueFromNE}>
+                                        <label class="slds-form-element__label" for="fromAmount">{label.from}</label>
+                                    </template>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                        <template if:true={isUserInputFromNE}>
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick={handleClearAmountFrom}>
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">Clear the text input</span>
+                                            </button>
+                                        </template>
+                                        
+                                        <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                                        <input type="text" id="fromAmount" placeholder={label.from} class="slds-input" name="amount" value={formattedValueFrom} 
+                                               autocomplete="off" aria-autocomplete="none" disabled={isFromDisabled} 
+                                               oninput={handleInputAmount} onfocus={handleFocusAmount} onblur={handleBlurAmount} onchange={valueChanges} min="0"/>
+                                        
+                                        
+                                        <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                        <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                        
+                                        <!-- Cuando la cifra introducida por el usuario es mayor al saldo disponible saldrá
+                                    un mensaje de error -->
+                                        <div class="errorText">{label.PAY_ErrorFromAmount}</div> 
+                                    </div>
+                                </div>
+                                <div class="hyphenInput"><p> - </p></div>
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class={errorAmountClass}>
+                                    <!-- Cuando no haya nada escrito en el input la label se oculta
+                                y cuando se escriba algo la label aparece -->
+                                    <template if:true={showToMiniLabelORformattedValueToNE}>
+                                        <label class="slds-form-element__label" for="toAmount">{label.to}</label>
+                                    </template>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                        <template if:true={isUserInputToNE}>
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick={handleClearAmountTo}>
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">{label.B2B_Clear_text_input}</span>
+                                            </button>
+                                        </template>
+                                        <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                                        <input type="text" id="toAmount" placeholder={label.to} class="slds-input" name="amount" value={formattedValueTo} 
+                                               autocomplete="off" aria-autocomplete="none" disabled={isToDisabled} 
+                                               oninput={handleInputAmount} onfocus={handleFocusAmount} onblur={handleBlurAmount} onchange={valueChanges} min="0"/>
+                                        
+                                        
+                                        <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                        <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                        
+                                        <!-- Cuando la cifra introducida por el usuario es mayor al saldo disponible saldrá
+                                    un mensaje de error -->
+                                        <div class="errorText">{label.PAY_ErrorToAmount}</div> 
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class="slds-form-element">
+                                 <!--   <c-lwc_pay_filter-dropdown data-id="currencyDropdownModal" values={currencydropdownlist} selectedvalues={selectedcurrencies} 
+                                        helptextdropdown={label.Show_More} issimpledropdown="false" label={label.currency} 
+                                        isdisabled="false" valuesplaceholder="" cleardropdown={clearcurrencydropdown}
+                                        errortext={label.IncorrectInputFormat}>
+                                    </c-lwc_pay_filter-dropdown>-->
+                                </div>  
+                            </div>
+                            <div class="slds-col"></div>    <!--added to align the currency field hover functionality-->                            
+                            
+                        </div>
+                    </div>
+                    <div class="paymentDetails">
+                        <h3>{label.PaymentDetails}</h3> 
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                {selectedstatuses}
+                             <!--   <c-lwc_pay_filter-dropdown data-id="statusDropdownModal" values={statusdropdownlist} selectedvalues={selectedstatuses} 
+                                    helptextdropdown={label.Show_More} issimpledropdown="false" label={label.status} 
+                                    isdisabled="false" valuesplaceholder="" cleardropdown={clearStatusDropdown}
+                                    errortext={label.IncorrectInputFormat}>
+                                </c-lwc_pay_filter-dropdown>-->
+                            </div>
+                            <div class="slds-col">
+                                <div class="">                                           
+                                <!--    <c-lwc_pay_filter-dropdown data-id="methodDropdownModal" values={paymentmethoddropdownlist} selectedvalue={selectedmethod} 
+                                        helptextdropdown={label.Show_More} issimpledropdown="true" label={label.PAY_PaymentType} 
+                                        isdisabled="false" valuesplaceholder="" cleardropdown={clearMethodDropdown}
+                                        errortext={label.IncorrectInputFormat}>                          
+                                    </c-lwc_pay_filter-dropdown>-->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <!-- <c:CMP_B2B_Reference value={clientReference}/> -->
+                                <!--Comentado para reutilizar cmp_B2b_reference-->
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class="slds-form-element input">
+                                    
+                                    <!-- Cuando no haya nada escrito en el input la label se oculta
+                                y cuando se escriba algo la label aparece -->
+                                    <template if:true={showCRMiniLabelORclientReferenceNE}>
+                                        <label class="slds-form-element__label" for="clienteReference">{label.ClientReference}</label>
+                                    </template>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                        <template if:true={isClientReferenceNE}>
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick={handleClearClientReference}>
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">{label.B2B_Clear_text_input}</span>
+                                            </button>
+                                        </template>
+                                        <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                                        <input type="text" id="clienteReference" placeholder={label.ClientReference} class="slds-input" name="amount" value={clientReference}
+                                               autocomplete="off" aria-autocomplete="none" disabled={isClientReferenceDisabled}
+                                               oninput={setClientReference} onfocus={handleFocusClientReference} onblur={handleBlurClientReference}/>
+                                        
+                                        
+                                        <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                        <!-- <div class="slds-form-element__help">Texto de ayuda</div> -->
+                                        
+                                        <!-- Cuando la cifra introducida por el usuario es mayor al saldo disponible saldrá
+                                    un mensaje de error -->
+                                        <div class="errorText">{label.IncorrectInputFormat}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                            <!--    <c-lwc_pay_filter-dropdown data-id="countryDropdownModal" values={countrydropdownlist} selectedvalue={selectedcountry} 
+                                    helptextdropdown={label.Show_More} issimpledropdown="true" label={label.destinationCountry} 
+                                    isdisabled="false" valuesplaceholder="" cleardropdown={clearCountryDropdown}
+                                    errorText={label.IncorrectInputFormat}>
+                                </c-lwc_pay_filter-dropdown>-->
+                            </div>
+                            
+                        </div>
+                        <div class="slds-row">
+                            
+                            
+                            <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                            <div class="slds-form-element calendar"> 
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__row ">
+                                        <div class={errorDateFromClass}>
+                                            <!-- <div if:true={!or(v.dateFromMiniLabel, not(empty(v.dates[0])))}> -->
+                                            <template if:true={datesPlaceholdersZeroNEvdFrom}>
+                                                <label class="slds-form-element__label doubleCalendar">{label.valueDateFrom}</label>
+                                            </template>
+                                            <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                                <!-- <div if:true={!not(empty(v.dates[0]))}> -->
+                                                <template if:true={datesPlaceholdersZeroNEvdFrom}>
+                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick={handleClearDateFrom}>
+                                                        <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                        <span class="slds-assistive-text">{label.B2B_Clear_text_input}</span>
+                                                    </button>
+                                                </template>
+                                                <!-- Iconco calendario -->
+                                                <div class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" aria-hidden="true">
+                                                    <div class="slds-button__icon icon-calendar"></div>
+                                                </div>
+
+                                                <lightning:input type="date" data-id="dateField" value={datesplaceholdersZero}  class="field" formatter={currentuser.dateFormat} onchange={handleChangeDates}></lightning:input>
+
+                                                <!-- value={!(empty(v.dates[0]) ? $Label.c.valueDateFrom : v.dates[0])} -->
+                                                <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                <!-- <lightning:input type="date" name="inputFrom" autocomplete="off" value={dates[0]} dateStyle="short" variant="label-hidden" placeholder={!$Label.c.valueDateFrom} format={currentUser.dateFormat} onfocus={handleFocusFromDate} onblur={handleBlurFromDate} onchange={handleChangeDate}/> -->
+                                                <!-- <ui:inputDate blur={handleBlurFromDate} value={dates[0]} displayDatePicker="true" format={currentUser.dateFormat} label={!$Label.c.from}/> -->
+                                                <!-- <c:CMP_Calendar simple="true" placeholderFrom={!$Label.c.from} dateFrom={dates[0]} dateFormat={currentUser.dateFormat}/> -->
+
+                                            </div>
+                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                            <!-- <div class="slds-form-element__help helperText">dd/mm/yyyy</div> -->
+                                            
+                                            <!-- Cuando el texto introducido sea erronea saldrá un mensaje de error -->
+                                            <template if:true={fromDateToDateFalse}>
+                                                <div class="errorText">{label.PAY_ErrorFromDate}</div>
+                                            </template>
+                                            <template if:false={fromDateToDateFalse}>
+                                                    <template if:true={fromDateFormat}>
+                                                        <div class="errorText">{label.PAY_SelectCalendarDate}</div>
+                                                    </template>
+                                            </template>   
+                                        </div>
+                                        <div class="hyphenInput"><p> - </p></div>
+                                        <div class={errorDateToClass}>
+                                            <!-- <div if:true={!or(v.dateToMiniLabel, not(empty(v.dates[1])))}> -->
+                                            <template if:true={datesPlaceholdersOneNEvdTo}>
+                                                <label class="slds-form-element__label doubleCalendar">{label.valueDateTo}</label>
+                                            </template>
+                                            <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                                <!-- <div if:true={!not(empty(v.dates[1]))}> -->
+                                                <template if:true={datesPlaceholdersOneNEvdTo}>    
+                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick={handleClearDateTo}>
+                                                        <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                        <span class="slds-assistive-text">{label.B2B_Clear_text_input}</span>
+                                                    </button>
+                                                </template>
+                                                <!-- Iconco calendario -->
+                                                <div class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" aria-hidden="true">
+                                                    <div class="slds-button__icon icon-calendar"></div>
+                                                </div>
+
+                                                <lightning:input type="date" data-id="dateField" value={datesplaceholdersOne}  class="field"  formatter={currentuser.dateFormat} onchange={handleChangeDates}></lightning:input>
+                                                
+                                                <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                <!-- <lightning:input type="date" name="inputTo" autocomplete="off" value={dates[1]} dateStyle="short" variant="label-hidden" placeholder={!$Label.c.valueDateTo} format={currentUser.dateFormat} onfocus={handleFocusToDate} onblur={handleBlurToDate} onchange={handleChangeDate}/> -->
+                                            </div>
+                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                            <!-- <div class="slds-form-element__help helperText">dd/mm/yyyy</div> -->
+                                            
+                                            <!-- Cuando el texto introducido sea erronea saldrá un mensaje de error -->
+                                            <template if:true={fromDateToDateFalse}>
+                                                <div class="errorText">{label.PAY_ErrorFromDate}</div>
+                                            </template>
+                                            <template if:false={fromDateToDateFalse}>
+                                                <template if:true={toDateFormat}>
+                                                    <div class="errorText">{label.PAY_SelectCalendarDate}</div>
+                                                </template>
+                                            </template>
+                                        </div>
+                                    </div>   
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    
+                    <div class="slds-modal__footer"> 
+                        <div class="modal-footer-buttons">
+                            <button class="slds-button primary button_small button_full" onclick={applyFilterModal}>{label.apply}</button> 
+                            <button class="slds-button secondary button_small button_full" onclick={clearAll}>{label.clearAll}</button>         
+                        </div> 
+                    </div>     
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

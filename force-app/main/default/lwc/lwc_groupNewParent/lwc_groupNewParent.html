@@ -1,0 +1,49 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Parent component of the group creation.
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<template>
+    <!-- MARKUP -->
+    <!--<c:CMP_ServiceComponent aura:id= "Service"/>-->
+    
+    <div style={styleMaxWith}>
+        
+        <!--TITLE--> 
+        <!--<c:CMP_Title title="{!v.comesFromGroups ? $Label.c.UserGroupProfile : $Label.c.GroupNewConfigProfiling_NewUserGroup}"/>-->
+
+        <!--PROGRESS BAR-->
+        <!--<c:CMP_GroupNewProgressBar currentStageNumber="{!v.currentStageNumber}" stage1Finished="{!v.stage1Finished}"/>-->
+
+        <!--STEP 1-->
+        <template if:true={isCurrentStageNumber1}>
+            <!--Group Detail(Name)-->
+            <!--<c:CMP_GroupNew_Details groupName="{!v.groupName}"/>-->
+            <!--Copy Profile Group-->
+            <!--<c:CMP_GroupNew_CopyProfile selectedValue ="{!v.groupToCopy}"/>-->
+            <!--Services of the Group-->
+            <!--<c:CMP_UserNew_Services hasProfile="{!v.hasProfile}" servicesList="{!v.servicesList}" comesFrom="Profile-Group" userGroup="{!v.groupName}"/>-->
+        </template>
+
+        <!--STEP 2-->
+        <template if:true={isCurrentStageNumber2}>
+            <!--<c:CMP_GroupNewS2_NameInfo groupName="{!v.groupName}"/>-->
+            <!--<c:CMP_GroupNewS2_Tabs />-->
+            <!--<c:CMP_GroupNewS2_ReportsTitle dataExpanded="{!v.profilingTableExpanded}"/>-->
+            <!--<c:CMP_GroupNewS2_EntitlementsTable entitlementName="{!v.entitlementName}"/>-->
+            <!--<c:CMP_GroupNewS2_ProfilingTable aura:id="profilingTable" dataExpanded="{!v.profilingTableExpanded}" 
+                data="{!v.profilingTableInnerData}" isSummary="false"/>-->
+        </template>
+
+        <!-- MODAL TO RETURN TO GROUP LIST-->
+        <template if:true={isShowModal}>
+            <!--<c:CMP_ModalWithText title="{!$Label.c.TextModal_CancelTransactionTitle}" subtitle="{!$Label.c.TextModal_CancelTransactionSubtitle}"/>-->
+        </template>
+
+        <!--BUTTONS-->
+        <!--<c:CMP_GroupNewButtons currentStageNumber="{!v.currentStageNumber}" stage1Finished="{!v.stage1Finished}" groupName="{!v.groupName}" showModal="{!v.showModal}"/>-->
+    </div>
+  
+</template>

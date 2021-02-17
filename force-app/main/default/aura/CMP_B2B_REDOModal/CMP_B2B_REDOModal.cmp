@@ -19,6 +19,7 @@
     <aura:attribute access="public"         type="String"       name="subject"                      default=""/>
     <aura:attribute access="public"         type="String"       name="description"                  default=""/>
     <aura:attribute access="public"         type="String"       name="errorSubject"                 default=""/>
+    <aura:attribute access="public"         type="String"       name="errorDescription"                 default=""/>
     <aura:attribute access="public"         type="Boolean"      name="reviewSent"/>
     <aura:attribute access="private"        type="Boolean"      name="showMiniLabel"                default="false"                 description="Control to show mini label fro Subject field."/>
     <aura:attribute access="public"         type="Integer"      name="charactersMaxSubject"         default="50"                    description="Character limit for Subject"/>
@@ -28,6 +29,8 @@
     <aura:attribute access="public"         type="String"       name="action"                       default=""/>
     <aura:attribute access="private"        type="Boolean"      name="spinner"                                                      description="Show spinner"/>
     <aura:attribute access="public"         type="Boolean"      name="fromUtilityBar"/>
+    <aura:attribute access="private" 		type="List"			name="reverseLimitsProductIds"		 default="[]" 					description="Product Id values that a payment must have when the limit has to be reverted (edit, cancel, reject or discart)"/>
+    <aura:attribute access="public"         type="String"       name="handleCancel"                     default='landing-payments'/>
 
 
     <aura:handler           name="init"   value="{!this}"         action="{!c.initComponent}"/>
@@ -124,7 +127,7 @@
                 
                 <!-- TEXTAREA -->
                 <div class="textareaContainer">
-                    <c:CMP_B2B_Description charactersMax='{!v.charactersMax}' charactersRemaining='{!v.charactersRemaining}' placeholder="{!$Label.c.MovementHistory_Description+' ('+$Label.c.optional+')'}" value="{!v.description}"/>
+                    <c:CMP_B2B_Description charactersMax='{!v.charactersMax}' charactersRemaining='{!v.charactersRemaining}' placeholder="{!$Label.c.MovementHistory_Description+' ('+$Label.c.optional+')'}" value="{!v.description}" errorMSG="{!v.errorDescription}"/>
                 </div>
 
 
@@ -139,11 +142,9 @@
                             
                             <aura:if isTrue="{!v.action == 'Reject'}">
                                 <h2 class="slds-text-heading_small">{!$Label.c.paymentProcessing}</h2>
-                                <p class="notifyText">{!$Label.c.CMP_B2B_REJECTPaymentProcessing}</p>
-                                
+                                <p class="modalContent-subtitle">{!$Label.c.CMP_B2B_REJECTPaymentProcessing}</p>
                                 <aura:set attribute="else">
-                                    <h2 class="slds-text-heading_small">{!$Label.c.paymentStatus}</h2>
-                                    <p class="notifyText">{!$Label.c.CMP_B2B_REDOPaymentStatus}</p>
+                                    <h2 class="slds-text-heading_small">{!$Label.c.PAY_reviewMessage}</h2>
                                 </aura:set>
                             </aura:if>
                             
@@ -162,7 +163,7 @@
                 <div class="slds-modal__footer"> 
                     <div class="modal-footer-buttons">
                         <aura:if isTrue="{!v.action == 'Reject'}">
-                            <button class="slds-button primary button_small button_full" onclick='{!c.sendProcess}'>{!$Label.c.PAY_SendToReject}</button>
+                            <button class="slds-button primary button_small button_full" onclick='{!c.handleReject}'>{!$Label.c.PAY_SendToReject}</button>
                             
                             <aura:set attribute="else">
                                 <button class="slds-button primary button_small button_full" onclick='{!c.sendProcess}'>{!$Label.c.PAY_SendToReview}</button>

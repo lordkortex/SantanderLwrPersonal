@@ -10,6 +10,8 @@
     doInit: function(component, event, helper) {
         var payment = component.get('v.payment');
         var trackingStep = payment.trackingStep;
+        var status = payment.paymentStatus;//MWB
+        var reason = payment.paymentReason;//MWB
         var step = 0;
         if (trackingStep == $A.get("$Label.c.PAY_Creation")){
             step = 1;
@@ -24,6 +26,11 @@
         }
         component.set('v.trackingStep', step);
         helper.handleStatusHistory(component, event, helper);
+        
+        if(status == '003' && reason == '001'){
+            helper.handleInReviewModal(component, event, helper);
+        }
+
     },
     /*
 	Author:        	Bea Hill

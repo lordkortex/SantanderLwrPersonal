@@ -5,7 +5,7 @@
 	Description:    Get user info, set mock data for demo, and get params from URL
     History:
     <Date>          <Author>            <Description>
-	19/06/2020      Bea Hill            Initial version
+	19/06/2020      Bea Hill            Initial version    
     */
     doInit: function (component, event, helper) {
         helper.getUrlParams(component, event, helper)
@@ -20,10 +20,24 @@
         }), this).then($A.getCallback(function (value) { 
             return helper.getAccountData(component, event, helper);
         }), this).catch(function (error) {
-            console.log(error);
+            console.log('Error doInit: ' + error);
         }).finally($A.getCallback(function() {
             component.set('v.isLoading', false);
         }));
+
+        let actions = {
+            'edit': true,
+            'discard': true,
+            'reuse': true,
+            'addToTemplate': true,
+            'trySaveAgain': true, //saveForLater
+            'authorize': true,
+            'reject': true,
+            'sendToReview': true,
+            'gpiTracker': true,
+            'cancel':true
+        }
+        component.set('v.actions', actions);
     },
 
     /*
@@ -107,62 +121,28 @@
     },
 
     /*
-    Author:        	Adrian Munio
-    Company:        Deloitte
-    Description:    Go to Discard page on clicking 'Discard' button
-    History:
-    <Date>          <Author>            <Description>
-    14/09/2020      Adrian Munio        Initial version
-    */
-    goToDiscard: function (component, event, helper) {
-        component.set('v.spinner', true);
-        //PARCHE_FLOWERPOWER_SNJ
-        /*helper.reverseLimits(component, event, helper)  
-        .then($A.getCallback(function (value) { 
-            return helper.handleDiscardPayment(component, event, helper);
-        })).catch($A.getCallback(function (error) {
-            console.log('error');
-        })).finally($A.getCallback(function() {
-            component.set('v.spinner', false);
-        }));*/
-        helper.handleDiscardPayment(component, event, helper).catch($A.getCallback(function (error) {
-            console.log('error');
-        })).finally($A.getCallback(function() {
-            component.set('v.spinner', false);
-        }));
-    },
-
-    /*
 	Author:        	Bea Hill
     Company:        Deloitte
 	Description:    Handle clicking 'Edit payment' button; prepare data to send and navigate to payment process
     History:
     <Date>          <Author>            <Description>
 	23/06/2020      Bea Hill            Initial version
+    27/11/2020		Shahad Naji			Removes transaction from transactional counters for accumulated limits according to 
+    									the productId of the selected payment 
     */
     handleEdit: function (component, event, helper) {
-        /*var page = 'payments-b2b';
-        var url ='';
-        var source= 'landing-payment-details';
-        var paymentId = component.get('v.paymentID');
-        if (!$A.util.isEmpty(paymentId)) {
-            url = 
-            'c__source=' + source +
-            '&c__paymentId=' + paymentId +
-            '&c__paymentDetails=' + JSON.stringify(component.get('v.payment'));
-        }
-        helper.goTo(component, event, page, url);*/
-        return helper.updateStatusEditPayment(component, event, helper)
-        .then($A.getCallback(function (value) { 
+        helper.reverseLimits(component, event, helper).then($A.getCallback(function (value) { 
+            return helper.updateStatusEditPayment(component, event, helper);
+        })).then($A.getCallback(function (value) { 
             var page = 'payments-b2b';
             var url ='';
             var source= 'landing-payment-details';
             var paymentId = component.get('v.paymentID');
             if (!$A.util.isEmpty(paymentId)) {
                 url = 
-                'c__source=' + source +
-                '&c__paymentId=' + paymentId +
-                '&c__paymentDetails=' + JSON.stringify(component.get('v.payment'));
+                    'c__source=' + source +
+                    '&c__paymentId=' + paymentId +
+                    '&c__paymentDetails=' + JSON.stringify(component.get('v.payment'));
             }
             helper.goTo(component, event, page, url);
         })).catch($A.getCallback(function (error) {
@@ -181,7 +161,17 @@
 	25/08/2020      Adrian Munio        Initial version
     */
     handleReuse: function (component, event, helper) {
-        helper.createNewPayment(component, event, helper);
+        var page = 'payments-b2b';
+        var url ='';
+        var source= 'landing-payment-details';
+        var paymentId = component.get('v.paymentID');
+        if (!$A.util.isEmpty(paymentId)) {
+            url = 
+                'c__source=' + source +
+                '&c__reuse=' + true +
+                '&c__paymentDetails=' + JSON.stringify(component.get('v.payment'));
+        }
+        helper.goTo(component, event, page, url);
     },
 
     handleAuthorize: function (component, event, helper) {
@@ -290,19 +280,117 @@
         component.set('v.fromDetail', true);
         component.set('v.showCancelModal', true);
     },
+
     /*
-	Author:        	Antonio Matachana
+    Author:         Antonio Matachana
     Company:        
-	Description:    Execute cancelSelectedPayment if button cancel is pressed
+    Description:    Execute cancelSelectedPayment if button cancel is pressed
     History:
-    <Date>          <Author>            <Description>
+    <Date>          <Author>                <Description>
     09/11/2020      Antonio Matachana       Initial version
     */
     handleCancelSelectedPayment: function (component, event, helper) {
         component.set('v.showCancelModal', false);
-        let cancel = event.getParam('cancelSelectedPayment');
+        var cancel = event.getParam('cancelSelectedPayment');
         if (cancel) {
-                helper.cancelSelectedPayment(component, helper);
+            component.set('v.isLoading', true);
+            return helper.reverseLimits(component, event, helper)
+            .then($A.getCallback(function (value) {
+                return helper.cancelSelectedPayment(component, helper);
+            })).then($A.getCallback(function (value) {
+                if(value == 'ok'){
+                    var payment = component.get('v.payment');
+                    var msg = $A.get('$Label.c.PAY_ThePaymentHasBeenCanceled');
+                    var clientReference = payment.clientReference;
+                    msg = msg.replace('{0}', clientReference);
+                    return helper.showToastMode(component, event, helper, msg, '', true, 'success');
+                    $A.get('e.force:refreshView').fire();
+                }else{
+                    return Promise.resolve('OK');
+                }
+            })).catch($A.getCallback(function (error) {
+                console.log('Error handleCancelSelectedPayment: ' + error);
+            })).finally($A.getCallback(function() {                
+                component.set('v.isLoading', false);
+            }));
         }
-    }
+    },
+    /*
+    Author:         Julián Hoyos
+    Company:        
+    Description:    Method to show Discard Pop-up
+    History:
+    <Date>          <Author>                <Description>
+    01/01/2021      Julian Hoyos       Initial version
+    */
+    handleshowDiscardModal : function (component, event, helper) {
+       /* helper.getPaymentDetails(component, event, helper)
+        .then($A.getCallback(function (value) { 
+           var formatDate =  component.get('v.currentUser.dateFormat');
+           return helper.formatUserDate(component, formatDate);
+        })).then($A.getCallback(function (value) { 
+            component.set('v.showDiscardModal', true);
+        })).catch($A.getCallback(function (error) {
+            console.log('Error reject: ' + error);
+        })).finally($A.getCallback(function() {
+           // component.set('v.paymentDetails.draftDate', fecha);
+        }));*/
+        var formatDate =  component.get('v.currentUser.dateFormat');
+        helper.formatUserDate(component, formatDate).then($A.getCallback(function (value) { 
+           component.set('v.showDiscardModal', true);
+			return Promise.resolve('OK');            
+        })).catch($A.getCallback(function (error) {
+            console.log('Error reject: ' + error);
+        })).finally($A.getCallback(function() {
+             
+            // component.set('v.paymentDetails.draftDate', fecha);
+        }));
+        
+    },
+    /*
+    Author:         Julián Hoyos
+    Company:        
+    Description:    Method to control discard payment from Discard Pop-up
+    History:
+    <Date>          <Author>                <Description>
+    01/01/2021      Julian Hoyos       Initial version
+    */
+    handleDiscard : function (component, event, helper) {
+        component.set('v.showDiscardModal', false);
+       return helper.goToDiscard(component, event, helper)
+        .then($A.getCallback(function (value) { 
+            helper.sendToLanding(component, event, helper, true);
+         })).catch(function (error) {
+            console.log(error);
+         }).finally($A.getCallback(function () {
+            console.log('OK');
+            component.set('v.spinner', false);
+        }));
+    },
+    /*
+    Author:         Julián Hoyos
+    Company:        
+    Description:    Method to close Discard Pop-up
+    History:
+    <Date>          <Author>                <Description>
+    01/01/2021      Julian Hoyos       Initial version
+    */
+    handleCloseDiscard : function (component, event, helper) {
+        component.set('v.showDiscardModal', false);
+    },
+    /*
+    Author:         Julián Hoyos
+    Company:        
+    Description:    Method to control send to landing from action
+    History:
+    <Date>          <Author>                <Description>
+    01/01/2021      Julian Hoyos       Initial version
+    */
+    sendToLanding: function (component, event, helper) {
+        if (component.get('v.source') != 'landing-payment-details') {
+            helper.sendToLanding(component,event, helper,false);
+        } else {
+            window.history.back();
+        }
+    },
 })
