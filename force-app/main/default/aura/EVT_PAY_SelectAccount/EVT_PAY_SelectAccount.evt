@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event to notify when account selected in order to get its country, currency and FX">
+    <aura:attribute type="String" name="country"  description="Country of the account to inform the currency and FX" />
+</aura:event>

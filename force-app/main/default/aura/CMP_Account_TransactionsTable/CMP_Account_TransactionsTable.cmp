@@ -1,0 +1,321 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Parent component of my settings
+History
+<Date>			<Author>		<Description>
+02/03/2020		Pablo Tejedor     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- ATTRIBUTES --> 
+    <aura:attribute name="transactionResults" type="List" description="List of rows to show in the table"/>
+    <aura:attribute name="wholeTransactionResults" type="List" description="Map of data returned by the webservice"/>
+    <aura:attribute name="accountDetails" type="Map" description="Details of the account"/>
+    <aura:attribute name="sourcePage" type="String" description="Flag to display the columns according to the source screen"/>
+    <aura:attribute name="loading" type="Boolean" default="true" description="Flag to indicate when the data is loading"/>
+    <aura:attribute name="filters" type="List" description="Map of filters to be passed to the transaction detail page"/>
+    <aura:attribute name="formFilters" type="Map" default="{}" description="Map to store some advanced filters from the modal"/>
+    <aura:attribute name="isEndOfDay" type="Boolean" description="Flag to indicate whether we are on End of Day"/>
+    <aura:attribute name="accountsData"    type="List"     description="List returned by the Balances webservice. It contains data related to the user"/>
+    <aura:attribute name="accountCodeToInfo"    type="Map"     description="Map storing the account code and its related data (country, currency and bank)"/>
+    <aura:attribute name="accountCodesToSearch" type="List" default="[]" description="List of account codes to send to the LU transaction search webservice. Only applies to LU"/>
+    <aura:attribute name="selectedTimeframe" type="String" default="{!$Label.c.last7Days}" description="Default selected timeframe for the dropdown"/>
+    <aura:attribute name="dates" type="List" description="List containing the selected dates" />
+    <aura:attribute name="selectedFilters" type="List" description="Filters captured from the 'Apply filters' event"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+
+    <!-- One Trade (IAM) attributes -->
+    <aura:attribute name="isIAM"   type="Boolean" default="false" description="Checks if comes from IAM" />
+    <aura:attribute name="currentPageNumber"   type="Integer" default="1" description="Page number defined in IAM (One Trade)" />
+    <!--<aura:attribute name="isFirstLoad" type="Boolean" default="true" description="Boolean to know if it's the first time the table is loaded."/>-->
+
+    <!-- Pagination attributes -->
+    <aura:attribute name="transactionsPerPage"      type="Integer"  default="50" description="Number of logs to show in each page of the table"/>
+    <aura:attribute name="currentPage"              type="Integer"  default="1"/>
+    <aura:attribute name="oldPage"                  type="Integer"  default="1"/>
+    <aura:attribute name="start"                    type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"                      type="Integer"  description="Row number of the last displayed row"/>
+    <aura:attribute name="paginatedTransactions"    type="List"/>
+    <aura:attribute name="listOfPages"              type="List"     description="Array containing the pages to show in the pagination"/>
+    <aura:attribute name="maximumRecords" type="Integer" default="0"/>
+
+    <!-- SORT FILTERS ATIBUTTES -->
+    <aura:attribute name="sortBookDate" type="String" default='desc' description="Attributte to sort the Book date column"/>
+    <aura:attribute name="sortCategory" type="String" default='desc' description="Attributte to sort the Category column"/>
+    <aura:attribute name="sortamount" type="String" default='desc' description="Attributte to sort the Category column"/>
+
+    <!-- HANDLERS --> 
+    <aura:handler name="change" value="{!v.transactionResults}" action="{!c.paginationChange}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.paginationChange}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTablePage}"/>
+
+    <!-- EVENTS -->
+    <aura:registerEvent name="sortColumn" type="c:EVT_sortColumnEvent"/>
+    
+    <!-- Service Component -->
+    <c:CMP_ServiceComponent aura:id="Service" />
+
+    <!-- Pagination -->
+    <c:CMP_CN_Pagination aura:id="pagination" allData="{!v.transactionResults}" maximumRecords="{!v.maximumRecords}" isIAM="{!v.isIAM}" 
+    paymentsPerPage="{!v.transactionsPerPage}" nameListToDisplay="{!$Label.c.Account_Transactions}" pageList="{!v.listOfPages}"/>
+                            <!--setCurrentPageNumber="{!v.isIAM}" currentPage="{!v.currentPageNumber}"/>-->
+
+    <!-- TABLE -->
+    <aura:if isTrue="{!v.sourcePage == 'globalBalance'}">
+        <div class="slds-table--header-fixed_container tableGPI">
+
+                <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                    <!-- HEADER -->
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <!-- Book Date column-->
+                            <th class="containerBookDate" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate" >
+                                    {!$Label.c.ExtractSearch_BookDate}
+                                    <aura:if isTrue="{!v.sortBookDate == 'desc'}">
+                                        <!-- Descending order icon -->
+                                        <span class="button-orderRight icon-arrowDown" id="BookDate" onclick="{!c.sortBy}"></span>
+                                        <aura:set attribute="else">
+                                            <!-- Ascending order icon -->
+                                            <span class="button-orderRight icon-arrowUp" id="BookDate" onclick="{!c.sortBy}"></span>  
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            
+                            <!-- Value Date column -->
+                            <th class="containerValueDate" scope="col">
+                                <div class="slds-truncate" >{!$Label.c.valueDate}</div>
+                            </th>
+
+                            <!-- Category column -->
+                            <th class="containerCategory" scope="col">
+                                <div class="slds-truncate">
+                                    {!$Label.c.MovementHistory_Category}
+                                    <aura:if isTrue="{!v.sortCategory == 'desc'}">
+                                        <!-- Descending order icon -->
+                                        <span class="button-orderRight icon-arrowDown" id="Category" onclick="{!c.sortBy}"></span>
+                                        <aura:set attribute="else">
+                                            <!-- Ascending order icon -->
+                                            <span class="button-orderRight icon-arrowUp" id="Category" onclick="{!c.sortBy}"></span>  
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+
+                            <!-- Client Ref column -->
+                            <th class="slds-is-sortable containerClientReference" aria-label="Stage" aria-sort="none" scope="col">
+                                <div class="slds-truncate">{!$Label.c.MovementHistory_CustomerRef}</div>
+                            </th>
+
+                            <!-- Amount column -->
+                            <th class="slds-is-sortable slds-text-align_right containerAmount" aria-label="Confidence" aria-sort="none" scope="col">
+                                <span class="slds-assistive-text">{!$Label.c.sortBy}</span>
+                                <div class="slds-truncate">
+                                    <aura:if isTrue="{!v.sortamount == 'desc'}">
+                                        <span class="button-orderRight icon-arrowDown" id="amount" onclick="{!c.sortBy}"></span>
+                                        <aura:set attribute="else">
+                                            <span class="button-orderRight icon-arrowUp" id="amount" onclick="{!c.sortBy}"></span>  
+                                        </aura:set>
+                                    </aura:if>
+                                    {!$Label.c.MovementHistory_Amount}
+                                </div>
+                            </th>
+                            <!-- <th class="slds-is-sortable slds-text-align_right containerBookBalance" aria-label="Stage" aria-sort="none" scope="col">
+                                <div class="slds-truncate">{!$Label.c.Book_Balance}</div>
+                            </th> -->
+                            <th class="containerIconDetail" scope="col">
+                                <div class="slds-truncate slds-assistive-text">{!$Label.c.Detail}</div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <!-- BODY -->
+                    <tbody>
+                        <aura:iteration items="{!v.transactionResults}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index">
+                            <!-- <c:CMP_Account_TransactionsTableRow transactionRow="{!item}" accountDetails="{!v.accountDetails}" sourcePage="accountTransactions" filters="{!v.filters}"
+                                                                userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" selectedFilters="{!v.selectedFilters}"/> -->
+                            <tr class="slds-hint-parent" aria-selected="false">
+                                <td role="gridcell" class="infoBookDate">
+                                    <div class="slds-grid slds-grid_align-spread"> 
+                                        <span class="slds-truncate text">{!item.obtTransacBusqueda.formattedBookDate}</span>
+                                        <!-- <c:CMP_displayDate dateClass="slds-truncate text" date="{!item.obtTransacBusqueda.bookDate}" userDateFormat="{!v.userPreferredDateFormat}"/> -->
+                                    </div>
+                                </td>
+                    
+                                <td role="gridcell" class="infoValueDate">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{!item.obtTransacBusqueda.formattedValueDate}</span>
+                                        <!-- <c:CMP_displayDate dateClass="slds-truncate text" date="{!item.obtTransacBusqueda.valueDate}" userDateFormat="{!v.userPreferredDateFormat}"/> -->
+                                    </div>
+                                </td>
+                                
+                                <td role="gridcell" class="infoCategory">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{!item.obtTransacBusqueda.tipoTransaccion}</span>
+                                    </div>
+                                    
+                                </td>
+                                
+                                <td role="gridcell" class="infoClientReference">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{!item.obtTransacBusqueda.refCliente}</span>
+                                    </div>
+                                </td>
+                                
+                                <td class="slds-text-align_right infoAmount" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <div class="slds-truncate" >
+                                            <span class="text amountInteger">{!item.obtTransacBusqueda.importeEntero}</span>
+                                            <span class="text amountDecimals">{!item.obtTransacBusqueda.importeDecimal + ' ' + item.obtTransacBusqueda.moneda}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                            
+                                <td class="slds-text-align_right" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <div class="slds-truncate slds-button">
+                                            <div class="icon icon-arrowRight_big" id="{!index}" onclick="{!c.navigateToExtractDetail}">{!$Label.c.Detail}</div>
+                                        </div>
+                                    </div>
+                                </td>  
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+        
+        </div>
+
+        <!-- If coming from the navegation menu -->
+        <aura:set attribute="else">
+
+            <!-- TABLE -->
+            <div class="slds-table--header-fixed_container tableSearch">
+                <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                    <!-- HEADER -->
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th class="slds-is-sortable containerAccount" aria-label="Stage" aria-sort="none" scope="col">
+                                <div class="slds-truncate" >{!$Label.c.accountAndAlias}</div>
+                            </th>
+                            <th class="containerBookDate" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate" >
+                                    {!$Label.c.ExtractSearch_BookDate}
+                                    <aura:if isTrue="{!v.sortBookDate == 'desc'}">
+                                        <!-- Descending order icon -->
+                                        <span class="button-orderRight icon-arrowDown" id="BookDate" onclick="{!c.sortBy}"></span>
+                                        <aura:set attribute="else">
+                                            <!-- Ascending order icon -->
+                                            <span class="button-orderRight icon-arrowUp" id="BookDate" onclick="{!c.sortBy}"></span>  
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            
+                            <th class="containerValueDate" scope="col">
+                                <div class="slds-truncate" >{!$Label.c.valueDate}</div>
+                            </th>
+                            <th class="containerCategory" scope="col">
+                                <div class="slds-truncate">
+                                    {!$Label.c.MovementHistory_Category}
+                                    <aura:if isTrue="{!v.sortCategory == 'desc'}">
+                                        <!-- Descending order icon -->
+                                        <span class="button-orderRight icon-arrowDown" id="Category" onclick="{!c.sortBy}"></span>
+                                        <aura:set attribute="else">
+                                            <!-- Ascending order icon -->
+                                            <span class="button-orderRight icon-arrowUp" id="Category" onclick="{!c.sortBy}"></span>  
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <th class="slds-is-sortable containerClientReference" aria-label="Stage" aria-sort="none" scope="col">
+                                <div class="slds-truncate">{!$Label.c.MovementHistory_CustomerRef}</div>
+                            </th>
+                            <th class="slds-is-sortable slds-text-align_right containerAmount" aria-label="Confidence" aria-sort="none" scope="col">
+                                <span class="slds-assistive-text">{!$Label.c.sortBy}</span>
+                                <div class="slds-truncate" >
+                                    {!$Label.c.MovementHistory_Amount}
+                                    <aura:if isTrue="{!v.sortamount == 'desc'}">
+                                        <span class="button-orderRight icon-arrowDown" id="amount" onclick="{!c.sortBy}"></span>
+                                        <aura:set attribute="else">
+                                            <span class="button-orderRight icon-arrowUp" id="amount" onclick="{!c.sortBy}"></span>  
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </th>
+                            <th class="containerIconDetail" scope="col">
+                                <div class="slds-truncate slds-assistive-text">{!$Label.c.Detail}</div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <!-- BODY -->
+                    <tbody>
+                        <!-- Row iteration -->
+                        <aura:iteration items="{!v.transactionResults}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index">                           
+                            <!-- <c:CMP_Account_TransactionsTableRow transactionRow="{!item}" accountDetails="{!v.accountDetails}" sourcePage="transactions" 
+                                                                filters="{!v.filters}" isEndOfDay="{!v.isEndOfDay}" accountsData="{!v.accountsData}" dates="{!v.dates}"
+                                                                accountCodeToInfo="{!v.accountCodeToInfo}" selectedTimeframe="{!v.selectedTimeframe}" selectedFilters="{!v.selectedFilters}"
+                                                                userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}"/> -->
+                            <!-- Row data -->
+                            <tr class="slds-hint-parent" aria-selected="false">
+                                <td class="infoAccount" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <div class="slds-truncate">
+                                            <div class="text">{!item.obtTransacBusqueda.cuentaExtracto}</div>
+                                            <div class="text">{!item.obtTransacBusqueda.aliasCuentaPerfilado}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <td role="gridcell" class="infoBookDate">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{!item.obtTransacBusqueda.formattedBookDate}</span>
+                                        <!-- <c:CMP_displayDate dateClass="slds-truncate text" date="{!item.obtTransacBusqueda.bookDate}" userDateFormat="{!v.userPreferredDateFormat}"/> -->
+                                    </div>
+                                </td>
+                                
+                                <td role="gridcell" class="infoBookDate">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{!item.obtTransacBusqueda.formattedValueDate}</span>
+                                        <!-- <c:CMP_displayDate dateClass="slds-truncate text" date="{!item.obtTransacBusqueda.valueDate}" userDateFormat="{!v.userPreferredDateFormat}"/> -->
+                                    </div>
+                                </td>
+                                
+                                <td class="infoCategory" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{!item.obtTransacBusqueda.tipoTransaccion}</span>
+                                    </div>
+                                </td>
+                                
+                                <td class="infoClient" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{!item.obtTransacBusqueda.refCliente}</span>
+                                    </div>
+                                </td>
+                                
+                                <td class="slds-text-align_right infoAmount" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <div class="slds-truncate" >
+                                            <span class="text amountInteger">{!item.obtTransacBusqueda.importeEntero}</span>
+                                            <span class="text amountDecimals">{!item.obtTransacBusqueda.importeDecimal + ' ' + item.obtTransacBusqueda.moneda}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <td class="slds-text-align_center" role="gridcell">
+                                    <div class="iconLinkContainer" id="{!index}" onclick="{!c.navigateToExtractDetail}">
+                                        <span class="text-link" >{!$Label.c.Detail}</span>
+                                        <span class="icon-arrowRight_big"></span>
+                                    </div>
+                                </td>                         
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+        </aura:set>
+    </aura:if>
+</aura:component>

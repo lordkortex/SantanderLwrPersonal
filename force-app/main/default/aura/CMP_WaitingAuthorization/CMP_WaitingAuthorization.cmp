@@ -1,0 +1,114 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />   
+    
+    <aura:attribute access="public" type="Boolean"     name="expired"               default="false" />
+    <aura:attribute access="public" type="Boolean"     name="error"               default="false" />
+    <aura:attribute access="public" type="Boolean"     name="errorOTP"               default="false" />
+    <aura:attribute access="public" type="Aura.Action" name="resendAction"/>
+    <aura:attribute access="public" type="Boolean"      name="spinner"              default="false"/>
+    <aura:attribute access="public" type="Boolean"      name="localUser"              default="false"/>
+
+    <aura:attribute access="public" type="Boolean"      name="showDownload"              default="false"/>
+
+    <!-- CARD AUTHORIZATION -->
+    <!-- Añadir la clase counter cuando el tiempo para autorizar el pago esté a punto de agotarse -->
+    <!-- Añadir la clase error cuando el tiempo para autorizar el pago haya expirado -->
+    <lightning:navigation aura:id="navService"/>
+    
+    <div class="authorization_card">        
+
+        <article class="{!'cardAuthorization ' + (v.error ? ' errorClass ' : '') + 'card_s slds-card card_buttons'}">
+            
+            <!-- CARD HEADER -->
+            <div class="slds-card__header slds-grid">
+                
+                <!-- Header que se muestra por defecto -->
+                <header class="slds-media slds-has-flexi-truncate">
+                    <div class="slds-media__body">
+                        
+                        <div class="card_icon">
+                            <aura:if isTrue ="{!v.error}">
+                                <img class="error_icon" src="{!$Resource.Images + '/alert.svg'}"/>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.localUser}">
+                        				<div class="icon-signature-pending"></div> 
+                                        <aura:set attribute="else">
+                                    	<img class="app_icon" src="{!$Resource.Images + '/i-d.jpg'}"/> 
+                                        </aura:set>
+                                    </aura:if>   
+                                </aura:set> 
+                            </aura:if>
+                        </div>
+                        
+                         <aura:if isTrue ="{!v.error}">
+                             <aura:if isTrue="{!v.expired}">
+                                 <h2 class="slds-card__header-title slds-truncate">{!$Label.c.WaitingAuthorizationExpired}</h2>
+                                 <aura:set attribute="else">
+                                 <aura:if isTrue="{!v.errorOTP}">
+                                     <aura:if isTrue="{!v.localUser}">
+                                 		<h2 class="slds-card__header-title slds-truncate">{!$Label.c.apologiesElectronicSignature}</h2>
+                                         <span class="card_subtitle">{!$Label.c.please}&nbsp;<button class="slds-button button_link" onclick="{!v.resendAction}">{!$Label.c.WaitingAuthorizationfail2}</button> </span>
+                                         <aura:set attribute="else">
+                                 		<h2 class="slds-card__header-title slds-truncate">{!$Label.c.apologiesSantaderId}</h2>
+                                         <span class="card_subtitle">{!$Label.c.please}&nbsp;<button class="slds-button button_link" onclick="{!v.resendAction}">{!$Label.c.WaitingAuthorizationfail2}</button> </span>
+                                         </aura:set>
+                                     </aura:if>
+                                     <aura:set attribute="else">
+                                         <h2 class="slds-card__header-title slds-truncate">{!$Label.c.thePaymentHasNotBeenAuthorized}</h2>
+                                         <span class="card_subtitle">{!$Label.c.WaitingAuthorizationfail1}&nbsp;<button class="slds-button button_link" onclick="{!v.resendAction}">{!$Label.c.WaitingAuthorizationfail2}</button> </span>
+                                     </aura:set>
+                                     </aura:if>
+                                 </aura:set>
+                                 
+                             </aura:if>	
+                                                        
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.localUser}">
+                                		<h2 class="slds-card__header-title slds-truncate">{!$Label.c.waitingForAuthorizationLocalBank}</h2> 
+                                        <aura:set attribute="else">
+                                		<h2 class="slds-card__header-title slds-truncate">{!$Label.c.WaitingAuthorization1}</h2> 
+                                    	<span class="card_subtitle">{!$Label.c.WaitingAuthorization2}&nbsp;<button class="slds-button button_link" onclick="{!c.showDownload}">{!$Label.c.WaitingAuthorization3}</button> </span>
+                                        </aura:set>
+                                    </aura:if>                                    
+                                </aura:set> 
+                            </aura:if>
+                    </div>
+                </header>
+                
+            </div>
+            
+            <!-- DIVISION LINE -->      
+            <aura:if isTrue ="{!and(and(!v.error,!v.errorOTP),!v.expired)}">
+            	<div class="card-line"></div>
+            </aura:if>
+            
+            <aura:if isTrue ="{!and(or(and(!v.error,!v.errorOTP),and(v.error,!v.errorOTP)),!v.expired)}">
+                <footer class="slds-card__footer">        
+                    <button class="slds-button button_link" onclick="{!v.resendAction}">{!$Label.c.WaitingAuthorizationResend}<span class="icon_right icon-reload"></span></button>
+                </footer>
+            </aura:if>
+            <aura:if isTrue="{!v.spinner eq true}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+            
+        </article>
+    </div>
+    
+    <!-- CARD BODY -->
+    <div class="slds-card__body">
+    </div>
+    
+     <!-- Enlace de contacto que se mostrará a la vez que la card de autorización -->
+    <div class="contact">
+        <div class="contentCard"> 
+            <article class="slds-card cardProcessExit">
+                <div class="slds-card__header">
+                    <span class="slds-text-heading_small">{!$Label.c.WaitingAuthorizationResendHelp1}<button class="slds-button button_link" onclick="{!c.goToSupport}">{!$Label.c.WaitingAuthorizationResendHelp2}<span class="icon icon-phone-support icon_right"></span></button></span> 
+                </div>  
+            </article>
+        </div>
+    </div>
+    
+    <c:lwc_DownloadApp show="{!v.showDownload}" onhidemodal="{!c.setShowDownload}"/>
+
+</aura:component>

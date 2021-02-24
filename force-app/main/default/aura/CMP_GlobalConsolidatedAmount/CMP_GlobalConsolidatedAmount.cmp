@@ -1,0 +1,66 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="dropdownValues" type="List" description="List of values to populate the dropdown" />
+    <aura:attribute name="dropdownSelectedValue" type="String" default="{!$Label.c.Country}" description="Selected option from the dropdown" />
+    <aura:attribute name="lastUpdateSelected" type="Boolean" default="false" description="Check if 'Last update' button is selected" />
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+
+    <aura:attribute name="selectedCurrency" type="String" default="EUR" description="selectedCurrency" />
+
+    <!-- TOTAL BOOK BALANCE ATTRIBUTES -->
+    <aura:attribute name="totalBookBalance" type="String" default=" " />
+
+    <!-- AVAIBLE BOOK BALANCE ATTRIBUTES -->
+    <aura:attribute name="avaibleBookBalance" type="String" default=" " />
+
+    <aura:handler name="change" value="{!v.totalBookBalance}" action="{!c.updateData}"/>
+    <aura:handler name="change" value="{!v.avaibleBookBalance}" action="{!c.updateData}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <c:CMP_ServiceComponent aura:id="Service" />
+    <aura:attribute name="dataIsLoaded" type="Boolean" default="false" description="Flag to check if data is loaded" />
+    <aura:attribute name="disableDropdown" type="Boolean" default="false" description="Attribute to disable grouping dropdown when there is no data to be displayed"/>
+
+    <div class="slds-grid bookBalance_container">
+        
+            <div class="slds-col">
+                    <div class="slds-form-element slds-combobox__Rg"> 
+                        <!-- DROPDOWN MARKUP -->
+                        <c:CMP_CN_Dropdown aura:id="filterDropdown" isSimpleDropdown="true" values="{!v.dropdownValues}"
+                                        selectedValue="{!v.dropdownSelectedValue}" headerDropdown="{!$Label.c.TotalConsolidatedBy}" isDisabled="{!v.disableDropdown}"/>
+                    </div>
+            </div>
+            <div class="slds-col">
+                <div class="bookBalance" data-aura-rendered-by="63:2;a">
+                    <div class="slds-card__header-title textSubtitle">
+                        <div> {!$Label.c.TotalBookBalance} </div>
+                        <div> {!$Label.c.TotalAvailableBalance} </div>
+                    </div>
+                </div>
+                <div class="bookBalance">
+                     <div class="slds-card__header-title numberTitle">
+                        <aura:if isTrue="{!v.totalBookBalance != ' '}">
+                        <c:CMP_displayAmount amount="{!v.totalBookBalance}" wholeClass="bookInteger" decimalClass="bookDecimals" currencyClass="bookDivisa"
+                        currency="{!v.selectedCurrency}" aura:id="displayAmount" numberFormat="{!v.userPreferredNumberFormat}"/>
+                    </aura:if>
+                    </div>
+
+                    <div class="slds-card__header-title numberSubtitle">
+                        <aura:if isTrue="{!v.avaibleBookBalance != ' '}">
+                            <c:CMP_displayAmount amount="{!v.avaibleBookBalance}" wholeClass="bookInteger" decimalClass="bookDecimals" 
+                                                currencyClass="bookDivisa" currency="{!v.selectedCurrency}" aura:id="displayAmount2" numberFormat="{!v.userPreferredNumberFormat}"/>
+                        </aura:if>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="link_container">
+        <div class="link" onclick="{!c.goToAccounts}">
+            <a class="text-link" href="" data-title="{!$Label.c.ViewAllAccounts}">
+                {!$Label.c.ViewAllAccounts} <span class="icon-arrowRight_big" data-title="{!$Label.c.ViewAllAccounts}"></span>
+            </a>
+        </div>
+    </div>
+</aura:component>

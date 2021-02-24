@@ -1,0 +1,133 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="CNT_MovementHistoryParentController" access="global" >
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="transactionDetails" type="Map" default="{}" description="Map with the values to show as transaction details"/>
+    <aura:attribute name="source" type="String" default="globalBalance-history-extract" description="Indicates the source screen, to display the breadcrumbs accordingly"/>
+    <aura:attribute name="accountNumberBank" type="String" description="Account bank"/>
+    <aura:attribute name="accountNumber" type="String" description="Account number when it's comes from transactions page"/>
+    <aura:attribute name="SelectedAccount" type="String" description="Account selected of the dropdown"/>
+    <aura:attribute name="accountName" type="String" description="Subsidiary name of the account"/> 
+    <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+    <aura:attribute name="dateFrom" type="Date" description="Attribute to store the date from"/> 
+    <aura:attribute name="dateTo" type="Date" description="Field to fill with the date to"/>			
+    <aura:attribute name="availableBalanceParam" type="String" description="Avaiable balance field value of the account information component"/>
+    <aura:attribute name="bookBalanceParam" type="String" description="Book balance field value of the account information component"/>
+    <aura:attribute name="showPills" type="Boolean" default="false" description="Flag to show/hide pills"/>
+    <aura:attribute name="pills" type="List" description="List of pill (strings) to be displayed"/>
+    <aura:attribute name="isSearching"  type="Boolean"  description="List if is searching for transactions"/>
+   
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.getTransactionDetails}"/>
+    <aura:handler  name = "getDataBack" event="c:EVT_GetDataExtractBack" action = "{!c.gobackPage}" />
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+
+    <!-- MARKUP -->
+    <!-- When the flow starts in global balance doing click in the dates to navegate to extacts page -->
+    <aura:if isTrue="{!v.source == 'globalBalance'}"> 
+        <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.Detail}" 
+            breadcrumb="['International_Treasury_Management', 'MovementHistory_Extract','Detail']"    />
+        
+    </aura:if>
+    <!-- When the flow beguins with the dropdown menu Movement History -->
+    <aura:if isTrue="{!v.source == 'dropdownMenu'}">
+        <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.Detail}" 
+            breadcrumb="['MovementHistory_History', 'MovementHistory_Extract','Detail']"
+            />
+    </aura:if>
+   <!-- When the flow starts in global balance doing click in the dates to navegate to  History of extracts page -->
+    <aura:if isTrue="{!v.source == 'historyofextracts'}">
+        <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.Detail}" 
+            breadcrumb="['International_Treasury_Management', 'MovementHistory_History', 'MovementHistory_Extract','Detail']"
+            />
+    </aura:if>
+
+    <aura:if isTrue="{!v.source == 'transactionDropdown'}">
+        <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.Detail}" 
+            breadcrumb="['Account_Transactions', 'Detail']"/>
+    </aura:if>
+    <aura:if isTrue="{!v.source == 'transactionGlobalBalance'}">   
+        <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.Detail}" 
+            breadcrumb="['International_Treasury_Management','Account_Transactions', 'Detail']"/>
+    </aura:if>
+    
+    <!-- DETAILS BODY -->
+    <div class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_Account}
+                </div>
+                <div class="information">
+                    {!v.transactionDetails.account}
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_BookDate}
+                </div>
+                <div class="information">
+                    {!v.transactionDetails.bookDate}
+                </div>
+            </div>
+        </div> 
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.valueDate}
+                </div>
+                <div class="information">
+                    {!v.transactionDetails.valueDate}
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_Category}
+                </div>
+                <div class="information">
+                    {!v.transactionDetails.category}
+                </div>
+            </div>
+        </div>  
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.ClientReference}
+                </div>
+                <div class="information">
+                    {!v.transactionDetails.clientRef}
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_Amount}
+                </div>
+                <div class="information">
+                    {!v.transactionDetails.amount}
+                </div>
+            </div>
+        </div>
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_BankReference}
+                </div>
+                <div class="information">
+                    {!v.transactionDetails.bankRef}
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_Description}
+                </div>
+                <div class="information">
+                    <span class="icon-copy" data-title="{!$Label.c.GroupNew_Copy}" onclick="{!c.copy}"></span>{!v.transactionDetails.description}
+                    
+                </div>
+            </div>
+        </div> 
+    </div>
+    
+
+</aura:component>

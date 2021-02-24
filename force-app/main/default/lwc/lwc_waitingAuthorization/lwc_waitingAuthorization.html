@@ -1,0 +1,84 @@
+<template>
+      
+    <div class="authorization_card">
+
+        <article class="cardAuthorization card_s slds-card card_buttons">
+            
+            <!-- CARD HEADER -->
+            <div class="slds-card__header slds-grid">
+                
+                <!-- Header que se muestra por defecto -->
+                <header class="slds-media slds-has-flexi-truncate">
+                    <div class="slds-media__body">
+                        
+                        <div class="card_icon">
+                            <template if:true={error}>
+                                <img class="error_icon" src={imageAlert}/>
+                            </template>
+                            <template if:false={error}>
+                                <img class="app_icon" src={imageApp}/> 
+                            </template> 
+                            
+                        </div>
+                        
+                        <template if:true={error}>
+                            <template if:true={expired}>
+                                 <h2 class="slds-card__header-title slds-truncate">{Label.WaitingAuthorizationExpired}</h2>
+                            </template>
+                            <template if:false={expired}>
+                                <template if:true={errorOTP}>
+                                    <h2 class="slds-card__header-title slds-truncate">{Label.errorGetOTP_Strategic}</h2>
+                                    <span class="card_subtitle">{Label.WaitingAuthorization2}&nbsp;<button class="slds-button button_link"  onclick={showDownload}>{Label.WaitingAuthorization3}</button> </span>
+                                </template>
+                                <template if:false={errorOTP}>
+                                    <h2 class="slds-card__header-title slds-truncate">{Label.WaitingAuthorizationExpired}</h2>
+                                    <span class="card_subtitle">{Label.WaitingAuthorizationfail1}&nbsp;<button class="slds-button button_link" onclick={handleResend}>{Label.WaitingAuthorizationfail2}</button> </span>
+                                </template>
+                            </template>
+                        </template>                           
+                        <template if:false={error}>
+                            <h2 class="slds-card__header-title slds-truncate">{Label.WaitingAuthorization1}</h2> 
+                            <span class="card_subtitle">{Label.WaitingAuthorization2}&nbsp;<button class="slds-button button_link" onclick={showDownload}>{Label.WaitingAuthorization3}</button> </span>
+                        </template> 
+                            
+                    </div>
+                </header>
+            </div>
+            
+            <!-- DIVISION LINE -->        
+            <div class="card-line"></div>
+            
+            <!-- CARD BODY -->
+            <!-- añadir la clase error junto a la clase slds-card__body cuando el código introducido sea incorrecto -->
+            <!-- añadir la clase expired-code junto a la clase slds-card__body cuando el código haya expirado 
+            <div class="slds-card__body">
+            </div>-->
+            
+            <!-- CARD FOOTER -->
+            <!-- Footer por defecto. Se ocultará cuando el código haya expirado -->
+            <template if:true={footerExpired}>
+                <footer class="slds-card__footer">        
+                    <button class="slds-button primary button_small button_full" onclick={handleResend}>{Label.WaitingAuthorizationResend}</button>
+                </footer>
+            </template>
+            <template if:true={spinnerEqualsTrue}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+            
+        </article>
+    </div>
+    
+     <!-- Enlace de contacto que se mostrará a la vez que la card de autorización -->
+    <div class="contact">
+        <div class="contentCard"> 
+            <article class="slds-card cardProcessExit">
+                <div class="slds-card__header">
+                    <span class="slds-text-heading_small">{Label.WaitingAuthorizationResendHelp1}<button class="slds-button button_link" onclick={goToSupport}>{Label.WaitingAuthorizationResendHelp2}<span class="icon icon-phone-support icon_right"></span></button></span> 
+                </div>  
+            </article>
+        </div>
+    </div>
+    
+    <!--<c:lwc_DownloadApp show="{!v.showDownload}" onhidemodal="{!c.setShowDownload}"/>-->
+
+</template>

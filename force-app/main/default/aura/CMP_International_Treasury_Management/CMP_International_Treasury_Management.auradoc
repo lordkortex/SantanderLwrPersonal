@@ -1,0 +1,39 @@
+<aura:documentation>
+    <aura:description>
+        <p style="font-weight: bold">"International Treasury Management" displays a corporate list of accounts, calculating the sum of book balance values and the sum of available balance values.</p>
+        
+        <h3>History</h3>
+        
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>01/10/2019</td>
+                <td>Laura Espinel</td>
+                <td>Design</td>
+            </tr>
+            <tr>
+                <td>25/10/2019</td>
+                <td>Amanda Fernandez</td>
+                <td>Layout coding of the page</td>
+            </tr>
+            <tr>
+                <td>28/10/2019</td>
+                <td>Shahad Naji</td>
+                <td>Interactive web pages</td>
+            </tr>
+            <tr>
+                <td>28/10/2019</td>
+                <td>Shahad Naji</td>
+                <td>Back-end development</td>
+            </tr>
+            
+        </table>
+    </aura:description>
+    <aura:example name="ExampleName" ref="c:CMP_International_Treasury_Management" label="Label">
+        Example Description
+    </aura:example>
+</aura:documentation>

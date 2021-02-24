@@ -1,0 +1,224 @@
+<template>
+	<!-- FULL SCREEN MODAL -->
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container"> 
+            <!-- MODAL HEADER -->
+            <!-- Añadir la clase oneStep en la etiqueta <header> cuando la barra de progreso tenga un único paso -->
+            <!-- Añadir la clase errorStep en la etiqueta <header> cuando se haya producido un error de sistema -->
+            <header class="slds-modal__header slds-is-fixed">
+                
+                 <div class="row slds-grid">
+					<div class="slds-col slds-size_1-of-3">
+                        <!-- BACK BUTTON -->
+                        <button class="slds-button button_link" onclick={goBack}> 
+                            <span class="icon-arrowLeft_big icon_left"></span>{label.back}
+                        </button>
+                    </div>
+                     
+                    <div class="slds-col slds-size_1-of-3">
+                        <img class="logo-red" src={logo}/>
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.cmpOTVTalkWithAnExpert_1}</h2>
+                    </div>
+                     
+                     <div class="slds-col slds-size_1-of-3">
+                        <!-- CANCEL BUTTON -->
+                        <!--<button class="slds-button button_link"> 
+                            Cancel process<span class="icon-close icon_right"></span>
+                        </button>-->
+                     </div>
+                 </div>
+                
+                 <div class="row">
+                    <!-- PROGRESS BAR -->
+                    <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar">
+                        <!-- PROGRESS 1/3 -->
+                        <!--<span class="slds-progress-bar__value" style="width:33%">
+                        	<span class="slds-assistive-text">Progress: 33%</span>
+                        </span>-->
+                        
+                        <!-- PROGRESS 2/3 -->
+                        <!--<span class="slds-progress-bar__value" style="width:66%">
+                        	<span class="slds-assistive-text">Progress: 66%</span>
+                        </span>-->
+						
+                        <!-- PROGRESS 3/3 -->
+                        <span class="slds-progress-bar__value" style="width:100%">
+                        	<span class="slds-assistive-text">{label.cmpOTVTalkWithAnExpert_2}</span>
+                        </span>
+                    </div>
+                 </div> 
+            </header>
+            <!-- MODAL CONTENT -->
+            <div class="slds-modal__content" id="modal-content-id-1">
+                <div class="slds-grid__content">
+                    <div class="slds-grid">
+                        <div class="slds-col">
+                            <figure class="slds-image">
+                                <img src={talkWithExpert} alt="Description of the image" />
+                            </figure>
+                            <div class="text">
+                                <div class="slds-text-heading">{label.cmpOTVTalkWithAnExpert_3}</div>
+                                <div class="slds-text-body">{label.cmpOTVTalkWithAnExpert_4}</div>
+                            </div>
+                        </div>
+                        <div class="line slds-col"></div>
+                        <div class="slds-col">
+                            <div class="textContact">
+                                <div class="slds-text-heading">{label.cmpOTVTalkWithAnExpert_5}</div>
+                                <div class="textInput_simple">
+            
+                                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                    <div class="slds-form-element input"> 
+                                        <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                       <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVTalkWithAnExpert_6}</label>
+                                        
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                            
+                                            <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                            <input type="text" id="name" placeholder="" value={valueName} class="slds-input" name="contactName" readonly/> 
+                                            
+                                            <!-- Icono que aparecerá cuando este disabled -->
+                                            <div class="slds-button__icon disabled" aria-hidden="true">
+                                                <div class="button icon-prohibited"></div>
+                                            </div>
+                                            
+                                            <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                            <!--<button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">{label.cmpOTVTalkWithAnExpert_Clear}</span>
+                                            </button>-->
+                                            
+                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                            <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                            
+                                            <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                            <div class="errorText">{label.cmpOTVTalkWithAnExpert_Error}</div>
+                                        </div>
+                                    </div>
+                            
+            						<!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                    <div class="slds-form-element input"> 
+                                        <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                        <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVTalkWithAnExpert_7}</label>
+                                        
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                            
+                                            <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                            <input type="text" id="email" placeholder="" value={valueEmail} class="slds-input" name="contactEmail" onkeyup={handleEmail}/> 
+                                            
+                                            <!-- Icono que aparecerá cuando este disabled -->
+                                            <div class="slds-button__icon disabled" aria-hidden="true">
+                                                <div class="button icon-prohibited"></div>
+                                            </div>
+                                            
+                                            <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={clearEmail}>
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">{label.cmpOTVTalkWithAnExpert_Clear}</span>
+                                            </button>
+                                            
+                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                            <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                            
+                                            <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                            <div class="errorText">{label.cmpOTVTalkWithAnExpert_Error}</div>
+                                        </div>
+                                    </div>
+            
+                                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                    <div class="slds-form-element input"> 
+                                        <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                        <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVTalkWithAnExpert_8}</label>
+                                        
+                                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                            
+                                            <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                            <input type="text" id="phone" placeholder="" value={valuePhone} class="slds-input" name="contactPhone" onkeyup={handlePhone}/> 
+                                            
+                                            <!-- Icono que aparecerá cuando este disabled -->
+                                            <div class="slds-button__icon disabled" aria-hidden="true">
+                                                <div class="button icon-prohibited"></div>
+                                            </div>
+                                            
+                                            <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={clearPhone}>
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">{label.cmpOTVTalkWithAnExpert_Clear}</span>
+                                            </button>
+                                            
+                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                            <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                            
+                                            <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                            <div class="errorText">{label.cmpOTVTalkWithAnExpert_Error}</div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="slds-text-heading">{label.cmpOTVTalkWithAnExpert_9}</div>
+                            	<div class="check">
+                                	<fieldset class="slds-form-element checkbox">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox slds-truncate">
+                                                <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                                                <input type="checkbox" name="options" id="morning" value="Morning" onclick={handleCheckbox}/>
+                                                <label class="slds-checkbox__label" for="morning">
+                                                    <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label checkboxLabel">{label.cmpOTVTalkWithAnExpert_10}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                	</fieldset>
+                                    <fieldset class="slds-form-element checkbox">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox slds-truncate">
+                                                <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                                                <input type="checkbox" name="options" id="weekdays" value="Weekdays" onclick={handleCheckbox}/>
+                                                <label class="slds-checkbox__label" for="weekdays">
+                                                    <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label checkboxLabel">{label.cmpOTVTalkWithAnExpert_11}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                	</fieldset>
+                                </div>
+                                <div class="check">
+                                    <fieldset class="slds-form-element checkbox">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox slds-truncate">
+                                                <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                                                <input type="checkbox" name="options" id="afternoon" value="Afternoon" onclick={handleCheckbox}/>
+                                                <label class="slds-checkbox__label" for="afternoon">
+                                                    <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label checkboxLabel">{label.cmpOTVTalkWithAnExpert_12}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                	</fieldset>
+                                    <fieldset class="slds-form-element checkbox">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox slds-truncate">
+                                                <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                                                <input type="checkbox" name="options" id="weekend" value="Weekend" onclick={handleCheckbox}/>
+                                                <label class="slds-checkbox__label" for="weekend">
+                                                    <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label checkboxLabel">{label.cmpOTVTalkWithAnExpert_13}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                	</fieldset>
+                                </div>
+                               	<button class="slds-button primary button_full" onclick={sendInfo}>{label.cmpOTVTalkWithAnExpert_14}</button>
+                			</div>
+                		</div>
+            		</div>
+            	</div> 
+        	</div>
+            </div> 
+    	</section> 
+    <div class="slds-backdrop slds-backdrop_open"></div> 
+</template>

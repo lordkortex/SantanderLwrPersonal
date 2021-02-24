@@ -1,0 +1,87 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Parent component of the group creation.
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="CNT_GroupController">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+
+    <aura:attribute name="maxWidth"     type="Integer"  default="1184"  description="Default width for the page container"/>
+    <aura:attribute name="stage1Finished" type="boolean" default ="false"/>
+    <aura:attribute name="currentStageNumber" type="Integer" default="1" description="Current stage of the group creation"/>
+    <aura:attribute name="groupName" type="String" description="Name of the group that is getting created" />
+    <aura:attribute name="groupToCopy" type="String" description="Where is the group beeing copied from" />
+    <aura:attribute name="tabSelected" type="String" description="Tab selected at step 2 of the group creation" />
+    <aura:attribute name="comesFromGroups" type="boolean" default="false" description="Checks if the component comes from groups" />
+    <aura:attribute name="showModal" type="Boolean" default="false" description="Flag to show/hide the confirmation modal"/>
+    <aura:attribute name="modalDeleteInfo" type="Map" default="{}" description="Show the info of the pop-up"/>
+    <aura:attribute name="selectedValue" default ="" type="String" description="Selected option from the dropdown"/>
+    <aura:attribute name="groupAuth" type="String" description="Authorization code of the group that is getting created" />
+    <aura:attribute name="groupId" type="String" description="Id of the group that is getting created" />
+
+    <!-- STEP 2 ATTRIBUTES -->
+    <aura:attribute type="boolean" name="Step2dataExpanded" default="true" description="Checks if the values are expanded"/>
+    <aura:attribute name="entitlementName" type="List" description="Name of the entitlement" default = "[]"/>
+    <aura:attribute name="hasProfile"     type="boolean" default="false" description="checks if has profiling the page where this comes from" />
+    <aura:attribute name="servicesList" type="List" default ="[]" description="Services from the step 2" />
+
+    
+    <!-- PROFILING TABLE ATTRIBUTES (STEP 3) -->
+    <aura:attribute name="profilingTableExpanded" type="Boolean" default="true" description="Expands the profiling table details"/>
+    <aura:attribute name="profilingTableInnerData" type="List" description="Data to be grouped in the table"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.currentStageNumber}" action="{!c.populateProfilingTable}"/>
+    <aura:handler name="change" value="{!v.hasProfile}" action="{!c.populateProfilingTable}"/>
+    <aura:handler name="buttonClickedEvent" event="c:EVT_TitleButtonClicked" action="{!c.handleComponentEvent}" />
+    <aura:handler name="modalEvent" event="c:EVT_ModalWithTextEvent" action="{!c.returnToGroupList}"/>
+    <aura:handler name="ServicesDelete" event="c:EVT_GroupNew_Delete" action="{!c.deleteService}"/>
+
+    <!-- MARKUP -->
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+    <lightning:navigation aura:id="navService"/>
+
+    <div style="{!'width:' + v.maxWidth + 'px;'}">
+        
+        <!--TITLE--> 
+        <c:CMP_Title title="{!v.comesFromGroups ? $Label.c.UserGroupProfile : $Label.c.GroupNewConfigProfiling_NewUserGroup}"/>
+
+        <!--PROGRESS BAR-->
+        <c:CMP_GroupNewProgressBar currentStageNumber="{!v.currentStageNumber}" stage1Finished="{!v.stage1Finished}"/>
+
+        <!--STEP 1-->
+        <aura:if isTrue="{!v.currentStageNumber == 1 }">
+            <!--Group Detail(Name)-->
+            <c:CMP_GroupNew_Details groupName="{!v.groupName}"/>
+            <!--Copy Profile Group-->
+            <c:CMP_GroupNew_CopyProfile selectedValue ="{!v.groupToCopy}"/>
+            <!--Services of the Group-->
+            <c:CMP_UserNew_Services hasProfile="{!v.hasProfile}" servicesList="{!v.servicesList}" comesFrom="Profile-Group" selectedValue="{!v.selectedValue}" userGroup="{!v.groupName}"/>
+        </aura:if>
+
+        <!--STEP 2-->
+        <aura:if isTrue="{!v.currentStageNumber == 2 }">
+            <c:CMP_GroupNewS2_NameInfo groupName="{!v.groupName}"/>
+            <c:CMP_GroupNewS2_Tabs />
+            <c:CMP_GroupNewS2_ReportsTitle dataExpanded="{!v.profilingTableExpanded}"/>
+            <c:CMP_GroupNewS2_EntitlementsTable entitlementName="{!v.entitlementName}"/>
+            <c:CMP_GroupNewS2_ProfilingTable aura:id="profilingTable" dataExpanded="{!v.profilingTableExpanded}" 
+                data="{!v.profilingTableInnerData}" isSummary="false"/>
+        </aura:if>
+
+        <!-- MODAL TO RETURN TO GROUP LIST-->
+        <aura:if isTrue="{!v.showModal}">
+            <c:CMP_ModalWithText title="{!$Label.c.TextModal_CancelTransactionTitle}" subtitle="{!$Label.c.TextModal_CancelTransactionSubtitle}"/>
+        </aura:if>
+
+        <!--BUTTONS-->
+        <c:CMP_GroupNewButtons currentStageNumber="{!v.currentStageNumber}" stage1Finished="{!v.stage1Finished}" groupName="{!v.groupName}" groupId="{!v.groupId}" groupAuth="{!v.groupAuth}" showModal="{!v.showModal}" hasProfile="{!v.hasProfile}" comesFromGroups="{!v.comesFromGroups}"/>
+    </div>
+
+    <c:CMP_ServicesModal_Delete modalDeleteInfo="{!v.modalDeleteInfo}" hasProfile="{!v.hasProfile}" servicesList="{!v.servicesList}" groupName="{!v.groupName}" selectedValue="{!v.selectedValue}" aura:id="servicesDelete"/>
+  
+</aura:component>

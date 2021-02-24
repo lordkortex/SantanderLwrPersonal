@@ -1,0 +1,132 @@
+<aura:component controller="CNT_PaymentsLandingParent" implements="forceCommunity:availableForAllPageTypes" extends="c:CMP_PaymentsLoadUserAccounts" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute access="public"  type="Map"     name="currentUser"              				description="Current user data"/>
+    <aura:attribute access="public"  type="Map"     name="accountData"                              description="Current account data"/>
+    <aura:attribute access="public"  type="Map"     name="transferTypeParams"       default="{}" />
+    <aura:attribute access="public"  type="Integer" name="singleNumRecords"         default="0" 	description="Number of records in Single tab"/>
+    <aura:attribute access="public"  type="Integer" name="multipleNumRecords" 		default="0" 	description="Number of records in Multiple tab"/>
+    <aura:attribute access="public"  type="Boolean" name="isSingleTabSelected"		default="true" 	description="Attribute which detemines which tab is selected"/>
+    <aura:attribute access="public"  type="List"	name="singlePaymentStatusBoxes" default="[]"	description="A collection that contains the number of records of each payment status of Single tab"/>
+    <aura:attribute access="public"	 type="Object"	name="selectedPaymentStatusBox" default="" 		description="Selected payment status"/>
+    <aura:attribute access="public"  type="List" 	name="initialSinglePaymentList" default="[]" 	description="List of single tab payments that are displayed in the table"/>
+    <aura:attribute access="public"  type="List" 	name="singlePaymentList" 		default="[]" 	description="List of single tab payments that are displayed in the table"/>
+    <aura:attribute	access="private" type="Boolean"	name="isSingleDataLoaded"		default=""		description="Attribute which detemines wheather single data tab has been loaded or not"/>
+    <aura:attribute access="public"  type="Boolean" name="showDownloadModal" 		default="false" description="Boolean to show or hide download modal (CMP_PaymentsLandingDownloadModal)"/>
+    <aura:attribute	access="public"  type="Boolean"	name="showFilterModal"			default="false"	description="Boolean to show or hide advanced filter modat (CMP_PaymentsLandingFilterModal)"/>
+    <aura:attribute access="private" type="List"	name="accounts" 		        default="[]"	description="List of accounts"/>
+    <aura:attribute access="public"  type="Boolean"	name="hasSearched" 				default="false"	description="Controls wheather the user has made a search or not"/>
+    <aura:attribute access="public"  type="Boolean"	name="isLoading" 				default="false"	description="Controls whether the spinner shows when records are loading"/>
+    <aura:attribute access="public"  type="Boolean" name="showMethodModal"          default="false" description="Controls whether the Payment Methods modal is open or not"/>
+    <aura:attribute access="public"  type="Boolean" name="resetSearch" 	            default="false" description="Reset search when the button is clicked." />
+    <aura:attribute access="public"  type="Boolean" name="reload"                   default="false" description="Indicates if the conection with the service should be retried." />
+    <aura:attribute access="public"  type="Boolean" name="noService" 			    default="false" description="No service so show empty table without spinner or error message if no payments." />
+
+
+    <!--AUXILIAR ATTRIBUTES -->
+    <aura:attribute access="public" type="List" name="singleCurrencyDropdownList" 	   default="[]" description="List of currencies that are displayed in the dropdown in Single tab"/>
+    <aura:attribute access="public" type="List" name="singleStatusDropdownList"   	   default="[]" description="List of statuses that are displayed in the dropdown in Single tab"/>
+    <aura:attribute access="public" type="List" name="singlePaymentMethodDropdownList" default="[]" description="List of payment methods that are displayed in the dropdown in Single tab"/>
+    <aura:attribute access="public" type="List" name="singleCountryDropdownList" 	   default="[]" description="List of countries that are displayed in the dropdown in Single tab"/>
+    <aura:attribute access="public" type="List" name="simpleCountryDropdownList" 	   default="[]" description="List of countries displayed in Payment Method Modal dropdown"/>
+    <aura:attribute access="public" type="List" name="availableStatuses" 	           default="[]" description="List of status-reason pairs visible to front-end user"/>
+
+    
+    
+    <!-- Filters selected items-->
+    <aura:attribute access="public" type="String"  name="searchedString" 		   default=""      description="Search information placed in the account search input." />
+    <aura:attribute access="public" type="List"    name="selectedStatuses" 		   default="[]"    description="List of selected statuses." />
+    <aura:attribute access="public" type="List"    name="selectedCurrencies" 	   default="[]"    description="List of selected currencies." />
+    <aura:attribute access="public" type="String"  name="selectedMethod"           default=""	   description="Selected payment method."/>
+    <aura:attribute access="public" type="Boolean" name="pendingOfMyAuthorization" default="false" description="True when 'Pending of my authorization' header option is clicked." />
+    <aura:attribute access="public" type="Boolean" name="isHeaderOptionSelected"   default="false" description="True when a header option is selected." />
+    
+    <aura:attribute access="public" type="Integer" 	name="filterCounter" 		   default="0" 	   description="Counts the number of types of filers selected (source account, amount, currency, status, payment method, client reference, destination country, date)"/>
+    <aura:attribute access="public" type="Boolean"	name="showSpinner" 			   default="true"  description="Controls whether the spinner shows when whole page is loading"/>
+    <aura:attribute access="public" type="List"  	name="filteredPaymentList" 	   default="[]"	   description="List of payments filtered by the selected filters"/>
+    <aura:attribute access="public" type="Boolean"  name="reloadAccounts"          default="false" description="Retry the call to retrieve list of accounts." />
+
+    <aura:attribute access="public" type="String" 	name="urlFilter" 	           default="" 	   description="User selected a filter through URL." />
+    
+    <!--DOWNLOAD--> 
+    <aura:attribute access="public" type="List"    	name="selectedRows"	           default="[]"    description="List of payment IDs selected in the table"/>
+    <aura:attribute access="public" type="Boolean" 	name="isAllSelected"           default="false" description="Controls weather all rows are selected or not"/>
+    
+    <aura:handler 	name="init"   						value="{!this}" 						action="{!c.doInit}" />   
+    <aura:handler 	name="change" 						value="{!v.isSingleTabSelected}" 		action="{!c.displayData}" />
+    <aura:handler 	name="change" 						value="{!v.selectedPaymentStatusBox}" 	action="{!c.handleHeaderSearch}" />    
+    <aura:handler   name="change" 						value="{!v.resetSearch}" 				action="{!c.handleResetSearch}" />
+    <aura:handler 	name="searchOperationsListFired" 	event="c:EVT_OperationsList"       		action="{!c.handleSearchOperationsList}" />
+    <aura:handler 	name="applyDownload"             	event="c:EVT_PAY_Download"         		action="{!c.handleDownload}" />
+    <aura:handler   name="toastEvent"				 	event="c:EVT_OpenModal"	        		action="{!c.displaySendToReviewToast}"/>
+    <!--<aura:handler   name="reloadAccounts"            	event="c:EVT_B2B_ReloadGetData"    		action="{!c.handleReloadPage}" />-->
+	
+     <!-- <aura:handler   name="change" value="{!v.reload}"                   action="{!c.doInit}" /> -->
+<!--<aura:handler   name="change" value="{!v.reloadAccounts}"           action="{!c.handleReloadRetrieveAccounts}" />-->
+    
+    
+    <c:CMP_B2B_Toast aura:id="errorToast" 	reload="{!v.reload}"/>
+   <!-- <c:CMP_B2B_Toast aura:id="successToast" reload="{!v.reload}"/>-->
+    <c:CMP_ServiceComponent aura:id="Service"/>
+    
+    <lightning:navigation aura:id="navService"/>
+    <!-- FULL SCREEN -->
+    <div class="{!v.showSpinner == true ? 'contentPayments slds-is-relative' : 'contentPayments'}">
+        <!-- HEADER -->
+        <div>           
+            <c:CMP_PaymentsLandingHeader userFirstName="{!v.currentUser.firstName}" singleNumRecords="{!v.singleNumRecords}" multipleNumRecords="{!v.multipleNumRecords}" isSingleTabSelected="{!v.isSingleTabSelected}" showMethodModal="{!v.showMethodModal}"/>
+        </div>
+        <!-- CONTENT -->
+        <aura:if isTrue="{!v.isSingleTabSelected}">
+            <div>
+                <c:CMP_PaymentsLandingBoxes paymentStatusBoxes="{!v.singlePaymentStatusBoxes}" selectedPaymentStatusBox="{!v.selectedPaymentStatusBox}" resetSearch="{!v.resetSearch}" /> 
+            </div>
+            <div>
+                <aura:if isTrue="{!v.isSingleDataLoaded}">
+                    <c:CMP_PaymentsLandingFilters aura:id="paymentsLandingFilters" showDownloadModal="{!v.showDownloadModal}" showFilterModal="{!v.showFilterModal}" isLoading="{!v.isLoading}"
+                                                  currentUser="{!v.currentUser}"
+                                                  searchedString="{!v.searchedString}"
+                                                  selectedStatuses="{!v.selectedStatuses}" selectedPaymentStatusBox="{!v.selectedPaymentStatusBox}" statusDropdownList = "{!v.singleStatusDropdownList}"
+                                                  selectedCurrencies="{!v.selectedCurrencies}" currencyDropdownList="{!v.singleCurrencyDropdownList}" 
+                                                  paymentMethodDropdownList="{!v.singlePaymentMethodDropdownList}"
+                                                  countryDropdownList="{!v.singleCountryDropdownList}" accounts="{!v.accounts}"
+                                                  resetSearch="{!v.resetSearch}"
+                                                  filterCounter="{!v.filterCounter}"    
+                                                  isHeaderOptionSelected = "{!v.isHeaderOptionSelected}" pendingOfMyAuthorization = "{!v.pendingOfMyAuthorization}"
+                                                  reloadAccounts="{!v.reloadAccounts}"
+                                                  numberOfPayments="{!v.singlePaymentList.length}"
+                                                  availableStatuses="{!v.availableStatuses}"
+                                                  />
+                    
+                </aura:if>
+            </div>
+            <!-- TABLE -->
+            <div>
+                <c:CMP_PaymentsLandingTable aura:id="paymentsLandingTable" currentUser="{!v.currentUser}"
+                                            selectedPaymentStatusBox="{!v.selectedPaymentStatusBox}" searchedString="{!v.searchedString}" hasSearched="{!v.hasSearched}"
+                                            showFilterModal="{!v.showFilterModal}" isLoading="{!v.isLoading}" resetSearch="{!v.resetSearch}"
+                                            filterCounter="{!v.filterCounter}" selectedRows="{!v.selectedRows}" isAllSelected="{!v.isAllSelected}"
+                                            noService="{!v.noService}" />
+                
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!not(v.isSingleTabSelected)}">
+        </aura:if>
+        <aura:if isTrue="{!v.showSpinner eq true}">
+            <lightning:spinner alternativeText="Loading" size="medium" />
+        </aura:if>
+    </div>
+    
+    <aura:if isTrue="{!v.showDownloadModal}">
+        <c:CMP_PaymentsLandingDownloadModal showDownloadModal="{!v.showDownloadModal}" selectedRows="{!v.selectedRows}" 
+                                            filterCounter="{!v.filterCounter}" listLength="{!v.singlePaymentList.length}"
+                                            isAllSelected="{!v.isAllSelected}"/>
+    </aura:if>
+
+    <aura:if isTrue="{!v.showMethodModal}">
+        <c:CMP_PaymentsMethodModal showMethodModal="{!v.showMethodModal}" countryDropdownList="{!v.simpleCountryDropdownList}"  userData="{!v.currentUser}"/>
+    </aura:if>
+
+  
+    
+</aura:component>

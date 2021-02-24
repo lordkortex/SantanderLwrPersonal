@@ -1,0 +1,18 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <div class="table-background">
+        <div class="spinnerLoading">
+            <div role="status" class="slds-spinner slds-spinner_medium">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+            <div class="spinnerText">
+                <div class="title">{!$Label.c.LoadingPayments}</div>
+                <div class="subtitle">{!$Label.c.JustASecond + '...'}</div>
+            </div>
+        </div>
+    </div>
+    
+</aura:component>

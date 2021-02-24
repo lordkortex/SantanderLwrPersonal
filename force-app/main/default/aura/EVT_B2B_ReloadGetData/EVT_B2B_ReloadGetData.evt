@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event that fire when the action toast is clicked.">
+    <aura:attribute type="Boolean" name="reload"  description="Confirm that the action must be reloaded or executed." />
+    <aura:attribute type="Boolean" name="landing" description="Confirm that the action must be done in the landing or B2B process." />
+</aura:event>

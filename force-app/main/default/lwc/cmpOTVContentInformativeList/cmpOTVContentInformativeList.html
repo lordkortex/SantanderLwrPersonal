@@ -1,0 +1,64 @@
+<template>
+	<div class="welcomingContent">
+        <div class="slds-grid">
+            <div class="slds-col">
+                <figure class="slds-image">
+                    <!-- Descomentar en Benefit 1 -->
+                    <img if:true={b1Selected} src={contentInforIlustration}/>
+                    <!-- Descomentar en Benefit 2 -->
+                    <img if:true={b2Selected} src="/sfsites/c/resource/1598863220000/Images/content-info-list-illustration-2@2x.png"/>
+                    <!-- Descomentar en Benefit 3 -->
+                    <img if:true={b3Selected} src="/sfsites/c/resource/1598863220000/Images/content-info-list-illustration-3@2x.png"/>
+                    <!-- Descomentar en Benefit 4 -->
+                    <img if:true={b4Selected} src="/sfsites/c/resource/1598863220000/Images/content-info-list-illustration-4@2x.png"/>
+                </figure>
+                <div class="textImage"><p>{label.cmpOTVContentInformativeList_1}</p></div>
+            </div>
+            <div class="slds-col">
+                <div class="slds-text-heading">{label.cmpOTVContentInformativeList_2}</div>
+                <ol class="slds-list">
+
+                    <!-- BENEFIT 1 -->
+                    <li data-id="b1" name="b1" class="slds-item selected" onclick={selectContent}>
+                        <div class="slds-media__figure containerIcon">
+                            <span class="icon-wallet"></span>
+                        </div>
+                        <div class="slds-item__content">
+                            <p>{label.cmpOTVContentInformativeList_3}</p> 
+                        </div>
+                    </li>
+
+                    <!-- BENEFIT 2 -->
+                    <li data-id="b2" name="b2" class="slds-item" onclick={selectContent}>
+                        <div class="slds-media__figure containerIcon">
+                            <span class="icon-urgent"></span>
+                        </div>
+                        <div class="slds-item__content">
+                            <p>{label.cmpOTVContentInformativeList_4}</p> 
+                        </div>
+                    </li>
+                    
+                    <!-- BENEFIT 3 -->
+                    <li data-id="b3" name="b3" class="slds-item" onclick={selectContent}>
+                        <div class="slds-media__figure containerIcon">
+                            <span class="icon-international-transfer"></span>
+                        </div>
+                        <div class="slds-item__content">
+                            <p>{label.cmpOTVContentInformativeList_5}</p> 
+                        </div>
+                    </li>
+
+                    <!-- BENEFIT 4 -->
+                    <li data-id="b4" name="b4" class="slds-item" onclick={selectContent}>
+                        <div class="slds-media__figure containerIcon">
+                            <span class="icon-lightening"></span>
+                        </div>
+                        <div class="slds-item__content">
+                            <p>{label.cmpOTVContentInformativeList_6}</p> 
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</template>

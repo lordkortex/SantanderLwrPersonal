@@ -1,0 +1,163 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <c:CMP_ServiceComponent aura:id="service"/>
+    
+    <!-- AURA ATTRIBUTES -->
+    <aura:attribute name="accountDetails" type="Map" default="{}" description="This attribute stores the data related with the account"/>
+    <aura:attribute name="source" type="String" description="Source page to know where to navigate to and from"/>
+    <aura:attribute name="lastUpdate" type="Boolean" description="Indicates whether the previous screen was displaying last update data"/>
+    <aura:attribute name="showAccountDetailLink" type="Boolean" default="true" description="Show / hide the Account Details link"/>
+    <aura:attribute name="showLatestInformationTimestamp" type="Boolean" default="true" description="Show / hide the latest information timestamp"/>
+    <aura:attribute name="filters" type="List" description="Map of filters applied in the CMP_Account_TransactionsParent component"/>
+    <aura:attribute name="accountToCopy" type="String" description="Account number passed as parameter, to be copied to clipboard"/>
+    <aura:attribute name="selectedTimeframe" type="String" default="{!$Label.c.last7Days}" description="Default selected timeframe for the dropdown"/>
+    <!--GGS 20/04/2020-->
+    <aura:attribute name="isAccountTransactions" type="Boolean" default="false" description="Flag to indicate whether the current screen is Account Transactions"/>
+    <!--SNJ 01/04/2020 -->
+    <aura:attribute name="showTotals" type="Boolean" default="true" description="Flag to show Accounts Totals"/>
+    
+    <aura:attribute name="fromCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="showAccountPayment" type="Boolean" default="True" description="User has accessed this component by clicking on an account"/>
+    
+    
+    <aura:handler name="change" value="{!v.accountDetails}" action="{!c.recalculateAmounts}"/>
+    
+    <!-- MARKUP -->
+    
+    <c:CMP_ServiceComponent aura:id="Service"/>
+    
+    <div class="slds-grid titleAccount">
+        <!-- Left column -->
+        <div class="slds-col title">
+            <div>
+                <!-- Row 1: Title -->
+                <aura:if isTrue="{!v.accountDetails.accountAlias != 'undefined'}">
+                    <!-- AM - 28/09/2020 - Ebury Accounts -->
+                    <aura:if isTrue="{!v.accountDetails.country == $Label.c.Ebury}">
+                        <div class="slds-text-heading_medium">
+                            {!v.accountDetails.accountAlias}
+                            <img class="eburySymbol" src="{!$Resource.Images +'/ebury.svg'}"/>
+                        </div>
+                    <aura:set attribute="else">
+                        <div class="slds-text-heading_medium firstRow">
+                            {!v.accountDetails.accountAlias}
+                        </div>
+                    </aura:set>
+                    </aura:if>
+                </aura:if>
+                <!-- Row 2: Subtitle -->
+                <div class="slds-text-heading_subtitle">
+                    
+                    <!-- AM - 28/09/2020 - Ebury Accounts -->
+                    <aura:if isTrue="{!and(v.accountDetails.accountName != undefined, v.accountDetails.accountName != 'undefined', v.accountDetails.accountName != null)}">
+                        <aura:if isTrue="{!v.accountDetails.country == $Label.c.Ebury}">
+                            <span>{!v.accountDetails.accountName + ' - ' + v.accountDetails.accountCurrency + ' ' + $Label.c.Ebury + ' ' + $Label.c.Account}</span>
+                        <aura:set attribute="else">
+                            <span>{!v.accountDetails.accountName + ' - ' + v.accountDetails.accountCurrency + ' ' + v.accountDetails.accountNumber}</span>
+                        </aura:set>
+                        </aura:if>
+                        
+                    </aura:if>
+
+                    <!-- AM - 28/09/2020 - Ebury Accounts -->
+                    <aura:if isTrue="{!v.accountDetails.accountName == 'undefined'}">
+                        <aura:if isTrue="{!v.accountDetails.country == $Label.c.Ebury}">
+                            <span>{!v.accountDetails.accountCurrency + ' ' + ' ' + $Label.c.Ebury + ' ' + $Label.c.Account}</span>
+                            <aura:set attribute="else">
+                                <span>{!v.accountDetails.accountCurrency + ' ' + v.accountDetails.accountNumber}</span>
+                            </aura:set>
+                        </aura:if>
+                        
+                    </aura:if>
+                    
+                    <div class="icon icon-copy" onclick="{!c.copy}">
+                        <span class="text-link">{!$Label.c.copy}</span>
+                    </div>
+                    <aura:if isTrue="{!v.showAccountDetailLink}">
+                        <div class="icon icon-details">
+                            <span class="text-link" onclick="{!c.navigateToAccountDetails}">{!$Label.c.Account_details}</span>
+                        </div>
+                    </aura:if>
+                </div>
+                
+                <!-- Row 3: Text -->
+                <aura:if isTrue="{!v.showLatestInformationTimestamp}">
+                    <!--10/10/2020, 10:35-->
+                    <aura:if isTrue="{!not(v.isAccountTransactions)}">
+                        <div class="slds-text-body_regular">   
+                            <span>{!$Label.c.Accounts_Updated}&nbsp;<c:CMP_displayDate dateClass="" date="{!v.accountDetails.dateValue}"/>,&nbsp;{!v.accountDetails.hourValue} </span>
+                        </div>
+                        <aura:set attribute="else">
+                            <!-- GGS 20/04/2020-->
+                            <aura:if isTrue="{!and(v.accountDetails.bookDate != null, or(v.accountDetails.dateValue != 'N/A', and(v.accountDetails.dateValue == 'N/A', v.accountDetails.bookBalance != '0')))}">
+                                <aura:if isTrue="{!v.lastUpdate}">
+                                    <div class="slds-text-body_regular">   
+                                        <span>{!$Label.c.Accounts_Updated}&nbsp;<c:CMP_displayDate dateClass="" date="{!v.accountDetails.bookDate}"/>,&nbsp;{!v.accountDetails.updatedHour} </span>
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body_regular">   
+                                            <span>{!$Label.c.Accounts_Updated}&nbsp;<c:CMP_displayDate convertToUserTimezone="false" dateClass="" date="{!v.accountDetails.bookDate}"/></span>
+                                        </div>
+                                    </aura:set>
+                                </aura:if>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body_regular">   
+                                        <span>{!$Label.c.Accounts_Updated + ' ' + v.accountDetails.dateValue}</span>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+                </aura:if>
+                <!-- Row 4: Line -->
+                <div class="text_line"></div>
+            </div>
+            
+            <!--JVV-->
+            <aura:if isTrue="{!and(v.fromCashNexus, v.showAccountPayment)}">
+                <button class="slds-button primary button_icon" role="option" tabindex="0" aria-selected="true" onclick="{!c.openPaymentUETRTrack}">
+                    {!$Label.c.TrackByUETR}<span class="icon-income-expenses"></span>
+                </button>
+            </aura:if>          	
+        </div>
+        
+        <!-- Right column -->
+        <aura:if isTrue="{!v.showTotals == true}">
+            <div class="slds-col account">
+                <!-- Column 1: Text-->
+                <div class="bookBalance" data-aura-rendered-by="63:2;a">
+                    
+                    <!-- Row 1: Book Balance -->
+                    <div class="slds-card__header-title textSubtitle firstRow">
+                        <span>{!$Label.c.TotalBookBalance}</span>
+                    </div>
+                    
+                    <!-- Row 2: Total Available Balance -->
+                    <div class="slds-card__header-title textSubtitle">
+                        <span>{!$Label.c.TotalAvailableBalance}</span>
+                    </div>
+                </div>
+                
+                <!-- Column 2: Numbers -->
+                <div class="bookBalanceNumber">
+                    <!-- Row 1 -->
+                    <div class="slds-card__header-title numberTitle firstRow">
+                        <c:CMP_displayAmount aura:id="bookBalance" amount="{!v.accountDetails.bookBalance}" 
+                                             decimalClass="bookDecimals" 
+                                             wholeClass="bookInteger" 
+                                             currency="{!v.accountDetails.accountCurrency}"/>
+                    </div>
+                    <!-- Row 2 -->
+                    <div class="slds-card__header-title numberSubtitle">
+                        <c:CMP_displayAmount aura:id="valueBalance" amount="{!v.accountDetails.availableBalance}" 
+                                             decimalClass="bookDecimals" 
+                                             wholeClass="bookInteger" 
+                                             currency="{!v.accountDetails.accountCurrency}"/>
+                    </div>
+                </div>
+            </div>
+            
+        </aura:if>
+        
+    </div>
+</aura:component>

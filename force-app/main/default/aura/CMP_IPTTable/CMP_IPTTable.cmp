@@ -1,0 +1,198 @@
+<!--Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component for the IPT table
+History
+<Date>			<Author>		<Description>
+27/02/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_SwiftPaymentTable">
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="paymentsPerPage" type="Integer" default="50"/>
+    <aura:attribute name="currentPage" type="Integer" default="1"/>
+    <aura:attribute name="oldPage" type="Integer" default="1"/>
+    <aura:attribute name="start" type="Integer" default="0" description="Object Counter"/>
+    <aura:attribute name="receivedList" type="List" access="global" description="A list of accounts provided by parent component"/>
+    <aura:attribute name="end" type="Integer"/>
+    <aura:attribute name="paginationReceivedList" type="List" access="global" description="A list of accounts provided by parent component"/>
+    <aura:attribute name="jsonArray" type="List"/>
+    <aura:attribute name="paginatedPayments" type="List"/>
+    <aura:attribute name="agent" type="String"/>
+    <aura:attribute name="sortsettledAmount" type="String" default='desc'/>
+    <aura:attribute name="sortvalueDate" type="String" default='desc'/>
+    <aura:attribute name="sortinstructed" type="String" default='desc'/>
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:attribute name="searchDone" type="Integer" default="0"/>
+    <aura:attribute name="noResultsLabel" type="String" default='{!$Label.c.noPayments15Days}'/>
+    <aura:attribute name="searchLabel" type="String" default='{!$Label.c.search}'/>
+    <aura:attribute name="fromCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="isOneTrade" type="Boolean" default="False" description="True if current user is a One Trade user, else, false"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="true" description="Flag to show/hide the table spinner"/>
+    <aura:attribute name="fromDetail" type="Boolean" default="false" description="Check if comes from detail"/>
+    <aura:attribute name="fullAccountList" type="List"/>
+
+    <!-- Row attributes -->
+    <aura:attribute name="statusClass" type="String" default="icon-circle__red"/>
+    <aura:attribute name="statusLabel" type="String" default="{!$Label.c.payment_statusOne}"/>
+
+    <aura:handler name="change" value="{!v.filters}" action="{!c.getData}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:registerEvent name="openAdvancedFilters" type="c:EVT_OpenModal" />
+
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildData}"/>
+
+    <!--<aura:handler name="init" value="{!this}" action="{!c.getData}" />-->
+
+    <!-- AURA METHOD -->
+    <aura:method name="initTable" action="{!c.initTable}" description="Initializes the data">
+        <aura:attribute name="tableData" type="List" description="Data to be displayed in the table"/>
+    </aura:method>
+
+    <lightning:navigation aura:id="navService"/>
+
+    <c:CMP_IPTPagination allData="{!v.receivedList}" paymentsPerPage="{!v.paymentsPerPage}" aura:id="pagination"/>
+
+    <!-- TABLE -->
+    <div class="slds-table--header-fixed_container tableGPI">
+        <aura:if isTrue="{!v.showSpinner}">
+            <lightning:spinner aura:id="spinnerTable" variant="brand" size="large" alternativeText="{!$Label.c.Loading+ '...'}"/>
+        </aura:if>
+
+        <div class="slds-scrollable_y">
+            <table class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                <!-- HEADER -->
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th class="containerIconStatus" scope="col">
+                            <div class="slds-truncate slds-cell-fixed"></div>
+                        </th>
+                        <th class="containerStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                            <div class="slds-truncate slds-cell-fixed" >{!$Label.c.status}</div>
+                        </th>
+                        
+                        <th class="containerOrigen" scope="col">
+                          	<div class="slds-truncate slds-cell-fixed" >{!$Label.c.originAccount}</div>
+                        </th>
+                        <th class="containerBeneficiary" scope="col">
+                            <div class="slds-truncate slds-cell-fixed">{!$Label.c.beneficiaryAccount}</div>
+                        </th>
+                        <th class="slds-is-sortable containerValue" aria-label="Stage" aria-sort="none" scope="col">
+                            <div class="slds-truncate slds-cell-fixed" >
+                                <aura:if isTrue="{!v.sortvalueDate=='desc'}">
+                                    <span class="button-orderRight icon-arrowDown" data-title-left="{!$Label.c.AdminRoles_Order}"  id="valueDate" onclick="{!c.sortBy}"></span>
+                                <aura:set attribute="else">
+                                    <span class="button-orderRight icon-arrowUp" data-title-left="{!$Label.c.T_ReverseOrder}"  id="valueDate" onclick="{!c.sortBy}"></span>
+                                </aura:set>
+                                </aura:if>
+                                <span>{!$Label.c.valueDate}</span>
+                            </div>
+                        </th>
+                        <th class="slds-is-sortable containerSettled" aria-label="Confidence" aria-sort="none" scope="col">
+                            <div class="slds-truncate slds-cell-fixed" >
+                                <aura:if isTrue="{!v.sortsettledAmount=='desc'}">
+                                    <span class="button-orderRight icon-arrowDown" data-title-left="{!$Label.c.AdminRoles_Order}"  id="settledAmount" onclick="{!c.sortBy}"></span>
+                                <aura:set attribute="else">
+                                    <span class="button-orderRight icon-arrowUp" data-title-left="{!$Label.c.T_ReverseOrder}" id="settledAmount" onclick="{!c.sortBy}"></span>
+                                </aura:set>
+                                </aura:if>  
+                                <span>{!$Label.c.settledAmount}</span>
+                            </div>
+                        </th>
+                        <th class="containerIconDetail" scope="col">
+                            <div class="slds-truncate slds-assistive-text slds-cell-fixed">{!$Label.c.actions}</div>
+                        </th>
+                        <th class="containerIconDetail" scope="col">
+                            <div class="slds-truncate slds-assistive-text slds-cell-fixed">{!$Label.c.actions}</div>
+                        </th>
+                    </tr>
+                </thead>
+
+                <!-- BODY -->
+                <tbody>
+                    <!--NO DATA -->
+                    <aura:if isTrue="{!v.jsonArray.length>0}">
+                        <aura:iteration items="{!v.jsonArray}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index">
+                            <!-- <c:CMP_IPTTableRow item="{!item}" fromCashNexus="{!v.fromCashNexus}"/> -->
+                            <tr class="slds-hint-parent" aria-selected="false">
+                                <td class="slds-text-align_center status" role="gridcell">
+                                    <div class="{!'circle '+ item.paymentDetail.statusClass}"></div>
+                                </td>
+                                <td role="gridcell" class="statusInfo">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text status">{!item.paymentDetail.statusLabel}</span>
+                                        <!-- <span class="slds-truncate text status">{!v.statusLabel}</span> -->
+                                    </div>
+                                    <div class="slds-grid slds-grid_align-spread" >
+                                        <span class="text">{!item.paymentDetail.statusDate}</span>
+                                    </div>
+                                </td>
+                                
+                                <td role="gridcell" class="originInfo">
+                                     <div class="slds-grid slds-grid_align-spread">
+                                         <span class="slds-truncate text">{!item.paymentDetail.originatorData.originatorName}</span>
+                                    </div>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{!item.paymentDetail.originatorData.originatorAccount.accountId}</span>
+                                    </div>
+                                </td>
+                                
+                                <td role="gridcell" class="beneficiaryInfo">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                         <span class="slds-truncate text">{!item.paymentDetail.beneficiaryData.beneficiaryName}</span>
+                                    </div>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{!item.paymentDetail.beneficiaryData.creditorCreditAccount.accountId}</span>
+                                    </div>
+                                </td>
+                                
+                                <td role="gridcell" class="valueDateInfo">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                         <span class="slds-truncate text">{!item.paymentDetail.valueDate}</span>
+                                    </div>
+                                </td>
+                                
+                                <!-- <td class="slds-text-align_right" role="gridcell" >
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <c:CMP_displayAmount fromGPI="true" amount="{!v.item.paymentDetail.paymentAmount.amount}" numberFormat="{!v.item.paymentDetail.paymentAmount.numberFormat}"  decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.item.paymentDetail.paymentAmount.tcurrency}"/>
+                                    </div>
+                                </td> -->
+
+                                <td class="slds-text-align_right" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <div class="slds-truncate" >
+                                            <span class="text amountInteger">{!item.paymentDetail.paymentAmount.paymentAmount_FormattedEntirePart}</span>
+                                            <span class="text amountDecimals">{!item.paymentDetail.paymentAmount.paymentAmount_FormattedDecimalPart + ' ' + item.paymentDetail.paymentAmount.currency_X}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                               
+                                <td class="slds-text-align_center tracking" role="gridcell">
+                                    <div class="icon-tracking" id="{!index}" data-title="{!$Label.c.tracking}" onclick="{!c.openPaymentDetails}"></div>
+                                </td>
+                                <td class="slds-text-align_left doc" role="gridcell">
+                                    <div class="icon-doc103" data-title-left="{!$Label.c.downloadMT103}" id="{!item.paymentDetail.paymentId}" onclick="{!c.downloadMT103}"></div>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+
+                    </aura:if>                    
+                </tbody>
+            </table>
+            <aura:if isTrue="{!or(v.jsonArray.length==0, v.jsonArray == null)}">
+
+            <div class="container_noResults image results-background">
+                <div class="slds-media__figure"><div class="icon-warning"></div></div>
+                <div class="slds-text-title">{!$Label.c.noResultsFound}</div>
+                <div class="text_container">
+                    <div class="slds-text-align_center">{!v.noResultsLabel}</div>
+                </div>
+                <div class="pill-button">
+                    <button class="slds-button slds-button_brand redButton" onclick="{!c.openSearch}">{!v.searchLabel}</button>
+                </div>
+            </div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

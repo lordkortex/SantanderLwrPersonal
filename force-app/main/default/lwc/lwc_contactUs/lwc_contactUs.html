@@ -1,0 +1,41 @@
+<template>
+
+    <c-lwc_service-component data-id="Service" onsuccesscallback={successcallback}></c-lwc_service-component>
+
+    <c-lwc_title title={label.contactUs}></c-lwc_title>
+
+    <div class="slds-grid slds-wrap">
+        <div class="first">           
+            <article class="slds-card slds-size_1-of-2">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-media__figure">
+                           <a href={telephoneHref}><div class="icon-phone icon" data-title={label.phone}></div></a> 
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="title">{label.callUs}</div>
+                            <div class="subtitle">{label.callUsText}</div>
+                            <div class="phoneNumber">+34 91 257 30 60</div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div>           
+            <article class="slds-card slds-size_1-of-2">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-media__figure">
+                            <div class="icon-mail icon" data-title={label.Mail}></div>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="title">{label.sendUsEmail}</div>
+                            <div class="subtitle">{label.sendUsEmailText}</div>
+                            <div class="emailContact" ><a class="emailContact" href={mailHref}>GTBClientservice@gruposantander.com</a></div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+</template>

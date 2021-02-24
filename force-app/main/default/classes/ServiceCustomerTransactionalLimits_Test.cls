@@ -1,0 +1,63 @@
+@isTest
+public class ServiceCustomerTransactionalLimits_Test {
+
+    final static Double BASE_AMOUNT = 12;
+    final static String BASE_CURRENCY = 'baseCurrency';
+
+    @testSetup
+    static void setup () {
+        DataFactory.getCustomSettingCryptoKey(true);
+        DataFactory.createWsConfigurationSetting(true);
+        DataFactory.createClaims();
+    }
+
+    @isTest
+    static void testControllerCustomerTransacLimits () {
+        Test.setMock(HttpCalloutMock.class, new CNT_PaymentsParent_MockHttp.OperationsList());
+        Test.startTest();
+        WRAPPER_PaymentDetail.OperationDetail paymentData = (WRAPPER_PaymentDetail.OperationDetail) JSON.deserialize(MockResponse.PaymentOptionsResult(), WRAPPER_PaymentDetail.OperationDetail.class);
+        WrapperUserData userData = (WrapperUserData) JSON.deserialize( MockResponse.wrapperUserData('OneTrade'), WrapperUserData.class);
+        WRAPPER_PAY_PaymentDraft_Mock paymentDraftMock = new WRAPPER_PAY_PaymentDraft_Mock();
+        WRAPPER_PAY_PaymentDraft paymentDraft = paymentDraftMock.bookToBookDraft(null);
+
+        ServiceCustomerTransactionalLimits.callTransactionalLimits(paymentData);
+        ServiceCustomerTransactionalLimits.callTransactionalLimits(null);
+
+        ServiceCustomerTransactionalLimits.callTransactionalLimits(userData, paymentDraft, BASE_AMOUNT, BASE_CURRENCY);
+
+        ServiceCustomerTransactionalLimits.callTransactionalLimitsUpdate(paymentDraft);
+        ServiceCustomerTransactionalLimits.callTransactionalLimitsUpdate(null);
+
+        ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentData);
+        ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(null);
+
+        ServiceCustomerTransactionalLimits.transactionalLimitsReverse(paymentData);
+        ServiceCustomerTransactionalLimits.transactionalLimitsReverse((WRAPPER_PaymentDetail.OperationDetail) null);
+
+        ServiceCustomerTransactionalLimits.transactionalLimitsReverse(paymentDraft);
+        ServiceCustomerTransactionalLimits.transactionalLimitsReverse((WRAPPER_PAY_PaymentDraft) null);
+
+        ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentDraft, BASE_AMOUNT, BASE_CURRENCY);
+
+        ServiceCustomerTransactionalLimits.updateLimits(paymentData);
+        ServiceCustomerTransactionalLimits.updateLimits(null);
+
+        WS_TransactionalLimitsUpdate.OUTPUT outputUpdate = new WS_TransactionalLimitsUpdate.OUTPUT();
+        WS_TransactionalLimitsUpdate.LimitsResponseUpdate wsObjectLimitUpdate = new WS_TransactionalLimitsUpdate.LimitsResponseUpdate('operationId', 'ok', 'codeLimitsResult');
+        WS_TransactionalLimitsUpdate.LimitsResponseUpdate wsObjectLimitUpdateKO = new WS_TransactionalLimitsUpdate.LimitsResponseUpdate('operationId', 'KO', 'codeLimitsResult');
+        outputUpdate.limitsResponseUpdate = wsObjectLimitUpdate;
+        ServiceCustomerTransactionalLimits.getTransactionalLimitsUpdateOutput(outputUpdate);
+        outputUpdate.limitsResponseUpdate = wsObjectLimitUpdateKO;
+        ServiceCustomerTransactionalLimits.getTransactionalLimitsUpdateOutput(outputUpdate);
+
+        WS_TransactionalLimitsValidation.OUTPUT outputValidation = new WS_TransactionalLimitsValidation.OUTPUT();
+        WS_TransactionalLimitsValidation.LimitsResponse wsObjectLimitValidation = new WS_TransactionalLimitsValidation.LimitsResponse('ok', 'codeLimitsResult');
+        WS_TransactionalLimitsValidation.LimitsResponse wsObjectLimitValidationKO = new WS_TransactionalLimitsValidation.LimitsResponse('KO', 'codeLimitsResult');
+
+        outputValidation.limitsResponse = wsObjectLimitValidation;
+        ServiceCustomerTransactionalLimits.getTransactionalLimitsValidationOutput(outputValidation);
+        outputValidation.limitsResponse = wsObjectLimitValidationKO;
+        ServiceCustomerTransactionalLimits.getTransactionalLimitsValidationOutput(outputValidation);
+        Test.stopTest();
+    }
+}

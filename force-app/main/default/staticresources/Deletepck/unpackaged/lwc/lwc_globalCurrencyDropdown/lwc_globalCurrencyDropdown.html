@@ -1,0 +1,22 @@
+<template>
+    <template if:false={isNotEmptyCurrencyList}>
+        <c-lwc_cn_dropdown 
+            issimpledropdown="true" 
+            values={currencylist}
+            selectedvalue={label.selectOne}  
+            headerdropdown={label.consolidationCurrency} 
+            isdisabled={disableDropdown}
+            ondropdownvalueselected={handledropdownvalueselectedcurrency}>
+        </c-lwc_cn_dropdown>
+    </template>
+    <template if:true={isNotEmptyCurrencyList}>
+        <c-lwc_cn_dropdown 
+            issimpledropdown="true" 
+            values={currencylist}
+            selectedvalue={selectedcurrency}
+            headerdropdown={label.consolidationCurrency}
+            isdisabled={disableDropdown}
+            ondropdownvalueselected={handledropdownvalueselectedcurrency}>
+        </c-lwc_cn_dropdown>
+    </template>
+</template>

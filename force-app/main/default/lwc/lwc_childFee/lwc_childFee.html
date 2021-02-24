@@ -1,0 +1,20 @@
+<template>
+    <template data-index=index if:true={isIndexGTZero}>
+        &nbsp;<span>/</span>&nbsp; 
+        <c-lwc_display-amount 
+            amount={getAmount} 
+            decimalclass="numberFee" 
+            wholeclass="numberFee" 
+            currency={getCurrency}>
+        </c-lwc_display-amount>
+    </template>
+    <template data-index=index if:false={isIndexGTZero}>
+        <c-lwc_display-amount 
+            amount={getAmount} 
+            decimalclass="numberFee" 
+            wholeclass="numberFee" 
+            currency={getCurrency}>
+        </c-lwc_display-amount>
+    </template>
+
+</template>

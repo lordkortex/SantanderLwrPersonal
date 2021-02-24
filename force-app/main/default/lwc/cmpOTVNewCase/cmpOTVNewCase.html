@@ -1,0 +1,54 @@
+<template>
+    <div if:true={showModal} >
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container sizeM">
+                <div class="slds-m-vertical_medium">
+                    <h1 class="slds-text-heading_small">Select a topic for your request</h1>
+                </div>
+
+                <lightning-combobox
+                    name="topic"
+                    label="Topic"
+                    value={valueTopic}
+                    placeholder="Topic"
+                    options={optionsTopic}
+                    onchange={handleTopic} >
+                </lightning-combobox>
+
+                <lightning-combobox
+                    name="issueDetail"
+                    label="Issue detail"
+                    value={valueIssue}
+                    placeholder="Issue detail"
+                    options={optionsIssue}
+                    onchange={handleIssue} >
+                </lightning-combobox>
+
+                <div class="slds-m-vertical_medium">
+                    <h1 class="slds-text-heading_small">Tell us more deatils</h1>
+                    <p class="slds-text-body_regular">Detail which subsidiaries are wrong, including company name, country and Tax ID.</p>
+                </div>
+                <div class="row">
+                    <lightning-textarea name="input1" label="Do you want to add something?" onchange={handleDescription}></lightning-textarea>
+                    <p class="slds-text-body_regular">Max. length 250 characters</p>
+                </div>
+                <br></br>
+                <lightning-card title="Add an attachment (optional)" icon-name="utility:attach">
+                    <lightning-file-upload
+                        label="Attach file"
+                        name="attachFile"
+                        accept={acceptedFormats}
+                        record-id={recordId}
+                        onuploadfinished={handleUploadFinished}
+                        multiple>
+                    </lightning-file-upload>
+
+                    <p class="slds-text-body_regular">Uploaded files: {uploadedFileNames}</p>
+                </lightning-card>
+                <br></br>   
+                <button class="slds-button primary button_small button_full" onclick={submitCase}>Submit</button>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

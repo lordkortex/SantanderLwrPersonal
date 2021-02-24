@@ -1,0 +1,61 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    Component to display a title block with some buttons
+History
+<Date>			<Author>		    <Description>
+28/10/2019		Shahad Naji         Initial version
+08/01/2020      Guillermo Giral     Addition of subtitle and buttons firing and event
+-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="title"                type="String"       default="N/A"     description="A sentence provided by parent component to display as a page title"/>
+    <aura:attribute name="subtitle"             type="String"                         description="A sentence provided by parent component to display as a page subtitle"/>
+    <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+    <aura:attribute name="displaySearchIcon"    type="Boolean"      default="false"   description="Flag to display the search icon"/>
+    <aura:attribute name="displayAddIcon"       type="Boolean"      default="false"   description="Flag to display the add icon"/>
+    <aura:attribute name="isSearching"          type="Boolean"      default="false"   description="Attribute to check if the search icon is activated" />
+    <aura:attribute name="isShowingToast"       type="Boolean"      default="false"   description="Attribute if the toast is showing" />
+    <aura:attribute name="toastText"            type="String"                         description="Sets the default text for the toast" /> 
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- COMPONENT EVENTS -->
+    <aura:registerEvent name="buttonClickedEvent" type="c:EVT_TitleButtonClicked"/>
+    
+    <!-- COMPONENT MARKUP -->
+    <div class="slds-text-heading_medium title">{!v.title}</div>
+
+    <aura:if isTrue="{!v.isShowingToast}">
+        <c:CPM_SuccessToast messageText="{!v.toastText}" showToast="{!v.isShowingToast}" />
+    </aura:if>
+
+    <div class="slds-card__header slds-grid container">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <aura:if isTrue="{!v.subtitle != null}">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title text">
+                        {!v.subtitle}
+                    </div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!or(or(v.displayAddIcon, v.displayDownloadIcon), v.displaySearchIcon)}">
+                <div class="actions">
+                    <aura:if isTrue="{!v.displayDownloadIcon}">
+                        <div id="downloadIcon" class="button-download icon-download" title="Download" onclick="{!c.onButtonClick}"></div>     
+                    </aura:if>
+                    <aura:if isTrue="{!v.displayAddIcon}">
+                        <div id="addIcon" class="button-add icon-add" title="Add" onclick="{!c.onButtonClick}"></div>  
+                    </aura:if>  
+                    <aura:if isTrue="{!v.displaySearchIcon}">
+                        <!-- <div id="searchIcon" class="{!v.isSearching ? 'button-search__open icon-search' : 'button-search icon-search'}" title="Search" onclick="{!c.onButtonClick}"></div>  -->
+                        <div id="searchIcon" class="button-search icon-search" title="Search" onclick="{!c.onButtonClick}"></div>
+                    </aura:if>
+                                 
+                </div>
+            </aura:if>
+        </header>
+    </div>
+</aura:component>

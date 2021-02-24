@@ -1,0 +1,29 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Buttons component for the Service Profiling screen
+History
+<Date>			<Author>		    <Description>
+14/02/2020		Guillermo Giral     Initial version
+-->
+<aura:component>
+    
+    <aura:attribute name="source" type="String" description="Source screen in case we need to go back"/>
+    
+    <c:CMP_ServiceComponent aura:id="service"/>
+    
+    <div class="slds-form containerAdmin" role="list">
+        <div class="slds-form__row">
+            <div class="firstPillBig">
+                <div data-title="{!$Label.c.return}">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" onclick="{!c.handleClick}" data-title="{!$Label.c.return}">{!$Label.c.return}</button>
+                </div>
+            </div>
+            <div class=" lastPillBig">
+                <div data-title="{!$Label.c.AdminRoles_Save}">
+                    <button class="slds-button slds-button_brand redButtonBig" onclick="{!c.handleClick}">{!$Label.c.AdminRoles_Save}</button>
+                </div>           
+            </div>
+        </div>
+    </div>
+</aura:component>

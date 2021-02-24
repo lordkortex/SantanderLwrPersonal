@@ -1,0 +1,27 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    MR Tracker component
+History
+<Date>			<Author>		<Description>
+21/01/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_MRTracker">
+    
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:attribute name="showTable" type="Boolean" default="false"/>
+    <aura:handler name="getFilter" event="c:EVT_searchFilter" action="{!c.getFilters}"/>
+    
+    <div class="breadcrumbs">
+        <div class="slds-text-heading_medium title">
+            <span>{!$Label.c.SwiftPaymentsTitle}</span>
+        </div>
+    </div>
+
+    <c:CMP_MRTrackerSearch showTable="{!v.showTable}"/>
+
+    <div class="hidden" aura:id="table">
+        <c:CMP_SwiftPaymentTable filters="{!v.filters}" mrTracker="true"/>
+    </div>
+    
+</aura:component>

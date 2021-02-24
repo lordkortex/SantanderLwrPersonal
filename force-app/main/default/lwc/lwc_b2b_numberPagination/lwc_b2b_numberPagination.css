@@ -1,0 +1,25 @@
+.number a{
+    font-family:"SantanderMicroText";
+    font-size: 12px; 
+    margin-right: 8px;
+    text-align: center;
+    width: 16px;
+    color: #767676;
+    text-decoration:none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration:none;
+    height: 18px;
+}
+
+.number a.active,
+.number a:active{
+    font-family:"SantanderMicroText-Bd";
+    color: #444444;
+}
+
+.number a:hover {
+    font-family:"SantanderMicroText-Bd";
+    color: #cc0000;
+}

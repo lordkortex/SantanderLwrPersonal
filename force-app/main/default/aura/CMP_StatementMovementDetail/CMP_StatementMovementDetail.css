@@ -1,0 +1,140 @@
+/* TITLE */
+  
+.THIS.cardTitleDetail_State1{
+    margin-bottom: 16px;
+}
+
+.THIS.cardTitleDetail_State1 .containerInformation {
+   margin: 0;
+   padding: 0;
+   margin-bottom: 8px;
+}
+
+.THIS.cardTitleDetail_State1 .slds-card__header-title {
+   color: #444444;
+  display: flex;
+   align-items: flex-end; 
+   margin-bottom: 4px;
+} 
+
+.THIS.cardTitleDetail_State1 .slds-card__header-title .space,
+.THIS.cardTitleDetail_State1 .slds-card__header-title .number_small {
+   font-size: 14px;
+   line-height: 21px;
+   font-family: "SantanderMicroText";
+   color: #444444;
+}
+
+.THIS.cardTitleDetail_State1 .slds-card__header-title .space{
+   margin-right: 24px;
+}
+
+.THIS.cardTitleDetail_State1 .slds-card__header-title .col-amount {
+   display: flex;
+   justify-content: space-between;
+}
+
+
+.THIS.cardTitleDetail_State1 .slds-card__header-title  .number{
+   font-size: 32px;
+   font-family: "SantanderHeadlineW05-Bold";
+   line-height: 38px;
+}
+
+.THIS.cardTitleDetail_State1 .slds-card__header-title  .currency{
+   font-size: 24px;
+   font-family: "SantanderHeadlineW05-Bold";
+   line-height: 29px;
+}
+
+.THIS.cardTitleDetail_State1 .slds-card__header-title .bankAccount{
+   font-family: "SantanderMicroText";
+   font-size: 14px;
+   line-height: 21px;
+}
+
+.THIS.cardTitleDetail_State1 .separation{
+   justify-content: space-between;
+}
+
+.THIS.cardTitleDetail_State1 .slds-card__header-title  .title {
+   color: #444444;
+   font-size: 28px; 
+   font-weight: normal;
+   font-family: "SantanderHeadlineW05-Rg";
+   line-height: 34px;
+   letter-spacing: normal;
+}
+
+.THIS.cardTitleDetail_State1 .extract {
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 20px;
+    color: #767676;
+}
+
+.THIS.cardTitleDetail_State1 .text_line{
+     width: 40px;
+     border-bottom: 3px solid #ec0000;
+}
+
+/* DETAIL */
+.THIS.cardTransactionDetail {
+    background-color: #ffffff;
+    border: none;
+    padding: 0px;
+    margin-bottom: 16px;
+    font-family: "SantanderMicroText";
+}
+
+.THIS.cardTransactionDetail .information {
+    color: #0d0d0d;
+    display: flex;
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.THIS.cardTransactionDetail .name {
+    color: #767676;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.THIS.cardTransactionDetail .slds-card__header:last-child .information {
+    margin-bottom: 0;
+}
+
+.THIS.cardTransactionDetail .slds-grid .slds-button {
+    cursor: pointer;
+    border: 0px;
+    height: 20px;
+}
+.THIS.cardTransactionDetail .icon.icon-copy {
+    color: #ec0000;
+    display: flex;
+    font-family: "SantanderMicroText" !important;
+    font-size: 14px;
+    line-height: 20px;
+}
+.THIS.cardTransactionDetail .icon.icon-copy:hover {
+    color: #cc0000;
+}
+.THIS.cardTransactionDetail .icon.icon-copy:before {
+    font-family: 'icomoon' !important;
+    font-size: 24px;
+    width: 24px;
+    margin-right: 4px;
+    margin-left: 8px;
+}
+
+.THIS.cardTransactionDetail .slds-card__header.slds-grid {
+    margin: 0;
+    padding: 0;
+}
+
+.THIS.cardTransactionDetail .slds-card__header>.slds-card__header-title {
+    min-width: 266px;
+    margin-right: 46px;
+}

@@ -1,0 +1,41 @@
+<template>
+    
+    <!--<aura:handler name="change" value="{!v.show}" action="{!c.closeAfter}"/>-->
+
+    <template if:true={show}>
+        <!--<div class="{!' demo-only modal_container slds-align_absolute-center ' + v.openClass}">-->
+        <div class={claseDiv}>
+            <div class="slds-notify_container slds-is-fixed modal_backdrop">
+                <template if:true={isSuccess}>
+                    <div class="slds-notify slds-notify_toast slds-theme_success "  role="status"> 
+                        <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top button-selected icon-check" data-title="Success"></span>
+                        <div class="slds-notify__content">{message}</div>
+                        <div class="slds-notify__close">
+                            <button class="slds-button slds-button_icon icon-delete" data-title="Close" onclick={hide}></button>
+                        </div>
+                    </div>
+                </template>
+                <template if:true={isWarning}>
+                    <div class="slds-notify slds-notify_toast slds-theme_warning" role="status">
+                        <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top button-selected icon-warning" data-title="Warning"></span>
+                        <div class="slds-notify__content">{message}</div>
+                        <div class="slds-notify__close">
+                            <button class="slds-button slds-button_icon icon-delete" data-title="Close" onclick={hide}></button>
+                        </div>
+                    </div>
+                </template>
+                <template if:true={isError}>
+                    <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+                        <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top button-selected icon-prohibited" data-title="Error"></span>
+                        <div class="slds-notify__content">{message}</div>
+                        <div class="slds-notify__close">
+                            <button class="slds-button slds-button_icon icon-delete" data-title="Close" onclick={hide}></button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+    </template>
+
+</template>

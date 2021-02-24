@@ -1,0 +1,175 @@
+<template>
+  
+<!--<aura:component  implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_TransactionSearchController">-->
+    
+    <!-- HANDLERS 
+    hecho    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    hecho    <aura:handler name="fireAdvancedFilter" event="c:EVT_FilterSearch" action="{!c.filterTableData}"/>
+    hecho    <aura:handler name="fireFilter" event="c:EVT_FilterSearch" action="{!c.filterTableData}"/>
+    hecho <aura:handler name="change" value="{!v.selectedTimeframe}" action="{!c.filterByTimePeriod}"/>
+    hecho    <aura:handler name="searchAgain" event="c:EVT_ResultsNotFoundSearchAgain" action="{!c.getUpdatedData}"/>
+    hecho    <aura:handler name="sortColumn" event="c:EVT_sortColumnEvent" action="{!c.sortBy}"/>
+    hecho    <aura:handler name="navigateBack" event="c:EVT_TitleSubtitleNavigate" action="{!c.navigateToAccountsPage}"/>
+    hecho    <aura:handler name="launchDonwload" event="c:EVT_DownloadFile" action="{!c.downloadTransactions}"/>
+    hecho    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.pageChanged}"/>
+    -->
+
+    <!-- MARKUP -->
+    <!-- Service component -->
+    <c-lwc_service-component data-id="Service" onsuccesscallback={successcallback}></c-lwc_service-component>
+
+    <!-- Toast message to limit the number of transactions which can be downloaded at once --> 
+    <c-lwc_toast
+        type="error"
+        show={showLimitTransactionsToast}    
+        message={mensajeToast}>
+    </c-lwc_toast>
+
+    <!-- Spinner -->
+    <template if:true={loading}>
+        <div class={spinnerClass}>
+            <lightning-spinner data-id="spinnerCreate" variant="brand" size="large" alternative-text={label.Loading}></lightning-spinner>
+        </div>
+    </template>
+    <!-- Component markup -->
+    <template if:false={loading}>
+
+        <!-- Title and subtitle with totals -->
+        <c-lwc_cn_title-subtitle
+            title={label.Accounts}
+            subtitle={label.Transactions_AccountTransactions}
+            firenavigationevent={firenavigationevent} 
+            onnavigateback={navigateBack}>
+        </c-lwc_cn_title-subtitle>       
+          
+        <c-lwc_cn_title-subtitle-totals
+            accountdetails={accountDetails}
+            accountocopy={accountDetails.accountNumber} 
+            filters={filters}
+            showlatestinformationtimestamp="true" 
+            lastupdate="true" 
+            isaccounttransactions={isaccounttransactions} 
+            showtotals="true"
+            showaccountdetaillink="true" >
+        </c-lwc_cn_title-subtitle-totals>
+        
+        
+                                        <!-- ADVANCED FILTERS MODAL -->
+        <template if:true={showModal}>
+        
+            <c-lwc_account_transactions-modal-form-filter
+                filters={filters} 
+                formfilters={formFilters} 
+                transactionresults={transactionResults} 
+                showmodal={isopen} 
+                dates={dates} 
+                numberactivefilters={numberActiveFilters} 
+                isdisabled="true" 
+                isacctransactions="true" 
+                endofday={endofday}
+                fromdate={fromDate} 
+                todate={toDate} 
+                fromamount={fromamount}
+                toamount={toamount}
+                convertdatestousertimezone={isconvertdatestousertimezone} 
+                isinstantaccount="true"
+                onfireadvancedfilter={filterTableData} 
+                onclearallfilters={clearallfilters}
+                onclosemodalfilters={closemodalfilters}
+                >
+            </c-lwc_account_transactions-modal-form-filter> 
+
+        </template>
+
+        <!-- FILTER COMPONENT -->
+        <template if:true={isNotEbury}>
+            <c-lwc_cn_filters
+                data-id="filterComponent" 
+                showadvancedfilters="true" 
+                showmodal={showModal} 
+                filters={filters} 
+                numberactivefilters={numberActiveFilters} 
+                dates={dates} 
+                dropdownheader={dropdownHeader} 
+                dropdownvalues={timePeriods} 
+                dropdownselectedvalue={selectedTimeframe} 
+                currentpage="transactions-search" 
+                displaydownloadicon="true"
+                displayprinticon="true" 
+                fromdate={fromDate} 
+                todate={toDate} 
+                fromamount={fromamount}
+                toamount={toamount}
+                convertdatestousertimezone={isconvertdatestousertimezone}
+                iamc="true"
+                onlaunchdonwload={downloadTransactions}
+                onfirefilter={filterTableData} 
+                onopenmodal={getUpdatedData} 
+                ondropdownvalueselected={filterByTimePeriod}
+                ononoptionselection={clearfilters}>
+            </c-lwc_cn_filters> 
+        </template>
+        <template if:false={isNotEbury}>
+            <c-lwc_cn_filters
+                data-id="filterComponent" 
+                showadvancedfilters="false" 
+                showmodal={showModal} 
+                filters={filters} 
+                numberactivefilters={numberActiveFilters} 
+                dates={dates} 
+                dropdownheader={dropdownHeader} 
+                dropdownvalues={timePeriods} 
+                dropdownselectedvalue={selectedTimeframe} 
+                currentpage="transactions-search" 
+                displaydownloadicon="true" 
+                displayprinticon="true"
+                fromdate={fromDate} 
+                todate={toDate} 
+                fromamount={fromamount}
+                toamount={toamount}
+                convertdatestousertimezone={isconvertdatestousertimezone}
+                iamc="true"
+                onlaunchdonwload={downloadTransactions}
+                onfirefilter={filterTableData} 
+                ondropdownvalueselected={filterByTimePeriod}
+                ononoptionselection={clearfilters}>
+            </c-lwc_cn_filters>
+        </template>
+
+        <!-- TABLE COMPONENT -->
+        <template if:true={tableContent}>
+            <c-lwc_results-not-found
+                msg={label.noTransactionsFound} 
+                onsearchagain={getUpdatedData}>
+            </c-lwc_results-not-found> 
+        </template>
+       <template if:false={tableContent}>   
+
+            <c-lwc_account-transactions-table
+                sourcepage="globalBalance" 
+                accountdetails={accountDetails}  
+                transactionresults={transactionResults.listaObtTransacciones} 
+                filters={filters} 
+                dates={dates} 
+                sortbookdate={sortBookDate} 
+                sortamount={sortamount} 
+                sortcategory={sortCategory} 
+                selectedfilters={selectedFilters} 
+                maximumrecords={maximumRecords}
+                userpreferreddateformat={userPreferredDateFormat} 
+                userpreferrednumberformat={userPreferredNumberFormat}  
+                selectedtimeframe={selectedTimeframe} 
+                formfilters={formFilters} 
+                isiam="true" 
+                listofpages={listOfPages} 
+                currentpagenumber={currentPage} 
+                onsortcolumn={sortBy} 
+                ongetpageevent={pageChanged}>
+            </c-lwc_account-transactions-table> 
+        
+        
+        </template> 
+
+    </template>
+
+</template>

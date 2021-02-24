@@ -1,0 +1,116 @@
+<!--
+ Author:         Guillermo Giral
+    Company:        Deloitte
+ Description:    Reusable calenadr component, it is flexible so both simple and compound calendar are available for use
+    History
+    <Date>			<Author>			<Description>
+ 13/12/2019		Guillermo Giral   	Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller='Global_Utilities'>
+    <aura:attribute name="dateFormat"             type="String"   default='dd/MM/yyyy'             description="Calendar help text"/>
+    
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="dates"                type="List"                                         description="List containing the selected dates. The dates format must be yyyy/mm/dd"/>
+    <aura:attribute name="simple"               type="Boolean"  default="true"                      description="Flag to indicate whether the calendar is simple or compounded (From-To)"/>
+    <aura:attribute name="helpText"             type="String"   default="{!v.dateFormat}"                description="Calendar help text"/>
+    <aura:attribute name="placeholderSingle"    type="String"   default="{!$Label.c.selectADate}"   description="Date placeholder for single calendar"/>
+    <aura:attribute name="placeholderFrom"      type="String"   default="{!$Label.c.from}"          description="Calendar 'From' placeholder"/>
+    <aura:attribute name="placeholderTo"        type="String"   default="{!$Label.c.to}"            description="Calendar 'To' placeholder"/>    
+    <aura:attribute name="helpTextFrom"         type="String"   default="{!v.dateFormat}"      description="Calendar help text"/>
+    <aura:attribute name="helpTextTo"           type="String"   default="{!v.dateFormat}"      description="Calendar help text"/>  
+    
+    <aura:attribute name="validity"               type="Boolean"  default="true"                      description="Flag to indicate whether the calendar is simple or compounded (From-To)"/>
+    <aura:attribute name="validFrom"               type="Boolean"  default="true"                      description="Flag to indicate whether the calendar is simple or compounded (From-To)"/>
+    <aura:attribute name="validTo"               type="Boolean"  default="true"                      description="Flag to indicate whether the calendar is simple or compounded (From-To)"/>
+    <aura:attribute name="errorMessageFrom" type="string" default=""/>
+    <aura:attribute name="errorMessageTo" type="string" default=""/>
+    
+    <aura:attribute name="dateFrom" type="string" default=""/>
+    <aura:attribute name="dateTo" type="string" default=""/>
+    <aura:attribute name="dateFromShow" type="date" default=""/>
+    <aura:attribute name="dateToShow" type="date" default=""/>
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <!--<aura:handler name="change" value="{!v.dateFrom}" action="{!c.validateDate}"/>
+    <aura:handler name="change" value="{!v.dateTo}" action="{!c.validateDate}"/>
+     COMPONENT MARKUP -->
+    <!--<div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+        <div class="slds-form-element__control paddingInput">-->
+        <aura:if isTrue="{!v.simple}"> 
+            <!-- SIMPLE CALENDAR -->
+            <div>
+                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click calendar calendar--single">
+                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                        <!--<lightning:input type="date" name="inputSingle" value="{!v.dates[0]}" aura:id="dateFrom" onblur="{!c.handleBlurFrom}" dateStyle="short" label="{!$Label.c.enterADate}" variant="label-hidden" placeholder="{!v.placeholderSingle}" />-->
+                        <ui:inputDate  aura:id="dateFrom"  blur="{!c.handleBlurFrom}" value="{!v.dateFrom}" displayDatePicker="true" format="{!v.dateFormat}"/>
+                    </div>
+                    <!--<div class="textHelp">
+                            {!v.helpText} 
+                        </div>-->
+                    <aura:if isTrue="{!v.validFrom}">
+                        <div class="textHelp">
+                            {!v.helpTextFrom}
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="textHelpError">
+                                {!v.errorMessageFrom}
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </div>  
+            </div>      
+            <aura:set attribute="else">
+                <!-- COMPOUND CALENDAR --> 
+                <div>
+                    <div class="slds-form slds-form_compound calendar calendar--double">
+                        <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control ">
+                                <div class="slds-form-element__group">
+                                    <div class="slds-form-element__row ">
+                                        <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                                            <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                <ui:inputDate  aura:id="dateFrom"  blur="{!c.handleBlurFrom}" value="{!v.dateFrom}" displayDatePicker="true" format="{!v.dateFormat}"/>
+                                                <!--<lightning:input type="date" aura:id="dateFrom" onblur="{!c.handleBlurFrom}" name="inputFrom" value="{!v.dateFrom}" dateStyle="short" label="{!$Label.c.enterADate}" variant="label-hidden" placeholder="{!v.placeholderFrom}" id="dateFrom" />  -->
+                                            </div>
+                                            <aura:if isTrue="{!v.validFrom}">
+                                                <div class="textHelp">
+                                                    {!v.helpTextFrom}
+                                                </div>
+                                                <aura:set attribute="else">
+                                                    <div class="textHelpError">
+                                                        {!v.errorMessageFrom}
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                            
+                                        </div>
+                                        <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                            <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                <ui:inputDate  aura:id="dateTo"  blur="{!c.handleBlurFrom}" value="{!v.dateTo}" displayDatePicker="true" format="{!v.dateFormat}"/>
+                                                <!-- <lightning:input type="date" name="inputTo" onchange="{!c.change}" value="{!v.dateToShow}" aura:id="dateTo" dateStyle="short" label="{!$Label.c.enterADate}" variant="label-hidden" placeholder="{!v.placeholderTo}" id="dateTo"/>-->
+                                            </div>
+                                            <aura:if isTrue="{!v.validTo}">
+                                                <div class="textHelp">
+                                                    {!v.helpTextTo}
+                                                </div>
+                                                <aura:set attribute="else">
+                                                    <div class="textHelpError">
+                                                        {!v.errorMessageTo}
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>                                     
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>         
+                </div>         
+            </aura:set>
+        </aura:if>
+    <!--   </div>
+    </div>--> 
+</aura:component>

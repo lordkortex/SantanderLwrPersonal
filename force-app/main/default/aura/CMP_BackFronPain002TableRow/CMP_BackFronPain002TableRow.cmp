@@ -1,0 +1,54 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component for the swift payments table row
+History
+<Date>			<Author>		<Description>
+19/11/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    
+    <aura:attribute name="paymentId" type="String" description="Identification code of a payment" />
+    <aura:attribute name="account" type="String"/>
+    <aura:attribute name="isModify" type="Boolean" default="false"/>
+    <aura:attribute name="itemPosition" type="Integer"/>
+    <aura:attribute name="isDelete" type="boolean" default="false"/>
+    <aura:attribute name="toDelete" type="Map"
+    default="{
+             account : '',
+             bic : ''                          
+             }"    />
+    <aura:attribute name="item" type="Object"/>
+
+    <aura:registerEvent name="deletePain" type="c:EVT_Pain002Delete"/>
+
+    <tr class="slds-hint-parent border">
+        <td></td>
+        <td role="gridcell">
+            <div class="slds-truncate">
+                <div>{!v.item.accountId}</div>
+            </div>
+        </td>
+        <td role="gridcell"></td>
+
+        <td role="gridcell"></td> 
+        <td role="gridcell">
+            <div class="slds-truncate">
+                <div>{!v.item.agentId}</div>
+            </div>
+        </td>
+        <td role="gridcell"></td>
+        <td role="gridcell"></td>
+
+        <td role="gridcell">
+            <div class="slds-truncate">{!v.item.channel}</div>
+        </td>
+        <td role="gridcell">
+            <button class="slds-button button-add slds-button_icon icon-trash" id="deleteButton" onclick="{!c.delete}"></button>
+        </td>
+        <td role="gridcell"></td>
+        <td role="gridcell"></td>
+        <td role="gridcell"></td>
+    </tr>
+            
+</aura:component>

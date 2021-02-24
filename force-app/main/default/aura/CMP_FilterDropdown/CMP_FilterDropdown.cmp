@@ -1,0 +1,90 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to implement the new dropdown filter
+History
+<Date>			<Author>		<Description>
+27/02/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    
+<!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="values" type="List" default="['Value 1', 'Value 2', 'Value 3']" description="List of values to populate the dropdown"/>
+    <aura:attribute name="selectedValue" type="String" description="Selected option from the dropdown"/>
+    <aura:attribute name="helpText" type="String" default="Show More" description="Dropdown help text"/>
+    <aura:attribute name="isSimpleDropdown" type="boolean" default="true" description="Flag to switch between simple and multiselect dropdown"/>
+    <aura:attribute name="placeHolder" type="String" default="{!v.valuePlaceholder}"/>
+    <aura:attribute name="bodyClass" type="String" default="accountCombobox"/>
+
+    <!-- MULTISELECT DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="selectedValues" type="List" description="Multi-select selected values"/>
+    <aura:attribute name="selectAllValues" type="String" default="All" description="Option label for all values selection"/>
+    <aura:attribute name="valuePlaceholder" type="String" default="Select one" description="Value selected in the dropdown by default"/>
+    <aura:attribute name="valueSingle" type="String" default="value selected" description="Value selected in the dropdown when only one value has been selected"/>
+    <aura:attribute name="valueMulti" type="String" default="values selected" description="Value selected in the dropdown when more than one value has been selected"/>
+    <aura:attribute name="allValuesSelected" type="Boolean" default="false" description="Flag to indicate whether the 'All Values' option has been selected"/>
+    <aura:attribute name="isDisabled" type="Boolean" default="false" description="Attribute to indicate if the dropdown is disabled" />
+    
+    <aura:registerEvent name="updateFilterDropdown" type="c:EVT_updateFilter" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="slds-combobox_container">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="dialog" role="combobox">
+            
+            <div class="slds-button slds-button_outline-brand buttonSelected buttonAccounts">
+                <aura:if isTrue="{!!v.isSimpleDropdown}">
+                    <aura:if isTrue="{!v.selectedValues.length>0}">
+                        {!v.valuePlaceholder}&nbsp;<span class="number">({!v.selectedValues.length})</span>
+                     <aura:set attribute="else">
+                         {!v.valuePlaceholder}
+                     </aura:set>
+                     </aura:if>
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!and(v.selectedValue!='',v.selectedValue!=v.valueSingle)}">
+                            {!v.valuePlaceholder}&nbsp;<span class="number">(1)</span>
+                     <aura:set attribute="else">
+                         {!v.valuePlaceholder}
+                     </aura:set>
+                     </aura:if>
+                    </aura:set>
+                </aura:if>
+                
+                <div aura:id="button" aria-describedby="dialog-body-id-25" aria-label="" class="{!v.bodyClass +' slds-popover slds-popover_full-width slds-dropdown'}" id="popover-unique-id-02" role="dialog">
+                    <div class="slds-popover__body" id="dialog-body-id-25">
+                        <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <aura:if isTrue="{!v.isSimpleDropdown}">
+                                    <aura:iteration items="{!v.values}" var="item">
+                                        <aura:if isTrue="{!v.selectedValue==item}">
+                                            <lightning:input type="checkbox" label="{!item}" aura:id="checkbox" class="hideCheckbox selectedOption" id="{!item}" onchange="{!c.selectOption}"/>
+                                            <aura:set attribute="else">
+                                                <lightning:input type="checkbox" label="{!item}" aura:id="checkbox" class="hideCheckbox" id="{!item}" onchange="{!c.selectOption}"/>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:iteration>  
+                                <aura:set attribute="else">
+                                    <lightning:checkboxGroup 
+                                            options="{! v.values }"
+                                            value="{! v.selectedValues }"
+                                            onchange="{! c.selectOption }"/>
+                                   
+                                    <!--<aura:iteration items="{!v.values}" var="item">
+                                        <ui:inputCheckbox  label="{!item}" aura:id="checkbox"  name="{!item}" change="{!c.selectOption}"/>
+                                    </aura:iteration>  -->
+                                </aura:set>
+                                </aura:if>
+                                
+                            </div>
+                        </fieldset>
+                    </div>
+                    <footer class="slds-popover__footer">
+                    <button class="slds-button slds-button_neutral whiteButton" onclick="{!c.clear}">{!$Label.c.clearAll}</button>
+                    <button class="slds-button slds-button_brand redButton" onclick="{!c.apply}">{!$Label.c.apply}</button>
+                    </footer>
+                </div>
+            <!--</aura:set>-->
+            </div>
+        </div>
+    </div>
+</aura:component>

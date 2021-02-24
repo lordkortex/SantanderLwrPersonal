@@ -1,0 +1,50 @@
+<aura:component>
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="hasSearched" type="boolean" default="false"/>
+    <aura:registerEvent name="buttonClickedEvent" type="c:EVT_TitleButtonClicked"/>
+
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="values" type="List" default="['ARS 0112893029012348887650','ARS 0112893029012348887650','ARS 0112893029012348887650','ARS 0112893029012348887650','ARS 0112893029012348887650']" description="List of values to populate the dropdown" />
+    <aura:attribute name="selectedAccount" type="String" description="Selected option from the dropdown" />
+    <aura:attribute name="dates"     type="List"     description="List containing the selected dates. The dates format must be yyyy/mm/dd"/>
+
+    <!--<aura:attribute name="errorMessageFrom"     type="String"   default=""                          description="String that contains the error message of the from calendar" />
+    <aura:attribute name="errorMessageTo"       type="String"   default=""                          description="String that contains the error message of the to calendar" />
+    <aura:attribute name="errorMessageAccount" type="String" default=""                             description="String that contains the error message of the select an account dropdown" /> -->
+
+    <!-- TOAST Attributes -->
+     <aura:attribute name="message" type="String" default="Please, select an account" description="Message of the toast"/>
+    <aura:attribute name="type" type="String" default="warning" description="Type of the toast"/>
+    <aura:attribute name="show" type="Boolean" description="Used to show or hide the toast"/>
+
+    <c:CMP_Toast message="{!v.message}" type="{!v.type}" show="{!v.show}"/> 
+    
+
+    <div class="slds-grid searchExtract">
+        <div class="slds-col firstCol">
+            <div class="slds-form-element slds-combobox__Rg">    
+                <!-- DROPDOWN MARKUP -->    
+                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                <c:CMP_CN_Dropdown values="{!v.values}" selectedValue="{!v.selectedAccount}" headerDropdown="{!$Label.c.Account}" isSeparated="false" />
+            </div>
+            <div class="slds-form-element"> 
+                <div class="slds-form slds-form_compound calendar">
+                    <label class="slds-form-element__label">{!$Label.c.bookDate}</label> 
+
+                    <c:CMP_CN_Calendar simple="false" hasSeparation="true" dates="{!v.dates}" errorMessageFrom="{!v.errorMessageFrom}" errorMessageTo="{!v.errorMessageTo}" autocomplete="off"/>       
+                    
+                </div>
+            </div> 
+            
+        </div>
+        <div class="slds-col">
+            <div class="slds-form-element">
+                <button class="slds-button slds-button_neutral whiteButton" onclick="{!c.clearButtonClicked}">{!$Label.c.clearAll}</button>
+                <button class="slds-button slds-button_brand redButton" onclick="{!c.searchButtonClicked}">{!$Label.c.apply}</button>
+            </div>
+        </div>
+    </div>
+
+
+</aura:component>

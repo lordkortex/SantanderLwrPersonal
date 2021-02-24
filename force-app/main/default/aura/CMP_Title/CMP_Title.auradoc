@@ -1,0 +1,34 @@
+<aura:documentation>
+	<aura:description>
+    <p style="font-weight: bold">A community page title component</p>
+
+        <h3>History</h3>
+        
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>01/10/2019</td>
+                <td>Laura Espinel</td>
+                <td>Design</td>
+            </tr>
+            <tr>
+                <td>25/10/2019</td>
+                <td>Amanda Fernandez</td>
+                <td>Layout coding of the page</td>
+            </tr>
+            <tr>
+                <td>28/10/2019</td>
+                <td>Shahad Naji</td>
+                <td>Initial version of the component</td>
+            </tr>
+        </table>
+        
+    </aura:description>
+	<aura:example name="ExampleName" ref="c:CMP_Title" label="Label">
+		Example Description
+	</aura:example>
+</aura:documentation>

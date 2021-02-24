@@ -1,0 +1,54 @@
+.cardTransactionDetail {
+    background-color: #ffffff;
+    border: none;
+    padding: 0px;
+    margin-bottom: 16px;
+    font-family: "SantanderMicroText";
+}
+
+.cardTransactionDetail .information {
+	color: #444444;
+    display: flex;
+	font-size: 14px;
+	line-height: 20px;
+	margin-bottom: 16px;
+	position: relative;
+}
+
+.cardTransactionDetail .name {
+	color: #767676;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+.cardTransactionDetail .slds-card__header:last-child .information {
+	margin-bottom: 0;
+}
+
+.iconLink{
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    margin-left: 8px;
+    height: 20px;
+}
+
+.icon-copy:before {
+	font-size: 24px;
+    margin-right: 4px;
+}
+
+.text-link{
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.cardTransactionDetail .slds-card__header.slds-grid {
+	margin: 0;
+	padding: 0;
+}
+
+.cardTransactionDetail .slds-card__header>.slds-card__header-title {
+    min-width: 266px;
+    margin-right: 46px;
+}

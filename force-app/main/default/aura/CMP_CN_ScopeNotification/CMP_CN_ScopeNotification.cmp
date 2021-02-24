@@ -1,0 +1,27 @@
+<!--
+Author:         S. Naji
+Company:        Deloitte
+Description:    Component to show the IPT Title
+History
+<Date>			<Author>		<Description>
+27/02/2020		S. Naji     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="notificationClass" type="String" description="Container class (slds-scoped-notification_succes, slds-scoped-notification_warning, or slds-scoped-notification_error)"/>
+    <aura:attribute name="notificationIcon" type="String" description="Icon to display (icon-success, icon-caution or  icon-close_emptyCircle)"/>
+    <aura:attribute name="title" type="String" description="Data title"/>
+    <aura:attribute name="notificationTitle" type="String"  description="Notification message to display"/>
+    <aura:attribute name="notificationBody" type="String"  description="Notification message to display"/>
+    
+    <div class="demo-only">
+        <div class="{!'slds-scoped-notification slds-media slds-media_center '+ v.notificationClass}" role="status">  
+            <span class="slds-assistive-text">{!v.title}</span>
+            <span class="{!'slds-icon_container slds-icon-utility-error slds-no-flex slds-align-top button-selected ' + v.notificationIcon}" data-title="{!v.title}"></span>     
+            <div class="slds-media__body">
+                <h2>{!v.notificationTitle}</h2>
+                <p>{!v.notificationBody}</p>
+            </div>
+        </div> 
+    </div>
+</aura:component>

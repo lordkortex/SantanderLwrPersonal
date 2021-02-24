@@ -1,0 +1,69 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to show the IPT Table row
+History
+<Date>			<Author>		<Description>
+27/02/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_SwiftPaymentTableRow">
+
+    <aura:attribute name="item" type="Object"/>
+    <aura:attribute name="statusClass" type="String" default="icon-circle__red"/>
+    <aura:attribute name="statusLabel" type="String" default="{!$Label.c.payment_statusOne}"/>
+    <aura:attribute name="fromCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+
+    <lightning:navigation aura:id="navService"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <tr class="slds-hint-parent" aria-selected="false">
+        <td class="slds-text-align_center status" role="gridcell">
+            <div class="{!'circle '+v.statusClass}"></div>
+        </td>
+        <td role="gridcell" class="statusInfo">
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate text status">{!v.statusLabel}</span>
+            </div>
+            <div class="slds-grid slds-grid_align-spread" >
+                <span class="text">{!v.item.paymentDetail.statusDate}</span>
+            </div>
+        </td>
+        
+        <td role="gridcell" class="originInfo">
+             <div class="slds-grid slds-grid_align-spread">
+                 <span class="slds-truncate text">{!v.item.paymentDetail.originatorData.originatorName}</span>
+            </div>
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate text">{!v.item.paymentDetail.originatorData.originatorAccount.accountId}</span>
+            </div>
+        </td>
+        
+        <td role="gridcell" class="beneficiaryInfo">
+            <div class="slds-grid slds-grid_align-spread">
+                 <span class="slds-truncate text">{!v.item.paymentDetail.beneficiaryData.beneficiaryName}</span>
+            </div>
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate text">{!v.item.paymentDetail.beneficiaryData.creditorCreditAccount.accountId}</span>
+            </div>
+        </td>
+        
+        <td role="gridcell" class="valueDateInfo">
+            <div class="slds-grid slds-grid_align-spread">
+                 <span class="slds-truncate text">{!v.item.paymentDetail.valueDate}</span>
+            </div>
+        </td>
+        
+        <td class="slds-text-align_right" role="gridcell" >
+            <div class="slds-grid slds-grid_align-spread">
+                <c:CMP_displayAmount fromGPI="true" amount="{!v.item.paymentDetail.paymentAmount.amount}" numberFormat="{!v.item.paymentDetail.paymentAmount.numberFormat}"  decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.item.paymentDetail.paymentAmount.tcurrency}"/>
+            </div>
+        </td>
+       
+        <td class="slds-text-align_center tracking" role="gridcell">
+            <div class="icon-tracking" data-title="{!$Label.c.tracking}" onclick="{!c.openPaymentDetails}"></div>
+        </td>
+        <td class="slds-text-align_left doc" role="gridcell">
+            <div class="icon-doc103" data-title-left="{!$Label.c.downloadMT103}" id="{!v.item.paymentDetail.paymentId}" onclick="{!c.downloadMT103}"></div>
+        </td>
+    </tr>
+</aura:component>

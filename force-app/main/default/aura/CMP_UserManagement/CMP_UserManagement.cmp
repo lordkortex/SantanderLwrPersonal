@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}" />-->
+    <div class="slds-align_absolute-center">
+    	<div class="testABR">
+        	<img class="img" src="{!$Resource.Images +'/Profile.svg'}"/>
+        	<lightning:button class="userManagement" variant="Destructive" label="User Management"  onclick="{!c.handleClick}"/>
+    	</div>
+	</div>	        
+</aura:component>

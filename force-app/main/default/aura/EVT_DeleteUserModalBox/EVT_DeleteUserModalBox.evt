@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="Event template">
+    <aura:attribute name="isDeleting" type="boolean" description="sets if the user is going to be deleted" />
+</aura:event>

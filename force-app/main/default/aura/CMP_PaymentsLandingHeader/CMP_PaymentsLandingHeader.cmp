@@ -1,0 +1,52 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" type="String"  name="userFirstName"                       description="Current user first name" />
+    <aura:attribute access="public" type="Integer" name="singleNumRecords"                    description="Number of records in Single tab" />
+    <aura:attribute access="public" type="Integer" name="multipleNumRecords"                  description="Number of records in Multiple tab" />
+    <aura:attribute access="public" type="Boolean" name="isSingleTabSelected" default="true"  description="Attribute which detemines which tab is selected" />
+    <aura:attribute access="public" type="Boolean" name="showMethodModal"     default="false" description="Controls whether the Payment Methods modal is open or not" />
+
+    <div class="slds-grid title_container">
+        <div class="slds-align_absolute-center">
+            <div class="slds-col">
+                <div class="slds-text-heading_medium">
+                    <div class="title">{!$Label.c.Payments}</div>
+                    	<div class="buttons">
+                        <button class="slds-button primary button_icon" role="option" tabindex="0" aria-selected="true" onclick="{!c.openMethodModal}">
+                             {!$Label.c.NewPayment}
+                            <span class="icon icon-more"></span>
+                        </button>
+                        <button class="slds-button secondary button_icon" role="option" tabindex="0" aria-selected="true">
+                            Templates
+                            <span class="icon icon-copy"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="text_line"></div>
+                <div class="slds-text-heading_subtitle">
+                    <span>{!v.userFirstName}, </span>&nbsp;{!$Label.c.PaymentsLandingSubtitle}</div>
+            </div>
+            <div class="slds-tabs">
+                <ul class="slds-tabs_default__nav" role="tablist">
+                    <li class="{!v.isSingleTabSelected == true ? 'slds-tabs_default__item slds-is-active' : 'slds-tabs_default__item'}"  role="presentation" onclick="{!c.selectSigleTab}">
+                        <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" 
+                           aria-selected="{!v.isSingleTabSelected == true ? true : false}" 
+                           aria-controls="tab-default-1" id="tab-default-1__item">{!$Label.c.Single}</a>
+                        <div class="numberSelect">
+                            <span>{!v.singleNumRecords}</span>
+                        </div>
+                    </li>
+                    <li class="{!v.isSingleTabSelected == false ? 'slds-tabs_default__item slds-is-active' : 'slds-tabs_default__item'}" role="presentation" onclick="{!c.selectMultipleTab}">
+                        <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0" 
+                           aria-selected="{!v.isSingleTabSelected == false ? true : false}" 
+                           aria-controls="tab-default-2" id="tab-default-2__item">{!$Label.c.Multiple}</a>
+                        <div class="numberSelect">
+                            <span>{!v.multipleNumRecords}</span>
+                        </div> 
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</aura:component>

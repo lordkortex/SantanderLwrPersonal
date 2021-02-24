@@ -1,0 +1,370 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_PaymentsLandingTable">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute access="public" 	name="selectedPaymentStatusBox" type="Object"  default="" 		description="Selected payment status"/>
+    <aura:attribute access="public" 	name="currentUser" 				type="Map" 	   		description="Current user data"/>
+    <aura:attribute access="public" 	name="paymentList" 				type="List"  					description="List of payments that are displayed in the dropdown"/>
+    <aura:attribute access="public" 	name="hasSearched" 				type="Boolean" default="false"	description="Controls whether the user has made a search or not"/>
+    <aura:attribute access="public" 	name="showFilterModal" 		    type="Boolean" default="false"	description="Controls whether the All Filters modal shows or not"/>
+    <aura:attribute	access="public" 	name="isLoading" 	            type="Boolean" default="true"  description="Control to show spinner when loading records"/>
+    <aura:attribute access="public" 	name="selectedRows" 		    type="List"    default="[]"	    description="List of payment IDs selected in the table"/>
+    <aura:attribute access="public" 	name="resetSearch" 	            type="Boolean" default="false" 	description="Reset search when the button is clicked." />
+    <aura:attribute access="public" 	name="searchedString" 			type="String"   default=""   	description="Search information placed in the account search input." />
+    <aura:attribute access="public" 	name="noService" 				type="Boolean"   default="false"   	description="No service so show empty table without spinner or error message if no payments." />
+    <aura:attribute access="public" 	name="selectAll" 		    type="List"    default="[]"	    description="List of page numbers with a boolean each to show if the page has all selected"/>
+
+
+    
+    <!--SORT TABLE ROWS-->
+    <aura:attribute access="public" 	type="String" 	name="selectedSort"  				default="valueDate" description="Column id that is selected to sort paymentList"/>
+    <aura:attribute access="public" 	type="String" 	name="clientReferenceOrderBy"  		default="asc" 		description="Sorts client reference the records in ascending or descending order"/>
+    <aura:attribute access="public" 	type="String" 	name="statusOrderBy"  				default="asc" 		description="Sorts status the records in ascending or descending order"/>
+    <aura:attribute access="public" 	type="String" 	name="sourceAccountOrderBy"  		default="asc" 		description="Sorts source account the records in ascending or descending order"/>
+    <aura:attribute access="public" 	type="String" 	name="beneficiaryAccountOrderBy"  	default="asc" 		description="Sorts beneficiary account the records in ascending or descending order"/>
+    <aura:attribute access="public" 	type="String" 	name="amountOrderBy"  				default="asc" 		description="Sorts amount the records in ascending or descending order"/>    
+    <aura:attribute access="public" 	type="String" 	name="currencyOrderBy"  			default="asc" 		description="Sorts currency the records in ascending or descending order"/>
+    <aura:attribute access="public" 	type="String" 	name="valueDateOrderBy"  			default="desc" 		description="Sorts value date the records in ascending or descending order"/>
+    <aura:attribute access="public" 	type="Boolean" 	name="isAllSelected" 				default="false" 	description="Controls weather all rows are selected or not"/>
+    
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute access="private" 	type="List" 	name="values"  				default="['10','20','40']" 			description="List of values to populate the dropdown" />
+    <aura:attribute access="private" 	type="Integer"  name="selectedValue" 											description="Number of cards displayed per page." />
+    <aura:attribute access="private" 	type="String" 	name="helpTextDropdown" 	default="{!$Label.c.Show_More}"		description="Dropdown help text" />
+    <aura:attribute access="private" 	type="Integer"  name="firstItem"       		default="1"               			description="First page of the view." />
+    <aura:attribute access="private" 	type="Integer"  name="finalItem"                                  				description="Last page of the view." />
+    <aura:attribute access="private" 	type="Integer"  name="paymentsNumber"                             				description="Number of payments to be displayed." />
+    <aura:attribute access="private" 	type="List"     name="pagesNumbers"                               				description="List of possible pages." />
+    <aura:attribute access="private" 	type="List"     name="paginationList"                             				description="List of accounts displayed per page." />
+    <aura:attribute access="private" 	type="Integer"  name="currentPage"                                				description="Number of the currently displayed page." />
+    
+    <aura:attribute access="public" 	type="String" 	name="detailsPage"  	    default="landing-payment-details"   description="Pagename of Payment Details page"/>
+    <aura:attribute access="public" 	type="Integer" 	name="filterCounter" 		default="0" 		                description="Counts the number of types of filers selected (source account, amount, currency, status, payment method, client reference, destination country, date)"/>
+    <aura:attribute access="public" 	type="List"  	name="filteredPaymentList" 	default="[]"						description="List of payments filtered by the selected filters"/>
+    <aura:attribute access="public" 	type="Map"  	name="singleSelectedPayment" 	default="{}"					description="Payment details to pass to utility bar when only one payment is selected"/>
+    <aura:attribute access="public"  	type="Map"     name="actions"	                default="{}"	                description="Map of booleans to control which buttons are enabled"/>
+    <aura:attribute access="public"  	type="Map" 	   name="signatoryStatus"           default="{}"	                description="To determine if user is signatory of this payment"/>
+    <aura:attribute access="private"  	type="Boolean" 	   name="hasActions"           default="false"	                description="Does the single selected payment have actions to show in the utility bar? "/>
+
+    
+   <aura:method name="setComponent" 	action="{!c.doInit}" 			description="Given a list of payments set pagination">
+    	 <aura:attribute access="public" 	type="List" 	name="paymentList"   	default="[]" 	description="List of payments that are displayed in the dropdown"/>
+	</aura:method>
+    
+
+    <aura:handler name="change"         action="{!c.changePagination}"          value="{!v.selectedValue}" />
+    <aura:handler name="change"         action="{!c.changePage}"                value="{!v.currentPage}" />
+    <aura:handler name="clearSelection" event="c:EVT_PAY_ClearSelection"        action="{!c.handleClearSelection}" />
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <div class="listItems">
+        <aura:if isTrue="{!and(v.isLoading == false, not(empty(v.paymentList)))}">
+            <aura:if isTrue="{!or(v.filterCounter != 0, not(empty(v.searchedString)))}">
+                <div class="slds-text-body_regular">{!$Label.c.Displaying}
+                    <strong>
+                        {!v.paymentList.length}&nbsp;{!$Label.c.PAY_payments} <!--was v.filteredPaymentList-->
+                    </strong>
+                    {!$Label.c.PAY_accordingTo}<strong>{!$Label.c.PAY_selectedFilters}</strong>
+                </div>
+                <aura:set attribute="else">
+                    <div class="slds-text-body_regular">{!$Label.c.Displaying}
+                        <strong>{!$Label.c.PAY_last}&nbsp;{!v.paymentList.length}&nbsp;{!$Label.c.PAY_payments}</strong>
+                    </div>
+                </aura:set>
+            </aura:if>
+        </aura:if>
+
+        
+    </div> 
+    
+    <!-- TABLE -->
+    <div class="tablePaymentsContent"> 
+        <div class="slds-grid">
+            <div class="slds-table--header-fixed_container tablePayment"> 
+                <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid" id="paymentsTable">
+                    <!-- HEADER -->
+                    <thead>
+                        <tr class="slds-text-title_caps"> 
+                            <th class="headCheck checkboxContainer" scope="col">
+                                <div class="slds-checkbox" >
+                                    <!--Para que el checkbox sea Disabled, se tiene que indicar que sea disabled = "true"-->
+                                    <input type="checkbox" value="{!v.isAllSelected}" name="options" id="selectAllPayments" onclick="{!c.handleSelectAll}"/>
+                                    <label class="slds-checkbox__label" for="selectAllPayments">
+                                        <!--Aquí se debe añadir la clase intermedite-->
+                                        <span class="slds-checkbox_faux"></span> 
+                                    </label>
+                                </div> 
+                            </th> 
+                            <th class="headReference" aria-label="Name" aria-sort="ascending" scope="col">
+                                <aura:if isTrue="{!and(v.selectedSort == 'clientReference', v.clientReferenceOrderBy == 'desc')}">
+                                    <div class="orderActive slds-truncate" style="text-transform:uppercase" id="clientReference" onclick="{!c.sortBy}">{!$Label.c.ClientReference}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.selectedSort == 'clientReference', v.clientReferenceOrderBy == 'asc')}">
+                                    <div class="orderActive orderReverse slds-truncate" style="text-transform:uppercase" id="clientReference" onclick="{!c.sortBy}">{!$Label.c.ClientReference}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selectedSort != 'clientReference'}">
+                                    <div class="slds-truncate" style="text-transform:uppercase" id="clientReference" onclick="{!c.sortBy}">{!$Label.c.ClientReference}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>                                
+                            </th> 
+                            <th class="headStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                                <aura:if isTrue="{!and(v.selectedSort == 'status', v.statusOrderBy == 'desc')}">
+                                    <div class="orderActive slds-truncate" style="text-transform:uppercase" id="status" onclick="{!c.sortBy}">{!$Label.c.status}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.selectedSort == 'status', v.statusOrderBy == 'asc')}">
+                                    <div class="orderActive orderReverse slds-truncate" style="text-transform:uppercase" id="status" onclick="{!c.sortBy}">{!$Label.c.status}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selectedSort != 'status'}">
+                                    <div class="slds-truncate" style="text-transform:uppercase" id="status" onclick="{!c.sortBy}">{!$Label.c.status}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>                                
+                            </th>
+                            <th class="headSource" aria-label="Name" aria-sort="ascending" scope="col">
+                                <aura:if isTrue="{!and(v.selectedSort == 'sourceAccount', v.sourceAccountOrderBy == 'desc')}">
+                                    <div class="orderActive slds-truncate" style="text-transform:uppercase" id="sourceAccount" onclick="{!c.sortBy}">{!$Label.c.B2B_Source_account}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.selectedSort == 'sourceAccount', v.sourceAccountOrderBy == 'asc')}">
+                                    <div class="orderActive orderReverse slds-truncate" style="text-transform:uppercase" id="sourceAccount" onclick="{!c.sortBy}">{!$Label.c.B2B_Source_account}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selectedSort != 'sourceAccount'}">
+                                    <div class="slds-truncate" style="text-transform:uppercase" id="sourceAccount" onclick="{!c.sortBy}">{!$Label.c.B2B_Source_account}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>                                
+                            </th>
+                            <th class="headBeneficiary" aria-label="Name" aria-sort="ascending" scope="col">
+                                <aura:if isTrue="{!and(v.selectedSort == 'beneficiaryAccount', v.beneficiaryAccountOrderBy == 'desc')}">
+                                    <div class="orderActive slds-truncate" style="text-transform:uppercase"  id="beneficiaryAccount" onclick="{!c.sortBy}">{!$Label.c.beneficiaryAccount}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.selectedSort == 'beneficiaryAccount', v.beneficiaryAccountOrderBy == 'asc')}">
+                                    <div class="orderActive orderReverse slds-truncate" style="text-transform:uppercase"  id="beneficiaryAccount" onclick="{!c.sortBy}">{!$Label.c.beneficiaryAccount}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selectedSort != 'beneficiaryAccount'}">
+                                    <div class="slds-truncate" style="text-transform:uppercase"  id="beneficiaryAccount" onclick="{!c.sortBy}">{!$Label.c.beneficiaryAccount}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                            </th>
+                            <th class="headAmount">
+                                <aura:if isTrue="{!and(v.selectedSort == 'amount', v.amountOrderBy == 'desc')}">
+                                    <div class="orderActive slds-truncate" style="text-transform:uppercase" id="amount" onclick="{!c.sortBy}">{!$Label.c.amount}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.selectedSort == 'amount', v.amountOrderBy == 'asc')}">
+                                    <div class="orderActive orderReverse slds-truncate" style="text-transform:uppercase" id="amount" onclick="{!c.sortBy}">{!$Label.c.amount}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selectedSort != 'amount'}">
+                                    <div class="slds-truncate" style="text-transform:uppercase" id="amount" onclick="{!c.sortBy}">{!$Label.c.amount}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                            </th>
+                            <th class="headCurrency" aria-label="Name" aria-sort="ascending" scope="col">
+                                <aura:if isTrue="{!and(v.selectedSort == 'currency', v.currencyOrderBy == 'desc')}">
+                                    <div class="orderActive slds-truncate" style="text-transform:uppercase"  id="currency" onclick="{!c.sortBy}">{!$Label.c.currency}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.selectedSort == 'currency', v.currencyOrderBy == 'asc')}">
+                                    <div class="orderActive orderReverse slds-truncate" style="text-transform:uppercase"  id="currency" onclick="{!c.sortBy}">{!$Label.c.currency}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selectedSort != 'currency'}">
+                                    <div class="slds-truncate" style="text-transform:uppercase"  id="currency" onclick="{!c.sortBy}">{!$Label.c.currency}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                            </th>                             
+                            <th class="slds-is-sortable headDate " aria-label="Name" aria-sort="ascending" scope="col"> 
+                                <!-- Añadir la clase orderActive, para que se vea la flecha de ordenar -->
+                                <!-- Añadir la clase orderReverse, para que se vea la flecha girada hacia arriba -->    
+                                <aura:if isTrue="{!and(v.selectedSort == 'valueDate', v.valueDateOrderBy == 'desc')}">
+                                    <div class="orderActive" style="text-transform:uppercase" id="valueDate" onclick="{!c.sortBy}">{!$Label.c.valueDate}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.selectedSort == 'valueDate', v.valueDateOrderBy == 'asc')}">
+                                    <div class="orderActive orderReverse" style="text-transform:uppercase" id="valueDate" onclick="{!c.sortBy}">{!$Label.c.valueDate}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selectedSort != 'valueDate'}">
+                                    <div class="" style="text-transform:uppercase" id="valueDate" onclick="{!c.sortBy}">{!$Label.c.valueDate}<span class="button-orderRight icon-arrowDown"></span></div>
+                                </aura:if>
+                            </th> 
+                        </tr>
+                    </thead>
+                    
+                    <!-- BODY -->
+                    <tbody> 
+                        
+                        <!--SPINNER-->
+                        <aura:if isTrue="{!v.isLoading == true}" >
+                            <c:CMP_PaymentsLandingSpinner/>
+                        </aura:if>
+                        <aura:if isTrue="{!and(empty(v.paymentList), v.isLoading == false)}" >
+                            <aura:if isTrue="{!or(v.filterCounter > 0, not(empty(v.searchedString)))}" > <!--was v.filteredPaymentList-->
+                                <c:CMP_PaymentsLandingSpinnerNoResults title="{!$Label.c.Search_NoPaymentsFound}" subtitle="{!(not(empty(v.searchedString)) ?  $Label.c.PAY_noResultsWithSearchTerm : $Label.c.PAY_noResultsWithFilters)}" resetSearch="{!v.resetSearch}" backgroundImage="true"/>
+                            </aura:if>
+                            <aura:if isTrue="{!and(v.filterCounter == 0, empty(v.searchedString))}">
+                                <c:CMP_PaymentsLandingSpinnerNoResults title="{!$Label.c.PAY_didNotFindPayments}" subtitle="{!$Label.c.PAY_checkConnectionRefresh}" backgroundImage="true" showResetButton="false"/>
+                            </aura:if>
+                        </aura:if>
+                            
+                        <!-- <aura:if isTrue="{!and(v.isLoading == false, and(empty(v.filteredPaymentList), v.hasSearched == false))}" >
+                            <c:CMP_PaymentsLandingSpinnerNoResults title="{!$Label.c.Search_NoPaymentsFound}" subtitle="{!(and(not(empty(v.searchedString)), v.filterCounter == 0) ?  $Label.c.CheckSpellingSearch : $Label.c.PAY_checkFilters)}" resetSearch="{!v.resetSearch}" backgroundImage="true"/>
+                        </aura:if>
+                        <aura:if isTrue="{!and(v.isLoading == false, and(empty(v.filteredPaymentList), v.hasSearched == true))}" >
+                            <c:CMP_PaymentsLandingSpinnerNoResults title="{!$Label.c.Search_NoPaymentsFound}" backgroundImage="true" emptyImage="true"/>
+                        </aura:if> -->
+                        <!-- ROW 1 --> 
+                        <!-- Añadir la clase active para indicar que es activo -->
+                        <!-- Añadir la clase selected en el tr para marcarlo como seleccionado-->
+                        <aura:if isTrue="{!and(v.isLoading == false, not(empty(v.paymentList)))}" >
+                            <aura:iteration items="{!v.paginationList}" var="item" indexVar="key">
+                                <tr class="{!'slds-hint-parent'+ (item.checked == true ? ' selected' : '')}" aria-selected="false" id="{!'ROW_' +item.paymentId}" > 
+                                    <td role="gridcell" class="infoCheck checkboxContainer">
+                                        <div class="slds-checkbox" >
+                                            <input type="checkbox" value="{!item}" name="options" id="{!item.paymentId}" onclick="{!c.handleSelectedRow}" aura:id="checkbox"/>
+                                            <label class="slds-checkbox__label" for="{!item.paymentId}">
+                                                <span class="slds-checkbox_faux"></span> 
+                                            </label>
+                                        </div> 
+                                    </td> 
+                                    <td role="gridcell" class="infoReference" onclick="{!c.handleClickRow}">
+                                        <div class="slds-grid slds-grid_align-spread"  >
+                                            <span class="slds-truncate">{!item.clientReference}</span>
+                                        </div>
+                                    </td> 
+                                    <td role="gridcell" class="infoStatus" onclick="{!c.handleClickRow}">
+                                        <div class="slds-grid slds-grid_align-spread"  title="{!item.parsedPaymentStatus}" >
+                                            <!-- paymentStatus: {!item.paymentStatus} -->
+                                            <aura:if isTrue="{!item.paymentStatus == '001'}">
+                                                <span class="slds-badge badgeDraft" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '002'}">
+                                                <span class="slds-badge badgePending"  title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '003'}">
+                                                <span class="slds-badge badgeReview" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '997'}">
+                                                <span class="slds-truncate slds-badge badgeNotAuthorized"  title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '101'}">
+                                                <span class="slds-badge badgeAuthorized" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '201'}">
+                                                <span class="slds-badge badgeScheduled" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '998'}">
+                                                <span class="slds-badge badgeCanceled" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '202'}">
+                                                <span class="slds-badge badgeReleased" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '999'}">
+                                                <span class="slds-badge badgeRejected" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <!-- <aura:if isTrue="{!item.paymentStatus == ''}">
+                                                <span class="slds-badge badgeInProgress" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if> -->
+                                            <aura:if isTrue="{!item.paymentStatus == '102'}">
+                                                <span class="slds-badge badgeProcessed" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '801'}">
+                                                <span class="slds-badge badgeDelayed" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '800'}">
+                                                <span class="slds-badge badgeHold" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            <aura:if isTrue="{!item.paymentStatus == '103'}">
+                                                <span class="slds-badge badgeCompleted" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if>
+                                            
+                                        </div>
+                                    </td>
+                                    <td role="gridcell" class="infoSource" onclick="{!c.handleClickRow}">
+                                        <div class="slds-grid flexCol">
+                                            <span class="slds-truncate strong">{!item.sourceAccountEncripted}</span>
+                                            <span class="slds-truncate ">{!item.sourceAlias}</span>
+                                        </div>
+                                    </td> 
+                                    <td role="gridcell" class="infoBeneficiary" onclick="{!c.handleClickRow}">
+                                        <div class="slds-grid flexCol">
+                                            <span class="slds-truncate strong">{!item.beneficiaryAccountEncripted}</span>
+                                            <span class="slds-truncate ">{!item.beneficiaryAlias}</span>
+                                        </div>
+                                    </td> 
+                                    <td role="gridcell" class="infoAmount" onclick="{!c.handleClickRow}">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate">
+                                                <c:CMP_displayAmount aura:id ="avaibleBalanceRow"
+                                                                 amount="{!item.amount}" 
+                                                                 decimalClass="" 
+                                                                 wholeClass=""
+                                                                 numberFormat="{!v.currentUser.numberFormat}"/></span>
+                                        </div>
+                                    </td>
+                                    <td role="gridcell" class="infoCurrency" onclick="{!c.handleClickRow}">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate textBox">{!item.paymentCurrency}</span>
+                                        </div>
+                                    </td> 
+                                    <td role="gridcell" class="infoValue" onclick="{!c.handleClickRow}">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate"> <c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!item.valueDate}"/></span>
+                                        </div>
+                                    </td>                               
+                                </tr>  
+                            </aura:iteration>
+                        </aura:if>
+                                                
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <aura:if isTrue="{!and(v.isLoading == false, not(empty(v.paymentList)))}" >
+        <div class="contentPag">
+            <div class="slds-grid pagination">
+                <div class="slds-form-element infoPage">
+                    <aura:if isTrue="{!v.paymentsNumber gt v.values[0]}">
+                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" data-title-right="{!$Label.c.Show_More}">
+                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{!v.selectedValue}</div>
+                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                    </div>
+                                    <span class="slds-assistive-text">{!$Label.c.Show_More}</span>
+                                </button>
+                            </div>
+                            <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
+                                <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                    <aura:iteration items="{!v.values}" var="item">
+                                        <c:CMP_B2B_SelectPaginationDropdown paginationSelection="{!v.selectedValue}" item="{!item}"/>
+                                    </aura:iteration>
+                                </ul>
+                            </div>
+                        </div> 
+                        <span class="slds-text-body_regular">{!$Label.c.B2B_Items_displayed}</span>
+                    </aura:if>
+                </div>
+                <div class="slds-grid navigationPage">   
+                    <div class="slds-text-body_regular">
+                        <aura:if isTrue="{!v.selectedValue le v.paymentsNumber}">
+                            {!v.firstItem + ' ' + $Label.c.toMinus}
+                        </aura:if>
+                        {!' ' + v.finalItem + ' ' + $Label.c.of}<strong>{!v.paymentsNumber + ' ' + $Label.c.B2B_Items}</strong>
+                    </div> 
+                    <aura:if isTrue="{!v.selectedValue le v.paymentsNumber}">
+                        <aura:if isTrue="{!v.currentPage != 1}">
+                            <a class="button-page " data-title-left="Prev page" onclick="{!c.handlePreviousPage}"><span class="icon-arrowLeft_big"></span> {!$Label.c.B2B_PREV}</a> 
+                        </aura:if>
+                        <aura:iteration items="{!v.pagesNumbers}" var="number">
+                            <c:CMP_B2B_NumberPagination number="{!number}" currentPage="{!v.currentPage}" />
+                        </aura:iteration>
+                        <aura:if isTrue="{!v.currentPage != v.pagesNumbers.length}">
+                            <a class="button-page" data-title-left="Next page" onclick="{!c.handleNextPage}">{!$Label.c.B2B_NEXT} <span class="icon-arrowRight_big"></span></a> 
+                        </aura:if>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- Footer -->
+    <!-- Este componente solo aparecerá cuando se seleccione en la tabla -->
+    <!-- <aura:if isTrue="{!not(empty(v.selectedRows))}"> -->
+    <aura:if isTrue="{!and(v.selectedRows.length == 1, v.hasActions == true)}">
+        <div>
+            <c:CMP_PaymentsLandingUtilityBar paymentDetails="{!v.singleSelectedPayment}" currentUser="{!v.currentUser}" actions="{!v.actions}" signatoryStatus="{!v.signatoryStatus}"  />
+        </div>
+    </aura:if>
+    
+
+    
+</aura:component>

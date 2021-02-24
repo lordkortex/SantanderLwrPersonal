@@ -1,0 +1,146 @@
+/* MODAL FULL SCREEN */
+.modalFullScreen .slds-modal__container {
+    min-width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f6f6f6;
+    padding: 0px;
+}
+
+/* SCROLLBAR */
+ ::-webkit-scrollbar {
+    width: 6px;
+}
+ ::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+ ::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+ ::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+/* MODAL HEADER */
+.modalFullScreen .slds-modal__header {
+    border-bottom: none;
+    padding: 0px;
+    width: 100%;
+    z-index: 15;
+}
+
+.modalFullScreen .slds-modal__header .row:first-child{
+    padding: 12px 24px;
+    margin: 0px;
+    width: 100%;
+    height: 72px;
+    background-color: #ffffff;
+}
+.modalFullScreen .slds-modal__header .slds-progress-bar {
+    height: 4px;
+    background-color: #deedf2;
+}
+
+.modalFullScreen .slds-modal__header .slds-progress-bar__value {
+    background-color: #ec0000;
+}
+.modalFullScreen .slds-modal__header .slds-col{
+    display: flex;
+    align-items: center;
+    margin: 0px;
+    padding: 0px;
+}
+.modalFullScreen .slds-modal__header .slds-col:nth-child(2){
+    justify-content: center;
+}
+.modalFullScreen .slds-modal__header .slds-col:last-child{
+    justify-content: flex-end;
+}
+.modalFullScreen .slds-modal__header .slds-modal__title {
+    color: #444444;
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.modalFullScreen .slds-modal__header .logo-red{
+    width: 48px;
+    height: 48px;
+    margin-right: 12px;
+}
+
+.modalFullScreen .slds-modal__header .slds-col:last-child .slds-button {
+    margin-left: 20px;
+}
+
+/* ONE STEP */
+.modalFullScreen .slds-modal__header.oneStep .row .slds-col:last-child{
+    visibility: hidden;
+}
+.modalFullScreen .slds-modal__header.oneStep .slds-progress-bar{
+    height: 4px;
+    background-color: #ffffff;
+    box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+
+.modalFullScreen .slds-modal__header.oneStep .slds-progress-bar .slds-progress-bar__value{
+    display: none;
+}
+
+/* ERROR STEP */
+.modalFullScreen .slds-modal__header.errorStep .row .slds-col:first-child,
+.modalFullScreen .slds-modal__header.errorStep .row .slds-col:last-child{
+    visibility: hidden;
+}
+
+.modalFullScreen .slds-modal__header.errorStep .slds-progress-bar .slds-progress-bar__value{
+    display: none;
+}
+
+/* MODAL CONTENT */
+.modalFullScreen .slds-modal__content {
+    background-color: #f6fafc;
+    margin-top: 76px;
+    width: 100%;
+    height: 100%;
+}
+
+.modalFullScreen .slds-modal__content:last-child {
+    box-shadow: none;
+}
+
+.modalFullScreen .slds-modal__content .slds-grid__content{
+    max-width:856px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/*SHOW CARD TYPE 1*/
+ .slds-modal__content .slds-grid__content .slds-card.type2,
+ .slds-modal__content .slds-grid__content .slds-card.type3{
+    display: none;
+}
+
+
+/*SHOW CARD TYPE 2*/
+ .slds-modal__content.card2 .slds-grid__content .slds-card.type2{
+    display: block;
+}
+
+ .slds-modal__content.card2 .slds-grid__content .slds-card.type1,
+ .slds-modal__content.card2 .slds-grid__content .slds-card.type3{
+    display: none;
+}
+
+
+/*SHOW CARD TYPE 3*/
+ .slds-modal__content.card3 .slds-grid__content .slds-card.type3{
+    display: block;
+}
+
+ .slds-modal__content.card3 .slds-grid__content .slds-card.type1,
+ .slds-modal__content.card3 .slds-grid__content .slds-card.type2{
+    display: none;
+}

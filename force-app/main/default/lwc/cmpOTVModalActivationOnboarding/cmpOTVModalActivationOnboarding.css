@@ -1,0 +1,175 @@
+.slds-modal{
+    background: rgba(68,68,68,0.7);
+    overflow-y: auto;
+ }
+ 
+ /* MODAL SIZE */
+  .slds-modal__container.sizeS{
+     width: 520px;
+     max-width: 520px;
+     min-width: 520px;
+ }
+ 
+  .slds-modal__container.sizeM{
+     width: 936px;
+     min-width: 936px;
+     max-width: 936px;
+ }
+ 
+ /* SCROLL */
+  .slds-modal__container.scroll {
+     padding: 108px 0;
+     height: auto;
+ }
+ 
+  .slds-modal__container body{
+     box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08);
+ }
+   
+  .icon-close:before {
+     content: "\e913";
+     color: #ffffff
+ }
+ 
+  .slds-modal__container .slds-modal__header .slds-modal__close {
+     font-size: 24px;
+     position: absolute;
+     top: -32px;
+     right: 0;
+     width: 24px;
+     height: 24px;
+     border: none!important;
+ }
+ 
+ /* CHECK*/ 
+  .carousel-footer{
+     background-color: #f6fafc;
+     box-shadow: inset 0 1px 0 0 #deedf2;
+     padding:16px 64px;
+     border-radius: 0 0 4px 4px;
+     display: flex;
+     justify-content: space-between;
+     align-items:center;
+ }
+ 
+  .slds-checkbox {
+     align-items: center;
+     display: flex;
+     height: 24px;
+ }
+  
+  .slds-checkbox .slds-checkbox__label .slds-form-element__label.checkboxLabel {
+     cursor: pointer;
+     color: #444444;
+     display: inline;
+     font-family: "SantanderMicroText";
+     font-size: 16px;
+     line-height: 24px;
+     vertical-align: middle;
+ }
+  .slds-form-element .slds-checkbox [type=checkbox]+.slds-checkbox__label .slds-checkbox_faux {
+     border-radius: 4px;
+     border: 1px solid #767676;
+     cursor: pointer;
+     height: 24px; 
+     margin-right: 8px;
+     width: 24px;
+ }
+ 
+  .slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+     box-shadow: none;
+     border-color: #767676;
+ }
+ 
+  .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+     border: 2px solid #1bb3bc;
+ }
+ 
+  .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+     border-bottom: 2px solid #1bb3bc;
+     border-left: 2px solid #1bb3bc;
+     height: 6px;
+     width: 9px;
+ }
+  .slds-form-element .slds-checkbox [type=checkbox]+.slds-checkbox__label .slds-checkbox_faux:active{
+     border: 2px solid #1bb3bc;
+ }
+  
+  
+ /* CARROUSEL */
+  .slds-carousel__stage{
+     background:#fff;
+     border-radius: 4px 4px 0 0;
+     position: relative;
+ }
+  .slds-carousel__panel-action{
+        outline: none!important;
+     box-shadow: none!important;
+     border-color: transparent;
+     border: none!important;
+ }
+ 
+  .slds-carousel__image {
+     height: 355px;
+     border-bottom: 1px solid #cedee7;
+ }
+ 
+  .slds-carousel__content{
+     padding: 40px 64px;
+     height: 192px;
+ }
+  .slds-carousel__content-title{
+     font-family: "SantanderHeadlineW05-Bold";
+       font-size: 20px;
+     text-align: center;
+       color: #444444;
+     line-height: 1.4;  
+     margin-bottom: 4px;
+ }
+  .slds-carousel__content p{
+     font-family: "SantanderMicroText";
+       font-size: 16px; 
+      line-height: 1.5;    
+     color: #444444;
+     max-width: 808px;
+ }
+  ul.slds-carousel__indicators{
+     bottom: 48px;
+     position: absolute;
+     margin: 0;
+     height: 8px;
+ }
+ 
+  .slds-carousel__indicator{
+      margin: 0 4px;
+ }
+    
+  .slds-carousel__indicator-action{
+   width: 8px;
+   height: 8px; 
+   background-color: #cedee7;
+   border:none;
+   transition: all 0.5s ease;
+ }
+ 
+  .slds-carousel__indicator-action.slds-is-active, 
+  .slds-carousel__indicator-action.slds-is-active:hover,
+  .slds-carousel__indicator-action:hover{
+     background: #ec0000!important;
+     box-shadow:none;
+ }
+ 
+  .slds-carousel__autoplay{
+     display:none;
+ }
+ 
+  .slds-carousel__panels .slds-carousel__image,
+  .slds-carousel__panels .slds-carousel__content {
+     cursor: auto;
+ }
+ 
+ /* CARROUSEL ONE SLIDE */
+  .oneSlide .slds-carousel__panels lightning-carousel-image:first-child,
+  .oneSlide .slds-carousel__indicators {
+     display: none;
+ }

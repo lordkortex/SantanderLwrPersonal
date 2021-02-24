@@ -1,0 +1,52 @@
+<template>
+    <div class="slds-grid slds-gutters pagination">  
+        <div class="slds-form-element infoPage"> 
+            <!-- DROPDOWN MARKUP -->
+            <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option--> 
+            <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                    <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" data-title-right={helpTextDropdown}>
+                        <div class="slds-border_right orderSelected selectedValue-placeholder">{selectedValue}</div>
+                        <div class="slds-button__icon arrow" aria-hidden="true">
+                            <div class="button-arrow icon-arrowDown_small"></div>
+                        </div>
+                        <span class="slds-assistive-text">{helpTextDropdown}</span>
+                    </button>
+                </div>
+                <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
+                    <ul class="slds-dropdown__list" role="menu" aria-label={helpTextDropdown}>
+                        <template for:each={values} for:item="item">
+                            <li  class={selectedClass} key={item} role="presentation" id={item}   onclick={conditions} data-item={item} data-id={item}>
+                                <a class="paddingOption" role="menuitemcheckbox" tabindex="0" aria-checked="true"  data-item={item} data-id={item}>
+                                    <div class="slds-truncate optionOrder" data-title-right={item}  data-item={item} data-id={item}>
+                                         
+                                        <span class="nameOrder" data-item={item}>{item}</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </template>  
+                
+                    </ul>
+                </div> 
+                
+            </div> 
+            <span class="slds-text-body_regular">{label.cmpOTVPaginationModal_1}</span>
+        </div>
+             
+        <div class="slds-grid navigationPage">   
+            <div class="slds-text-body_regular">1  {label.cmpOTVPaginationModal_to} {lastpage}  {label.cmpOTVPaginationModal_of} <strong>{items}  {label.cmpOTVPaginationModal_4}</strong></div> 
+            <a class="button-page " data-title-left="Prev page" onclick={prevPage}><span class="icon-arrowLeft_big"></span> {label.cmpOTVPaginationModal_2}</a> 
+            <ul> 
+                <li class="number" for:each={numpages} for:item="page" key={page}>
+                    <a title="" data-item={page} data-id="paginacion" onclick={clickPage}>{page}</a>   
+                </li>
+                <!--<li class="number "><a title="" href="" class="active">1</a></li>
+                <li class="number"><a title="" href="">2</a></li>
+                <li class="number"><a title="" href="">3</a></li>
+                <li class="number"><a title="" href="">4</a></li>
+                <li class="number"><a title="" href="">5</a></li>-->
+             </ul> 
+            <a class="button-page" data-title-left="Next page"  onclick={nextPage}>{label.cmpOTVPaginationModal_3} <span class="icon-arrowRight_big"></span></a> 
+        </div> 
+    </div> 
+</template>

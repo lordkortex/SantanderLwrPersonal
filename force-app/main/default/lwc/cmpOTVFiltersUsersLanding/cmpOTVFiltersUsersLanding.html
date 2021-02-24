@@ -1,0 +1,105 @@
+<template>
+     <div class="searchFiltersAccounts">
+        <div class="slds-grid">
+            <div class="searchFilters">
+                
+                <!-- Añadir la clase "error" en el siguiente div para mostrar el mensaje errorText -->
+               <div class="slds-form-element search">
+                   
+                  <div class="slds-form-element__control slds-input-has-icon inputActive">
+                      <!-- El siguiente button de cerrar debe estar oculto hasta que se vaya a escribir en el buscador -->
+                      <!-- El movimiento de la lupa y el placeholder está hecho mediante css -->
+                      <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={borrar}>
+                          <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true" ></div>
+                          <span class="slds-assistive-text">{label.cmpOTVFiltersUsersLanding_1}</span>
+                      </button>
+                      
+                      <!-- Cuando el input tenga un valor seleccionado se le tiene que añadir la clase filledInput -->
+                      <input type="search" id="text-input-id-1" placeholder="Search users by name or ID" autocomplete="off" class="slds-input" name="Search user" onchange={buscar}/>
+
+                      <button class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true" > </button>
+                   </div>
+                   
+                   <!-- Mensaje de error oculto por defecto -->
+                   <div class="errorText">{label.cmpOTVFiltersUsersLanding_2}</div>
+
+              </div>
+            
+            <div class="slds-form-element">
+              <label class="slds-form-element__label" for="combobox-id-7">{label.cmpOTVFiltersUsersLanding_3}</label>
+
+              <div class="slds-form-element__control filters">
+
+                <!--PILL 1 COMBOBOX--> 
+                <div class="slds-combobox_container"  > 
+                    <lightning-combobox 
+                    name="comboStatus"
+                    options={filtroStatus}
+                    placeholder="Status"
+                    value={valueStatus} 
+                    onchange={changeStatus}
+                    variant=label-hidden>
+                    </lightning-combobox>
+                    <!--<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">-->
+              
+                        <!-- Añadir la clase filterButton cuando el boton esté filtrado -->
+                        <!--<button class="slds-button buttons">{label.cmpOTVFiltersUsersLanding_4}
+                            <div class="numberSelected">
+                                <span>2</span>
+                            </div> -->
+                            <!-- Cuando el dropdown está cerrado -->
+                             <!--<div class="icon-arrowDown_small"></div> -->
+                            
+                            <!-- Cuando el dropdown está abierto -->
+                            <!--<div class="icon-arrowUp_small"></div>-->
+                            
+                       <!-- </button>
+                    </div>-->
+                </div>
+                  
+                <!--PILL 2 COMBOBOX--> 
+                <div class="slds-combobox_container">
+                    <lightning-combobox 
+                    name="comboUser"
+                    options={filtroTypeUser}
+                    placeholder="Type of User"
+                    value={filtroTypeUser}
+                    onchange={changeRole}
+                    variant=label-hidden>
+                    </lightning-combobox>
+                   <!-- <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"  aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                         Añadir la clase filterButton cuando el boton esté filtrado 
+                        <button class="slds-button buttons">{label.cmpOTVFiltersUsersLanding_5}
+                            <div class="numberSelected">
+                                <span>2</span>
+                            </div>
+                             Cuando el dropdown está cerrado 
+                          <div class="icon-arrowDown_small"></div>
+                            
+                             Cuando el dropdown está abierto
+                            <div class="icon-arrowUp_small"></div>
+                            
+                        </button>
+                    </div>-->
+                </div>
+                               
+              </div>     
+            </div>
+            </div>
+            
+            <div class="rightIcons">
+                
+                <!--DOWNLOAD-->
+                <!--<button class="slds-button button_link"><span class="icon_left icon-download"></span> {label.cmpOTVFiltersUsersLanding_6}     
+                    
+                </button>  --> 
+                <!--PRINT-->
+                <!--<button class="slds-button button_link"><span class="icon_left icon-print"></span> {label.cmpOTVFiltersUsersLanding_7}        
+                    
+                </button> --> 
+                
+            </div>   
+        </div>
+        
+    </div>
+</template>

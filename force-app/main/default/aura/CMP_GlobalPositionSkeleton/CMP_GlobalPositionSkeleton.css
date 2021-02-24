@@ -1,0 +1,802 @@
+/* NAVIGATION */
+.THIS {
+}
+
+.THIS{
+    margin: 0;
+    overflow: hidden;
+    position: absolute;
+    top: 60px;
+    height: calc(100vh - 84px);
+}
+
+.THIS .slds-grid{
+    width: 100%;
+    position: fixed;
+}
+
+/* Cabecera  */
+
+.THIS.contentMotion{
+    width: auto;
+    height: calc(100vh - 84px);
+    overflow: hidden;
+}
+
+.THIS.contentMotion.fadeOut {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s 2s, opacity 2s linear;
+}  
+
+.THIS.contentMotion .navBar{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+}
+
+.THIS.contentMotion .navPrimary{
+    width: 100%;
+    height: 48px;
+}
+
+.THIS.contentMotion .navSecondary{
+    width: 100%;
+    height: 36px;
+}
+
+.THIS.contentMotion .box_gray_dark{
+    background-color:#a2a2a2;
+}
+
+.THIS.contentMotion .box_gray_medium30{
+    background-color: #c7c7c7;
+}
+
+/* slider */
+.THIS.contentMotion .sliderLoading{ 
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    align-items: center;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    margin: 0;
+    padding-top: 84px;
+}
+
+
+.THIS.contentMotion .cabecera {
+        opacity:0;
+    animation-name: hidden;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-duration: 22s;
+    animation-delay: 4.8s; 
+}
+.THIS.contentMotion .backgroundLoading{
+    position: absolute; 
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+.THIS.contentMotion .backgroundLoading:after{
+    content: "";
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    display: block;
+    top: 0;
+    position: absolute;
+    left: 0;
+        opacity:0;
+    animation-name: hidden;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+    animation-duration: 24s;
+    animation-delay: 4s; 
+}
+.THIS.contentMotion .sliderText{
+    position: fixed;
+    text-align: center;
+    top: 348px;
+}
+.THIS.contentMotion .sliderText .logo-red {
+    width: 76px;
+    height: 76px;
+    object-fit: contain; 
+}
+ .THIS.contentMotion .sliderText .pretitle{
+    font-family: "SantanderHeadlineW05-Rg";  
+    font-size: 28px; 
+    line-height: 1.21;
+    letter-spacing: normal;
+    text-align: center;
+    color: #444444; 
+    margin-bottom: 24px;  
+}
+.THIS.contentMotion .sliderText .title{
+    font-family: "SantanderHeadlineW05-Bold"; 
+    font-size: 32px; 
+    line-height: 1.19;
+    letter-spacing: normal;
+    text-align: center;
+    color: #444444;
+    margin-bottom: 24px;  
+    position: absolute;
+    width: 808px;
+    opacity:0;
+    left:-450px;
+    animation-name: slider;
+    animation-iteration-count: 1;
+    animation-timing-function: linear;
+}
+.THIS.contentMotion .sliderText .title1{   
+    animation-duration: 7s;
+    animation-delay: 5s; 
+}
+.THIS.contentMotion .sliderText .title2{  
+    animation-duration: 7s;
+    animation-delay: 12s; 
+}
+.THIS.contentMotion .sliderText .title3{   
+    animation-duration: 7s;
+    animation-delay: 20s; 
+}
+@keyframes slider {
+    0%   {opacity:0; left: -450px} 
+    10%  {opacity:1; left: -320px} 
+    90%  {opacity:1; left: -320px} 
+    100% {opacity:0; left: 100px} 
+}
+
+@keyframes hidden {
+    0% {opacity:0;} 
+    4% {opacity:1;}
+    96% {opacity:1;}
+    100% {opacity:0;}
+}
+
+/* END NAVIGATION */
+
+/* CONTENT */
+.THIS.slds-col--padded.slds-size--12-of-12.slds-medium-size--8-of-12.slds-large-size--8-of-12.comm-layout-column.column-content{
+    width:832px;
+}
+
+.THIS .blockMotion.contentTitle{
+    animation-delay: 0s; 
+}
+
+.THIS .blockMotion.contentTotalBookBalance{
+    animation-delay: 0.05s; 
+}
+
+
+.THIS .blockMotion.contentLink{
+    animation-delay: 0.10s; 
+}
+.THIS .blockMotion {
+    opacity:0;
+      animation-duration: 100s; 
+      animation-iteration-count: 1;
+      animation-name: fadeinInfinite;
+ }
+
+.THIS .blockMotion.contentCard.contentCard1{ 
+    animation-delay: 0.20s; 
+}
+.THIS .blockMotion.contentCard.contentCard2{ 
+    animation-delay: 0.30s; 
+}
+.THIS .blockMotion.contentCard.contentCard3{ 
+    animation-delay: 0.40s; 
+}
+.THIS .blockMotion.contentCard.contentCard4{ 
+    animation-delay: 0.50s; 
+}
+.THIS .blockMotion.contentCard.contentCard5{ 
+    animation-delay: 0.60s; 
+}
+.THIS .blockMotion.contentCard.contentCard6{ 
+    animation-delay: 0.70s; 
+}
+.THIS .blockMotion.contentCard.contentCard7{ 
+    animation-delay: 0.80s; 
+}
+.THIS .blockMotion.contentCard.contentCard8{ 
+    animation-delay: 0.90s; 
+}
+
+.THIS .box_motion1,
+.THIS .box_motion2,
+.THIS .box_motion3,
+.THIS .box_motion_R1,
+.THIS .box_motion_R2,
+.THIS .box_motion_R3{
+    width:100%;
+    height:100%; 
+    position: relative;
+        overflow: hidden;
+}
+
+.THIS .box_motion1::after,
+.THIS .box_motion2::after,
+.THIS .box_motion3::after,
+.THIS .box_motion_R1::after,
+.THIS .box_motion_R2::after,
+.THIS .box_motion_R3::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+    animation-name: shimmer;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    content: '';
+}
+
+.THIS .box_motion1::after {
+    animation-duration: 2s;
+    animation-delay: 1s; 
+
+}
+.THIS .box_motion2::after {
+    animation-duration: 2s;
+    animation-delay: 1.5s; 
+}
+
+.THIS .box_motion3::after {
+    animation-duration: 2s;
+    animation-delay: 1s; 
+}
+
+.THIS .box_motion_R1::after {
+    animation-duration: 2s;
+    animation-delay: 1.15s; 
+}
+.THIS .box_motion_R2::after {
+    animation-duration: 2s;
+    animation-delay: 1s; 
+}
+
+.THIS .box_motion_R3::after {
+    animation-duration: 2s;
+    animation-delay: 1s; 
+}
+
+
+
+
+.THIS .box_white:after { 
+    /* #ebebeb */
+     background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(235,235,235, 0.6) 30%, rgba(235,235,235, 0.6) 70%, rgba(255, 255, 255, 0));
+}
+
+.THIS .box_gray_medium30:after { 
+    /*#c0c0c0*/
+     background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(192, 192, 192, 0.9) 30%, rgba(192, 192, 192, 0.9) 70%, rgba(255, 255, 255, 0));
+}
+
+.THIS .box_gray_medium10:after { 
+    /* #e2e2e2 */
+  background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0,  rgba(226,226,226, 0.9) 30%, rgba(226,226,226, 0.9) 70%, rgba(255, 255, 255, 0));
+}
+
+
+.THIS .box_white{
+    background-color: #ffffff;
+}
+.THIS .box_gray_light{
+    background-color: #a2a2a2;
+}
+.THIS .box_gray_medium10{
+    background-color: #ececec;
+}
+
+.THIS .box_gray_medium20{
+    background-color: #dadada;
+}
+.THIS .box_gray_medium30{
+    background-color: #c7c7c7;
+}
+
+.THIS .box_gray_medium40{
+    background-color: #b5b5b5;
+}
+.THIS .box_gray_dark{
+    background-color:#a2a2a2;
+}
+
+.THIS .contentTitle,
+.THIS .contentTotalBookBalance {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin: 32px 0 40px 0;
+}
+
+.THIS .title{
+    width: 392px;
+    height: 28px;
+    margin-bottom:8px;
+}
+
+.THIS .contentTitle .subtitle{
+    width: 416px;
+    height: 12px;
+}
+
+.THIS .contentTitle .pills{
+    width: 242px;
+    height: 32px;
+}
+
+.THIS .contentTotalBookBalance {
+    margin-bottom: 24px;
+}
+
+.THIS .contentTotalBookBalance .dropdown{
+    width:184px;
+    height:48px;
+}
+.THIS .contentTotalBookBalance .number,
+.THIS .contentTotalBookBalance .textNumber {
+    display: flex;
+    align-items: flex-end;
+}
+
+.THIS .contentTotalBookBalance .textNumber{
+    justify-content: space-between;
+}
+
+.THIS .contentTotalBookBalance .number{
+    margin-bottom: 12px;
+}
+
+.THIS .contentTotalBookBalance .number .numberFile1{
+    width: 124px;
+    height: 12px;
+    margin-right: 21px;
+}
+.THIS .contentTotalBookBalance .number .numberFile2 {
+    width: 242px;
+    height: 28px;
+}
+
+.THIS .contentTotalBookBalance .textNumber .textNumberFile1{
+    width: 144px;
+    height: 12px;
+}
+
+.THIS .contentTotalBookBalance .textNumber .textNumberFile2{
+    width: 120px;
+    height: 12px;
+}
+
+.THIS .contentLink {
+    margin-bottom: 21px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.THIS .contentLink .line {
+    width: 140px;
+    height: 16px;
+}
+
+.THIS .contentCards{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom:16px;
+}
+
+.THIS .contentCard{
+    width: 392px;
+    height: 114px;
+    padding: 22px 16px 0 16px;
+    border-radius: 4px;
+}
+
+.THIS .contentCardCol{
+    display:flex;
+    justify-content: space-between;
+}
+
+.THIS .contentCardLeft1{
+    width: 109px;
+    height: 16px;
+    margin-bottom: 13px;
+}
+.THIS .contentCardRight1{
+    width: 92px;
+    height: 12px;
+    margin-bottom: 17px;
+}
+
+.THIS .contentCardLeft2{
+    width: 88px;
+    height: 12px;
+    margin: 6px 0;
+}
+.THIS .contentCardRight2{
+    width: 144px;
+    height: 24px;
+}
+.THIS .contentCardLeft3{
+    margin-top: 6px;
+    width: 112px;
+    height: 12px;
+
+}
+.THIS .contentCardRight3{
+    margin-top: 8px;
+    width: 116px;
+    height: 12px;
+}
+
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+@keyframes fadein {
+  0% {
+      visibility: hidden;
+        opacity: 0;  
+  } 
+  100% {
+     
+        opacity: 1; 
+
+  }
+}
+@keyframes fadeinInfinite {
+  0% { 
+        opacity: 0;  
+  } 
+  1% { 
+        opacity: 1;  
+  }
+    100% { 
+        opacity: 1;  
+  }
+}
+
+/* END CONTENT */
+
+/* SIDEBAR */
+/*.THIS.comm-layout-column:not(:empty).slds-medium-size--4-of-12.column-sidebar {
+    width:100%;
+    padding: 50px 48px 26px!important;
+    background-color: #f6f6f6; 
+    min-height: 100vh;
+}*/
+
+.THIS .skeletonSidebar {
+    width:800px;
+    padding: 50px 48px 26px!important;
+    background-color: #f6f6f6; 
+    min-height: 100vh;
+}
+
+.THIS .blockMotion {
+    opacity:0;
+      animation-duration: 100s; 
+      animation-iteration-count: 1;
+      animation-name: fadeinInfinite;
+ }
+
+ .THIS .blockMotion.contentDropdown{ 
+    animation-delay: 0.7s; 
+}
+
+.THIS .blockMotion.contentExchange { 
+    animation-delay: 1s; 
+}
+
+.THIS .contentExchangeList .blockMotion.contentExchangeCol:nth-child(odd) { 
+    animation-delay: 1.15s; 
+}
+
+.THIS .contentExchangeList .blockMotion.contentExchangeCol:nth-child(even) { 
+    animation-delay: 1.19s; 
+}
+
+.THIS .blockMotion.contentGlobal{
+    animation-delay: 1.24s; 
+}
+
+.THIS .blockMotion.contentGlobalCol.contentGlobalCol1{ 
+    animation-delay: 1.31s; 
+}
+
+.THIS .blockMotion.contentGlobalCol.contentGlobalCol2 { 
+    animation-delay: 1.41s; 
+}
+
+.THIS .blockMotion.contentGlobalCol.contentGlobalCol3 { 
+    animation-delay: 1.45s; 
+}
+
+.THIS .blockMotion.contentGlobalCol.contentGlobalCol4 { 
+    animation-delay: 1.60s; 
+}
+
+.THIS .blockMotion.contentGlobalCol.contentGlobalCol5 { 
+    animation-delay: 1.70s; 
+}
+
+.THIS .blockMotion.contentGlobalCol.contentGlobalCol6 { 
+    animation-delay: 1.80s; 
+}
+
+.THIS .blockMotion.contentGlobalFoot { 
+    animation-delay: 1.90s; 
+}
+
+.THIS .box_motion1,
+.THIS .box_motion2,
+.THIS .box_motion3,
+.THIS .box_motion_R1,
+.THIS .box_motion_R2,
+.THIS .box_motion_R3{
+    position: relative;
+        overflow: hidden;
+}
+
+.THIS .box_motion1::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+    animation-name: shimmer;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-delay: 1s; 
+    content: '';
+}
+
+.THIS .box_motion2::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+    animation-name: shimmer;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-delay: 1s; 
+    content: '';
+}
+
+.THIS .box_motion3::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+    animation-name: shimmer;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-delay: 1.5s; 
+    content: '';
+}
+
+.THIS .box_motion_R1::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-300%);
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+    animation-name: shimmer;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-delay: 1.15s; 
+    content: '';
+}
+.THIS .box_motion_R2::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-300%);
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+    animation-name: shimmer;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-delay: 1s; 
+    content: '';
+}
+
+.THIS .box_motion_R3::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-300%);
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 0.2) 20%, rgba(255, 255, 255, 0.5) 60%, rgba(255, 255, 255, 0));
+    animation-name: shimmer;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-duration: 2s;
+    animation-delay: 1.5s; 
+    content: '';
+}
+
+.THIS .box_motion1.box_white:after,
+.THIS .box_motion2.box_white:after,
+.THIS .box_motion3.box_white:after,
+.THIS .box_motion_R1.box_white:after,
+.THIS .box_motion_R2.box_white:after,
+.THIS .box_motion_R3.box_white:after { 
+    /* #eeeeee */
+     background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(238, 238, 238, 0.8) 50%, rgba(255, 255, 255, 0));
+}
+
+.THIS .box_gray_light:after { 
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(226, 226, 226, 0.6) 30%, rgba(226, 226, 226, 0.6) 70%, rgba(255, 255, 255, 0));
+}
+.THIS .box_motion1.box_gray_medium10:after,
+.THIS .box_motion2.box_gray_medium10:after,
+.THIS .box_motion3.box_gray_medium10:after,
+.THIS .box_motion_R1.box_gray_medium10:after,
+.THIS .box_motion_R2.box_gray_medium10:after,
+.THIS .box_motion_R3.box_gray_medium10:after{ 
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(199, 199, 199, 0.6) 30%, rgba(199, 199, 199, 0.6) 70%, rgba(255, 255, 255, 0));
+}
+.THIS .box_motion1.box_gray_medium20:after,
+.THIS .box_motion2.box_gray_medium20:after, 
+.THIS .box_motion3.box_gray_medium20:after,
+.THIS .box_motion_R1.box_gray_medium20:after,
+.THIS .box_motion_R2.box_gray_medium20:after,
+.THIS .box_motion_R3.box_gray_medium20:after{ 
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(199, 199, 199, 0.6) 30%, rgba(199, 199, 199, 0.6) 70%, rgba(255, 255, 255,0));
+}
+.THIS .box_gray_medium30:after { 
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(199, 199, 199, 0.6) 30%, rgba(199, 199, 199, 0.6) 70%, rgba(255, 255, 255, 0));
+}
+.THIS .box_gray_medium40:after { 
+    background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(192, 192, 192, 0.6) 30%, rgba(199, 199, 199, 0.6) 70%, rgba(255, 255, 255, 0));
+}
+.THIS .box_white{
+    background-color:  #ffffff;
+}
+.THIS .box_gray_light{
+    background-color:  #a2a2a2;
+}
+
+.THIS .box_gray_medium10{
+    background-color: #ececec;
+}
+
+.THIS .box_gray_medium20{
+    background-color: #dadada;
+}
+         
+.THIS .box_gray_medium30{
+    background-color: #c7c7c7;
+}
+ 
+.THIS .box_gray_medium40{
+    background-color: #b5b5b5;
+}
+
+.THIS .box_gray_dark{
+   background-color:#a2a2a2;
+}
+.THIS .box_motion.box_gray_dark:after { 
+     background-image: linear-gradient(90deg, rgba(255, 255, 255, 0) 0, rgba(192, 192, 192, 0.9) 50%, rgba(255, 255, 255, 0));
+}
+
+/* structure */
+.THIS .contentDropdownBox {
+    width: 208px;
+    height: 49px;
+    margin-bottom:47px;
+}
+.THIS .contentExchangeBox{
+    width: 228px;
+    height: 16px;
+    margin-bottom:22px;
+}
+.THIS .contentExchangeBox2{
+    width: 196px;
+    height: 16px;
+    margin-bottom:70px;
+}
+.THIS .contentExchangeList{
+    width: 392px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.THIS .contentExchangeCol{
+    width: 116px;
+    height: 12px;
+    margin: 0 56px 16px 0
+}
+.THIS .contentExchangeCol:nth-child(2n){
+    margin-right:8px;
+}
+.THIS .contentGlobal{
+    margin-top:12px;
+}
+.THIS .contentGlobalBox{
+    width: 288px;
+    height: 12px;
+    margin-bottom:37px;
+}
+.THIS .contentGlobalBox2{
+    width: 264px;
+    height: 16px;
+    margin-bottom:34px;
+}
+.THIS .contentGlobalList{
+    width: 392px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.THIS .contentGlobalCol{
+    width: 91px;
+    margin-bottom:24px;
+    margin-right:69px;
+}
+.THIS .contentGlobalCol:nth-child(2n){
+     margin-right:45px;
+}
+.THIS .contentGlobalTit{
+    width: 32px;
+    height: 16px;
+    margin-bottom:8px;
+}
+.THIS .contentGlobalText{
+    width: 91px;
+    height: 16px;
+    margin-bottom:4px;
+}
+.THIS .contentGlobalFoot{
+    margin-top:4px;
+}
+@keyframes shimmer {
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes fadeinInfinite {
+    0% { 
+          opacity: 0;  
+    } 
+    1% { 
+          opacity: 1;  
+    }
+      100% { 
+          opacity: 1;  
+    }
+}

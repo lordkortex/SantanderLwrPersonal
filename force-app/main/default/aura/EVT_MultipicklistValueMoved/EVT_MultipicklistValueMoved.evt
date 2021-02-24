@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event fired when the multipicklist arrow is clicked">
+    <aura:attribute name="value" type="String" description="Value to be moved"/>
+    <aura:attribute name="selected" type="Boolean" description="Flag to indicate that the value has been selected (left to right)"/>
+</aura:event>

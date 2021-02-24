@@ -1,0 +1,922 @@
+<!--
+Author:         Diego Asis
+Company:        Deloitte
+Description:    Component for showing the legal information
+History
+<Date>			<Author>		<Description>
+26/03/2020		Diego Asis      Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_termsFooter">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="country" default="GB" type="String"/>
+    <aura:attribute name="language" type="String" default="english"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+    
+    <!-- GREAT BRITAIN-->
+    <aura:if isTrue="{!v.country eq 'GB'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{!$Label.c.termsConditions}</div>
+            <div class="text_line"></div>
+        </div> 
+        
+        <div class="privacyInfoContainer">
+            <div class="slds-text-heading_small">{!$Label.c.termsConditionsUse}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.terms1a}&nbsp;<a class="text-link" data-title="{!$Label.c.webNexus}">{!$Label.c.webNexus}</a>&nbsp;{!$Label.c.terms1b}</p>
+                <p>{!$Label.c.terms2}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.intelectualProperty}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.terms3}</p>
+                <p>{!$Label.c.terms4}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.responsibility}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.terms5a}&nbsp;<a class="text-link" data-title="{!$Label.c.webNexus}">{!$Label.c.webNexus}</a>{!$Label.c.terms5b}</p>
+                <p>{!$Label.c.terms6a}&nbsp;<a class="text-link" data-title="{!$Label.c.webNexus}">{!$Label.c.webNexus}</a>{!$Label.c.terms6b}</p>
+                <p>{!$Label.c.terms7}</p>
+                <p>{!$Label.c.terms8}</p>
+                <p>{!$Label.c.terms9}</p>
+                <p>{!$Label.c.terms10}</p>
+                <p>{!$Label.c.terms11}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.modifications}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.terms12}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.lawJurisdiction}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.terms13}</p>
+                <p>{!$Label.c.terms14}</p>
+            </div>
+            <div class="slds-text-body_regular">{!$Label.c.legal27}</div>
+        </div>
+    </aura:if>
+    
+    <!-- BRAZIL -->
+    <aura:if isTrue="{!v.country eq 'Other'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Termos e Condições de Uso</div>
+            <div class="text_line"></div>
+        </div> 
+        <div class="privacyInfoContainer">
+            <p>Os presentes Termos e Condições de Uso visam regular a utilização por você, usuário, de nossos serviços pelos sites institucionais, mobile e pelo internet banking do Santander e empresas do Conglomerado Santander (denominados "Serviços").</p>
+            <br></br>
+            <div class="slds-text-heading_small">1.	Termo de Aceitação</div>
+            <p>Ao utilizar os nossos Serviços, o usuário aceita e concorda com todos os termos e condições expostas que se encontram vigentes na data.</p>
+            <p>Alertamos que estes Termos e Condições de Uso poderão ser modificados a qualquer momento pelo Santander, em virtude de alterações na legislação ou nos Serviços, em
+                decorrência da utilização de novas ferramentas tecnológicas ou, ainda, sempre que, a exclusivo critério do Santander, tais alterações se façam necessárias. A utilização dos Serviços online
+                disponibilizados pelo Santander por qualquer usuário implicará em expressa aceitação destes Termos e Condições de Uso.</p>
+            <br></br>
+            <div class="slds-text-heading_small">2. Atualização das Informações</div>
+            <p>O Santander se reserva o direito de aprimorar as funcionalidades dos Serviços e de implementar novas tecnologias. Assim, os Termos de Uso poderão ser alterados, a qualquer
+                tempo, exceto em caso de vedação legal, para incluir as modificações implementadas. Ao continuar a utilizar os nossos Serviços após alterados os Termos de Uso, você concorda com
+                as alterações realizadas e vigentes à época do acesso.</p>
+            <br></br>
+            <div class="slds-text-heading_small">3. Acesso a Conteúdo Restrito e Suspensão de Acesso</div>
+            <p>Alguns Serviços estão disponíveis em conteúdo aberto e fechado. Quando o acesso a conteúdo for restrito, será necessário prévio cadastro do usuário e o acesso ao ambiente por meio de
+                login, senha e autenticação por QR Code. Considerando que você é responsável pela veracidade das informações cadastradas, informamos que o cadastro de informações falsas
+                pode gerar inconsistência na prestação dos Serviços, bem como impactar ou interromper o seu acesso.</p>
+            <p>A qualquer tempo, sem aviso prévio, o Santander poderá suspender, cancelar ou interromper o acesso aos Serviços, respeitadas as condições da legislação aplicável.</p>
+            <p>O Santander não se responsabiliza por eventuais danos e/ou problemas decorrentes da demora, interrupção ou bloqueio nas transmissões de dados decorrentes da conexão de internet do usuário.</p>
+            <br></br>
+            <div class="slds-text-heading_small">4. Uso Adequado dos Serviços</div>
+            <p>Ao utilizar os Serviços, você se compromete a respeitar a legislação brasileira vigente e o disposto nestes Termos e Condições de Uso, não devendo produzir, disponibilizar ou compartilhar qualquer conteúdo que:</p>
+            <p>
+                <ol class="slds-list--ordered">
+                    <li>Implique a prática de ato ilícito e viole a legislação brasileira vigente;</li>
+                    <li>Viole direitos de terceiro ou direitos do Santander ou do Conglomerado Santander;</li>
+                    <li>Seja falso, incorreto, impreciso, extemporâneo e que possa induzir outrem a erro;</li>
+                    <li>Disponibilize ou permita o acesso a conteúdo ilegal, violento, pornográfico ou qualquer outro ato contrário à lei e à ordem pública;</li>
+                    <li>Induza a discriminação ou incite o ódio contra pessoas e/ou grupos de pessoas em razão de nacionalidade, raça, religião, orientação sexual, gênero, condição física, nacionalidade, dentre outros atos que contrariem a ordem pública e a legislação brasileira vigente;</li>
+                    <li>Seja resguardado por direito de propriedade intelectual de terceiro e você não tenha autorização prévia para utilizá-lo;</li>
+                    <li>Contenha vírus ou outro elemento que seja capaz, em razão de suas características (como forma, extensão, etc), de causar danos ou impedir o funcionamento regular da rede do sistema e/ou de equipamentos informáticos ("hardware" e "software") do Santander ou de terceiro.</li>
+                </ol>
+            </p>
+            <br></br>
+            <div class="slds-text-heading_small">5. Responsabilidades</div>
+            <p>Enquanto você usufruir dos Serviços oferecidos, você é responsável:</p>
+            <p>
+                <ol class="slds-list--ordered">
+                    <li>Por todo ato, por ação ou omissão, realizado em nossos sites institucionais e internet banking, responsabilizando-se pela prática de todo e qualquer ato ilícito feita por você;</li>
+                    <li>Pelo conteúdo gerado por você;</li>
+                    <li>Pela reparação de danos causados a terceiros, ao Santander ou ao Conglomerado Santander, a partir do uso dos Serviços;</li>
+                    <li>Pelo seu próprio acesso à internet e ao pagamento pelos serviços de acesso à rede;</li>
+                    <li>Pelo equipamento necessário para realizar a conexão à internet, como computador e modem, garantindo a segurança adequada do ambiente, mediante a utilização de ferramentas como antivírus e firewall;</li>
+                    <li>Por não utilizar os Serviços para outras finalidades além daquelas indicadas nos sites institucionais e internet banking.</li>
+                </ol>
+            </p>
+            <p>Sem prejuízo das demais isenções de responsabilidade indicadas no presente documento, você se declara ciente de que o Santander não será responsável:</p>
+            <p>
+                <ol class="slds-list--ordered">
+                    <li>Por qualquer defraudação de utilidade que você possa atribuir aos Serviços, pela falibilidade destes, nem por qualquer dificuldade de acesso a estes, decorrentes de condutas atribuíveis a terceiros, como, por exemplo, prestadores de serviços de conexão à internet;</li>
+                    <li>Pela presença de vírus ou demais elementos nocivos nos Serviços, capazes de causar alterações em seus sistemas informáticos (software e hardware), documentos eletrônicos, eximindo-se o Santander de qualquer responsabilidade por eventuais danos e prejuízos decorrentes de quaisquer elementos nocivosinseridos por terceiros;</li>
+                    <li>Pelos danos e prejuízos de toda natureza decorrentes do conhecimento que terceiros não autorizados possam ter de quaisquer dados fornecidos nos Serviços, em decorrência de falha exclusivamente relacionada ao usuário ou a terceiros que fujam a qualquer controle razoável do Santander.</li>
+                </ol>
+            </p>
+           <br></br>
+            <div class="slds-text-heading_small">6. Propriedade Intelectual</div>
+            <p>O Santander assegura que as informações (textos, imagens, sons e/ou aplicativos) contidas nos seus sites estão de acordo com a legislação e normativos que regulam os direitos de propriedade intelectual (autoral e industrial), bem como pertencem ao Santander ou a terceiro que licitamente cedeu o seu direito de uso, não sendo permitidas modificações, cópias, reproduções ou quaisquer outras formas de utilização para fins comerciais sem o consentimento prévio e expresso do Santander.</p>
+            <p>Você declara que irá respeitar todos os direitos de propriedade intelectual contidos nos nossos Serviços, ciente de que o direito de acesso ao Serviço não concede qualquer autorização para uso de direitos de propriedade intelectual constantes de tal Serviço.</p>
+            <br></br>
+            <div class="slds-text-heading_small">7. Lei aplicável e resolução de conflitos</div>
+            <p>Toda e qualquer controvérsia oriunda dos termos expostos nestes Termos e Condições de Uso serão solucionados de acordo com a lei brasileira, sendo competente o foro da cidade de São Paulo, Estado de São Paulo, com exclusão de qualquer outro por mais privilegiado que seja.</p>
+            <p>Fica claro, ainda, que a utilização de Serviços e as ordens comandadas fora do território brasileiro, ou ainda as decorrentes de operações iniciadas no exterior podem estar sujeitas também à legislação e jurisdição das autoridades dos países onde forem comandadas ou iniciadas.</p>
+            <br></br>
+            <p>Atualização: Fevereiro de 2020.
+                <br></br>Copyright © 2020.
+                <br></br>Santander
+                <br></br>Todos os direitos reservados.
+                <br></br>Instituição Financeira autorizada a funcionar pelo Banco Central do Brasil.
+                <br></br>Banco Santander (Brasil) S.A., CNPJ: 90.400.888/0001-42
+                <br></br>Av. Presidente Juscelino Kubitscheck 2041/2235 – Vila Olímpia – São Paulo/SP.
+            </p>                   
+        </div>     
+    </aura:if>
+   
+    <!-- CASH NEXUS -->
+    <aura:if isTrue="{!v.country eq 'CN'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{!$Label.c.termsConditions}</div>
+            <div class="text_line"></div>
+        </div> 
+        
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.termsNexus1}</p>
+                <p>{!$Label.c.termsNexus2}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.termsNexusTitle1}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.termsNexus3}</p>
+                <p>{!$Label.c.termsNexus4}</p>
+                <p>{!$Label.c.termsNexus5}</p>
+                <p>{!$Label.c.termsNexus6}</p>
+                <p>{!$Label.c.termsNexus7}</p>
+                <p>{!$Label.c.termsNexus8}</p>
+                <p>
+                    <ul class="slds-list--dotted">
+                        <li>{!$Label.c.termsNexus9}</li>
+                        <li>{!$Label.c.termsNexus10}</li>
+                        <li>{!$Label.c.termsNexus11}</li>
+                        <li>{!$Label.c.termsNexus12}</li>
+                    </ul>
+                </p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.termsNexusTitle2}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.termsNexus13}</p>
+                <p>{!$Label.c.termsNexus14_1}&nbsp;<a href="http://www.cnmv.es" class="text-link">(http://www.cnmv.es)</a>{!$Label.c.termsNexus14_2}</p>
+                <p>{!$Label.c.termsNexus15}</p>
+                <p>{!$Label.c.termsNexus16}</p>
+                <p>{!$Label.c.termsNexus17}</p>
+                <p>{!$Label.c.termsNexus18}</p>
+                <p>{!$Label.c.termsNexus19}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.termsNexusTitle3}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.termsNexus20_1}&nbsp;{!$Label.c.termsNexus20_2}</p>
+            </div>
+            <div class="slds-text-heading_small">{!$Label.c.termsNexusTitle4}</div>
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.termsNexus21}</p>
+            </div>
+            <div class="slds-text-body_regular">{!$Label.c.legal27}</div>
+        </div> 
+    </aura:if>
+
+    <!-- CHILE -->
+    <aura:if isTrue="{!v.country eq 'CL'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Términos y Condiciones</div>
+            <div class="text_line"></div>
+        </div> 
+        <div class="privacyInfoContainer">
+            <ol class="slds-list--subDivisions">
+            <!-- SECCIÓN 1 -->
+            <li class="slds-text-heading_small">TÉRMINOS Y CONDICIONES GENERALES</li>
+            <p>
+                <ol class="slds-list--subDivisions">
+                    <li>El presente documento regula los términos y condiciones (en adelante, los <span class="text-bold">"Términos y Condiciones"</span>) en virtud de los cuales (i) Banco Santander Chile (en adelante, el <span class="text-bold">"Banco Santander"</span>) le facilitará a usted acceso a los servicios, tal y como se identifican y enumeran en el Anexo 1 (en adelante, los <span class="text-bold">"Servicios"</span>); y (ii) podrán hacer uso de nuestra plataforma disponible en Office Banking (en adelante, la <span class="text-bold">"Plataforma"</span>), todo ello como usuario registrado y mediante la utilización de canales electrónicos.
+                    <br></br><br></br>
+                    Cualquier persona que acceda a la Plataforma o utilice los Servicios deberá cumplir con  los Términos y Condiciones. El uso de la Plataforma implica la aceptación, sin reservas, de todas las disposiciones contenidas en el presente documento, y se tendrá como consentimiento expreso. Si no está de acuerdo con los términos expresados, por favor no acceda a la Plataforma ni utilice los Servicios.
+                    <br></br><br></br>
+                    Para efectos interpretativos y/o aclaratorios, el término "uso" incluye, pero sin limitación, el acceso, la navegación, la introducción de información y el registro para utilizar la Plataforma. Cualquier referencia a "usted" o "su" significa que usted es un usuario de la Plataforma o de los Servicios, mientras que cualquier referencia a "nosotros" o "nuestro" es al Banco Santander.
+                    </li>
+                    <br></br>
+                    <li>Los Servicios pueden estar sujetos a términos y condiciones adicionales y específicos (en adelante, las <span class="text-bold">"Condiciones Específicas"</span>), detallados, si las hubiera, en el Anexo I a los presentes Términos y Condiciones. Cuando el uso que usted haga de un determinado Servicio pueda generar un conflicto entre las disposiciones de los Términos Específicos y los Términos y Condiciones, los Términos Específicos prevalecerán y serán de aplicación al uso que usted haga del Servicio correspondiente, y sólo en lo que respecta al uso que usted haga del mismo. Los Términos y Condiciones continuarán aplicándose al uso general de la Plataforma por parte del usuario. El Anexo I a los presente Términos y Condiciones se actualizarán de vez en cuando con la inclusión de nuevos Servicios o la interrupción o modificación de cualquiera de ellos, de conformidad con las cláusulas 9 y 10 siguientes.</li>
+                    <br></br>
+                    <li>Con sujeción a que Banco Santander obtenga todos los consentimientos necesarios o convenientes (ya sean gubernamentales o de otro tipo), los Servicios podrán ser prestados por Banco Santander directamente o a través de otras entidades reguladas del Grupo Santander (en adelante, el <span class="text-bold">"Proveedor Relevante"</span>) ubicadas en España o en el país en el que deba prestarse un servicio concreto o parte del mismo. En tal caso, cualquier referencia que se haga en estos Términos y Condiciones a Banco Santander se considerará también hecha en relación con el Proveedor Relevante, mutatis mutandis.</li>
+                    <br></br>
+                    <li>La prestación de los Servicios a usted está sujeta a: (i) la implementación por ambas partes de todos los elementos necesarios (tales como técnicos, legales, operativos, documentales o de cualquier otro tipo); (ii) que Banco Santander y/o usted hayan obtenido todos los consentimientos necesarios o convenientes (ya sean gubernamentales o de otro tipo); y (iii) la disponibilidad de la información, datos, membresías, consentimientos y autorizaciones necesarias para la realización de un determinado Servicio.</li>
+                    <br></br>
+                    <li>Los anexos y todos los demás apéndices o adiciones mencionados en el presente documento formarán parte de los presentes Términos y Condiciones y estarán sujetos a sus efectos jurídicos.</li>
+                    <br></br>
+                </ol>
+            </p>
+
+            <!-- SECCIÓN 2 -->
+            <li class="slds-text-heading_small">OBLIGACIONES Y COMPROMISOS</li>
+            <p>
+                <ol class="slds-list--subDivisions">
+                    <li>Banco Santander se compromete a conceder acceso a los Servicios a través de la Plataforma de conformidad con los Términos y Condiciones. Por favor, tenga en cuenta que, para utilizar los Servicios, se requiere la utilización de los siguientes navegadores: Microsoft Internet Explorer 11 o Superior, última versión de Google Chrome o última versión de Mozilla Firefox. Si tiene algún problema técnico, por favor contacte con nuestro Servicio al Cliente VOX.</li>
+                    <br></br>
+                    <li>Cuando se trate de notificar incidentes, estaremos encantados de ayudarle a través de los siguientes teléfonos:
+                        <br></br><br></br>
+                        -&emsp;Clientes Banca Empresa e Instituciones: 22-3203003
+                        <br></br>
+                        -&emsp;Clientes Corporate &amp; Investment Banking: 22-6474677
+                        <br></br>
+                        -&emsp;Clientes Pyme: 22-3203003 
+                        <br></br><br></br>
+                        Nuestro equipo de apoyo está disponible de lunes a viernes, de 08:00hs a 21:00hs y sábados de 09:00hs a 14:00hs.
+                    </li>
+                    <br></br>
+                    <li>Usted se compromete a:</li>
+                    <br></br>
+                        <ul class="slds-list--dotted">
+                            <li>Cumplir con todos los procedimientos y requisitos definidos por Banco Santander para el acceso a la Plataforma y la utilización de los Servicios, así como con el resto de las obligaciones asumidas en los presentes Términos y Condiciones o en cualquier otro acuerdo aplicable suscrito con Banco Santander.</li>
+                            <br></br>
+                            <li>Proporcionar cualquier información, autorización o consentimiento que pueda ser razonablemente solicitado para ayudar a Banco Santander en el cumplimiento de sus obligaciones bajo estos Términos y Condiciones. No obstante, Banco Santander se reserva el derecho de obtener todos y cada uno de los consentimientos, aprobaciones, acuerdos o cualquier autorización expresa por parte de cualquier interesado en relación con usted o sus cuentas, si procede (es decir, sus representantes legales o abogados). En caso de discrepancia entre la autorización obtenida por usted y la obtenida por el Banco Santander, prevalecerá esta última.</li>
+                        </ul>
+                    <br></br>
+                    <li>Usted declara y garantiza, sin reservas y bajo su exclusiva responsabilidad  a Banco Santander, que:</li>
+                    <br></br>
+                        <ul class="slds-list--dotted">
+                            <li>tiene todas las facultades, autorizaciones y aprobaciones necesarias para contraer y cumplir las obligaciones previstas en los presentes Términos y Condiciones y las transacciones contempladas en ellas;</li>
+                            <br></br>
+                            <li>tiene todas las facultades, autorizaciones corporativas y aprobaciones necesarias para acceder a la Plataforma y a los Servicios, así como para realizar las transacciones contempladas en los mismos;</li>
+                            <br></br>
+                            <li>cumple con todas las condiciones requeridas para utilizar la Plataforma;</li>
+                            <br></br>
+                            <li>los Términos y Condiciones y, en su caso, cualquier instrucción realizada en este contexto son obligaciones legalmente vinculantes; y</li>
+                            <br></br>
+                            <li>no accederá a la Plataforma o a los Servicios y, en su caso, no realizará las transacciones previstas en ellos de ninguna forma que pueda violar, incumplir, entrar en conflicto o constituir un incumplimiento de cualquier ley, reglamento, norma, sentencia, contrato u otro instrumento vinculante para usted.</li>
+                        </ul>
+                    <br></br>
+                    <li>Usted es el único responsable del mantenimiento de la seguridad de la información y de asegurar que su información está adecuadamente respaldada.</li>
+                    <br></br>
+                </ol>
+            </p>
+
+            <!-- SECCIÓN 3 -->
+            <li class="slds-text-heading_small">PLATAFORMA Y EQUIPO</li>
+            <p>
+                <ol class="slds-list--subDivisions">
+                    <li>Banco Santander será libre de subcontratar de manera discrecional parte o la totalidad de los Servicios que haya acordado prestar en virtud de los presentes Términos y Condiciones o cualquier tarea técnica u operativa de los mismos, así como la totalidad o parte de la Plataforma.</li>
+                    <br></br>
+                    <li>Todos los derechos de propiedad intelectual sobre la Plataforma, la información y materiales contenidos en la misma, incluyendo (sin carácter limitativo) textos, fotografías o ilustraciones, marcas, logotipos u otros signos distintivos, gráficos, diseños, interfaces y cualquier otra información, contenido o servicios disponibles a través de la Plataforma son propiedad de Banco Santander o que nos han sido licenciados en consecuencia por su correspondiente titular. Estos Términos y Condiciones no confieren, ni pretenden constituir o transferir, ningún título, derecho o interés en la Plataforma a su favor.</li>
+                    <br></br>
+                    <li>En virtud de los presentes Términos y Condiciones, sólo está usted autorizado a utilizar la Plataforma bajo licencia de uso no exclusiva e intransferible, siguiendo las reglas aquí acordadas. Usted no podrá eliminar o manipular las indicaciones de derechos de autor o cualquier otro crédito que pueda identificar a los titulares de los derechos de los contenidos de la Plataforma, así como los dispositivos técnicos de protección, las impresiones digitales o cualquier mecanismo de protección o información incorporada a la Plataforma.</li>
+                    <br></br>
+                </ol>
+            </p>
+
+            <!-- SECCIÓN 4 -->
+            <li class="slds-text-heading_small">HIPERVÍNCULOS</li>
+            <p>
+                <ol class="slds-list--subDivisions">
+                    <li>En caso de que la Plataforma muestre hipervínculos a otros sitios web por cualquier medio, a menos que se especifique lo contrario, dichos sitios web son administrados y están bajo el control de terceras partes. No tenemos ningún control o medio, ya sea técnico o humano, para supervisar, controlar o aprobar la información, contenidos, productos o servicios proporcionados por otras plataformas que puedan enlazarse desde la Plataforma.
+                        <br></br><br></br>
+                        En cualquier caso, la presencia de hipervínculos no deberá ser tomada como:
+                        <br></br><br></br>
+                            <ul class="slds-list--dotted">
+                                <li>cualquier tipo de relación, colaboración o dependencia entre nosotros y los dueños de las webs de terceras partes, ni</li>
+                                <br></br>
+                                <li>de ninguna manera, una recomendación de Banco Santander o indicación nuestra para que visite el link de la web.</li>
+                            </ul>
+                        <br></br>
+                        Por consiguiente, no seremos responsables de ningún aspecto del sitio web enlazado, incluidos, pero sin limitación, aspectos relativos a su funcionamiento, acceso, datos, información, calidad, fiabilidad de los productos y servicios, cualquier enlace disponible en el sitio web y/o cualquiera de sus contenidos en general.
+                        <br></br><br></br>
+                        Si tiene conocimiento efectivo de que terceros están realizando actividades ilegales o inmorales a través de cualquiera de estos sitios web, debe notificarnos inmediatamente al Servicio al Cliente VOX para eliminar el hipervínculo correspondiente de la Plataforma.
+                    </li>
+                    <br></br>
+                    <li>No se permite incluir enlaces en la Plataforma de sitios web que incluyan contenidos o información de cualquier forma ilícita, ilegal, degradante u obscena, o que en general contravengan la ley, la moral, el orden público o los estándares sociales generalmente aceptados.
+                        <br></br><br></br>
+                        No tenemos control ni recursos humanos o técnicos para acceder o aprobar la información, los contenidos, los productos y los servicios prestados por otros sitios web que puedan incluir enlaces en nuestra Plataforma. Por tanto, no seremos responsables de ningún aspecto relacionado con la página web que contiene el enlace, incluyendo, pero sin limitación, aspectos relativos a su funcionamiento, acceso, datos, información, fiabilidad y calidad de sus productos y/o servicios, cualquier enlace disponible en el sitio web y/o cualquiera de sus contenidos en general. La existencia de cualquier enlace a nuestra Plataforma no implica ningún tipo de relación, colaboración o dependencia entre nosotros y los terceros propietarios de la página web.
+                    </li>
+                    <br></br>
+                </ol>
+            </p>
+
+            <!-- SECCIÓN 5 -->
+            <li class="slds-text-heading_small">CUENTAS</li>
+            <p>
+                <ol class="slds-list--subDivisions">
+                    <li>Los Servicios pueden estar relacionados con el funcionamiento de sus cuentas, ya sean cuentas individuales o multi-titularidad, siempre que, en este último caso, usted posea los necesarios permisos para acceder y gestionar dicha cuenta.</li>
+                    <br></br>
+                </ol>
+            </p>
+
+            <!-- SECCIÓN 6 -->
+            <li class="slds-text-heading_small">CONFIDENCIALIDAD Y PROTECCIÓN DE DATOS</li>
+                <p>
+                    <ol class="slds-list--subDivisions">
+                        <li>Se reconoce que las obligaciones de confidencialidad de Banco Santander o del Proveedor Relevante en relación con cualquier instrucción proporcionada por usted están reguladas por los respectivos acuerdos de productos o servicios y la legislación aplicable, que prevalecerá sobre estos Términos y Condiciones. Cualquier disposición de estos Términos y Condiciones que refuerce las obligaciones de confidencialidad y que no sea contraria a dichos acuerdos y a la ley aplicable seguirá siendo válida.</li>
+                        <br></br>
+                        <li>Banco Santander reconoce que puede, en relación con estos Términos y Condiciones, recibir de usted información confidencial (en adelante, la <span class="text-bold">"Información Confidencial del Usuario"</span>). Usted reconoce, garantiza y acepta:
+                            <br></br><br></br>
+                                <ul class="slds-list--dotted">
+                                    <li>tener los derechos necesarios para comunicarnos la Información Confidencial del Usuario o para procesarla a través de la Plataforma; y</li>
+                                    <br></br>
+                                    <li>la Información Confidencial del Usuario no infringe los derechos de propiedad intelectual de ningún tercero, y que no es confidencial ni perjudicial para terceros.</li>
+                                </ul>
+                            <br></br>
+                            En este sentido, usted nos autoriza para utilizar la Información Confidencial del Usuario tan ampliamente como sea necesario para proporcionarle los Servicios solicitados.
+                        </li>
+                        <br></br>
+                        <li>Usted reconoce y acepta que será responsable de la información que nos proporcione, incluida su exactitud, y nos indemnizará y eximirá de toda responsabilidad por todos los daños, pérdidas y perjuicios (incluidos, pero sin limitación, los honorarios y costes razonables de abogados) relacionados con todas las reclamaciones, cargos e investigaciones de terceros causados por su presentación o procesamiento de información, datos o materiales de cualquier tipo que violen los derechos de terceros o las leyes aplicables.</li>
+                        <br></br>
+                        <li>Banco Santander mantendrá la Información Confidencial del Usuario de manera confidencial y no la revelará a ninguna persona. No obstante, Banco Santander podrá revelar y transferir la Información Confidencial del Usuario y los datos personales relativos a usted o sus representantes a:
+                            <br></br><br></br>
+                                <ul class="slds-list--dotted">
+                                    <li>el Proveedor Relevante y sus asesores profesionales en relación con el cumplimiento de cualquier obligación en virtud de estos Términos y Condiciones;</li>
+                                    <br></br>
+                                    <li>proveedores de servicios subcontratados y las personas que actúen en su nombre para la prestación de los Servicios establecidos en estos Términos y Condiciones;</li>
+                                    <br></br>
+                                    <li>las entidades del grupo Banco Santander, en la medida en que sea necesario para cumplir con los requisitos de auditoría interna; u</li>
+                                    <br></br>
+                                    <li>otros terceros, según lo exija la legislación aplicable o lo solicite cualquier autoridad competente.</li>
+                                </ul>
+                        </li>
+                        <br></br>
+                        <li>Usted reconoce que puede, en relación con estos Términos y Condiciones, recibir información de Banco Santander en relación con la Plataforma o los Servicios (incluyendo información sobre procedimientos y requisitos) que es confidencial. Deberá mantener la confidencialidad de la información del Banco Santander, no utilizarla salvo con el fin de acceder a los Servicios y cumplir con sus obligaciones en virtud de estos Términos y Condiciones, no revelarla a ninguna persona salvo en la medida en que lo exija la ley o alguna autoridad competente o contando previamente con el consentimiento por escrito del Banco Santander y, tras la finalización de estos Términos y Condiciones, devolverla sin demora al Banco Santander o destruirla (a nuestra conveniencia y a su cargo). No obstante, puede seguir manteniendo una copia de la información confidencial del Banco Santander a los únicos efectos de cumplir con sus obligaciones legales.</li>
+                        <br></br>
+                        <li>Usted garantiza el origen lícito de los datos personales objeto de tratamiento a través de la Plataforma, asegurando que han sido obtenidos en cumplimiento de los requisitos establecidos en la legislación de protección de datos.
+                            <br></br><br></br>
+                            Asimismo, usted se compromete a notificar a Banco Santander, sin demora injustificada, cualquier incumplimiento relacionado con la protección de datos de carácter personal cuando tenga conocimiento de ello, así como a colaborar con Banco Santander en la aplicación de las medidas que se adopten a tal efecto.
+                        </li>
+                        <br></br>
+                        <li>Banco Santander, como responsable del tratamiento de datos, reconoce que en virtud de los presentes Términos y Condiciones podrá procesar sus datos personales, incluyendo los datos de sus representantes legales, administradores, abogados y/o cualquier otra persona autorizada para firmar en su nombre (en adelante, los <span class="text-bold">"Representantes"</span>), para la prestación de los Servicios descritos en el Anexo 1 y para la ejecución de los presentes Términos y Condiciones, de acuerdo con lo dispuesto en la normativa de Protección de Datos.</li>
+                        <br></br>
+                        <li>La información relativa al tratamiento de datos de los interesados se refleja en la Política de Privacidad de la Plataforma [<a href="https://banco.santander.cl/personas/politicas-de-seguridad-de-uso-del-portal" class="text-link">https://banco.santander.cl/personas/politicas-de-seguridad-de-uso-del-portal</a>].</li>
+                        <br></br>
+                    </ol>
+                </p> 
+            
+            <!-- SECCIÓN 7 -->
+            <li class="slds-text-heading_small">RESPONSABILIDAD E INDEMNIZACIÓN</li>
+                <p>
+                    <ol class="slds-list--subDivisions">
+                        <li>Banco Santander no será responsable de ninguna pérdida incurrida por su parte en relación con estos Términos y Condiciones, incluyendo, pero no limitándose, cualquier violación de seguridad o dificultad técnica, a menos que sea causada por culpa grave o conducta dolosa por parte de Banco Santander.
+                            <br></br><br></br>
+                            En ningún caso Banco Santander será responsable de ninguna pérdida fortuita, directa, indirecta, patrimonial, especial o punitiva de ningún tipo, incluyendo, sin limitación, daños derivados de pérdida de beneficios, datos, interrupción del negocio o cualquier otro daño o pérdida patrimonial derivada o relacionada con el uso o la incapacidad de usar la Plataforma, sea cual fuere la causa, ya sea contractual, extracontractual o cualquier otra, con independencia de que Banco Santander y/o usted hayan sido avisados previamente de la realización de tales daños.
+                        </li>
+                        <br></br>
+                        <li>Banco Santander no puede garantizar la fiabilidad, utilidad y veracidad de toda la información, Servicios y/o contenidos disponibles en la Plataforma. En este sentido, Banco Santander no será responsable ante usted de:
+                        <br></br><br></br>
+                            <ul class="slds-list--dotted">
+                                <li>La continuidad de los contenidos y servicios disponibles en la Plataforma.</li>
+                                <br></br>
+                                <li>La presencia de fallos en la Plataforma y/o en sus Servicios.</li>
+                                <br></br>
+                                <li>La seguridad de la Plataforma o las medidas de seguridad adoptadas, así como por la presencia de virus informáticos y/o de cualquier otro elemento malicioso.</li>
+                                <br></br>
+                                <li>El uso ilícito, negligente, fraudulento de la Plataforma o de los Servicios por parte de los usuarios, o cualquier otro uso que contravenga los presentes Términos y Condiciones, la buena fe y/o el orden público.</li>
+                            </ul>
+                        </li>
+                        <br></br>
+                        <li>Banco Santander no será responsable, en ningún caso, ante usted o ante terceros por cualquier pérdida o daño derivado de la posibilidad de que Banco Santander se vea impedido a prestar los Servicios por cualquier causa que este no pueda razonablemente controlar, incluyendo, pero no limitado a:
+                        <br></br><br></br>
+                            <ul class="slds-list--dotted">
+                                <li>La indisponibilidad, error o avería de cualquier red de comunicación o de cualquier canal o canal electrónico o de datos codificables, la pérdida de transmisión o comunicación de forma errónea por cualquier motivo, incluidos los errores de cualquier red de comunicación, el fallo directo o indirecto de las fuentes de alimentación, el equipo, el procesamiento de datos o los enlaces de transmisión.</li>
+                                <br></br>
+                                <li>Aquellos casos en los que Banco Santander no pueda prestar los Servicios por cualquier causa, incluida la huelga u otra contingencia laboral que afecte directamente a este o a cualquier Proveedor Relevante.</li>
+                                <br></br>
+                                <li>Cualquier anomalía causada por averías, sobrecargas, fallo de línea o cualquier otro incidente de características similares que esté fuera del control de Banco Santander y que impida la conexión con el sistema. Asimismo, Banco Santander no garantiza que la información proporcionada por otras entidades sea completa, actualizada y accesible en todo momento, declinando cualquier responsabilidad derivada de dichas circunstancias.</li>
+                                <br></br>
+                                <li>Cualquier daño causado por errores, fallos u omisiones en el contenido y exactitud de la información remitida por otros bancos e incluida en los Servicios.</li>
+                                <br></br>
+                                <li>Todo error causado como consecuencia de averías, retrasos, sobrecargas, interrupciones en la transmisión o cualquier otra contingencia ajena al control de Banco Santander, que afecten a la correcta transmisión de los mensajes SWIFT utilizados o requeridos para la prestación de los Servicios.</li>
+                                <br></br>
+                                <li>Toda pérdida, responsabilidad o costes derivados de cualquier acto u omisión de SWIFT; toda responsabilidad de cualquier cliente ante SWIFT (o cualquier pérdida o coste asociado); o toda pérdida, responsabilidad o costes sobre los que SWIFT pudiera ser responsable salvo por exclusión o limitación de responsabilidad en virtud de un Acuerdo SWIFT o impuesto de otra forma por SWIFT.</li>
+                                <br></br>
+                                <li>Infracciones de propiedad intelectual por parte de terceros.</li>
+                            </ul>
+                        </li>
+                        <br></br>
+                        <li>Usted indemnizará y mantendrá indemne a Banco Santander, a los Proveedores Relevantes y a los sub-contratistas de Banco Santander, a solicitud de estos, por las pérdidas, responsabilidad y costes (incluyendo cada pérdida, responsabilidad, honorarios legales y otros costes incurridos como resultado del ejercicio del derecho de defensa o de la resolución de una reclamación, en los que se alegue dicha responsabilidad) que surjan como consecuencia de:
+                            <br></br><br></br>
+                                <ul class="slds-list--dotted">
+                                    <li>Cualquier incumplimiento, por su parte o por sus Representantes, de cualquier autorización, de cualquier ley o reglamento de aplicación, así como de cualquier cláusula de estos Términos y Condiciones.</li>
+                                    <br></br>
+                                    <li>Cualquier incumplimiento, por su parte o por sus Representantes, de cualquier ley o regulación correspondiente.</li>
+                                    <br></br>
+                                    <li>Cualquier acceso o utilización maliciosa o ilegal de servicios electrónicos.</li>
+                                    <br></br>
+                                    <li>Cualquier error por un hecho o culpa del Cliente relacionado con el mantenimiento de la seguridad o de los medios relacionados con esta, tales como error o brecha de seguridad que pudiera ser causada por su acceso a la Plataforma a través de un dispositivo infectado informáticamente.</li>
+                                    <br></br>
+                                    <li>Cualquier instrucción dada por usted en relación con una transacción (si está permitida en virtud de los Servicios) para la cual no haya sido debidamente autorizado.</li>
+                                    <br></br>
+                                    <li>Cualquier reclamación planteada por todo aquel sobre cualquier instrucción (si está permitida en virtud de los Servicios) que infrinja el derecho, título o interés de cualquier persona o empresa, o contravenga cualquier ley, reglamento, ordenanza, orden judicial u otro mandato o prohibición.</li>
+                                    <br></br>
+                                    <li>Cualquier, transmisión errónea o fallo en el almacenamiento de sus comunicaciones o de las configuraciones personales que haya hecho de la Plataforma.</li>
+                                </ul>
+                            </li>
+                        <br></br>
+                        <li>Los presentes Términos y Condiciones no excluirán o restringirán la responsabilidad de Banco Santander, los Proveedores Relevantes o sub-contratistas, derivada de sus propios actos fraudulentos.</li>
+                        <br></br>
+                        <li>Banco Santander se reserva el derecho a modificar, suspender, cancelar o restringir temporalmente cualquiera de los Servicios cuando sea requerido por razones técnicas o por requerimientos de ciberseguridad u otro tipo del propio Banco o exigidos por las autoridades competentes, no siendo responsable de los perjuicios que ello pudiera ocasionar.</li>
+                        <br></br>
+                    </ol>
+                </p>
+
+            <!-- SECCIÓN 8 -->
+            <li class="slds-text-heading_small">FUERZA MAYOR</li>
+                <p>
+                    <ol class="slds-list--subDivisions">
+                        <li>Si Banco Santander o usted se ven imposibilitados, obstaculizados o se demoran en el cumplimiento de cualquiera de la obligaciones establecidas en los presentes Términos y Condiciones por circunstancias que escapen razonablemente de su control (incluyendo cualquier acto u omisión de SWIFT, huelga, cierre patronal, conflicto laboral, caso fortuito, guerra, disturbios, manifestaciones civiles, perjuicio doloso, cumplimiento de una ley u orden gubernamental, norma, reglamento o dirección, accidente, avería u otro fallo del equipo, el software o la red de comunicaciones (incluida la red SWIFT), incendio, inundación u otras circunstancias que afecten al suministro de bienes o servicios (un <span class="text-bold">"Supuesto de Fuerza Mayor"</span>):
+                            <br></br><br></br>
+                            -&emsp;Dicha parte no estará obligada al cumplimiento de las obligaciones derivadas de los presentes Términos y Condiciones en la medida en que se vea imposibilitada, obstaculizada o se demore en el cumplimiento de las mismas debido a un Supuesto de Fuerza Mayor.
+                            <br></br><br></br>
+                            -&emsp;Dicha parte deberá notificar a Banco Santander (en su caso) o a usted (en el caso de Banco de Santander) tan pronto como se hubiera originado el Supuesto de Fuerza Mayor, indicando sus posibles efectos en la capacidad de esta para con el cumplimiento de las obligaciones derivadas de los presentes Términos y Condiciones.
+                        </li>
+                        <br></br>
+                    </ol>
+                </p>
+
+            <!-- SECCIÓN 9 -->
+            <li class="slds-text-heading_small">DURACIÓN, SUSPENSIÓN Y TERMINACIÓN</li>
+                <p>
+                    <ol class="slds-list--subDivisions">
+                        <li>Estos Términos y Condiciones entrarán en vigor a partir de su aceptación o del uso de la Plataforma o de los Servicios (lo que suceda con anterioridad) y mantendrán plena vigencia y efectos de manera indefinida, sin perjuicio de las causas de finalización establecidas en la presente cláusula.</li>
+                        <br></br>
+                        <li>Si usted incumple los presentes Términos y condiciones, se podrá suspender o restringir el uso de la Plataforma o de los Servicios, incluso pudiéndose cancelar el usuario asignado de manera automática y sin previo aviso. Tales acciones no le otorgarán ningún derecho a ser indemnizado. Se informará y colaborará con las autoridades competentes si se detecta alguna infracción de la legislación aplicable o si se sospecha que se está cometiendo algún delito, en especial aquellos vinculados con lavado de activos y blanqueo de capitales o financiamiento del terrorismo.</li>
+                        <br></br>
+                        <li>Banco Santander podrá dar por finalizados estos Términos y Condiciones en cualquier momento, ya sea por causa justificada o no, a través de notificación expresa mediante cualquier forma admitida en derecho. En particular, Banco Santander podrá finalizar inmediatamente estos Términos y Condiciones en caso de:
+                            <br></br><br></br>
+                                <ul class="slds-list--dotted">
+                                    <li>La confirmación o sospecha de incumplimiento de estos Términos y Condiciones; o</li>
+                                    <br></br>
+                                    <li>El incumplimiento de cualquier requisito esencial establecido por la Plataforma</li>
+                                </ul>
+                        </li>
+                        <br></br>
+                        <li>Banco Santander podrá dar por finalizados los presentes Términos y Condiciones, notificándole, en el caso de interrupción, por el motivo que fuera, de los servicios de mensajería proporcionados por SWIFT y en el caso de que este último, en el ejercicio de sus derechos contractuales, haya exigido a cualquiera de las partes la terminación de los presentes Términos y Condiciones.</li>
+                        <br></br>
+                        <li>La finalización de los Términos y Condiciones por Banco Santander, ya sea por causa justificada o no, no le otorgará -ni a usted ni a terceros- ningún derecho a ser indemnizado.</li>
+                        <br></br>
+                        <li>En cualquier momento usted podrá finalizar voluntariamente el uso de la Plataforma y de los Servicios. Para ello, su cuenta podrá ser desactivada a través los medios previstos en la Plataforma a tal efecto.</li>
+                        <br></br>
+                        <li>Reconoce y acepta expresamente que las cuentas desactivadas, independientemente de los motivos que lo justificaran, podrán no ser automáticamente eliminadas. Banco Santander podrá discrecionalmente optar por la eliminación de su cuenta tras su desactivación, no siendo responsable ante usted o terceros por este hecho.</li>
+                        <br></br>
+                        <li>La finalización de estos Términos y Condiciones no afectará a los derechos y obligaciones adquiridos por las partes en el momento de su finalización.</li>
+                        <br></br>
+                    </ol>
+                </p>
+
+            <!-- SECCIÓN 10 -->
+            <li class="slds-text-heading_small">MODIFICACIONES</li>
+                <p>
+                    <ol class="slds-list--subDivisions">
+                        <li>Banco Santander se reserva el derecho a modificar estos Términos y Condiciones y cualquiera de los Servicios (incluyendo nuevos servicios o suspendiéndolos) mediante comunicación individual mediante carta certificada enviada a su domicilio registrado en el Banco, al menos quince (15) días antes de la entrada en vigor de la modificación. En tal caso, usted tendrá derecho a finalizar estos Términos y Condiciones, enviando una comunicación por escrito a su ejecutivo de cuentas, la que surtirá efecto a partir de las 48 horas siguientes de recibida su aviso. Una vez transcurrido este plazo, para poder hacer uso de la Plataforma o los Servicios, deberá aceptar previamente la modificación incorporada a estos Términos y Condiciones. Para estos efectos se habilitará una ventana que contendrá el detalle de las modificaciones.</li>
+                        <br></br>
+                        <li>Banco Santander incorporará en el encabezamiento del presente documento la fecha correspondiente a la última actualización de estos Términos y Condiciones.</li>
+                        <br></br>
+                    </ol>
+                </p>
+
+            <!-- SECCIÓN 11 -->
+            <li class="slds-text-heading_small">LEY APLICABLE, DOMICILIO Y JURISDICCIÓN</li>
+                <p>
+                    <ol class="slds-list--subDivisions">
+                        <li>Los presentes Términos y Condiciones, así como todos aquellos aspectos derivados o que estén relacionados con ellos, se regirán de conformidad con la ley chilena.</li>
+                        <br></br>
+                        <li>Para todos los efectos legales, las partes fijan su domicilio en la ciudad y comuna de Santiago.</li>
+                        <br></br>
+                        <li>Serán los Tribunales Ordinarios de Justicia quienes tienen competencia exclusiva para resolver cualquier disputa surgida o que guarde relación con los presentes Términos y Condiciones, incluidas aquellas controversias relativas a la existencia, validez o finalización de estos Términos y Condiciones.</li>
+                        <br></br>
+                    </ol>
+                </p>
+
+            <!-- SECCIÓN 12 -->
+            <li class="slds-text-heading_small">COMUNICACIONES</li>
+            <p>
+                <ol class="slds-list--subDivisions">
+                    <li>Toda notificación relacionada con los presentes Términos y condiciones deberá efectuarse por correo electrónico, correo postal o mensajería dirigida a su Ejecutivo de Cuentas.</li>
+                    <br></br>
+                </ol>
+            </p>
+
+            <!-- SECCIÓN 13 -->
+            <li class="slds-text-heading_small">CONSIDERACIONES GENERALES</li>
+                <p>
+                    <ol class="slds-list--subDivisions">
+                        <li>Si una cláusula de los presentes Términos y Condiciones fuera declarada nula o ineficaz, este hecho no afectará a las restantes disposiciones establecidas en estos Términos y Condiciones.</li>
+                        <br></br>
+                        <li>El hecho de que alguna de las partes no ejercite o retrase el ejercicio de los derechos derivados de estos Términos y Condiciones no constituirá su renuncia a los mismos.</li>
+                        <br></br>
+                        <li>La Plataforma puede ofrecerse utilizando servicios de otras entidades. Usted acepta que dichos proveedores son terceros beneficiarios de las disposiciones de estos Términos y Condiciones que aplican a Banco Santander, incluyendo aquellas disposiciones que generan derechos de indemnización a favor de Banco Santander o que limiten su responsabilidad.</li>
+                        <br></br>
+                        <li>Los encabezados que figuran en el presente documento son meramente informativos, no afectando, condicionando o promoviendo la interpretación de estos Términos y Condiciones.</li>
+                        <br></br>
+                    </ol>
+                </p>
+                </ol>
+        </div>    
+
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Anexo 1: Servicios</div>
+            <div class="text_line"></div>
+        </div>
+        <div class="privacyInfoContainer">    
+            <!-- ANEXO 1 -->
+            <ol class="slds-list--subDivisions">
+            <li class="slds-text-heading_small">ONE TRADE TRACKER (TRANSPARENCIA Y TRAZABILIDAD DE PAGOS INTERNACIONALES EN TIEMPO REAL)</li>
+                <p>
+                    <ol class="slds-list--subDivisions">
+                        <li>El servicio One Trade Tracker le ofrecerá una visión completa y en tiempo real de la situación de sus pagos internacionales enviados y recibidos, incluida la confirmación del abono de sus pagos en las cuentas de los beneficiarios.</li>
+                        <br></br>
+                        <li>La información disponible que se le proporcionará será:
+                            <br></br><br></br>
+                            -&emsp;El flujo de pagos desde el ordenante al beneficiario;
+                            <br></br><br></br>
+                            -&emsp;Duración de cada una de las fases del flujo de pago;
+                            <br></br><br></br>
+                            -&emsp;Situación o Estado de los pagos enviados y recibidos al momento de la consulta, incluida la identificación de eventuales reparos, rechazos o la confirmación del abono del pago en la cuenta del beneficiario;
+                            <br></br><br></br>
+                            -&emsp;Detalle de los gastos descontados por bancos intervinientes en el exterior, si aplica;
+                            <br></br><br></br>
+                            -&emsp;Copia de mensaje SWIFT MT-103 en formato PDF, en el caso de los pagos enviados al exterior.
+                        </li>
+                        <br></br>
+                        <li>La información respecto a la situación de los pagos enviados desde Banco Santander Chile (BIC BSCHCLRM) quedará disponible en One Trade Tracker a partir del despacho del mensaje SWIFT MT-103 por Banco Santander Chile al exterior, y quedarán almacenados para consulta por un período de 2 años. No estarán disponibles para consulta en One Trade Tracker los pagos instruidos que no hayan sido despachados al exterior por Banco Santander, ya sea porque el pago ha presentado algún reparo previo al despacho del mensaje SWIFT (ej. en caso de información incompleta suministrada por el ordenante) o en razón de que Banco Santander se haya abstenido de ejecutarlo debido a que este contraviene las políticas internas contenidas en el Marco Corporativo del Banco que se encuentra disponible en la página web <a href="https://www.santander.cl" class="text-link">www.santander.cl</a>.</li>
+                        <br></br>
+                        <li>Los estados de los pagos internacionales que se reflejan en One Trade Tracker se basan exclusivamente en la información entregada por los bancos participantes de la cadena del pago (corresponsales y beneficiarios) a SWIFT. One Trade Tracker informa la situación de los pagos exactamente según lo que informan los bancos intervinientes en el exterior. Banco Santander no tiene la gestión, el control ni la responsabilidad sobre esta información, excepto sobre la fecha y hora de salida de los pagos enviados desde Banco Santander Chile (BIC BSCHCLRM) que se informa en la Plataforma.</li>
+                        <br></br>
+                        <li>One Trade Tracker es un servicio de carácter consultivo, no permitiendo a sus usuarios realizar cualquier gestión sobre los pagos, modificación o envío de información a través de la Plataforma. Cualquier gestión que se requiera con el objetivo de conocer mayores detalles acerca de un pago enviado, así como las gestiones que se requieran para liberar un pago que se encuentre detenido por alguna razón por un banco de la cadena de corresponsales, incluidos aquellos detenidos por organismos reguladores internacionales  (estado “En Espera”) o para que se devuelvan los fondos en el caso de los pagos rechazados (estado “Rechazado”), deberá ser realizada a través de su Post Venta de Negocio Internacional, Ejecutivo de Cuenta o Especialista de Negocio Internacional.</li>
+                        <br></br>
+                        <li>Los bancos que no son parte de SWIFT GPI no proporcionan información sobre el estado de los pagos. En este sentido, la disponibilidad de los detalles de abono del pago a su beneficiario final en la plataforma estará sujeta a que el banco del beneficiario esté activo en GPI Tracker y se adhiera a las reglas de Confirmación Universal de SWIFT. Los pagos enviados desde Banco Santander Chile a bancos beneficiarios que no sean parte de SWIFT GPI no tendrán su estado actualizado en One Trade Tracker, por lo que no se informará los detalles del abono al beneficiario o eventuales reparos o rechazos, si aplica. One Trade Tracker informará estos pagos con estado “En Proceso”, reflejando la situación del pago hasta el último estado informado por los bancos intervinientes. En caso que de se requiera conocer mayor detalle de un pago enviado a un banco beneficiario que no sea parte de SWIFT GPI, usted deberá contactar a su contraparte para que el banco en destino le informe su estado. Banco Santander no será responsable por la información/estado del pago que se informe en la Plataforma en estos casos.</li>
+                        <br></br>
+                        <li>En relación a los pagos que tengan estado “Rechazado” en One Trade Tracker, estos podrán indicar el motivo del rechazo según la información proporcionada por el banco en el exterior que lo haya rechazado. Banco Santander no será responsable por la información que se despliega en la Plataforma respecto al motivo del rechazo del pago.</li>
+                        <br></br>
+                        <li>La consulta a los pagos recibidos desde el exterior también estará disponible en One Trade Tracker, donde el beneficiario conocerá el estado de los pagos enviados desde el exterior en su favor a una cuenta que mantenga en Banco Santander Chile (BIC BSCHCLRM). En caso de que, por cualquier motivo, dichos fondos se encuentren retenidos por un banco de la cadena de corresponsales o por orden de organismos reguladores internacionales (estado “En Espera), será de responsabilidad exclusiva del ordenante y/o del banco del ordenante que envía la orden de pago, cualquier gestión relacionada a obtener el alzamiento, liberación o devolución de los fondos.</li>
+                        <br></br>
+                    </ol>
+                </p>
+              </ol>
+            <p><span class="text-bold-lastUpdateDate" >Última actualización: Noviembre 2020</span></p>
+        </div> 
+    </aura:if>
+
+    <!-- MEXICO -->
+    <aura:if isTrue="{!v.country eq 'MX'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Términos y Condiciones</div>
+            <div class="text_line"></div>
+        </div> 
+        
+        <div class="privacyInfoContainer">
+            <p>
+                El presente documento establece los <span class="text-bold">Términos y Condiciones</span> de los servicios de banca electrónica que integran “Enlace”.
+                <br></br><br></br>
+            </p>
+            
+            <!-- SECCIÓN ¿Qué es Enlace? -->
+            <div class="slds-text-heading_small">¿Qué es Enlace?</div>
+                <p>
+                    Es un servicio de banca electrónica en su modalidad de banca por internet pensado en los clientes, personas morales de <span class="text-bold">Banco Santander México, S.A., Institución de Banca Múltiple, Grupo Financiero Santander México</span> (“Santander”) y de las entidades del Grupo Financiero Santander México<sup>1</sup> el cual permite a las empresas a través de sus Usuarios consultar el saldo y/o movimientos de sus cuentas, transferir recursos hacia las distintas cuentas de depósito en “Santander” u otras instituciones bancarias ya sea bajo la modalidad de nómina o bajo la modalidad de pago a proveedores, instruir órdenes de pago a terceros, pagar créditos en Santander o en otras Instituciones Financieras y en general, consultar el estado y administrar los distintos productos que tiene contratados con las entidades del Grupo Financiero Santander México, según se convenga por las partes en los contratos respectivos.
+                    <br></br><br></br>
+                    Toda persona que se registre, ingrese o haga uso de “Enlace” tendrá el carácter de “Usuario” y desde ese momento se sujetará incondicionalmente a los presentes Términos y Condiciones.
+                    <br></br><br></br>
+                </p>
+
+            <!-- SECCIÓN 1 -->
+            <div class="slds-text-heading_small">1.	Requisitos para el uso de “Enlace”</div>
+                <p>
+                    <ol class="slds-list--ordered">
+                        <li>Ser cliente de Santander.</li>
+                        <li>Dar de alta el servicio mediante la firma de la Carátula de activación de Banca Electrónica (ENLACE).</li>
+                        <li>Dar de alta Usuarios y facultades.</li>
+                        <li>Aceptar las presentes Términos y Condiciones y leer nuestro Aviso de Privacidad. Recomendamos a nuestros Usuarios  leer cuidadosamente cada apartado para asegurar la total comprensión de la información contenida en este documento.</li>
+                        <br></br>
+                    </ol>
+                </p>
+
+            <!-- SECCIÓN 2 -->
+            <div class="slds-text-heading_small">2. Servicios disponibles</div>
+                <p>Los servicios disponibles en “Enlace” son los siguientes:</p>
+                <br></br>
+                <p>Servicios generales: </p>
+                <br></br>
+                <p>
+                    <ol class="slds-list--ordered">
+                        <li>Consulta de saldos (consolidados e individuales)  de las cuentas que el cliente tiene contratadas con Santander. A través de “Enlace” el Usuario, según sus facultades podrá conocer la posición general de todas las cuentas de depósito asociadas a cada contrato.</li>
+                        <li>Consulta de movimientos de las cuentas o créditos contratados.</li>
+                        <li>Generación y descarga de estados de cuenta.</li>
+                        <li>Transferencia de recursos a cuentas propias y de terceros abiertas en Santander o en otras Instituciones Financieras nacionales o extranjeras. El Usuario podrá tener completa visibilidad del estado de las transferencias internacionales desde que se genera la instrucción hasta su liquidación en un banco extranjero.</li>
+                        <br></br>
+                    </ol>
+                </p>
+                <p>Servicios especializados: Estos servicios se prestarán bajo solicitud del cliente mediante la firma de los formatos que se encuentran a su disposición en las sucursales de Santander, en los términos que establecen los contratos respectivos.</p>
+                <br></br>
+                <p>
+                    <ol class="slds-list--ordered">
+                        <li>Servicio de Recaudación.</li>
+                        <li>Servicio de Dispersión de Fondos.</li>
+                        <li>Servicio de recepción de contribuciones Federales, pago de cuotas obrero patronales y aportaciones al sistema de ahorro para el retiro mediante el sistema de traspaso electrónico de fondos.	</li>
+                        <li>Servicio de Órdenes de Pago.</li>
+                        <li>Servicio de Cobros Interactivos.</li>
+                        <li>Servicio de Chequera Seguridad.</li>
+                        <li>Servicio de Tesorería Inteligente.</li>
+                        <li>Servicio de Botón de Pago.</li>
+                        <li>Pago a Proveedores.</li>
+                        <li>Operaciones de compraventa de divisas</li>
+                        <br></br>
+                    </ol>
+                </p>
+                <p>
+                    Para realizar determinadas operaciones a través de “Enlace” requerirás el uso de tu Token. Asimismo te informamos que la contratación de determinados productos o servicios podrá implicar el cobro de comisiones conforme a lo establecido en el contrato respectivo.
+                    <br></br><br></br>
+                    En caso de que tengas dudas adicionales sobre cómo funciona alguno de nuestros servicios podrás consultarlo en <a href="http://www.santander.com.mx" class="text-link">www.santander.com.mx</a>.
+                    <br></br><br></br>
+                    La prestación de servicios financieros por parte de Santander estará sujeto a que el cliente interesado cumpla con determinado perfil y/o condición.
+                    <br></br><br></br>
+                    La información publicada en “Enlace” es de carácter confidencial y no podrá ser comunicada a terceros sin el previo consentimiento expreso y por escrito de Santander. Cada Usuario se compromete a guardar confidencialidad y dar un uso apropiado a la información, archivos, imágenes o cualquier otro material, texto, video o sonido contenido en “Enlace”.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 3 -->
+            <div class="slds-text-heading_small">3.	Registro en “Enlace”.</div>
+                <p>
+                    Para empezar a utilizar los servicios de “Enlace” el Usuario deberá tener acceso a un equipo de cómputo con acceso a Internet seguro y confiable (“Dispositivo de Acceso”).
+                    <br></br><br></br>
+                    Le recordamos que como Usuario de los servicios y contenidos de “Enlace” es responsable de contar con los programas y/o sistemas de cómputo que proporcionen la seguridad necesaria para evitar cualquier tipo de intrusiones, de realizar las actualizaciones o parches que dichos programas requieren para su uso legal, seguro y continuado, y de evitar que se descarguen sistemas o programas de cómputo que permitan compartir archivos que pudieran vulnerar la privacidad de su información.
+                    <br></br><br></br>
+                    Para el ingreso y uso de los servicios de banca electrónica, Santander asignará a cada Usuario una cadena de caracteres que permita reconocer su identidad “Identificador de Usuario”. El “Identificador de Usuario” y la clave numérica cuya que se genere por el un dispositivo especial (Token), serán las “Claves de Acceso” del Usuario las cuales que le permitirán ingresar y realizar operaciones a través de “Enlace”. Cada Usuario podrá registrarse sólo una vez. 
+                    <br></br><br></br>
+                    Recordamos a los Usuarios que sus Claves de Acceso son personales, intransferibles y únicas, ya que con las mismas podrás hacer uso de los servicios de “Enlace”. Cada Usuario es responsable de la custodia diligente de sus “Claves de Acceso”. Te informamos que Santander:
+                </p>
+                <br></br>
+                <p>
+                    <ol class="slds-list--ordered">
+                        <li>No será responsable de la seguridad del Dispositivo de Acceso utilizado para ingresar a “Enlace”.</li>
+                        <li>No se hace responsable por la disponibilidad del servicio de internet ni por cualquier cargo relacionado con el consumo de datos o uso de servicios móviles aplicados por terceros durante la conexión, descarga o uso de “Enlace”.</li>
+                        <li>Generación y descarga de estados de cuenta.</li>
+                        <li>No será responsable por el daño, menoscabo o pérdida de cualquier naturaleza que se produzca sobre el Dispositivo de Acceso utilizado para ingresar a “Enlace” o sobre la información contenida en el Dispositivo de Acceso, cuando dicho daño, menoscabo o pérdida sea causado por el mal uso de dicho dispositivo. Se entenderá que se da un mal uso al Dispositivo de Acceso si éste se emplea para ingresar a páginas de Internet no seguras, o si permites que terceras personas, voluntaria o involuntariamente hagan uso del mismo. </li>
+                        <br></br>
+                    </ol>
+                </p>
+                <p>
+                Es importante que evites ingresar a páginas o sitios web no seguros que pudieran insertar spyware o algún otro sistema en tu Dispositivo de Acceso, y en su caso, que se descarguen sistemas o programas de cómputo que permitan compartir archivos que pudieran vulnerar la privacidad de tu información.
+                    <br></br><br></br>
+                    Tu Dispositivo de Acceso deberá contar con la seguridad necesaria para evitar este tipo de intrusiones.
+                    <br></br><br></br>
+                    Santander tendrá en todo tiempo el derecho de negar, restringir, suspender, cancelar o condicionarte el acceso o el uso de “Enlace” total o parcialmente, de forma temporal o definitiva cuando cuente con elementos que le permitan presumir que tus Claves de Acceso están siendo utilizadas por alguien que no seas tú.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 4 -->
+            <div class="slds-text-heading_small">4. Derechos y obligaciones del Usuario.</div>
+                <p>
+                    El Usuario se obliga a utilizar los servicios y contenidos disponibles a través de “Enlace” conforme a la legislación vigente aplicable en los Estados Unidos Mexicanos, a los principios de buena fe, a los usos generalmente aceptados y a lo dispuesto en los presentes Términos y Condiciones y sin que su uso produzca un perjuicio en los derechos o intereses de Santander, de los demás Usuarios o de terceros. Por tanto, el Usuario de “Enlace” tendrá prohibido:
+                    <br></br><br></br> 
+                </p>
+                <p>
+                    <ol class="slds-list--ordered">
+                        <li>Manipular, acceder y, en su caso, utilizar las cuentas de otros Usuarios;</li>
+                        <li>Realizar ninguna clase de acción u omisión que suponga una violación de los derechos de propiedad intelectual o industrial de Santander, de los demás Usuarios o de terceros;</li>
+                        <li>Introducir o difundir en “Enlace” datos o contenidos falsos, engañosos, ambiguos o inexactos que puedan inducir a error a los receptores de la información, o cualquier otro contenido de carácter ofensivo, discriminatorio, inapropiado o de cualquier otro tipo que atente contra los derechos humanos o que incite a la violencia o al odio;</li>
+                        <li>Provocar daños en los sistemas de Santander, de los demás Usuarios de “Enlace” o de terceros, o introducir o difundir virus informáticos o utilizar cualesquiera otros sistemas que sean susceptibles de provocar los daños anteriormente mencionados; y</li>
+                        <li>Suprimir, alterar o eludir cualquier dispositivo de protección o sistema de seguridad que estuviera instalado en “Enlace” o en cualquier otro elemento de los servicios de banca electrónica que se pone a disposición del Usuario para el uso de “Enlace”.</li>
+                        <br></br>
+                    </ol>
+                </p>
+                <p>
+                    El Usuario se obliga a notificar a Santander la pérdida de las condiciones que le habilitan para ostentar la condición de Usuario de “Enlace” conforme a los presentes Términos y Condiciones.
+                    <br></br><br></br>
+                    Queda prohibido todo uso de “Enlace” con fines contrarios al contenido de los presentes Términos y Condiciones, o con fines lesivos de los intereses o derechos de terceros, o que de cualquier forma pueda dañar, inutilizar, hacer inaccesible o deteriorar “Enlace”, sus contenidos o sus funcionalidades o estén destinados a impedir un normal disfrute de “Enlace” por los Usuarios.
+                    <br></br><br></br>
+                    El Usuario se obliga a notificar a Santander la pérdida de las condiciones que le habilitan para ostentar la condición de Usuario de “Enlace” conforme a los presentes Términos y Condiciones.
+                    <br></br><br></br>
+                </p>
+
+            <!-- SECCIÓN 5 -->
+            <div class="slds-text-heading_small">5. Derechos de propiedad industrial e intelectual.</div>
+                <p>
+                    El sistema “Enlace” es titularidad de Banco Santander México S.A., Institución de Banca Múltiple, Grupo Financiero Santander México.
+                    <br></br><br></br>
+                    Santander es el titular de los derechos de propiedad industrial e intelectual sobre el software, logos, gráficos, textos, marcas y cualquier otro material protegido por los citados derechos o ha obtenido las autorizaciones o permisos necesarios de sus respectivos autores. El Usuario abstendrá de registrar a su nombre o mediante un tercero cualquier obra de propiedad intelectual, patentes, marcas y otros signos distintivos relacionados con “Enlace”.
+                    <br></br><br></br>
+                    Nada en estos Términos y Condiciones podrá interpretarse como una transmisión de los derechos de propiedad industrial o intelectual de Santander relativos a “Enlace”. Queda prohibida la reproducción, distribución, comunicación pública, transmisión, adaptación o modificación, por cualquier medio y en cualquier forma, de los contenidos de “Enlace” (entre ellos, textos, diseños, gráficos, informaciones, bases de datos, archivos de sonido y/o imagen, logos y demás elementos de estos sitios), salvo autorización previa de sus legítimos titulares o cuando así resulte permitido por la ley.
+                    <br></br><br></br>
+                    Adicionalmente se prohíbe, respecto de los contenidos antes detallados, cualquier utilización comercial o publicitaria, distinta de la estrictamente permitida, en su caso, y la vulneración, en general, de cualquier derecho derivado de los mismos.
+                    <br></br><br></br>
+                    No se permitirá que el Usuario haga uso comercial o publicitario de los contenidos de “Enlace” y en general el uso de la información contenida en “Enlace”, en un modo o con una finalidad distinta de la expresamente derivada del ejercicio de la licencia otorgada en virtud de los presentes Términos y Condiciones, ya sea que dicho uso comercial o publicitario pueda o no causar la vulneración, de cualquier derecho de Santander o de terceros.
+                    <br></br><br></br>
+                    Ningún contenido en “Enlace” se interpretará como una concesión, licencia o derecho directo o indirecto sobre los derechos de autor, patentes, marcas comerciales u otros derechos reservados de cualquier tipo.
+                    <br></br><br></br>
+                    El uso de “Enlace” no te transfiere ningún derecho de uso promocional sobre la información a la que el Usuario tenga acceso y no constituirá la concesión o renuncia de los derechos de los propietarios de copyright.
+                    <br></br><br></br>
+                    “Enlace” y sus contenidos, en especial, sin que la enumeración tenga efectos limitativos; las imágenes gráficas, sonidos, vídeos, códigos HTML y elementos distintivos de “Enlace”, no podrán ser objeto de copia, reproducción, reedición, envío, comunicación, transmisión o distribución en modo alguno, sin contar con el consentimiento previo y por escrito de su titular.
+                    <br></br><br></br>
+                    La legitimidad de los derechos de propiedad intelectual o industrial correspondientes a los contenidos aportados por terceros es de la exclusiva responsabilidad de dichos terceros.
+                    <br></br><br></br>
+                    A los efectos de preservar el respeto a los derechos de propiedad intelectual, y en caso de que algún considere que se ha producido una violación a sus derechos por la introducción de un determinado contenido en “Enlace” deberá acreditar la existencia, titularidad y vigencia de sus derechos de propiedad intelectual y notificar dicha circunstancia, por escrito en el inmueble ubicado en Av. Vasco de Quiroga número 3900, Torre B piso 2, Colonia Lomas de Santa Fe, Alcaldía Cuajimalpa, C.P. 05300, Ciudad de México, aclarando los derechos de propiedad intelectual infringidos y su ubicación en “Enlace”, a fin de que Santander pueda actuar en consecuencia. Si la reclamación la presenta un tercero distinto del interesado, deberá indicar la representación con la que actúa.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 6 -->
+            <div class="slds-text-heading_small">6. Responsabilidad de Santander.</div>
+                <p>
+                    Santander será responsable de la puesta a disposición a los Usuarios de los servicios de “Enlace” de conformidad con lo previsto en los presentes Términos y Condiciones, así como con lo dispuesto en la normativa aplicable en los Estados Unidos Mexicanos.
+                    <br></br><br></br> 
+                    Santander no garantiza ni se hace responsable, en ningún caso ni circunstancia, de los siguientes hechos y contenidos, ni de cualesquiera daños y perjuicios que pudieran, en su caso, derivarse de los mismos:
+                    <br></br><br></br>
+                </p>
+                <p>
+                    <ol class="slds-list--ordered">
+                        <li>Falta de disponibilidad, continuidad, acceso, mantenimiento y efectivo funcionamiento de “Enlace” y/o de sus servicios, así como la actualización, exactitud, exhaustividad, pertinencia, actualidad y fiabilidad de sus contenidos, cualquiera que sea la causa y las dificultades o problemas técnicos o de otra naturaleza en los que tengan su origen dichos hechos.</li>
+                        <li>La transmisión y/o existencia de virus, otros elementos o programas lesivos para el Dispositivo de Acceso del Usuario que pudiera afectarle, como consecuencia del acceso, uso o examen de “Enlace”, o que produjera alteraciones en sus documentos electrónicos o ficheros.</li>
+                        <li>Vicios o defectos de los contenidos a los que se acceda a través de “Enlace”.</li>
+                        <li>La recepción, almacenamiento, obtención, difusión o transmisión por parte de los Usuarios, de los contenidos de “Enlace” sin autorización de Santander.</li>
+                        <li>Retrasos o bloqueos en el uso de los sistemas asociados a “Enlace” causados por deficiencias o sobrecargas en el sistema de internet o en otros sistemas eléctricos;</li>
+                        <li>Cualquiera otra alteración que se pueda producir en el software o hardware de los Usuarios.</li>
+                        <li>Un mal uso que el Usuario pueda realizar de “Enlace” o de sus servicios, así como, de cualesquiera otros errores cometidos por su parte.</li>
+                        <li>Intromisiones ilegítimas causadas por terceras personas, que se encuentren fuera del control de Santander</li>
+                        <li>La indisponibilidad de cualquier servicio de “Enlace” independientemente de la causa.</li>
+                        <br></br>
+                    </ol>
+                </p>
+                <p>
+                    La enumeración anterior tiene mero carácter enunciativo y no es, en ningún caso, exclusivo ni excluyente en ninguno de sus puntos. En todos los supuestos, Santander estará excluidos de cualquier responsabilidad por los daños y perjuicios de cualquier naturaleza derivados directa o indirectamente de los mismos y de cualesquiera otros no especificados de análogas características.
+                    <br></br><br></br> 
+                    Santander podrá dar de baja cualquiera de los servicios o productos ofertados a través de “Enlace” o, en su caso, bloquear o suspender el acceso de un Usuario en aquellos supuestos en los que existan indicios razonables de suplantación de identidad, acceso no autorizado, o cualesquiera actividades ilícitas realizadas a través de la cuenta del Usuario o cuando tenga conocimiento de fallos o errores en “Enlace” que puedan perjudicar gravemente al Usuario o a “Enlace”.
+                    <br></br><br></br>
+                    Santander podrá suspender cualquier funcionalidad para realizar modificaciones técnicas o actualizarla a novedades o requisitos regulatorios.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 7 -->
+            <div class="slds-text-heading_small">7. Duración, desistimiento, cancelación y/o baja.</div>
+                <p>
+                    Los presentes Términos y Condiciones tienen una duración indefinida. En caso de que ya no quieras usar “Enlace”, podrás hacerlo en cualquier momento, no obstante ello no implica la cancelación de los productos y/o servicios que en su caso hayas contratado a través de este canal.
+                    <br></br><br></br> 
+                    La cancelación de un producto y/o servicio financiero se sujetará al proceso de terminación y/o baja que se establezca en los contratos correspondientes, en apego a la legislación aplicable.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 8 -->
+            <div class="slds-text-heading_small">8. Denegación del acceso o de continuidad en el uso de “Enlace”.</div>
+                <p>
+                    Santander se reserva el derecho de denegar el acceso o continuidad en el uso de “Enlace” al Usuario que:
+                    <br></br><br></br>
+                </p>
+                <p>
+                    <ol class="slds-list--ordered">
+                        <li>Incumpla con los presentes Términos y Condiciones y/o cualquier otra normativa que le sea aplicable. </li>
+                        <li>No aporte la información necesaria requerida para verificar su idoneidad como Usuario de “Enlace”,</li>
+                        <li>Con posterioridad al proceso de registro se produzca cualquier modificación o cambio de las condiciones que inicialmente permitieron que se le admitiera con la condición de Usuario, o existen sospechas fundadas de que se está realizando un uso no autorizado, fraudulento o indebido de “Enlace”.</li>
+                        <li>En supuestos de problemas de seguridad imprevistos o cualesquiera otros incidentes o problemas técnicos que puedan suponer un riesgo para los Usuarios, Santander o terceros.</li>
+                        <br></br>
+                    </ol>
+                </p>
+
+			<!-- SECCIÓN 9 -->
+            <div class="slds-text-heading_small">9. Confidencialidad.</div>
+                <p>
+                    Santander y el Usuario reconocen el carácter confidencial de toda la información sensible, documentos, datos o materiales, de cualquier naturaleza, forma o soporte, a la que los mismos accedan como resultado del uso de “Enlace” (la “Información Confidencial”) y se obligan a tratarla con carácter estrictamente confidencial, y a no revelarla o utilizarla para el propio beneficio o el de terceros, directa o indirectamente, así como a evitar cualquier uso no autorizado de la misma, a no duplicar ni distribuirla y a no revelarla a terceros por motivo alguno.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 10 -->
+            <div class="slds-text-heading_small">10. Actualizaciones.</div>
+                <p>
+                    Santander podrá solicitar al Usuario la actualización de la versión de “Enlace” en cualquier momento con el fin de garantizar su correcto funcionamiento. Santander se reserva el derecho a actualizar, modificar o eliminar la información contenida en “Enlace”, así como la configuración o presentación de la misma, sin previo aviso a los Usuarios.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 11 -->
+            <div class="slds-text-heading_small">11. Uso permitido.</div>
+                <p>
+                    Recuerda utilizar “Enlace” de acuerdo a las normas de uso y convivencia en Internet, por lo que deberás abstenerte de dar un mal uso a la información a la que tienes acceso a través de “Enlace”. Tampoco podrás hacer comentarios que puedan resultar falsos, ofensivos o hacer pública la información contenida en “Enlace”, o de cualquier forma causar un daño o un perjuicio a los demás Usuarios o a terceros. Si éste es el caso, Santander suspenderá tu acceso a “Enlace”.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 12 -->
+            <div class="slds-text-heading_small">12. Almacenamiento y transmisión de Información (Uso de “Cookies”).</div>
+                <p>
+                    Con el ingreso y uso de “Enlace”, el Usuario autoriza a Santander a almacenar datos en el Dispositivo de Acceso mediante el uso de “Cookies”.
+                    <br></br><br></br>
+                    Una Cookie es un pequeño fichero de texto que se almacena en el navegador del Dispositivo de Acceso cuando el Usuario visita una página web o accede a una aplicación. Las Cookies en “Enlace” tienen como finalidad agilizar la forma en que el Usuario interactúa con los contenidos de la aplicación o servicio por internet; y facilitar a Santander el análisis de dicha información con el objetivo de mejorar el rendimiento de “Enlace”. De igual forma, Santander podrá hacer uso de “Cookies” para recabar información sobre las preferencias del Usuario en la utilización de contenidos de “Enlace”.
+                    <br></br><br></br>
+                    Las “Cookies” podrán ser borradas, aceptadas o bloqueadas por el Usuario mediante la configuración del navegador web del Dispositivo de Acceso. De igual forma, le informamos que las “Cookies” no pueden leer los datos o información del Dispositivo de Acceso, ni leer las “Cookies” creadas por otros sitios o páginas.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 13 -->
+            <div class="slds-text-heading_small">13. Seguridad.</div>
+                <p>
+                    En cumplimiento de la normativa vigente, Santander ha adoptado las medidas técnicas y organizativas necesarias para mantener el nivel de seguridad requerido en atención a la información tratada por “Enlace”.
+                    <br></br><br></br>
+                    Los servicios que presta Santander a través de medios electrónicos, están dotado de los mecanismos precisos a su alcance para evitar en la medida de lo posible los accesos no autorizados, sustracciones y modificaciones ilícitas y la pérdida de la información y los datos.
+                    <br></br><br></br>
+                    Santander recomienda al Usuario la utilización de todas las herramientas de seguridad que tenga a su alcance, ya que Santander no será responsable de sustracciones, modificaciones o pérdidas de información o datos ilícitas provocadas por intromisiones ilegítimas en el Dispositivo de Acceso del Usuario.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 14 -->
+            <div class="slds-text-heading_small">14. Calidad de los servicios y contenidos.</div>
+                <p>
+                    El Usuario conoce y comprende el contenido y el alcance de todas y cada una de las disposiciones que componen el cuerpo de estos Términos y Condiciones, y acepta obligarse por las mismas. Le recomendamos que sean leídas en detalle antes de iniciar su proceso de registro, así como, una vez haya adquirido la condición de Usuario, que proceda a su lectura cada vez que haga uso de “Enlace”, ya que Santander se reserva, en todo momento, el derecho de cambiar y/o modificar estos Términos y Condiciones y/o añadir o ciertos elementos.
+                    <br></br><br></br>
+                    Santander no garantiza que los servicios contenidos en “Enlace” estén disponibles, sean apropiados o cumplan con las disposiciones legales aplicables fuera de los Estados Unidos Mexicanos.
+                    <br></br><br></br>
+                    Ni Santander ni sus accionistas, funcionarios, consejeros, asesores, proveedores, o socios comerciales serán responsables de cualquier daño o perjuicio que lleguen a ocasionarse, como consecuencia de interpretaciones ajenas a Santander sobre el contenido de “Enlace”.
+                    <br></br><br></br>
+                    En caso de que el Usuario tenga cualquier duda sobre el uso de “Enlace” deberá dirigirla a Santander.
+                    <br></br><br></br>
+                </p>
+
+			<!-- SECCIÓN 15 -->
+            <div class="slds-text-heading_small">15. Enlaces externos.</div>
+                <p>
+                    Santander podrá incluir en “Enlace” enlaces externos (tales como ligas, banners y botones) a sitios o páginas web pertenecientes o gestionados por terceros con los que Santander tenga suscrito algún convenio o contrato.
+                    <br></br><br></br>
+                    En dicho caso, el Usuario debe saber que toda asesoría, consejo, declaración, información y contenido de las páginas web de terceros enlazadas o que se ubiquen dentro de “Enlace” representan las opiniones y juicios de dichos terceros, por lo que Santander no se hace responsable por daños o perjuicios que se deriven de la contratación, uso, o recomendación del contenido de las páginas web de terceros, incluyendo, de manera enunciativa mas no limitativa, daños causados por la pérdida de datos o programas, divulgación de información confidencial o incumplimiento a los términos pactados.
+                    <br></br><br></br>
+                    El uso de ligas o enlaces externos o páginas web de terceros que pudieran estar disponibles a través de “Enlace” no implica o supone la recomendación de Santander para que el Usuario acceda o use dichas páginas web o para que adquiera los bienes o servicios que dichas ligas, enlaces externos o páginas web se promocionan.
+                    <br></br><br></br>
+                    Santander no es ni podrá ser considerado como proveedor de los bienes y/o servicios que se ofrecen en las páginas Web y/o sitios de terceros; ni es, ni será responsable de la calidad, cualidades, costo o condiciones de los productos y/o servicios que se comercialicen dentro los sitios de terceros enlazados a “Enlace”.               
+                    <br></br><br></br>
+                    Los enlaces externos contenidos en “Enlace” en ningún caso, suponen o implican el apoyo, aprobación, patrocinio, recomendación, garantía o cooperación alguna entre Santander y los autores y/o gestores de tales contenidos, o de los titulares de las páginas y sitios, por lo que no deberá entenderse que existe garantía alguna de Santander por el correcto funcionamiento de los sitios o contenidos enlazados.
+                    <br></br><br></br>
+                    Santander no asume ninguna responsabilidad por la seguridad, existencia o correspondencia de los enlaces externos o de cualquier otra información proveniente de canales externos a “Enlace”.
+                    <br></br><br></br>
+                    En este sentido te recomendamos poner la máxima diligencia y prudencia en el caso de ingresar o usar contenidos o servicios de los sitios a los que accedas en virtud de los mencionados enlaces externos.
+                    <br></br><br></br>              
+                </p>
+
+			<!-- SECCIÓN 16 -->
+            <div class="slds-text-heading_small">16. Avisos y Notificaciones.</div>
+                <p>
+                    Todas las notificaciones, avisos y en general cualquier comunicación que Santander deba hacer en relación a “Enlace”, lo haremos llegar al (a los) dato(s) de contacto (teléfono o correo electrónico) que nos haya proporcionado el cliente para ese fin.
+                    <br></br><br></br>
+                    Con independencia de ello y, cuando así lo acepte el Usuario, Santander podrá realizar tales avisos, mediante notificaciones push, es decir, mediante mensajes que Santander envíe de manera directa a su Dispositivo de Acceso. El mismo aviso aparecerá dentro del centro de notificaciones de “Enlace”.
+                    <br></br><br></br>
+                    Este tipo de notificaciones, avisos o comunicaciones podrán desactivarse por el Usuario en cualquier momento dentro de la opción de configuración de su Dispositivo de Acceso.
+                    <br></br><br></br>            
+                </p>
+
+			<!-- SECCIÓN 17 -->
+            <div class="slds-text-heading_small">17. Aviso de Privacidad de Santander.</div>
+                <p>
+                    Banco Santander México, S.A., Institución de Banca Múltiple, Grupo Financiero Santander México y Santander Consumo S.A. de C.V. SOFOM E.R., Grupo Financiero Santander México, señalan como domicilio para los efectos relacionados con el presente aviso de privacidad el ubicado en Av. Prolongación Paseo de la Reforma número 500, Colonia Lomas de Santa Fe, Alcaldía Alvaro Obregón, C.P. 01219, en la Ciudad de México, y al mismo tiempo hacen de tu conocimiento que los datos personales recabados a través de “Enlace” serán protegidos de acuerdo a lo establecido por la Ley Federal de Protección de Datos Personales en Posesión de los Particulares y que el tratamiento que se haga de sus datos personales tendrá como finalidad, enunciando sin limitar: (i) corroborar su identidad y la veracidad de la información que proporciona como propia; (ii) formalizar una relación contractual y prestar los servicios financieros contratados conforme a lo pactado entre las partes, y en su caso, requerir su cumplimiento, (iii) ofrecer una ampliación o mejora de los productos o servicios financieros contratados y en su caso, promociones o descuentos.
+                    <br></br><br></br>
+                    Conoce nuestro Aviso de Privacidad integral en la página de internet <a href="http://www.santander.com.mx" class="text-link">www.santander.com.mx</a>.
+                    <br></br><br></br>      
+                </p>
+                <p>
+                    <ol class="slds-list--ordered">
+                        <li>Al aceptar los presentes Términos y Condiciones el Usuario reconoce y manifiesta que actúa por cuenta propia y se obliga a entregar información veraz, actualizada y completa.</li>
+                        <li>Al aceptar los presentes Términos y Condiciones el Usuario otorga su consentimiento expreso para que el Responsable recabe las coordenadas geográficas de latitud y longitud en que se encuentre el Dispositivo de Acceso (“Geolocalización”) que utilizará para la contratación de servicios y/o productos financieros a través de “Enlace”.</li>
+                        <br></br>
+                    </ol>
+                </p>
+
+			<!-- SECCIÓN 18 -->
+            <div class="slds-text-heading_small">18. Jurisdicción</div>
+                <p>
+                    El registro a “Enlace” y cuantas cuestiones se deriven de su ingreso y uso se sujetarán a la legislación federal vigente en los Estados Unidos Mexicanos. La interpretación, aplicación, cumplimiento o incumplimiento de lo establecido en los presentes Términos y Condiciones y el Aviso de Privacidad de Santander se regirá bajo esta misma legislación, siendo la jurisdicción aplicable los Tribunales Federales de la Ciudad de México, renunciando expresamente a cualquier otro fuero o jurisdicción que pudiera corresponderles en razón de sus domicilios presentes o futuros o por cualquier otra causa.
+                    <br></br><br></br><br></br>
+                </p>
+
+            <!-- PIE DE PÁGINA -->
+            <div class="slds-col titleContainer">
+                <div class="text_line"></div>
+            </div>
+            <p>
+                <br></br>
+                <sup>1</sup> Para efectos del presente documento serán Banco Santander México, S.A., Institución de Banca Múltiple, Grupo Financiero Santander México; Casa de Bolsa Santander, S.A. de C.V., Grupo Financiero Santander México; Santander Consumo, S.A. de C.V., SOFOM, E.R., Grupo Financiero Santander México y Santander Inclusión Financiera, S.A. de C.V., SOFOM, E.R., Grupo Financiero Santander México.
+                <br></br><br></br>
+            </p>
+        </div> 
+    </aura:if>
+    
+    <!-- PORTUGAL -->
+    <aura:if isTrue="{!v.country eq 'PT'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">CLÁUSULAS DE PROTEÇÃO DE DADOS</div>
+            <div class="text_line"></div>
+        </div> 
+        
+        <div class="privacyInfoContainer">
+                <p>
+                    <ol class="slds-list--ordered">
+                        <li>O utilizador, no caso de ser pessoa singular, é informado que os dados pessoais aos quais o Banco Santander, S.A. tenha acesso como consequência de consultas, transações, operações, pedidos de contratação, contratação de produtos e serviços que se realizem por qualquer meio ou de processos informáticos relativos aos dados já registados, são incorporados no correspondente ficheiro do Banco Santander, SA, autorizando assim o tratamento daqueles que são necessários à sua utilização em relação ao desenvolvimento da operação ou serviço acordado que terão caráter obrigatório.</li>
+                        <li>O utilizador fica informado do seu direito de acesso, oposição, retificação e apagamento dos seus dados pessoais nos termos da Lei, podendo exercer esses direitos por escrito, mediante carta acompanhada de cópia do Documento de Identidade, e dirigida ao Servicio de Atención al Cliente, Ciudad Grupo Santander, Avda. Cantabria, s/n, 28660 - Boadilla del Monte (Madrid), sendo o Banco Santander, S.A. o responsável pelo ficheiro, com domicílio para este efeito no endereço acima indicado.</li>
+                        <br></br>
+                    </ol>
+                </p>
+        </div>
+    </aura:if>
+    
+    <!-- POLAND -->
+    <aura:if isTrue="{!v.country eq 'PL'}">
+        <c:CMP_termsConditionsPoland language="{!v.language}"/>      
+    </aura:if>
+</aura:component>

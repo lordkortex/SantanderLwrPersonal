@@ -1,0 +1,37 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Footer component
+History
+<Date>			<Author>		<Description>
+28/11/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_Footer">
+    
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="isGB" type="Boolean" default="False" description="True if current user's BIC is from Great Britain"/>
+    <aura:attribute name="isES" type="Boolean" default="False" description="True if current user's BIC is from Spain"/>
+    <aura:attribute name="isPL" type="Boolean" default="False" description="True if current user's BIC is from Poland"/>
+    <aura:attribute name="isCL" type="Boolean" default="False" description="True if current user's BIC is from Chile"/>
+    <aura:attribute name="isMX" type="Boolean" default="False" description="True if current user's BIC is from Mexico"/>
+    <aura:attribute name="isPT" type="Boolean" default="False" description="True if current user's BIC is from Portugal"/>
+    <aura:attribute name="isOther" type="Boolean" default="False" description="True if current user's BIC is from other country"/>
+    <aura:attribute name="country" type="String" description="Terms and conditions country"/>
+    <aura:attribute name="language" type="String" default="english" description="User language"/>
+
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <footer class="footer">
+        <a class="link" onclick="{!c.goToLegalInformation}">{!$Label.c.legalInformation}</a>
+        <span class="separation"> | </span>
+        <a class="link" onclick="{!c.goToPrivacy}">{!$Label.c.privacy}</a>
+        <aura:if isTrue="{!v.country ne 'ES'}">
+            <span class="separation"> | </span>
+            <a class="link" onclick="{!c.goToTerms}">{!$Label.c.termsConditions}</a>
+        </aura:if>
+    </footer>
+    
+</aura:component>

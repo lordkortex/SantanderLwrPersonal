@@ -1,0 +1,92 @@
+<!--
+  @description       : 
+  @author            : Everis
+  @group             : 
+  @last modified on  : 12-10-2020
+  @last modified by  : Everis
+  Modifications Log 
+  Ver   Date         Author   Modification
+  1.0   12-10-2020   Everis   Initial Version
+-->
+<template>
+    <div class="cardContainerGPI">
+        <div class="cardCollapse">
+            <div class="slds-card">
+                <!-- DETAILS -->
+                <div class="containerDetail_GPI">
+                    <table class="slds-table slds-table_cell-buffer slds-no-row-hover">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <template if:false={isBlankValueDate}>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate ">{label.MOVEMENT_HISTORY_VALUEDATE}</div>
+                                    </th>
+                                </template>
+                                <template if:false={isBlankTotalelapsedtime}>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate">{label.TOTAL_ELAPSED_TIME}</div>
+                                    </th>
+                                </template>
+                                <template if:false={isBlankIobjectCharges}>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate">{label.CHARGES}</div>
+                                    </th>
+                                </template>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">{label.UERT}</div>
+                                </th>
+                                <th class="" scope="col">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="body">
+                            <tr class="slds-hint-parent">
+                                <template if:false={isBlankIobjectValueDate}>
+                                    <td data-label="Value Date" scope="row">
+                                        <div class="slds-truncate">{valueDate}</div>
+                                    </td>
+                                </template>
+                                <template if:false={isBlankTotalelapsedtime}>
+                                    <td data-label="Total Elapsed Time">
+                                        <div class="slds-truncate">{totalelapsedtime}</div>
+                                    </td>
+                                </template>
+                                <template if:false={isBlankIobjectCharges}>
+                                    <td data-label="Ordering Account">
+                                        <div class="slds-truncate">{iObjectCharges}</div>
+                                    </td>
+                                </template>
+                                <td data-label="Beneficiary Account">
+                                    <div class="slds-truncate">{iObjectUetr}</div>
+                                </td>
+                                <td class="" data-label="" onclick={moreInfoSection}>                                    
+                                    <template if:false={isBlankUetrsearchresult}>
+                                        <template if:true={isExpanded}>
+                                            <!-- LESS DETAILS -->                                            
+                                            <div class="text-link">{label.LESS_DETAIL}</div>
+                                            <div class="slds-button__icon">
+                                                <div class="button-arrow icon-arrowUp_small"></div>
+                                            </div>
+                                        </template>
+                                        <template if:false={isExpanded}>
+                                            <!--MORE DETAILS-->
+                                            <div class="text-link">{label.MORE_DETAIL}</div>
+                                            <div class="slds-button__icon">
+                                                <div class="button-arrow icon-arrowDown_small"></div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <template if:true={isExpanded}>
+        <c-lwc_ipt-detail-more-info iobject={iobject}></c-lwc_ipt-detail-more-info>
+    </template>
+</template>

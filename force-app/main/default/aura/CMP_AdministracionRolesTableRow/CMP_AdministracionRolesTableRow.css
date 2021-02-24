@@ -1,0 +1,119 @@
+.THIS div::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS div::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.THIS div::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+.THIS div::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+.THIS .icon-close_filledCircle {
+    height: 28px;
+    line-height: 28px;
+    width: 16px;
+}
+
+.THIS .icon-close_filledCircle:before {
+    font-size: 16px;
+    color: #cccccc;
+}
+
+.THIS .slds-button:focus {
+    box-shadow: none;
+}
+
+.THIS .slds-button {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+}
+
+.THIS .slds-input {
+    border: 0;
+    border-radius: 0;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    color: #444444;
+    font-size: 12px;
+    height: 28px;
+}
+
+.THIS .slds-input:focus,
+.THIS .slds-input:active {
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+.THIS .slds-cell-fixed {
+    background-color: #ececec;
+}
+
+.THIS.slds-table--header-fixed_container {
+    background-color: #ececec;
+    border: 1px solid #ececec;
+    margin-bottom: 24px;
+}
+
+.THIS.slds-table--header-fixed_container .slds-scrollable_y {
+    max-height: 374px;
+}
+
+.THIS.slds-table--header-fixed_container:before {
+    border: unset;
+}
+
+.THIS tbody .slds-hint-parent {
+    border: 1px solid #ececec;
+    border-left: 0;
+}
+
+.THIS tbody .slds-truncate {
+    color: #444444;
+    font-family: SantanderTextW05-Regular;
+    font-size: 12px;
+}
+
+.THIS thead .slds-truncate {
+    color: #444444;
+    font-family: SantanderTextW05-Bold;
+    font-size: 14px;
+    padding: 6px 24px;
+}
+
+.THIS tbody tr td {
+    height: 34px;
+    padding: 0 24px;
+}
+
+.THIS tbody .input {
+    padding: 0;
+}
+
+.THIS thead tr th:first-child {
+    width: 13%;
+}
+
+.THIS thead tr th:nth-child(2) {
+    width: 16%;
+}
+
+.THIS thead tr th:nth-child(3) {
+    width: 12%;
+}
+
+.THIS thead tr th:nth-child(3) .slds-truncate {
+    padding-left: 12px;
+}
+
+.THIS .slds-table_striped tbody tr:nth-of-type(2n)>td,
+.THIS .slds-table_striped tbody tr:nth-of-type(2n)>th,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n)>td,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n)>th {
+    background-color: #f9fcfd;
+}

@@ -1,0 +1,65 @@
+<template>
+    <!-- Spinner -->
+    <div if:true={loading}>
+        <div class="spinnerclass">
+            <lightning-spinner 
+            variant="brand" 
+            size="large" >
+            </lightning-spinner>
+        </div>
+    </div>
+    <!-- FULL SCREEN -->
+    <c-cmp-o-t-v-modal if:false={checkWelcomeModal}></c-cmp-o-t-v-modal>
+    <div class="contentUsers" if:false={loading}>
+        <!--TOAST SUCCESS -->
+        <!-- añadir la clase toast_static para evitar que el toast flote en medio de la pantalla -->
+        <div class="slds-notify_container slds-is-fixed" if:true={showtoast}>
+            <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+			<div class="slds-notify slds-notify_toast slds-theme_success action slds-scrollable_y" role="status">
+				<span class="slds-assistive-text">{label.cmpOTVParentUsersLanding_1}</span>
+              	<span class="slds-icon_container slds-icon-utility-success  slds-m-right_small slds-no-flex slds-align-top  button-selected icon-check_circle" data-title="Success"></span>
+              	<div class="slds-notify__content">
+                 	<h2 class="slds-text-heading_small">{label.cmpOTVParentUsersLanding_2}</h2>
+        			<p class="notifyText">{label.cmpOTVParentUsersLanding_3}</p>
+					<!-- ACTION BUTTON -->
+                    <button class="slds-button slds-button_icon icon-action">
+                        <span class="action">{label.cmpOTVParentUsersLanding_4}</span>
+                    </button> 
+                    <!-- RELOAD BUTTON -->
+                    <!--<button class="slds-button slds-button_icon icon-reload">
+                        <span class="action">Reload</span>
+                    </button>-->
+              	</div>
+              	<div class="slds-notify__close">
+                	<button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close" onclick={closeToast}></button>
+              	</div>
+            </div>
+        </div> 
+
+        
+        <!-- HEADER -->
+        <div>
+            <c-cmp-o-t-v-header-user-landing></c-cmp-o-t-v-header-user-landing>
+        </div>
+        <!-- CONTENT -->
+        <div>
+            <c-cmp-o-t-v-filters-users-landing onreturnfiltros={returnFiltros}></c-cmp-o-t-v-filters-users-landing>        
+        </div>
+        <!-- TABLE -->
+        <div>
+            <c-cmp-o-t-v-table-users-landing onsaveuserinfo={saveuserinfo} lstusers={lstUsersAux} selectedpage={selectedPage} selectedvalue={selectedValue} items={items} isbackfront={isBackfront}></c-cmp-o-t-v-table-users-landing>
+        </div>
+         <!-- PAGs -->
+        <div class="contentPag">
+            <c-cmp-o-t-v-pagination-users-landing onreturnvalues={returnValues} onreturnpageselected={returnPage} lstusers={lstUsersAux} numpages={numPages} lastpage={lastpage} items={items}></c-cmp-o-t-v-pagination-users-landing>
+        </div>
+        <!--Cambiar la clase "footer" a "footerContact" para añadir el fotter de contacto-->
+        <div class="footer" if:false={isBackfront}>
+            <!--<c:Footer_Contact></c:Footer_Contact>-->
+            <c-cmp-o-t-v-footer></c-cmp-o-t-v-footer>
+        </div>
+        <div class="slds-grid__button" if:true={isBackfront}>      
+            <button class="slds-button primary button_small button_full" onclick={goBack}>Back</button>
+        </div>
+	</div>
+</template>

@@ -1,0 +1,58 @@
+.THIS {
+  margin: 32px 0 16px 0;
+}
+
+.THIS .title {
+  color: #444444;
+  font-family: SantanderHeadlineW05-Rg;
+  font-size: 20px;
+  font-stretch: normal;
+  font-style: normal;
+  font-weight: normal;
+  height: 29px;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.THIS .actions{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.THIS .button-add{
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px 0 16px 8px;
+}
+
+.THIS .button-download{
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px 8px 16px 8px;
+}
+
+.THIS .button-search{
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px 8px 16px 16px;
+}
+
+.THIS .button-search__open{
+    background-color: #eff6f9;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px 8px 16px 16px;
+}
+
+.THIS.container{
+    background-color: transparent;
+    margin: 0;
+    padding: 0 24px 0 0;
+}
+
+.THIS .text{
+    color: #444444;
+    display: flex;
+    font-size: 14px;
+    height: 30px; 
+}

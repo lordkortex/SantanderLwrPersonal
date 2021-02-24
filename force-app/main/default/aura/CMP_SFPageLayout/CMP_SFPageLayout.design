@@ -1,0 +1,13 @@
+<design:component label="SF Custom Lightning Page Layout">
+    <flexipage:template >
+        <!-- The default width for the "left" region is "MEDIUM". In tablets,
+        the width is "SMALL" -->
+            <flexipage:region name="left" label="MAIN Region" defaultWidth="MEDIUM">
+                <flexipage:formfactor type="LARGE" width="LARGE" />
+            </flexipage:region>
+       </flexipage:template>
+       <design:supportedFormFactors>
+        <design:supportedFormFactor type="Small"/>
+        <design:supportedFormFactor type="Large"/>
+    </design:supportedFormFactors>
+</design:component>

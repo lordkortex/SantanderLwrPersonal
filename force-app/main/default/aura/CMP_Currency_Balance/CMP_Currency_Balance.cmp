@@ -1,0 +1,53 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="cmpId" type="String" default="0" description="Component Id"/>
+    <aura:attribute name="country" type="String" default="N/A" description="Country of the accounts"/>
+    <aura:attribute name="currency" type="String" default="N/A" description="Currency of the accounts"/>
+    <aura:attribute name="receivedList" type="List" access="global" description="A list of accounts provided by parent component"/>
+    <aura:attribute name="start" type="Object" default="0" description="Object Counter"/>
+    <aura:attribute name="end" type="Object" default="{!v.receivedList.length}" description="receivedList (Account List) length"/>
+    <aura:attribute name="bookBalance" type="Decimal" default="0.0" description="The sum of book balance value of all accounts"/>
+    
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    
+    <!-- DIVISA EURO -->
+    <div class="slds-card__header slds-grid contentBadge">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title badgeName">
+                    {!v.currency}
+                </div>
+            </div>
+            <aura:if isTrue="{!v.bookBalance!=0.0}">
+                <div class="slds-media__body balance">
+                    <c:CMP_displayAmount amount="{!v.bookBalance}" decimalClass="badgeDecimals" wholeClass="badgeInteger" currency="{!v.currency}"/>
+                </div>
+            </aura:if>
+            <div class="slds-media__figure arrow" >
+                <!-- Flecha para arriba / Desplegado -->
+                <div id="{!'two_'+v.cmpId}"  class="slds-hide" onclick="{!c.showHideAction}">
+                    <div class="button-arrow icon-chevronUp"></div>
+                </div>
+                <!-- Flecha para abajo / Plegado -->
+                <div id="{!'two_'+v.cmpId}" class="slds-show" onclick="{!c.showHideAction}">
+                    <div class="button-arrow icon-chevronDown"></div>
+                </div>            
+            </div>
+        </header>
+    </div>
+    <div class="slds-hide" id="{!'two_'+v.cmpId}">
+        <aura:iteration items="{!v.receivedList}" var="item" indexVar="index" start="{!v.start}"
+                        end="{!v.end}">
+            <c:CMP_Account_Balance country="{!v.country}" currency="{!v.currency}" accountItem="{!item}"/>
+            <aura:if isTrue="{! ((index+1) != v.end)}">
+                <div class="containerLine">
+                    <hr class="line"/>
+                </div>
+            </aura:if>
+            
+        </aura:iteration>
+    </div>
+    
+</aura:component>

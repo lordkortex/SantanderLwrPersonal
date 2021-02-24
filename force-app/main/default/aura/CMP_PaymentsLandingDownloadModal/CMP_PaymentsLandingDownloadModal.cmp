@@ -1,0 +1,163 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- DROPDOWN ATTRIBUTES -->   
+    <aura:attribute  	access="public"		type="String"	name="helpTextDropdown"		default="Show More" 			description="Dropdown help text" />
+    <aura:attribute 	access="public" 	type="Boolean" 	name="showDownloadModal" 	default="false" 				description="Boolean to show or hide download modal (CMP_PaymentsLandingDownloadModal)"/>
+    <aura:attribute 	access="public"    	type="List"		name="values"  				default="['CSV','XLS']" 	    description="List of values to populate the dropdown" />
+    <aura:attribute 	access="public"		type="String" 	name="selectedValue" 		default=""						description="Selected option from the dropdown" />
+    <aura:attribute 	access="public"		type="Boolean" 	name="isError" 				default="false"					description="Selected option from the dropdown" />
+    
+    <!--DOWNLOAD PARAMETERS-->
+    <aura:attribute 	access="public" 	type="List"    	name="selectedRows"			default="[]"	    description="List of payment IDs selected in the table"/>
+    <aura:attribute 	access="public" 	type="Integer" 	name="filterCounter" 		default="0" 		description="Counts the number of types of filers selected (source account, amount, currency, status, payment method, client reference, destination country, date)"/>
+    <aura:attribute 	access="public" 	type="Integer" 	name="listLength" 			default="0" 		description="Length of the list to download"/>
+    <aura:attribute 	access="public" 	type="Integer" 	name="maxNum" 				default="1000" 		description="Maximum number of records to download"/>
+    <aura:attribute 	access="public" 	type="Boolean" 	name="isAllSelected" 		default="false" 	description="Controls weather all rows are selected or not"/>
+    <aura:attribute 	access="private" 	type="Boolean" 	name="allPayments" 		    default="true" 	    description="Download service is not taking filters or selected rows into account"/>
+
+
+    <aura:registerEvent name="applyDownload" type="c:EVT_PAY_Download" />
+
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container modal_s">  
+            <div class="modal-content">
+                
+                <!-- MODAL HEADER -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close"  onclick="{!c.closeDownloadModal}">
+                        <div class="icon-close_big"></div> 
+                        <span class="slds-assistive-text">{!$Label.c.close}</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!$Label.c.DownloadPayments}</h2> 
+                </header>
+                
+                <!-- MODAL CONTENT -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <aura:if isTrue="{!v.allPayments}">
+                        <!--You will download all your payments.-->
+                        <p>{!$Label.c.PAY_DownloadBasicMsgOne}</p>
+                        <aura:set attribute="else">
+                            <!-- START message logic - remove attribute allPayments and the preceding aura:if when the service is prepared to do selective downloads-->
+                            <aura:if isTrue="{!v.selectedRows.length == 0}">
+                                <aura:if isTrue="{!v.maxNum >= v.listLength}">
+                                    <aura:if isTrue="{!v.filterCounter == 0}">
+                                        <!--You will download all your payments. Use the table filters if you want to narrow the download.-->
+                                        <p>{!$Label.c.PAY_DownloadBasicMsgOne + ' ' + $Label.c.PAY_DownloadDescriptionOne}</p>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.filterCounter > 0}">
+                                        <!--You will download [NUMBER] payments according to selected filters.-->
+                                        <p>{!format($Label.c.PAY_DownloadDescriptionTwo, v.listLength)}</p>
+                                    </aura:if>
+                            
+                                    <aura:set attribute="else">
+                                        <!--You will download [number] payments.  You have reached the maximum number of payments that can be downloaded.-->
+                                        <p>{!format($Label.c.PAY_DownloadBasicMsgTwo, v.maxNum) + ' ' + $Label.c.PAY_DownloadDescriptionThree}</p>
+                                    </aura:set>
+                            
+                                </aura:if>
+                            
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!v.selectedRows.length > 0}">
+                            
+                                <aura:if isTrue="{!v.maxNum >= v.selectedRows.length}">
+                                    <!--You will download [NUMBER] payments.-->
+                                    <p>{!format($Label.c.PAY_DownloadBasicMsgTwo, v.selectedRows.length)}</p>
+                            
+                                    <aura:set attribute="else">
+                                        <!--You will download [number] payments.  You have reached the maximum number of payments that can be downloaded.-->
+                                        <p>{!format($Label.c.PAY_DownloadBasicMsgTwo, v.maxNum) + ' ' + $Label.c.PAY_DownloadDescriptionThree}</p>
+                                    </aura:set>
+                            
+                                </aura:if>
+                            
+                            </aura:if>
+                            <!-- END message logic -->
+
+						</aura:set>
+
+                    </aura:if>
+
+                    
+                    
+                    
+                    <!-- DROPDOWN -->
+                    <div class="dropdownContainer">
+                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                        <div class="{!'slds-form-element' + (v.isError ? ' error' : '')}">
+                            <!-- DROPDOWN MARKUP -->
+                            <!-- ESTADO 1: (Hasta que no se selecciona una opción | ENABLE): LA LABEL DEBE ELIMINARSE -->
+                            <!-- ESTADO 2: (Se activa | FILLED): LA LABEL DEBE APARECER -->
+                            <!-- ESTADO 3: (Se abre | OPEN): LA LABEL DEBE APARECER, EL ICONO pasa a ser icon-arrowUp_small (Se descomenta la línea comentada con  icon-arrowUp_small y se comenta la de icon-arrowDown_small ) -->
+                            <!-- ESTADO 4: Opción seleccionada: LA LABEL DEBE APARECER, EL ICONO vuelve a ser icon-arrowDown_small  -->
+                            <aura:if isTrue="{!not(empty(v.selectedValue))}">
+                                <label class="slds-form-element__label" for="text-input-id-1">{!$Label.c.fileFormat}</label>
+                            </aura:if>
+                            <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                    
+                                    <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                                    <button class="slds-button button-order" aria-haspopup="true">
+                                        
+                                        <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por
+           selectedValue-filled -->
+                                        <aura:if isTrue="{!not(empty(v.selectedValue))}">
+                                            <div class="slds-border_right selectedValue-filled">{!v.selectedValue}</div>
+                                            <aura:set attribute="else">
+                                                <div class="slds-border_right selectedValue-placeholder">{!$Label.c.fileFormat}</div>
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                        <div class="slds-button__icon arrow" aria-hidden="true">
+                                            <div class="button-arrow icon-arrowDown_small"></div>
+                                            <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                                            <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                                            <div class="button-arrow icon-arrowUp_small"></div>
+                                        </div>
+                                        <span class="slds-assistive-text">{!v.helpTextDropdown}</span>
+                                        
+                                    </button>
+                                    
+                                    <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                   <!-- <div class="slds-form-element__help">Texto de ayuda</div>-->
+                                    
+                                    <!-- Cuando tenga que aparecer un mensaje de error -->
+                                    <div class="errorText">{!$Label.c.PAY_selectFileFormat}</div>
+                                </div>
+                                
+                                <!-- Cuando el button esté disabled el dropdown se oculta -->
+                                <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                                    <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                        <aura:iteration items="{!v.values}" var="item">
+                                            <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}" onclick="{!c.selectOption}">
+                                                <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                    <div class="slds-truncate optionOrder">{!item}</div>
+                                                </a>
+                                            </li>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <!-- MODAL FOOTER -->
+                    <div class="slds-modal__footer"> 
+                        <div class="modal-footer-buttons">
+                            <button class="slds-button primary button_small button_full" onclick="{!c.handleApply}">{!$Label.c.apply}</button> 
+                            <button class="slds-button secondary button_small button_full" onclick="{!c.handleClearAll}">{!$Label.c.clearAll}</button>         
+                        </div> 
+                    </div>  
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    
+    <div class="slds-backdrop slds-backdrop_open"></div>
+    
+</aura:component>

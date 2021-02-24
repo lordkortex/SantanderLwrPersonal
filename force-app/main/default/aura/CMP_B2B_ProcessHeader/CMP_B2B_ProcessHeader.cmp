@@ -1,0 +1,59 @@
+<aura:component controller='CNT_B2B_ProcessHeader' implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+
+    <aura:attribute access="public" type="Map"          name="steps"                                                             description="Data of the steps." />
+    <aura:attribute access="public" type="String"       name="paymentId"              default=""                                 description="ID of the current payment." />
+    <aura:attribute access="public" type="Boolean"      name="hasBackButton"          default="false"                            description="Indicates if the back button is shown." />
+    <aura:attribute access="public" type="String"       name="headerLabel"            default="{!$Label.c.B2B_Payment_Header}"   description="Header label" />
+    <aura:attribute access="public" type="String"       name="handleCancel"           default='landing-payments'/>
+    <aura:attribute access="public" type="Boolean"      name="showCancelModal"        default='false'                            description="Indicates if the discard payment modal is shown."/>
+    <aura:attribute access="public" type="Boolean"      name="showSFLModal"           default='false'                            description="Indicates if the save for later payment modal is shown."/>
+
+    <aura:attribute access="public" type="Aura.Action"  name="handleBack" />
+    <aura:attribute access="public" type="Boolean"      name="hasDiscardButton"        default="true"                            description="Indocates if the back button is shown." />
+    <aura:attribute access="public" type="Boolean"      name="hasSaveForLaterButton"   default="true"                            description="Indocates if the 'save for later' button is shown." />
+	
+    
+    <aura:attribute access="public" type="Boolean"      name="spinner" />
+
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:handler name="cancelPayment" event="c:EVT_B2B_cancelPayment" action="{!c.handleCancelPayment}" />
+  
+
+    <div class="content-step">
+        <!--Añadir oneStep a la clase cuando la barra de progreso tenga un único paso-->
+        <header class="{!'slds-modal__header slds-is-fixed'+(v.steps.totalSteps == 0 ? ' oneStep':'')}">
+            <div class="row slds-grid">
+                <div class="slds-col slds-size_1-of-3">
+                    
+                    <aura:if isTrue="{!v.hasBackButton eq true}">
+                        <c:CMP_B2B_Button label="{!$Label.c.B2B_Button_Back}" icon="icon-arrowLeft_big" click="{!v.handleBack}" />
+                    </aura:if>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <img class="logo-red" src="{!$Resource.Images + '/logo_symbol_red.svg'}"/>
+                    <h2 class="slds-modal__title slds-hyphenate">{!v.headerLabel}</h2>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <aura:if isTrue="{!and(v.hasSaveForLaterButton eq true, greaterthan(v.steps.focusStep, 1))}">
+                        <c:CMP_B2B_Button label="{!$Label.c.B2B_Button_SaveForLater}" icon="icon-time" click="{!c.handleShowSaveLater}" />
+                    </aura:if>
+                    <aura:if isTrue="{!and(v.hasDiscardButton eq true, not(v.steps.totalSteps == 0))}">
+                        <c:CMP_B2B_Button label="{!$Label.c.B2B_Button_Cancel}" icon="icon-close" click="{!c.handleShowDiscard}" />
+                    </aura:if>
+                </div>                    
+            </div>
+            <div class="row">
+                <c:CMP_B2B_ProgressBar steps="{!v.steps}" />
+            </div>
+        </header>
+    </div>
+
+    <aura:if isTrue="{!v.showCancelModal eq true}">
+        <c:CMP_B2B_DiscardPayment />
+    </aura:if>
+
+    <aura:if isTrue="{!v.showSFLModal eq true}">
+       <c:cmpPayModalRemove onsaveaction="{!c.handleSavePaymentForLater}" oncloseaction="{!c.handleCloseSaveForLater}" headingMsg="{!$Label.c.B2B_SaveLaterQuestion}" contentMsg="{!$Label.c.B2B_SaveLaterDescription}" primaryBtn="{!$Label.c.PAY_SaveForLater}" secondaryBtn="{!$Label.c.cancel}"/>
+    </aura:if> 
+</aura:component>

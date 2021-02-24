@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="528" height="312" viewBox="0 0 528 312">
+    <defs>
+        <filter id="6v3x6t9elb" width="110.5%" height="118.6%" x="-4.4%" y="-7.9%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="shadowSpreadOuter1"/>
+            <feOffset dx="4" dy="4" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="6"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+        </filter>
+        <filter id="13yy0xhddd" width="100.1%" height="103.1%" x="-.1%" y="-1.6%" filterUnits="objectBoundingBox">
+            <feOffset dy="-.5" in="SourceAlpha" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0.807843137 0 0 0 0 0.870588235 0 0 0 0 0.905882353 0 0 0 1 0"/>
+        </filter>
+        <filter id="vits1bnaxf" width="100.1%" height="103.1%" x="-.1%" y="-1.6%" filterUnits="objectBoundingBox">
+            <feOffset dy="-.5" in="SourceAlpha" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0.807843137 0 0 0 0 0.870588235 0 0 0 0 0.905882353 0 0 0 1 0"/>
+        </filter>
+        <filter id="0a95jwzvxh" width="100.1%" height="103.1%" x="-.1%" y="-1.6%" filterUnits="objectBoundingBox">
+            <feOffset dy="-.5" in="SourceAlpha" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0.807843137 0 0 0 0 0.870588235 0 0 0 0 0.905882353 0 0 0 1 0"/>
+        </filter>
+        <filter id="s2n4grpi6j" width="100.1%" height="103.1%" x="-.1%" y="-1.6%" filterUnits="objectBoundingBox">
+            <feOffset dy="-.5" in="SourceAlpha" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0.807843137 0 0 0 0 0.870588235 0 0 0 0 0.905882353 0 0 0 1 0"/>
+        </filter>
+        <filter id="6kb12ci73l" width="100.1%" height="103.1%" x="-.1%" y="-1.6%" filterUnits="objectBoundingBox">
+            <feOffset dy="-.5" in="SourceAlpha" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0.807843137 0 0 0 0 0.870588235 0 0 0 0 0.905882353 0 0 0 1 0"/>
+        </filter>
+        <filter id="3cpz4fmfho" width="101.4%" height="105%" x="-.7%" y="-2.5%" filterUnits="objectBoundingBox">
+            <feOffset dy="-1" in="SourceAlpha" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" values="0 0 0 0 0.925490196 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0"/>
+        </filter>
+        <path id="s62ihxei4c" d="M0 64H416V80H0z"/>
+        <path id="rnnqlbjlfe" d="M0 48H416V64H0z"/>
+        <path id="6t7bu58j7g" d="M0 32H416V48H0z"/>
+        <path id="4tylp2voyi" d="M0 16H416V32H0z"/>
+        <path id="u59i79a3mk" d="M2 0h412c1.105 0 2 .895 2 2v14H0V2C0 .895.895 0 2 0z"/>
+        <path id="sedww0zebm" d="M0 0H496V121H0z"/>
+        <path id="k99b2k761n" d="M0 0H72V20H0z"/>
+        <rect id="zjn4xhq5va" width="496" height="280" x="0" y="0" rx="4"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g transform="translate(-460 -3120) translate(0 3052) translate(472 80)">
+                    <g>
+                        <use fill="#000" filter="url(#6v3x6t9elb)" xlink:href="#zjn4xhq5va"/>
+                        <use fill="#FFF" xlink:href="#zjn4xhq5va"/>
+                    </g>
+                    <g>
+                        <g transform="translate(40 173)">
+                            <use fill="#F6FAFC" xlink:href="#s62ihxei4c"/>
+                            <use fill="#000" filter="url(#13yy0xhddd)" xlink:href="#s62ihxei4c"/>
+                        </g>
+                        <g transform="translate(40 173)">
+                            <use fill="#FFF" xlink:href="#rnnqlbjlfe"/>
+                            <use fill="#000" filter="url(#vits1bnaxf)" xlink:href="#rnnqlbjlfe"/>
+                        </g>
+                        <g transform="translate(40 173)">
+                            <use fill="#F6FAFC" xlink:href="#6t7bu58j7g"/>
+                            <use fill="#000" filter="url(#0a95jwzvxh)" xlink:href="#6t7bu58j7g"/>
+                        </g>
+                        <g transform="translate(40 173)">
+                            <use fill="#FFF" xlink:href="#4tylp2voyi"/>
+                            <use fill="#000" filter="url(#s2n4grpi6j)" xlink:href="#4tylp2voyi"/>
+                        </g>
+                        <g transform="translate(40 173)">
+                            <use fill="#ECECEC" xlink:href="#u59i79a3mk"/>
+                            <use fill="#000" filter="url(#6kb12ci73l)" xlink:href="#u59i79a3mk"/>
+                        </g>
+                    </g>
+                    <g fill="#F6FAFC" stroke="#CEDEE7" stroke-width=".5" transform="translate(248 139)">
+                        <rect width="47.5" height="15.5" x=".25" y=".25" rx="2"/>
+                        <rect width="47.5" height="15.5" x="52.25" y=".25" rx="2"/>
+                        <rect width="47.5" height="15.5" x="104.25" y=".25" rx="2"/>
+                    </g>
+                    <g transform="translate(40 137)">
+                        <rect width="199.5" height="19.5" x=".25" y=".25" fill="#FFF" stroke="#CCC" stroke-width=".5" rx="2"/>
+                        <g fill="#767676">
+                            <path d="M4.608 1C6.6 1 8.216 2.615 8.216 4.608c0 .6-.146 1.165-.405 1.662l2.87 2.87c.425.426.425 1.115 0 1.541-.426.425-1.116.425-1.54 0l-2.872-2.87c-.497.259-1.062.405-1.661.405C2.615 8.216 1 6.6 1 4.608 1 2.615 2.615 1 4.608 1zm2.1 6.542l2.786 2.786c.23.23.603.23.833 0 .23-.23.23-.604 0-.834L7.542 6.708c-.23.321-.513.604-.834.834zM4.608 1.5C2.89 1.5 1.5 2.89 1.5 4.608c0 1.716 1.391 3.108 3.108 3.108 1.716 0 3.108-1.392 3.108-3.108C7.716 2.89 6.324 1.5 4.608 1.5z" transform="translate(180 4)"/>
+                        </g>
+                    </g>
+                    <use fill="#F6FAFC" xlink:href="#sedww0zebm"/>
+                    <g>
+                        <path fill="#E8F3F6" d="M72 0H144V20H72z" transform="translate(40 101)"/>
+                        <text fill="#444" font-family="SantanderMicroText, Santander Micro Text" font-size="8" transform="translate(40 101)">
+                            <tspan x="92.332" y="13">Multiple</tspan>
+                        </text>
+                        <g transform="translate(40 101)">
+                            <use fill="#FFF" xlink:href="#k99b2k761n"/>
+                            <use fill="#000" filter="url(#3cpz4fmfho)" xlink:href="#k99b2k761n"/>
+                        </g>
+                        <text fill="#444" font-family="SantanderMicroText-Bd, Santander Micro Text" font-size="8" font-weight="bold" transform="translate(40 101)">
+                            <tspan x="24.184" y="13">Single</tspan>
+                        </text>
+                    </g>
+                    <rect width="64" height="16" x="392" y="69" fill="#EC0000" rx="8"/>
+                    <text fill="#444" font-family="SantanderMicroText, Santander Micro Text" font-size="14">
+                        <tspan x="40" y="79">Payments</tspan>
+                    </text>
+                    <path fill="#FFF" d="M0 24H496V40H0z"/>
+                    <path fill="#C00" d="M4 0h488c2.21 0 4 1.79 4 4v20H0V4c0-2.21 1.79-4 4-4z"/>
+                    <g fill="#FFF">
+                        <path d="M10.505 6.15L8.417 2.54c-.159-.276-.269-.57-.33-.873L8 1.817c-.517.894-.517 1.995 0 2.889l1.67 2.888c.517.894.517 1.995 0 2.888l-.087.151c-.061-.302-.171-.597-.33-.873L6.747 5.428c-.159-.276-.269-.57-.33-.873l-.087.15c-.515.891-.517 1.988-.005 2.88L8 10.482c.517.894.517 1.995 0 2.889l-.087.15c-.061-.302-.171-.597-.33-.872l-2.088-3.61c-.28-.485-.408-1.03-.384-1.57-2.235.583-3.778 1.82-3.778 3.254 0 1.994 2.985 3.61 6.667 3.61s6.667-1.616 6.667-3.61c0-1.433-1.543-2.672-3.778-3.254-.02-.457-.147-.91-.384-1.319z" transform="translate(40 4)"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

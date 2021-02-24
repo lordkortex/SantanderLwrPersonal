@@ -1,0 +1,115 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <aura:attribute name="statementsList" type="List" description="gets the list of statements" />
+    <aura:attribute name="selectedAccountObject" type="Object" description="Selected account as Object" />
+
+    <!-- USER ATTRIBUTES -->
+    <aura:attribute name="userDateFormat" type="String" description="contains the running user Date format" />
+    <aura:attribute name="userNumberFormat" type="String" description="contains the running user number format" />
+    <aura:attribute name="divisaPrincipal" type="String" description="Contains the selected currency from the user" />
+    <aura:attribute name="accountCurrency"  type="String" description="contains the account searched currency" />
+
+    
+
+    <!-- Pagination attributes -->
+    <aura:attribute name="transactionsPerPage"      type="Integer"  default="50" description="Number of logs to show in each page of the table"/>
+    <aura:attribute name="currentPage"              type="Integer"  default="1"/>
+    <aura:attribute name="oldPage"                  type="Integer"  default="1"/>
+    <aura:attribute name="start"                    type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"                      type="Integer"  description="Row number of the last displayed row"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="change" value="{!v.statementsList}" action="{!c.paginationChange}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.paginationChange}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTablePage}"/>
+    <aura:attribute name="paginatedTransactions"    type="List"/>
+
+    <!-- Pagination -->
+    <c:CMP_CN_Pagination aura:id="pagination" allData="{!v.statementsList}" paymentsPerPage="{!v.transactionsPerPage}" nameListToDisplay="{!$Label.c.Extracts}"/>
+    
+
+    <!-- TABLE -->
+    <div class="slds-table--header-fixed_container tableExtract">
+        
+        <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+            <!-- HEADER -->
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th class="containerBookDate" aria-sort="ascending" scope="col">
+                        <div class="slds-truncate" >{!$Label.c.bookDate}</div>
+                    </th>
+                    <th class="containerValueDate" scope="col">
+                        <div class="slds-truncate" >{!$Label.c.valueDate}</div>
+                    </th>
+                    <th class="slds-is-sortable slds-text-align_right containerAmount" aria-sort="none" scope="col">
+                        <div class="slds-truncate" >{!$Label.c.Available_Balance}</div>
+                    </th>
+                    <th class="slds-is-sortable slds-text-align_right containerBookBalance" aria-sort="none" scope="col">
+                        <div class="slds-truncate">{!$Label.c.Book_Balance}</div>
+                    </th>
+                    <th class="containerIconDetail" scope="col">
+                        <div class="slds-truncate slds-assistive-text ">{!$Label.c.actions}</div>
+                    </th>
+                </tr>
+            </thead>
+            
+            <!-- BODY -->
+            <tbody>
+                <aura:if isTrue="{!or(empty(v.statementsList), v.statementsList == undefined)}">
+                    <c:CMP_ResultsNotFound msg="No data found" showSearchAgain="false"/>  
+                </aura:if>
+
+                <aura:if isTrue="{!not(empty(v.statementsList))}">
+                    <!--Iterate here-->
+                    <!-- ROW 1 -->
+                    <aura:iteration items="{!v.statementsList}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index">
+                        <tr class="slds-hint-parent" aria-selected="false">
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                     <!--{!item.saldo.bookDate_Formatted}--> <c:CMP_displayDate userDateFormat="{!v.userDateFormat}" date="{!item.saldo.bookDate}" dateClass="slds-truncate text" /> 
+                                </div>
+                            </td>
+                            
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                    <!--{!item.saldo.valueDate_Formatted}--> <c:CMP_displayDate userDateFormat="{!v.userDateFormat}" date="{!item.saldo.valueDate}" dateClass="slds-truncate text" />
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                    <div class="slds-truncate" >
+                                       <span class="text">{!item.saldo.valueBalance_Formatted + ' ' + v.accountCurrency} </span> 
+                                        <!-- <c:CMP_displayAmount userFormat="{!v.userNumberFormat}" amount="{!item.saldo.valueBalance}" wholeClass="text " decimalClass="text " currencyClass="text " currency="{!v.accountCurrency}"/> -->
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                    <div class="slds-truncate">
+                                        <span class="text">{!item.saldo.bookBalance_Formatted + ' ' +  v.accountCurrency} </span> 
+                                        <!-- <c:CMP_displayAmount userFormat="{!v.userNumberFormat}" amount="{!item.saldo.bookBalance}" wholeClass="text amountInteger " decimalClass="text amountDecimals " currencyClass="text amountDecimals " currency="{!v.accountCurrency}"/> -->
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" id="{!index}" onclick="{!c.navigateToMovements}">
+                                    <div class="slds-truncate slds-button">
+                                        <div class="detail icon-arrowRight_big">{!$Label.c.viewStatement}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            
+                        </tr>
+                    </aura:iteration>
+
+                </aura:if>
+                
+            </tbody>
+        </table>
+    </div>
+</aura:component>

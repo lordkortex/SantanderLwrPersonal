@@ -1,0 +1,10 @@
+<template>
+        <!-- MATRIZ PROCESS      -> STEP1 -> STEP2 -> STEP3 -> STEP4 -->
+        <!-- SUBSIDIARIA PROCESS -> STEP1 -> STEP5 -->
+        <c-cmp-o-t-v-terms-conditions           if:true={showStep1}       onchangestep={changeStep}  step={step} subsidiary-process={subsidiaryProcess}>  </c-cmp-o-t-v-terms-conditions>
+        <c-cmp-o-t-v-activation-completed       if:true={showStep2}       onchangestep={changeStep}  type1=true>                                          </c-cmp-o-t-v-activation-completed>
+        <c-cmp-o-t-v-subsidiaries-selection     if:true={showStep3}       onchangestep={changeStep}  step={step}>                                         </c-cmp-o-t-v-subsidiaries-selection>
+        <c-cmp-o-t-v-activation-completed       if:true={showStep4}       onchangestep={changeStep}  type2=true>                                          </c-cmp-o-t-v-activation-completed>
+        <c-cmp-o-t-v-activation-completed       if:true={showStep5}       onchangestep={changeStep}  type3=true>                                          </c-cmp-o-t-v-activation-completed>
+        <c-cmp-o-t-v-contact-us-activation      if:true={showStep6}       onchangestep={changeStep}  from-step={fromStep}>                                </c-cmp-o-t-v-contact-us-activation>
+</template>

@@ -1,0 +1,78 @@
+.sideBar { 
+    display: block; 
+    padding: 32px 0; 
+}
+.sideBar .card:last-child .slds-card {
+	padding-top: 24px;
+}
+ .emailContact{
+    color:#ec0000;
+    font-family: "SantanderMicroText-Bd";
+    font-size:12px;
+    margin-top: 8px;
+    text-decoration:none;
+}
+ .emailContact a {
+    display: inline-block;
+	margin-right: 4px;
+    margin-top: 0;
+    vertical-align: middle;
+}
+ .emailContact:focus{
+   color:#cc0000;
+}
+ .emailContact:hover{
+   color:#cc0000;
+}
+ .icon{
+    font-size:24px;
+   
+}
+ .icon-arrowRight_big {
+    cursor: pointer;
+	font-size: 16px;
+}
+ .icon-mail:hover:before,
+ .icon-phone:hover:before{
+    color: #ec0000;
+}
+ .phoneNumber{
+    color: #ec0000;
+    font-family: "SantanderMicroText-Bd";
+    font-size: 16px;
+    margin-top: 5px;
+}
+ .slds-card {
+    background: unset;
+	border: none;
+}
+ .slds-card__body{
+    display:flex;
+    margin: 0px;
+    padding: 0px;
+}
+ .slds-media__body.sendEmail{
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 24px;
+}
+ .slds-media__figure {
+	margin-right: 16px;
+}
+ .slds-media__figure.arrow {
+	display: inline-block;
+    vertical-align: middle;
+    margin: 0;
+}
+ .subtitle{
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 1.43;
+    margin-top: 4px;
+}
+ .title{
+    color:#444444;
+    font-family: "SantanderMicroText-Bd";
+    font-size: 16px;
+    line-height: 24px;
+}

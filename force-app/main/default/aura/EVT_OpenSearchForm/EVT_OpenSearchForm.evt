@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event to open search form">
+    <aura:attribute name="openForm" type="Boolean" description="True to open form"/>
+</aura:event>

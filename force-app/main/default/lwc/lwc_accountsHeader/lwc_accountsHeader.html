@@ -1,0 +1,57 @@
+<template>
+    <div class="slds-progress slds-progress_vertical headerCards">
+        <ol class="slds-progress__list">
+            
+            <!-- HEADER -->
+            <li>
+                <div class="slds-grid slds-grid_align-spread">
+                    <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body country">
+                            <div class="slds-card__header-title">
+                                {label.Country}
+                            </div>
+                        </div>
+                        <div class="slds-media__body accountAlias">
+                            <div class="slds-card__header-title">
+                                {label.Account} &amp; {label.Alias}
+                            </div>
+                        </div>
+                        <div class="slds-media__body subsidiaryBank">
+                            <div class="slds-card__header-title">
+                                {label.Subsidiary} &amp; {label.Bank}
+                            </div>
+                        </div>
+                        <div class="slds-media__body updated">
+                            <div class="slds-card__header-title">
+                                {label.Updated}
+                            </div>
+                        </div>
+                        <div class="slds-media__body currency">
+                            <div class="slds-card__header-title">
+                                {label.currency}
+                            </div>
+                        </div>
+                        <div class="slds-media__body availableBalance">
+                            <div class="slds-card__header-title">
+                                {label.Available_Balance}
+                            </div>
+                        </div>
+                        <div class="slds-media__body bookBalance">
+                            <div class="slds-card__header-title">
+                                {label.Book_Balance}
+                            </div>
+                        </div>
+                        <div if:false={isloading}>
+                            <div class="slds-media__body iconContainer">                            
+                                <!-- ICONO EXPANDIR -->
+                                <div id="thisExpand" class={thisExpandClass} data-title={label.T_ExpandAll} onclick={expandAll}></div> 
+                                <!-- ICONO COLAPSAR -->
+                                <div id="thisCollapse" class={thisCollapseClass} data-title={label.T_CollapseAll} onclick={collapseAll}></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</template>

@@ -1,0 +1,64 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+
+ <!-- DROPDOWN ATTRIBUTES -->
+ <aura:attribute name="rolesList" type="List"  description="List of roles to populate the dropdown" />
+ <aura:attribute name="groupsList" type="List"  description="List of groups to populate the dropdown" />
+ <aura:attribute name="selectedValueRol" type="String" description="Selected rol from the dropdown" />
+ <aura:attribute name="selectedValueGroup" type="String" description="Selected group from the dropdown" />
+ <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text" />
+
+ <aura:handler name="dropdownValueSelected" event="c:EVT_DropdownValueSelected" action="{!c.dropdownValueChange}"/>
+
+    <!-- HEADER -->
+
+    <div class="slds-grid slds-grid_vertical">
+        <div class="slds-col">
+            <div class="slds-card__header-title">
+                <span class="title">
+                    {!$Label.c.UserNew_UserDetails}
+                </span>
+                <span class="subtitle">
+                    {!$Label.c.UserNew_DescriptionDetails}
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-detail">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+
+                    <div class="slds-form-element__label">
+                        <abbr class="slds-required">*</abbr>
+                        <label for="text-input-id-2">{!$Label.c.UserNew_Rol}</label>
+                    </div>
+
+                    <!-- DROPDOWN MARKUP -->
+                    <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                    <c:CMP_Dropdown values="{! v.rolesList }" selectedValue="{!v.selectedValueRol}" valuePlaceholder="{!$Label.c.selectOne}" aura:id ="rolesDropdown"/>
+                </div>
+            </div>
+
+            <div class="slds-col slds-size_1-of-2">
+                <div class="slds-form-element">
+
+                    <div class="slds-form-element__label">
+                        <abbr class="slds-required"></abbr>
+                        <label for="text-input-id-2">{!$Label.c.UserNew_Group}</label>
+                    </div>
+
+                    <!-- DROPDOWN MARKUP -->
+                    <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                    <c:CMP_Dropdown values="{! v.groupsList }" selectedValue="{!v.selectedValueGroup}"  valuePlaceholder="{!$Label.c.selectOne}" aura:id="groupsDropdown"/>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</aura:component>

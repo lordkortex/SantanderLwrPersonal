@@ -1,0 +1,45 @@
+<aura:component>
+    
+    <aura:attribute name="currenciesExchange" type="List" description="Gets the exchange of currencies" />
+    <aura:attribute name="selectedCurrency" type="String" description="Contains the selected" />
+    <aura:attribute name="lastUpdateSelected" type="Boolean" default="true" description="Check if 'Last update' button is selected" />
+    <aura:attribute name="cardGrouping" type="String" description="Selected grouping for the cards"/>
+
+    <aura:attribute name="rowsPerPage" type="Integer" default="6" description="Number of valuea that every page will contain" />
+    <aura:attribute name="pages" type="List" default="[1]" description="contains the pages for the carousel" />
+    <aura:attribute name="start" type="Integer"  description="contains the pages for the carousel" />
+    <aura:attribute name="end" type="Integer"  description="contains the pages for the carousel" />
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+    
+
+    <aura:handler name="change" value="{!v.currenciesExchange}" action="{!c.updateCarousel}"/>
+
+
+    <div class="slds-grid title_container">
+        <div class="slds-col">
+            <div class="slds-text-heading_medium">{!$Label.c.GlobalBalanceByCurr}</div>
+            <div class="text_line"></div>
+        </div> 
+    </div>
+    <c:CMP_GlobalBalanceByCurrencyCard lastUpdateSelected="{!v.lastUpdateSelected}" currenciesExchange="{!v.currenciesExchange}" 
+                                       selectedCurrency="{!v.selectedCurrency}" cardGrouping="{!v.cardGrouping}" start="{!v.start}" end="{!v.end}"
+                                       userPreferredNumberFormat="{!v.userPreferredNumberFormat}"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <div class="nav-carousel">
+        <a id="previous" class="slds-carousel__arrow arrow_left" href="javascript:void(0);" onclick="{!c.changePage}"><span class="icon-arrowLeft_big"></span></a>
+            
+        <ul class="slds-carousel__indicators" role="tablist">
+            <aura:iteration items="{!v.pages}" var="item" >
+
+                <li class="slds-carousel__indicator" role="presentation">
+                    <a id="{!'carousel' + item}" class="slds-carousel__indicator-action slds-is-active" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="" onclick="{!c.changePage}"></a>
+                </li>
+
+            </aura:iteration>
+            
+        </ul>
+        <a  id="next" class="slds-carousel__arrow arrow_right" href="javascript:void(0);" onclick="{!c.changePage}"><span class="icon-arrowRight_big" ></span></a>
+    </div> 
+
+</aura:component>

@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event fired when the button 'Update Profile' in the component CMP_GroupNewProfileAccEntConfig is pressed">
+    <aura:attribute name="updatedData" type="List" description="List of account-entitlement combinations to be added to the data table"/> 
+</aura:event>

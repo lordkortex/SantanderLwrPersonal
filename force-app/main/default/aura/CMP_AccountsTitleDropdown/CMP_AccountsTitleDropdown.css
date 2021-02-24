@@ -1,0 +1,230 @@
+.THIS.title_container{
+    margin: 24px 0 20px 0;  
+}
+
+.THIS .slds-text-heading_medium.subtitle {
+  color: #444444;
+  font-family:"SantanderHeadlineW05-Rg";
+  font-size: 28px;
+  line-height: 34px;
+  margin-bottom:4px;
+}
+
+.THIS .slds-text-heading_subtitle{
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    color: #767676;
+    margin-bottom: 8px;
+}
+
+.THIS .text_line{
+  width:40px;
+  border-bottom: solid 3px #ec0000;
+}
+
+
+/* DROPDOWN */
+.THIS .slds-col > .slds-form-element,
+.THIS .slds-combobox__Rg{
+    width: 184px;
+} 
+
+
+.THIS .slds-combobox__Rg .slds-form-element__label {
+    margin: 0 0 4px 0;
+    padding: 0;
+	font-family:"SantanderMicroText";
+	font-size: 14px;
+	line-height: 21px;
+	color: #444444;
+}
+
+.THIS .slds-combobox__Rg .button-order {
+	border: 1px solid #deedf2;
+	background-color:#f6fafc;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	height: 48px;
+	width: 100%;
+	min-width:184px;	
+}
+
+.THIS .slds-combobox__Rg .button-order .button-arrow {
+	font-size: 24px;
+}
+
+.THIS .slds-combobox__Rg  .button-order:focus {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.THIS .slds-combobox__Rg  .button-order:hover {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.THIS .slds-combobox__Rg  .slds-dropdown {
+	box-shadow: inset 0 -1px 0 0 #cedee7;
+	background-color: #f6fafc;
+	border-top: none;
+	border-right: 1px solid #deedf2;
+	border-left: 1px solid #deedf2;
+	border-bottom: 1px solid #257fa4;
+	border-radius: 0 0 4px 4px;
+	cursor: pointer;
+	left: auto;
+	margin: 0;
+	max-width: 100%;
+	min-width: inherit;
+	padding: 8px 4px 6px 4px;;
+	right: auto;
+	top: 72px;
+	width: 100%;
+}
+
+
+
+.THIS .slds-combobox__Rg  .slds-button__icon{
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+
+.THIS .slds-combobox__Rg  .optionOrder {
+	align-items: center;
+	display: inline-flex;
+}
+
+/*.THIS .slds-combobox__Rg  .orderSelected {
+	align-items: center;
+	border: 0;
+	color: #444444;
+	display: flex;
+	font-size: 12px;
+	height: 24px;
+	padding: 0 0 0 16px;
+	width: 100%;
+}*/
+
+.THIS .slds-combobox__Rg  .paddingOption {
+	height: 36px;
+	margin-bottom: 12px;
+}
+
+.THIS .slds-combobox__Rg  .dropdownOrder .paddingOption:hover,
+.THIS .slds-combobox__Rg .paddingOption:active,
+.THIS .slds-combobox__Rg  .paddingOption:focus {
+	border-radius: 4px 0 0 4px;
+	background-color:#deedf2;
+}
+
+.THIS .slds-combobox__Rg .dropdownOrder .slds-dropdown__item > a {
+	padding:0 12px;
+	font-size: 16px;
+	font-family: SantanderMicroText;
+	color: #444444;
+	line-height: 24px;
+}
+
+.THIS .slds-combobox__Rg .selectedValue-placeholder {
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	color: #767676;
+}
+
+.THIS .slds-combobox__Rg  .selectedValue-filled {
+	color: #444444;
+	font-size: 12px;
+}
+
+.THIS .slds-combobox__Rg ul{
+	overflow-y: scroll;
+	max-height: 240px;
+
+}
+.THIS .slds-combobox__Rg ul::-webkit-scrollbar {
+    width: 6px;
+}
+.THIS .slds-combobox__Rg ul::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.THIS .slds-combobox__Rg ul::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.THIS .slds-combobox__Rg ul::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+.THIS .slds-pill_container{
+    padding: 0;
+    border:none;
+    border-radius: 0;
+    justify-content: flex-end;
+    margin-top: 26px;
+    margin-right: 48px;
+}
+
+.THIS .slds-pill_container .slds-pill{
+    margin: 0;
+    justify-content: center;
+    background-color: #eff6f9;
+    border: 1px solid #deedf2;
+    width: 124px;
+    border-radius: 4px 0 0 4px;
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 14px;
+    line-height: 21px;
+    color: #444444;
+}
+
+.THIS .slds-pill_container .slds-pill:last-child{
+    width: 118px;
+    border-radius: 0 4px 4px 0;
+    border-left: none;
+}
+
+.THIS .slds-pill_container .slds-pill:not(.slds-pill__active):hover{
+    background-color: #e2eff4;  
+}
+
+.THIS .slds-pill_container .slds-pill:focus{
+    background-color: #ffffff;
+    color: #cc0000;
+    font-family: SantanderHeadlineW05-Bold;
+    box-shadow: none;    
+}
+
+.THIS .slds-pill_container > .slds-pill__active{
+    background-color: #ffffff;
+    color: #cc0000;
+    font-family: SantanderHeadlineW05-Bold;
+    box-shadow: none;   
+}
+
+.THIS.filter_container .slds-combobox__Rg .orderSelected {
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+	color: #767676; 
+}
+
+.THIS .slds-text-heading_medium {
+    align-items: center;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    line-height: 18px;
+    text-transform: capitalize;
+    font-family: "SantanderMicroText";
+}
+
+.THIS .slds-text-heading_medium .button-back{
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+.THIS .text-link{
+	cursor:pointer;
+	color: #444444;
+}

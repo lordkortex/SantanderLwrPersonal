@@ -1,0 +1,154 @@
+.THIS .keypad{
+    margin-right:16px;
+}
+.THIS .modal_list .slds-backdrop {
+    background-color: #444444;
+}
+
+.THIS .modal_list .button-page {
+    cursor: pointer;
+}
+
+.THIS .modal_list  .icon-delete {
+    color: white;
+    font-size: 24px;
+    margin-right: 24px;
+}
+
+.THIS .modal_list .slds-button:focus {
+    -webkit-box-shadow: none;
+    border: none;
+    border-color: inherit;
+    box-shadow: none;
+    outline: none;
+}
+
+.THIS .modal_list .slds-button:active {
+    border: none;
+}
+
+.THIS .modal_list .slds-modal__header {
+    border-bottom: 1px solid #dadada;
+    padding: 16px 0;
+}
+
+.THIS .slds-modal__container {
+    max-width: 584px;
+    min-width: 584px;
+}
+
+.THIS .modal_list .slds-modal__footer {
+    border-top: 1px solid #dadada;
+    padding: 16px 24px 16px 0;
+}
+
+.THIS .modal_list .slds-modal__content {
+    min-height: 193px;
+}
+
+.THIS .modal_list .slds-modal__title {
+    color: #444444;
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 20px;
+    line-height: normal;
+}
+
+.THIS .modal_list .slds-p-around_medium {
+    padding: 16px 24px 0 24px;
+}
+
+.THIS .modal_list .icon-circle__blue::before {
+    color: #444444;
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.THIS .text-list, .THIS .icon-circle__blue {
+    display: inline-block;
+}
+
+.THIS .modal_list .icon-colse {
+    position: relative;
+    right: 12px;
+}
+
+.THIS .modal_list .slds-modal__content > ul > li {
+    align-content: center;
+    color: #444444;
+    display: flex;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.THIS .modal_list .icon-close::before {
+    color: #FFFFFF;
+    font-size: 24px;
+}
+
+.THIS .modal_list .slds-media__body {
+    color: #444444;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.THIS .modal_list .slds-modal__footer .slds-button + .slds-button {
+    margin-left: 0;
+}
+
+.THIS .modal_list .redButton {
+    background-color: #ec0000;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ffffff;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 32px;
+    width: 86px;
+}
+
+.THIS .modal_list .redButton:hover {
+    background-color: #cc0000;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ffffff;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 32px;
+    width: 86px;
+}
+
+.THIS .modal_list .whiteButton {
+    background-color: #ffffff;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ec0000;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 32px;
+    width: 82px;
+}
+
+.THIS .modal_list .whiteButton:hover {
+    background-color: #f6f6f6;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ec0000;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 32px;
+    width: 82px;
+}
+
+.THIS .modal_list .whiteButton:focus {
+    box-shadow: 0 0 2px 1px #dadada;
+}
+
+.THIS .modal_list .redButton:focus {
+    box-shadow: 0 0 2px 1px #dadada;
+}
+
+.THIS .modal_list .slds-modal__header .slds-button {
+    bottom: -5px;
+    right: 2px;
+}

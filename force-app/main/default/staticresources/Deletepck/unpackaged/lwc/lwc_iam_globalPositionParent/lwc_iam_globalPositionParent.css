@@ -1,0 +1,117 @@
+.THIS{
+    margin: -22px 0 -64px;
+}
+
+.cCMP_IAM_GlobalPositionParent .comm-layout-column:not(:empty).column-content {
+    width: 832px;
+    padding-right: 24px!important;
+    padding-bottom: 51px!important;
+}
+        
+.cCMP_IAM_GlobalPositionParent .comm-layout-column:not(:empty).slds-medium-size--4-of-12.column-sidebar{
+    width: 392px;
+    padding: 50px 48px 26px!important;
+}
+
+.spinnerclass{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height:300px;
+}
+
+ .spinnerLoading{ 
+    position: fixed;
+        height: calc(100vh - 84px);
+        width: 100%;
+        left: 0;
+        top: 84px;
+        align-items: center;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+    }
+     .backgroundLoading{
+        position: absolute; 
+        top: 0;
+    }
+     .backgroundLoading:after{
+        content: "";
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.8);
+        display: block;
+        top: 0;
+        position: absolute;
+        left: 0;
+    }
+     .spinnerText{
+        position: relative;
+        text-align: center;
+        padding-bottom: 60px;
+    }
+     .spinnerText .logo-red {
+        width: 76px;
+        height: 76px;
+        object-fit: contain; 
+    }
+    
+     .spinnerText .title{
+        font-family: "SantanderHeadlineW05-Bold"; 
+        font-size: 32px; 
+        line-height: 1.19;
+        letter-spacing: normal;
+        text-align: center;
+        color: #444444;
+        margin-bottom: 24px;  
+    }
+    
+     .spinnerText .subtitle{
+        font-family: "SantanderHeadlineW05-Bold"; 
+        font-size: 20px; 
+        line-height: 1.4;
+        letter-spacing: normal;
+        text-align: center;
+        color: #444444;
+        margin-bottom: 4px;  
+    }
+    
+     .spinnerText .text{
+        font-family: SantanderMicroText;
+        font-size: 16px; 
+        line-height: 1.38;
+        letter-spacing: normal;
+        text-align: center;
+        color: #767676;
+        margin-bottom:32px; 
+    }
+     .slds-spinner{
+        position: absolute;
+        display: flex;
+        justify-content: center; 
+        z-index: 0;
+        margin-top: 110px;
+    }
+    
+     .slds-spinner_large.slds-spinner::before, 
+     .slds-spinner_large .slds-spinner__dot-a::before, 
+     .slds-spinner_large .slds-spinner__dot-b::before, 
+     .slds-spinner--large.slds-spinner::before, 
+     .slds-spinner--large .slds-spinner__dot-a::before, 
+     .slds-spinner--large .slds-spinner__dot-b::before {
+        animation-name: dotsBounceBefore-medium;
+        top: -0.25rem;
+        left: -0.25rem;
+    } 
+    
+      .slds-spinner::before, 
+      .slds-spinner::after, 
+      .slds-spinner__dot-a::before, 
+      .slds-spinner__dot-b::before, 
+      .slds-spinner__dot-a::after, 
+      .slds-spinner__dot-b::after {
+        content: "";
+        background: #ec0000;
+        height: 11px;
+        width: 11px;
+    }

@@ -1,0 +1,69 @@
+.cardTitleDetail{
+     margin-bottom: 16px;
+}
+
+.cardTitleDetail .containerInformation {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 8px;
+}
+
+.cardTitleDetail .slds-card__header-title,
+.cardTitleDetail .slds-card__header-subtitle{
+   color: #444444;
+   display: flex;
+   align-items: flex-end;
+   justify-content: space-between;
+} 
+ 
+.cardTitleDetail .slds-card__header-title  .space{
+    font-size: 14px;
+    margin-right: 24px;
+    line-height: 21px;
+    font-family: "SantanderMicroText";
+}
+
+.cardTitleDetail .slds-card__header-title .col-amount {
+    min-width: 212px;
+}
+
+.cardTitleDetail .slds-card__header-title  .number{
+    font-size: 32px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 38px;
+}
+
+.cardTitleDetail .slds-card__header-title  .currency{
+    font-size: 24px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 29px;
+}
+
+.cardTitleDetail .slds-card__header-title .bankAccount{
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.cardTitleDetail .separation{
+    justify-content: space-between;
+}
+
+.cardTitleDetail .slds-card__header-title  .title {
+    color: #444444;
+    font-size: 28px; 
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Rg";
+    line-height: 34px;
+    letter-spacing: normal;
+    margin-bottom: 4px;
+}
+
+.text_line{
+  	width: 40px;
+  	border-bottom: 3px solid #ec0000;
+}
+
+.eburySymbol {
+    margin-left: 8px;
+}

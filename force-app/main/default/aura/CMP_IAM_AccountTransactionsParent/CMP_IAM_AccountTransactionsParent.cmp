@@ -1,0 +1,127 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Parent component of the Account transactions screen
+                in the Instant Account Management community
+History
+<Date>			<Author>		    <Description>
+09/07/2020      Guillermo Giral     Initial version
+-->
+<aura:component  implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_TransactionSearchController">
+    
+    <!-- AURA ATTRIBUTES -->
+    <aura:attribute name="sourcePage" type="String" default="" description="This attribute is to know from which community page a users is accessing this component"/>
+    <aura:attribute name="loading" type="Boolean" default="true" description="Indicates when the URL params have been parsed, to load the rest of components"/>
+    <aura:attribute name="accountDetails" type="Map" default="{}" description="This attribute stores the data related with the account, when the previous page is Global Balance"/>
+    <aura:attribute name="accountData" type="Map" default="{}" description="Account data returned by the accounts transaction service"/>
+    <aura:attribute name="showModal"    type="Boolean" default="false"      description="Flag to check if the modal is showing"/>
+    <aura:attribute name="filters"    type="List"     description="List passed to the CMP_CN_Filters components to populate the filters"/>
+    <aura:attribute name="accountFilters"    type="List"     description="List passed to the CMP_CN_Filters components to populate the filters, they come from the Accounts page"/>
+    <aura:attribute name="wholeTransactionResults"    type="Map"    description="List of all rows returned by the movements webservice" />
+    <aura:attribute name="transactionResults" type="Map" description="List of rows to show in the table"/>
+    <aura:attribute name="dates" type="List" description="List containing the selected dates" />
+    <aura:attribute name="formFilters" type="Map" default="{}" description="Map to store some advanced filters from the modal"/>
+    <aura:attribute name="timePeriods" type="List" description="List of options to show in the 'Time Period' dropdown"/>
+    <aura:attribute name="selectedTimeframe" type="String" default="{!$Label.c.selectOne}" description="Default selected timeframe for the dropdown"/>
+    <aura:attribute name="dropdownHeader" type="String" default="{!$Label.c.TimePeriod}" description="Title for the dropdown"/>
+    <!--<aura:attribute name="isInitialLoad" type="Boolean" default="true" description="Flag to indicate whether the onInit event has been fired (first component data load)"/>-->
+    <aura:attribute name="isAccTransactions" type="Boolean" default="true" />
+    <aura:attribute name="changedTimeFrame" type="Boolean" default="false" />
+    <aura:attribute name="selectedFilters"    type="List"     description="List passed to the CMP_CN_Filters components to populate the filters"/>
+    <aura:attribute name="userTimezoneOffset" type="Integer" description="User timezone offset in miliseconds"/>
+    <aura:attribute name="maximumRecords" type="Integer" default="0"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+    <aura:attribute name="numberActiveFilters" type="Integer" default="0" description="Number of advanced filters currently active"/>
+    <aura:attribute name="iam" type= "Boolean" default="true" description="Flag that indicates if the login is from Portal User or Cash Nexus"/>
+    <!--<aura:attribute name="isFirstLoad" type="Boolean" default="true" description="Boolean to know if it's the first time the table is loaded."/>-->
+
+    <!-- Online pagination attributes -->
+    <aura:attribute name="highestPage" type="Integer" default="1" description="Contains the highest page of the pagination" />
+    <aura:attribute name="maxPage" type="Integer" default="1" description="Contains the maximum number of pages, based on the total transactions number" />
+    <aura:attribute name="listOfPages" type="List" description="List of pages containing all the retrieved transactiones"/>
+    <aura:attribute name="currentPage" type="Integer" default="1" description="Current transaction page"/>
+
+    <!-- Limit search of transactions -->
+    <aura:attribute name="showLimitTransactionsToast" type="Boolean" default="false" description="Show error message when more than 10000 are to be downloaded"/>
+
+    <!-- Sorting attributes -->
+    <aura:attribute name="sortBookDate" type="String" default='desc' description="Attributte to sort the Book date column"/>
+    <aura:attribute name="sortCategory" type="String" default='desc' description="Attributte to sort the Category column"/>
+    <aura:attribute name="sortamount" type="String" default='desc' description="Attributte to sort the Category column"/>
+    <aura:attribute name="downloadParams" type="Map" description="Map of request parameters to send to the download service"/>
+
+    <aura:attribute name="fromDate" type="String"/>
+    <aura:attribute name="toDate" type="String"/>
+
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="fireAdvancedFilter" event="c:EVT_FilterSearch" action="{!c.filterTableData}"/>
+    <aura:handler name="fireFilter" event="c:EVT_FilterSearch" action="{!c.filterTableData}"/>
+    <aura:handler name="change" value="{!v.selectedTimeframe}" action="{!c.filterByTimePeriod}"/>
+    <aura:handler name="searchAgain" event="c:EVT_ResultsNotFoundSearchAgain" action="{!c.getUpdatedData}"/>
+    <aura:handler name="sortColumn" event="c:EVT_sortColumnEvent" action="{!c.sortBy}"/>
+    <aura:handler name="navigateBack" event="c:EVT_TitleSubtitleNavigate" action="{!c.navigateToAccountsPage}"/>
+    <aura:handler name="launchDonwload" event="c:EVT_DownloadFile" action="{!c.downloadTransactions}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.pageChanged}"/>
+
+    <!-- MARKUP -->
+    <!-- Service component -->
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+
+    <!-- Toast message to limit the number of transactions which can be downloaded at once -->
+    <c:CMP_Toast type="error" show="{!v.showLimitTransactionsToast}" message="{!$Label.c.limitTransactionSearch + ' ' + $Label.c.limitTransactionSearchNumberOneTrade}"/>
+
+    <!-- Spinner -->
+    <aura:if isTrue="{!v.loading}">  
+        <div class="spinnerclass">
+            <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+        </div>
+    </aura:if> 
+
+    <!-- Component markup -->
+    <aura:if isTrue="{!not(v.loading)}">
+
+        <!-- Title and subtitle with totals -->
+        <c:CMP_CN_Title_Subtitle title="{!$Label.c.Accounts}" subtitle="{!$Label.c.Transactions_AccountTransactions}" fireNavigationEvent="true"/>
+        <c:CMP_CN_Title_Subtitle_Totals accountDetails="{!v.accountDetails}" accountToCopy="{!v.accountDetails.accountNumber}" filters="{!v.filters}"
+                                        showLatestInformationTimestamp="true" lastUpdate="true" isAccountTransactions="true"/> 
+
+        <!-- ADVANCED FILTERS MODAL -->
+        <aura:if isTrue="{!v.showModal}">
+            <c:CMP_Account_TransactionsModalFormFilter filters="{!v.filters}" formFilters="{!v.formFilters}" transactionResults="{!v.transactionResults}" 
+                                                        showModal="{!v.showModal}" dates="{!v.dates}" numberActiveFilters="{!v.numberActiveFilters}" 
+                                                        isDisabled="true" isAccTransactions="{!v.isAccTransactions}" endOfDay="false"
+                                                        fromDate="{!v.fromDate}" toDate="{!v.toDate}" convertDatesToUserTimezone="false" isInstantAccount="true"/>
+        </aura:if>
+
+        <!-- FILTER COMPONENT -->
+        <!-- AM - 28/09/2020 - Ebury Accounts -->
+        <aura:if isTrue="{!v.accountDetails.country != $Label.c.Ebury}">
+            <c:CMP_CN_Filters aura:id="filterComponent" showAdvancedFilters="true" showModal="{!v.showModal}" filters="{!v.filters}" 
+                            numberActiveFilters="{!v.numberActiveFilters}" dates="{!v.dates}" dropdownHeader="{!v.dropdownHeader}" 
+                            dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}" currentPage="transactions-search" 
+                            displayDownloadIcon="true" fromDate="{!v.fromDate}" toDate="{!v.toDate}" convertDatesToUserTimezone="false" iamC="true"/>
+        <aura:set attribute="else">
+            <c:CMP_CN_Filters aura:id="filterComponent" showAdvancedFilters="false" showModal="{!v.showModal}" filters="{!v.filters}" 
+                            numberActiveFilters="{!v.numberActiveFilters}" dates="{!v.dates}" dropdownHeader="{!v.dropdownHeader}" 
+                            dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}" currentPage="transactions-search" 
+                            displayDownloadIcon="true" fromDate="{!v.fromDate}" toDate="{!v.toDate}" convertDatesToUserTimezone="false" iamC="true"/>
+        </aura:set>
+        </aura:if>
+        
+        
+        <!-- TABLE COMPONENT -->
+        <aura:if isTrue="{!or(v.transactionResults.length == 0, v.transactionResults == null)}">
+            <c:CMP_ResultsNotFound msg="{!$Label.c.noTransactionsFound}"/>
+            <aura:set attribute="else">
+                <c:CMP_Account_TransactionsTable sourcePage="globalBalance" accountDetails="{!v.accountDetails}"  
+                                                transactionResults="{!v.transactionResults.listaObtTransacciones}" filters="{!v.filters}" dates="{!v.dates}" sortBookDate="{!v.sortBookDate}" 
+                                                sortamount="{!v.sortamount}" sortCategory="{!v.sortCategory}" selectedFilters="{!v.selectedFilters}" maximumRecords="{!v.maximumRecords}"
+                                                userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}"  
+                                                selectedTimeframe="{!v.selectedTimeframe}" formFilters="{!v.formFilters}" isIAM="true" listOfPages="{!v.listOfPages}" currentPageNumber="{!v.currentPage}"/>
+            </aura:set>
+        </aura:if>
+    </aura:if>
+</aura:component>

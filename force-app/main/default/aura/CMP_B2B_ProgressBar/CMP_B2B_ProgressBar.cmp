@@ -1,0 +1,19 @@
+<aura:component>
+
+    <aura:attribute access="public" type="Map" name="steps" description="Data of the steps." />
+
+    <div>
+        <aura:if isTrue="{!and(v.steps.shownStep != 0, v.total!=0)}">
+            <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="{!(v.steps.focusStep == v.steps.totalSteps ? (v.steps.focusStep / v.steps.totalSteps * 100) : (v.steps.lastModifiedStep / v.steps.totalSteps * 100))}" role="progressbar">
+                <span class="slds-progress-bar__value" style="{!'width: ' + (v.steps.focusStep == v.steps.totalSteps ? (v.steps.focusStep / v.steps.totalSteps * 100) : (v.steps.lastModifiedStep / v.steps.totalSteps * 100)) + '%'}">
+                    <span class="slds-assistive-text">{!$Label.c.B2B_Progress} {!(v.step / v.total * 100)}%</span>
+                </span>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.total == 0}">
+            <div class="slds-progress-bar">
+                <span class="slds-progress-bar__value"/>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,476 @@
+.listItems{
+    width: 1224px;  
+    margin:16px auto 0;
+}
+.listItems .slds-text-body_regular{ 
+    font-family: SantanderMicroText;
+    font-size: 12px; 
+    line-height: 1.42;
+    letter-spacing: normal;
+    color: #767676;
+}
+.listItems .slds-text-body_regular strong{ 
+    margin:0 2px;
+    font-family: SantanderMicroText-Bd;
+}
+.tablePaymentsContent {
+    display: flex;
+    justify-content: center;
+    margin: 4px 0 0 0;
+    width: 100%;
+}
+.tablePaymentsContent >.slds-grid {
+    width: 1224px; 
+}
+
+/* TABLE */
+ .tablePayment {
+    padding-top: 0;
+    padding-bottom: 40px;
+    overflow: initial;
+        width: 1224px;
+}
+ .tablePayment:before {
+    display: none;
+}
+
+/* HEAD */
+ thead{
+    border-radius: 4px;   
+    display: block;
+}
+ thead tr{ 
+    border:0; 
+}
+ thead th{
+    margin-right:32px;
+    width:auto;
+    height: 40px;
+    font-family: SantanderMicroText-Bd;
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #444444;
+    background-color: #ececec; 
+    padding:0;
+    box-shadow: inset 0 -1px 0 0 #cedee7!important;
+}
+ thead th >div{
+    padding-right:28px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+}
+thead th >div:first-child{
+    padding-left:16px;
+}
+
+ thead th >div>span,
+ thead th >div>span:hover {
+    cursor:pointer;
+}
+
+ .headName{
+    width: 320px;
+    max-width: 320px;
+    min-width: 320px;
+    border-radius: 4px 0  0 0;
+}
+ 
+ .headUser{
+    width: 216px;
+    max-width: 216px;
+    min-width: 216px;
+}
+ .headPermission{
+    width: 324px;
+    max-width: 324px;
+    min-width: 324px;
+}
+ .headLogin{
+    width: 248px;
+    max-width: 248px;
+    min-width: 248px;
+}
+
+ .headStatus{
+    width: 116px;
+    max-width: 116px;
+    min-width: 116px;
+    text-align: center;
+    border-radius: 0 4px  0 0;
+}
+  .headStatus >div{
+    padding-right: 16px;
+    justify-content: center;
+    padding-right: 0;
+}
+ .button-orderRight{ 
+    width: 16px;
+    height: 16px; 
+    font-size: 16px;
+    top: 3px; 
+    margin-left:4px;
+    opacity:0;
+    transition: all 0.2s linear;
+    cursor:pointer;
+}
+ .button-orderRight:before{
+    color: #257fa4;
+} 
+ thead th >div.orderActive.orderReverse .button-orderRight{ 
+    transform: rotate(-180deg); 
+}
+ thead th.slds-is-sortable {
+    cursor:pointer;
+}
+ thead th>div>span:hover span.button-orderRight {
+    opacity:1;
+}
+
+
+/* BODY */
+ tbody tr{ 
+    margin: 8px 0 0 0;
+    position: relative;
+    display: block;
+    border-radius: 4px;
+    /*box-shadow: inset -1px -1px 0 0 #cedee7, inset 1px 1px 0 0 #cedee7;*/
+    border: 1px solid #cedee7 ;
+    background-color: #f6fafc;
+    cursor: pointer;
+}
+ tbody tr td {
+    background-color:transparent!important;
+}
+
+ tbody tr:hover{  
+    z-index: 1;
+    transform: translate(0px, 0px);
+    box-shadow: 2px 2px 6px 2px rgba(0,0,0, 0.08);
+}
+ tbody tr.feedback,
+ tbody tr.feedback.administrator,
+ tbody tr.feedback.operator {
+    background-color:#f0f8f0;
+}
+/* tbody template tr.administrator{
+    background-color:#ecf5f8;
+}
+ tbody template tr.operator{
+    background-color:#f6fafc;
+}*/
+/* .slds-hint-parent.administrator td.infoPermission .slds-truncate.operator,
+.slds-hint-parent.operator td.infoPermission .slds-truncate.administrator{
+    display:none;
+} */
+
+.administrator{
+    background-color:#f0f8f0;
+}
+/* .slds-hint-parent.administrator td.infoPermission .slds-truncate.administrator{
+    display:block;
+}  */
+.operator{
+    background-color:#f6fafc;
+}
+/* .slds-hint-parent.operator td.infoPermission .slds-truncate.operator{
+    display:block;
+}  */
+
+ /* tbody tr.operator td.infoPermission .slds-grid.slds-grid_align-spread div:first-child {
+    display:none;
+}
+ tbody tr.administrator td.infoPermission .slds-grid.slds-grid_align-spread div:last-child {
+    display:none;
+} */
+ tbody td{ 
+    width:auto;
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing:  normal;
+    color: #444444;
+    padding: 0;
+}
+/*  tbody td >div{
+    padding-right: 48px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    position:relative;
+    z-index:1;
+} */
+
+ tbody td:last-child >div{
+    padding-right: 16px;
+}
+
+ tbody td.infoName {
+    width: 320px;
+    max-width: 320px;
+    min-width: 320px;
+    height: 75px;
+    padding: 0 56px 0 16px;
+}
+ tbody td.infoUser {
+    width: 216px;
+    max-width: 216px;
+    min-width: 216px;
+    padding-right: 56px;
+}
+ tbody td.infoPermission {
+    width: 324px;
+    max-width: 324px;
+    min-width: 324px;
+    padding-right: 56px;
+} 
+ tbody td.infoLogin {
+    width: 248px;
+    max-width: 248px;
+    min-width: 248px;
+    padding-right: 56px;
+} 
+ tbody td.infoStatus {
+    width: 116px;
+    max-width: 116px;
+    min-width: 116px;
+} 
+ tbody .infoCheck >div{
+    padding-left: 8px;
+    padding-right: 16px;
+}
+ tbody .infoAmount >div{
+    justify-content: flex-end;
+}
+ tbody .infoCurrency >div{
+    justify-content: center;
+} 
+ tbody .infoReference >div{
+     padding-right: 47px;
+}
+ tbody td.infoReference .text {
+    white-space: normal;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    padding-bottom: 2px;
+}
+ tbody .infoValue >div{
+    padding-right: 40px;
+}
+ tbody .flexCol{
+    display:flex;
+    flex-direction: column; 
+    width:194px;
+}
+
+ tbody .image {
+    width: 40px;
+    min-width:40px;
+    height: 40px;
+    margin-right: 14px;
+    border-radius: 100%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+ tbody .image.blue{
+    background-color: #d2f0f2;
+}
+ tbody .image.green{
+    background-color: #e0f2e1;
+}
+ tbody .image.pink{
+    background-color: #ecd7e1;
+}
+ tbody .image.lightpink{
+    background-color: #fccccc;
+}
+ tbody .image.gray{
+    background-color: #dadada;
+}
+ tbody .image.cream{
+    background-color: #fff5d7;
+
+}
+ tbody .image > .text{
+    font-family: SantanderMicroText-Bd;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    color: #444444;
+}
+ tbody .image img{
+    border-radius: 100%;
+}
+
+ tbody .strong{ 
+    font-family: SantanderMicroText-Bd;
+ }
+
+/* ICON  */
+ tbody td.infoPermission .slds-icon.icon-settings,
+ tbody td.infoPermission .slds-icon.icon-circle-account-user {
+    vertical-align: middle;
+    margin-right:8px;
+}
+
+ tbody td.infoPermission .slds-icon.icon-settings:before,
+ tbody td.infoPermission .slds-icon.icon-circle-account-user:before {
+    color: #444444;
+    font-size:24px;
+}
+
+/* BADGE  */
+ tbody .slds-badge{
+    display: block;
+    border-radius: 100px;
+    background-color: #f6f6f6;
+    font-family: SantanderMicroText-Bd;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #444444;
+    padding: 2px 4px;
+    width: 100px;
+    min-width: 100px;
+    height: 24px;
+    max-width: 100px; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center; 
+}
+ tbody .slds-badge.badgeDraft{
+    border-color: #767676;
+    background-color: #ececec;
+}
+ tbody .slds-badge.badgePending,
+ tbody .slds-badge.badgeDelayed,
+ tbody .slds-badge.badgeHold{
+    border-color: #ffcc33;
+    background-color: #fff5d7;
+}
+ tbody .slds-badge.badgeReview{
+    border-color: #9e3667;
+    background-color: #ecd7e1;
+}
+ tbody .slds-badge.badgeNotAuthorized,
+ tbody .slds-badge.badgeCanceled,
+ tbody .slds-badge.badgeDenied,
+ tbody .slds-badge.badgeRejected{
+    border-color: #cc0000;
+    background-color: #fccccc;
+}
+ tbody .slds-badge.badgeScheduled,
+ tbody .slds-badge.badgeReleased,
+ tbody .slds-badge.badgeInProgress{
+    border-color: #1bb3bc;
+    background-color: #d2f0f2;
+}
+ tbody .slds-badge.badgeAuthorized,
+ tbody .slds-badge.badgeProcessed,
+ tbody .slds-badge.badgeCompleted{
+    border-color: #63ba68;
+    background-color: #e0f2e1;
+}
+ tbody .slds-badge.badgeInactive {
+    border-color: #767676;
+    background-color: #ececec;
+}
+ 
+ tbody .text.textLight{
+      color:  #767676; 
+}
+/* checkbox */
+ .checkboxContainer .slds-checkbox_faux{
+    border-radius: 4px;
+    border-color: #767676;
+    cursor: pointer;
+    height: 24px; 
+    width: 24px;
+}
+ .checkboxContainer .slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+    box-shadow: none;
+    border-color: #767676;
+}
+ .checkboxContainer .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+    border: 2px solid #1bb3bc;
+}
+ .checkboxContainer .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+    border-bottom: 2px solid #1bb3bc;
+    border-left: 2px solid #1bb3bc;
+    height: 6px;
+    width: 9px;
+}
+ .checkboxContainer .slds-checkbox__label .slds-checkbox_faux:active {
+    border: 2px solid #1bb3bc;
+}
+
+/* PRINT  */
+
+@media print and (orientation: portrait) {
+        .tablePaymentsContent{
+            margin: 10px 40px 0 40px!important;
+        }
+  
+         tbody tr{
+            width:fit-content!important;
+        }
+
+         thead tr,
+         thead th,
+         thead th>div  {
+            box-shadow:none!important;
+        }
+         .headName,
+         tbody  td.infoName  {
+            width: 280!important;
+            max-width: 280px!important;
+            min-width: 280px!important;
+        }
+       
+         .headUser,
+         tbody td.infoUser {
+            width:  190px!important;
+            max-width: 190px!important;
+            min-width: 190px!important; 
+        }
+
+         .headPermission,
+         tbody td.infoPermission {
+            width: 300!important;
+            max-width: 300px!important;
+            min-width: 300px!important;
+        }
+
+         .headLogin,
+         tbody td.infoLogin  {
+            width: 200px!important;
+            max-width: 200px!important;
+            min-width: 200px!important; 
+        }
+       
+         .headStatus,
+         tbody td.infoStatus {
+            max-width: 150px!important;
+            max-width: 150px!important;
+            min-width: 150px!important;
+        }  
+         .headStatus{
+             padding-right: 20px!important;
+        }
+
+    }
+
+@media print and (orientation: landscape) {
+       thead tr,
+       thead th,
+       thead th>div  {
+            box-shadow:none!important;
+        }
+}

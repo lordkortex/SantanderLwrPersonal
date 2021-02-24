@@ -1,0 +1,115 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access = "Global" controller="CNT_StatementHistoryController" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+
+    <aura:attribute name="loading" type="Boolean" default="true" description="Indicates when the URL params have been parsed, to load the rest of components"/>
+    <aura:attribute name="data" type="Map" default="{}" description="Map with the values to show as transaction details"/>
+    <aura:attribute name="comesFrom" type="String" default="" description="checks from where comes from" />
+    <!-- Spinner -->
+    <aura:if isTrue="{!v.loading}">  
+        <div class="spinnerclass">
+            <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+        </div>
+    </aura:if> 
+
+        <c:CMP_CN_Title_Subtitle title="Statement" subtitle="Detail statement" />
+
+    <!-- TITLE -->
+    <div class="cardTitleDetail_State1">
+        <!-- TITLE -->
+        <div class="slds-card__header slds-grid containerInformation">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title separation">
+                        <div class="title">{!v.data.accountName}</div>
+                        <div class="slds-card__header-title col-amount">
+                            <span class="space">{!$Label.c.MovementHistory_Amount}</span>
+                            <div class="">
+                                <aura:if isTrue="{!v.data.movementAmount != undefined}">
+                                    <c:CMP_displayAmount amount="{!v.data.movementAmount}" wholeClass="number" decimalClass="currency" /> &nbsp; {!v.data.accountCurrency}
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title separation">
+                        <div class="bankAccount">{!v.data.subsidiaryName}&nbsp; -&nbsp; {!v.data.accountNumber}</div>
+                    </div>
+                    <div class="extract">{!$Label.c.StatementOf} &nbsp; {!v.data.movementBookDate}</div>
+                </div>
+            </div>
+        </div>
+        <div class="text_line"></div>
+    </div>
+
+
+    <!--DETAIL  -->
+    <div class="slds-card cardTransactionDetail">
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_BookDate}
+                </div>
+                <div class="information">
+                    <c:CMP_displayDate  date="{!v.data.movementBookDate}"/>
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.valueDate}
+                </div>
+                <div class="information">
+                    <c:CMP_displayDate dateClass="" date="{!v.data.movementValueDate}"/>
+                </div>
+            </div>
+        </div> 
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_Category}
+                </div>
+                <div class="information">
+                    {!v.data.movementCategory}
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.ClientReference}
+                </div>
+                <div class="information">
+                    {!v.data.movementClientRef}
+                </div>
+            </div>
+        </div>  
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_BankReference}
+                </div>
+                <div class="information">
+                    {!v.data.movementBankReference}
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.MovementHistory_Description}
+                </div>
+                <div class="information">
+                    <span>{!v.data.movementDescription}</span>
+                    
+                    <!--ICON COPY-->
+                    <div class="slds-grid slds-grid_align-spread">
+                        <div class="slds-truncate slds-button" onclick="{!c.copy}">
+                            <div class="icon icon-copy" onclick="{!c.copy}">{!$Label.c.T_Copy}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+
+</aura:component>

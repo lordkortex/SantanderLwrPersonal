@@ -1,0 +1,948 @@
+.filterAccounts{
+	margin-bottom: 41px;
+	align-items: flex-start;
+}
+.filterAccounts .box-buttons{
+    min-height: 73px;
+}
+.filterAccounts .slds-col{
+    display: flex;
+}
+
+.filterAccounts .slds-col:last-child{
+    justify-content: flex-end;
+	align-items: flex-end;
+}
+
+/* DROPDOWN */
+.filterAccounts .slds-col > .slds-form-element,
+.filterAccounts .slds-combobox__Rg{
+    width: 208px;
+} 
+
+.filterAccounts .slds-combobox__Rg .slds-form-element__label {
+    margin: 0 0 4px 0;
+    padding: 0;
+	font-family:"SantanderMicroText";
+	font-size: 14px;
+	line-height: 21px;
+	color: #444444;
+}
+
+.filterAccounts .slds-combobox__Rg .button-order {
+	border: 1px solid #deedf2;
+	background-color:#f6fafc;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	height: 48px;
+	width: 100%;
+	min-width:184px;	
+}
+
+.filterAccounts .slds-combobox__Rg .button-order .button-arrow {
+	font-size: 24px;
+}
+
+.filterAccounts .slds-combobox__Rg  .button-order:focus {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.filterAccounts .slds-combobox__Rg  .button-order:hover {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.filterAccounts .slds-combobox__Rg  .slds-dropdown {
+	box-shadow: inset 0 -1px 0 0 #cedee7;
+	background-color: #f6fafc;
+	border-top: none;
+	border-right: 1px solid #deedf2;
+	border-left: 1px solid #deedf2;
+	border-bottom: 1px solid #257fa4;
+	border-radius: 0 0 4px 4px;
+	cursor: pointer;
+	left: auto;
+	margin: 0;
+	max-width: 100%;
+	min-width: inherit;
+	padding: 8px 4px 6px 4px;
+	right: auto;
+	top: 72px;
+	width: 100%;
+}
+.filterAccounts .content_modal{ 
+    position: absolute;
+    top: 32px;
+}
+     
+
+.filterAccounts .slds-combobox__Rg ul{
+	max-height: 240px;
+	overflow-y: scroll;
+}
+.filterAccounts .slds-combobox__Rg  .slds-button__icon{
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+.filterAccounts .slds-combobox__Rg  .optionOrder {
+	align-items: center;
+	display: inline-flex;
+}
+
+.filterAccounts .slds-combobox__Rg  .orderSelected {
+	align-items: center;
+	border: 0;
+	color: #444444;
+	display: flex;
+	font-size: 16px;
+	height: 24px;
+	padding: 0 0 0 16px;
+	width: 100%;
+   font-family: SantanderMicroText;
+}
+
+.filterAccounts .slds-combobox__Rg  .paddingOption {
+	height: 36px;
+	margin-bottom: 12px;
+}
+
+.filterAccounts .slds-combobox__Rg  .dropdownOrder .paddingOption:hover,
+.filterAccounts .slds-combobox__Rg .paddingOption:active,
+.filterAccounts .slds-combobox__Rg  .paddingOption:focus {
+	border-radius: 4px;
+	background-color:#deedf2;
+}
+
+.filterAccounts .slds-combobox__Rg .dropdownOrder .slds-dropdown__item > a {
+	padding:0 12px;
+	font-size: 16px;
+	font-family: SantanderMicroText;
+	color: #444444;
+	line-height: 24px;
+}
+
+.filterAccounts .slds-combobox__Rg .selectedValue-placeholder {
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	color: #767676;
+}
+
+.filterAccounts .slds-combobox__Rg  .selectedValue-filled {
+	color: #444444;
+	font-size: 12px;
+}
+.filterAccounts .slds-combobox__Rg ul::-webkit-scrollbar {
+	width: 6px;
+}
+.filterAccounts .slds-combobox__Rg ul::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.filterAccounts.slds-combobox__Rg ul::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.filterAccounts .slds-combobox__Rg ul::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+/* FILTERS */
+.filterAccounts .filtersRow{
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+    margin-top: 20px;
+}
+.filterAccounts .filtersRow .slds-form-element__label{
+    font-family: "SantanderTextW05-Regular";
+    font-size: 12px;
+    line-height: 17px;
+    color: #767676;
+    padding: 0;
+    margin-bottom:4px;
+}
+
+.filterAccounts .icon-download,
+.filterAccounts .icon-print {
+    margin-left: 2px;
+    margin-right: 16px;
+}
+
+.filterAccounts .icon-download:before,
+.filterAccounts .icon-print:before {
+	display: inline-block;
+	font-size: 24px;
+	vertical-align: middle;
+}
+
+
+.filterAccounts .text-link{
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 32px;
+}
+
+/* FILTER BUTTONS */
+
+.filterAccounts .slds-combobox .slds-button_outline-brand:hover{
+    background-color: #e2eff4;
+}
+.filterAccounts .slds-combobox .slds-button_outline-brand:active,
+.filterAccounts .slds-combobox_container .slds-button_outline-brand:focus,
+.filterAccounts .slds-button_outline-brand.buttonSelected {
+    background-color: #ffffff;
+    color: #cc0000;
+	font-family: "SantanderTextW05-Bold";
+}
+
+.filterAccounts .slds-popover {
+	background-color: #ffffff;
+    border: 1px solid #cedee7;
+	border-radius: 4px;
+	box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-top: 0px;
+	padding: 0px;
+	position: relative;
+	top: 5px;
+	width: auto;
+	min-width: 250px;
+	max-height: none; 
+}
+ 
+
+.filterAccounts .slds-popover__footer {
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 16px 16px 16px;
+    border-top: none;
+}
+
+.filterAccounts .slds-popover__footer .redButton {
+ border-radius: 100px;
+	font-family: "SantanderMicroText-Bd";
+	font-size: 16px;
+	height: 40px;
+	line-height: 24px;
+    padding: 5px 15px;
+}
+
+.filterAccounts .slds-popover__footer .whiteButton {
+    border-radius: 100px;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	height: 40px;
+	line-height: 24px;    
+    padding: 5px 15px;
+}
+/*
+.filterAccounts .slds-form-element::-webkit-scrollbar {
+	width: 6px;
+}
+.filterAccounts .slds-form-element::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.filterAccounts .slds-form-element::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.filterAccounts .slds-form-element::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+*/
+.filterAccounts div:focus {
+	box-shadow: none;
+	outline: none;
+}
+
+.filterAccounts .buttonAmount {
+    min-width: 102px;
+}
+
+.filterAccounts .slds-button_outline-brand{
+    border: 1px solid #cedee7;
+    border-radius: 4px;
+    background-color: #eff6f9;
+    color: #444444;
+    cursor: pointer;
+	font-size: 14px;
+	line-height: 1.5;
+	height: 32px;
+	margin-left: 0;
+	margin-right: 8px;
+    padding-right: 24px;
+    padding-left: 24px;
+}
+.filterAccounts .slds-button_outline-brand:hover{
+    background-color: #e2eff4;
+}
+
+.filterAccounts .icon{
+    cursor: pointer;
+}
+.filterAccounts .icon-filter{
+    margin-left: 8px;
+    margin-right: 4px;
+}
+
+.filterAccounts .icon-download:before, 
+.filterAccounts .icon-filter:before {
+	display: inline-block;
+	font-size: 24px;
+	vertical-align: middle;
+}
+
+.filterAccounts div:focus {
+	box-shadow: none;
+	outline: none;
+}
+
+ 
+
+.filterAccounts .slds-form-element .slds-form-element__control {
+	display: flex;
+	flex-direction: column;
+}
+
+.filterAccounts .slds-media__body {
+	align-items: flex-start;
+	display: flex;
+	justify-content: space-between;
+}
+
+.filterAccounts .slds-input {
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+	border-radius: 4px;
+    background-color: #f6fafc;
+    color: #444444;
+	cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+	height: 48px;
+    line-height: 24px;
+}
+
+.slds-input {
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+	border-radius: 4px;
+    background-color: #f6fafc;
+    color: #444444;
+	cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+	height: 48px;
+    line-height: 24px;
+}
+
+.filterAccounts .slds-input:focus {
+    border-bottom: 2px solid #257fa4;
+    color: #444444;
+}
+.filterAccounts .textHelp {
+    align-items: center;
+	color: #444444;
+    display: flex;
+	font-family: "SantanderMicroText";
+	font-size: 12px;
+	height: 21px;
+    padding-left: 12px;
+    margin-bottom: 8px;
+}
+
+.filterAccounts ::-webkit-input-placeholder { color: #767676; }
+ 
+.filterAccounts :-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+.filterAccounts ::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+.filterAccounts :-ms-input-placeholder { color: #767676; }
+
+.filterAccounts :focus::-webkit-input-placeholder{color:transparent;}
+
+.filterAccounts .slds-input:active,  .slds-input:focus {
+    box-shadow: none;
+}
+
+/* CALENDAR */
+.filterAccounts .calendar input {
+	background-color: #f6fafc;
+	border-color: #deedf2;
+	border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	display: inline-block;
+	height: 48px;
+	line-height: 36px;
+	padding: 0 1rem 0 .75rem;
+	transition: none;
+	color: #444444;
+	font-size: 16px;
+}
+
+.filterAccounts .calendar input:focus {
+	box-shadow: none;
+}
+.filterAccounts .calendar input::-webkit-input-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+.filterAccounts .calendar input::-moz-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+.filterAccounts .calendar input:-ms-input-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+.filterAccounts .calendar input:-moz-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+
+.filterAccounts .calendar .slds-button{
+	left: -16px;
+    bottom: 13px;
+}
+
+.filterAccounts .calendar .slds-align-middle .slds-button{
+	left: 0;
+    bottom: 0;
+}
+
+.filterAccounts .calendar .slds-button_icon-bare {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	height: 24px;
+	line-height: 1;
+	speak: none;
+	text-transform: none;
+	width: 24px;
+}
+.filterAccounts .calendar .slds-button_icon-bare:before {
+	color: #ec0000;
+	content: "\e90b";
+	cursor: pointer;
+	font-size: 24px;
+}
+.filterAccounts .calendar .slds-button_icon-bare svg {
+	display: none;
+}
+.filterAccounts .calendar .slds-input__icon.slds-input__icon_right {
+	bottom: 0;
+	height: 24px;
+	margin: auto;
+	padding: 12px 16px;
+	right: 0px;
+	top: 0;
+	width: 33px;
+}
+.filterAccounts .calendar.slds-form_compound .slds-form-element__row .slds-form-element+.slds-form-element {
+	padding-left: 16px;
+	margin:0;
+}
+.filterAccounts .calendar .textHelp {
+	color: #444444;
+	display: inline-block;
+	font-size: 12px;
+	height: 18px;
+	padding-left: 12px;
+}
+.filterAccounts .calendar .slds-datepicker {
+	padding: 16px 16px;
+}
+.filterAccounts .calendar .slds-datepicker .slds-button:focus {
+	box-shadow: none;
+}
+.filterAccounts .calendar .slds-datepicker .slds-button__icon {
+	fill: #ec0000;
+}
+.filterAccounts .slds-datepicker .slds-datepicker__filter.slds-grid {
+	padding: 0;
+}
+.filterAccounts .calendar .slds-datepicker .slds-datepicker__month thead tr {
+	text-transform: uppercase;
+}
+.filterAccounts .calendar .slds-datepicker .slds-datepicker__month thead th {
+	color: #444444;
+	font-size: 12px;
+}
+.filterAccounts .calendar .slds-datepicker .slds-day,
+.filterAccounts .calendar .slds-datepicker th,
+.filterAccounts .calendar h2,
+.filterAccounts .calendar .slds-select {
+	font-size: 12px;
+}
+.filterAccounts .calendar .slds-datepicker .slds-select {
+	font-family: SantanderTextW05-Regular;
+	height: 32px;
+}
+.filterAccounts .calendar .slds-datepicker .slds-select_container {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 1;
+	speak: none;
+	text-transform: none;
+}
+.filterAccounts .calendar .slds-datepicker .slds-select_container:after {
+	border: none;
+	bottom: 13px;
+	color: #ec0000;
+	content: "\e904";
+	font-size: 19px;
+	height: 8px;
+	right: 15px;
+	transform-origin: 50% 50%;
+	width: 8px;
+}
+.filterAccounts .calendar .slds-datepicker .slds-select_container:before {
+	border: none;
+	color: #ec0000;
+	content: "\e904";
+	font-size: 19px;
+	height: 8px;
+	right: 4px;
+	top: 13px;
+	transform: rotate(180deg);
+	transform-origin: 50% 50%;
+	width: 8px;
+}
+.filterAccounts .calendar .slds-datepicker .slds-text-link {
+	color: #ec0000;
+	font-family: SantanderTextW05-Bold;
+	font-size: 12px;
+}
+.filterAccounts .calendar .slds-datepicker td {
+	padding: 0;
+}
+.filterAccounts .calendar .slds-datepicker td.slds-is-selected>.slds-day {
+	background: #444444;
+}
+.filterAccounts .calendar .slds-form-element {
+	width:100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.filter_container{
+    margin-bottom: 28px;
+}
+.filter_container .slds-col{
+    display: flex;
+}
+
+.filter_container .slds-col:nth-child(2){
+    justify-content: flex-end;
+	align-items: flex-end;
+}
+
+/* DROPDOWN */
+.filter_container .slds-col > .slds-form-element,
+.filter_container .slds-combobox__Rg{
+    width: 184px;
+} 
+
+.filter_container .slds-combobox__Rg .slds-form-element__label {
+    margin: 0 0 4px 0;
+    padding: 0;
+	font-family:"SantanderMicroText";
+	font-size: 14px;
+	line-height: 21px;
+	color: #444444;
+}
+
+.filter_container .slds-combobox__Rg .button-order {
+	border: 1px solid #deedf2;
+	background-color:#f6fafc;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	height: 48px;
+	width: 100%;
+	min-width:184px;	
+}
+
+.filter_container .slds-combobox__Rg .button-order .button-arrow {
+	font-size: 24px;
+}
+
+.filter_container .slds-combobox__Rg  .button-order:focus {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.filter_container .slds-combobox__Rg  .button-order:hover {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.filter_container .slds-combobox__Rg  .slds-dropdown {
+	box-shadow: inset 0 -1px 0 0 #cedee7;
+	background-color: #f6fafc;
+	border-top: none;
+	border-right: 1px solid #deedf2;
+	border-left: 1px solid #deedf2;
+	border-bottom: 1px solid #257fa4;
+	border-radius: 0 0 4px 4px;
+	cursor: pointer;
+	left: auto;
+	margin: 0;
+
+	max-width: 100%;
+	min-width: inherit;
+	/* overflow-y: auto; */
+	padding: 8px 4px 6px 4px;
+	right: auto;
+	top: 72px;
+	width: 100%;
+}
+
+ .slds-combobox__Rg ul{
+	max-height: 240px;
+	overflow-y: scroll;
+}
+
+
+
+.filter_container .slds-combobox__Rg  .slds-button__icon{
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+
+.filter_container .slds-combobox__Rg  .optionOrder {
+	align-items: center;
+	display: inline-flex;
+}
+
+.filter_container .slds-combobox__Rg  .orderSelected {
+	align-items: center;
+	border: 0;
+	color: #444444;
+	display: flex;
+	font-size: 12px;
+	height: 24px;
+	padding: 0 0 0 16px;
+	width: 100%;
+}
+
+.filter_container .slds-combobox__Rg  .paddingOption {
+	height: 36px;
+	margin-bottom: 12px;
+}
+
+.filter_container .slds-combobox__Rg  .dropdownOrder .paddingOption:hover,
+.filter_container .slds-combobox__Rg .paddingOption:active,
+.filter_container .slds-combobox__Rg  .paddingOption:focus {
+	border-radius: 4px;
+	background-color:#deedf2;
+}
+
+.filter_container .slds-combobox__Rg .dropdownOrder .slds-dropdown__item > a {
+	padding:0 12px;
+	font-size: 16px;
+	font-family: SantanderMicroText;
+	color: #444444;
+	line-height: 24px;
+}
+
+.filter_container .slds-combobox__Rg .selectedValue-placeholder {
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	color: #767676;
+}
+
+.filter_container .slds-combobox__Rg  .selectedValue-filled {
+	color: #444444;
+	font-size: 12px;
+}
+.filter_container .slds-combobox__Rg ul::-webkit-scrollbar {
+	width: 6px;
+}
+.filter_container .slds-combobox__Rg ul::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.filter_container .slds-combobox__Rg ul::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.filter_container .slds-combobox__Rg ul::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+/* FILTERS */
+.filter_container .filtersRow{
+    display: flex;
+    flex-direction: column;
+    margin-left: 24px;
+    margin-top: 20px;
+}
+.filter_container .filtersRow .slds-combobox_container{
+    align-self: flex-end;
+}
+
+.filter_container .filtersRow .slds-form-element__label{
+    font-family: "SantanderTextW05-Regular";
+    font-size: 12px;
+    line-height: 17px;
+    color: #767676;
+    padding: 0;
+    margin-bottom:4px;
+}
+
+/* ICON */
+
+.filter_container .icon{
+    cursor: pointer;
+}
+
+.filter_container .icon-download{
+    margin-left: 4px;
+    margin-right: 16px;
+}
+
+.filter_container .icon-download:before {
+	display: inline-block;
+	font-size: 24px;
+	vertical-align: middle;
+}
+
+ .text-link{
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+/* FILTER BUTTONS */
+.filter_container .slds-combobox .slds-button_outline-brand{
+    border: 1px solid #cedee7;
+    border-radius: 4px;
+    background-color: #eff6f9;
+    color: #444444;
+    cursor: pointer;
+	font-size: 14px;
+    font-family: "SantanderTextW05-Regular"; 
+	line-height: 1.5;
+	height: 32px;
+	margin-left: 0;
+	margin-right: 8px;
+    min-width: 113px;
+	padding-right: 30px;
+    padding-left: 30px;
+}
+.filter_container .slds-combobox .slds-button_outline-brand:hover{
+    background-color: #e2eff4;
+}
+.filter_container .slds-combobox .slds-button_outline-brand:active,
+.filter_container .slds-combobox_container .slds-button_outline-brand:focus,
+.filter_container .slds-button_outline-brand.buttonSelected {
+    background-color: #ffffff;
+    color: #cc0000;
+	font-family: "SantanderTextW05-Bold";
+}
+
+/*COMBOBOX CHECKBOX*/
+ .slds-popover {
+	background-color: #ffffff;
+    border: 1px solid #cedee7;
+	border-radius: 4px;
+	box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-top: 4px;
+	padding: 0px;
+	position: absolute;
+	top: 32px;
+    width: 392px;
+    max-height: 320px;
+}
+
+ .slds-popover__body {
+    padding: 14px 4px 8px 4px;
+}
+ .slds-popover__body.slds-popover__body_form {
+    padding: 16px 16px 4px 16px;
+}
+/*
+ .filtersRow .slds-form-element{
+    max-height: 242px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+*/
+ .slds-checkbox {
+	align-items: center;
+	display: flex;
+	height: 36px;
+	margin-bottom: 12px;
+}
+ .slds-checkbox:hover {
+    background-color: #e8f3f6;
+    border-radius: 4px;
+}
+ .slds-checkbox .slds-checkbox__label .slds-form-element__label.checkboxLabel {
+    cursor: pointer;
+	color: #444444;
+	display: inline;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	vertical-align: middle;
+}
+ .slds-checkbox_faux {
+	border-radius: 4px;
+    border-color: #767676;
+	cursor: pointer;
+	height: 24px;
+	margin-left: 12px;
+	margin-right: 8px;
+	width: 24px;
+}
+
+ .slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+	box-shadow: none;
+    border-color: #767676;
+}
+
+ .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+	border: 2px solid #1bb3bc;
+}
+
+ .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+	border-bottom: 2px solid #1bb3bc;
+	border-left: 2px solid #1bb3bc;
+	height: 6px;
+	width: 9px;
+}
+ .slds-checkbox__label .slds-checkbox_faux:active{
+	border: 2px solid #1bb3bc;
+}
+
+/* COMBOBOX CHECKBOX FOOTER */
+ .slds-popover__footer {
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 16px 16px 16px;
+    border-top: none;
+}
+
+.filter_container .slds-popover__footer .redButton {
+	border-radius: 100px;
+	font-family: "SantanderMicroText-Bd";
+	font-size: 16px;
+	height: 40px;
+	line-height: 24px;
+    padding: 0px;
+    min-width: 72px;
+}
+
+.filter_container .slds-popover__footer .whiteButton {
+    border-radius: 100px;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	height: 40px;
+	line-height: 24px;
+    padding: 0px;
+    min-width: 93px;
+}
+
+/* COMBOBOX CHECKBOX SCROLL*/
+/*
+ .slds-form-element::-webkit-scrollbar {
+	width: 6px;
+}
+ .slds-form-element::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+ .slds-form-element::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+ .slds-form-element::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+*/
+  .slds-dropdown__list .slds-form-element__group{
+    padding: 0 10px;
+}
+  .slds-dropdown__list .slds-form-element__checks{
+    width: 330px;
+}
+  .slds-dropdown__list{ 
+     max-height: 242px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 2px 0;
+}
+  .slds-dropdown__list::-webkit-scrollbar {
+	width: 6px;
+}
+ .slds-dropdown__list::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+ .slds-dropdown__list::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+ .slds-dropdown__list::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+ .showBox{
+	display:block!important;
+}
+
+/* PRINT  */
+@media print {
+    .filterAccounts .icon {
+        display: none;
+    }
+}
+
+.calendar input {
+	background-color: #f6fafc;
+	border-color: #deedf2;
+	border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	display: inline-block;
+	height: 48px;
+	line-height: 36px;
+	padding: 0 1rem 0 .75rem;
+	transition: none;
+	color: #444444;
+	font-size: 16px;
+}

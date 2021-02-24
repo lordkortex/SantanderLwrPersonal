@@ -1,0 +1,146 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Component to show the extract table
+History
+<Date>			<Author>		    <Description>
+26/12/2019		Pablo Tejedor       Initial version
+-->
+<aura:component controller = "CNT_MovementHistoryExtracController" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- DATA ATIBUTTES -->  
+    <aura:attribute name="dataExtract" type="List"/>
+    <aura:attribute name="source" type="String" default="" description="This variable is used to kwon from where is navigate"/>
+    <aura:attribute name="finalBalance" type="String"  description="Final balance of the account"/>
+    <aura:attribute name="IntialBalance" type="String"  description="Initial balance of the account"/>
+    <aura:attribute name="displayNoResultsMessage" type="Boolean" description="Flag activated when no results are returned from the server, for the given search"/>
+    <aura:attribute name="accountNumberBank" type="String" description="Account bank"/>
+    <aura:attribute name="SelectedAccount" type="String" description="Account selected of the dropdown"/>
+    <aura:attribute name="accountName" type="String" description="Subsidiary name of the account"/> 
+    <aura:attribute name="dateFrom" type="Date" description="Attribute to store the date from"/> 
+    <aura:attribute name="dateTo" type="Date" description="Field to fill with the date to"/>			
+    <aura:attribute name="availableBalanceParam" type="String" description="Avaiable balance field value of the account information component"/>
+    <aura:attribute name="bookBalanceParam" type="String" description="Book balance field value of the account information component"/>
+    <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+    <!-- SORT FILTERS ATIBUTTES -->
+    <aura:attribute name="jsonArray"  type="List" />
+    <aura:attribute name="sortBookDate" type="String" default='desc' description="Attributte to sort the Book date column"/>
+    <aura:attribute name="sortvaluetype" type="String" default='desc' description="Attributte to sort the Type column"/>
+    <aura:attribute name="sortvalueAmount"  type="String" default='desc' description="Attributte to sort the Ammount column"/>
+    <aura:attribute name="amountWithoutCurrency" type ="String" description="Attributte convert the amount withoutcurrency"/>
+    <aura:attribute name="debit" type="String" description="total amount of debits" />
+    <aura:attribute name="debitNumber" type="String" description="total number of debits" />
+    <aura:attribute name="creditNumber" type="String"  description="total number of credits"/>
+    <aura:attribute name="credit" type="String"  description="total amount of credits"/>
+
+    <!-- PAGINATION ATTRIBUTES -->
+    <aura:attribute name="paymentsPerPage"  type="Integer" default="50" description="number of movements per page"/>
+    <aura:attribute name="currentPage"      type="Integer"  default="1" description="number of the current page"/>
+    <aura:attribute name="oldPage"          type="Integer"  default="1" description="number of the last page"/>
+    <aura:attribute name="start"            type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"              type="Integer"  description="Row number of the last displayed row"/>
+    <aura:attribute name="paginatedHistoryExtract" type="List"/>
+
+    <!-- BORRAR CUANDO SE REHAGA LA PARTE DE FRONT DE LA TABLA -->
+    <aura:attribute name="accountNumberAndEntity" type="String" description="Account number"/>
+    <aura:attribute name="dates" type="List" description="book date selected" />
+    <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+
+     <!-- attribute to hide the spinner -->
+     <aura:attribute name="showSpinner"   type="Boolean" default="false"  description="Attributte to show or hide the spinner"/>
+    
+    <!-- COMPONENT HANDLERS AND EVENTS -->
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTableData}"/>
+    <aura:handler event="c:EVT_MovementHistorySearchData" action="{!c.fireNewSearch}"/>
+    <aura:registerEvent name="noResultsFound" type="c:EVT_MovementHistoryNoResults"/>
+
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+
+    <!-- Handlers --> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:if isTrue="{!v.showSpinner == false}">  
+        <div class="spinnerclass">
+            <lightning:spinner aura:id="spinner" variant="brand"  size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+        </div>
+    </aura:if> 
+
+    <aura:if isTrue="{!v.showSpinner}">
+
+    <c:CMP_Pagination allData="{!v.dataExtract}" paymentsPerPage="{!v.paymentsPerPage}" aura:id="pagination"/>
+   
+    
+
+    <!-- TABLE -->
+    <div class="slds-table--header-fixed_container extractTable">
+        <div class="slds-scrollable_y">
+            <table class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                <!-- HEADER -->
+                <thead>
+                    <th class="valueDate" scope="col">
+                        <div class="slds-truncate slds-cell-fixed slds-th__action">{!$Label.c.MovementHistory_ValueDate}</div>
+                    </th>
+                    <th class="category" scope="col">
+                        <div class="slds-truncate slds-cell-fixed slds-th__action">{!$Label.c.MovementHistory_Category}
+                            <!-- Icono Orden descendente -->
+                            <aura:if isTrue="{!v.sortvaluetype == 'desc'}">
+                                <span class="button-orderRight icon-alphabeticalOrderDown" id="valuetype" onclick="{!c.sortBy}"></span>
+                                <aura:set attribute="else">
+                                        <span class="button-orderRight icon-alphabeticalOrderUp" id="valuetype" onclick="{!c.sortBy}"></span>
+                                    </aura:set>
+                            </aura:if>
+                          
+                                <!-- <span class="button-orderRight icon-alphabeticalOrderUp" id="valuetype" onclick="{!c.sortBy}"></span> -->
+                 
+                            <!-- Icono Orden ascendente 
+                                <span class="button-orderRight icon-alphabeticalOrderUp" title="Sort by Category"></span>
+                                -->
+                        </div>
+                    </th>
+                    <th class="clientRef" scope="col">
+                        <div class="slds-truncate slds-cell-fixed slds-th__action">{!$Label.c.MovementHistory_CustomerRef}</div>
+                    </th>
+                    <th class="amount" scope="col">
+
+                        <div class="slds-truncate slds-cell-fixed slds-th__action">
+                            <!-- Icono Orden descendente -->
+                            <aura:if isTrue="{!v.sortvalueAmount == 'desc'}">
+                                <span class="button-orderLeft icon-orderDown" id="valueAmount" onclick="{!c.sortBy}"></span>
+                                <aura:set attribute="else">
+                                    <span class="button-orderLeft icon-orderUp" id="valueAmount" onclick="{!c.sortBy}"></span>  
+                                </aura:set>
+                            </aura:if>
+                            <!-- Icono Orden ascendente 
+                                <span class="button-orderLeft icon-orderUp" title="Sort by Amount"></span>
+                                -->
+                                {!$Label.c.MovementHistory_Amount}
+                        </div>
+                    </th>
+                    <th class="bookBalance" scope="col">
+                        <div class="slds-truncate slds-cell-fixed slds-th__action">{!$Label.c.MovementHistory_BookBalance}</div>
+                    </th>
+                    <th class="containerIcon" scope="col">
+                        <div class="slds-truncate slds-cell-fixed slds-th__action"></div>
+                    </th>
+                </thead>
+
+                <!-- BODY -->
+
+                <tbody>
+                    <aura:iteration items="{!v.dataExtract}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index">
+                        <c:CMP_MovementHistoryExtractTableRow ExtractObject="{!item}" itemPosition="{!index}" 
+                        currencyTable="{!v.currencyTable}" source = "{!v.source}"
+                        accountNumberAndEntity="{!v.accountNumberAndEntity}" dates="{!v.dates}"
+                        accountNumberBank="{!v.accountNumberBank}" SelectedAccount="{!v.SelectedAccount}"
+                        accountName="{!v.accountName}" dateFrom="{!v.dateFrom}" dateTo="{!v.dateTo}"
+                        availableBalanceParam="{!v.availableBalanceParam}" bookBalanceParam="{!v.bookBalanceParam}"
+
+                        />
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </aura:if> 
+</aura:component>

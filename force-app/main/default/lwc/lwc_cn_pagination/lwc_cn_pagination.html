@@ -1,0 +1,179 @@
+<template>
+    <!-- <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" > -->
+    <!--<ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" /> -->
+    <!-- ATTRIBUTES  -->
+    <!-- <aura:attribute name="allData" type="List"/>
+    <aura:attribute name="paymentsPerPage" type="Integer"/>
+    <aura:attribute name="nameListToDisplay" type="String" />
+    <aura:attribute name="currentPage" type="String" default="1"/>
+    <aura:attribute name="currentPageInt" type="Integer" default="1"/>
+    <aura:attribute name="pageList" type="List" default="['1']"/>
+    <aura:attribute name="start" type="Integer" default="0"/>
+    <aura:attribute name="end" type="Integer"/>
+    <aura:attribute name="pagesToShow" type="Integer" default="3"/>
+    <aura:attribute name="totalRetrieved" type="Integer" default="0"/>
+    <aura:attribute name="retrievedSeen" type="Integer"/>
+    <aura:attribute name="dropdownCurrentPage" type="String" default="1"/>
+    <aura:attribute name="maximumRecords" type="Integer" default="0"/>
+    <aura:attribute name="isIAM"            type="Boolean" default="false"  description="Checks if comes from IAM"/>
+    <aura:attribute name="isFirstLoad"      type="Boolean" default="true"   description="Boolean to know if its the first time the table is loaded."/>
+    -->
+    
+    <!-- EVENTS -->
+    <!-- <aura:registerEvent name="getPageEvent" type="c:EVT_SwiftPaymentTablePagination" /> -->
+    <!-- HANDLERS -->
+    <!-- <aura:handler name="change" value="{!v.dropdownCurrentPage}" action="{!c.selectedCurrentPage}"/> -->
+    <!-- <aura:handler name="change" value="{!v.currentPage}" action="{!c.buildData}"/> -->
+    
+    
+    
+    
+    <!--Method to restart de pagination index-->
+    <!--<aura:method name="buildData" action="{!c.reInitPagination}">
+        <aura:attribute name="currentPage" type="String"/>
+    </aura:method> -->
+    
+    
+    
+    <!--Method to initialize the pages number and index-->
+    <!-- <aura:method name="initPagination" action="{!c.initPagination}">
+        <aura:attribute name="allDataReceived" type="List"/>
+    </aura:method> -->
+    
+    
+    
+    <!-- <aura:if isTrue="{!not(or(empty(v.allData), v.allData == undefined))}"> -->
+    <template if:false={getcheckAllData}>    
+        <div class="slds-card__header slds-grid pagination">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title results">
+                        
+                        <!--<aura:if isTrue="{!and(or(v.nameListToDisplay==$Label.c.Account_Transactions, v.nameListToDisplay==$Label.c.Movements), v.totalRetrieved >= 10000)}"> -->
+                        <template if:true={retrievedGreater100000}>
+                            <!--For Transactions with more than 10000 records-->
+                            <!-- <aura:if isTrue="{!(v.currentPage)*v.paymentsPerPage gt v.totalRetrieved }"> -->
+                            <template if:true={getTotalRetrieved}>
+                                <!--{!$Label.c.viewing}&nbsp;<span class="number">{!(1+(v.currentPage-1)*v.paymentsPerPage)}</span>&nbsp;{!$Label.c.toMinus}&nbsp;<span class="number">{!v.totalRetrieved}</span>&nbsp;{!$Label.c.of}&nbsp;{!$Label.c.more_than}&nbsp;{!v.nameListToDisplay}-->
+                                {label.viewing}&nbsp;<span class="number">{getCurrentPageminusbyPayments}</span>&nbsp;{label.toMinus}&nbsp;<span class="number">{totalRetrieved}</span>&nbsp;{label.of}&nbsp;{label.more_than}&nbsp;{namelisttodisplay}
+                            </template>
+                            <!-- <aura:set attribute="else"> -->
+                            <template if:false={getTotalRetrieved}>
+                                {label.viewing}&nbsp;<span class="number">{getCurrentPageminusbyPayments}</span>&nbsp;{label.toMinus}&nbsp;<span class="number">{getCurrentPagebyPayments}</span>&nbsp;{label.of}&nbsp;{label.more_than}&nbsp;{namelisttodisplay}
+                            </template>
+                        </template>
+                            
+                        <!--For all with less than 10000 records-->
+                        <template if:false={retrievedGreater100000}>
+                                <!-- <aura:if isTrue="{!(v.currentPage)*v.paymentsPerPage gt v.totalRetrieved }"> -->
+                            <template if:true={getTotalRetrieved}>
+                                <!--{!$Label.c.viewing}&nbsp;<span class="number">{!(1+(v.currentPage-1)*v.paymentsPerPage)}</span>&nbsp;{!$Label.c.toMinus}&nbsp;<span class="number">{!v.totalRetrieved}</span>&nbsp;{!$Label.c.of}&nbsp;<span class="number">{!v.totalRetrieved}</span>&nbsp;{!v.nameListToDisplay}-->
+                                {label.viewing}&nbsp;<span class="number">{getCurrentPageminusbyPayments}</span>&nbsp;{label.toMinus}&nbsp;<span class="number">{totalRetrieved}</span>&nbsp;{label.of}&nbsp;<span class="number">{totalRetrieved}</span>&nbsp;{namelisttodisplay}
+                            </template>
+                            <template if:false={getTotalRetrieved}>
+                                <!--{!$Label.c.viewing}&nbsp;<span class="number">{!(1+(v.currentPage-1)*v.paymentsPerPage)}</span>&nbsp;{!$Label.c.toMinus}&nbsp;<span class="number">{!(v.currentPage)*v.paymentsPerPage}</span>&nbsp;{!$Label.c.of}&nbsp;<span class="number">{!v.totalRetrieved}</span>&nbsp;{!v.nameListToDisplay}-->
+                                {label.viewing}&nbsp;<span class="number">{getCurrentPageminusbyPayments}</span>&nbsp;{label.toMinus}&nbsp;<span class="number">{getCurrentPagebyPayments}</span>&nbsp;{label.of}&nbsp;<span class="number">{totalRetrieved}</span>&nbsp;{namelisttodisplay}
+                            </template>
+                        </template>
+                    </div>
+                </div>
+                <div class="navigationPage">
+                    <!-- <aura:if isTrue="{!v.currentPage>1}"> -->
+                    <template if:true={currentPageGreater1}>
+                        <!--<div class="button-pageLeft icon-arrowLeft_big" data-title-left="{!$Label.c.nextPage}" onclick="{!c.previousPage}"></div> -->
+                        <div class="button-pageLeft icon-arrowLeft_big" data-title-left={label.nextPage} onclick={previousPage}></div>
+                    <!-- </aura:if>  -->
+                    </template>
+                    
+                    <!-- <aura:if isTrue="{!and(v.pageList.length>v.pagesToShow,and(v.currentPage>1,v.start!=0))}">
+                    <template if:true={pageListLengthGreaterThan}>
+                        <div class="number__gray">1</div>
+                         <aura:if isTrue="{!v.currentPage>4}"> 
+                        <template if:true={currentPageGreater4}>
+                            <div class="number__gray">...</div>
+                        </aura:if>
+                        </template>
+                     </aura:if> 
+                    </template> -->
+
+                    <!-- Nuevo -->
+                <!--    <template for:each={iterationPageList} for:item='item'>
+                        <span key={item.value} class="span__align">
+                            <template if:true={item.show}>
+                                <template if:true={item.showfirstpoints}>
+                                    <div class="number__gray">...</div>
+                                </template>
+                                <template if:true={item.iscurrerntpage}>
+                                    <div class="number__gray selected">{item.value}</div>
+                                </template>
+                                <template if:false={item.iscurrerntpage}>
+                                    <div class="number__gray">{item.value}</div>
+                                </template>
+                                <template if:true={item.showlastpoints}>
+                                    <div class="number__gray">...</div>
+                                </template>
+                            </template>
+                        </span>
+                    </template>       -->        
+                    <!-- FIN -->
+
+<!-- 10/02/2021-->
+                    <template if:true={pageListLengthGreaterThan}>
+                        <div class="number__gray">1</div>
+                        <template if:true={currentPageGreater2}>
+                            <div class="number__gray">...</div>
+                        </template>
+                    </template>
+
+                    <template for:each={iterationPageList} for:item='item'>
+                        <span key={item.value} class="span__align">
+                            <template if:true={item.iscurrerntpage}>
+                                <div class="number__gray selected">{item.value}</div>
+                            </template>
+                            <template if:false={item.iscurrerntpage}>
+                                <div class="number__gray">{item.value}</div>
+                            </template>
+                        </span>
+                    </template>
+
+                    <template if:true={getPage}>
+                        <template if:true={lastPage}>
+                            <div class="number__gray">...</div>
+                        </template>
+                        <div class="number__gray">{pageListLength}</div>
+                    </template>    
+
+<!-- END 10/02/2021-->
+
+
+
+
+
+
+
+
+
+                    
+                    <!--<aura:if isTrue="{!and(v.currentPage!=v.pageList.length,or(v.pageList.length>v.currentPage+v.pagesToShow-1,v.currentPage==v.end))}"> 
+                    <template if:true={getPage}>
+                        <<aura:if isTrue="{!and(v.pageList.length-2>=v.currentPage,v.pageList.length-2>=v.end)}"> 
+                        <template if:true={lastPage}> 
+                            <div class="number__gray">...</div>
+                         </aura:if> 
+                        </template>
+                        <div class="number__gray">{pagelist.length}</div>
+                    </aura:if> 
+                    </template> -->
+
+                    
+                    <!-- <aura:if isTrue="{!v.currentPage lt v.pageList.length}"> -->
+                    <template if:true={pageListLength}>
+                        <!--<div class="button-pageRight icon-arrowRight_big" data-title-left="{!$Label.c.nextPage}" onclick="{!c.nextPage}"></div> -->
+                        <div class="button-pageRight icon-arrowRight_big" data-title-left={label.nextPage} onclick={nextPage}></div>
+                    <!--</aura:if> -->
+                    </template>
+                </div>
+            </header>
+        </div>
+    </template>
+</template>

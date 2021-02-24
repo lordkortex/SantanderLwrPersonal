@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="528" height="312" viewBox="0 0 528 312">
+    <defs>
+        <filter id="ff1syuxs9b" width="110.5%" height="118.6%" x="-4.4%" y="-7.9%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="shadowSpreadOuter1"/>
+            <feOffset dx="4" dy="4" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="6"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+        </filter>
+        <filter id="jw9bt09tjc" width="107.7%" height="114.3%" x="-3.3%" y="-6%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"/>
+            <feOffset dx="1" dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1.5"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+        </filter>
+        <filter id="2sopd8f3ae" width="107.7%" height="114.3%" x="-3.3%" y="-6%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"/>
+            <feOffset dx="1" dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1.5"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+        </filter>
+        <filter id="cz5kvioq7g" width="107.7%" height="114.3%" x="-3.3%" y="-6%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"/>
+            <feOffset dx="1" dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1.5"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+        </filter>
+        <filter id="mrrvnrk70i" width="107.7%" height="114.3%" x="-3.3%" y="-6%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius=".5" result="shadowSpreadOuter1"/>
+            <feOffset dx="1" dy="1" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="1.5"/>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+        </filter>
+        <rect id="rrcgnv6uca" width="496" height="280" x="0" y="0" rx="4"/>
+        <rect id="f5rh9l9jed" width="168" height="91" x="0" y="0" rx="2"/>
+        <rect id="busdhe29cf" width="168" height="91" x="0" y="0" rx="2"/>
+        <rect id="4odqrdsz0h" width="168" height="91" x="0" y="0" rx="2"/>
+        <rect id="09h4co0bbj" width="168" height="91" x="0" y="0" rx="2"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g transform="translate(-460 -2571) translate(0 2503) translate(472 80)">
+                    <g>
+                        <use fill="#000" filter="url(#ff1syuxs9b)" xlink:href="#rrcgnv6uca"/>
+                        <use fill="#FFF" xlink:href="#rrcgnv6uca"/>
+                    </g>
+                    <g>
+                        <g transform="translate(256 165)">
+                            <use fill="#000" filter="url(#jw9bt09tjc)" xlink:href="#f5rh9l9jed"/>
+                            <rect width="167" height="90" x=".5" y=".5" fill="#FFF" stroke="#CEDEE7" stroke-linejoin="square" rx="2"/>
+                        </g>
+                        <text fill="#444" font-family="SantanderMicroText-Bd, Santander Micro Text" font-size="8" font-weight="bold" transform="translate(256 165)">
+                            <tspan x="53.048" y="61">Other payments</tspan>
+                        </text>
+                        <g fill="#257FA4">
+                            <path d="M17.438 3.27l.534.498c.482.483.482 1.264.002 1.744l-4.002 4.066h2.278c.205 0 .375.147.41.342l.007.075v6.671c0 .23-.187.417-.417.417H2.084c-.23 0-.417-.186-.417-.417V9.995c0-.23.186-.417.417-.417H9.41l6.294-6.298c.482-.483 1.264-.483 1.734-.01zm-8.272 7.142H2.5v5.837h13.334v-5.837H13.15l-1.519 1.543c-.078.08-.185.125-.297.125H9.583c-.23 0-.417-.187-.417-.417v-1.251zm5.417 4.17c.23 0 .417.186.417.417 0 .23-.187.416-.417.416h-2.5c-.23 0-.416-.186-.416-.416 0-.23.186-.417.416-.417zm0-1.668c.23 0 .417.186.417.417 0 .23-.187.417-.417.417H3.757c-.23 0-.416-.187-.416-.417 0-.23.186-.417.416-.417zm-7.492-1.657c.23 0 .416.187.416.417 0 .23-.186.417-.416.417H3.757c-.23 0-.416-.187-.416-.417 0-.23.186-.417.416-.417zm9.202-7.388L10 10.168v1.078h1.161l6.221-6.321c.157-.157.157-.41.01-.557l-.533-.5c-.156-.155-.41-.155-.566.001z" transform="translate(256 165) translate(74 28)"/>
+                        </g>
+                    </g>
+                    <g transform="translate(72 165)">
+                        <g>
+                            <use fill="#000" filter="url(#2sopd8f3ae)" xlink:href="#busdhe29cf"/>
+                            <rect width="167" height="90" x=".5" y=".5" fill="#FFF" stroke="#CEDEE7" stroke-linejoin="square" rx="2"/>
+                        </g>
+                        <rect width="40" height="16" x="64" y="59" fill="#EC0000" rx="8"/>
+                        <text fill="#444" font-family="SantanderMicroText-Bd, Santander Micro Text" font-size="8" font-weight="bold">
+                            <tspan x="42.152" y="49">International Transfer</tspan>
+                        </text>
+                        <g fill="#257FA4">
+                            <path d="M6.25 7.083c.23 0 .417.187.417.417 0 .23-.187.417-.417.417h-.875C5.185 9.419 4.002 10.6 2.5 10.79v3.418c1.502.19 2.684 1.372 2.875 2.874h9.25c.19-1.502 1.373-2.684 2.875-2.874V10.79c-1.502-.19-2.684-1.372-2.875-2.874h-.875c-.23 0-.417-.187-.417-.417 0-.23.187-.417.417-.417h4.167c.23 0 .416.187.416.417v10c0 .23-.186.417-.416.417H2.083c-.23 0-.416-.187-.416-.417v-10c0-.23.186-.417.416-.417zm-3.75 7.96v2.04h2.041c-.176-1.043-.997-1.864-2.041-2.04zm15 0c-1.044.176-1.865.997-2.041 2.04H17.5zM9.705 2.204c.163-.162.427-.162.59 0l2.5 2.5c.162.163.162.427 0 .59-.082.081-.188.122-.295.122-.107 0-.213-.041-.295-.122l-1.788-1.79v4.507c2.07.212 3.697 1.946 3.697 4.071 0 2.268-1.846 4.114-4.114 4.114s-4.114-1.846-4.114-4.114c0-2.125 1.627-3.86 3.697-4.071V3.506L7.795 5.295c-.163.162-.427.162-.59 0-.162-.163-.162-.427 0-.59zm1.088 11.545H9.214c.156.684.408 1.246.733 1.608.018 0 .035.006.053.006.018 0 .035-.005.053-.006.342-.38.589-.95.74-1.608zm2.017 0h-1.178c-.101.506-.254.976-.452 1.385.688-.266 1.257-.758 1.63-1.385zm-4.448 0H7.19c.373.626.94 1.117 1.626 1.384-.196-.401-.35-.867-.454-1.384zm4.798-2.5h-1.41c.052.55.052 1.116 0 1.667h1.41c.071-.268.12-.544.12-.834 0-.29-.049-.565-.12-.833zm-2.23 0H9.08c-.027.268-.046.544-.046.83 0 .288.018.566.046.837h1.85c.057-.549.057-1.119 0-1.667zm-2.687 0H6.84c-.07.268-.12.544-.12.833 0 .29.05.566.12.834h1.403c-.025-.272-.043-.55-.042-.838 0-.284.017-.56.042-.829zM10 8.803c-.018 0-.035.005-.053.005-.324.362-.576.924-.732 1.609h1.578c-.151-.659-.398-1.23-.74-1.609-.018 0-.035-.005-.053-.005zm-1.183.23c-.686.266-1.254.758-1.627 1.384h1.173c.104-.518.258-.984.454-1.385zm2.363-.002c.198.41.35.88.452 1.386h1.178c-.373-.627-.942-1.119-1.63-1.386zM4.54 7.917H2.5v2.04c1.044-.176 1.865-.997 2.041-2.04zm12.959 0h-2.041c.176 1.043.997 1.864 2.041 2.04v-2.04z" transform="translate(74 16)"/>
+                        </g>
+                    </g>
+                    <g transform="translate(256 61)">
+                        <g>
+                            <use fill="#000" filter="url(#cz5kvioq7g)" xlink:href="#4odqrdsz0h"/>
+                            <rect width="167" height="90" x=".5" y=".5" fill="#FFF" stroke="#CEDEE7" stroke-linejoin="square" rx="2"/>
+                        </g>
+                        <rect width="40" height="16" x="40" y="59" fill="#EC0000" rx="8"/>
+                        <rect width="40" height="16" x="88" y="59" fill="#EC0000" rx="8"/>
+                        <text fill="#444" font-family="SantanderMicroText-Bd, Santander Micro Text" font-size="8" font-weight="bold">
+                            <tspan x="49.22" y="49">Domestic Transfer</tspan>
+                        </text>
+                        <g fill="#257FA4">
+                            <path d="M6.25 6.667c.23 0 .417.186.417.416 0 .23-.187.417-.417.417h-.875c-.19 1.502-1.373 2.684-2.875 2.875v3.417c1.502.19 2.684 1.373 2.875 2.875h9.25c.19-1.502 1.373-2.685 2.875-2.875v-3.417c-1.502-.19-2.684-1.373-2.875-2.875h-.875c-.23 0-.417-.186-.417-.417 0-.23.187-.416.417-.416h4.167c.23 0 .416.186.416.416v10c0 .23-.186.417-.416.417H2.083c-.23 0-.416-.186-.416-.417v-10c0-.23.186-.416.416-.416zM2.5 14.625v2.042h2.041c-.176-1.044-.997-1.865-2.041-2.042zm15 0c-1.044.177-1.865.998-2.041 2.042H17.5zM9.705 2.622c.163-.163.427-.163.59 0l2.5 2.5c.162.163.162.427 0 .59-.082.08-.188.121-.295.121-.107 0-.213-.04-.295-.122l-1.788-1.788v5.286c1.41.204 2.5 1.409 2.5 2.874C12.917 13.691 11.608 15 10 15c-1.608 0-2.917-1.309-2.917-2.917 0-1.465 1.09-2.67 2.5-2.874V3.923L7.795 5.71c-.163.163-.427.163-.59 0-.162-.162-.162-.426 0-.589zM10 10c-1.149 0-2.083.934-2.083 2.083 0 1.15.934 2.084 2.083 2.084s2.083-.935 2.083-2.084S11.15 10 10 10zm7.5-2.5h-2.041c.176 1.044.997 1.865 2.041 2.041V7.5zm-12.959 0H2.5v2.041c1.044-.176 1.865-.997 2.041-2.041z" transform="translate(74 16)"/>
+                        </g>
+                    </g>
+                    <g transform="translate(72 61)">
+                        <g>
+                            <use fill="#000" filter="url(#mrrvnrk70i)" xlink:href="#09h4co0bbj"/>
+                            <rect width="167" height="90" x=".5" y=".5" fill="#FFF" stroke="#CEDEE7" stroke-linejoin="square" rx="2"/>
+                        </g>
+                        <rect width="40" height="16" x="64" y="59" fill="#EC0000" rx="8"/>
+                        <text fill="#444" font-family="SantanderMicroText-Bd, Santander Micro Text" font-size="8" font-weight="bold">
+                            <tspan x="53.62" y="49">Instant Transfer</tspan>
+                        </text>
+                        <g fill="#257FA4">
+                            <path d="M17.936 2.5c.205 0 .375.148.41.343l.006.075-.019 7.916c0 .201-.143.369-.333.408l-.084.008h-2.075v5.833c0 .205-.147.375-.341.41l-.075.007H2.083c-.204 0-.374-.147-.41-.342l-.006-.075V9.167c0-.205.147-.375.341-.41l.075-.007h2.065V2.917c0-.205.148-.375.342-.41l.075-.007h13.37zm-.418.833H4.981V8.75h1.686c.204 0 .374.147.41.342l.006.075c0 .204-.147.374-.341.41l-.075.006H2.5v7.084h12.508v-5.834c0-.128.058-.242.149-.318l.058-.041c.04-.025.086-.042.135-.05l.075-.007H17.5l.017-7.084zm-4.456 3.36l.01.004c.003 0 .005.002.008.003.02.008.04.019.059.03.025.017.05.036.072.059l-.051-.044c.014.01.028.022.041.034l.01.01.01.01c.011.012.021.024.03.037l.022.03.015.029c.007.012.012.025.018.038l.009.027c.004.015.008.03.01.044l.002.004.006.075v3.75c0 .23-.186.417-.416.417-.23 0-.417-.187-.417-.417V8.088L9.049 11.54c-.143.143-.362.16-.524.054l-.065-.054c-.163-.162-.163-.426 0-.589L11.91 7.5H9.167c-.205 0-.375-.147-.41-.342l-.007-.075c0-.23.187-.416.417-.416h3.75c.026 0 .052.002.078.007h.001l.066.019z" transform="translate(74 16)"/>
+                        </g>
+                    </g>
+                    <text fill="#444" font-family="SantanderMicroText, Santander Micro Text" font-size="14">
+                        <tspan x="72" y="39">New payment</tspan>
+                    </text>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

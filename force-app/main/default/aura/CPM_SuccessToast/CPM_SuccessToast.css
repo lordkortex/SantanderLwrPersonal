@@ -1,0 +1,62 @@
+/* TOAST CSS */
+
+.THIS.demo-only .slds-notify__close {
+    bottom: 0;
+    height: 16px;
+    margin: auto;
+    top: 0;
+    width: 16px;
+}
+
+.THIS.demo-only .slds-notify__close .slds-button.slds-button_icon {
+    display: flex;
+}
+
+.THIS.demo-only .slds-notify__close .slds-button.slds-button_icon .icon-delete:before {
+    font-size: 16px;
+}
+
+.THIS .icon-check:before {
+    color:#63ba68;
+    font-size: 16px;
+}
+
+.THIS .icon-delete__circle-gray:before {
+    font-size: 16px;
+}
+
+.THIS .slds-icon_selected {
+    margin-right: 8px;
+}
+
+.THIS .slds-icon_container {
+    margin: 0;
+}
+
+.THIS .slds-notify__content {
+    color: #444444;
+}
+
+.THIS .slds-notify-container {
+    z-index: -1;
+}
+
+.THIS .slds-notify_container {
+    z-index: -1;
+}
+
+.THIS .slds-notify__content .slds-text-heading_small {
+    font-size: 12px;
+}
+
+.THIS .slds-theme_success {
+    background-color: #f8fcf8;
+    border: solid 1px #f0f8f0;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgba(68, 68, 68, 0.16);
+    height: 40px;
+    margin: 0;
+    margin-bottom: 8px;
+    padding: 12px;
+    width: 100%;
+}

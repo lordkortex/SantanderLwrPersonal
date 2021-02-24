@@ -1,0 +1,46 @@
+.THIS.slds-backdrop.slds-backdrop_open{
+    opacity: 0.7;
+    background-color: #444444;
+}
+
+.THIS .slds-modal__container.modalWarning{
+    min-width: 808px;
+    max-width: 808px;
+    height: 0;
+    max-height: 0;
+    min-height: 141px;
+    top: 57px;
+    display: block;
+    padding: 23px 0;
+    box-shadow: 4px 30px 12px 4px rgba(206,214,219,0.4);
+    background-color: transparent;
+}
+
+.THIS .slds-modal__header {
+    padding:24px 72px 24px 24px;
+    border-bottom: none !important;
+    text-align: left;
+}
+
+.THIS .slds-modal__content {
+    padding: 24px 24px 24px 24px;
+}
+
+.THIS .slds-modal__title {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 20px;
+    line-height: 28px;
+    color: #444444;
+    text-justify: left;
+}
+
+.THIS .slds-p-around_medium p {
+    font-family: "SantanderHeadlineW05";
+    font-size: 14px;
+    line-height: 21px;
+    color: #444444;
+}
+
+.THIS .slds-p-around_medium span{
+    font-family: "SantanderHeadlineW05-Bold";
+}

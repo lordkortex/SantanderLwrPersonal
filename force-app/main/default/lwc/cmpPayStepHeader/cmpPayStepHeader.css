@@ -1,0 +1,81 @@
+/* STEPPER */
+.stepper{
+    width: 100%;
+    margin-top: 52px;
+    margin-bottom: 28px;
+}
+
+/* STEPPER HEADING */
+.stepper_heading {
+    width: 100%;
+    min-height: 40px;
+}
+
+.stepper_heading .line{
+    height: 1px;
+    background-color: #cedee7;
+    margin-top: 20px;
+}
+
+.stepper_heading .slds-col:first-child{
+    max-width: calc((( 100vw - 808px) / 2) - 24px);
+}
+            
+.stepper_heading .slds-col:nth-child(2){
+    max-width: fit-content;
+}
+
+.stepper_heading .step{
+    align-items: flex-start;
+    padding-right: 24px;
+    padding-left: 24px;
+}
+
+.stepper_heading .step .step_number{
+    width: 32px;
+    height: 32px;
+    background-color: #444444;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+    margin-bottom: 4px;            
+    margin-right: 12px;
+}
+            
+.step_number > span{
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 24px;
+    line-height: 28px;
+    color: #ffffff;
+}
+            
+.stepper_heading .step .step_title{
+    max-width: 764px;
+    min-height: 40px;
+	display: flex;
+    align-items: flex-start;
+}
+
+.step_title > span {
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    line-height: 34px;
+    color: #444444;
+}
+        
+
+/* STEPPER SUBTITLE */
+.stepper_subtitle {
+    width: 808px;
+    margin: 0 auto;
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+.step_subtitle {
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 20px;
+    line-height: 1.4;
+    color: #444444;
+}

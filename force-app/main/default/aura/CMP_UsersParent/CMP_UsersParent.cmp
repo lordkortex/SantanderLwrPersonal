@@ -1,0 +1,63 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Parent component of the users screen.
+History
+<Date>			<Author>		<Description>
+20/01/2020		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access = "Global" controller="CNT_UsersController">
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}"/>
+    <lightning:navigation aura:id="navService"/>
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <aura:attribute name="clickedUser" type="Object"                                                    description="User that was clicked in the table" />
+    <aura:attribute name="maxWidth"     type="Integer"  default="1184"                                  description="Default width for the page container"/>
+    <aura:attribute name="usersList"    type="List"                                                     description="List of all users"/>
+    <aura:attribute name="usersFilter"  type="List"                                                     description = "Filtered List of all users" />
+    <aura:attribute name="showToast"    type="Boolean"  default="false"                                 description="Sets if toast is showing" />
+    <aura:attribute name="toastText"    type="String"   default="{!$Label.c.Users_GeneratePassword}"    description="text of the toast" />
+    <aura:attribute name="showDeleteBox" type="Boolean" default="false"                                 description="Cecks if is showing the delete box" />
+    <aura:attribute name="isSearching"  type="boolean"  default="false"                                 description="List if is searching for users"/>
+    <aura:attribute name="hasSearched" type="boolean" default="false"   description="Attribute to set if the pills container is showing" />
+    
+    <aura:handler name="DeleteUserEvent" event="c:EVT_DeleteUserModalBox" action="{!c.deletionConfirmed}"/>
+    <aura:handler name="searchUser" event="c:EVT_UsersSearch" action="{!c.searchUser}"/>
+    <aura:handler name="ListClickedEvent" event="c:EVT_UsersListButtonClicked" action="{!c.rowButtonClicked}"/>
+    <aura:handler name="buttonClickedEvent" event="c:EVT_TitleButtonClicked" action="{!c.handleComponentEvent}" />
+
+    <!-- ATTRIBUTES TO SHOW TOAST -->
+    <aura:attribute name="toShow"       type="Boolean"   description="Attribute show message when the user is created succesfully" />
+    <aura:attribute name="message"    type="String"  description="Message for the toast" />
+    <aura:attribute name="type"       type="String"  default="success" description="Attribute to show toast message" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- START OF THE BODY -->
+  
+    <div style="{!'width:' + v.maxWidth + 'px;'}">
+            
+        <!-- TITLE OF THE COMPONENT -->
+        <c:CMP_Title title="{!$Label.c.Users}" subtitle="{!$Label.c.Users_Subtitle}" displayDownloadIcon="true" displaySearchIcon="true" 
+                    displayAddIcon="true" isSearching="{!v.isSearching}" isShowingToast="{!v.showToast}" toastText="{!v.toastText}"/>
+
+        <c:CMP_UsersSearch isSearching="{!v.isSearching}" hasSearched="{!v.hasSearched}"/>
+        <!-- TABLE BLOCK -->
+
+        <!-- TOAST show the message when the user is created succesfully-->
+      
+        <c:CMP_Toast type="{!v.type}"  show="{!v.toShow}" message="{!v.message}"/>
+       
+
+        <c:CMP_UsersList usersList="{!v.usersFilter}"/>
+
+        <div style="position: relative !important; margin-top: 35px;" class="spinner">
+            <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+        </div>
+
+    </div>
+
+   <aura:if isTrue="{!v.showDeleteBox}">
+        <c:CMP_DeleteUserModalBox isShowing="{!v.showDeleteBox}" firstText="{!v.clickedUser.userId +' &nbsp; - &nbsp;' + v.clickedUser.userName + '&nbsp;' + v.clickedUser.userSurname}"/>
+    </aura:if>
+</aura:component>

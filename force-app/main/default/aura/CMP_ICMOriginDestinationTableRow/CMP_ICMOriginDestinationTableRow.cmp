@@ -1,0 +1,53 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Component for the Step one Oringin and Destinantion payments process table row
+History
+<Date>			<Author>		  <Description>
+21/11/2019		Pablo Tejedor     Initial version-->
+
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+
+    <aura:attribute name="data"                     type="Object"/>
+    <aura:attribute name="currentStageNumber"       type="Integer"/>
+    <aura:attribute name="checked"                  type="Boolean"/>
+   
+    <aura:registerEvent name="CheckChanged" type="c:EVT_ICMOriginDestinationCheckChanged"/>
+
+    <tr class="slds-hint-parent border" aria-selected="{!v.checked}">        
+
+        <!--CHECK DATA COLUMN-->
+        <td role="gridcell">
+            <input id="{!v.data.value.id}" name="group" type="radio" value="{!v.checked}" checked ="{!v.checked}" onchange="{!c.buttonSelected}" />   
+        </td>           
+        <!--CHECK ALIAS COLUMN-->
+        <td role="gridcell">
+            <div class="slds-truncate" title="{!v.alias}">{!v.data.value.alias}</div>
+        </td>
+
+        <!--ACCOUNT NUMBER COLUMN-->
+        <td class="slds-truncate" role="gridcell">
+            <!--IMAGE-->
+            <span class="amountInteger">
+                <div style="width: 50%; height: 50%" >
+                    <img  aura:id="countryImage" class="flag" src="{!$Resource.Flags + '/' + v.data.value.countryCode + '.svg'}"  onerror="{!c.defaultImage}" /> 
+                    <lightning:formattedNumber value="{!v.accountNumber}" minimumFractionDigits="2" maximumFractionDigits="2"/>
+                     <div>{!v.data.value.accountNumber}</div>
+                </div>
+            </span> 
+            </td>
+
+        <!--BALANCE COLUMN JUST IF STAGE NUMBER IS 1-->
+        <aura:if isTrue="{!v.currentStageNumber == 1}">
+            <td role="gridcell">
+                <div class="slds-truncate" title="{!v.balance}">{!v.data.value.balance}</div>
+            </td> 
+        </aura:if>
+
+        <!--CURRENCY COLUMN-->
+        <td role="gridcell">
+            <div class="slds-truncate" title="{!v.data.value.ObjectCurrency}">{!v.data.value.ObjectCurrency}</div>
+        </td>
+    </tr>
+</aura:component>

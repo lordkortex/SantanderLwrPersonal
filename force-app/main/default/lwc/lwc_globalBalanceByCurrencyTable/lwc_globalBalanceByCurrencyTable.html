@@ -1,0 +1,28 @@
+<template>
+    <div class="slds-grid title_container">
+        <div class="slds-col">
+            <div class="slds-text-heading_medium">{label.GlobalBalanceByCurr}</div>
+            <div class="text_line"></div>
+        </div> 
+    </div>
+    <c-lwc_global-balance-by-currency-card
+        lastupdateselected={lastupdateselected}
+        currenciesexchange={currenciesexchange}
+        selectedcurrency={selectedcurrency}
+        cardgrouping={cardgrouping}
+        start={start}
+        end={end}>
+    </c-lwc_global-balance-by-currency-card>
+
+    <div class="nav-carousel">
+        <a id="previous" class="slds-carousel__arrow arrow_left"  onclick={changePage}><span class="icon-arrowLeft_big"></span></a>  
+        <ul class="slds-carousel__indicators" role="tablist">
+            <template for:each={pages} for:item='item'>
+                <li key={item.id} class="slds-carousel__indicator" role="presentation">
+                    <a data-id={item.id} class="slds-carousel__indicator-action slds-is-active"  role="tab" tabindex="0" aria-selected="true" onclick={changePage}></a>
+                </li>
+            </template>   
+        </ul>
+        <a  id="next" class="slds-carousel__arrow arrow_right" onclick={changePage}><span class="icon-arrowRight_big" ></span></a>
+    </div> 
+</template>

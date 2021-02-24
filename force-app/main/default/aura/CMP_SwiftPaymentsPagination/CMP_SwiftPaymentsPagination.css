@@ -1,0 +1,63 @@
+.THIS .balance{
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.THIS .button-pageLeft{
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    margin-right: 4px;
+}
+
+.THIS .button-pageRight{
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+.THIS .number__black{
+    align-items: center;
+    background-color: white;
+    border-radius: 50%;
+    color: #444444;
+    cursor: pointer;
+    display: flex;
+    font-family:"SantanderHeadlineW05-Bold";
+    font-size: 12px;
+    height: 24px;
+    justify-content: center;
+    width: 24px;
+}
+
+.THIS .number__gray{
+    align-items: center;
+    border-radius: 50%;
+    color: #a2a2a2;
+    cursor: pointer;
+    display: flex;
+    font-family:"SantanderTextW05-Bold";
+    font-size: 12px;
+    height: 24px;
+    justify-content: center;
+    width: 24px;
+}
+
+.THIS.pagination{
+    background-color: #dadada;
+    height: 40px;
+    margin: 0;
+    padding: 0 30px 0 24px;
+}
+
+.THIS .results{
+    align-items: center;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    height: 18px; 
+}

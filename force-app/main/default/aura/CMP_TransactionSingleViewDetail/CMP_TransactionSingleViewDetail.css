@@ -1,0 +1,82 @@
+.THIS.slds-card {
+	background-color: #ffffff;
+	border: solid 1px #ececec;
+	border-radius: 4px;
+	margin: 0px;
+	min-height: 200px;
+	padding: 16px 24px 16px 24px;
+}
+
+.THIS.slds-card .information {
+	color: #444444;
+	font-size: 12px;
+	line-height: 18px;
+	margin-bottom: 8px;
+	position: relative;
+}
+
+.THIS.slds-card .name {
+	color: #a2a2a2;
+	font-size: 12px;
+	line-height: 18px;
+}
+
+.THIS.slds-card .slds-card__header:last-child .information {
+	margin-bottom: 0;
+}
+
+.THIS .icon-copy {
+    cursor: pointer;
+	height: 18px;
+	margin-right: 24px;
+}
+
+.THIS .icon-copy:before {
+	font-size: 16px;
+	position: absolute;
+	top: 1px;
+}
+
+.THIS .slds-card__header.slds-grid {
+	margin: 0;
+	padding: 0;
+}
+
+.THIS .slds-card__header-title {
+	width: 50%;
+}
+
+/* TOOLTIPS DIV*/
+.THIS span[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+.THIS span[data-title]:after {
+     background-color: #ffffff;
+     bottom: -1.6em;
+     border-radius: 5px;  
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;  
+     box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    color: #444444;
+    content: attr(data-title);
+    font-family:"SantanderTextW05-Regular";
+    font-size:12px;
+    height:24px;
+    left: 90%;
+    opacity: 0;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    visibility: hidden; 
+    white-space: nowrap;    
+    width:auto;
+    z-index: 99999;
+}
+
+.THIS  span[data-title] {
+    position: relative;
+}

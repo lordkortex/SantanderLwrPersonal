@@ -1,0 +1,116 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <ltng:require scripts="/resource/tostadas" />
+
+    <aura:attribute access="public"  type="Map"     name="account"                                                         description="Selected account." />
+    <aura:attribute access="public"  type="List"    name="accountList"            default="[]"                             description="List of accounts" />
+    <aura:attribute access="public"  type="String"  name="searchedString"         default=""                               description="Search information placed in the account search input." />
+    <aura:attribute access="public"  type="Boolean" name="beneficiaryDetails"     default="false"                          description="Show beneficiary details." />
+    <aura:attribute access="public"  type="String"  name="headerCard"             default=""                               description="Header of the card." />
+    <aura:attribute access="public"  type="String"  name="headerLabel"            default="{!$Label.c.B2B_Payment_Header}" description="Header label" />
+    <aura:attribute access="public"  type="String"  name="label"                  default=""                               description="Label pf the account searcher input text." />
+    <aura:attribute access="public"  type="String"  name="placeholder"            default=""                               description="Label pf the account searcher input text." />
+    <aura:attribute access="public"  type="Map"     name="steps"                                                           description="Data of the steps." />
+    <aura:attribute access="public"  type="String"  name="errorMSG"               default=""                               description="Indicates the error when clicked on continue." />
+    <aura:attribute access="public"  type="Map"     name="accountData"                                                     description="Account data." />
+    <aura:attribute access="private" type="Boolean" name="spinner"                default="false"                          description="Spinner loading." />
+    <aura:attribute access="public"  type="Boolean" name="enableBrowseAccount"    default="false"                          description="Enable the button browse account." />
+    <aura:attribute access="public"  type="Map"     name="userData"                                                        description="User data." />
+    <aura:attribute access="public"  type="Boolean" name="isModified"                                                      description="Indicates if the input data has been modified." />
+    <aura:attribute access="public"  type="Boolean" name="isEditing"              default="false"                          description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+    <aura:attribute access="public"  type="Boolean" name="canCreateBeneficiaries" default="false"                          description="Enable the component to create new beneficiaries." />
+    <aura:attribute access="public"  type="Boolean" name="canSelectExpenses"      default="false"                          description="Enable the component to select expenses account." />
+    <aura:attribute access="public"  type="Boolean" name="enableExpensesSelect"   default="false"                          description="Enable the component to select expenses account." />
+    <aura:attribute access="public"  type="Boolean" name="checkedYES"                                                      description="Indicates if the payment second card selection should be shown." />
+    <aura:attribute access="public"  type="Map"     name="expensesAccount"                                                 description="Selected expenses account." />
+    <aura:attribute access="public"  type="List"    name="expensesAccountList"    default="[]"                             description="List of accounts without account origin" />
+    <aura:attribute access="public"  type="String"  name="searchedStringExpenses" default=""                               description="Search information placed in the account search input." />
+    <aura:attribute access="public"  type="String"  name="errorMSGExpenses"       default=""                               description="Indicates the error when clicked on continue." />
+
+    <aura:handler name="init"   action="{!c.initComponent}" value="{!this}" />
+    <aura:handler name="change" action="{!c.changeAccount}" value="{!v.account}" />
+
+    <div>
+        <div class="select-Account">
+            <aura:if isTrue="{!and(v.beneficiaryDetails eq false, v.accountList.length le 6)}">
+                <aura:if isTrue="{!v.accountList.length ge 1}">
+                    <!-- <c:cmpPaySelectlesssixaccounts
+                        accountSelected="{!v.account}"
+                        accountList="{!v.accountList}"
+                        accountData="{!v.accountData}"
+                        beneficiaryDetails="{!v.beneficiaryDetails}"
+                        isModified="{!v.isModified}"
+                        userData="{!v.userData}" 
+                    /> -->
+                    <c:CMP_B2B_SelectLessSixAccounts
+                        account="{!v.account}"
+                        accountList="{!v.accountList}"
+                        accountData="{!v.accountData}"
+                        beneficiaryDetails="{!v.beneficiaryDetails}"
+                        isModified="{!v.isModified}"
+                        userData="{!v.userData}" />
+                </aura:if>
+                <aura:set attribute="else">
+                    <c:CMP_B2B_SelectIndividualAccount
+                        label="{!v.label}"
+                        isEditing="{!v.isEditing}"
+                        searchedString="{!v.searchedString}"
+                        errorMSG="{!v.errorMSG}"
+                        account="{!v.account}"
+                        steps="{!v.steps}"
+                        userData="{!v.userData}"
+                        isModified="{!v.isModified}"
+                        accountData="{!v.accountData}"
+                        headerLabel="{!v.headerLabel}"
+                        headerCard="{!v.headerCard}"
+                        accountList="{!v.accountList}"
+                        beneficiaryDetails="{!v.beneficiaryDetails}"
+                        placeholder="{!v.placeholder}"
+                        enableBrowseAccount="{!v.enableBrowseAccount}"
+                        canCreateBeneficiaries="{!v.canCreateBeneficiaries}" />
+                </aura:set>
+            </aura:if>
+            <aura:if isTrue="{!v.canSelectExpenses eq true}">
+                <aura:if isTrue="{!v.enableExpensesSelect eq true}">
+                    <div class="slds-text-heading_subtitle">{!$Label.c.B2B_Expenses_Question}</div>
+                    <fieldset class="slds-form-element radio">
+                        <div class="slds-form-element__control">
+                            <span class="slds-radio">
+                                <input type="radio" aura:id="radioYES" id="radioYES" value="radioYES" name="default" checked="{!v.checkedYES}" onchange="{!c.handleRadioYESChecked}" />
+                                <label class="slds-radio__label" for="radioYES">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label">{!$Label.c.Yes}</span>
+                                </label>
+                            </span>
+                            <span class="slds-radio">
+                                <input type="radio" id="radioNO" value="radioNO" name="default" checked="{!v.checkedYES eq false}" onchange="{!c.handleRadioNOChecked}"/>
+                                <label class="slds-radio__label" for="radioNO">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label">{!$Label.c.No}</span>
+                                </label>
+                            </span>
+                        </div>
+                    </fieldset>
+                    <aura:if isTrue="{!v.checkedYES}">
+                        <c:CMP_B2B_SelectIndividualAccount
+                            label="{!$Label.c.B2B_Expenses_Account}"
+                            isEditing="{!v.isEditing}" 
+                            searchedString="{!v.searchedStringExpenses}"
+                            errorMSG="{!v.errorMSGExpenses}"
+                            account="{!v.expensesAccount}"
+                            steps="{!v.steps}"
+                            userData="{!v.userData}"
+                            isModified="{!v.isModified}"
+                            accountData="{!v.accountData}"
+                            headerLabel="{!v.headerLabel}"
+                            headerCard="{!$Label.c.B2B_Expenses_Account}"
+                            accountList="{!v.expensesAccountList}"
+                            beneficiaryDetails="{!v.beneficiaryDetails}"
+                            placeholder="{!$Label.c.B2B_Expenses_Account}"
+                            enableBrowseAccount="{!v.enableBrowseAccount}" />
+                    </aura:if>
+                </aura:if>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

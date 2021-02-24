@@ -1,0 +1,79 @@
+.THIS {}
+
+.THIS {
+    height: 70px;
+}
+
+.THIS .amountInteger div div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.THIS:first-child td {
+    border-top: 0;
+}
+
+.THIS input[type="radio"]:checked,
+.THIS input[type="radio"]:not(:checked) {
+    height: 24px;
+    position: relative;
+    width: 24px;
+}
+
+.THIS input[type="radio"]:checked:after,
+.THIS input[type="radio"]:not(:checked):after {
+    bottom: 0;
+    border-bottom: 2px solid #ec0000;
+    border-left: 1px solid #ec0000;
+    content: "";
+    height: .27rem;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: rotate(-45deg);
+    width: .7rem;
+}
+
+.THIS input[type="radio"]:checked:after {
+    opacity: 1;
+}
+
+.THIS input[type="radio"]:not(:checked):after {
+    opacity: 0;
+}
+
+.THIS input[type="radio"]:checked:before,
+.THIS input[type="radio"]:not(:checked):before {
+    background: white;
+    border: 1px solid rgb(212, 212, 212);
+    border-radius: 0;
+    border-radius: 3px;
+    content: '';
+    height: 24px;
+    left: 0;
+    position: absolute;
+    width: 24px;
+}
+
+.THIS input[type="radio"]:checked:before {
+    border: 2px solid #ec0000;
+}
+
+.THIS.slds-hint-parent.border[aria-selected="true"] {
+    font-family: "SantanderTextW05-Bold";
+}
+
+.THIS.slds-hint-parent.border td .slds-truncate {
+    line-height: 2;
+}
+
+.THIS td:first-child {
+    text-align: center;
+    width: 50px;
+}
+
+.THIS td .slds-form-element__control {
+    text-align: center;
+}

@@ -1,0 +1,51 @@
+.THIS {
+	
+}
+
+.THIS .searchBox {
+	height : 540px;
+}
+
+.THIS .resultTable {
+	display: none;
+}
+
+.THIS input.error, .THIS select.error {
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(194, 57, 52);
+    box-shadow: rgb(194, 57, 52) 0 0 0 1px inset;
+    background-clip: padding-box;
+}
+
+.THIS input.error:focus, .THIS select.error:focus {
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(194, 57, 52);
+    box-shadow: rgb(194, 57, 52) 0 0 0 1px inset;
+    background-clip: padding-box;
+}
+
+.THIS .slds-table--fixed-layout {
+  table-layout: fixed;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.THIS .slds-text-heading_small{
+    margin-top: 20px;
+}
+
+.THIS .inputDate input{
+    height: 36px !important;
+}
+
+.THIS .inputAmount input{
+    height: 36px !important;
+}
+
+.THIS .text{
+    font-size: 12px;
+}
+
+.THIS .withCombo{
+    width: 224px !important;
+}

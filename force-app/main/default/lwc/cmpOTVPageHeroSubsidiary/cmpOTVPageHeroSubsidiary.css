@@ -1,0 +1,62 @@
+.welcomingHeader {
+    background-color: #ffffff;
+    width:100%;
+    padding-top: 64px;
+    position: relative;
+}
+
+.welcomingHeader .slds-grid{
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 72px 108px 80px;
+}
+
+.welcomingHeader .slds-image {
+    width:600px;
+    height:400px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcomingHeader .text{
+    margin: 0 65px 0 0;
+    max-width: 392px;
+}
+
+.welcomingHeader .text .slds-text-heading {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 36px;
+    line-height: 43px;
+    color: #444444;
+    margin: 0 0 24px 0;
+}
+
+.welcomingHeader .text .slds-text-body {
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    line-height: 34px;
+    color: #444444;
+    margin: 0 0 32px 0;
+}
+.welcomingHeader .text .slds-text-body span{
+    font-family:"SantanderHeadlineW05-Bold"
+}
+
+.welcomingHeader .slds-col{
+    max-width: 600px;
+    width: 100%;
+}
+.welcomingHeader .slds-col:first-child{
+    margin-right:24px;
+    padding: 32px 0 40px;
+}
+
+.welcomingHeader .slds-button.button_link {
+    margin:0;
+    text-align: left;
+}
+
+.welcomingHeader .slds-button.button_link .icon_right:before{
+    margin: 0;
+}

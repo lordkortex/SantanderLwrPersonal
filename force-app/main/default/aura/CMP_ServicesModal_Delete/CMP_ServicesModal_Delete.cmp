@@ -1,0 +1,59 @@
+<!-- Author:       Teresa Santos
+    Company:        Deloitte
+    Description:    Function to display only the necessary rows in the tables
+    History
+    <Date>			<Author>			<Description>
+	10/02/2020		Teresa Santos		     Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="modalDeleteInfo"    type="Map"       description="Show the info of the pop-up"/>
+    <aura:attribute name="groupName" type="String" description="Name of the group that is getting created" />
+    <aura:attribute name="servicesList" type="List" default="[]" description="List of services that the table will contain"/>
+    <aura:attribute name="selectedValue" default ="" type="String" description="Selected option from the dropdown"/>
+    <aura:attribute name="hasProfile" type="boolean" default="false" description="Checks if the page where it comes from has profiling" />
+
+
+    <aura:if isTrue="{!v.modalDeleteInfo.showDeleteModal}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container modal_list">
+                <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"  onclick="{!c.closeButton}">
+                <div class="slds-button button-page icon-close"></div> 
+                <!-- data-title="{!$Label.c.T_Delete}" -->
+                <span class="slds-assistive-text">{!$Label.c.close}</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.modalDeleteInfo.title}</h2>
+                </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <ul>
+                    <aura:if isTrue="{!v.groupName != null}">
+                        <li>
+                            <div class="circle icon-circle__blue" ></div> 
+                            {!v.groupName}
+                        </li>
+                    </aura:if>
+                        <li>
+                            <div class="circle icon-circle__blue" ></div> 
+                            {!v.modalDeleteInfo.description}
+                        </li>
+
+                </ul>
+            </div>
+            <footer class="slds-modal__footer">
+                    <div class="slds-form-element">
+                        <div class="slds-media__body">
+                            <button class="slds-button slds-button_brand whiteButton" onclick="{!c.noButton}">{!$Label.c.No}</button>
+                            <button class="slds-button slds-button_brand redButton" onclick="{!c.deleteService}">{!$Label.c.Yes}</button>              
+                        </div>
+                    </div>
+            </footer>
+            </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+
+</aura:component>

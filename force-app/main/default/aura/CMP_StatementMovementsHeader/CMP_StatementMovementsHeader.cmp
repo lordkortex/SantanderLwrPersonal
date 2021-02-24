@@ -1,0 +1,47 @@
+<aura:component>       
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    
+    <!-- Global information -->
+    <aura:attribute name="userInfo"         type="Map"      default="{}"            description="Contains the user info" />
+
+    <!-- Account and header attributes -->
+    <aura:attribute name="accountInfo"      type="Map"      default="{}"            description="Contains the data of the account" />
+    <aura:attribute name="closeringBalance_Formatted"   type="Decimal"       default="0.0"          description="Contains the closing balance" />
+    <aura:attribute name="closeringBalanceDecimals_Formatted"   type="Decimal"       default="0.0"          description="Contains the closing balance decimals" />
+    <aura:attribute name="openingBalance_Formatted"   type="Decimal"       default="0.0"          description="Contains the opening balance" />
+    <aura:attribute name="openingBalanceDecimals_Formatted"   type="Decimal"       default="0.0"          description="Contains the opening balance decimals" />
+
+    <aura:attribute name="extractDate"      type="String"       description="Contains the date of the extract" />
+
+    <div class="cardTitleDetail">
+        <!-- TITLE -->
+        <div class="slds-card__header slds-grid containerInformation">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title separation">
+                        <div class="title">{!v.accountInfo.accountName}</div>
+                        <div class="slds-card__header-title col-amount">
+                            <span class="space">{!$Label.c.TotalBookBalance}</span>
+                            <div class="">
+                                    <span class="number">{!v.closeringBalance_Formatted}</span><span class="currency"><!--{!v.closeringBalanceDecimals_Formatted}--> &nbsp; {!v.accountInfo.accountCurrency}</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title separation">
+                        <div class="bankAccount"> {!v.accountInfo.subsidiaryName}&nbsp; -&nbsp; {!v.accountInfo.accountNumber} </div>
+                        <div class="slds-card__header-title col-amount">
+                            <span class="space">{!$Label.c.TotalAvailableBalance}</span>
+                            <div class="">
+                                    <span class="number_small">{!v.openingBalance_Formatted} <!--{!v.openingBalanceDecimals_Formatted}--> &nbsp; {!v.accountInfo.accountCurrency} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="extract">{!$Label.c.StatementOf} &nbsp; <c:CMP_displayDate date="{!v.extractDate}" /> </div>
+                </div>
+            </div>
+        </div>
+        <div class="text_line"></div>
+    </div>
+</aura:component>

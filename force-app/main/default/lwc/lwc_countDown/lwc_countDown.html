@@ -1,0 +1,59 @@
+<template>
+    
+    <template if:true={expiredFXEqualsFalse}>
+        
+        <!-- PROGRESS RING AVAILABLE -->
+        <div class="progress-ring_container available sizeS">
+            <div class="slds-progress-ring"> 
+                    <div class={progressClass} role="progressbar" ></div>  
+                    <div class="slds-progress-ring__content">
+                        <p>{minutes}:{seconds}</p>
+                    </div>
+                </div>
+            <div class="progress-ring_text">
+                <p>{Label.ExchangeRateLocked}&nbsp;<span>{minutesInit}&nbsp;{Label.minutes}</span>.</p>
+            </div>
+            <template if:true={spinnerEqualsTrue}>
+                <lightning-spinner alternative-text="Loading" size="medium" ></lightning-spinner>
+            </template>
+        </div>
+        <!--Ends PROGRESS RING AVAILABLE  -->
+    </template>
+    
+    <template if:false={expiredFXEqualsFalse}>
+
+        <!-- PROGRESS RING NOT AVAILABLE -->
+        <template if:true={update}>
+            <div class="progress-ring_container__update sizeS">
+                <template if:true={spinnerEqualsTrue}>
+                    <lightning-spinner alternative-text="Loading" size="medium" ></lightning-spinner>
+                </template>
+                <p>{Label.theExchangeRateExpired}</p>
+                <button class="slds-button secondary" onclick={FXAction}>
+                    {Label.UpdateExchangeRate}&nbsp;<span class="icon-reload " ></span>
+                </button>
+                
+            </div>
+        </template>
+        <template if:false={update}>
+            <div class="progress-ring_container notAvailable sizeS">
+                <div class="slds-progress-ring"> 
+                        <div class="slds-progress-ring__progress" role="progressbar" ></div> 
+                    
+                    <div class="slds-progress-ring__content">
+                        <span class="icon-information" data-aura-rendered-by="186:2;a"></span>
+                    </div>
+                </div>
+    
+                <div class="progress-ring_text">
+                    <p>{Label.ExchangeRateExpired}&nbsp;<span>{Label.cantBeUpdated}</span>&nbsp;{Label.again}.</p>
+                </div>
+            </div> 
+        </template>
+        
+         
+        <!-- Ends PROGRESS RING NOT AVAILABLE -->
+
+    </template>
+    
+</template>

@@ -1,0 +1,99 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    Third layer to display account information
+History
+<Date>			<Author>		    <Description>
+01/09/2019		Laura Espinel		Design
+25/10/2019		Amanda Fernandez	Layout coding of the page
+28/10/2019		Shahad Naji     	Initial version
+28/10/2019		Shahad Naji 		Interactive web pages and Back-end development
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_AccountBalance">
+    
+    <aura:attribute name="iParentId" type="String" description="Parent Component Id"/>
+    <aura:attribute name="iAccount" type="Object" description="Account Information"/>
+    <aura:attribute name="iTabSelected" type="String"  description="Current selected tab"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="cmpId" type="String" default="N/A" description="Component Id"/>
+    <aura:attribute name="parsedDate" type="String" default="" description="The date of an account on 'End of day' tab"/>
+    <aura:attribute name="parsedBookBalance" type="Decimal" default="" description="Book balance amount"/>
+    <aura:attribute name="parsedAvailableBalance" type="Decimal" default="" description="Book balance amount"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />   
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <!-- CUENTA 1 -->
+    <div class="slds-card__header slds-grid contentAccount">
+        <header id="options" class="slds-media slds-media_center slds-has-flexi-truncate">
+            <!--GPI Tracker-->
+            <div class="slds-media__figure tracking" onclick="{!c.goToSwiftTracking}">
+                <div class="button-options icon-trackingSearch" data-title="Tracking"></div>
+            </div>
+
+            <div  name="accountBalanceOptions" aura:id="optionsDropdown" id="{!v.cmpId + '_options'}" class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-close">
+                <c:CMP_AccountBalanceOptions iAccount="{!v.iAccount}" isCashNexus="{!v.isCashNexus}" iTabSelected="{!v.iTabSelected}"/>
+            </div>
+            
+            <div id="{!v.cmpId}" data-index="{!v.cmpId + '_options'}" class="slds-media__figure moreOptions"  onclick="{!c.displayOptions}">
+                <div class="button-options icon-options" title="{!$Label.c.MoreOptions}"></div>
+            </div>
+            <!-- COLUMNAS FIJAS -->
+            <div class="colFixed">
+                <!-- COLUMNA 1 -->
+                <div class="slds-card__header-title slds-truncate accountNumber" onclick="{!c.goToAccountTransactions}">
+                    <a title="{!v.iAccount.displayNumber + ' | ' + v.iAccount.bankName}">{!v.iAccount.displayNumber}&nbsp;|&nbsp;{!v.iAccount.bankName}</a>
+                </div>
+                <!-- COLUMNA 2 -->
+                <div class="slds-card__header-title slds-truncate accountSubsidiary">
+                    <span>{!v.iAccount.subsidiaryName}</span>
+                </div>
+                <!-- COLUMNA 3 -->
+                <div class="slds-card__header-title slds-truncate accountAlias">
+                    <span>{!v.iAccount.alias}</span>
+                </div>
+                <!-- COLUMNA 4 -->
+                <div class="slds-card__header-title slds-truncate accountDate">
+                    <aura:if isTrue="{!v.iTabSelected == 'LastUpdateTab'}">
+                    	<div><span>{!v.iAccount.lastUpdateAvailableBalance}</span></div>
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{!v.parsedDate != ''}">
+                                <div onclick="{!c.goToExtracts}"><a title="{!v.parsedDate}">{!v.parsedDate}</a></div>
+                            </aura:if>                            
+                        </aura:set>
+                    </aura:if>                    
+                </div>
+            </div>
+            <!-- COLUMNAS VARIABLES -->
+            <div class="colVariable">
+                <!-- COLUMNA 5 -->
+                <div class="slds-card__header-title slds-truncate accountAvailable">
+                    <!--<c:CMP_displayAmount amount="{!v.iAccount.amountAvailableBalance}" 
+                                         decimalClass="accountAvailableDecimals" 
+                                         wholeClass="accountAvailableInteger" 
+                                         currency="{!v.iAccount.currencyCodeAvailableBalance}"/>    -->
+                    <aura:if isTrue="{!v.parsedAvailableBalance != ''}">
+                        <c:CMP_displayAmount amount="{!v.parsedAvailableBalance}" 
+                                             decimalClass="accountAvailableDecimals" 
+                                             wholeClass="accountAvailableInteger" 
+                                             currency="{!v.iAccount.currencyCodeAvailableBalance}"/>
+                    </aura:if>
+                </div>
+                <!-- COLUMNA 6 -->
+                <div class="slds-card__header-title slds-truncate accountBook">
+                  <!--  <c:CMP_displayAmount amount="{!v.iAccount.amountMainBalance}" 
+                                         decimalClass="accountBookDecimals" 
+                                         wholeClass="accountBookInteger" 
+                                         currency="{!v.iAccount.currencyCodeAvailableBalance}"/>-->
+                    <aura:if isTrue="{!v.parsedBookBalance != ''}">
+                        <c:CMP_displayAmount amount="{!v.parsedBookBalance}" 
+                                             decimalClass="accountBookDecimals" 
+                                             wholeClass="accountBookInteger" 
+                                             currency="{!v.iAccount.currencyCodeAvailableBalance}"/>
+                    </aura:if>
+                </div>
+            </div>
+        </header>
+    </div>
+</aura:component>

@@ -1,0 +1,48 @@
+<template>
+	<!-- FULL SCREEN MODAL -->
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+            
+            <!-- MODAL HEADER -->
+            <header class="slds-modal__header slds-is-fixed">
+                <div class="row slds-grid">
+                    <img class="logo-white" src={logoOneTrade}/>                
+                </div>
+            </header>
+            
+            <!-- MODAL CONTENT -->
+            <div class="slds-modal__content" id="modal-content-id-1">
+                <div class="slds-grid__content">
+                    
+                    <!-- PAGE HERO SUBSIDIARY LWC -->
+                    <c-cmp-o-t-v-page-hero-subsidiary></c-cmp-o-t-v-page-hero-subsidiary>
+
+                    <div class="banner">
+                        <div class="content">
+                            <div class="slds-grid">
+                                <div class="slds-text-heading">{label.cmpOTVSubsidiaryParent_1}</div>
+                                <div>
+                                    <div class="slds-text-body">{label.cmpOTVSubsidiaryParent_2}</div>
+                                    <div class="slds-text-body">{label.cmpOTVSubsidiaryParent_3}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <img class="background" src={welcomeOnBoarding}></img>
+                    </div>
+
+                    <!-- INFORMATIVE LIST LWC-->
+                    <c-cmp-o-t-v-content-informative-list></c-cmp-o-t-v-content-informative-list>
+                    
+                    <!-- CONTENT STEPS LWC-->
+                    <c-cmp-o-t-v-content-steps type2=true></c-cmp-o-t-v-content-steps>
+                    
+                    <!-- FOOTER LWC -->
+                    <div class="footer">
+                        <c-cmp-o-t-v-footer></c-cmp-o-t-v-footer>
+                    </div>               
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

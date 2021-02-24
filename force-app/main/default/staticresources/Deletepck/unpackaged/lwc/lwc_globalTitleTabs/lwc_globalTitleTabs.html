@@ -1,0 +1,43 @@
+<!--
+  @description       : 
+  @author            : Everis
+  @group             : 
+  @last modified on  : 12-08-2020
+  @last modified by  : Everis
+  Modifications Log 
+  Ver   Date         Author   Modification
+  1.0   12-08-2020   Everis   Initial Version
+-->
+<template>
+    <div class="slds-grid title_LastEndcontainer">
+        <div class="slds-col">
+            <div class="slds-text-heading_medium">{title}</div>
+            <template if:true={showdateinfo}>
+                <template if:true={lastupdateselected}>
+                   <div class="slds-text-heading_subtitle">{label.ACCOUNTS_UPDATED} &nbsp; 
+                       <c-lwc_display-date userdateformat={userPreferredDateFormat} dateclass="" date={lastinfodate}></c-lwc_display-date>
+                        , &nbsp; {lastInfoHour} 
+                    </div>
+                </template>
+                <template if:false={lastupdateselected}>
+                    <div class="slds-text-heading_subtitle">{label.INFORMATION_AT}&nbsp;
+                        <c-lwc_display-date userdateformat={userPreferredDateFormat} dateclass="" date={lastinfodate}></c-lwc_display-date>
+                    </div>
+                </template>
+            </template>
+            <div class="text_line"></div>
+        </div>
+        <template if:false={showonlylastupdate}>
+            <div class="slds-col">
+                <div class="slds-pill_container ">
+                    <button class={lastUpdateClass} role="option" tabindex="0" aria-selected="true" data-title={label.LAST_UPDATE} onclick={lastUpdateTab}>
+                        <span class="slds-pill__label">{label.LAST_UPDATE}</span>
+                    </button>
+                    <button class={endOfDayClass} role="option" tabindex="0" aria-selected="true" data-title={label.END_OF_DAY} onclick={endOfDayTab}>
+                        <span class="slds-pill__label">{label.END_OF_DAY}</span>
+                    </button>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

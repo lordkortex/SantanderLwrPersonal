@@ -1,0 +1,17 @@
+<template>
+    <article class="slds-card">  
+        <div class="slds-card__body slds-card__body_inner rectangle slds-text-align_center">
+            <div class="icon-prohibited__gray iconNoResults"></div>
+            <p class="noResults">{label.NoFoundResults}</p>
+            <template if:true={msg}>
+                <p class="textDescription">{msg}</p>
+            </template>
+            <template if:false={msg}>
+                <p class="textDescription">{label.NoFoundResultsDescription}</p>
+            </template>
+            <template if:true={showsearchagain}>
+                <button class="slds-button slds-button_brand redButton" onclick={searchAgain}>{label.SearchAgain}</button>
+            </template>
+        </div>     
+    </article>
+</template>

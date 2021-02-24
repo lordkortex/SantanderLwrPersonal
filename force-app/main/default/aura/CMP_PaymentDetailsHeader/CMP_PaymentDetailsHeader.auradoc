@@ -1,0 +1,44 @@
+<aura:documentation>
+    <aura:description>
+        <p style="font-weight: bold">"Payment Details Header" displays a brief information about the clicked payment.</p>
+        
+        <h3>History</h3>
+        
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>12/11/2019</td>
+                <td>Laura Espinel</td>
+                <td>Design</td>
+            </tr>
+            <tr>
+                <td>15/11/2019</td>
+                <td>Amanda Fernandez</td>
+                <td>Layout coding of the page</td>
+            </tr>
+            <tr>
+                <td>20/11/2019</td>
+                <td>Shahad Naji</td>
+                <td>Lightning Component Initial Version</td>
+            </tr>
+            <tr>
+                <td>21/11/2019</td>
+                <td>Shahad Naji</td>
+                <td>Interactive web pages Back-end development</td>
+            </tr>
+            <tr>
+                <td>TBD</td>
+                <td>TBD</td>
+                <td>Back-end development</td>
+            </tr>
+            
+        </table>
+    </aura:description>
+    <aura:example name="ExampleName" ref="c:CMP_International_Treasury_Management" label="Label">
+        Example Description
+    </aura:example>
+</aura:documentation>

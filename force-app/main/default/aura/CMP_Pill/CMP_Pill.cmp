@@ -1,0 +1,38 @@
+<!--
+    Author:         Guillermo Giral
+    Company:        Deloitte
+    Description:    Reusable component to show a stack of pills
+    History
+    <Date>			<Author>			<Description>
+    19/12/2019		Guillermo Giral     Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="pillsContainer" 	type="List" 					description="List of pill data to be displayed"/>
+    <aura:attribute name="showClearAll" 	type="boolean" default="false" 	description="Indicates whether the clear all icon must be displayed"/>
+
+    <aura:registerEvent name="clearSearch" type="c:EVT_SearchPillsClear" />
+    <aura:registerEvent name="clearConcretePill" type="c:EVT_ClearConcretePill" />
+    
+    <div class="slds-media pillContainer pillsPadding">
+        <div class="slds-media__body"> 
+            <aura:iteration items="{!v.pillsContainer}" var="item">
+                <aura:if isTrue="{!and(item!=null, item!=undefined)}">
+                    <div class="slds-pill fillPill" role="option" tabindex="0" aria-selected="true">
+                        <span class="slds-pill__label textPill" >{!item.value}</span>
+                        <div class="slds-icon_container slds-pill__remove" title="{!$Label.c.remove}" onclick="{!c.removePill}">
+                            <div class="slds-button button-page icon-delete sizeXPill" title="{!$Label.c.T_Delete}" onclick="{!c.removePill}" id="{!item.key}"></div> 
+                            <span class="slds-assistive-text">{!$Label.c.remove}</span>
+                        </div>
+                    </div>
+                </aura:if>
+            </aura:iteration>
+        </div>
+        <aura:if isTrue="{!v.showClearAll}">
+            <div class="slds-media__figure lastPill" role="option" tabindex="0" aria-selected="true">
+                <div class="slds-button button-page icon-deleteAll" title="{!$Label.c.T_Delete}" onclick="{!c.clearSearch}"></div>
+            </div> 
+        </aura:if>                                                                                                                       
+    </div> 
+    
+</aura:component>

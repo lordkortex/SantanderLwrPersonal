@@ -1,0 +1,51 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- FULL SCREEN MODAL -->
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+            
+            <!-- MODAL HEADER -->
+            <header class="slds-modal__header slds-is-fixed">
+                 <div class="row slds-grid">
+                    <img class="logo-white" src="{!$Resource.Images + '/logo_users_white.svg'}"/>                
+                 </div>
+            </header>
+            
+            <!-- MODAL CONTENT -->
+            <div class="slds-modal__content activation" id="modal-content-id-1">
+                <div class="slds-grid__content">
+                    
+                    <!-- ERROR ALERT -->
+                    <!-- añadir la clase toast_static para evitar que el toast flote en medio de la pantalla -->
+                    <div class="slds-notify_container slds-is-fixed toast_static">
+                        <div class="slds-notify slds-notify_toast slds-theme_error slds-scrollable_y" role="status">
+                            <span class="slds-assistive-text">error</span>
+                            <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top  button-selected icon-warning" data-title="Error"></span>
+                            <div class="slds-notify__content">
+                                <h2 class="slds-text-heading_small">Sorry, we are under scheduled maitenance</h2>
+                                <p class="notifyText">ES: Servicio no disponible temporalmente debido a la implementación de una actualización. Pedimos disculpas por las molestias</p>
+                                <p class="notifyText">EN: Service temporarily unavailable due to the implementation of an update. We apologize for the inconvenience</p>
+                                <p class="notifyText">PT: Servicio no disponible temporalmente debido a la implementación de una actualización. Pedimos disculpas por las molestias</p>
+                            </div>
+                            <div class="slds-notify__close">
+                                <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
+                            </div>
+                        </div>
+                    </div> 
+                    
+                    <!-- CONTACT 
+                    <div class="slds-grid__contact">
+                        <article class="slds-card cardProcessExit">
+                            <div class="slds-card__header">
+                                <span class="slds-text-heading_small">If you need help,<button class="slds-button button_link">contact our support center<span class="icon icon-phone-support icon_right"></span></button></span> 
+                            </div>  
+                        </article>
+                    </div>  -->   
+                </div>
+
+            </div>
+
+        </div>
+    </section>    
+</aura:component>

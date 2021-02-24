@@ -1,0 +1,17 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    
+    <!-- RESOURCES -->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <div class="UETRimage">
+        <div class="textContent">
+            <h2>{!$Label.c.paymentByUETRTitle}</h2>
+            <p>{!$Label.c.paymentByUETRSub}</p>
+        </div>
+        <div class="slds-media__figure">
+            <img class="" alt="" src="{!$Resource.Images + '/message.svg'}"/>
+        </div>
+    </div>
+    
+    
+</aura:component>

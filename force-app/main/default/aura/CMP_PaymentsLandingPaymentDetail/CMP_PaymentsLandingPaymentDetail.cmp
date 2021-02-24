@@ -1,0 +1,362 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_PaymentsPaymentDetail">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" 	type="Map"    	name="currentUser"                       					description="Current user data" />
+    <aura:attribute access="public" 	type="String"  	name="landingPage"       		default="landing-payments" />
+    <aura:attribute access="public" 	type="String"  	name="redoPage"          		default="redo" />
+    <aura:attribute access="public" 	type="Boolean" 	name="showDownloadModal" 		default="false" 			description="Boolean to show or hide download modal (CMP_PaymentsLandingDownloadModal)" />
+    <aura:attribute access="public" 	type="Boolean" 	name="showMoreDetail"    		default="false"	 			description="Boolean to show or hide more detail" />
+    <aura:attribute access="public" 	type="Map"     	name="payment"           		default="{}" />
+    <aura:attribute access="public" 	type="Object"  	name="sourceAccount" />
+    <aura:attribute access="public" 	type="Object"  	name="beneficiaryAccount" />
+    <aura:attribute access="public" 	type="List"    	name="paymentList"       		default="[]" />
+    <aura:attribute access="public" 	type="String"  	name="paymentID"         		default="" />
+    <aura:attribute access="public" 	type="Boolean" 	name="isLoading"         		default="true" />
+    <aura:attribute access="public" 	type="Boolean" 	name="showRedo"          		default="false" />
+    <aura:attribute access="public" 	type="Map"     	name="actions"           		default="{}"    			description="Map of booleans to control which buttons are enabled" />
+    <aura:attribute access="public" 	type="Map"     	name="signLevel"         		default="{}" />
+    <aura:attribute access="public" 	type="Boolean" 	name="reload"            		default="true" />
+    <aura:attribute access="public" 	type="String"  	name="action"            		default="" />
+    <aura:attribute access="public" 	type="Map"     	name="accountData"      		default="{}"   	 			description="Account data." />
+    <aura:attribute access="public" 	type="Boolean" 	name="showCancelModal"   		default="false" 			description="Indicates if the discard cancel modal is show." />
+    <aura:attribute access="public" 	type="Boolean" 	name="fromUtilityBar"   		default="false" />
+    <aura:attribute access="public" 	type="Boolean" 	name="fromDetail"        		default="false" />
+    <aura:attribute access="public"     type="Boolean"  name="showDiscardModal"         default='false' description="Indicates if the discard payment modal is show."/>
+    <aura:attribute access="public"     type="Boolean"  name="convertToUserTimezone"    default="true"/>
+    <aura:attribute access="public"     type="Boolean"  name="signCheck"                default="false"/>
+
+
+    
+    
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:handler name="init"   action="{!c.doInit}" value="{!this}" />  
+    <!-- <aura:handler name="change" action="{!c.doInit}" value="{!v.reload}" /> -->
+    <aura:handler 	name="cancelSelectedPayment" 	event="c:EVT_B2B_cancelSelectedPayment" action="{!c.handleCancelSelectedPayment}" />
+
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <c:CMP_B2B_Toast aura:id="errorToast" reload="{!v.reload}"/>
+
+    <aura:if isTrue="{!not(empty(v.payment))}">
+        <c:CMP_B2B_REDOModal payment="{!v.payment}" showRedo="{!v.showRedo}" clientReference="{!v.payment.clientReference}" action="{!v.action}"/>
+    </aura:if>
+
+    <div class="slds-is-relative">
+        <div class="slds-grid breadcrumbs">
+            <div class="slds-col slds-size-1-of-2">
+                <button class="slds-button button_link" onclick="{!c.handleBack}"><span class="icon_left icon-arrowLeft_big"></span>{!$Label.c.back}</button>
+                <div class="slds-text-heading_medium">
+                    {!$Label.c.PAY_TransactionDetail}
+                </div>
+            </div>
+            <div class="slds-col slds-size-1-of-2">
+                <button class="slds-button button_link" onclick="{!c.printScreen}"><span class="icon_left icon-print"></span>{!$Label.c.T_Print}</button>
+            </div>
+        </div>
+        <div class="{!'transactionDetail' + (v.showMoreDetail ? ' unfolded':'')}">
+            <div class="paymentStatus">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title separation">
+                                <div class="col-status">
+                                    <div class="status-title">
+                                    	<!-- IN PROGRESS -->
+                                        <!--<span class="status_inProgress">In Progress</span>-->
+                                        <!-- REJECTED -->
+                                        <!--<span class="status_rejected">Rejected</span>
+                                        <span class="status_rejected_subtitle">- Credit no confirmed</span>-->
+                                        <!-- ON HOLD -->
+                                        <!-- <span class="status_onHold">On hold</span>  -->
+                                        <!-- COMPLETED -->
+                                        <!--<span class="status_completed">Completed</span>-->
+                                        <!-- PENDING AUTHORIZATION -->
+                                    	<!--<span class="status_pending">Pending of authorization</span>-->
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '001'}">
+                                            <span class="status_draft">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '002'}">
+                                            <span class="status_pending">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '003'}">
+                                            <span class="status_review">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '997'}">
+                                            <span class="status_rejected">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '101'}">
+                                            <span class="status_completed">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '201'}">
+                                            <span class="status_inProgress">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '998'}">
+                                            <span class="status_rejected">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '202'}">
+                                            <span class="status_inProgress">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '999'}">
+                                            <span class="status_rejected">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <!-- <aura:if isTrue="{!item.paymentStatus == ''}">
+                                                <span class="slds-badge badgeInProgress" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                                            </aura:if> -->
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '102'}">
+                                            <span class="status_completed">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '801'}">
+                                            <span class="status_onHold">{!v.payment.parsedPaymentStatus}</span> 
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '800'}">
+                                            <span class="status_onHold">{!v.payment.parsedPaymentStatus}</span> 
+                                        </aura:if>
+                                        <aura:if isTrue="{!v.payment.paymentStatus == '103'}">
+                                            <span class="status_completed">{!v.payment.parsedPaymentStatus}</span>
+                                        </aura:if>
+                                    </div>
+                                    <div class="subDate">{!$Label.c.PAY_SentFrom + ' ' + v.payment.sourceBank}</div>
+                                    <div class="date">{!$Label.c.PAY_StatusUpdate}&nbsp;<c:CMP_displayDate aura:id="displayDate"  userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.payment.statusUpdateDate}"/></div>
+                                </div>
+                                <div class="col-transactionFees">
+                                    <div class="slds-card__header-title separation transaction">
+                                        <span class="space">{!$Label.c.amount}</span>
+                                        <div>
+                                            <c:CMP_displayAmount amount="{!v.payment.amountReceive}" decimalClass="currency" wholeClass="number" currencyClass="currency" currency="{!v.payment.paymentCurrency}" numberFormat="{!v.currentUser.numberFormat}" />
+                                        </div>
+                                    </div>
+                                    <div class="slds-card__header-title fees separation">
+                                        <span class="space">{!$Label.c.Fees}</span>
+                                        <span class="numberFee">
+                                            <aura:if isTrue="{! empty(v.payment.fees)}">
+                                                {!$Label.c.PAY_Not_Available}
+                                                <aura:set attribute="else">
+                                                    <c:CMP_displayAmount amount="{!v.payment.fees}" currency="{!v.payment.feesCurrency}" numberFormat="{!v.currentUser.numberFormat}" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="paymentInformation">
+                <table class="slds-table slds-table_cell-buffer slds-no-row-hover">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate ">{!$Label.c.from}</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate">{!$Label.c.to}</div>
+                            </th>
+                            <th class="" scope="col" colspan="3">
+                                <div class="slds-truncate">{!$Label.c.paymentInformation}</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody class="body">
+                        <tr class="">
+                            <td data-label="Ordering account" scope="row">
+                                <div class="slds-truncate">{!$Label.c.orderingAccount}</div>
+                            </td>
+                            <td data-label="Beneficiary">
+                                <div class="slds-truncate">{!$Label.c.Beneficiary}</div>
+                            </td>
+                            <td data-label="Client reference">
+                                <div class="slds-truncate">{!$Label.c.PAY_ClientReference}</div>
+                            </td>
+                            <td data-label="Payment method">
+                                <div class="slds-truncate">{!$Label.c.PaymentMethod}</div>
+                            </td>
+                            <td data-label="Charges">
+                                <div class="slds-truncate">{!$Label.c.charges}</div>
+                            </td>
+                        </tr>
+                        <tr class="">
+                            <td data-label="Ordering account" scope="row">
+                                <div class="slds-truncate">{!v.payment.sourceAccount}</div>
+                            </td>
+                            <td data-label="Beneficiary">
+                                <div class="slds-truncate">{!v.payment.beneficiaryAlias}</div>
+                            </td>
+                            <td data-label="Client reference">
+                                <div class="slds-truncate">{!v.payment.clientReference}</div>
+                            </td>
+                            <td data-label="Payment method">
+                                <div class="slds-truncate">{!v.payment.parsedPaymentMethod}</div>
+                            </td>
+                            <td data-label="Charges">
+                                <div class="slds-truncate">{!v.payment.chargeBearer}</div>
+                            </td>   
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="paymentInformation_detail">
+                <div class="slds-grid">
+                    <div class="slds-col">
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.PAY_OrderingHolder}</p>
+                            <p class="slds-truncate">{!v.payment.sourceAccountHolder}</p>
+                        </div>
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.Country}</p>
+                            <p class="slds-truncate">{!v.payment.parsedSourceCountry}</p>
+                        </div>
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.Corporate}</p>
+                            <p class="slds-truncate">{!v.payment.sourceAlias}</p>
+                        </div>
+                    </div>
+                    <div class="slds-col">
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.PAY_AccountHolder}</p>
+                            <p class="slds-truncate">{!v.payment.beneficiaryAccountHolder}</p>
+                        </div>
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.PAY_Beneficiary_bank}</p>
+                            <p class="slds-truncate">{!v.payment.beneficiaryBank}</p>
+                        </div>
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.beneficiaryAccount}</p>
+                            <p class="slds-truncate">{!v.payment.beneficiaryAccount}</p>
+                        </div>
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.Country}</p>
+                            <p class="slds-truncate">{!v.payment.parsedDestinationCountry}</p>
+                        </div>
+                        <div class="row">
+                            <aura:if isTrue="{!v.payment.destinationCountry == 'CL'}">
+                                <p class="slds-truncate">{!$Label.c.RUT}</p>
+                                <aura:set attribute="else">
+                                    <p class="slds-truncate">{!$Label.c.PAY_SwiftCode}</p>
+                                </aura:set>
+                            </aura:if>
+                            <p class="slds-truncate">{!v.payment.beneficiarySwiftCode}</p>
+                        </div>
+                    </div>
+                    <div class="slds-col">
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.PAY_ProcessDate}</p>
+                            <p class="slds-truncate">
+                                <c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.payment.operationStep1Data.valueDate}" />
+                            </p>
+                        </div>
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.PaymentID}</p>
+                            <p class="slds-truncate">{!v.payment.paymentId}</p>
+                        </div>
+                        <div class="row">
+                            <p class="slds-truncate">{!$Label.c.reference}</p>
+                            <p class="slds-truncate">{!v.payment.subject}</p>
+                        </div>
+                        <aura:if isTrue="{!not(empty(v.payment.parsedCommercialCode))}">
+                            <div class="row">
+                                <p class="slds-truncate">{!$Label.c.PAY_CommercialCode}</p>
+                                <p class="slds-truncate">{!v.payment.parsedCommercialCode}</p>
+                            </div>
+                        </aura:if>
+                        
+                    </div>
+                </div>
+            <!--if cuenta de comisiones-->
+            <aura:if isTrue="{!not(empty(v.payment.sourceFeeData))}">
+                <aura:if isTrue="{!not(empty(v.payment.sourceFeeData.sourceAccount))}">
+                    <aura:if isTrue="{!not(empty(v.payment.sourceFeeData.sourceAccount.accountId))}">
+                        <div class="extendedDetails">
+                            <div class="slds-truncate slds-text-heading_medium">{!$Label.c.PAY_ExpensesAccount}</div>
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <div class="row">
+                                        <p class="slds-truncate">{!$Label.c.PAY_AccountHolder}</p>
+                                        <p class="slds-truncate">{!v.payment.sourceFeeData.name}</p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="slds-truncate">{!$Label.c.Corporate}</p>
+                                        <p class="slds-truncate">{!v.payment.sourceFeeData.name}</p>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="row">
+                                        <p class="slds-truncate">{!$Label.c.Country}</p>
+                                        <p class="slds-truncate">{!v.payment.sourceFeeData.parsedCountry}</p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="slds-truncate">{!$Label.c.PAY_AccountNumber}</p>
+                                        <aura:if isTrue="{!not(empty(v.payment.sourceFeeData.sourceAccount))}">
+                                            <p class="slds-truncate">{!v.payment.sourceFeeData.sourceAccount.accountId}</p>
+                                        </aura:if>
+                                        
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="row">
+                                        <p class="slds-truncate">{!$Label.c.PAY_AccountBank}</p>
+                                        <aura:if isTrue="{!not(empty(v.payment.sourceFeeData.sourceAgent))}">
+                                            <p class="slds-truncate">{!v.payment.sourceFeeData.sourceAgent.name}</p>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+                </aura:if>
+            </aura:if>
+            
+            </div>
+            <div class="links">
+                <button class="slds-button button_link" onclick="{!c.moreDetail}">{!$Label.c.MoreDetail}<span class="icon_right icon-arrowDown_small"></span></button>
+                <button class="slds-button button_link" onclick="{!c.lessDetail}">{!$Label.c.LessDetail}<span class="icon_right icon-arrowUp_small"></span></button>
+            </div>
+            <div class="actions">
+                <aura:if isTrue="{!v.actions.edit}">
+                    <button class="slds-button secondary button_small button_full" onclick="{!c.handleEdit}">{!$Label.c.editPayment}</button>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.discard}">
+                    <button class="slds-button secondary button_small button_full" onclick="{!c.handleshowDiscardModal}">{!$Label.c.PAY_discardPayment}</button>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.reuse}">
+                    <button class="slds-button secondary button_small button_full" onclick="{!c.handleReuse}">{!$Label.c.PAY_reusePayment}</button>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.addToTemplate}">
+                    <button class="slds-button secondary button_small button_full">{!$Label.c.PAY_addToTemplate}</button>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.authorize}">
+                    <button class="slds-button primary button_small button_full" onclick="{!c.handleAuthorize}">{!$Label.c.Authorize}</button>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.reject}">
+                    <button class="slds-button secondary button_small button_full" onclick="{!c.goToReject}">{!$Label.c.reject}</button>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.sendToReview}">
+                    <button class="slds-button secondary button_small button_full" onclick="{!c.goToRedo}">{!$Label.c.PAY_SendToReview}</button>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.trySaveAgain}">
+                    <button class="slds-button secondary button_small button_full">{!$Label.c.PAY_trySaveAgain}</button>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.gpiTracker}">
+                    <button class="slds-button secondary button_small button_full" >{!$Label.c.PAY_goToGpiTracker}</button>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.cancel}">
+                    <button class="slds-button secondary button_small button_full" onclick="{!c.showCancelPaymentModal}">{!$Label.c.cancel}</button>
+                </aura:if>
+            </div>
+            <aura:if isTrue="{! and(not(empty(v.payment)), v.signCheck eq true)}">
+                <c:CMP_PaymentsLandingPaymentTracking paymentStatus="{!v.payment.parsedPaymentStatus}" payment="{!v.payment}" currentUser="{!v.currentUser}" signLevel="{!v.signLevel}"/>
+            </aura:if>
+        </div>
+        <aura:if isTrue="{!v.isLoading eq true}">
+            <lightning:spinner alternativeText="Loading" size="medium" />
+        </aura:if>
+         <aura:if isTrue="{!v.showCancelModal eq true}">
+                <c:CMP_B2B_DiscardPayment fromUtilityBar="{!v.fromUtilityBar}" fromDetail="{!v.fromDetail}"/>
+            </aura:if>
+            <aura:if isTrue="{!v.showDiscardModal eq true}">
+                <c:cmpPayModalRemove onsaveAction="{!c.handleDiscard}" oncloseAction="{!c.handleCloseDiscard}" headingMsg="{!$Label.c.PAY_discardPayment + ' ' +v.payment.clientReference+ ' ' + $Label.c.Int}" contentMsg="{!$Label.c.PAY_DiscardDate1 + ' ' + v.payment.draftDate + ' ' + $Label.c.PAY_DiscardDate2}" primaryBtn="{!$Label.c.Pay_YesDiscard}" secondaryBtn="{!$Label.c.No}"/>
+            </aura:if>
+    </div>
+    <c:CMP_B2B_Toast aura:id="errorToast" reload="{!v.reload}" /> 
+</aura:component>

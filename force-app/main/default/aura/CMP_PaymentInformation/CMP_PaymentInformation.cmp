@@ -1,0 +1,470 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_PaymentInformation">
+    
+    <aura:attribute access="public" name="paymentObj" type="Object" description="Payment infomation"/>
+    <aura:attribute access="public" 	name="currentUser"   						type="Object"	default="{}"			description="Current user data"/> 
+    <aura:attribute access="public" name="isOpen" type="Boolean" default="true" description="Boolean flag to open/close modal"/>
+    <aura:attribute access="public" name="displayNewCaseButton"     type="Boolean" default="true" description="Boolean flag to open/close modal"/>
+    
+     <!--SPINNER-->
+     <aura:attribute access="private"     name="showSpinner"	                        type="Boolean"  default="false"/>
+    
+    
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large ">
+     
+        <div class="slds-modal__container ">
+           
+            <aura:if isTrue="{!v.showSpinner eq true}">
+                <lightning:spinner alternativeText="Loading" size="large" variant="brand" />
+            </aura:if>
+            <header class="slds-modal__header">               
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.PaymentDetails}</h2>
+            </header>
+            
+            
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+             
+                <div class="slds-section slds-is-open" aura:id="basicInformation">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="basicInformationContent" class="slds-button slds-section__title-action">
+                            <span onclick="{!c.toggleSection}" data-auraId="basicInformation">
+                                <lightning:icon iconName="utility:switch"
+                                                size="x-small"
+                                                class="slds-section__title-action-icon slds-button__icon_left"
+                                                alternativeText="button icon" 
+                                                />
+                            </span>
+                            <span class="slds-truncate" title="{!$Label.c.PAY_BasicInformation}">{!$Label.c.PAY_BasicInformation}</span>
+                        </button>
+                    </h3>
+                    
+                    <div class="slds-section__content" id="basicInformationContent">
+                        <div class="slds-form" role="list">
+                            
+                            <div class="slds-form__row">
+                                <!-- Unique GTS Payment reference -->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_PaymentReference}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.paymentId}</div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Payment status reason-->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_PaymentStatusReason}</span>
+                                        <div class="slds-form-element__control">
+                                            <aura:if isTrue="{!not(empty(v.paymentObj.parsedPaymentStatus))}">
+                                                <div class="slds-form-element__static">{!'[' +v. paymentObj.paymentStatus+'] ['+v.paymentObj.paymentReason+'] '+v.paymentObj.parsedPaymentStatus}</div> 
+                                                <aura:set attribute="else">
+                                                    <div class="slds-form-element__static"></div>
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Value date-->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.valueDate}</span>
+                                        <div class="slds-form-element__control">                                
+                                            <div class="slds-form-element__static"><c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.paymentObj.valueDate}"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Execution date-->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_ExecutionDate}</span>                                       
+                                        
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static"><c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.paymentObj.issueDate}"/>&nbsp;{!v.paymentObj.issueTime}</div>
+                                        </div>
+                                    </div>
+                                </div>      
+                            </div>
+                            <div class="slds-form__row">
+                                <!--Payment amount-->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.B2B_Amount_Input_Placeholder}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static"><lightning:formattedNumber value="{!v.paymentObj.amountReceive}" minimumFractionDigits="2"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Payment currency-->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.currency}</span>
+                                        <div class="slds-form-element__control">                                
+                                            <div class="slds-form-element__static">{!v.paymentObj.paymentCurrency}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Currency pairs-->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_CurrencyPairs}</span>
+                                        <div class="slds-form-element__control">                                            
+                                            <div class="slds-form-element__static">{!v.paymentObj.sourceData.sourceAccount.tcurrency +';' + v.paymentObj.destinationData.destinationAccount.tcurrency}</div>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <!--Origin bank-->
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.orderingBank}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.sourceData.sourceAgent.name}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Origin account-->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.orderingAccount}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.sourceData.sourceAccount.accountId}</div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Beneficiary bank-->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.beneficiaryBank}</span>
+                                        
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.destinationData.destinationAgent.name}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--Beneficiary account-->
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.beneficiaryAccount}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.destinationData.destinationAccount.accountId}</div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+
+                <div class="slds-section slds-is-open" aura:id="accounts">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="accountsContent" class="slds-button slds-section__title-action">
+                            <span onclick="{!c.toggleSection}" data-auraId="accounts">
+                                <lightning:icon iconName="utility:switch"
+                                                size="x-small"
+                                                class="slds-section__title-action-icon slds-button__icon_left"
+                                                alternativeText="button icon" 
+                                                />
+                            </span>
+                            <span class="slds-truncate" title="{!$Label.c.Accounts}">{!$Label.c.Accounts}</span>
+                        </button>
+                    </h3>
+                    
+                    <div class="slds-section__content" id="accountsContent">
+                        
+                        <div class="slds-form" role="list">
+                          
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_OrderingCompany}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.sourceData.name}</div>
+                                        </div>
+                                    </div>
+                                </div>                          
+                                
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_BeneficiaryCompany}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.beneficiaryAlias}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__row">
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                    <span class="slds-form-element__label">{!$Label.c.orderingBIC}</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">{!v.paymentObj.sourceData.sourceAgent.agentId}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                    <span class="slds-form-element__label">{!$Label.c.PAY_OrderingCountry}</span>                   
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">{!v.paymentObj.parsedSourceCountry}</div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                    <span class="slds-form-element__label">{!$Label.c.PAY_BeneficiaryBIC}</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">{!v.paymentObj.destinationData.destinationAgent.agentId}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                    <span class="slds-form-element__label">{!$Label.c.beneficiaryCountry}</span>
+                                    
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">{!v.paymentObj.parsedDestinationCountry}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                
+                <div class="slds-section slds-is-open" aura:id="fxInformation">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="fxInformationContent" class="slds-button slds-section__title-action">
+                            <span onclick="{!c.toggleSection}" data-auraId="fxInformation">
+                                <lightning:icon iconName="utility:switch"
+                                                size="x-small"
+                                                class="slds-section__title-action-icon slds-button__icon_left"
+                                                alternativeText="button icon" 
+                                                />
+                            </span>
+                            <span class="slds-truncate" title="{!$Label.c.PAY_FXInformation}">{!$Label.c.PAY_FXInformation}</span>
+                        </button>
+                    </h3>
+                    
+                    <div class="slds-section__content" id="fxInformationContent">
+                        <div class="slds-form" role="list">
+                            <div class="slds-form__row"> 
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_FXRate}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.operationNominalFxDetails.customerExchangeRate}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_ReverseFXMarkUp}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.operationNominalFxDetails.fxComercialMargin.fxComercialMarginAmount + ' ' + v.paymentObj.operationNominalFxDetails.fxComercialMargin.fxComercialMarginCurrency}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_FXCountervalue}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.operationNominalFxDetails.ccyCountervalue.ccyCountervalueAmount + ' ' + v.paymentObj.operationNominalFxDetails.ccyCountervalue.ccyCountervalueCurrency}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_FXReference}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.operationNominalFxDetails.fxCountervalueId}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>                          
+                    </div>
+                </div>
+                
+                <div class="slds-section slds-is-open" aura:id="reverseFXInformationRollBack">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="reverseFXInformationRollBackContent" class="slds-button slds-section__title-action">
+                            <span onclick="{!c.toggleSection}" data-auraId="reverseFXInformationRollBack">
+                                <lightning:icon iconName="utility:switch"
+                                                size="x-small"
+                                                class="slds-section__title-action-icon slds-button__icon_left"
+                                                alternativeText="button icon" 
+                                                />
+                            </span>
+                            <span class="slds-truncate" title="{!$Label.c.PAY_ReverseFXInformationRollBack}">{!$Label.c.PAY_ReverseFXInformationRollBack}</span>
+                        </button>
+                    </h3>
+                    
+                    <div class="slds-section__content" id="reverseFXInformationRollBackContent">
+                        <div class="slds-form" role="list">
+                            <div class="slds-form__row"> 
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_ReverseFX}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.operationNominalFxRollbackDetails.customerExchangeRate}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_ReverseFXCountervalue}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.operationNominalFxRollbackDetails.ccyCountervalue.ccyCountervalueAmount + ' ' + v.paymentObj.operationNominalFxRollbackDetails.ccyCountervalue.ccyCountervalueCurrency}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_ReverseFXDate}</span>
+                                        <div class="slds-form-element__control">                                            
+                                            <div class="slds-form-element__static"><c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.paymentObj.operationNominalFxRollbackDetails.valueDateEfx}"/>&nbsp;{!v.paymentObj.operationNominalFxRollbackDetailsValueDateEfxTime}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.PAY_ReverseFXReference}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.paymentObj.operationNominalFxRollbackDetails.fxCountervalueId}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                          
+                    </div>
+                </div>
+                
+                
+
+                
+                
+                
+                 <div class="slds-section slds-is-open" aura:id="moreInformation">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="moreInformationContent" class="slds-button slds-section__title-action">
+                            <span onclick="{!c.toggleSection}" data-auraId="moreInformation">
+                                <lightning:icon iconName="utility:switch"
+                                                size="x-small"
+                                                class="slds-section__title-action-icon slds-button__icon_left"
+                                                alternativeText="button icon" 
+                                                />
+                            </span>
+                            <span class="slds-truncate" title="{!$Label.c.moreInformation}">{!$Label.c.moreInformation}</span>
+                        </button>
+                    </h3>
+                    
+                     <div class="slds-section__content" id="moreInformationContent">
+                         <div class="slds-form" role="list">
+                             
+                             <div class="slds-form__row"> 
+                                 <div class="slds-form__item" role="listitem">
+                                     <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                         <span class="slds-form-element__label">{!$Label.c.ClientReference}</span>
+                                         <div class="slds-form-element__control">
+                                             <div class="slds-form-element__static">{!v.paymentObj.clientReference}</div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="slds-form__item" role="listitem">
+                                     <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                         <span class="slds-form-element__label">{!$Label.c.PAY_GlobalUserId}</span>
+                                         <div class="slds-form-element__control">
+                                             <div class="slds-form-element__static">{!v.paymentObj.userGlobalId}</div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="slds-form__item" role="listitem">
+                                     <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                         <span class="slds-form-element__label">{!$Label.c.PAY_AmountDebited}</span>
+                                         <div class="slds-form-element__control">
+                                             <div class="slds-form-element__static">{!v.paymentObj.sourceTotalAmount.amount + ' '+ v.paymentObj.sourceTotalAmount.tcurrency}</div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="slds-form__item" role="listitem">
+                                     <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                         <span class="slds-form-element__label">{!$Label.c.PAY_LocalBankFees}</span>
+                                         <div class="slds-form-element__control">
+                                             <div class="slds-form-element__static">{!v.paymentObj.pricingDetails.totalPrice + ' '+ v.paymentObj.pricingDetails.tcurrency}</div>
+                                         </div>
+                                     </div>
+                                 </div>
+                             </div>
+                             
+                             <div class="slds-form__row">  
+                                 <div class="slds-form__item" role="listitem">
+                                     <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                         <span class="slds-form-element__label">{!$Label.c.PaymentMethod}</span>
+                                         <div class="slds-form-element__control">
+                                             <div class="slds-form-element__static">{!v.paymentObj.parsedPaymentMethod}</div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="slds-form__item" role="listitem">
+                                     <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                         <span class="slds-form-element__label">{!$Label.c.PAY_PaymentStatusDate}</span>                                       
+                                         <div class="slds-form-element__control">
+                                              <div class="slds-form-element__static"><c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!v.paymentObj.statusUpdateDate}"/>&nbsp;{!v.paymentObj.statusUpdateTime}</div>                                             
+                                         </div>
+                                     </div>
+                                 </div>
+                                 
+                                 <div class="slds-form__item" role="listitem">
+                                     <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                         <span class="slds-form-element__label">{!$Label.c.B2B_PaymentPurpose}</span>                                       
+                                         <div class="slds-form-element__control">
+                                             <div class="slds-form-element__static">{!v.paymentObj.parsedPurpose}</div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="slds-form__item" role="listitem">
+                                     <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                         <span class="slds-form-element__label">{!$Label.c.PAY_TransferDescription}</span>                                       
+                                         <div class="slds-form-element__control">
+                                             <div class="slds-form-element__static">{!v.paymentObj.subject}</div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 
+                             </div>
+                            
+                             
+                         </div>
+                     </div>
+                </div>
+                
+
+            
+                
+                
+                
+                
+                
+            </div>
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick="{! c.closeModel }">{!$Label.c.T_Close}</button>
+                <aura:if isTrue="{!v.displayNewCaseButton}">
+                    <button class="slds-button slds-button_brand" onclick="{! c.handleNewCase }" disabled="true">{!$Label.c.PAY_NewCase}</button> <!--{!(v.showSpinner == true) ? 'true' : 'false'}-->
+                </aura:if>
+            </footer>
+
+        </div>
+        
+    </section>
+    
+    <div class="slds-backdrop slds-backdrop_open"></div>
+    
+</aura:component>

@@ -1,0 +1,15 @@
+<aura:component>
+        <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <div class="slds-card__header-title">
+                        <span class="title">
+                                <span class="slds-form-element__label">{!$Label.c.GroupHeader_Title}</span>
+                        </span>
+                        <span class="subtitle">
+                                <span class="slds-form-element__label">{!$Label.c.GroupHeader_Subtitle}</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+</aura:component>

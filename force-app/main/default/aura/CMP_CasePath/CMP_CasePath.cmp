@@ -1,0 +1,30 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to show the swift payments
+History
+<Date>			<Author>		<Description>
+14/02/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<!--Attributes -->
+    <aura:attribute name="variant" type="String" default="linear"/>
+    <aura:attribute name="picklistFieldApiName" type="String" default="Status" />
+	<aura:attribute name="record" type="Object"/>
+    <aura:attribute name="simpleRecord" type="Object"/>    
+    
+    <!-- Markup -->
+    <lightning:picklistPath aura:id="picklistPath" 
+                            recordId="{! v.recordId }"
+                            variant="{! v.variant }"
+        					picklistFieldApiName="{! v.picklistFieldApiName }"
+        					onselect="{!c.onSelect}">
+    </lightning:picklistPath>    
+    
+    <force:recordData aura:id="recordHandler"
+                      recordId="{! v.recordId }"
+                      layoutType="FULL"
+                      targetRecord="{! v.record }"
+                      targetFields="{! v.simpleRecord }"
+                      mode="EDIT" />    
+</aura:component>

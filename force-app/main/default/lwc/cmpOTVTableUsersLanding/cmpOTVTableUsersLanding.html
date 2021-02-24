@@ -1,0 +1,183 @@
+<template>
+        <!-- Spinner -->
+        <div if:true={loading}>
+            <div class="spinnerclass">
+                <lightning-spinner 
+                variant="brand" 
+                size="large" >
+                </lightning-spinner>
+            </div>
+        </div>
+
+        <c-cmp-o-t-v-user-info-permissions 
+            loading={loading}
+            userselected={selectedUser}
+            lstcountries={lstCountries}
+            lstaccounts={lstAccounts}
+            lstsubsidiaries={lstSubsidiaries}
+            if:true={isOneTrade}
+            oncloseuserinfo={closeuserinfo}>
+        </c-cmp-o-t-v-user-info-permissions>
+        <c-cmp-o-t-v-user-permissions-backfront 
+            userselected={selectedUser} 
+            lstcountries={lstCountries} 
+            lstaccounts={lstAccounts} 
+            lstsubsidiaries={lstSubsidiaries}
+            if:true={isBackfront} 
+            oncloseuserinfo={closeuserinfo}>
+        </c-cmp-o-t-v-user-permissions-backfront>
+    
+        <div class="listItems">
+          <div class="slds-text-body_regular">{label.cmpOTVTableUsersLanding_1}<strong>{items} {label.cmpOTVTableUsersLanding_2}</strong></div>
+        </div> 
+      
+    <!-- TABLE -->
+     <div class="tablePaymentsContent"> 
+        <div class="slds-grid">
+            <div class="slds-table--header-fixed_container tablePayment"> 
+                <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                    <!-- HEADER -->
+                    <thead>
+                        <tr class="slds-text-title_caps"> 
+                            <th class="headName" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate"> <span>{label.cmpOTVTableUsersLanding_3}<span class="button-orderRight icon-arrowDown" data-title="Order"></span></span></div>
+                            </th> 
+                            <th class="headUser" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate"><span>{label.cmpOTVTableUsersLanding_4}<span class="button-orderRight icon-arrowDown" data-title="Order"></span></span></div>
+                            </th>
+                            <th class="headPermission" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate orderActive"><span>{label.cmpOTVTableUsersLanding_5}<span class="button-orderRight icon-arrowDown" data-title="Order"></span></span></div>
+                            </th>
+                            <th class="headLogin" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate"><span>{label.cmpOTVTableUsersLanding_6}<span class="button-orderRight icon-arrowDown" data-title="Order"></span></span></div>
+                            </th>
+                            <th class="headStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate"><span>{label.cmpOTVTableUsersLanding_7}<span class="button-orderRight icon-arrowDown" data-title="Order"></span></span></div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- BODY -->
+                    <tbody> 
+                        <!-- ROW 1 --> 
+                        <!-- Utilizar la clase administrator o la clase operator según el tipo de usuario --> 
+                           <!--  Añadir clase feedback para aplicar ese estado --> 
+                           <template for:each={lstusers} for:item="user">
+                            <!-- <tr class="slds-hint-parent administrator" aria-selected="false" key={user.index} data-whichrow={user.globalId} data-item={user} onclick={handleUserClick} if:true={user.admin}>  
+                                <td role="gridcell" class="infoName">
+                                    <div class="slds-grid ">
+                                        <div class={user.color} data-id={user.color} >
+                                            <img src="#" alt=""></img>
+                                            <span class="text">{user.lastName}</span>
+                                        </div>
+                                        <div class="slds-col flexCol">
+                                            <span class="slds-truncate strong">{user.name}</span>
+                                            <span class="slds-truncate">{user.accountName}</span>
+                                        </div>
+                                    </div>
+                                </td> 
+                            
+                                <td role="gridcell" class="infoUser">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate">{user.globalId}</span>
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoPermission">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                       <div class="slds-truncate" if:true={user.admin}><span class="slds-icon icon-settings"></span>Administrator</div>
+                                       <div class="slds-truncate" if:false={user.admin}><span class="slds-icon icon-circle-account-user"></span>Operator</div> 
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoLogin">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate">{user.lastLogin}</span>
+                                    </div>
+                                </td> 
+                            
+                                <td role="gridcell" class="infoStatus" if:true={user.active}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-badge badgeCompleted" title="Active">Active</span>
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoStatus" if:false={user.active}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-badge badgeInactive" title="Inactive">Inactive</span>
+                                    </div>
+                                </td> 
+                            </tr>  -->
+                            <tr class="slds-hint-parent" aria-selected="false" key={user.index} data-whichrow={user.globalId} data-item={user} onclick={handleUserClick}>
+                                <td role="gridcell" class="infoName administrator" if:true={user.admin}>
+                                    <div class="slds-grid ">
+                                        <div class={user.color} data-id={user.color} >
+                                            <img src="#" alt=""></img>
+                                            <span class="text">{user.lastName}</span>
+                                        </div>
+                                        <div class="slds-col flexCol">
+                                            <span class="slds-truncate strong">{user.name}</span>
+                                            <span class="slds-truncate">{user.accountName}</span>
+                                        </div>
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoName operator" if:false={user.admin}>
+                                    <div class="slds-grid ">
+                                        <div class={user.color} data-id={user.color} >
+                                            <img src="#" alt=""></img>
+                                            <span class="text">{user.lastName}</span>
+                                        </div>
+                                        <div class="slds-col flexCol">
+                                            <span class="slds-truncate strong">{user.name}</span>
+                                            <span class="slds-truncate">{user.accountName}</span>
+                                        </div>
+                                    </div>
+                                </td> 
+                            
+                                <td role="gridcell" class="infoUser administrator" if:true={user.admin}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate">{user.globalId}</span>
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoUser operator" if:false={user.admin}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate">{user.globalId}</span>
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoPermission administrator" if:true={user.admin}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <div class="slds-truncate" if:true={user.admin}><span class="slds-icon icon-settings"></span>Administrator</div>
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoPermission operator" if:false={user.admin}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <div class="slds-truncate" if:false={user.admin}><span class="slds-icon icon-circle-account-user"></span>Operator</div>  
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoLogin administrator" if:true={user.admin}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate">{user.lastLogin}</span>
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoLogin operator" if:false={user.admin}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate">{user.lastLogin}</span>
+                                    </div>
+                                </td> 
+                            
+                                <td role="gridcell" class="infoStatus administrator" if:true={user.admin}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-badge badgeCompleted" title="Active" if:true={user.active}>Active</span>
+                                        <span class="slds-badge badgeInactive" title="Inactive" if:false={user.active}>Inactive</span>
+                                    </div>
+                                </td> 
+                                <td role="gridcell" class="infoStatus operator" if:false={user.admin}>
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-badge badgeCompleted" title="Active" if:true={user.active}>Active</span>
+                                        <span class="slds-badge badgeInactive" title="Inactive" if:false={user.active}>Inactive</span>
+                                    </div>
+                                </td> 
+                            </tr>
+                           </template>
+                    </tbody>
+                </table>
+           </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,53 @@
+.pagination{
+    margin-bottom: 8px;
+    padding: 0;
+}
+
+.pagination .button-pageRight, .pagination .button-pageLeft{
+    align-items: center;
+    border: solid 1px #cedee7;
+    border-radius: 2px;
+    cursor: pointer;
+    display: flex;
+	height: 24px;
+    justify-content: center;
+    margin-left: 8px;
+    width: 24px;
+}
+.pagination .button-selected {
+    font-size: 16px;
+}
+.pagination .icon-arrowRight_big:before, .pagination .icon-arrowLeft_big:before {
+    font-size: 16px;
+}
+.pagination .navigationPage{
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 16px;
+    text-align: right;
+}
+.pagination .number {
+	font-family: "SantanderMicroText-Bd";
+}
+.pagination .number__gray{
+    color: #a2a2a2;
+    display: flex;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    justify-content: center;
+    margin-left: 4px;
+    width: 16px;
+}
+.pagination .number__gray.ellipsis{
+    margin-left: 0;
+}
+.pagination .number__gray.selected{
+    color: #ec0000;
+}
+.pagination .results{
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    line-height: 1.42;
+}

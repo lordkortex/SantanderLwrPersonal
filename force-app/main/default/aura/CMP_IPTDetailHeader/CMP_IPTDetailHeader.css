@@ -1,0 +1,132 @@
+.THIS.cardTitleGPI{
+     margin-bottom: 16px;
+}
+
+.THIS.cardTitleGPI .containerInformation {
+    margin: 0;
+    padding: 0;
+    margin-bottom: 8px;
+}
+
+.THIS.cardTitleGPI .slds-card__header-title {
+    color: #444444;
+    justify-content: space-between;
+    display: flex;
+    align-items: flex-start;
+} 
+.THIS.cardTitleGPI .slds-card__header-title.transaction { 
+    align-items: flex-end;
+    margin-bottom: 4px;
+} 
+ 
+.THIS.cardTitleGPI .slds-card__header-title  .space{
+    font-size: 14px;
+    margin-right: 24px;
+    line-height: 1.6;
+    font-family: "SantanderMicroText";
+}
+.THIS.cardTitleGPI .slds-card__header-title  .spaceFee{
+    font-size: 14px;
+    margin-right: 50px;
+    line-height: 1.6;
+    font-family: "SantanderMicroText";
+}
+
+.THIS .cardTitleGPI .slds-card__header-title .col-transactionFees {
+    min-width: 261px;
+}
+
+.THIS .cardTitleGPI .slds-card__header-title .fees{
+    display: flex;
+    justify-content: space-between;
+}
+
+.THIS  .numberFee{
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: "SantanderMicroText";
+}
+
+.THIS   .number{
+    font-size: 32px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.19;
+}
+
+.THIS   .currency{
+    font-size: 24px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.21;
+}
+
+
+.THIS.cardTitleGPI .slds-card__header-title  .subDate{
+    font-family: "SantanderMicroText";
+       font-size: 14px;
+    line-height: 1.5;
+    color: #444444;
+    margin-bottom:4px;
+}
+
+.THIS.cardTitleGPI .slds-card__header-title .date {
+    font-size: 14px;
+    font-family: "SantanderMicroText";
+    line-height: 1.43;
+    color: #767676;
+}
+
+.THIS.cardTitleGPI .separation{
+    justify-content: space-between;
+}
+
+.THIS.cardTitleGPI .slds-card__header-title  .status_inProgress {
+    color: #1bb3bc;
+    font-size: 28px; 
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Rg";
+    line-height: 34px;
+    letter-spacing: normal;
+    margin-bottom:4px;
+}
+
+.THIS.cardTitleGPI .slds-card__header-title  .status_rejected {
+    color: #cc0000;
+    font-size: 28px;
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Rg";
+    line-height: 34px;
+    letter-spacing: normal;
+}
+
+.THIS.cardTitleGPI .slds-card__header-title .status_rejected_subtitle{
+    color: #cc0000;
+    font-size: 14px; 
+    font-weight: normal;
+    font-family: "SantanderMicroText";
+    line-height: 21px;
+    letter-spacing: normal;
+}
+
+.THIS.cardTitleGPI .slds-card__header-title  .status_onHold {
+    color: #ffcc33;
+    font-size: 28px; 
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Rg";
+    line-height: 34px;
+    letter-spacing: normal;
+}
+
+.THIS.cardTitleGPI .slds-card__header-title  .status_completed {
+    color:#63ba68;
+    font-size: 28px;
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Rg";
+    line-height: 34px;
+    letter-spacing: normal;
+}
+
+
+.THIS .text_line{
+    width: 40px;
+    border-bottom: 3px solid #ec0000;
+}

@@ -1,0 +1,112 @@
+.contentSteps {
+    width:100%;
+    background-color: #ffffff;
+}
+.contentSteps .container{
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 72px 108px 80px 108px;
+}
+/*.contentSteps .container.type01 .type02{
+    display: none;
+} 
+.contentSteps .container.type02 .type01{
+    display: none;
+} 
+.contentSteps .container.type02 .type02 .slds-col {
+    margin: auto;
+}*/
+
+/*TITULO*/
+.contentSteps .headerText {
+    margin: 0 0 40px 0;
+    max-width: 392px;
+}
+.contentSteps .headerText .slds-text-heading {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 36px;
+    line-height: 43px;
+    color: #444444;
+}
+
+/*PASOS*/
+.contentSteps .container .slds-grid .slds-col{
+    max-width:600px;
+    width:100%;
+    padding-right: 40px;
+    min-height: 364px;
+}
+.contentSteps .slds-col{
+    max-width: 600px;
+    width: 100%;
+}
+.contentSteps .slds-col:first-child{
+    margin-right:24px;
+}
+.contentSteps .step{
+    margin-right:0;
+    margin-bottom: 12px;
+}
+.contentSteps .stepper_heading {
+    width: 100%;
+    margin-left:40px;
+}
+.contentSteps .stepper_heading .line{
+    height: 1px;
+    background-color: #cedee7;
+    margin-top: 20px;
+}
+.contentSteps .stepper_heading .step.slds-grid{
+    align-items: flex-start;
+}
+.contentSteps .stepper_heading .step .step_number{
+    width: 32px;
+    height: 32px;
+    background-color: #ec0000;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+    margin-bottom: 4px;            
+    margin-right: 12px;
+}       
+.contentSteps .step_number > span{
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 24px;
+    line-height: 28px;
+    color: #ffffff;
+}
+.contentSteps .step_title > span {
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    line-height: 34px;
+    color: #444444;
+}
+.contentSteps .stepper_subtitle {
+	margin-left: 84px;
+}
+.contentSteps .step_subtitle {
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+.contentSteps .step_subtitle a {
+    color: #ec0000;
+    font-family: "SantanderMicroText";
+  	font-size: 14px;
+    line-height: 21px;
+}
+.contentSteps .step_subtitle a:hover,
+.contentSteps .step_subtitle a:focus{
+    text-decoration: none;
+    color: #cc0000;
+}
+.contentSteps .step_subtitle a:active {
+    color: #990000;
+}
+.contentSteps .slds-image {
+	width: 219px;
+	height: 152px;
+    margin-bottom: 24px;
+}

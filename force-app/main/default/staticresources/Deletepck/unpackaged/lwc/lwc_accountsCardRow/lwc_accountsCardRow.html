@@ -1,0 +1,163 @@
+<template>  
+    
+    <c-lwc_service-component data-id="Service" onsuccesscallback={successcallback}></c-lwc_service-component>   
+    
+    <!--CARD ROW 1-->
+    <!--<div class="slds-card__header slds-grid contentAccount">-->
+    <div class="iElement container slds-hide slds-card__header slds-grid contentAccount">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <!-- COLUMNA 1 -->
+            <div class="slds-combobox_container">
+                <div class="slds-media__figure moreOptions slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox"  id={idoptionsparent} data-index={idoptions} onclick={displayOptions}>
+                    <button class="slds-button buttonSelected button-options icon-options__empty" data-title={label.MoreOptions}></button>
+                    
+                    <!-- <aura:if isTrue="{!v.isOpen == true}"> -->
+                    <!-- <c:CMP_AccountsCardRowOptions iAccount="{!v.iAccount}" isCashNexus="{!v.isCashNexus}" iTabSelected="{!v.iTabSelected}"/> -->
+                    <section aria-describedby="dialog-body-id-97" aria-labelledby="dialog-heading-id-5" class="slds-popover slds-popover_prompt contextualMenu" role="dialog" id="popover-unique-id-03">
+                        <div class="slds-popover__body" id="dialog-body-id-97">
+                            <div class="slds-media">
+                                <div class="slds-media__body">
+                                    <ul class="slds-dropdown__list " role="menu" aria-label={label.MoreOptions}>
+                                        <!-- Transactions access for Cash Nexus -->
+                                        <template if:false={isonetrade}>
+                                            <li class="slds-dropdown__item" role="presentation"  onclick={goToAccountTransactions}>
+                                                <a class="slds-button">{label.Account_Transactions}</a>
+                                            </li>
+                                        </template>
+                                        <!-- Transactions access for One Trade -->
+                                        <template if:true={onetradeandtransall}>
+                                            <li class="slds-dropdown__item" role="presentation"  onclick={goToAccountTransactions}>
+                                                <a class="slds-button">{label.Account_Transactions}</a>
+                                            </li>
+                                        </template>
+                                        <!-- Payments Tracker access for Cash Nexus -->
+                                        <template if:false={isonetrade}>
+                                            <template if:true={swiftandtab}>
+                                                <li class="slds-dropdown__item" role="presentation" onclick={goToSwiftTracking}>
+                                                    <a class="slds-button" >{label.PaymentsTracker}</a>
+                                                </li>
+                                            </template>
+                                        </template>
+                                        <template if:true={isonetrade}>
+                                            <!-- Payments Tracker access for One Trade -->
+                                            <template if:true={swiftandint}>
+                                                <li class="slds-dropdown__item" role="presentation" onclick={goToSwiftTracking}>
+                                                    <a class="slds-button" >{label.PaymentsTracker}</a>
+                                                </li>
+                                            </template>
+                                        </template>
+                                        <li class={historyclass} role="presentation" onclick={goToHistoryOfExtracts}>
+                                            <a class="slds-button">{label.History_of_statements}</a>
+                                        </li>
+                                        <li class="slds-dropdown__item" role="presentation" onclick={goToAccountDetails}>
+                                            <a class="slds-button">{label.Account_details}</a>
+                                        </li>
+                                    </ul> 
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    
+                    <!-- </aura:if>  -->
+                </div>
+            </div>
+            <!-- COLUMNA 2 -->
+            <div class="slds-card__header-title  country">
+                <div class="slds-card__header-title slds-truncate">{iaccount.countryname}</div>
+            </div>
+            <div class="slds-card__header-title accountAlias">
+                <!-- Transactions hyperlink for One Trade -->
+                <template if:true={onetradeandtransall}>
+                    <div class="slds-card__header-title slds-truncate">
+                        <p class="slds-card__header-title boldText" data-title={label.Account_Number}>
+                            {iaccount.displaynumber}</p>
+                    </div> 
+                </template>
+                <!-- Transactions hyperlink for Cash Nexus -->
+                <template if:true={noonetradeoronetradeandtransall}>
+                    <div class="slds-card__header-title slds-truncate" onclick={goToAccountTransactions}>
+                        <a class="slds-card__header-title boldText" data-title={label.Account_Number}>
+                            {iaccount.displaynumber}</a>
+                    </div>
+                </template>
+                <div class="slds-card__header-title slds-truncate">
+                    {iaccount.alias}
+                </div>
+            </div>
+            
+            <!-- COLUMNA 3 -->
+            <div class="slds-card__header-title subsidiaryBank">
+                <div class="slds-card__header-title slds-truncate boldText">
+                    {iaccount.subsidiaryname}
+                </div>
+                <div class="slds-card__header-title slds-truncate">
+                    {iaccount.bankname}
+                </div>
+            </div>
+            
+            <!-- COLUMNA 4 -->
+            <div class="slds-card__header-title updated">                 
+                <div class="slds-card__header-title slds-truncate">                 
+                    <c-lwc_display-date converttousertimezone={islastupdate} userdateformat={userpreferreddateformat} dateclass="" date={iaccount.lastupdateavailablebalancemain}></c-lwc_display-date>
+                </div>
+                <div class="slds-card__header-title slds-truncate">
+                    <template if:true={islastupdate} >
+                        {updatedhour}
+                    </template>
+                    <!-- {!v.iAccount.lastUpdateAvailableBalanceTime} -->
+                </div>
+            </div>
+            
+            <!-- COLUMNA 5 -->
+            <div class="slds-card__header-title currency">
+                <div class="slds-card__header-title boldText slds-truncate">{iaccount.currencycodeavailablebalance}</div>
+            </div>
+            
+            <!-- COLUMNA 6 -->
+            <div class="slds-card__header-title availableBalance">            
+                <template if:true={noonetradeoronetradeandballsall}>
+                    <c-lwc_display-amount aura:id ="avaibleBalanceRow"
+                                         amount={iaccount.amountavailablebalance}
+                                         decimalclass="decimals boldText" 
+                                         wholeclass="integer boldText"
+                                         numberformat={userpreferrednumberformat}></c-lwc_display-amount>
+                </template>
+                <template if:false={noonetradeoronetradeandballsall}>
+                        <span class="integer boldText"></span>
+                        <span class="decimals boldText"></span> 
+                        <span></span>
+                </template>
+            </div>            
+            
+            <!-- COLUMNA 7 -->
+            <div class="slds-card__header-title bookBalance">             
+                <template if:true={noonetradeoronetradeandballsall}>
+                    <c-lwc_display-amount aura:id ="bookBalanceRow"
+                                        amount={iAccount.amountMainBalance}
+                                        decimalclass="decimals boldText" 
+                                        wholeclass="integer boldText"
+                                        numberformat={userPreferredNumberFormat}></c-lwc_display-amount>
+                </template>
+                <template if:false={noonetradeoronetradeandballsall}>
+                        <span class="integer boldText"></span>
+                        <span class="decimals boldText"></span> 
+                        <span></span>
+                </template>                
+            </div>
+            
+            <!-- COLUMNA 8 -->
+            <div class="slds-media__figure iconContainer">
+                <!-- <div class="{!(v.isCashNexus == 'False' || v.iTabSelected == 'EndOfDayTab')? 'button-options icon-tracking slds-hide' : 'button-options icon-tracking slds-show'}" data-title="{label.tracking}" onclick="{!c.goToSwiftTracking}"></div> -->
+                <template if:true={isonetrade}>
+                   <template if:true={swiftandint}>
+                        <div class="'button-options icon-tracking" data-title={label.tracking} onclick={goToSwiftTracking}></div>
+                    </template>
+                   	<template if:true={swiftandtab}>
+                        <div class="'button-options icon-tracking" data-title={label.tracking} onclick={goToSwiftTracking}></div>
+                    </template>
+                </template>
+            </div>
+        </header>
+    </div>
+    
+</template>

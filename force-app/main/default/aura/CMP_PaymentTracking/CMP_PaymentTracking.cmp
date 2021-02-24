@@ -1,0 +1,87 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_IPTDetailParent">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <aura:attribute name="status" type="String" default="N/A" description="The status of the payment" />
+    <aura:attribute name="iCurrency" type="String" default="N/A" description="The currency of the payment"/>
+    <aura:attribute name="currentLocation" type="String" description="Current location of the payment"/>
+    <aura:attribute name="trackingList" type="List"  description="Payment movements"/>
+    <aura:attribute name="iObject" type="CNT_IPTDetailParent" />
+    <aura:attribute name="totalElapsed" type="List" description="[1,1,1,1]"/>
+    <aura:attribute name="totalElapsedFinal" type="String" description=""/>
+
+    <aura:registerEvent name="paymentDetailEvent" type="c:EVT_IPTPaymentDetail"/>
+    <aura:handler name="change" value="{!v.iObject.stepList}" action="{!c.getDateDifference}"/>
+    <aura:handler name="change" value="{!v.totalElapsedFinal}" action="{!c.runTotalElapsed}"/>
+    
+    <aura:if isTrue="{!v.iObject.stepList.length > 0}">
+        <div class="slds-progress slds-progress_vertical trackingPayment">
+            <ol class="slds-progress__list">
+            <aura:iteration items="{!v.iObject.stepList}" var="item" indexVar="index">
+                
+                <!--Paints the card which is inmidiately before the last one-->
+				<aura:if isTrue="{!and(item.departureDate == '', index == v.iObject.stepList.length-2)}">                   
+                    <aura:if isTrue="{!v.iObject.status == 'ACCC'}">
+                    	<c:CMP_IPTDetailProgressCard item="{!item}" mainClass="slds-progress__item progress__gray slds-is-active" cardClass="card__completed" progressIcon="iconComplete" flagClass=""/>
+                    </aura:if>                    
+                    <aura:if isTrue="{!v.iObject.status == 'RJCT'}">                     
+                        <c:CMP_IPTDetailProgressCard item="{!item}" mainClass="slds-progress__item progress__gray slds-is-active" cardClass="card__rejected" progressIcon="iconRejected" flagClass=""/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.iObject.status == 'ACSP'}">
+                        <c:CMP_IPTDetailProgressCard item="{!item}" mainClass="slds-progress__item progress__gray slds-is-active" cardClass="card__inProgress" progressIcon="iconInProgress" flagClass=""/>
+                    </aura:if>
+                    <aura:if isTrue="{!and((v.iObject.status != 'ACCC'),(v.iObject.status != 'RJCT'))}">
+                        <aura:if isTrue="{!v.iObject.status != 'ACSP'}">
+                        	<c:CMP_IPTDetailProgressCard item="{!item}" mainClass="slds-progress__item progress__gray slds-is-active" cardClass="card__onHold" progressIcon="iconOnHold" flagClass=""/>
+                        </aura:if>
+                    </aura:if>
+                </aura:if>
+                
+                <!--Paints the card (first card)-->
+                <aura:if isTrue="{!and((item.arrivalDate == ''), (item.departureDate != ''), (index > 0), (v.iObject.stepList.length-1 > index))}">                   
+                    <c:CMP_IPTDetailProgressCard item="{!item}"/>
+                </aura:if>
+                
+                <!--Paints the card (visited point of payment transaction) -->
+                <aura:if isTrue="{!and((item.departureDate != ''), (item.arrivalDate != ''))}">
+                    <aura:if isTrue="{!(index != v.iObject.stepList.length-1)}">
+                        <c:CMP_IPTDetailProgressCard item="{!item}"/>                        
+                    </aura:if>                    
+                </aura:if>
+                
+                <!--Paints the last card taking into consideration its status-->
+                <aura:if isTrue="{!and((item.departureDate != ''),(item.arrivalDate != ''))}">                  
+                    <aura:if isTrue="{!(index == v.iObject.stepList.length-1)}">
+                        <aura:if isTrue="{!v.iObject.status == 'ACCC'}">                            
+                            <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__completed" progressIcon="iconComplete" flagClass=""/>
+                        </aura:if>
+                        <aura:if isTrue="{!v.iObject.status == 'RJCT'}">                     
+                            <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__rejected" progressIcon="iconRejected" flagClass=""/>
+                        </aura:if>
+                        <aura:if isTrue="{!v.iObject.status == 'ACSP'}">
+                            <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__inProgress" progressIcon="iconInProgress" flagClass=""/>
+                        </aura:if>
+                        <aura:if isTrue="{!and((v.iObject.status != 'ACCC'),(v.iObject.status != 'RJCT'))}">                        
+                            <aura:if isTrue="{!v.iObject.status != 'ACSP'}">                               
+                                <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__onHold" progressIcon="iconOnHold" flagClass=""/>
+                            </aura:if>                            
+                        </aura:if>
+                    </aura:if>                
+                </aura:if>
+                
+                <!--Paints the last card (destination not visited)-->
+                <aura:if isTrue="{!and((item.departureDate == ''),(item.arrivalDate == ''))}">
+                    <aura:if isTrue="{!(index == v.iObject.stepList.length-1)}">
+                        <c:CMP_IPTDetailProgressCard item="{!item}"  mainClass="slds-progress__item" progressIcon="iconIncomplete" flagClass="flagDisabled" textBold="textBold__disabled" textRegular="textRegular__disabled" />
+                    </aura:if>                    
+                </aura:if>
+            </aura:iteration>
+            </ol>
+            <div aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" role="progressbar">
+                <span class="slds-assistive-text">Progress: 25%</span>
+            </div>
+        </div>
+    </aura:if>
+    
+    
+    
+</aura:component>

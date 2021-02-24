@@ -1,0 +1,126 @@
+/*CARD*/
+.THIS .first{
+    margin-right:16px;
+}
+
+.THIS.firstRow{
+    margin-bottom:16px;
+}
+
+.THIS .downDoc{
+    padding: 91px 24px 16px 0;
+}
+
+.THIS .emailContact{
+    color:#ec0000;
+    font-family: "SantanderTextW05-Bold";
+    font-size:12px;
+    margin-top:8px;
+    text-decoration:none;
+}
+
+.THIS .emailContact:focus{
+   color:#cc0000;
+}
+
+.THIS .emailContact:hover{
+   color:#cc0000;
+}
+
+.THIS .icon{
+    font-size:32px;
+    margin-top:8px;
+}
+
+.THIS .icon-download{
+    cursor:pointer;
+    font-size: 24px;
+}
+
+.THIS .icon-mail{
+    font-size:32px;
+}
+
+.THIS .icon-phone{
+    font-size:32px;
+}
+.THIS.lastRow{
+    margin-bottom: 24px;
+}
+.THIS .phoneNumber{
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size:20px;
+  	color: #ec0000;
+}
+
+.THIS .slds-card__body{
+    display:flex;
+    height: -webkit-fill-available;
+    margin: 0px;
+    padding: 16px 0 16px 16px; 
+    width: -webkit-fill-available;
+}
+
+.THIS .slds-media__figure{
+    height:100%;
+    margin: 0;
+    margin-top:8px;
+    margin-right:16px;
+	width: 32px;
+}
+
+.THIS .slds-size_1-of-3 {
+    border: solid 1px #ececec;
+    border-radius: 4px;
+    background-color: #ffffff;
+    height: 136px;
+    width: 384px;
+}
+
+.THIS .subtitle{    
+    color:#a2a2a2;
+    font-family: "SantanderTextW05-Regular";
+    font-size:16px;
+}
+
+.THIS .title{
+    color:#444444;
+    font-family: "SantanderTextW05-Regular";
+    font-size: 18px;
+}
+
+/* TOOLTIPS */
+.THIS span[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+.THIS span[data-title]:after {
+     background-color: #ffffff;
+     bottom: -1.6em;
+     border-radius: 5px;  
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;  
+     box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    color: #444444;
+    content: attr(data-title);
+    font-family:"SantanderTextW05-Regular";
+    font-size:12px;
+    height:24px;
+    left: 75%;
+    opacity: 0;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    visibility: hidden; 
+    white-space: nowrap;    
+    width:auto;
+    z-index: 99999;
+}
+
+.THIS span[data-title] {
+    position: relative;
+    
+}

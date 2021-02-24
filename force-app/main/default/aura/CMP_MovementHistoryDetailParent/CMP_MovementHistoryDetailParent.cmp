@@ -1,0 +1,125 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Component to show the extract page
+History
+<Date>			<Author>		    <Description>
+26/12/2019		Pablo Tejedor       Initial version
+-->
+
+<aura:component controller="CNT_MovementHistoryExtracController" implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    
+    <!-- DATA ATIBUTTES -->  
+    <aura:attribute name="HistoricoObject" type="Object"/>
+
+    <!-- URLPARAMS ATIBUTTES -->  
+    <aura:attribute name="accountNumberAndEntity" type="String" description="Account number"/>
+    <aura:attribute name="accountInteger" type="String" description=""/>
+    <aura:attribute name="accountDecimals" type="String" description=""/>
+    <aura:attribute name="extractDate" type="String" description="Data from the extracts"/>
+    <aura:attribute name="dates" type="List" description="book date selected" />
+    <aura:attribute name="SelectedAccount" type="String" description="Account selected of the dropdown"/>
+    <aura:attribute name="accountNumberBank" type="String" description="Account bank"/>
+    <aura:attribute name="accountName" type="String" description="Subsidiary name of the account"/> 
+    <aura:attribute name="ready" type="boolean" default="false" description="This variable it's use to load all componets at the same time"/>
+    <aura:attribute name="finalBalance" type="String"  description="Final balance of the account"/>
+    <aura:attribute name="IntialBalance" type="String"  description="Initial balance of the account"/>
+    <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+    <aura:attribute name="source" type="String" default="" description="This variable is used to kwon from where is navigate"/>
+    <aura:attribute name="accountInfoDataSearch" type="Object" description="List of accounts to compare and print data into info when apply the search"/>
+    <aura:attribute name="AccountList" type="List" description="List of accounts that comes from Salesforce" />
+    <aura:attribute name="debit" type="String" description="Total ammount of the debits"/>
+    <aura:attribute name="debitNumber" type="String" description="Total number of debits"/>
+    <aura:attribute name="creditNumber" type="String" description="Total number of credits"/>
+    <aura:attribute name="credit" type="String" description="Total ammount of the credits"/>
+    <aura:attribute name="displayNoResultsMessage" type="Boolean" description="Flag activated when no results are returned from the server, for the given search"/>
+    <aura:attribute name="dateFrom" type="Date" description="Attribute to store the date from"/> 
+    <aura:attribute name="dateTo" type="Date" description="Field to fill with the date to"/>
+    <aura:attribute name="listapruebaAUx" type="List"></aura:attribute>
+    <aura:attribute name="availableBalanceParam" type="String" description="Avaiable balance field value of the account information component"/>
+    <aura:attribute name="bookBalanceParam" type="String" description="Book balance field value of the account information component"/>  
+    <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+    <!-- attribute to hide the spinner -->
+    <aura:attribute name="showSpinner"   type="Boolean" default="false"  description="Attributte to show or hide the spinner"/>
+
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+
+
+    <!-- AURA HANDLER  --> 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler  name = "getDataBack" event="c:EVT_GetDataExtractBack" action = "{!c.gobackPage}" />
+    
+    <aura:if isTrue="{!v.ready}" >
+
+        <!-- Bread crum titlle -->  
+        <!-- when the navigation is from global balance to extracts -->
+        <aura:if isTrue="{!v.source == 'globalBalance'}">
+            <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.MovementHistory_Extract}" 
+            breadcrumb="['International_Treasury_Management', 'MovementHistory_Extract']"
+            displayDownloadIcon ="{!v.displayDownloadIcon}"/> 
+        </aura:if>
+        <!-- To show breadcrumb when the flow starts whith the dropdown menu in globalBalance -->
+        <aura:if isTrue="{!or(v.source == 'dropdownMenu')}">
+                <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.MovementHistory_Extract}" 
+                breadcrumb="['MovementHistory_History','MovementHistory_Extract']"
+                displayDownloadIcon ="{!v.displayDownloadIcon}"/> 
+        </aura:if>
+        <!-- when the navigation is from global balance to history of extracts  -->
+        <aura:if isTrue="{!v.source == 'historyofextracts'}">
+                <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.MovementHistory_Extract}" 
+                breadcrumb="['International_Treasury_Management', 'MovementHistory_History','MovementHistory_Extract']"
+                displayDownloadIcon ="{!v.displayDownloadIcon}"/> 
+                
+        </aura:if>
+
+        <!-- Search component for the extract view --> 
+        <c:CMP_ExtractSearch 
+                dates="{!v.dates}"
+                SelectedAccount="{!v.SelectedAccount}" 
+                AccountList="{!v.AccountList}"
+                accountNumberAndEntity="{!v.accountNumberAndEntity}" 
+                accountNumberBank="{!v.accountNumberBank}"
+                accountName="{!v.accountName}"
+                currencyTable="{!v.currencyTable}"
+                accountInfoDataSearch="{!v.accountInfoDataSearch}"
+                displayNoResultsMessage="{!v.displayNoResultsMessage}"
+                displayDownloadIcon ="{!v.displayDownloadIcon}"/>
+
+        <aura:if isTrue="{!v.displayNoResultsMessage}">
+                <c:CMP_ResultsNotFound SelectedAccount="{!v.SelectedAccount}" dateFrom="{!v.dates[0]}" dateTo="{!v.dates[0]}"/> 
+        </aura:if>  
+        
+        <aura:if isTrue="{! !v.displayNoResultsMessage}">
+                
+                <aura:if isTrue="{! !v.showSpinner}">
+                        <!-- Account information component for the extract view --> 
+                        <c:CMP_MovementHistoryDetailAccountInformation 
+                                accountNumberAndEntity="{!v.accountNumberAndEntity}"
+                                accountNumberBank="{!v.accountNumberBank}"
+                                accountName="{!v.accountName}"
+                                finalBalance="{!v.finalBalance}"
+                                IntialBalance="{!v.IntialBalance}"
+                                currencyTable="{!v.currencyTable}"
+                                debit="{!v.debit}"
+                                debitNumber="{!v.debitNumber}"
+                                credit="{!v.credit}"
+                                creditNumber="{!v.creditNumber}"/>
+                                <!--initialBalance="{!v.initialBalance}"-->
+                </aura:if>
+                <!-- Table with the extracts --> 
+                <c:CMP_MovementHistoryExtractTable 
+                        debit="{!v.debit}"  debitNumber="{!v.debitNumber}"
+                        credit="{!v.credit}" creditNumber="{!v.creditNumber}"
+                        accountNumberAndEntity="{!v.accountNumberAndEntity}"
+                        dates="{!v.dates}" currencyTable="{!v.currencyTable}" source = "{!v.source}"
+                        finalBalance="{!v.finalBalance}" IntialBalance="{!v.IntialBalance}"
+                        noResultsFound="{!c.displayNoResultsFound}" accountNumberBank="{!v.accountNumberBank}"
+                        accountName="{!v.accountName}" SelectedAccount="{!v.SelectedAccount}"
+                        dateFrom="{!v.dateFrom}" dateTo="{!v.dateTo}"  displayDownloadIcon ="{!v.displayDownloadIcon}"
+                        availableBalanceParam="{!v.availableBalanceParam}" bookBalanceParam="{!v.bookBalanceParam}"
+                       />
+
+                </aura:if>
+    </aura:if>
+    
+</aura:component>

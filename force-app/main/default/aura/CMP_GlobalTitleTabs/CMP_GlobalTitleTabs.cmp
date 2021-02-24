@@ -1,0 +1,51 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_CurrencyExchange">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="values" type="List" default="['BRA','DEU','IND','MEX','PHL','Value 6']" description="List of values to populate the dropdown" />
+    <aura:attribute name="selectedValue" type="String" description="Selected option from the dropdown" />
+    <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text" />
+    <aura:attribute name="lastUpdateSelected" type="Boolean" default="true" description="Check if 'Last update' button is selected" />
+    <aura:attribute name="headerLastModifiedDate" type="String" description="Most recent date of accounts update"/>
+    <aura:attribute name="lastInfoDate" type="String" default="" description="Contains the last date of the info that brings the service" />
+    <aura:attribute name="lastInfoHour" type="String" description="Contains the last hour of the info that brings the service" />
+    <aura:attribute name="title" type="String" default="''" description="Contains the page title" />
+    <aura:attribute name="showOnlyLastUpdate" type="Boolean" default="false" description="Flag to show / hide the LU/EOD selector" />
+    
+    
+    <!-- SNJ - 23/04/2020 - do not show subtitile when the data has not been retrieved-->
+    <aura:attribute name="showDateInfo" type="Boolean" default="true" />
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <!-- Handlers -->
+    <aura:handler name="change" value="{!v.lastInfoDate}" action="{!c.lastInfoChanged}"/>
+    
+    <!-- Component markup -->
+    <div class="slds-grid title_LastEndcontainer">
+        <div class="slds-col">
+            <div class="slds-text-heading_medium">{!v.title}</div>
+            <aura:if isTrue="{!v.showDateInfo}">
+                <aura:if isTrue="{!v.lastUpdateSelected}">
+                   <div class="slds-text-heading_subtitle">{!$Label.c.Accounts_Updated}&nbsp;  <c:CMP_displayDate userDateFormat="{!v.userPreferredDateFormat}" dateClass="" date="{!v.lastInfoDate}"/>, {!v.lastInfoHour} </div>
+                    <!--<div class="slds-text-heading_subtitle">{!$Label.c.Accounts_Updated}&nbsp;<c:CMP_displayDate userDateFormat="{!v.userPreferredDateFormat}" date="{!v.headerLastModifiedDate}" dateClass="" /></div>-->
+                    <aura:set attribute="else">
+                        <div class="slds-text-heading_subtitle">{!$Label.c.InformationAt}&nbsp;<c:CMP_displayDate userDateFormat="{!v.userPreferredDateFormat}" dateClass="" date="{!v.lastInfoDate}"/></div>
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+            <div class="text_line"></div>
+        </div>
+        <aura:if isTrue="{!not(v.showOnlyLastUpdate)}">
+            <div class="slds-col">
+                <div class="slds-pill_container ">
+                    <button aura:id="LastUpdateTab" class="{!v.lastUpdateSelected ? 'slds-pill slds-pill__active' : 'slds-pill'}" role="option" tabindex="0" aria-selected="true" data-title="{!$Label.c.LastUpdate}" onclick="{!c.LastUpdateTab}">
+                        <span class="slds-pill__label">{!$Label.c.LastUpdate}</span>
+                    </button>
+                    
+                    <button aura:id="EndOfDayTab" class="{!v.lastUpdateSelected ? 'slds-pill' : 'slds-pill slds-pill__active'}" role="option" tabindex="0" aria-selected="true" data-title="{!$Label.c.EndOfDay}" onclick="{!c.EndOfDayTab}">
+                        <span class="slds-pill__label">{!$Label.c.EndOfDay}</span>
+                    </button>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

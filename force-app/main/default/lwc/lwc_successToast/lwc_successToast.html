@@ -1,0 +1,29 @@
+<template>
+    <!-- Toast message-->
+    <template if:true={showtoast}>
+        <div class="demo-only">
+            <div class="slds-notify_container slds-is-relative">
+                <div class="slds-notify slds-notify_toast slds-theme_success" role="status">
+                    <span class="slds-assistive-text">{label.Toast_Success}</span>
+                    <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top" title="">
+                        <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin" aria-hidden="true">
+                            <div class="button-selected icon-check"></div>
+                        </div>
+                    </span>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small">{messagetext}</h2>
+                    </div>
+                    <div class="slds-notify__close">
+                        <button class="slds-button slds-button_icon" title={label.T_Close} onclick={clearToast}>
+                            <div class="slds-button__icon slds-button__icon_hint icon-delete" aria-hidden="true"></div>
+                            <span class="slds-assistive-text">{label.Toast_Close}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+
+</template>

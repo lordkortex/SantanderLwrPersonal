@@ -1,0 +1,151 @@
+.slds-backdrop  { 
+    opacity: 0.7;
+ 	background-color: #444444; 
+}
+
+.slds-modal__container {
+    width: 808px;
+    max-width: 808px;
+    min-width: auto;
+    display:block;
+    padding: 116px 0;
+}
+
+.slds-modal__container body {
+    width: 808px;
+    height: 562px;
+    border-radius: 4px;
+   	box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+    background-color: #f9fcfd;
+}
+  
+.icon-close:before {
+    content: "\e913";
+    color: #ffffff
+}
+
+.slds-modal__container .slds-modal__header .slds-modal__close {
+    font-size: 24px;
+    position: absolute;
+    top: -32px;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    border: none!important;
+}
+
+/* CHECK*/ 
+.carousel-footer{
+    background-color: #f9fcfd;
+    border-top: 1px solid  #cedee7;
+    padding:16px 24px;
+    border-radius: 0 0 4px 4px;
+}
+
+.slds-checkbox {
+	align-items: center;
+	display: flex;
+	height: 24px;
+}
+ 
+.slds-checkbox .slds-checkbox__label .slds-form-element__label.checkboxLabel {
+    cursor: pointer;
+	color: #444444;
+	display: inline;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	vertical-align: middle;
+}
+.slds-form-element .slds-checkbox [type=checkbox]+.slds-checkbox__label .slds-checkbox_faux {
+	border-radius: 4px;
+    border-color: #767676;
+	cursor: pointer;
+	height: 24px; 
+	margin-right: 8px;
+	width: 24px;
+}
+
+.slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+	box-shadow: none;
+    border-color: #767676;
+}
+
+.slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+	border: 2px solid #1bb3bc;
+}
+
+.slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+	border-bottom: 2px solid #1bb3bc;
+	border-left: 2px solid #1bb3bc;
+	height: 6px;
+	width: 9px;
+}
+.slds-checkbox__label .slds-checkbox_faux:active{
+	border: 2px solid #1bb3bc;
+}
+ 
+ 
+/* CARROUSEL */
+.slds-carousel{ 
+    height:505px;
+}
+.slds-carousel__stage{
+    background:#fff;
+    /*border-radius: 4px 4px 0 0;*/
+}
+.slds-carousel__panel-action{
+   outline: none!important;
+    box-shadow: none!important;
+    border-color: transparent;
+    border: none!important;
+} 
+.slds-carousel__content{
+        padding: 24px 16px 0;
+    height: 126px;
+}
+.slds-carousel__content-title{
+    font-family: SantanderMicroText-Bd;
+  	font-size: 18px;
+    text-align: center;
+  	color: #444444;
+    line-height: 1.5;  
+    margin: 0 auto 4px;
+}
+.slds-carousel__content p{
+    font-family: SantanderMicroText;
+  	font-size: 14px; 
+ 	line-height: 1.5;    
+    color: #444444;
+    max-width: 440px;
+    margin: 0 auto 16px;
+}
+.slds-carousel__indicators{
+    top: -13px;
+    position: relative;
+    margin: 0 0 24px;
+    height: 8px;
+    line-height: 0;
+}
+.slds-carousel__indicator{
+     margin: 0 6px;
+}
+   
+.slds-carousel__indicator-action{
+  width: 12px;
+  height: 12px; 
+  background-color: #767676;
+  border:none;
+  transition: all 0.5s ease;
+}
+
+.slds-carousel__indicator-action.slds-is-active, 
+.slds-carousel__indicator-action.slds-is-active:hover,
+.slds-carousel__indicator-action:hover{
+    background: #ec0000!important;
+    box-shadow:none;
+}
+
+.slds-carousel__autoplay{
+    display:none;
+}

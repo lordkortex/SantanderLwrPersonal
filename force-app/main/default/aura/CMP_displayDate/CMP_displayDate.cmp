@@ -1,0 +1,29 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Component to display date values based on the User's
+				preferred date format.
+History
+<Date>			<Author>			<Description>
+16/03/2020		Guillermo Giral     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="Global_Utilities">
+    
+    <c:CMP_ServiceComponent aura:id="Service" />
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="date" type="String"/>
+    <aura:attribute name="displayedDate" type="String"/>
+    <aura:attribute name="dateClass" type="String"/>
+    <aura:attribute name="userDateFormat" type="String"/>
+    <aura:attribute name="convertToUserTimezone" type="Boolean" default="true"/>
+    
+    <!-- HANDLERS -->
+
+    <aura:handler name="init" value="{!this}" action="{!c.formatDate}" />
+    <aura:handler name="change" value="{!v.date}" action="{!c.formatDate}"/>
+
+    <!-- MARKUP -->
+    <span class="{!v.dateClass}">{!v.displayedDate}</span>
+
+</aura:component>

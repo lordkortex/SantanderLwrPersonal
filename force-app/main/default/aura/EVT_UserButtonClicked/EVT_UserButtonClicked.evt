@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Event launched when a button is clicked when creating/editing or profiling an user">
+
+    <aura:attribute name="buttonClicked" type="String" description="checks which button was clicked"/>
+
+</aura:event>

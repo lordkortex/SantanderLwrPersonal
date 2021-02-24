@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Event for the selected filters.">
+    <aura:attribute name="showDropdown" type="Boolean" description="Indicates if the dropdown is open." />
+    <aura:attribute name="name"         type="String"  description="Name of the sleected dropdown." />
+    <aura:attribute name="action"       type="String"  description="Launched action." />
+</aura:event>

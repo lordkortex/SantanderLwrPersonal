@@ -1,0 +1,364 @@
+<template>
+    <c-lwc_service-component 
+        data-id="Service" 
+        onsuccesscallback={successcallback}>
+    </c-lwc_service-component>
+    <template if:true={doneLoadingScreen}>
+        <template if:true={sourceEqualsAccountTrans}>
+            <c-lwc_cn_title-subtitle 
+                title={label.Accounts}  
+                subtitle ={label.TransactionDetail}
+                fire-navigation-event="true">
+            </c-lwc_cn_title-subtitle>
+        </template>
+        <template if:false={sourceEqualsAccountTrans}>
+            <c-lwc_cn_title-subtitle 
+                title={label.SearchTransactions}  
+                subtitle ={label.TransactionDetail} 
+                fire-navigation-event="true">
+            </c-lwc_cn_title-subtitle>
+        </template>
+       <c-lwc_cn_title-subtitle-amount 
+            amount={transactionDetails.amount} 
+            resultingamount={transactionDetails.balanceResultAmount}
+            accountbank={transactionDetails.bank} 
+            accountnumber={transactionDetails.account}
+            accountalias={transactionDetails.alias} 
+            currencyacc={transactionDetails.currency}
+            country={transactionDetails.country}>
+        </c-lwc_cn_title-subtitle-amount>
+
+        <!-- AM - 28/09/2020 - Ebury Accounts -->
+        <template if:true={detailsIsEbury}>
+            <!-- BASIC DETAILS -->
+            <article class="slds-card cardAccountDetail">
+                <!-- HEADER -->
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__body">
+                        <span class="slds-text-heading_small">{label.basicDetails}</span>
+                    </div>
+                    </header>
+                </div>
+                <!-- BODY -->
+                <div class="slds-card__body slds-card__body_inner">
+                    <div class="slds-grid">
+                        <!-- COLUMNA 1 -->
+                        <div class="slds-col firstCol">
+                            <!-- FILA 1 -->
+                            <div class="textRow">
+                                <div class="slds-grid" data-title="Book date">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{label.MovementHistory_BookDate}</span>
+                                </div>
+                                <div class="slds-grid" data-title="15/01/2020">
+                                    <c-lwc_display-date 
+                                        dateclass=""  
+                                        date={transactionDetails.bookDate}>
+                                    </c-lwc_display-date >
+                                </div>
+                            </div>
+                            <!-- FILA 2 -->
+                            <div class="textRow">
+                                <div class="slds-grid" data-title="Type of transaction">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{label.TypeOfTransacction}</span>
+                                </div>
+                                <div class="slds-grid" data-title="Credit">
+                                    <span class="slds-truncate slds-text-body_regular">{transactionDetails.transactionType}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- FILA 3 -->
+                            <div class="textRow">
+                                <div class="slds-grid" data-title="Additional information">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{label.AdditionalInformation}</span>
+                                </div>
+                                <div class="slds-grid" data-title="Value">
+                                    <span class="slds-truncate slds-text-body_regular">{transactionDetails.customerAdditionalInformation}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- COLUMNA 2 -->
+                        <div class="slds-col secondCol">
+                            <!-- FILA 1 -->
+                            <div class="textRow">
+                                <div class="slds-grid" data-title="Value date">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{label.valueDate}</span>
+                                </div>
+                                <div class="slds-grid" data-title="16/01/2020">
+                                    <c-lwc_display-date 
+                                        dateclass=""  
+                                        date={transactionDetails.valueDate}>
+                                    </c-lwc_display-date>
+                                </div>
+                            </div>
+                            <!-- FILA 2 -->                        
+                            <div class="textRow slds-grid">
+                                <div class="slds-col">
+                                    <div class="slds-grid" data-title="Transaction reference">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{label.transactionBatchReference}</span>
+                                    </div>
+                                    <div class="slds-grid" data-title="234987947239ssf9837249827sdf284793">
+                                        <span class="slds-truncate slds-text-body_regular">{transactionDetails.transactionBatchReference}</span>
+                                    </div>  
+                                </div>
+                            </div>
+                            
+                            <!-- FILA 3 -->
+                            <div class="textRow slds-grid">
+                                <div class="slds-col">
+                                    <div class="slds-grid" data-title="Description">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{label.localTransactionDescription}</span>
+                                    </div>
+                                    <div class="slds-grid" data-title="/LTC/0891-Cash deposit /HTC/CHK/AIN/00000002355">
+                                        <span class="slds-truncate slds-text-body_regular">{transactionDetails.description}</span>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="iconLink" data-title={label.T_Copy}>
+                                        <span class="icon-copy" onclick={copy}></span>
+                                        <span class="text-link" onclick={copy}>{label.T_Copy}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <!-- DEBIT / CREDIT TRANSACTION DETAIL -->
+            <template if:true={accountDetailsNotNull}>
+                <article class="slds-card cardAccountDetail ebury">
+                    <!-- HEADER -->
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <template if:true={notCreditType}>
+                                    <span class="slds-text-heading_small">{label.CreditTransactionDetail}</span>
+                            </template>
+                            <template if:false={notCreditType}>
+                                    <span class="slds-text-heading_small">{label.DebitTransactionDetail}</span>
+                            </template>
+                        </div>
+                        </header>
+                    </div>
+                    <!-- BODY -->
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-grid">
+                            <!-- COLUMNA 1 -->
+                            <div class="slds-col firstCol">
+                                <!-- FILA 1 -->
+                                <div class="textRow">
+                                    <template if:true={notCreditType}>
+                                    	<div class="slds-grid" data-title={label.CreditorName}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.CreditorName}</span>
+                                        </div>
+                                    </template>
+                                    <template if:false={notCreditType}>
+                                        <div class="slds-grid" data-title={label.DebtorName}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.DebtorName}</span>
+                                        </div>
+                                    </template>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{transactionDetails.accountDetails.name}</span>
+                                    </div>
+                                </div>
+                                <!-- FILA 2 -->
+                                <div class="textRow">
+                                    <template if:true={notCreditType}>
+                                    	<div class="slds-grid" data-title={label.CreditorAccount}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.CreditorAccount}</span>
+                                        </div>
+                                    </template>
+                                    <template if:false={notCreditType}>
+                                        <div class="slds-grid" data-title={Label.DebtorAccount}>    
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.DebtorAccount}</span>
+                                        </div>
+                                    </template>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{transactionDetails.accountDetails.accountName}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- FILA 3 -->
+                                <div class="textRow">
+                                    <template if:true={notCreditType}>
+                                        <div class="slds-grid" data-title={label.CreditorBank}>
+                                        	<span class="slds-truncate slds-text-body_regular text-grey">{label.CreditorBank}</span>
+                                        </div>
+                                    </template>
+                                    <template if:false={notCreditType}>
+                                        <div class="slds-grid" data-title={label.DebtorBank}>
+                                        	<span class="slds-truncate slds-text-body_regular text-grey">{label.DebtorBank}</span>
+                                        </div>
+                                    </template>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{transactionDetails.accountDetails.bankId}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- COLUMNA 2 -->
+                            <div class="slds-col secondCol">
+                                
+                                <!-- FILA 1 -->
+                                <div class="textRow">
+                                	<template if:true={notCreditType}>
+                                    	<div class="slds-grid" data-title={label.CreditorSwift}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.CreditorSwift}</span>
+                                        </div>
+                                    </template>
+                                    <template if:false={notCreditType}>
+                                        <div class="slds-grid" data-title={label.DebtorSwift}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.DebtorSwift}</span>
+                                        </div>
+                                    </template>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{transactionDetails.accountDetails.swift}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- FILA 2 -->                        
+                                <div class="textRow">
+                                    <template if:true={notCreditType}>
+                                    	<div class="slds-grid" data-title={label.CreditorAccountIBAN}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.CreditorAccountIBAN}</span>
+                                        </div>
+                                    </template>
+                                    <template if:false={notCreditType}>
+                                        <div class="slds-grid" data-title={label.DebtorAccountIBAN}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.DebtorAccountIBAN}</span>
+                                        </div>
+                                    </template>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{transactionDetails.accountDetails.iban}</span>
+                                    </div>
+                                </div>
+                                
+                                
+                                <!-- FILA 3 -->
+                                <div class="textRow">
+                                	<template if:true={notCreditType}>
+                                    	<div class="slds-grid" data-title={label.c.CreditorBankCode}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.c.CreditorBankCode}</span>
+                                        </div>
+                                    </template> 
+                                    <template if:false={notCreditType}>
+                                        <div class="slds-grid" data-title={label.c.DebtorBankCode}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.c.DebtorBankCode}</span>
+                                        </div>
+                                    </template>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{transactionDetails.accountDetails.bankCode}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </template>
+        </template>
+        <!-- DEFAULT SCREEN -->
+        <template if:false={detailsIsEbury}>
+            <div class="slds-card cardTransactionDetail">
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.MovementHistory_BookDate}</div>
+                        <div class="information">
+                            <c-lwc_display-date 
+                                dateclass=""  
+                                date={transactionDetails.bookDate}>
+                            </c-lwc_display-date >
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.valueDate}</div>
+                        <div class="information">
+                            <c-lwc_display-date 
+                                dateclass=""  
+                                date={transactionDetails.valueDate}>
+                            </c-lwc_display-date>
+                        </div>
+                    </div>
+                </div> 
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.MovementHistory_Category}</div>
+                        <div class="information">
+                            {transactionDetails.category}
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.ClientReference}</div>
+                        <div class="information">
+                            {transactionDetails.clientRef}
+                        </div>
+                    </div>
+                </div>  
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.MovementHistory_BankReference}</div>
+                        <div class="information">
+                            {transactionDetails.bankRef}
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.MovementHistory_Description}</div>
+                        <div class="information">
+                            <span>{transactionDetails.description}</span>
+                            <div class="iconLink" data-title={label.T_Copy}>
+                                <span class="icon-copy" onclick={copy}></span>
+                                <span class="text-link" onclick={copy}>{label.T_Copy}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.status}</div>
+                        <div class="information">
+                            {transactionDetails.accountStatus}
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.localTransactionCode}</div>
+                        <div class="information">
+                            {transactionDetails.localTransactionCode}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.localTransactionDescription}</div>
+                        <div class="information">
+                            {transactionDetails.localTransactionDescription}
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{label.transactionBatchReference}
+                        </div>
+                        <div class="information">
+                            {transactionDetails.transactionBatchReference}
+                        </div>
+                    </div>
+                </div>
+                <!-- AM - 11/11/2020 - US6421: Campos Nuevos Nexus -->
+                <template if:true={isNotIAM}>
+                    <div class="slds-card__header slds-grid">
+                        <div class="slds-card__header-title">
+                            <div class="name">{label.AdditionalInformation}</div>
+                            <div class="information">
+                                {transactionDetails.aditionalInformation}
+                            </div>
+                        </div>
+                        <div class="slds-card__header-title">
+                            <div class="name">{label.customerAdditionalInformation}
+                            </div>
+                            <div class="information">
+                                {transactionDetails.customerAditionalInformation}
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </template>
+</template>

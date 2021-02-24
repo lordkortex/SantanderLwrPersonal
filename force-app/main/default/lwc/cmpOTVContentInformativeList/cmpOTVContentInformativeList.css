@@ -1,0 +1,153 @@
+.welcomingContent {
+    width:100%;
+    background-color:#f6fafc;
+}
+
+.welcomingContent .slds-grid {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 72px 108px 80px;
+}
+
+.welcomingContent .slds-col{
+    max-width: 600px;
+    width: 100%;
+}
+.welcomingContent .slds-col:first-child{
+    margin-right: 48px;
+    padding: 4px 32px 8px 40px;
+}
+
+.welcomingContent .slds-col:first-child .textImage{
+    max-width: 392px;
+    margin: 0 72px 0 64px;
+}
+
+.welcomingContent .slds-col:first-child .textImage p {
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #444444;
+}
+
+.welcomingContent .slds-image{
+    width: 528px;
+    height: 312px;
+    margin-bottom: 4px;
+}
+
+ .slds-text-heading {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 36px;
+    line-height: 43px;
+    color: #444444;
+    margin-bottom: 40px;
+}
+
+ .slds-item .slds-media__figure.containerIcon{
+    width: 32px;
+    height: 32px;
+    margin: 0 32px 0 8px;
+}
+
+ .slds-item.selected .slds-media__figure.containerIcon{
+	width: 48px;
+	height: 48px;  
+    margin: 0 24px 0 0;
+}
+
+ .slds-item .slds-media__figure.containerIcon span:before{
+    color:#767676;
+    font-size: 32px ;
+}
+
+ .slds-item.selected .slds-media__figure.containerIcon span:before{
+    color: #ec0000;
+    font-size: 48px ;
+}
+
+ .slds-item:before{
+    content:'•••';
+    position: relative;
+    bottom: -42px;
+    left: 32px;
+    transform: rotate(90deg);
+    font-size: 8px; 
+    letter-spacing: 3px;
+    color:#767676;
+}
+
+ .slds-item.selected:before{
+    bottom: -44px;
+}
+
+ .slds-item:last-child:before{
+    visibility:hidden;
+}
+
+ .slds-item {
+    display:flex;
+    align-items: center;
+    margin-bottom: 48px;
+    cursor: pointer;
+}
+
+ .slds-item.selected{
+    margin-bottom:40px;
+}
+
+ .slds-item:last-child,
+ .slds-item.selected:last-child{
+    margin-bottom: 0px;
+} 
+
+ .slds-item .slds-item__content p{
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 20px;
+    line-height: 1.4;
+    color: #767676;
+}
+
+ .slds-item.selected .slds-item__content p{
+    color:#444444;
+}
+ .slds-item:hover .containerIcon span:before,
+ .slds-item.selected:hover .containerIcon span:before,
+ .slds-item:hover .slds-item__content p{
+    color: #ec0000;
+}
+
+ ol{
+    display: block;
+    list-style-type: none;
+    margin-block-start: 0px!important;
+    margin-block-end: 0px!important;
+    margin-inline-start: 0px!important;
+    margin-inline-end: 0px!important;
+    padding-inline-start: 0px!important;
+    position: relative;
+    left: -17px;
+
+}
+ .icon-arrowDown:before{
+    color:#ec0000;
+    font-size: 24px;
+}
+
+ .slds-grid__button{
+    display: flex;
+    justify-content: center;
+    max-width: 1440px;
+    margin: 0 auto;
+    margin-bottom: 24px;
+}
+
+ .slds-grid__button .slds-button{
+    display: flex;
+    flex-direction: column;
+}
+.welcomingContent .slds-item__content{
+	max-width: 504px;
+    width: 504px;
+}

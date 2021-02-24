@@ -1,0 +1,71 @@
+<template>
+	<!-- FULL SCREEN MODAL -->
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+            
+            <!-- MODAL HEADER -->
+            <header class="slds-modal__header slds-is-fixed">
+                <div class="row slds-grid">
+                    <img class="logo-white" src={OTVLogo}/>                
+                </div>
+            </header>
+            
+            <!-- MODAL CONTENT -->
+            <div class="slds-modal__content" id="modal-content-id-1">
+                <div class="slds-grid__content">
+                    <div class="welcomingHeader">
+                        <div class="slds-grid">
+                            <div class="slds-col">
+                                <div class="text">
+                                    <div class="slds-text-heading">{label.cmpOTVParent_1}</div>
+                                    <div class="slds-text-body">{label.cmpOTVParent_2}</div>
+                                </div>
+
+                                <!-- GET STARTED BUTTON-->
+                                <button class="slds-button primary button_full" onclick={goToSteps}>
+                                    {label.cmpOTVParent_3}
+                                </button>
+                            </div>
+                            <div class="slds-col">
+                                <figure class="slds-image">
+                                    <img src={heroReference} alt="Description of the image" />
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INFORMATIVE LIST LWC-->
+                    <c-cmp-o-t-v-content-informative-list></c-cmp-o-t-v-content-informative-list>
+                    
+                    <!-- CONTENT STEPS LWC-->
+                    <c-cmp-o-t-v-content-steps type1=true></c-cmp-o-t-v-content-steps>
+
+                    <!-- FOOTER BUTTONS-->
+                    <div class="stickyButtons">
+                        <div class="content">
+                            <div class="text">
+                                <p>{label.cmpOTVParent_4}</p>
+                            </div>
+                            <div class="contact">
+                                
+                                <!-- TALK WITH AN EXPERT BUTTON-->
+                                <button class="slds-button button_link" onclick={goToTalkWithAnExpert}>
+                                    <span class="icon_left icon-call-center-DB"></span> {label.cmpOTVParent_5}
+                                </button>
+
+                                <!-- GET STARTED BUTTON-->
+                                <button class="slds-button secondary button_small button_full" onclick={goToSteps}>
+                                    {label.cmpOTVParent_6}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FOOTER LWC -->
+                    <c-cmp-o-t-v-footer></c-cmp-o-t-v-footer>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

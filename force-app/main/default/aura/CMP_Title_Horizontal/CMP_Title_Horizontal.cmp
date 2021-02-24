@@ -1,0 +1,19 @@
+<!--
+Author:         Diego Asis
+Company:        Deloitte
+Description:    Title for the userguide download component
+History
+<Date>			<Author>		    <Description>
+27/01/2020		Diego Asis     		Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="subtitle" type="String"/>
+	    
+    <div class="container">
+        <div class="title">{!v.title}</div>
+        <div class="subtitle">{!v.subtitle}</div>
+    </div>
+</aura:component>

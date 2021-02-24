@@ -1,0 +1,530 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="Global_Utilities">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="dates" type="List" description="List containing the selected dates" />
+    <aura:attribute name="datesBis" type="List" description="List containing the selected dates"/>
+    <aura:attribute name="showModal" type="Boolean" default="false" description="Flag to close the modal"/>
+    <aura:attribute name="simple" type="Boolean" default="true" description="Flag to indicate whether the calendar is simple or compounded (From-To)" />
+    <aura:attribute name="placeholderFrom" type="String" default="{!$Label.c.from}" description="Calendar 'From' placeholder" />
+    <aura:attribute name="placeholderTo" type="String" default="{!$Label.c.to}" description="Calendar 'To' placeholder" />
+    <aura:attribute name="isDisabled" type="Boolean" default="false" description="Attribute to indicate if the dropdown is disabled" />
+    <aura:attribute name="endOfDay" type="Boolean" default="false" description="Flag to show End of day / Last update"/>
+    <aura:attribute name="isAccTransactions" type="Boolean" default="false"/>
+    <aura:attribute name="showAmountError" type="Boolean" default="False" description="Flag to check if the amount error is showing" />
+    <aura:attribute name="showFormatError" type="Boolean" default="false" description="Flag to check if the format error is showing (number less than 0 or string)"/>
+    <aura:attribute name="convertDatesToUserTimezone" type="Boolean" default="true" description="Flag to indicate whether the selected dates must be converted to ISO string based on the user's timezone"/>
+    <aura:attribute name="isInstantAccount" type="Boolean" default="false" description="Flag to remove some of the fields in the advanced filters"/>
+
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text" /> 
+    
+    <!-- DATA ATTRIBUTES -->
+    <aura:attribute name="filters"    type="List"    description="To store country,bank and accountNumbers" />
+    <aura:attribute name="transactionResults" type="Map" description="List of rows to show in the table"/>
+    <aura:attribute name="formFilters" type="Map" default="{}" description="Map of filters taken from the input fields"/>
+    <aura:attribute name="numberActiveFilters" type="Integer" default="0" description="Number of filters currently active"/>
+
+    <aura:attribute name="fromDate" type="String"/>
+    <aura:attribute name="toDate" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:handler name="change" value="{!v.dates}" action="{!c.updateDatesBis}"/>
+
+    <!-- HANDLERS -->
+    <!-- <aura:handler name="change" value="{!v.dates}" action="{!c.fireDatesChangeEvent}"/> -->
+
+    <!-- EVENT -->
+    <aura:registerEvent name="fireAdvancedFilter" type="c:EVT_FilterSearch"/>
+    <aura:registerEvent name="fireDatesChange" type="c:EVT_FilterSearchDates"/>
+    <aura:registerEvent name="onOptionSelection" type="c:EVT_AdvancedFilterSelectOption"/>
+    <aura:registerEvent name="clearAllFilters" type="c:EVT_ClearAllFilters"/>
+
+    <!-- METHODS -->
+    <aura:method name="calculateActiveFilters" action="{!c.calculateActiveFilters}" description="Method to recalculate the active filters"/>
+
+    <!-- Component MARKUP -->
+   
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!$Label.c.advancedFilters}</h2>
+                <button class="slds-button" onclick="{!c.closeModal}" >
+                    <div class="icon-close_big"></div> 
+                    <span class="slds-assistive-text">{!$Label.c.close}</span>
+                </button>
+            </header>
+        
+            <div class="slds-modal__content" id="modal-content-id-1">
+                <div class="slds-grid__content" >
+                    <aura:if isTrue="{!not(v.isAccTransactions)}">
+                        <div class="slds-row">
+                            <!-- COUNTRY DROPDOWN MARKUP -->
+                            <div class="slds-col">
+                                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                <div class="slds-form-element slds-combobox">
+                                    <label class="slds-form-element__label" for="combobox-id-49">{!$Label.c.Country}</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container slds-combobox__check ">
+                                            <!-- <c:CMP_CN_Dropdown aura:id="countryDropdown" isSimpleDropdown="false" selectAllValues="{!$Label.c.SelectAllCountries}"
+                                            valuePlaceholder="{!$Label.c.multipleChoice}" values="{!v.mapfilter[0].data}" selectedValues="{!v.selectedCountries}" /> -->
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                                <button id ="{!$Label.c.Country}" disabled="{!v.isDisabled ==  true ? true : false}" class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" onclick="{!c.showDropdown}">
+                                                    <aura:iteration items="{!v.filters}" var="item" indexVar="index">    
+                                                        <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.Country, item.numberChecked == 0)}">
+                                                            <div class="slds-border_right orderSelected selectedValue-placeholder">{!$Label.c.multipleChoice}</div>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.Country, item.numberChecked == 1)}">
+                                                            <aura:iteration items="{!item.data}" var="option" indexVar="op">
+                                                                <aura:if isTrue="{!option.checked}">
+                                                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{!option.displayValue}</div>
+                                                                </aura:if>
+                                                            </aura:iteration>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.Country, item.numberChecked gt 1)}">
+                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{!item.numberChecked +' '+ $Label.c.options}</div>
+                                                        </aura:if>
+                                                    </aura:iteration>    
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                </button>
+                                            </div>
+                                            <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" id="popover-unique-id-04" role="dialog">
+                                                <aura:iteration items="{!v.filters}" var="item" indexVar="index">
+                                                    <aura:if isTrue="{!item.name == $Label.c.Country}">    
+                                                        <div class="slds-popover__body" id="dialog-body-id-25">
+                                                            <fieldset class="slds-form-element">
+                                                                <div class="slds-form-element__control">
+                                                                    <aura:iteration items="{!item.data}" var="country" indexVar="countryIndex">
+                                                                        <div class="slds-checkbox">
+                                                                            <input type="checkbox" name="{!item.name}" id="{!countryIndex}" value="{!country.value}" checked="{!country.checked}"  onclick="{!c.chekOptions}"/>
+                                                                            <label class="slds-checkbox__label" for="{!country.value + index}">
+                                                                                <span class="slds-checkbox_faux"></span>
+                                                                                <span class="slds-form-element__label">{!country.displayValue}</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </aura:iteration>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                    </aura:if>  
+                                                </aura:iteration>    
+                                            </section>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- BANK DROPDOWN MARKUP -->
+                            <div class="slds-col">
+                                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                <div class="slds-form-element slds-combobox">
+                                    <label class="slds-form-element__label" for="combobox-id-49">{!$Label.c.Bank}</label>
+                                    <div class="slds-form-element__control"  >
+                                        <div class="slds-combobox_container slds-combobox__check "> <!--  onmouseover="{!c.showDropdown}" onmouseout="{!c.hideDropdown}"  > -->
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                                <button id="{!$Label.c.Bank}" disabled="{!v.isDisabled ==  true ? true : false}" class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true">
+                                                    <aura:iteration items="{!v.filters}" var="item" indexVar="index">
+                                                        <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.Bank, item.numberChecked == 0)}">
+                                                            <div class="slds-border_right orderSelected selectedValue-placeholder">{!$Label.c.multipleChoice}</div>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.Bank, item.numberChecked == 1)}">
+                                                            <aura:iteration items="{!item.data}" var="option" indexVar="op">
+                                                                <aura:if isTrue="{!option.checked}">
+                                                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{!option.displayValue}</div>
+                                                                </aura:if>
+                                                            </aura:iteration>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.Bank, item.numberChecked gt 1)}">
+                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{!item.numberChecked +' '+ $Label.c.options}</div>
+                                                        </aura:if>
+                                                    </aura:iteration>
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                </button>
+                                            </div>
+                                            <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" id="popover-unique-id-04" role="dialog" >
+                                                <aura:iteration items="{!v.filters}" var="item" indexVar="index">  
+                                                    <aura:if isTrue="{!item.name == $Label.c.Bank}">   
+                                                        <div class="slds-popover__body" id="dialog-body-id-25" >
+                                                            <fieldset class="slds-form-element">
+                                                                <div class="slds-form-element__control">
+                                                                    <aura:iteration items="{!item.data}" var="bank" indexVar="bankIndex">
+                                                                        <div class="slds-checkbox">
+                                                                            <input type="checkbox" name="{!item.name}" id="{!bankIndex}" value="{!bank.value}" checked="{!bank.checked}" onclick="{!c.chekOptions}"/>
+                                                                            <label class="slds-checkbox__label" for="{!bank.value + bankIndex}">
+                                                                                <span class="slds-checkbox_faux"></span>
+                                                                                <span class="slds-form-element__label">{!bank.displayValue}</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </aura:iteration>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                    </aura:if>
+                                                </aura:iteration>
+                                            </section>                               
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+
+                    <aura:if isTrue="{!not(v.isAccTransactions)}">
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <!-- ACCOUNT DROPDOWN MARKUP -->
+                                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                <div class="slds-form-element slds-combobox">
+                                    <label class="slds-form-element__label" for="combobox-id-49">{!$Label.c.Account}</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container slds-combobox__check ">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                                <button id="{!$Label.c.Account}" disabled="{!v.isDisabled ==  true ? true : false}" class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" onclick="{!c.showDropdown}">
+                                                    <aura:iteration items="{!v.filters}" var="item" indexVar="index">
+                                                        <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.Account, item.numberChecked == 0)}">
+                                                            <div class="slds-border_right orderSelected selectedValue-placeholder">{!$Label.c.multipleChoice}</div>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.Account, item.numberChecked == 1)}">
+                                                            <aura:iteration items="{!item.data}" var="option" indexVar="op">
+                                                                <aura:if isTrue="{!option.checked}">
+                                                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{!option.displayValue}</div>
+                                                                </aura:if>
+                                                            </aura:iteration>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.Account, item.numberChecked gt 1)}">
+                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{!item.numberChecked +' '+ $Label.c.options}</div>
+                                                        </aura:if>
+                                                    </aura:iteration>
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small" id="{!$Label.c.Account}"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                </button>
+                                            </div>
+                                            <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" id="popover-unique-id-04" role="dialog">
+                                                <aura:iteration items="{!v.filters}" var="item" indexVar="index"> 
+                                                    <aura:if isTrue="{!item.name == $Label.c.Account}">        
+                                                        <div class="slds-popover__body" id="dialog-body-id-25">
+                                                            <fieldset class="slds-form-element">
+                                                                <div class="slds-form-element__control">
+                                                                    <aura:iteration items="{!item.data}" var="account" indexVar="accountIndex">
+                                                                        <div class="slds-checkbox">
+                                                                            <input type="checkbox" name="{!item.name}" id="{!accountIndex}" value="{!account.value}"  checked="{!account.checked}" onclick="{!c.chekOptions}"/>
+                                                                            <label class="slds-checkbox__label" for="{!account.displayValue + index}">
+                                                                                <span class="slds-checkbox_faux"></span>
+                                                                                <span class="slds-form-element__label">{!account.displayValue}</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </aura:iteration>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                    </aura:if>
+                                                </aura:iteration> 
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <!-- CURRENCY DROPDOWN MARKUP -->
+                                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                <div class="slds-form-element slds-combobox">
+                                    <label class="slds-form-element__label" for="combobox-id-49">{!$Label.c.currency}</label>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-combobox_container slds-combobox__check ">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                                <button id ="{!$Label.c.currency}" disabled="{!v.isDisabled ==  true ? true : false}" class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" onclick="{!c.showDropdown}">
+                                                    <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                    <aura:iteration items="{!v.filters}" var="item" indexVar="index">    
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.currency, item.numberChecked == 0)}">
+                                                            <div class="slds-border_right orderSelected selectedValue-placeholder">{!$Label.c.multipleChoice}</div>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.currency, item.numberChecked == 1)}">
+                                                            <aura:iteration items="{!item.data}" var="option" indexVar="op">
+                                                                <aura:if isTrue="{!option.checked}">
+                                                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{!option.displayValue}</div>
+                                                                </aura:if>
+                                                            </aura:iteration>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!and(item.name == $Label.c.currency, item.numberChecked gt 1)}">
+                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{!item.numberChecked +' '+ $Label.c.options}</div>
+                                                        </aura:if>
+                                                    </aura:iteration>
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small" id="{!$Label.c.currency}"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                </button>
+                                            </div>
+                                            <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" id="popover-unique-id-04" role="dialog">
+                                                <aura:iteration items="{!v.filters}" var="item" indexVar="index">
+                                                    <aura:if isTrue="{!item.name == $Label.c.currency}">     
+                                                        <div class="slds-popover__body" id="dialog-body-id-25">
+                                                            <fieldset class="slds-form-element">
+                                                                <div class="slds-form-element__control">
+                                                                    <aura:iteration items="{!item.data}" var="currency" indexVar="currencyIndex">
+                                                                        <div class="slds-checkbox">
+                                                                            <input type="checkbox" name="{!item.name}" id="{!currencyIndex}" value="{!currency.value}" checked="{!currency.checked}"  onclick="{!c.chekOptions}" />
+                                                                            <label class="slds-checkbox__label" for="{!currency + currencyIndex}">
+                                                                                <span class="slds-checkbox_faux"></span>
+                                                                                <span class="slds-form-element__label">{!currency.displayValue}</span>
+                                                                            </label>
+                                                                        </div>
+                                                                    </aura:iteration>
+                                                                </div>
+                                                            </fieldset>
+                                                        </div>
+                                                    </aura:if>
+                                                </aura:iteration>
+                                            </section>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+                    
+                    <div class="slds-row">
+                        <!-- BOOK DATE CALENDAR -->
+                        <div class="slds-col">
+                            <div class="slds-form-element"> 
+                                <div class="slds-form slds-form_compound calendar">
+                                    <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.bookDate}</div> 
+                                    <fieldset class="slds-form-element">
+                                        <div class="slds-form-element__control ">
+                                            <div class="slds-form-element__group">
+                                                <div class="slds-form-element__row ">
+                                                    <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                            <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                            <lightning:input aura:id="dateFromInput" type="date" name="inputFrom" value="{!v.dates[0]}" dateStyle="short" label="{!$Label.c.enterADate}" variant="label-hidden" placeholder="{!v.placeholderFrom}" onchange="{!c.validateDate}" autocomplete="off"/>
+                                                        </div>
+                                                        <!-- <div class="textHelp">
+                                                                {!v.helpText}
+                                                            </div> -->
+                                                    </div>
+                                                    <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                            <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                            <lightning:input aura:id="dateToInput" type="date" name="inputTo" value="{!v.dates[1]}" dateStyle="short" label="{!$Label.c.enterADate}" variant="label-hidden" placeholder="{!v.placeholderTo}" onchange="{!c.validateDate}" autocomplete="off"/>
+                                                        </div>
+                                                        <!-- <div class="textHelp">
+                                                                {!v.helpText}
+                                                            </div>                                        -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                 <!--       <aura:if isTrue="{!v.isInstantAccount}">
+                            <div class="slds-col doblecheck">
+                                <label class="slds-form-element__label" for="text-input-id-1">{!$Label.c.TypeOfTransacction}</label>
+                                <div class="slds-form-element slds-form-element__doblecheck">
+                                    <div class="slds-checkbox">
+                                        <input type="checkbox" name="debitCheck" id="debitInput" value="{!v.formFilters.debit}" checked="{!v.formFilters.debit}" onclick="{!c.getFormFilters}" />
+                                        <label class="slds-checkbox__label" for="debitInput">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!$Label.c.Debit}</span>
+                                        </label>
+                                    </div>
+                                    <div class="slds-checkbox"> 
+                                        <input type="checkbox" name="creditCheck" id="creditInput" value="{!v.formFilters.credit}" checked="{!v.formFilters.credit}" onclick="{!c.getFormFilters}" />
+                                        <label class="slds-checkbox__label" for="creditInput">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!$Label.c.MovementHistory_Credit}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>  -->
+                        <aura:if isTrue="{!not(v.isInstantAccount)}">
+                            <div class="slds-col">
+                                <!-- CATEGORY DROPDOWN MARKUP -->
+                                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                <div class="slds-form-element slds-combobox">
+                                        <label class="slds-form-element__label" for="{!$Label.c.Category}">{!$Label.c.Category}</label>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-combobox_container slds-combobox__check ">
+                                                <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                                    <button id ="{!$Label.c.Category}" class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" onclick="{!c.showDropdown}">
+                                                        <aura:iteration items="{!v.filters}" var="item" indexVar="index">   
+                                                            <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                            <aura:if isTrue="{!and(item.name == $Label.c.Category, item.numberChecked == 0)}">
+                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{!$Label.c.multipleChoice}</div>
+                                                            </aura:if>
+                                                            <aura:if isTrue="{!and(item.name == $Label.c.Category, item.numberChecked == 1)}">
+                                                                <aura:iteration items="{!item.data}" var="option" indexVar="op">
+                                                                    <aura:if isTrue="{!option.checked}">
+                                                                        <div class="slds-border_right orderSelected selectedValue-placeholder">{!option.displayValue}</div>
+                                                                    </aura:if>
+                                                                </aura:iteration>
+                                                            </aura:if>
+                                                            <aura:if isTrue="{!and(item.name == $Label.c.Category, item.numberChecked gt 1)}">
+                                                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{!item.numberChecked +' '+ $Label.c.options}</div>
+                                                            </aura:if>
+                                                        </aura:iteration>
+                                                        <div class="slds-button__icon arrow" aria-hidden="true">
+                                                            <div class="button-arrow icon-arrowDown_small" id="{!$Label.c.Category}"></div>
+                                                        </div>
+                                                        <span class="slds-assistive-text"></span>
+                                                    </button>
+                                                </div>
+                                                <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" id="popover-unique-id-04" role="dialog">
+                                                    <aura:iteration items="{!v.filters}" var="item" indexVar="index">   
+                                                        <aura:if isTrue="{!item.name == $Label.c.Category}">
+                                                            <div class="slds-popover__body" id="dialog-body-id-25">
+                                                                <fieldset class="slds-form-element" >
+                                                                    <div class="slds-form-element__control">
+                                                                        <aura:iteration items="{!item.data}" var="category" indexVar="categoryIndex">
+                                                                            <div class="slds-checkbox">
+                                                                                <input type="checkbox" name="{!item.name}" id="{!categoryIndex}" value="{!category.value}" checked="{!category.checked}" onclick="{!c.chekOptions}"/>
+                                                                                <label class="slds-checkbox__label" for="{!category.value + categoryIndex}">
+                                                                                    <span class="slds-checkbox_faux"></span>
+                                                                                    <span class="slds-form-element__label">{!category.displayValue}</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </aura:iteration>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </div>
+                                                        </aura:if>
+                                                    </aura:iteration>
+                                                </section>  
+                                            </div>
+                                        </div>
+                                    </div>
+                            </div>
+                        </aura:if>
+                    </div> 
+                    
+                    <!-- Type of transaction -->
+                    <div class="slds-row">
+                        <aura:if isTrue="{!and(not(v.endOfDay), not(v.isInstantAccount))}">
+                         <!--   <div class="slds-col doblecheck">
+                                <label class="slds-form-element__label" for="text-input-id-1">{!$Label.c.TypeOfTransacction}</label>
+                                <div class="slds-form-element slds-form-element__doblecheck">
+                                    <div class="slds-checkbox">
+                                        <input type="checkbox" name="debitCheck" id="debitInput" value="{!v.formFilters.debit}" checked="{!v.formFilters.debit}" onclick="{!c.getFormFilters}" />
+                                        <label class="slds-checkbox__label" for="debitInput">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!$Label.c.Debit}</span>
+                                        </label>
+                                    </div>
+                                    <div class="slds-checkbox"> 
+                                        <input type="checkbox" name="creditCheck" id="creditInput" value="{!v.formFilters.credit}" checked="{!v.formFilters.credit}" onclick="{!c.getFormFilters}" />
+                                        <label class="slds-checkbox__label" for="creditInput">
+                                            <span class="slds-checkbox_faux"></span>
+                                            <span class="slds-form-element__label">{!$Label.c.MovementHistory_Credit}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>  -->
+                            <!-- Amount -->
+                            <div class="slds-col">
+                                <div class="slds-form-element input_text">
+                                    <label class="slds-form-element__label" for="text-input-id-1">{!$Label.c.amount}</label>
+                                    <div class="input_text__combo">
+                                        <aura:iteration items="{!v.filters}" var="item" indexVar="index">
+                                            <aura:if isTrue="{!item.name == $Label.c.amount}">
+                                                <div class="slds-form-element__control">
+                                                    <input type="number" id="AmountFrom" aura:id="AmountFrom" placeholder="{!$Label.c.from}" class="slds-input" value="{!item.selectedFilters.from}" onblur="{!c.saveData}" />
+                                                        <div  class="slds-form-element__help clr-red">
+                                                            <aura:if isTrue="{!and(v.showAmountError, not(v.showFormatError))}">
+                                                                {!$Label.c.toAmountLowerThanFrom}
+                                                            </aura:if>
+                                                            <aura:if isTrue="{!v.showFormatError}">
+                                                                {!$Label.c.amountLowerThanZero}
+                                                            </aura:if>
+                                                        </div>   
+                                                </div>
+                                                <div class="slds-form-element__control">
+                                                    <input type="number" id="AmountTo" aura:id="AmountTo" placeholder="{!$Label.c.to}" class="slds-input" value="{!item.selectedFilters.to}" onblur="{!c.saveData}"/> <!-- onkeyup="{!c.saveData}"/>-->
+                                                </div>
+                                            </aura:if>
+                                        </aura:iteration>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isInstantAccount}">
+                            <!-- Amount -->
+                            <div class="slds-col">
+                                <div class="slds-form-element input_text">
+                                    <label class="slds-form-element__label" for="text-input-id-1">{!$Label.c.amount}</label>
+                                    <div class="input_text__combo">
+                                        <aura:iteration items="{!v.filters}" var="item" indexVar="index">
+                                            <aura:if isTrue="{!item.name == $Label.c.amount}">
+                                                <div class="slds-form-element__control">
+                                                    <input type="number" id="AmountFrom" aura:id="AmountFrom" placeholder="{!$Label.c.from}" class="slds-input" value="{!item.selectedFilters.from}" onblur="{!c.saveData}" />
+                                                    <!--<input type="number" id="AmountFrom" aura:id="AmountFrom" placeholder="{!$Label.c.from}" class="slds-input" onblur="{!c.saveData}" />-->
+                                                    <div  class="slds-form-element__help clr-red">
+                                                        <aura:if isTrue="{!and(v.showAmountError, not(v.showFormatError))}">
+                                                            {!$Label.c.toAmountLowerThanFrom}
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!v.showFormatError}">
+                                                            {!$Label.c.amountLowerThanZero}
+                                                        </aura:if>
+                                                    </div>   
+                                                </div>
+                                                <div class="slds-form-element__control">
+                                                    <input type="number" id="AmountTo" aura:id="AmountTo" placeholder="{!$Label.c.to}" class="slds-input" value="{!item.selectedFilters.to}" onblur="{!c.saveData}"/> 
+                                                    <!--<input type="number" id="AmountTo" aura:id="AmountTo" placeholder="{!$Label.c.to}" class="slds-input" onblur="{!c.saveData}"/>-->
+                                                </div>
+                                            </aura:if>
+                                        </aura:iteration>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
+                    </div>
+                    
+                    <aura:if isTrue="{!and(not(v.endOfDay), not(v.isInstantAccount))}">
+                        <div class="slds-row">
+                            <!-- Client reference free text -->
+                            <div class="slds-col">
+                                <div class="slds-form-element textarea">
+                                    <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.ClientReference}</label>
+                                    <div class="slds-form-element__control">
+                                        <textarea id="clientRefInput" class="slds-textarea" placeholder="{!$Label.c.WriteAClienteReference}" value="{!v.formFilters.clientRef}" onchange="{!c.getFormFilters}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Description free text -->
+                            <div class="slds-col">
+                                <div class="slds-form-element textarea">
+                                    <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.MovementHistory_Description}</label>
+                                    <div class="slds-form-element__control">
+                                        <textarea id="descriptionInput" class="slds-textarea" placeholder="{!$Label.c.WriteAWordOfDescription}" value="{!v.formFilters.description}" onchange="{!c.getFormFilters}"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+            <footer class="slds-modal__footer">
+                <div class="slds-form-element">
+                    <div class="slds-media__footer">
+                        <div> <button class="slds-button slds-button_brand whiteButton" id="clearBtn" onclick="{!c.clearAll}">{!$Label.c.clearAll}</button></div>
+                        <div> <button class="slds-button slds-button_brand redButton" id="applySearchBtn" onclick="{!c.applySearch}">{!$Label.c.apply}</button></div>           
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

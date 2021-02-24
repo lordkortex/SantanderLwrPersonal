@@ -1,0 +1,356 @@
+.THIS.searchFiltersAccounts {
+    width: 100%;
+    height: 100px;
+    box-shadow: inset 0 -1px 0 0 #ececec;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+}
+
+.THIS.searchFiltersAccounts .slds-grid {
+    width: 1224px;
+    padding-top: 28px;
+}
+
+.THIS.searchFiltersAccounts .slds-form-element.search {
+    width: 392px;
+    margin: 6px 24px 0 0;
+}
+
+.THIS.searchFiltersAccounts .slds-form-element__control .slds-input {
+    height: 48px;
+    border-radius: 4px;
+    border: solid 1px #cccccc;
+    color: #444444;
+    font-family: "SantanderTextW05-Regular";
+    font-size: 18px;
+    padding: 0 44px 0 16px; 
+}
+
+.THIS ::-webkit-input-placeholder { 
+    color: #767676;
+}
+
+.THIS :-moz-placeholder { 
+    color: #767676;
+}
+
+.THIS ::-moz-placeholder { 
+    color: #767676;
+}
+
+.THIS :-ms-input-placeholder { 
+   color: #767676;
+}
+
+.THIS :focus::-webkit-input-placeholder {
+    color:transparent;
+}
+
+.THIS.searchFiltersAccounts .slds-input:focus,
+.THIS.searchFiltersAccounts .slds-input:active {
+    box-shadow:unset;
+    border: solid 1px #ec0000;
+}
+
+.THIS.searchFiltersAccounts .slds-input.filledInput {
+    border: solid 1px #444444;
+}
+
+.THIS.searchFiltersAccounts .icon-search {
+    top: 0;
+    bottom: 0;
+    right: 16px;
+    margin: auto 0;
+    width: 24px;
+    height: 24px;
+}
+
+.THIS.searchFiltersAccounts .icon-search:before {
+    color: #767676;
+    font-size: 24px;
+}
+
+.THIS.searchFiltersAccounts .search .slds-button {
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+}
+
+.THIS.searchFiltersAccounts .search .slds-button__icon {
+    height: 24px;
+    margin: 0;
+    padding: 2px;
+    width: 24px;
+}
+
+.THIS.searchFiltersAccounts .icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;
+}
+
+.THIS .slds-input__icon_right ~ .icon-search {
+    left:16px;
+}
+
+.THIS .slds-input__icon_right + .slds-input {
+    padding-left: 48px!important;
+}
+
+.THIS.searchFiltersAccounts .slds-input:focus + .icon-search:before,
+.THIS.searchFiltersAccounts .slds-input:active + .icon-search:before {
+    color: #ec0000;
+}
+
+.THIS.searchFiltersAccounts .slds-input.filledInput + .icon-search:before {
+    color: #444444;
+}
+
+/* FILTERS */
+.THIS .slds-form-element__control.filters {
+    display: flex;
+}
+
+.THIS .slds-combobox_container {
+    margin-right: 8px;
+}
+
+.THIS .slds-form-element__label {
+    padding: 0;
+    margin: 0;
+    font-family: "SantanderMicroText";
+    line-height: 17px;
+    color: #767676;
+}
+
+.THIS .filters .slds-button.buttons {
+    height: 32px;
+    border-radius: 4px;
+    background-color: #eff6f9;
+    border-color: #cedee7;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    text-align: left;
+    color: #444444;
+    padding: 0 40px 0px 8px;
+    line-height: 21px;
+    display:inline-flex;
+}
+
+.THIS .filters .slds-button.buttons.filterButton {
+    background-color: #ffffff;
+    color: #cc0000;
+}
+
+.THIS .filters .slds-button.buttons.filterButton:hover {
+    color: #990000;
+    background-color: #ffffff;
+    border-color: #cc0000;
+}
+
+.THIS .filters .slds-button.buttons.filterButton:hover .numberSelected {
+    border: 1px solid #f67f7f;
+}
+
+.THIS .filters .slds-button.buttons.filterButton .icon-arrowDown_small:before,
+.THIS .filters .slds-button.buttons.filterButton .icon-arrowUp_small:before {
+    color: #cc0000;
+}
+
+.THIS .filters .slds-button.buttons.filterButton:hover .icon-arrowDown_small:before,
+.THIS .filters .slds-button.buttons.filterButton:hover .icon-arrowUp_small:before {
+    color: #990000;
+}
+
+.THIS .filters .slds-button.buttons:hover {
+    background-color: #e2eff4;
+    border-color: #9bc3d3;
+}
+
+.THIS .filters .slds-button.buttons:hover .icon-arrowDown_small:before,
+.THIS .filters .slds-button.buttons:hover .icon-arrowUp_small:before {
+    color: #444444;
+}
+
+.THIS .filters .slds-button.buttons .icon-arrowDown_small, 
+.THIS .filters .slds-button.buttons .icon-arrowUp_small {
+    right: 0;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+}
+
+.THIS .filters .slds-button.buttons .icon-arrowDown_small:before,
+.THIS .filters .slds-button.buttons .icon-arrowUp_small:before {
+    font-size:24px;
+    color: #257fa4;
+}
+
+.THIS .filters .slds-button.buttons:hover .icon-arrowDown_small:before,
+.THIS .filters .slds-button.buttons:hover .icon-arrowUp_small:before {
+    color: #444444;
+}
+
+.THIS .slds-button.buttons .numberSelected {
+    display: none;
+}
+
+.THIS .slds-button.buttons.filterButton .numberSelected {
+    display: inline-flex;
+    border: 1px solid #fab2b2;
+    border-radius: 50%;
+    width: 20px;
+    font-size: 12px;
+    line-height: 18px;
+    height: 20px;
+    margin-left: 8px;
+    padding: 0 5px;
+    top: 32px;
+}
+
+/* POPOVER */
+
+.THIS .slds-popover {
+    min-width: 288px;
+    border-radius: 4px;
+    box-shadow: 2px 2px 6px 2px rgba(206, 214, 219, 0.4);
+    position: absolute;
+    border: 1px solid #cedee7;
+    top:32px;
+    padding: 0px;
+    z-index: 2;
+    margin-top:4px;
+}
+
+.THIS .filters .slds-combobox_container:last-child .slds-popover .slds-popover__body {
+    padding: 8px 20px 0px 20px;
+}
+
+.THIS .slds-popover__body {
+    padding: 8px 0px 8px 20px;
+}
+
+.THIS .slds-popover__body .slds-form-element {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 253px;
+}
+
+.THIS .slds-popover__footer {
+    border-top: 1px solid #cccccc;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.THIS .titleOptions {
+    font-family: "SantanderMicroText-Bd";
+    line-height: 21px;
+    color: #444444;
+    text-transform: uppercase;
+    margin: 12px 0 20px;
+    font-size: 14px;
+}
+
+.THIS .slds-checkbox {
+    margin-bottom: 16px;
+}
+
+.THIS .slds-checkbox .slds-form-element__label {
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    color: #444444;
+    line-height: 24px;
+    cursor: pointer;
+    vertical-align: initial;
+}
+
+/* CHECBOX */
+
+.THIS .slds-checkbox_faux {
+    border-radius: 4px;
+    border-color: #222222;
+    cursor: pointer;
+    height: 24px;
+    margin-right: 8px;
+    width: 24px;
+    vertical-align: bottom;
+}
+
+.THIS .slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+    box-shadow: none;
+    border-color: #222222;
+}
+
+.THIS .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+    border: 2px solid #1bb3bc;
+}
+
+.THIS .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+    border-bottom: 2px solid #1bb3bc;
+    border-left: 2px solid #1bb3bc;
+    height: 6px;
+    width: 9px;
+}
+.THIS .slds-checkbox__label .slds-checkbox_faux:active {
+    border: 2px solid #1bb3bc;
+}
+
+/* SCROLLBAR */
+.THIS .slds-popover__body .slds-form-element::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS .slds-popover__body .slds-form-element::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.THIS .slds-popover__body .slds-form-element::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+.THIS .slds-popover__body .slds-form-element::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+/* BUTTON */
+.THIS .slds-button {
+    border-color: #ec0000;
+}
+
+/* INPUT BALANCES */
+.THIS.searchFiltersAccounts .filters .slds-input.balances {
+    border: 1px solid #cedee7;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    background-color: #f6fafc;
+    width: 246px;
+    height: 48px;
+    margin-bottom: 24px;
+    font-size: 16px;
+    line-height: 24px;
+    padding: 0 14px 0 16px;
+}
+
+.THIS.searchFiltersAccounts .filters .slds-input.balances:focus,
+.THIS.searchFiltersAccounts .filters .slds-input.balances:active {
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+
+.THIS .textHelp {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    left: 16px;
+    margin-top: 0;
+    bottom: 4px;
+    position: absolute;
+}

@@ -1,0 +1,21 @@
+<template>
+    <c-lwc_service-component data-id="Service" onsuccesscallback={successcallback}></c-lwc_service-component>
+    
+    <article class="list-cards">
+        <template for:each={clonedCurrenciesexchange} for:item='item'>
+            <template if:true={item.tipoDeCambio.accountNumber}  >
+                <div class="slds-card separationComponent" key={item.tipoDeCambio.Id}>
+                    <div class="slds-card__body slds-grid">
+                        <div class="slds-col">
+                            <div class="title">{item.tipoDeCambio.divisa}</div>
+                            <c-lwc_display-amount amount={item.tipoDeCambio.totalBalanceEquivalente} wholeclass="subtitle" decimalclass="subtitle" numberformat={userPreferredNumberFormat} currency=""></c-lwc_display-amount>
+                            <div class="link" data-id={item.tipoDeCambio.divisa} onclick={navigateToAccounts}>
+                                <a class="text-link"  href="" data-title={label.View}>{item.tipoDeCambio.accountNumber}&nbsp;{item.tipoDeCambio.label}<span class="icon-arrowRight_big"></span></a>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </template>
+        </template>
+    </article>
+</template>

@@ -1,0 +1,436 @@
+.slds-grid__content{
+    position: absolute;
+    left: 0;
+    top: -24px;
+    width: 100%;
+}
+
+/* SCROLLBAR */
+ ::-webkit-scrollbar {
+	width: 6px;
+}
+ ::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+ ::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+ ::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+/* FOOTER */
+ .footerContact{
+	margin-top:343px;
+}
+ .footer{
+	margin-top:120px;
+}
+ .footerContact .cFooter, 
+ .footer .cFooter_Contact{
+	display:none;
+}
+.welcomingHeader {
+    background-color: #ffffff;
+    width:100%;
+}
+
+.welcomingHeader .slds-grid{
+    max-width: 1224px;
+    margin: 0 auto;
+}
+
+.welcomingHeader .slds-image {
+    width:600px;
+    height:400px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcomingHeader .text{
+    margin: 0 65px 0 0;
+    max-width: 392px;
+}
+
+.welcomingHeader .text .slds-text-heading {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 36px;
+    line-height: 43px;
+    color: #444444;
+    margin: 0 0 24px 0;
+}
+
+.welcomingHeader .text .slds-text-body {
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    line-height: 34px;
+    color: #444444;
+    margin: 0 0 32px 0;
+}
+
+.welcomingHeader .slds-button{
+    display:block;
+}
+
+.welcomingHeader .slds-button.primary.button_icon {
+    margin: 0;
+}
+
+.welcomingHeader .slds-col{
+    padding:204px 167px 130px 0;
+}
+
+
+.welcomingHeader .slds-col:last-child{
+    padding: 172px 0 80px 0;
+}
+
+.welcomingHeader .slds-button.button_link {
+    margin:0;
+    text-align: left;
+}
+
+.welcomingHeader .slds-button.button_link .icon_right:before{
+    margin: 0;
+}
+.welcomingFooter {
+    width:100%;
+    background-color: #ffffff;
+}
+
+.welcomingFooter .container{
+    max-width: 1224px;
+    margin: 0 auto;
+    padding: 72px 0 164px 0;
+
+}
+
+.welcomingFooter .container .slds-grid.type1{
+    width:100%;
+    align-items: center;
+}
+
+.welcomingFooter .headerText {
+    margin: 0 0 40px 0;
+    max-width: 392px;
+}
+
+.welcomingFooter .headerText .slds-text-heading {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 36px;
+    line-height: 43px;
+    color: #444444;
+    margin: 0 0 16px 0;
+}
+
+.welcomingFooter .headerText  .slds-text-body {
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 20px;
+    line-height: 28px;
+    color: #444444;
+    margin:0;
+}
+
+.welcomingFooter .container .slds-grid .slds-col{
+    max-width:612px;
+}
+
+
+.welcomingFooter .container .slds-grid .slds-col .activation {
+    background-color:  #ec0000;
+    border-radius: 4px;
+    padding:40px;
+}
+
+.welcomingFooter .container .slds-grid > .activation {
+    background-color:  #ec0000;
+    border-radius: 4px;
+    padding:40px;
+}
+
+.welcomingFooter .container .slds-grid.type2 > .activation{
+    margin: auto;
+    max-width: 612px;
+    margin-top: 36px;
+}
+
+.welcomingFooter .container .slds-grid .slds-col:nth-child(odd) .activation:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 24px solid #ec0000;
+    position: relative;
+    bottom: -90px;
+    left: -184px;
+}
+
+.welcomingFooter .container .slds-grid .activation .slds-media__figure{
+    width: 48px;
+    height: 48px;
+    margin: 0 0 16px 0;
+}
+
+.welcomingFooter .container .slds-grid .slds-media__figure .icon-check_circle:before {
+	font-size: 48px;
+    color: #3a8340;
+}
+.welcomingFooter .container .slds-grid .slds-media__figure .icon-edit:before {
+	color: #ffffff;
+    font-size: 48px;
+}
+.welcomingFooter .container .slds-grid .activation .slds-text-heading {
+    font-family:"SantanderHeadlineW05-Bold";
+    font-size: 20px;
+    line-height: 1.4;
+    color: #ffffff;
+    margin: 0 0 8px 0;
+}
+
+.welcomingFooter .container .slds-grid .activation .slds-text-body {
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 1.5;
+    color: #ffffff;
+    margin: 0 0 32px 0;
+  }
+
+.welcomingFooter .container .slds-grid .activation .slds-button.button_full.secondary{
+    height:40px;
+  }
+
+.welcomingFooter .container .slds-grid .configuration .slds-button.button_full.secondary{
+    display:none;
+}
+
+.welcomingFooter .container .slds-grid .configuration .slds-text-heading {
+    font-family:"SantanderHeadlineW05-Bold";
+    font-size: 20px;
+    line-height: 1.4;
+    color: #767676;
+    margin: 0 0 8px 0;
+}
+
+.welcomingFooter .container .slds-grid .configuration .slds-text-body,
+.welcomingFooter .container .slds-grid .startActivation .slds-text-body {
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #767676;
+}
+
+.welcomingFooter .container .slds-grid .configuration {
+      padding: 40px;
+      border: solid 1px #cedee7;
+      border-radius: 4px 0 0 4px;
+      max-height: 228px;
+}
+ .activation,
+ .configuration{
+    max-height:300px;
+}
+
+.welcomingFooter .container .slds-grid .slds-col:nth-child(even) .configuration .image:after  {
+        content:url('/sfsites/c/resource/1598863220000/Images/WP_content_steps.svg');
+        position: relative;
+        bottom: 213px;
+        left: 334px;
+}
+
+.welcomingFooter .image{
+        height:0px;
+}
+
+.welcomingFooter .container .slds-grid .slds-col:nth-child(even) .activation .image:after  {
+    content:url('/sfsites/c/resource/1598863220000/Images/WP_content_steps.svg');
+    position: relative;
+    bottom: 212px;
+    left: 334px;
+} 
+
+.welcomingFooter .container .slds-grid.type2 .activation .image:after  {
+    content:url('/sfsites/c/resource/1598863220000/Images/WP_content_steps.svg');
+    position: relative;
+    bottom: 212px;
+    right:-291px;
+}
+
+.welcomingFooter .container .slds-grid .configuration .slds-media__figure{
+    width: 48px;
+    height: 48px;
+    margin: 0 0 16px 0;
+}
+
+.welcomingFooter .container .slds-grid .configuration .slds-media__figure .icon-transfer:before {
+    color: #ec0000;
+    font-size: 48px;
+}
+
+.welcomingFooter .container .slds-grid ul.startActivation {
+    display:flex;
+    margin: 0 40px;
+    margin-top: calc(24px + 56px);
+}
+
+.welcomingFooter .container .slds-grid ul.startActivation li{
+    max-width: 312px;
+    margin-right: 104px;
+}
+
+.welcomingFooter .container .slds-grid ul.startActivation li:last-child{
+    margin-right: 0px;
+}
+
+.welcomingFooter .container .slds-grid ul.startActivation li .slds-media__figure{
+    width: 32px;
+    height: 32px;
+    margin: 0 0 16px 0;
+}
+.welcomingFooter .container .slds-grid ul.startActivation li .slds-media__figure .icon-transfer:before {
+    color: #ec0000;
+    font-size: 32px;
+}
+.welcomingContent {
+    width:100%;
+    background-color:#f6fafc;
+}
+
+.welcomingContent > .slds-grid {
+    max-width: 1224px;
+    margin: 0 auto;
+}
+
+.welcomingContent > .slds-grid > .slds-col{
+    flex: 1 1;
+    padding: 72px 72px 80px 0;
+}
+
+ .slds-text-heading {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 1.19;
+    color: #444444;
+    margin-bottom: 16px;
+    max-width: 392px;
+}
+
+ .slds-text-body {
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 20px;
+    line-height: 1.4;
+    color: #444444;
+    max-width: 392px;
+}
+
+/* CARD INFORMATIVE SUBSIDARIES  */
+
+.welcomingContent  .slds-card + .slds-card {
+    margin-top: 24px;
+}
+
+.welcomingContent .slds-card.subsidaries  {
+    width: 576px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    border:none;
+    padding:24px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__body {
+    padding: 0 0 24px 0;
+    margin:0px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-media__figure {
+    margin: 0px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__body .slds-media__figure .sizeFlag {
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__body .slds-media__figure .slds-text-body_regular {
+    font-family: SantanderMicroText-Bd;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #444444;
+}
+
+.welcomingContent .slds-card.subsidaries  .line-card {
+    width: 100%;
+    height: 1px;
+    background-color: #cedee7;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer {
+    padding: 16px 0 0 0;
+    margin:0px;
+    text-align: unset;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col .slds-text-body_regular{
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: normal;
+    color: #444444;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid {
+    margin-bottom: 16px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid:last-child {
+    margin-bottom: 0px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even){
+    display: flex;
+    justify-content: flex-end;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure {
+    height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon{
+    margin-right: 8px;
+    font-size: 24px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon.icon-check_circle,
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid.confirmed .slds-col:nth-child(even) .slds-media__figure .icon.icon-refresh {
+    display:none;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid.confirmed .slds-col:nth-child(even) .slds-media__figure .icon.icon-check_circle,
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon.icon-refresh {
+    display:block;
+}
+
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon-check_circle:before{
+    color: #3a8340;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon-refresh:before {
+    color: #946f00;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .slds-text-body_regular{
+    line-height: 20px;
+    color: #946f00;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid.confirmed .slds-col:nth-child(even) .slds-media__figure .slds-text-body_regular{
+    line-height: 20px;
+    color: #3a8340;
+}

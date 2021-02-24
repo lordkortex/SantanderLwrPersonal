@@ -1,0 +1,152 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    International Payments Detail Header component
+History
+<Date>			<Author>		    <Description>
+19/02/2020		Laura Espinel		Design
+21/02/2020		Amanda Fernandez	Layout coding of the page
+26/02/2020		Shahad Naji     	Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="item" type="CNT_IPTDetailParent" />
+
+    
+    <!--0 = do not show fees
+        1 = do not show amount
+        2 = show amount-->
+    <aura:attribute name="showFee" type="String" default="1"/>
+
+    <aura:attribute name="lastUpdate" type="String" description=""/>
+    <aura:attribute name="status" type="String" description=""/>
+    <aura:attribute name="reason" type="String" description=""/>
+    <aura:attribute name="amount" type="String" description=""/>
+    <aura:attribute name="currency" type="String" description=""/>
+
+    <aura:attribute name="currentBank" type="string" description=""/>
+    <aura:attribute name="totalTransaction" type="Decimal" description=""/>
+    <aura:attribute name="totalFee" type="Decimal" description=""/>
+    <aura:attribute name="rejectedMsg" type="String" description="Rejected message"/>
+    <aura:attribute name="start" type="Integer"/>
+
+    <aura:attribute name="UETRSearchResult" type="Object"/>
+
+    
+        <div class="cardTitleGPI">
+        <!-- TITLE -->
+        <div class="slds-card__header slds-grid containerInformation">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title separation">
+                        <div class="status">
+
+                            <!-- IN PROGRESS
+                            <div class="status_inProgress">In progress</div> -->
+                            <aura:if isTrue="{!and(v.item.status == 'ACSP', or(v.item.reason=='G000',v.item.reason=='G001'))}">
+                                <!-- IN PROGRESS -->
+                                <div class="status_inProgress">{!$Label.c.payment_statusThree}</div>
+                                
+                                <aura:if isTrue="{!and(v.item.currentBank != null, v.item.currentBank != undefined)}">
+                                	<div class="subDate">{!$Label.c.payment_titleOne}&nbsp;{!v.item.currentBank}</div>
+                                </aura:if>
+                            </aura:if>
+                            
+                            <!-- REJECTED -->
+                            <!-- <span class="status_rejected">Rejected</span>
+                            <span class="status_rejected_subtitle">- Credit no confirmed</span>-->
+                            <aura:if isTrue="{!v.item.status == 'RJCT'}">
+                                <!-- REJECTED -->
+                                <span class="status_rejected">{!$Label.c.payment_statusOne}</span>
+                                <aura:if isTrue="{!or(v.item.reason == null,v.item.reason == '')}">
+                                    <span class="status_rejected_subtitle"> - {!$Label.c.reasonNotSpecified}</span>
+
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.item.reason != null,v.item.reason != '' )}">
+                                <span class="status_rejected_subtitle">- {!v.item.reason2}</span>
+                                </aura:if>
+                                
+            					<aura:if isTrue="{!and(v.item.currentBank != null, v.item.currentBank != undefined)}">
+                                	<div class="subDate">{!$Label.c.payment_titleTwo}&nbsp;{!v.item.currentBank}</div>
+                                </aura:if>
+                            </aura:if>
+                            
+                            <!-- COMPLETED -->
+                            <aura:if isTrue="{!or(v.item.status == 'ACSC',v.item.status == 'ACCC')}">
+                                <!-- COMPLETED -->
+                                <span class="status_completed">{!$Label.c.payment_statusTwo}</span>
+                                <aura:if isTrue="{!and(v.item.currentBank != null, v.item.currentBank != undefined)}">
+                                	<div class="subDate">{!$Label.c.payment_titleOne}&nbsp;{!v.item.currentBank}</div>
+                                </aura:if>
+                            </aura:if>
+                            <!-- ON HOLD -->
+                            <!-- <span class="status_onHold">On hold</span>  -->
+                            <aura:if isTrue="{!and(v.item.status == 'ACSP', or(or(v.item.reason=='G002',v.item.reason=='G003'),v.item.reason=='G004'))}">
+                                <!-- ON HOLD -->
+                                <span class="status_onHold">{!$Label.c.payment_statusFour}</span>
+                                <aura:if isTrue="{!and(v.item.currentBank != null, v.item.currentBank != undefined)}">
+                                	<div class="subDate">{!$Label.c.payment_titleThree}&nbsp;{!v.item.currentBank}</div>
+                                </aura:if>
+                            </aura:if>
+                            <!--<aura:if isTrue="{!or(v.UETRSearchResult == undefined, v.UETRSearchResult == null)}">-->
+                                <span class="date">{!$Label.c.statusUpdate}&nbsp;{!v.item.lastUpdate}</span>
+                            <!--</aura:if>-->
+                        </div>
+                      
+
+                        <div class="col-transactionFees">
+                            <aura:if isTrue="{!v.item.hasForeignExchange}">
+
+                            <div class="slds-card__header-title transaction">
+                                <span class="space">{!$Label.c.creditedAmount}</span>
+                                <!--<c:CMP_displayAmount amount="{!v.item.amount}" decimalClass="slds-truncate currency" wholeClass="slds-truncate number" currency="{!v.item.currencyAux}"/>-->
+                                <c:CMP_displayAmount amount="{!v.item.confirmedAmount.amount}" decimalClass="slds-truncate currency" wholeClass="slds-truncate number" currency="{!v.item.confirmedAmount.tcurrency}"/>
+                            </div>
+
+
+                            <div class="slds-card__header-title fees">
+                                <span class="spaceFee">{!$Label.c.orderAmount}</span>
+                                <div>
+                                    <c:CMP_displayAmount amount="{!v.item.instructedAmount.amount}" decimalClass="numberFee" wholeClass="numberFee" currency="{!v.item.instructedAmount.tcurrency}"/>
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-card__header-title transaction">
+                                    <span class="space">{!$Label.c.amount}</span>
+                                	<aura:if isTrue="{!and(v.UETRSearchResult != undefined, v.UETRSearchResult != null, v.UETRSearchResult.uetrCode != undefined, v.UETRSearchResult.uetrCode != null)}">
+                                        <c:CMP_displayAmount amount="{!v.item.instructedAmount.amount}" decimalClass="slds-truncate currency" wholeClass="slds-truncate number" currency="{!v.item.instructedAmount.tcurrency}"/>
+                                        
+                                        <aura:set attribute="else">
+                                            <c:CMP_displayAmount amount="{!v.item.amount}" decimalClass="slds-truncate currency" wholeClass="slds-truncate number" currency="{!v.item.currencyAux}"/>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+
+                                
+                            </aura:set>
+                            </aura:if>
+                            <aura:if isTrue="{!and(v.item.fees.length!=0, v.showFee !='0')}">
+                                <div class="slds-card__header-title fees">
+                                    <span class="spaceFee">{!$Label.c.Fees}</span>
+                                    <div>
+                                        <aura:iteration items="{!v.item.fees}" var="item" indexVar="index">
+                                            <aura:if isTrue="{!index > 0}">
+                                                &nbsp;<span>/</span>&nbsp; <c:CMP_displayAmount amount="{!item[1]}" decimalClass="numberFee" wholeClass="numberFee" currency="{!item[0]}"/>
+                                                <aura:set attribute="else">
+                                                    <c:CMP_displayAmount amount="{!item[1]}" decimalClass="numberFee" wholeClass="numberFee" currency="{!item[0]}"/>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:iteration>
+                                    </div>                    
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text_line"></div>
+    </div>
+</aura:component>

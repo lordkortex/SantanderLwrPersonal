@@ -1,0 +1,152 @@
+.headerCards{
+    padding: 10px 16px 10px 36px;
+}
+.headerCards .accountAlias {
+    width: 256px;
+}
+.headerCards .availableBalance {
+    justify-content: flex-end;
+    min-width: 161px;
+}
+.headerCards .bookBalance {
+    justify-content: flex-end;
+    margin-right:18px;
+    min-width: 178px;
+}
+.headerCards .button-arrow {
+    cursor: pointer;
+    font-size: 24px;
+}
+.headerCards .button-arrow:hover {
+    color: #CC0000;
+}
+.headerCards .country {
+    width: 139px;
+}
+.headerCards .currency {
+    width: 87px;
+}
+.headerCards .slds-card__header-title{
+    color: #767676;
+    font-family:"SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: uppercase;
+}
+.headerCards .slds-media__body {
+    display: flex;
+    flex: none;
+}
+.headerCards .subsidiaryBank {
+    width: 199px;
+}
+.headerCards .updated {
+    width: 109px;
+}
+.slds-media_center.slds-has-flexi-truncate { 
+    height: 20px; 
+}
+
+/* PRINT  */
+@media print and (orientation: portrait) {
+    .headerCards {
+        padding: 12px 0 12px 0!important;
+    }
+    .headerCards .slds-card__header-title {
+        color:#767676!important;
+        font-size: 11px!important;
+        line-height: 20px!important;
+        text-transform: capitalize!important;
+    }
+
+    .headerCards .country {
+        width: 65px!important;
+        margin-right: 6px!important;
+        margin-left: 12px!important;
+    }
+    .headerCards .accountAlias {
+        width: 109px!important;
+        margin-right: 6px!important;
+    }
+    .headerCards .subsidiaryBank {
+        width: 124px!important;
+        margin-right: 6px!important;
+    }
+
+    .headerCards .updated {
+        width: 65px!important;
+        margin-right: 6px!important;
+    }
+
+    .headerCards .currency {
+        width: 60px!important;
+        margin-right: 6px!important;
+        padding-left: 16px!important;
+    }
+
+    .headerCards .availableBalance{
+        min-width: 115px!important;
+        width: 115px!important;
+    }
+  
+    .headerCards .bookBalance {
+        min-width: 120px!important;
+        width: 120px!important;
+    }
+
+    .headerCards .slds-media__body.iconContainer {
+        display: none;
+    }
+}
+
+@media print and (orientation: landscape) {
+    .headerCards {
+        padding: 12px 0 12px 41px!important;
+    }
+    .headerCards .slds-card__header-title {
+        color:#767676!important;
+        font-size: 12px!important;
+        line-height: 20px!important;
+    }
+
+    .headerCards .country {
+        width: 80px!important;
+        margin-right: 24px!important;
+    }
+    .headerCards .accountAlias {
+        width: 159px!important;
+        margin-right: 24px!important;
+    }
+    .headerCards .subsidiaryBank {
+        width: 144px!important;
+        margin-right: 24px!important;
+    }
+
+    .headerCards .updated {
+        width: 75px!important;
+        margin-right: 24px!important;
+    }
+
+    .headerCards .currency {
+        width: 67px!important;
+        margin-right:42px;
+    }
+    
+    .headerCards .availableBalance{
+        width: 148px!important;
+        margin-right:24px!important;
+        padding-right:6px!important;
+    }
+
+    .headerCards .bookBalance {
+        width: 148px!important;
+        min-width:148px!important;
+        padding-right:8px!important;
+        padding-left:16px!important;
+        margin-right:16px!important;
+    }
+
+    .headerCards .slds-media__body.iconContainer {
+        display: none;
+    } 
+}

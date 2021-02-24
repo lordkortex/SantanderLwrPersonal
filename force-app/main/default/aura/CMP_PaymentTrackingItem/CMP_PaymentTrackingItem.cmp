@@ -1,0 +1,98 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_PaymentTrackingItem">
+    
+    <aura:attribute name="globalStatus" type="String" default="N/A" description="Global component style"/>
+    <aura:attribute name="flagStatus" type="String" default="N/A" description="Flag style"/>
+    <aura:attribute name="cardStatus" type="String" default="N/A" description="Card style"/>
+    <aura:attribute name="iCurrency" type="String" default="N/A" description="The currency of the movement"/>
+    <aura:attribute name="lastItem" type="Boolean" default="False" description="Last component/movement of a payment tracking"/>
+    <aura:attribute name="item" type="Object" description="A movement of a payment"/>
+    <aura:attribute name="countryName" type="String" default="" description="The county where payment has passed by, is at, or will pass by." />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    
+    <!-- <li class="slds-progress__item slds-is-completed progress__blue">-->
+    <li class="{!v.globalStatus}">
+        <!-- FLAG 1 -->
+        <div class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon slds-progress__marker_icon-success containerFlag" title="">
+            <!--<div class="slds-media__figure flag">-->
+            <div class="{!v.flagStatus}">
+                <img  src="{!$Resource.Flags + '/' + v.item.country +'.svg'}"  onerror="{!c.defaultImage}"/>
+            </div>
+           <!-- <span class="slds-assistive-text">Complete</span>-->
+        </div>
+        <!-- CARD 1 -->
+        <!-- <div class="slds-progress__item_content slds-grid slds-grid_align-spread card">-->
+        <div class="{!v.cardStatus}">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body colIdentity">
+                    <div class="{!v.lastItem == False ? 'slds-card__header-title bank' : 'slds-card__header-title bank__disabled'}">
+                        {!v.item.bankName}&nbsp;|&nbsp;{!v.item.bankBIC}                                            
+                    </div>
+                   <!-- -->
+                    <div class="{!v.lastItem == False ? 'slds-card__header-title city' : 'slds-card__header-title city__disabled'}">
+                        {!v.item.city}&nbsp;,&nbsp;{!v.countryName} 
+                    </div>
+                </div>
+                <!--arrive time-->
+                <aura:if isTrue="{!not(empty(v.item.arrivedAt))}">
+                    <div class="slds-media__body colDate">
+                        <div class="icon icon-timeIn"></div>                 
+                        <div class="date">{!v.item.arrivedAt}</div>
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="slds-media__body colDate">
+                            <div class="icon icon-timeIn hidden"></div>                 
+                            <div class="date"></div>
+                        </div>
+                    </aura:set>
+                </aura:if>
+               
+                <!--difference between time-->
+                <aura:if isTrue="{!not(empty(v.item.elapsedTime))}">
+                    <div class="slds-media__body colTime">
+                        <div class="icon icon-time"></div>                 
+                        <div class="time">{!v.item.elapsedTime}</div>
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="slds-media__body colTime">
+                            <div class="icon icon-time hidden"></div>                 
+                            <div class="time"></div>
+                        </div>
+                    </aura:set>
+                </aura:if>
+
+                <!--depart time-->
+                <aura:if isTrue="{!not(empty(v.item.departAt))}">
+                    <div class="slds-media__body colDate">
+                        <div class="icon icon-timeOut"></div>       
+                        <div class="date">{!v.item.departAt}</div>
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="slds-media__body colDate">
+                            <aura:if isTrue="{!!v.lastItem}"><div class="icon icon-timeOut__gray"></div></aura:if>
+                            <div class="date__disabled"><aura:if isTrue="{!!v.lastItem}">{!$Label.c.No_Data_Available}</aura:if></div>
+                        </div>
+                    </aura:set>
+                </aura:if>
+
+                <!--depart time-->
+                <div class="colFee">
+                    <aura:if isTrue="{!not(empty(v.item.fee))}">
+                        <div class="text__red">
+                            <span class="textFee">{!$Label.c.Fee}</span>
+                            <c:CMP_displayAmount amount="{!v.item.fee}" decimalClass="decimalsFee" wholeClass="" currency="EUR"/>
+                            <!--<span>10,</span>
+                            <span class="decimalsFee">00 USD</span>-->
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="text__gray">
+                                <aura:if isTrue="{!!v.lastItem}">{!$Label.c.No_Fee_Aplied}</aura:if>                                
+                            </div>
+                        </aura:set>
+                    </aura:if>
+ 
+                </div>
+            </div>
+        </div>
+    </li>
+</aura:component>

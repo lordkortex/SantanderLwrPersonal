@@ -1,0 +1,455 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_PaymentsParent" >
+    
+    <aura:attribute access="public" 	name="currentUser"   						type="Object"	default="{}"			description="Current user data"/> 
+    <!--ORDERING ACCOUNT-->
+    
+    
+    <aura:attribute access="public"     name="selectedSourceValue"                  type="String"   default=""              description="Selected value in single Select" />    
+    <aura:attribute access="public"     name="sourceBank"                           type="String"   default=""              description="User input ordering bank" />
+    <aura:attribute access="public"     name="sourceCompany"                        type="String"   default=""              description="User input ordering company name" />    
+    
+    <!--BENEFICIARY BANK-->
+    <aura:attribute access="public"     name="beneficiaryBank"                      type="String"   default=""              description="Selected value in single Select" />
+    
+    <!--BENEFICIARY COMPANY NAME-->
+    <aura:attribute access="public"     name="beneficiaryCompany"                   type="String"   default=""              description="Selected value in single Select" />
+    
+    <!--ACCOUNT TYPE-->    
+    <aura:attribute access="public"     name="selectedAccountTypeValue"             type="String"   default=""              description="Selected value in single Select" />
+  
+    <!--AMOUNTS-->
+    <aura:attribute access="public"     name="fromAmount"                           type="Decimal"  default=""/>
+    <aura:attribute access="public"     name="toAmount"                             type="Decimal"  default=""/>
+    
+    <!--CURRENCY-->
+    <aura:attribute access="public"     name="currencyOptions"                      type="List"      default="[]"/>
+    <aura:attribute access="public"     name="selectedCurrencyValues"               type="List"      default="[]"           description="Selected value in Multi Select" />
+    <aura:attribute access="public"     name="clearCurrency"	                    type="Boolean"   default="false"/>
+    
+    <!--REFERENCES-->
+    <aura:attribute access="public"     name="paymentReference"                     type="String"   default=""              description="Unique GTS Payment reference"/>
+    <aura:attribute access="public"     name="clientReference"                      type="String"   default=""/>
+
+    
+    <!--PAYEMENT STATUS-->
+    <aura:attribute access="public"     name="statusOptions"                        type="List"     default="[]"/>
+    <aura:attribute access="public"     name="selectedStatusValues"                 type="List"     default="[]"            description="Selected value in single Select" />
+    <aura:attribute access="public"     name="clearStatus"	                        type="Boolean"  default="false"/>
+    <aura:attribute access="public"		name="paymentStatusList"					type="Boolean"	default="[]"/>
+    
+    <!--PAYEMENT METHOD-->
+    <aura:attribute access="public"     name="methodOptions"                        type="List"     default="[]"/>
+    <aura:attribute access="public"     name="selectedMethodValue"                  type="String"   default=""              description="Selected value in single Select" />
+    <aura:attribute access="public"     name="clearMethod"	                        type="Boolean"  default="false"/>
+    
+     <!--DATES-->
+    <aura:attribute access="public"     name="fromDate"                             type="Date"     default=""/>
+    <aura:attribute access="public"     name="toDate"                               type="Date"     default=""/>    
+            
+    <!--SPINNER-->
+    <aura:attribute access="public"     name="showSpinner"	                        type="Boolean"  default="false"/>
+    
+    <!--COUNTRY-->
+    <aura:attribute access="public"     name="countryOptions"                       type="List"     default="[]"/>
+    <aura:attribute access="public"     name="selectedCountryValues"                type="List"     default="[]"            description="Selected value in multiple Select" />
+    <aura:attribute access="public"     name="selectedCountryValue"               	type="String"     default=""            description="Selected value in single Select" />
+    <aura:attribute access="public"     name="clearCountry"	                        type="Boolean"  default="false"/>
+    
+    
+    <aura:attribute access="public"     name="paymentList"                          type="List"                             description="List of payments found"/>
+    
+    <!--SORT FUNCTIONALITY-->
+    <aura:attribute     name="arrowDirection"                       type="String"   default="arrowup"       description="Use for change arrow sign direction on header based on click"/>
+    <aura:attribute     name="isAsc"                                type="Boolean"  default="true"          description="Boolean flag for pass sorting condition to apex class"/>
+    <aura:attribute     name="selectedTabsoft"                      type="String"   default=""              description="Use for show/hide arrow sign on header based on conditions"/>
+    
+    <!--PAGINATION FUNCTIONALITY-->
+    <aura:attribute access="private" 	type="List" 	name="values"  				default="['10','20','40']" 			description="List of values to populate the dropdown" />
+    <aura:attribute access="private" 	type="Integer"  name="selectedValue" 											description="Number of cards displayed per page." />
+    <aura:attribute access="private" 	type="Integer"  name="paymentsNumber"                             				description="Number of payments to be displayed." />
+    <aura:attribute access="private" 	type="Integer"  name="finalItem"                                  				description="Last page of the view." />
+    <aura:attribute access="private" 	type="Integer"  name="firstItem"       		default="1"               			description="First page of the view." />
+    <aura:attribute access="private" 	type="List"     name="pagesNumbers"                               				description="List of possible pages." />
+    <aura:attribute access="private" 	type="List"     name="paginationList"                             				description="List of accounts displayed per page." />
+    <aura:attribute access="private" 	type="Integer"  name="currentPage"                                				description="Number of the currently displayed page." />
+    
+    
+    
+    
+    
+    
+    <!-- PAYMENT INFORMATION-->
+    <aura:attribute access="public" name="isOpen" type="Boolean" default="false" description="Boolean flag to open/close modal"/>
+    <aura:attribute access="public" name="paymentObj" type="Object"  description="Payment object to show its infomation in modal "/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+    <div class="slds-box slds-theme--default slds-is-relative">
+        <aura:if isTrue="{!v.showSpinner eq true}">
+            <lightning:spinner alternativeText="Loading" size="large" variant="brand" />
+        </aura:if>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-large-size--1-of-1 slds-medium-size--1-of-1 slds-small-size--1-of-1">
+                <div class="slds-text-heading_medium slds-text-align_left slds-p-top_medium">{!$Label.c.PAY_SearchPaymentBy}</div>
+                <div class="slds-grid slds-grid_pull-padded-medium slds-grid_align-left">
+                    
+                    <div class="slds-col slds-p-horizontal_medium slds-col slds-large-size--1-of-2 slds-medium-size--1-of-2 slds-small-size--1-of-2">	
+                        
+                        <div class="slds-text-heading_small">{!$Label.c.Accounts}</div>
+                        
+ 
+                        <!-- Ordering account - API Name: sourceAccountList -->
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_2-of-3">
+                                <div class="slds-form-element">
+                                    <lightning:input aura:id="orderingAccount" class="inputAmount" name="sourceAccount" label="{!$Label.c.orderingAccount}"  value="{!v.selectedSourceValue}" onblur="{!c.handleBlurOrderingAccount}" />                                 
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div class="slds-form-element">     
+                                   <lightning:input aura:id="orderingAccountType" class="inputAmount" name="input1" label="{!$Label.c.PAY_AccountType}"  value="{!v.selectedAccountTypeValue}" onblur="{!c.handleBlurOrderingAccount}" minlength="3" maxlength="3" 
+                                                    fieldLevelHelp="{!$Label.c.PAY_HELP_AccountType}"/>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <div class="slds-form-element">
+                                    <lightning:input aura:id="orderingBank" class="inputAmount" name="sourceBank" label="{!$Label.c.orderingBank}"  value="{!v.sourceBank}" />                                 
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-form-element">
+                                    <lightning:input aura:id="orderingCompany" class="inputAmount" name="sourceCompany" label="{!$Label.c.PAY_OrderingCompany}"  value="{!v.sourceCompany}" />                                 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <div class="slds-form-element">
+                                    <lightning:input aura:id="beneficiaryBank" class="inputAmount" name="beneficiaryBank" label="{!$Label.c.PAY_BeneficiaryBank}"  value="{!v.beneficiaryBank}" />                                 
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-form-element">
+                                    <lightning:input aura:id="beneficiaryCompany" class="inputAmount" name="beneficiaryCompany" label="{!$Label.c.PAY_BeneficiaryCompany}"  value="{!v.beneficiaryCompany}" />                                 
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-text-heading_small">{!$Label.c.amount} &amp; {!$Label.c.currency}</div>
+                        
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <div class="slds-form-element">
+                                    <!--Payment amount (from/to) -  API Name: amountFrom-->
+                                    <lightning:input aura:id="fromAmount" class="inputAmount" type="number" name="fromAmount" label="{!$Label.c.from}" value="{!v.fromAmount}" onblur="{!c.handleBlurAmount}"  step="0.01"/>                             
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-form-element">
+                                    <!--Payment amount (from/to) - API Name: amountTo-->
+                                    <lightning:input aura:id="toAmount" class="inputAmount" type="number" name="toAmount" label="{!$Label.c.to}" value="{!v.toAmount}" onblur="{!c.handleBlurAmount}" step="0.01"/>                             
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Payment currency - API Name:  currencyList -->                      
+                        <div class="slds-form-element">
+                            <c:CMP_PAY_MultiSelectCombobox options="{!v.currencyOptions}" values="{!v.selectedCurrencyValues}" label="{!$Label.c.currency}" multiSelect="true" resetForm="{!v.clearCurrency}"/>
+                        </div>
+                        
+                        
+                    </div>
+                    <div class="slds-col slds-p-horizontal_medium slds-col slds-large-size--1-of-2 slds-medium-size--1-of-2 slds-small-size--1-of-2">
+                        
+                        <div class="slds-text-heading_small">{!$Label.c.PaymentDetails}</div>                       
+                        <!--Unique GTS Payment reference  - API Name: operationGlobalId-->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="gtsPaymentReference">{!$Label.c.PAY_PaymentReference}</label>
+                            <div class="slds-form-element__control">
+                                <ui:inputText  class="slds-input" value="{!v.paymentReference}"></ui:inputText>
+                            </div>
+                        </div>
+						
+                        <!-- Client reference- API Name: clientReference-->
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label" for="clientReference">{!$Label.c.ClientReference}</label>
+                            <div class="slds-form-element__control">
+                                <ui:inputText  class="slds-input" onError="{!c.handleError}" onClearErrors="{!c.handleClearError}" value="{!v.clientReference}"></ui:inputText>
+                            </div>
+                        </div>
+                        
+                        <!--Payment status - API Name: statusList-->
+                        <div class="slds-form-element">
+                            <c:CMP_PAY_MultiSelectCombobox options="{!v.statusOptions}" values="{!v.selectedStatusValues}" label="{!$Label.c.PAY_PaymentStatusReason}" multiSelect="true" resetForm="{!v.clearStatus}"/>
+                        </div>
+                        
+                        <div class="slds-form-element">                            
+                            <c:CMP_PAY_MultiSelectCombobox options="{!v.methodOptions}" value="{!v.selectedMethodValue}" label="{!$Label.c.PaymentMethod}" resetForm="{!v.clearMethod}"/>
+                        </div>
+                        <!--Destination country - API Name: country-->
+                        <div class="slds-form-element">
+                            <c:CMP_PAY_MultiSelectCombobox options="{!v.countryOptions}" value="{!v.selectedCountryValue}" label="{!$Label.c.destinationCountry}" resetForm="{!v.clearCountry}"/>
+                        </div>
+                        
+                        
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col">
+                                <div class="slds-form-element"> 
+                                    <!--Value Date (from / to) - API Name: valueDateFrom-->
+                                    <lightning:input  aura:id="valueDateFrom" class="inputDate" dateStyle="short" value="{!v.fromDate}" type="date" name="input1" label="{!$Label.c.valueDateFrom}"  onblur="{!c.handleBlurValueDate}"/>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-form-element"> 
+                                    <!--Value Date (from / to) - API Name: valueDateTo-->
+                                    <lightning:input  aura:id="valueDateTo"  class="inputDate" dateStyle="short" value="{!v.toDate}" type="date" name="input1" label="{!$Label.c.valueDateTo}" onblur="{!c.handleBlurValueDate}" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+                <div class="slds-col slds-large-size--1-of-1 slds-medium-size--1-of-1 slds-small-size--1-of-1 slds-align_absolute-center slds-p-top_medium">
+                    <button class="slds-button slds-button_brand slds-truncate" id="searchCustomer" onclick='{!c.handleSearch}'>{!$Label.c.search}</button>
+                    <button class="slds-button slds-button_neutral slds-truncate" id="resetCustomer" onclick='{!c.handleReset}'>{!$Label.c.Reset}</button>
+                </div>
+            </div>
+        </div>
+        <!-- 	-->
+         <aura:if isTrue="{!v.paymentList.length > 0}">
+        <div class="slds-large-size--1-of-1 slds-medium-size--1-of-1 slds-small-size--1-of-1 slds-wrap" id="customersTable">
+            <div class="slds-text-heading_medium slds-text-align_left slds-p-top_medium">{!$Label.c.PAY_PaymentsList}</div>
+            
+            <div class="slds-text-body_regular slds-p-top_small text">{!$Label.c.Displaying}&nbsp;<strong>{!v.paymentList.length}</strong>&nbsp;{!$Label.c.PAY_payments}</div>
+            <table class="slds-table slds-table_bordered slds-table--cell-buffer">
+                
+                <thead>
+                    <tr class="slds-text-title_caps" >
+                        <th scope="col" class="slds-is-sortable" style="cursor: pointer;" onclick="{!c.sortPaymentReference}" >
+                            <!--<span id="paymentReference" class="slds-truncate ">{!$Label.c.ClientReference}</span>-->
+                            <span id="paymentReference" class="slds-truncate ">{!$Label.c.PAY_PaymentReference}</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'paymentReference')}">  
+                                <lightning:icon iconName="utility:arrowdown"  size="xx-small" title="xx-small size" />
+                            </aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'paymentReference')}">
+                                <lightning:icon iconName="utility:arrowup"  size="xx-small" title="xx-small size" />
+                            </aura:if>
+                        </th>
+                        
+                        <th scope="col" class="slds-is-sortable" style="cursor: pointer;" onclick="{!c.sortPaymentStatus}">
+                            <span class="slds-truncate" id="status" >{!$Label.c.status}</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'paymentStatus')}">  
+                                <lightning:icon iconName="utility:arrowdown"  size="xx-small" title="xx-small size" />
+                            </aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'paymentStatus')}">
+                                <lightning:icon iconName="utility:arrowup"  size="xx-small" title="xx-small size" />
+                            </aura:if>
+                        </th>
+                        
+                        <th scope="col" class="slds-is-sortable" style="cursor: pointer;" onclick="{!c.sortSourceAccount}">
+                            <span  class="slds-truncate" id="sourceAccount">{!$Label.c.orderingAccount}</span>
+                            
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'sourceAccount')}">  
+                                <lightning:icon iconName="utility:arrowdown"  size="xx-small" title="xx-small size" />
+                            </aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'sourceAccount')}">
+                                <lightning:icon iconName="utility:arrowup"  size="xx-small" title="xx-small size" />
+                            </aura:if>
+                        </th>
+                        
+                        <th scope="col" class="slds-is-sortable" style="cursor: pointer;" onclick="{!c.sortBeneficiaryAccount}">
+                            <span  class="slds-truncate" id="beneficiaryAccount" >{!$Label.c.beneficiaryAccount}</span>                         
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'beneficiaryAccount')}">  
+                                <lightning:icon iconName="utility:arrowdown"  size="xx-small" title="xx-small size" />
+                            </aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'beneficiaryAccount')}">
+                                <lightning:icon iconName="utility:arrowup"  size="xx-small" title="xx-small size" />
+                            </aura:if>
+                        </th>
+                       <!-- <th scope="col" class="slds-is-sortable" onclick="{!c.sortFX}">
+                            <span class="slds-truncate" id="FX" style="cursor: pointer;">FX</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'FX')}">  
+                                <lightning:icon iconName="utility:arrowdown" alternativeText="Connected" size="xx-small"
+                                                title="xx-small size" />
+                            </aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'FX')}">
+                                <lightning:icon iconName="utility:arrowup" alternativeText="Connected" size="xx-small"
+                                                title="xx-small size" />
+                            </aura:if>
+                        </th>-->
+                        
+                        <th scope="col" class="slds-is-sortable" onclick="{!c.sortPaymentAmount}">
+                            <span class="slds-truncate"  id="amount" style="cursor: pointer;" >{!$Label.c.amount}</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'paymentAmount')}">  
+                                <lightning:icon iconName="utility:arrowdown" alternativeText="Connected" size="xx-small"
+                                                title="xx-small size" />
+                            </aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'paymentAmount')}">
+                                <lightning:icon iconName="utility:arrowup" alternativeText="Connected" size="xx-small"
+                                                title="xx-small size" />
+                            </aura:if>
+                        </th>
+                        
+                        <th scope="col" class="slds-is-sortable" onclick="{!c.sortPaymentCurrency}">
+                            <span class="slds-truncate"  id="currency" style="cursor: pointer;">{!$Label.c.currency}</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'paymentCurrency')}">  
+                                <lightning:icon iconName="utility:arrowdown" alternativeText="Connected" size="xx-small"
+                                                title="xx-small size" />
+                            </aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'paymentCurrency')}">
+                                <lightning:icon iconName="utility:arrowup" alternativeText="Connected" size="xx-small"
+                                                title="xx-small size" />
+                            </aura:if>
+                        </th>
+                        
+                        <th scope="col" class="slds-is-sortable" onclick="{!c.sortValueDate}">                          
+                            <span  class="slds-truncate" id="valueDate" style="cursor: pointer;">{!$Label.c.valueDate}</span>
+                            <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'valueDate')}">  
+                                <lightning:icon iconName="utility:arrowdown" alternativeText="Connected" size="xx-small"
+                                                title="xx-small size" />
+                            </aura:if>
+                            <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'valueDate')}">
+                                <lightning:icon iconName="utility:arrowup" alternativeText="Connected" size="xx-small"
+                                                title="xx-small size" />
+                            </aura:if>
+                        </th>
+                        
+                        <th scope="col" class="">
+                            <div class="slds-truncate slds-align_absolute-center" title="{!$Label.c.MoreDetail}">
+                                <span  id="moreDetail">{!$Label.c.MoreDetail}</span>
+                                
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.paginationList}" var="item">
+                        <tr>
+                            <th data-label="{!$Label.c.PAY_PaymentReference}" >
+                                <div class="slds-truncate">{!item.paymentId}</div>
+                            </th>
+                            
+                            <th data-label="{!$Label.c.status}" class="">
+                                <div class="slds-truncate">{!item.parsedPaymentStatus}</div>
+                            </th>
+                            
+                            <th data-label="{!$Label.c.B2B_Source_account}" class="">
+                                <div class="slds-truncate">{!item.sourceAccount}</div>
+                                <div class="slds-truncate">{!item.sourceBank}</div>
+                            </th>
+                            
+                            <th data-label="{!$Label.c.beneficiaryAccount}" class="">
+                                <div class="slds-truncate">{!item.beneficiaryAccount}</div>
+                                <div class="slds-truncate">{!item.beneficiaryBank}</div>
+                            </th>
+                            
+                           <!-- <th data-label="FX" class="">
+                                <div class="slds-truncate">
+                                    <aura:if isTrue="{!item.fxFlag == true}">
+                                        <lightning:icon iconName="utility:check" size="x-small"/>
+                                        <aura:set attribute="else">
+                                            <lightning:icon iconName="utility:close" size="x-small"/>
+                                        </aura:set>
+                                    </aura:if>
+                                    
+                                    
+                                </div>
+                            </th>-->
+                            
+                            <th data-label="{!$Label.c.amount}" class="">
+                                <div class="slds-truncate"><lightning:formattedNumber value="{!item.amount}" minimumFractionDigits="2"/></div>
+                            </th>
+                            
+                            <th data-label="{!$Label.c.currency}" class="">
+                                <div class="slds-truncate">{!item.paymentCurrency}</div>
+                            </th>
+                            
+                            
+                            
+                            
+                            <th data-label="{!$Label.c.valueDate}" class="">
+                                <div class="slds-truncate">
+                                   <!-- <lightning:formattedDateTime value="{!item.valueDate}" year="numeric" month="2-digit" day="2-digit"/>-->
+                                    <c:CMP_displayDate userDateFormat="{!v.currentUser.dateFormat}" dateClass="" date="{!item.valueDate}"/>
+                                </div>
+                            </th>
+                            
+                            
+                            
+                            <th data-label="{!$Label.c.MoreDetail}" class="">
+                                
+                                <div class="slds-button slds-truncate slds-align_absolute-center" style="cursor: pointer;" onclick="{!c.goToPayment}" id="{!item.paymentId}">
+                                    <lightning:icon iconName="utility:layers"  alternativeText="" title="" size="small"/>                                    
+                                </div> 
+                            </th>
+                        </tr>
+                        
+                        
+                    </aura:iteration>
+                </tbody>
+                
+            </table>
+            
+            
+            
+            
+            
+            <div class="slds-clearfix">
+                <div class="slds-p-top_medium slds-float_right">
+                    
+                    <!-- <aura:if isTrue="{!v.pagesNumbers.length ne 1}"></aura:if>-->
+                    <button class="slds-button slds-button_brand slds-truncate" id="previousPage" onclick='{!c.handlePreviousPage}' disabled="{!and(v.currentPage ne 1, v.paymentList.length gt 0) ? 'false' : 'true'}">
+                        {!$Label.c.previousPage}
+                    </button>                  
+                    
+                    <button class="slds-button slds-button_brand slds-truncate" id="nextPage" onclick='{!c.handleNextPage}' disabled="{!and(v.currentPage ne v.pagesNumbers.length, v.paymentList.length gt 0) ? 'false' : 'true'}">
+                        {!$Label.c.T_NextPage}
+                    </button>
+                    <aura:if isTrue="{!v.paymentList.length gt 0}">
+                        <div class="text slds-p-top_small">{!$Label.c.PAY_Page}: {!v.currentPage}/{!v.pagesNumbers.length}</div>
+                        <div class="">{!v.firstItem + ' ' + $Label.c.toMinus + ' ' + v.finalItem + ' ' + $Label.c.of}&nbsp;<strong>{!v.paymentList.length+' '+$Label.c.PAY_payments}</strong></div>
+                        <aura:set attribute="else">
+                            <div class="text slds-p-top_small"></div>
+                            <div class=""></div>
+                        </aura:set>
+                    </aura:if>
+                </div>
+                <div class="slds-p-top_medium slds-float_left">
+                    <lightning:select aura:id="select" name="select" label="{!$Label.c.B2B_Items_displayed}" onchange="{! c.onChangeSelect}" >
+                        <aura:iteration items="{!v.values}" var="item">
+                            <option text="{!item}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+            
+            
+            
+            
+        </div>
+        </aura:if>
+    </div>
+    
+    
+    <aura:if isTrue="{!v.isOpen}">
+        <aura:if isTrue="{!v.currentUser.profileName != $Label.c.Profile_BackOffice_002}">
+            <c:CMP_PaymentInformation isOpen="{!v.isOpen}" paymentObj="{!v.paymentObj}" currentUser="{!v.currentUser}"/>
+            <aura:set attribute="else">
+                <aura:if isTrue="{!and(v.paymentObj.sourceCountry == v.currentUser.country, v.paymentObj.sourceCountry == v.paymentObj.destinationCountry)}">
+                    <c:CMP_PaymentInfoOrderingBank isOpen="{!v.isOpen}" paymentObj="{!v.paymentObj}" currentUser="{!v.currentUser}" />
+                </aura:if>
+                <aura:if isTrue="{!and(v.paymentObj.sourceCountry == v.currentUser.country, v.paymentObj.sourceCountry != v.paymentObj.destinationCountry)}">
+                    <c:CMP_PaymentInfoOrderingBank isOpen="{!v.isOpen}" paymentObj="{!v.paymentObj}" currentUser="{!v.currentUser}"/>
+                </aura:if>
+                <aura:if isTrue="{!and(v.paymentObj.destinationCountry == v.currentUser.country, v.paymentObj.sourceCountry != v.paymentObj.destinationCountry)}">
+                    <c:CMP_PaymentInfoBeneficiaryBank isOpen="{!v.isOpen}" paymentObj="{!v.paymentObj}" currentUser="{!v.currentUser}" />
+                </aura:if>
+            </aura:set>
+        </aura:if>        
+    </aura:if>
+</aura:component>

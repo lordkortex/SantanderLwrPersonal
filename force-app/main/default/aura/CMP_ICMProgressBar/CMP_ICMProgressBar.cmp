@@ -1,0 +1,71 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="currentStageNumber" type="Integer" default="1"/>
+    <aura:attribute name="numberOfSteps" type="Integer" default="4"/>
+    <aura:attribute name="originValue" type="Object" description="Origin data from step 2"/>
+    <aura:attribute name="destinationValue" type="Object" description="Destination data from step 3"/>
+    <aura:attribute name="amount" type="String" description="Amount to be transferred"/>
+
+    <!-- METHODS -->
+    <aura:method name="changeStage" action="{!c.changeStage}" access="PUBLIC"/>
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <div class="slds-progress progressIndicator">
+        <ol class="slds-progress__list marginSteps">
+            <!--### START OF THE STEP 1 ###-->
+            <li id="LiStage1" class="slds-progress__item slds-is-active step">
+                <div id="LiStringStage1" class="textStep__active">1. Origin</div>
+                <button id="ButtonStage1" class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__active" onclick="{!c.onStepChanged}">
+                    <div class="button-check icon-check"></div>
+                    <span class="slds-assistive-text">Step 1</span>
+                </button>
+                <div class="label">{!v.originValue.value.alias}</div>
+            </li>
+            <!-- ### END OF THE STEP 1 BLOCK ###-->
+            <!--### START OF THE STEP 2 ###-->
+            <li id="LiStage2" class="slds-progress__item step">
+                <div id="LiStringStage2" class="textStep">2. Destination</div>
+                <button id="ButtonStage2" class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__disabled" onclick="{!c.onStepChanged}">
+                    <div class="button-check icon-check"></div>
+                    <span class="slds-assistive-text">Step 2</span>
+                </button>
+                <div class="label">{!v.destinationValue.value.alias}</div>
+            </li>
+            <!-- ### END OF THE STEP 2 BLOCK ###-->
+            <!--### START OF THE STEP 3 ###-->
+            <li id="LiStage3" class="slds-progress__item step">
+                <div id="LiStringStage3" class="textStep">3. Account</div>
+
+                <button id="ButtonStage3" class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__disabled" onclick="{!c.onStepChanged}">
+                <div class="button-check icon-check"></div>
+                <span class="slds-assistive-text">Step 3</span>
+                </button>
+                <aura:if isTrue="{!v.amount != ''}">
+                    <div class="label">{!v.amount}</div>
+                    <aura:set attribute="else">
+                        <div class="label"></div>
+                    </aura:set>
+                </aura:if>
+            </li>
+            <!-- ### END OF THE STEP 3 BLOCK ###-->
+            <!--### START OF THE STEP 4 ###-->
+            <li id="LiStage4" class="slds-progress__item step">
+                <div id="LiStringStage4" class="textStep">4. Signature</div>
+                  <button id="ButtonStage4" class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__disabled" onclick="{!c.onStepChanged}">
+                    <div class="button-check icon-check"></div>  
+                    <span class="slds-assistive-text">Step 4</span>
+                  </button>
+                <div class="label"></div>
+            </li>
+            <!-- ### END OF THE STEP 4 BLOCK ###-->
+        </ol>
+        <!--### START OF THE PROGRESS BAR INDICATOR ###-->
+        <div class="slds-progress-bar slds-progress-bar_x-small progressBar" aria-valuemin="0" aria-valuemax="99" aria-valuenow="0" role="progressbar">
+            <span id="ProgressBar" class="slds-progress-bar__value completed" style="width:16%">
+                <span class="slds-assistive-text"></span>
+            </span>
+        </div>
+    </div>      
+</aura:component>

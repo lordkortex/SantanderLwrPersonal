@@ -1,0 +1,9 @@
+<aura:component >
+
+    <aura:attribute access="public" type="String" name="number"         description="Page number displayed."/>
+    <aura:attribute access="public" type="String" name="currentPage"    description="Number of the currently displayed page."/>
+
+    <div class="number" onclick="{!c.handleSelectPage}">
+        <a title="" href="" class="{!v.currentPage eq v.number ? 'active' : ''}">{!v.number}</a>
+    </div>
+</aura:component>

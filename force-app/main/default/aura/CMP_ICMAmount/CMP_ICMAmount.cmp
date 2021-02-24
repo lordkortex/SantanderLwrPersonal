@@ -1,0 +1,87 @@
+<aura:component 
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access = "global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name= "title" type = "String" default = "Complete Details Below"/>
+    <aura:attribute name = "Amount" type = "Integer" default=""/>
+    <aura:attribute name = "Concept" type = "String" default=""/>
+    <aura:attribute name = "options" type = "List" default = "[
+                                                              {'label': 'One time', 'value': 'option1'},
+                                                              {'label': 'Periodic', 'value': 'option2'}                                                          
+                                                              ]"/>
+    
+    <aura:attribute name="value" type="List" default="option1"/>
+    <aura:attribute name ="Time" type = "String[]" default = "Monthly, Quarterly, Annual"/>
+    <aura:attribute name="selectedObject" type="Object"/>
+    <aura:attribute name="destinationValue" type="Object"/>
+    <aura:attribute name="destinationCurrency" type="String" />
+    <aura:attribute name="nextStep" type="Aura.action"/>
+    <aura:attribute name="backStep" type="Aura.action"/>
+    <aura:attribute name="testDisable" type="Boolean" default="True"></aura:attribute>
+    
+    <!-- HANDLER -->
+    <aura:handler name = "init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- TABLE -->
+    <div class="slds-box">
+       
+        <h1>Complete details below</h1>
+
+    <div class = "row">
+      
+            <!--<input id="getAmount" type="Currency" name="amount"  placeholder="Amount" 
+            value="{!v.Amount}"  
+            onblur="{!c.changeToCurrency2}" 
+            style="width: 300px;"/> -->
+
+            <lightning:input aura:id="transferAmount" label = "Amount" placeholder="Insert the amount to transfer" value="{!v.Amount}" onblur="{!c.changeToCurrency}"/>
+
+            <div class="coins icon-coins" style="font-size: 24px;"></div>
+       
+        </div>
+
+
+        <div class = "row">
+            <lightning:input label="Concept" type = "text" placeholder="Insert the transaction concept" value="{!v.Concept}"></lightning:input>
+            <div class="chat icon-chat" style="font-size: 24px;"></div>       
+        </div>
+        
+        <div class = "row">
+            <aura:iteration items="{!v.options}" var="options">
+                <input type="radio" name="options" id="{!options.value}" value="{!options.value}" checked="{!options.value == 'option1'}" onchange="{!c.handleChange}"/>
+                <label class="slds-checkbox__label" for="checkbox-unique-id-72">
+                    <span class="slds-checkbox_faux"></span>
+                    <span class="slds-form-element__label">{!options.label}</span>
+                </label>
+            </aura:iteration>    
+        </div>
+
+        <aura:if isTrue="{!v.selectedObject.value == 'option2'}">
+            <div class = "picklist">
+                <select  id="times">
+                    <option value="Monthly">Monthly</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Annual">Annual</option>
+                </select>
+               <div class="icon-chevronLeft"></div>
+            </div>
+        </aura:if>
+
+    </div>
+
+    <div>
+       <th>
+            <!--lightning:button  label="Back" title="Back" onclick="{!c.previousStep}"/-->
+            <!--lightning:button  label="next" title="next" onclick="{!c.nextStep}"/-->
+            <button type="button" class="slds-button slds-button_brand textButton"  label="Go Back" title="Go Back" onclick="{!c.previousStep}">Go Back
+              <div class="icon-chevronLeft"></div>
+           </button>
+           
+            <button type="button" class="slds-button slds-button_brand redButton" label="Signature" title="Signature" onclick="{!c.nextStep}" disabled="{!not(and(v.Amount != '', v.Concept != '',v.Amount != null, v.Concept != null))}">Signature
+              <div class="icon-chevronLeft"></div>
+           </button>  
+           
+        </th>
+    </div>
+
+</aura:component>

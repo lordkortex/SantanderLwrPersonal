@@ -1,0 +1,37 @@
+<template>
+    <!--<footer class="slds-card__footer"  if:true={isshow}>-->
+        <div class="slds-combobox_container" if:true={isshow}>
+            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                <button class="slds-button button-order" aria-haspopup="true">
+                    <article class="slds-card headerCard">
+                        <div class="slds-card__header slds-grid">
+                            <div class="slds-media__body">
+                            <h2 class="slds-card__header-title">{subsidiary.companyName}</h2>
+                                <!---
+                                Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por
+                                        selectedValue-filled -->
+                                <div class="textIcon" aria-hidden="true">
+                                    <span class="subtitle">1 of 2 accounts</span>
+                                    <div class="slds-button__icon arrow">
+                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                        <!--Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small:
+                                        Comentar la línea de código anterior y descomentar la siguiente: -->
+                                        <div class="button-arrow icon-arrowUp_small"></div>
+                                    </div>
+                                </div>     
+                            </div>
+                        </div>
+                    </article>
+                </button>
+                <div id="listbox-id-4" class="slds-dropdown slds-dropdown_fluid" role="listbox">
+                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                        <div class="slds-form-element__control" for:each={lstaccounts} for:item="account" key={account} data-id="account">
+                            <!-- <c-cmp-o-t-v-account-by-subsidiary-and-country country={country} subsidiary={subsidiary} account={account}  ></c-cmp-o-t-v-account-by-subsidiary-and-country> -->
+                            <c-cmp-o-t-v-filter-accounts-by-subsidiary onchangeaccount={changeaccount} country={country} subsidiary={subsidiary} account={account}  ></c-cmp-o-t-v-filter-accounts-by-subsidiary>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    <!--</footer>-->
+</template>

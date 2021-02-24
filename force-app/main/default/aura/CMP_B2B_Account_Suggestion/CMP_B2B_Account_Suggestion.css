@@ -1,0 +1,42 @@
+.THIS .slds-truncate.account {
+    /*margin-right: 40px; */
+    margin-right: 32px;
+    width: 275px;
+}
+
+.THIS .slds-truncate.business {
+    /*margin-right: 40px; */
+    margin-right: 32px;
+    width: 185px;
+}
+
+.THIS .slds-truncate.country {
+    margin-right: 8px;
+    width: 188px;
+}
+
+.THIS .slds-truncate.country .slds-icon.slds-icon_small {
+    height: 21px;
+    line-height: 21px;
+    width: 21px;
+}
+
+.THIS .slds-truncate.country .slds-icon.slds-icon_small .sizeFlag {
+    height: 21px;
+    width: 21px;
+}
+
+.THIS .slds-truncate.country .slds-media__body {
+	display: inline-block;
+    max-width: 164px;
+}
+
+.THIS .slds-truncate.country .slds-media__figure {
+    display: inline-block;
+	margin: 0;
+    vertical-align: top;
+}
+
+.THIS .slds-truncate.country .slds-media .slds-listbox__option-text.bold {
+	margin-bottom: 0;
+}

@@ -1,0 +1,37 @@
+<template>
+    <div class="textInput_simple">
+        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+        <div class="slds-form-element input">
+            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+            <template if:true={showLabel}>
+                <label class="slds-form-element__label" for="text-input-id-1">{label}</label>
+            </template>
+            <div
+                class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+
+                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                <input type="text" data-id={id} placeholder={placeholder}
+                    class="slds-input" name={name} onchange={handleChange} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>
+
+                <!-- Icono que aparecerá cuando este disabled -->
+                <div class="slds-button__icon disabled" aria-hidden="true">
+                    <div class="button icon-prohibited"></div>
+                </div>
+
+                <!-- Icono de cruz para eliminar una vez seleccionada una opción -->
+                <button
+                    class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={handleClearInput}>
+                    <div class="slds-button__icon icon-close_filledCircle"
+                        aria-hidden="true"></div>
+                    <span class="slds-assistive-text">Clear the text input</span>
+                </button>
+
+                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+
+                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                <div class="errorText">{error}</div>
+            </div>
+        </div>
+    </div>
+</template>

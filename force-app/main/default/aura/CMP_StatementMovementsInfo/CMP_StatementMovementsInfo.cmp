@@ -1,0 +1,64 @@
+<aura:component>
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- Global information -->
+    <aura:attribute name="userInfo"         type="Map"      default="{}"            description="Contains the user info" />
+
+    <!-- Information bar attributes -->
+    <aura:attribute name="totalDebits"      type="Integer"            description="Contains the number of total debits"/>
+    <aura:attribute name="totalCredits"     type="Integer"            description="Contains the number of total debits"/>
+    <aura:attribute name="balanceDebits"    type="String"            description="Contains the balance of the debits" />
+    <aura:attribute name="balanceCredits"   type="String"            description="Contains the balance of the credits" /> 
+    <aura:attribute name="accountInfo"      type="Map"      default="{}"            description="Contains the data of the account" />
+
+    <div class="cardContainerStatements">
+        <div class="cardCollapse">
+            <div class="slds-card">
+                
+                <!-- DETAILS -->
+                <div class="">
+                    <table class="slds-table slds-table_cell-buffer slds-no-row-hover">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="col-valueNumber" scope="col">
+                                    <div class="slds-truncate ">{!$Label.c.NumberOfCredits}</div>
+                                </th>
+                                <th class="col-valueCredits" scope="col">
+                                    <div class="slds-truncate">{!$Label.c.BalanceCredits}</div>
+                                </th>
+                                <th class="col-valueDebits" scope="col">
+                                    <div class="slds-truncate">{!$Label.c.NumberOfDebits}</div>
+                                </th>
+                                <th class="col-balanceDebits" scope="col">
+                                    <div class="slds-truncate">{!$Label.c.BalanceDebits}</div>
+                                </th>
+                                <th class="" scope="col">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="body">
+                            <tr class="slds-hint-parent">
+                                <td scope="row">
+                                    <div class="slds-truncate">{!v.totalCredits}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">
+                                            <span class="number_small">{!v.balanceCredits}&nbsp; {!v.accountInfo.accountCurrency}</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">{!v.totalDebits}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">
+                                        <span class="number_small">{!v.balanceDebits} &nbsp; {!v.accountInfo.accountCurrency}</span>
+                                </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,67 @@
+<template>
+    <template if:true={showmodal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open welcomePack">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header slds-modal__header_empty">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={closeModal}>
+                        <div class="slds-button button-page icon-close" data-title-top-center={label.close}></div> 
+                        <span class="slds-assistive-text">{label.close}</span>
+                    </button>
+                </header>
+                <span class="slds-carousel__stage">
+                    <lightning-carousel> 
+                        <lightning-carousel-image
+                                                 src={welcomePackSlide001}
+                                                 header={label.welcomeHeader1}
+                                                 description={label.welcomeDes1}
+                                                 alternative-text={label.welcomeHeader1} 
+                                                 href='#'> 
+                        </lightning-carousel-image>
+                        <lightning-carousel-image
+                                                 src={welcomePackSlide002}
+                                                 header={label.welcomeHeader2}
+                                                 description={label.welcomeDes2} 
+                                                 alternative-text={label.welcomeHeader2}
+                                                 href='#'> 
+                        </lightning-carousel-image>
+                        <lightning-carousel-image
+                                                 src={welcomePackSlide003}
+                                                 header={label.welcomeHeader3}
+                                                 description={label.welcomeDes3}
+                                                 alternative-text={label.welcomeHeader3}
+                                                 href='#'>
+                        </lightning-carousel-image>
+                        <lightning-carousel-image
+                                                 src={welcomePackSlide004}
+                                                 header={label.welcomeHeader4}
+                                                 description={label.welcomeDes4}
+                                                 alternative-text={label.welcomeHeader4}
+                                                 href='#'>
+                        </lightning-carousel-image>
+                        <lightning-carousel-image
+                                                 src={welcomePackSlide005}
+                                                 header={label.welcomeHeader5}
+                                                 description={label.welcomeDes5}
+                                                 alternative-text={label.welcomeHeader5}
+                                                 href='#'>
+                        </lightning-carousel-image>
+                    </lightning-carousel>
+                </span>
+                    <div class="slds-form-element carousel-footer">
+                        <div class="slds-form-element__control">
+                            <div class="slds-checkbox" data-title="Check">
+                                <input type="checkbox" name="options" id="checkbox-unique-id-73" value="checkbox-unique-id-73"/>
+                                <label class="slds-checkbox__label" for="checkbox-unique-id-73">
+                                    <span class="slds-checkbox_faux"></span>
+                                    <span class="slds-form-element__label checkboxLabel">{label.welcomeCheckbox}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        </section>
+    </template>
+</template>

@@ -1,0 +1,15 @@
+<!-- Author:       	 Diego Asis
+     Company:        Deloitte
+     Description:    Function to display only the necessary rows in the tables
+     History
+     <Date>			<Author>			<Description>
+ 	 05/02/2020		Diego Asis		     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="title" type="String" description="Header title" />
+    
+	<div class="slds-text-heading_medium">{!v.title}</div>
+    
+</aura:component>

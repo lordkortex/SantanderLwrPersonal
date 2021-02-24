@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Selected card Account information.">
+    <aura:attribute type="Map"      name="account"              description="Selected Account." />
+</aura:event>
