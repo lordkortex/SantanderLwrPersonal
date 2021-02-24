@@ -1,0 +1,269 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Window component for the Instant Account Management's Account Detail page
+History
+<Date>			<Author>		        <Description>
+09/07/2020		Guillermo Giral     	Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_AccountDetails">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="accountDetails" type="Map" default="{}" description="Map with the values to show as account details"/>
+    <aura:attribute name="personalSettings" type="Map" default="{}" description="Map with the values to show as account details"/>
+    <aura:attribute name="source" type="String" description="Source page to know where to navigate to and from"/>
+    <aura:attribute name="editingAliasBank" type="Boolean" default="false" description="Flag activated when the bank alias is being edited"/>
+    <aura:attribute name="editingAliasAccount" type="Boolean" default="false" description="Flag activated when the account alias is being edited"/>
+    <aura:attribute name="filters" type="Map" description="Map of filters applied in the CMP_Account_TransactionsParent component"/>
+    <!--SNJ - 05/05/2020 - Redirect to Accounts-->
+    <aura:attribute name="iSortSelected" type="String" default="{!$Label.c.Country}" description="Accounts display order"/>
+    <aura:attribute name="iCurrency" type="String" description="The selected currency to make the required changes to calculate the amounts"/>
+    
+    <!-- SNJ - 21/04/2020 - Toast Attributes-->
+    <aura:attribute name="showToast" type="Boolean" default="false" description="Show error message"/>
+    <aura:attribute name="msgToast" type="String" description="Message to be shown through the toast"/>
+    <aura:attribute name="typeToast" type="String" description="Type of the toast: success, warning or error"/>
+    <!-- SNJ - 21/04/2020 - SPINNER ATRIBUTTE -->
+    <aura:attribute name="isLoading" type="Boolean"   default="true" description="Used to show the spinner if the data is loading"/>
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.getAccountDetails}"/>
+    <aura:handler name="navigateBack" event="c:EVT_TitleSubtitleNavigate" action="{!c.navigateToPreviousScreen}"/>
+    
+    <!-- COMPONENT MARKUP -->
+    <c:CMP_ServiceComponent aura:id="Service"/>
+  
+        <aura:if isTrue="{!v.isLoading}">  
+            <div class="spinnerclass">
+                <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+            </div> 
+            <aura:set attribute="else">
+                <c:CMP_CN_Title_Subtitle title="{!$Label.c.Accounts}" subtitle="{!$Label.c.accountDetail}" fireNavigationEvent="true"/>
+                <c:CMP_CN_Title_Subtitle_Totals accountDetails="{!v.accountDetails}" source="{!v.source}" lastUpdate="true" 
+                                                showAccountDetailLink="false" showLatestInformationTimestamp="false" accountToCopy="{!v.accountDetails.accountNumber}"/>
+                     
+                <!--SNJ - 21/04/2020 - Adding CMP_Toast-->
+                <c:CMP_Toast type="{!v.typeToast}" show="{!v.showToast}" message="{!v.msgToast}"/>  
+                
+                <!-- DETAILS -->
+                <article class="slds-card cardAccountDetail">
+                    <!-- Header -->
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            <div class="slds-media__body">
+                                <span class="slds-text-heading_small">{!$Label.c.basicDetails}</span>
+                            </div>
+                        </header>
+                    </div>
+                    
+                    <!-- BODY -->
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-grid">
+                            <div class="slds-col firstCol">
+                                <div class="textRow">
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.Country}</span>
+                                    </div>
+                                    <div class="slds-grid">
+                                        
+                                        <span class="slds-truncate slds-text-body_regular">{!v.accountDetails.country}</span>
+                                    </div>
+                                </div>
+                                <div class="textRow">
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.Bank}</span>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.accountDetails.bank}</span>
+                                    </div>
+                                </div>
+                                <div class="textRow">
+                                    <div class="slds-grid">
+                                        <!-- AM - 28/09/2020 - Ebury Accounts -->
+                                        <aura:if isTrue="{!v.accountDetails.country == $Label.c.Ebury}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.Account_Identifier}</span>
+                                        <aura:set attribute="else">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.Account_Number}</span>
+                                        </aura:set>
+                                        </aura:if>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.accountDetails.accountNumber}</span>
+                                    </div>
+                                </div>
+                                <div class="textRow">
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.currency}</span>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.accountDetails.accountCurrency}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col secondCol">
+                               <div class="textRow">
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.Corporate}</span>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.accountDetails.accountName}</span>
+                                    </div>
+                                </div>
+                                <!-- AM - 28/09/2020 - Ebury Accounts -->
+                                <aura:if isTrue="{!v.accountDetails.country != $Label.c.Ebury}">
+                                    <div class="textRow">
+                                        <div class="slds-grid">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.bic}</span>
+                                        </div>
+                                        <div class="slds-grid">
+                                            
+                                            <span class="slds-truncate slds-text-body_regular">{!v.accountDetails.codigoBic}</span>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                                <div class="textRow slds-grid">
+                                    <div class="slds-col">
+                                        <div class="slds-grid">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.aliasAccount}</span>
+                                        </div>
+                                        
+                                        <aura:if isTrue="{!not(v.editingAliasAccount)}">
+                                            <div class="slds-grid">
+                                                <span class="slds-truncate slds-text-body_regular">{!v.accountDetails.accountAlias}</span>
+                                            </div>
+                                            
+                                            <aura:set attribute="else">
+                                                <!-- INPUT EDICION DE TEXTO -->
+                                                <div class="slds-form-element">
+                                                    <div class="slds-form-element__control slds-grid slds-grid_align-spread">
+                                                        <input class="slds-input" type="text" id="aliasAccountInput" value="{!v.accountDetails.accountAlias}"/>
+                                                        <button id="closeAliasAccount" class="slds-button slds-button_icon slds-input__icon" onclick="{!c.closeSaveAlias}">
+                                                            <div class="slds-button__icon slds-button__icon_hint icon-close_filledCircle"></div>
+                                                        </button>
+                                                        <button id="saveAliasAccount" class="slds-button slds-button_icon slds-input__icon" onclick="{!c.closeSaveAlias}">
+                                                            <div class="slds-button__icon slds-button__icon_hint icon-check"></div>
+                                                        </button>
+                                                    </div>
+                                                    <span class="textHelp"></span>
+                                                </div>
+                                            </aura:set>
+                                        </aura:if>    
+                                    </div>
+                                    <!-- AM - 28/09/2020 - Ebury Accounts -->
+                                    <aura:if isTrue="{!v.accountDetails.country != $Label.c.Ebury}">
+                                        <aura:if isTrue="{!not(v.editingAliasAccount)}">
+                                            <div class="slds-col icon">
+                                                <span class="icon-edit" id="aliasAccount" data-title-on-left="{!$Label.c.T_Modify}" onclick="{!c.editAlias}"></span>
+                                            </div>
+                                        </aura:if>
+                                    </aura:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- AM - 28/09/2020 - Ebury Accounts -->
+                <aura:if isTrue="{!and(v.accountDetails.country == $Label.c.Ebury, v.accountDetails.associatedAccountList != undefined, v.accountDetails.associatedAccountList != null)}">
+					
+                    <!-- EBURY ACCOUNT DETAILS -->
+                    <article class="slds-card cardAccountDetail ebury">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__body">
+                                    <span class="slds-text-heading_small">{!$Label.c.Ebury}&nbsp;{!$Label.c.accountDetail}</span>
+                                </div>
+                            </header>
+                        </div>
+                        <aura:iteration items="{!v.accountDetails.associatedAccountList}" var="item" indexVar="key">
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div class="row">
+                                    <span>{!$Label.c.Account}&nbsp;[{!item.account.accountId}]</span>
+                                    <img class="eburySymbol" src="{!$Resource.Images + '/ebury.svg'}"/>
+                                </div>
+                                <div class="slds-grid">
+                                    <div class="slds-col firstCol">
+                                        <div class="textRow">
+                                            <div class="slds-grid" data-title="{!$Label.c.BankId}">
+                                                <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.BankId}</span>
+                                            </div>
+                                            <div class="slds-grid" data-title="Value">
+                                                <span class="slds-truncate slds-text-body_regular">
+                                                    <aura:if isTrue="{!item.bankId != undefined}">
+                                                        {!item.bankId}
+                                                    </aura:if>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="textRow">
+                                            <div class="slds-grid" data-title="{!$Label.c.Account_Number}">
+                                                <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.Account_Number}</span>
+                                            </div>
+                                            <div class="slds-grid" data-title="Value">
+                                                <span class="slds-truncate slds-text-body_regular">
+                                                    <aura:if isTrue="{!and(item.account != undefined, item.account.accountId != undefined)}">
+                                                        {!item.account.accountId}
+                                                    </aura:if>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="textRow">
+                                            <div class="slds-grid" data-title="{!$Label.c.AccountName}">
+                                                <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.AccountName}</span>
+                                            </div>
+                                            <div class="slds-grid" data-title="Value">
+                                                <span class="slds-truncate slds-text-body_regular">
+                                                    <aura:if isTrue="{!item.accountName != undefined}">
+                                                        {!item.accountName}
+                                                    </aura:if>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col secondCol">
+                                        <div class="textRow">
+                                            <div class="slds-grid" data-title="{!$Label.c.BankIdType}">
+                                                <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.BankIdType}</span>
+                                            </div>
+                                            <div class="slds-grid" data-title="Value">
+                                                <span class="slds-truncate slds-text-body_regular">
+                                                    <aura:if isTrue="{!item.bankIdType != undefined}">
+                                                        {!item.bankIdType}
+                                                    </aura:if>
+                                                </span>
+                                            </div>
+                                        </div>                        
+                                        <div class="textRow">
+                                            <div class="slds-grid" data-title="{!$Label.c.AccountAddress}">
+                                                <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.AccountAddress}</span>
+                                            </div>
+                                            <div class="slds-grid" data-title="Value">
+                                                <span class="slds-truncate slds-text-body_regular">
+                                                    <aura:if isTrue="{!item.accountAddress != undefined}">
+                                                        {!item.accountAddress}
+                                                    </aura:if>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="textRow">
+                                            <div class="slds-grid" data-title="{!$Label.c.AccountNumberType}">
+                                                <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.AccountNumberType}</span>
+                                            </div>
+                                            <div class="slds-grid" data-title="Value">
+                                                <span class="slds-truncate slds-text-body_regular">
+                                                    <aura:if isTrue="{!and(item.account != undefined, item.account.accountIdType != undefined)}">
+                                                        {!item.account.accountIdType}
+                                                    </aura:if>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:iteration>
+                    </article>      
+                </aura:if>
+            </aura:set>
+        </aura:if>
+</aura:component>

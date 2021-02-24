@@ -1,0 +1,131 @@
+.THIS.tableExtract {
+    padding-top: 0;
+}
+.THIS.tableExtract:before {
+    display: none;
+}
+.THIS.tableExtract .containerIconDetail{
+    width: 262px;
+}
+.THIS.tableExtract .containerValueDate{
+    width: 91px;
+}
+.THIS.tableExtract .containerAmount {
+    width: 405px;
+}
+.THIS.tableExtract .containerBookDate {
+    width: 179px;
+}
+.THIS.tableExtract .containerBookBalance {
+    width: 287px;
+}
+.THIS.tableExtract .icon-arrowRight_big{
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.THIS.tableExtract .slds-is-sortable .slds-th__action:hover, 
+.THIS.tableExtract .slds-is-sortable .slds-th__action:focus, 
+.THIS.tableExtract .slds-is-sortable.slds-has-focus .slds-th__action, 
+.THIS.tableExtract .slds-is-sortable.slds-has-focus .slds-th__action:hover, 
+.THIS.tableExtract .slds-is-sortable.slds-has-focus .slds-th__action:focus {
+    background-color: unset;
+}
+.THIS.tableExtract .slds-table--header-fixed thead th {
+    padding: 0 8px 0 0;
+}
+.THIS.tableExtract .slds-table_striped tbody tr > td {
+    box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+.THIS.tableExtract .slds-table_striped tbody tr:first-child > td{
+    box-shadow: inset 0 -1px 0 0 #cedee7, inset 0 1px 0 0 #cedee7;
+}
+.THIS.tableExtract .slds-table_striped tbody tr:nth-of-type(2n+1) > td {
+    background-color: #fcfefe;
+}
+.THIS.tableExtract .slds-table_striped tbody tr:nth-of-type(2n) > td {
+    background-color: #ffffff;
+}
+.THIS.tableExtract.slds-table--header-fixed_container {
+    margin-bottom: 16px;
+}
+
+.THIS.tableExtract .status {
+    font-family: SantanderTextW05-Bold;
+}
+.THIS.tableExtract tbody .nodata{
+    padding: 8px 16px 8px 24px;
+}
+.THIS.tableExtract tbody .nodata div{
+    color: #a2a2a2; 
+}
+.THIS.tableExtract tbody td{
+    padding: 0;
+    padding-left: 16px;
+}
+
+.THIS.tableExtract tbody td.slds-text-align_center{
+    padding: 16px;
+}
+
+.THIS.tableExtract tbody>tr {
+    height: 56px;
+}
+.THIS.tableExtract .slds-truncate{
+    color: #444444;
+    font-size: 14px;
+    line-height: 21px;
+    font-family: "SantanderMicroText";
+}
+
+.THIS.tableExtract .text.amountDecimals {
+    font-family: "SantanderMicroText-Bd";
+}
+.THIS.tableExtract .text.amountInteger {
+    font-family: "SantanderMicroText-Bd";
+    font-size: 18px;
+    line-height: 27px;
+}
+.THIS.tableExtract thead .slds-truncate {
+    color: #767676;
+    font-size: 14px;
+    font-weight: normal;
+    height: 20px;
+    line-height: 20px;
+    margin: 12px 0;
+    min-height: 20px;
+    padding: 0;
+    text-transform: uppercase;
+    letter-spacing: normal;
+    overflow: inherit;
+}
+.THIS.tableExtract thead tr th {
+    box-shadow: inset 0 1px 0 0 #cedee7;
+    padding: 0;
+    padding-left: 16px;
+}
+.THIS.tableExtract .slds-text-align_right .slds-grid.slds-grid_align-spread{
+    justify-content: flex-end;
+}
+.THIS.tableExtract .slds-text-align_right .slds-button {
+    padding-right: 16px;
+    cursor:pointer;
+}
+
+.THIS.tableExtract .detail.icon-arrowRight_big {
+    color: #ec0000;
+    margin-right: 2px;
+}
+.THIS.tableExtract .detail.icon-arrowRight_big:hover {
+    color: #cc0000;
+}
+.THIS.tableExtract .detail.icon-arrowRight_big {
+    font-family: "SantanderMicroText" !important;
+    font-size: 14px;
+    line-height: 21px;
+}
+.THIS.tableExtract .detail.icon-arrowRight_big:before {
+    font-family: 'icomoon' !important;
+    font-size: 24px;
+    float: right;
+}

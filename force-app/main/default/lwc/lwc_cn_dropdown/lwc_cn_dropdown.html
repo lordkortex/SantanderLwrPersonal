@@ -1,0 +1,118 @@
+<!--
+  @description       : 
+  @author            : Everis
+  @group             : 
+  @last modified on  : 12-08-2020
+  @last modified by  : Everis
+  Modifications Log 
+  Ver   Date         Author   Modification
+  1.0   12-03-2020   Everis   Initial Version
+-->
+<template>
+    <div class="slds-grid currencyDropdown_container">
+        <div class={isSeparatedClass}>
+            <div class="slds-form-element slds-combobox__Rg">
+                <!-- DROPDOWN MARKUP -->
+                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                <label class="slds-form-element__label" for="textarea-id-01">{headerdropdown}</label>
+                <div class={isDropDownDisabled} aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                    <div if:true={issimpledropdown}>
+                        <!-- SIMPLE DROPDOWN -->
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                            <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order"
+                                aria-haspopup="true" disabled={isdisabled}>
+                                <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                <div if:true={isSelectedValueOne}>
+                                    <div class="slds-border_right orderSelected selectedValue-placeholder">
+                                        {selectedvalue}</div>
+                                </div>
+                                <div if:true={isSelectedValueNoOne}>
+                                    <div class="slds-border_right orderSelected selectedValue">{selectedvalue}</div>
+                                </div>
+                                <div if:true={isSelectedValueNull}>
+                                    <div class="slds-border_right orderSelected selectedValue-placeholder">
+                                        {valueplaceholder}</div>
+                                </div>
+                                <div class="slds-button__icon arrow" aria-hidden="true">
+                                    <div class="button-arrow icon-arrowDown_small"></div>
+                                </div>
+                                <span class="slds-assistive-text">{helptext}</span>
+                            </button>
+                        </div>
+                        <div class={dropdownOrderClass}>
+                            <ul class="slds-dropdown__list" role="menu" aria-label={helptext}>
+                                <template for:each={listValues} for:item="item">
+                                    <li key={item.key} data-item={item.key} class={item.class} role="presentation"
+                                        onclick={selectOption}>
+                                        <a class="paddingOption" role="menuitemcheckbox" tabindex="0"
+                                            aria-checked="true">
+                                            <div class="slds-truncate optionOrder">
+                                                <span class="nameOrder">{item.val}</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                    <div if:false={issimpledropdown}>
+                        <!-- MULTISELECT DROPDOWN -->
+                        <div>
+                        <template for:each={listValues} for:item="item">
+                            <li class="slds-dropdown__item" role="presentation"  key={item.key} data-item={item.key} onclick={selectOption}>
+                                <a class="paddingOption" role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                    <div class="slds-truncate optionOrder">
+                                        <div
+                                            class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
+                                            <div class={item.class}></div>
+                                        </div>
+                                        <span class="nameOrder">{item.val}</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </template>
+                        </div>
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                            <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" disabled={isdisabled}>
+                                <div if:true={isZeroSelectedValue}>
+                                    <div class="slds-border_right orderSelected  selectedValue-placeholder ">
+                                        {valueplaceholder}
+                                    </div>
+                                </div>
+                                <div if:true={isOneSelectedValue}>
+                                    <div class="slds-border_right orderSelected">{firstSelectedValue}</div>
+                                </div>
+                                <div if:true={isMultipleSelectedValues}>
+                                    <div class="slds-border_right orderSelected">{mulitpleSelctedText}</div>
+                                </div>
+                                <div class="slds-button__icon arrow" aria-hidden="true">
+                                    <div class="button-arrow icon-arrowDown_small"></div>
+                                </div>
+                                <span class="slds-assistive-text">{helptext}</span>
+                            </button>
+                        </div>
+                        <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                            <div class={multiDropdownClass}>
+                                <ul class="slds-dropdown__list" role="menu" aria-label={helptext}>
+                                    <template for:each={listValues} for:item="item">
+                                        <li class="slds-dropdown__item" role="presentation"  key={item.key} onclick={selectOption}>
+                                            <a class="paddingOption" role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                <div class="slds-truncate optionOrder">
+                                                    <div
+                                                        class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
+                                                        <div class={item.class}></div>
+                                                    </div>
+                                                    <span class="nameOrder">{item.val}</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

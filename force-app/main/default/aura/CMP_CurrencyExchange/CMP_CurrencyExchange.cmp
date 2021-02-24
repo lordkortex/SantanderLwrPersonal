@@ -1,0 +1,147 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_CurrencyExchange">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <aura:attribute name="currentCurrency" type="Object" description="Selected currency"/>    
+    <aura:attribute name="corporateCurrency" type="Object" description="Corporate currency"/>
+    <aura:attribute name="accountCurrencies" type="List" description="A list of the users account currencies"/>
+    <aura:attribute name="isoCodeList" type="List" description="A list of available Currency Iso Codes for current logged user"/>
+    <aura:attribute name="currencyList" type="List" description="List of currencies available for current logged user"/>
+    <aura:attribute name="upToDate" type="String" default="N/A" description="Updating date of conversion rates in salesforce"/>
+    
+    <aura:attribute name="thisTest" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />    
+    <aura:registerEvent name="Currency_Exchanger" type="c:EVT_Currency_Exchange"/>
+    <aura:handler name="dropdownExchangeCurrency" event="c:EVT_DropdownValueSelected" action="{!c.selectCurrency}"/>
+     <!--<c:CMP_Dropdown values="{!v.thisTest}" isSimpleDropdown="True" selectedValue="{!v.currentCurrency.iIsoCode}" helpText="{!$Label.c.Show_More}"/>-->
+    
+    <div class="slds-scoped-notification slds-media slds-media_center slds-scoped-notification_light currencyExchange" role="status">
+        <div class="containerReference">
+            <div class="slds-media__body">
+                <p class="reference">
+                    <span class="fx">{!$Label.c.Reference_FX_Rate}</span>
+                    <span class="date">{!$Label.c.Updated}:&nbsp;{!v.upToDate}</span>
+                </p>
+            </div>
+            <div class="slds-media__body spaced">
+                <p class="exchange">
+                    <span>{!v.currentCurrency.iConversionRate}&nbsp;{!v.currentCurrency.iIsoCode}</span>
+                    &nbsp;=&nbsp;
+                    <aura:iteration items="{!v.currencyList}" var="item" indexVar="key">            
+                        <aura:if isTrue="{!(key != v.currencyList.length-1)}">
+                            <aura:if isTrue="{!(item.iIsoCode != v.currentCurrency.iIsoCode)}">
+                                <span class="separationExchange">
+                                    <lightning:formattedNumber value="{!item.iConversionRate}" minimumFractionDigits="6" maximumFractionDigits="6"/>
+                                    &nbsp;{!item.iIsoCode}
+                                </span>
+                            </aura:if>                            
+                        </aura:if>
+                        <aura:if isTrue="{!(key == v.currencyList.length-1)}">
+                            <aura:if isTrue="{!(item.iIsoCode != v.currentCurrency.iIsoCode)}">
+                                <span>
+                                    <lightning:formattedNumber value="{!item.iConversionRate}" minimumFractionDigits="6" maximumFractionDigits="6"/>
+                                    &nbsp;{!item.iIsoCode}
+                                </span>
+                            </aura:if>
+                        </aura:if>                        
+                    </aura:iteration>
+                </p>
+            </div>
+        </div>
+        <div class="containerCurrency">
+            <div class="textCurrency">
+                {!$Label.c.ConsolidationCurrency}
+            </div>
+            <div class="slds-form-element dropdown">
+                <c:CMP_Dropdown values="{!v.thisTest}" 
+                                isSimpleDropdown="True" 
+                                selectedValue="{!v.currentCurrency.iIsoCode}" 
+                                helpText="{!$Label.c.Show_More}"/>
+            </div>  
+        </div>
+
+
+      
+         
+       
+        <!--OLD-->
+       <!-- <div  id="dropdownCurrency" aura:id="dropdownCurrency" class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-close currency containerCurrency" onclick="{!c.displayCurrencies}" tabindex="0" onblur="{!c.selectedStatus}">
+            <div class="textCurrency">
+                {!$Label.c.ConsolidationCurrency}
+            </div> 
+            <button class="slds-button slds-button_icon slds-button_icon-border-filled button-currency" aria-haspopup="true" title="{!$Label.c.Show_More}" >
+                <div class="slds-border_right currencySelected">{!v.currentCurrency.iIsoCode}</div> 
+                <div class="slds-button__icon arrow" aria-hidden="true">
+                    <div class="button-arrow icon-chevronDown"></div>
+                </div>
+                <span class="slds-assistive-text">{!$Label.c.Show_More}</span>
+            </button>
+            <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownCurrencies">
+                <ul class="slds-dropdown__list" role="menu" aria-label="{!$Label.c.Show_More}">
+                    <aura:iteration items="{!v.currencyList}" var="item" indexVar="key">                        
+                        <aura:if isTrue="{!item.iIsoCode == v.currentCurrency.iIsoCode}">
+                            <li class="slds-dropdown__item slds-is-selected" role="presentation" id="{!item.iIsoCode}" onclick="{!c.selectCurrency}">
+                                <a class="paddingOption" aria-checked="true" href="javascript:void(0);" role="menuitemcheckbox" tabindex="0">
+                                    <div class="slds-truncate optionCurrency" title="{!item.iIsoCode}">
+                                        <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin" aria-hidden="true">
+                                            <div class="button-selected icon-check"></div>
+                                        </div>
+                                        <span class="nameCurrency">{!item.iIsoCode}</span>
+                                    </div>
+                                </a>
+                            </li>                            
+                            <aura:set attribute="else">
+                                <li class="slds-dropdown__item" role="presentation" id="{!item.iIsoCode}" onclick="{!c.selectCurrency}">
+                                    <a class="paddingOption" aria-checked="false" href="javascript:void(0);" role="menuitemcheckbox" tabindex="-1">
+                                        <div class="slds-truncate optionCurrency" title="{!item.iIsoCode}">
+                                            <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin" aria-hidden="true">
+                                                <div class="button-selected icon-check"></div>
+                                            </div>
+                                            <span class="nameCurrency">{!item.iIsoCode}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </aura:set>
+                        </aura:if>
+                    </aura:iteration>
+                </ul>
+            </div>
+        </div>-->
+        
+        <!-- NEW
+        <div class="slds-form-element__control paddingInput">
+            <div class="slds-combobox_container inputSize">
+                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox" style="display:block !Important;">
+                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open currency containerCurrency">
+                        <div class="textCurrency">
+                            {!$Label.c.ConsolidationCurrency}
+                        </div>
+                        <button class="slds-button slds-button_icon slds-button_icon-border-filled button-currency" aria-haspopup="true" title="{!$Label.c.Show_More}" >
+                            <div class="slds-border_right currencySelected">{!v.currentCurrency.IsoCode__c}</div> 
+                            <div class="slds-button__icon arrow" aria-hidden="true">
+                                <div class="button-arrow icon-chevronDown"></div>
+                            </div>
+                            <span class="slds-assistive-text">{!$Label.c.Show_More}</span>
+                        </button>
+                        <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownCurrencies">
+                            <ul class="slds-dropdown__list" role="menu" aria-label="{!$Label.c.Show_More}">
+                                <aura:iteration items="{!v.currencyList}" var="item" indexVar="key">
+                                    <li class="{!item.IsoCode__c == v.currentCurrency.IsoCode__c ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item.IsoCode__c}" onclick="{!c.selectCurrency}">
+                                        <a class="paddingOption" aria-checked="true"  role="menuitemcheckbox" tabindex="0">
+                                            <div class="slds-truncate optionCurrency" title="{!item.IsoCode__c}">
+                                                <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
+                                                    <div class="button-selected icon-check"></div>
+                                                </div>
+                                                <span class="nameCurrency">{!item.IsoCode__c}</span>
+                                            </div>
+                                        </a>
+                                    </li>    
+                                </aura:iteration>
+                            </ul>
+                        </div>                        
+                    </div>
+                
+                </div>
+            </div>
+        </div>-->
+    </div>
+</aura:component>

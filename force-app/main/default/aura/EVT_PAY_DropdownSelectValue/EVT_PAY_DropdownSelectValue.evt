@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event fired when a value in the dropdown is selected">
+    <aura:attribute name="selectedValue" type="String" description="The value selected from the dropdown"/>
+    <aura:attribute name="isChecked" type="Boolean" description="Flag to know if the values is checked or not"/>
+</aura:event>

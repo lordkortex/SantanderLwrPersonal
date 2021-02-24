@@ -1,0 +1,35 @@
+<aura:component>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="dataExpanded" type="boolean" default="false" description="sets if the table data is expanded or collapsed" />
+    <aura:attribute name="showTrashIcon" type="Boolean" default="false" description="Flag to display / hide the trash icon"/>
+    <aura:attribute name="showDownloadIcon" type="Boolean" default="true" description="Flag to display / hide the download icon"/>
+
+    <aura:registerEvent name="fireTableActions" type="c:EVT_ServiceProfilingDisplayTableChange"/>
+
+    <div class="slds-card__header slds-grid displayOrder">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <!-- ETIQUETA -->
+            <div class="slds-card__header-title label">
+                {!$Label.c.GroupNew_Profiling}
+            </div>
+            <!-- ACCIONES -->
+            <div class="slds-media__body actions">
+                <aura:if isTrue="{!v.showDownloadIcon}">
+                    <div class="button-download icon-download" data-title="{!$Label.c.T_Download}"></div>     
+                </aura:if>     
+                <aura:if isTrue="{!v.dataExpanded}">    
+                    <div class="button-expand icon-collapse" data-title="{!$Label.c.T_CollapseAll}" onclick="{!c.expandOrCollapseData}"></div>
+                </aura:if>    
+                <aura:if isTrue="{!not(v.dataExpanded)}">
+                    <div class="button-expand icon-expand" data-title="{!$Label.c.T_ExpandAll}" onclick="{!c.expandOrCollapseData}"></div>
+                </aura:if>
+                <aura:if isTrue="{!v.showTrashIcon}">
+                    <div class="button-delete icon-trash" data-title="{!$Label.c.T_Delete}" onclick="{!c.removeAllData}"></div>     
+                </aura:if>
+            </div>
+        </header>
+    </div>
+
+</aura:component>

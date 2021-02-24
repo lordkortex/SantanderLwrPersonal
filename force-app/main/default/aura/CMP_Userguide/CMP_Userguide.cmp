@@ -1,0 +1,30 @@
+<!--
+Author:         Diego Asis
+Company:        Deloitte
+Description:    Userguide download component that will show in the training screen
+History
+<Date>			<Author>		    <Description>
+27/01/2020		Diego Asis     		Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <c:CMP_Title_Horizontal title="{!$Label.c.Userguide_Title}" subtitle="{!$Label.c.Userguide_Subtitle}"></c:CMP_Title_Horizontal>
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <div class="slds-grid slds-wrap firstRow">
+        <div class="first">
+            <c:CMP_CardSmall title="{!$Label.c.Userguide1}"/>
+        </div>
+        <div class="first">
+            <c:CMP_CardSmall title="{!$Label.c.Userguide2}"/>
+        </div>
+        <div >
+            <c:CMP_CardSmall title="{!$Label.c.Userguide3}"/>
+        </div>
+    </div>
+    <div class="slds-grid slds-wrap lastRow">
+        <div class="first">
+            <c:CMP_CardSmall title="{!$Label.c.Userguide4}"/>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event fired when a value in the dropdown is selected">
+    <aura:attribute name="selectedValues" type="List" description="List of values selected from the dropdown (only 1 value for simple dropdown)"/>
+</aura:event>

@@ -1,0 +1,315 @@
+<template>
+
+    <!--0 = do not show fees
+        1 = do not show amount
+        2 = show amount-->
+    
+    <div if:true={iObjectStepListLength}>
+        <div class="slds-progress slds-progress_vertical trackingPayment">
+            <ol class="slds-progress__list">
+                <!-- TITLES -->
+                <div if:false={backfront}>
+                    <li>
+                        <div class="slds-grid slds-grid_align-spread cardTitles">
+                            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class={class1}>
+                                    <div class="slds-card__header-title titleCaps">
+                                        {label.Bank} &amp; {label.BICFlow}
+                                    </div>
+                                </div>
+                                <div class={class2}>
+                                    <div class="slds-card__header-title titleCaps">
+                                        {label.Country}
+                                    </div>
+                                </div>
+                                <div class={class3}>
+                                    <div class="slds-card__header-title titleCaps">
+                                        {label.arrivalTime}
+                                    </div>
+                                </div>
+                                <div class={class4}>
+                                    <div class="slds-card__header-title titleCaps">
+                                        {label.duration}
+                                    </div>
+                                </div>
+                                <div class={class5}>
+                                    <div class="slds-card__header-title titleCaps">
+                                        {label.departureTime}
+                                    </div>
+                                </div>
+                                <div if:true={iObjectHasForeignExchange}>
+                                    <div class="slds-media__body colExchangeRateTitle">
+                                        <div class="slds-card__header-title titleCaps">
+                                            {label.exchangeRate}
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-media__body colFeeTitle">
+                                    <div class="slds-card__header-title titleCaps">
+                                        {label.feeApplied}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    
+                </div>
+                <template for:each={stepListArray} for:item="item" for:index="index">
+                    <li key={item.index} id={item.index} data-id="items-list">
+                        <!--Paints the card which is inmidiately before the last one-->
+                        <div if:true={iObjectStatus}>
+                            <div if:true={iObjectStepListLength2}>
+                                <div if:true={item.stepListCondition1}>
+                                    <div if:true={statusCondition1}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            cardclass="card__completed" 
+                                            progressicon="iconComplete" 
+                                            showfee={showfee}
+                                            foreignexchangecard={iObjectHasForeignExchange}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                    <div if:true={statusCondition2}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            cardclass="card__rejected" 
+                                            progressicon="iconRejected" 
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                    <div if:true={statusCondition3}>
+                                        <div if:true={item.lastStep}>
+                                            <c-lwc_ipt-detail-progress-card
+                                                item={item} 
+                                                foreignexchangecard={iObjectHasForeignExchange}
+                                                showfee={showfee}>
+                                            </c-lwc_ipt-detail-progress-card>
+                                        </div>
+                                        <div if:false={item.lastStep}>
+                                            <c-lwc_ipt-detail-progress-card
+                                                item={item} 
+                                                cardclass="card__inProgress" 
+                                                progressicon="iconInProgress" 
+                                                foreignexchangecard={iObjectHasForeignExchange}
+                                                showfee={showfee}>
+                                            </c-lwc_ipt-detail-progress-card>
+                                        </div>
+                                    </div>
+                                    <div if:true={statusCondition4}>
+                                        <div if:true={item.lastStep}>
+                                            <c-lwc_ipt-detail-progress-card
+                                                item={item} 
+                                                foreignexchangecard={iObjectHasForeignExchange}
+                                                showfee={showfee}>
+                                            </c-lwc_ipt-detail-progress-card>
+                                        </div>
+                                        <div if:false={item.lastStep}>
+                                            <c-lwc_ipt-detail-progress-card
+                                                item={item} 
+                                                cardclass="card__onHold" 
+                                                progressicon="iconOnHold" 
+                                                foreignexchangecard={iObjectHasForeignExchange}
+                                                showfee={showfee}>
+                                            </c-lwc_ipt-detail-progress-card>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div if:true={iObjectStepListLength3}>
+                                <div if:true={item.stepListCondition2}> 
+                                    <div if:true={statusCondition1}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            cardclass="card__completed" 
+                                            progressicon="iconComplete" 
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                    <div if:true={statusCondition2}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            cardclass="card__rejected" 
+                                            progressicon="iconRejected" 
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                    <div if:true={statusCondition3}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            cardclass="card__inProgress" 
+                                            progressicon="iconInProgress" 
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                    <div if:true={statusCondition4}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            cardclass="card__onHold" 
+                                            progressicon="iconOnHold" 
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                </div>             
+                            </div> 
+                        </div>
+                        <!--Paints the card which is inmidiately before the last one. Pago terminado por completo  -->
+                        <div if:true={statusCondition1}>
+                            <div if:true={iObjectStepListLength2}>
+                                <div if:true={item.stepListCondition1}>  
+                                    <c-lwc_ipt-detail-progress-card
+                                        item={item} 
+                                        foreignexchangecard={iObjectHasForeignExchange}
+                                        showfee={showfee}>
+                                    </c-lwc_ipt-detail-progress-card>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!--Paints the card which is inmidiately before the last one. Pago rechazado  -->
+                        <div if:true={statusCondition2}>
+                            <div if:true={iObjectStepListLength2}>
+                                <div if:true={item.stepListCondition1}> 
+                                    <div if:false={item.lastStep}> 
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                    <div if:true={item.lastStep}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            cardclass="card__rejected" 
+                                            progressicon="iconRejected" 
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Paints the card (first card)-->
+                        <div if:true={iObjectStepListLength3}>
+                            <div if:true={item.itemCondition1}>   
+                                <c-lwc_ipt-detail-progress-card
+                                    item={item} 
+                                    showfee={showfee}
+                                    foreignexchangecard={iObjectHasForeignExchange}>
+                                </c-lwc_ipt-detail-progress-card>                
+                            </div>
+                        </div>
+                        <!--Paints the card (first card)-->
+                        <div if:true={iObjectStepListLength2}>
+                            <div if:true={item.itemCondition1}>     
+                                <c-lwc_ipt-detail-progress-card
+                                    item={item} 
+                                    foreignexchangecard={iObjectHasForeignExchange}
+                                    showfee={showfee}>
+                                </c-lwc_ipt-detail-progress-card>    
+                            </div>
+                        </div>
+                        <!--Paints the card (visited point of payment transaction) -->
+                        <div if:true={item.itemCondition2}>
+                            <div if:true={item.itemCondition3}>
+                                <c-lwc_ipt-detail-progress-card
+                                    item={item} 
+                                    iobject={iobject}
+                                    showfee={showfee}
+                                    foreignexchangecard={iObjectHasForeignExchange}>
+                                </c-lwc_ipt-detail-progress-card>
+                            </div>                    
+                        </div>
+                        
+                        <!--Paints the last card taking into consideration its status-->
+                        <div if:true={statusCondition5}>
+                            <div if:true={item.stepListCondition3}>
+                                <div if:true={statusCondition1}>
+                                    <c-lwc_ipt-detail-progress-card
+                                        item={item} 
+                                        cardclass="card__completed" 
+                                        progressicon="iconComplete" 
+                                        foreignexchangecard={iObjectHasForeignExchange}
+                                        showfee={showfee}>
+                                    </c-lwc_ipt-detail-progress-card>
+                                </div>
+                                <div if:true={statusCondition2}>
+                                    <div if:false={item.lastStep2}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            cardclass="card__rejected" 
+                                            progressicon="iconRejected" 
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                    <div if:true={item.lastStep2}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            mainclass="slds-progress__item"
+                                            progressicon="iconIncomplete" 
+                                            textbold="textBold__disabled" 
+                                            textregular="textRegular__disabled"
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>
+                        
+                        <!--Paints the last card (destination not visited)-->
+                        <div if:true={statusCondition6}>
+                            <div if:false={item.lastStep2}>
+                                <div if:true={item.itemCondition4}>
+                                    <div if:true={item.stepListCondition3}>
+                                        <c-lwc_ipt-detail-progress-card
+                                            item={item} 
+                                            mainclass="slds-progress__item"
+                                            progressicon="iconIncomplete" 
+                                            textbold="textBold__disabled" 
+                                            textregular="textRegular__disabled"
+                                            foreignexchangecard={iObjectHasForeignExchange}
+                                            showfee={showfee}>
+                                        </c-lwc_ipt-detail-progress-card>
+                                    </div>                    
+                                </div>
+                            </div>
+                            <div if:true={item.lastStep2}>
+                                <div if:true={item.itemCondition5}>
+                                    <div if:true={item.stepListCondition3}>
+                                        <div if:true={statusCondition7}>
+                                            <c-lwc_ipt-detail-progress-card
+                                                item={item} 
+                                                cardclass="card__onHold" 
+                                                progressicon="iconOnHold" 
+                                                foreignexchangecard={iObjectHasForeignExchange}
+                                                showfee={showfee}>
+                                            </c-lwc_ipt-detail-progress-card>
+                                        </div>
+                                        <div if:true={statusCondition3}>
+                                            <c-lwc_ipt-detail-progress-card
+                                                item={item} 
+                                                mainclass="slds-progress__item"
+                                                cardclass="card__inProgress"
+                                                progressicon="iconInProgress" 
+                                                foreignexchangecard={iObjectHasForeignExchange}
+                                                showfee={showfee}>
+                                            </c-lwc_ipt-detail-progress-card>
+                                        </div>
+                                    </div>                    
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </template>
+            </ol>
+        </div>
+    </div>
+</template>

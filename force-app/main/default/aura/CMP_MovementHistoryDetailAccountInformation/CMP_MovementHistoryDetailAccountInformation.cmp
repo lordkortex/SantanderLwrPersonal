@@ -1,0 +1,92 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Component to show the account information about the extract
+<Date>			<Author>		    <Description>
+26/12/2019		Pablo Tejedor       Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+       
+    <!-- URLPARAMS AND MULESOFT ATIBUTTES   --> 
+    <aura:attribute name="accountNumberAndEntity" type="String" description="Account Number" />
+    <aura:attribute name="extractDate" type="String" description="Date of the extract"/>
+    <aura:attribute name="debitNumber" type="String" description="Total number of debits"/>
+    <aura:attribute name="debit" type="String" description="Total ammount of the debits"/>
+    <aura:attribute name="debitCurency" type="String"  description="Currency of the account display at the debits"/>
+    <aura:attribute name="creditNumber" type="String"  description="Total number of credits"/>
+    <aura:attribute name="credit" type="String" description="Total ammount of the credits"/>
+    <aura:attribute name="creditCurrency" type="String"  description=" Currency of the account display in the credit information"/>
+    <aura:attribute name="initialBalance" type="String" default="‭53527.47‬"  description="Initial ammount of the account"/>
+    <aura:attribute name="initialBalanceCurrency" type="String" default="EUR" description="Currency of the account display at the final balance"/>
+    <aura:attribute name="finalBalance" type="String"  description="Final balance of the account"/>
+    <aura:attribute name="IntialBalance" type="String"  description="Initial balance of the account"/>
+    <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+    <aura:attribute name="accountNumberBank" type="String" description="Bank"/>
+    <aura:attribute name="accountName" type="String" description="Subsidiary name"/>
+    <aura:attribute name="accountInfoDataSearch" type="List" description="List of accounts to compare and print data into info when apply the search"/> 
+ 
+  
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <article class="slds-card accountCard">
+        <div class="slds-card__header slds-grid selectedAccount">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title identity">
+                            <!--{!$Label.c.MovementHistory_ExtractAtDate}&nbsp;{!v.extractDate}-->{!v.accountName}
+                    </div>
+                    <div class="slds-card__header-title accountNumber">
+                        {!v.accountNumberAndEntity}<span> | </span>{!v.accountNumberBank}
+                    </div>
+                </div>
+                
+                <div class="availableDate">
+                    <div class="slds-card__header-title avFinalDate">
+                       	{!v.debitNumber}&nbsp; {!$Label.c.MovementHistory_Debts}
+                    </div>
+                    <div class="">
+                        <!-- <span class="bbIntegerRegular">{!v.debit}</span>
+                        <span class="bbDecimals">{!v.debitDecimal}</span> -->
+                        <aura:if isTrue="{!v.debit != null}">
+                            <c:CMP_displayAmount amount="{!v.debit}" decimalClass="bbDecimals" wholeClass="bbIntegerRegular" currency="{!v.currencyTable}"/>
+                        </aura:if>   
+                    </div>
+                 </div>
+                <div class="availableBalance">
+                	<div class="slds-card__header-title avBalance">
+                    	{!v.creditNumber}&nbsp; {!$Label.c.MovementHistory_Credit}
+                    </div>
+                    <div class="">
+                        <!-- <span class="bbIntegerRegular">{!v.credit}</span>
+                        <span class="bbDecimals">{!v.creditDecimal}</span> -->
+                        <aura:if isTrue="{!v.credit != null}">
+                            <c:CMP_displayAmount amount="{!v.credit}" decimalClass="bbDecimals" wholeClass="bbIntegerRegular" currency="{!v.currencyTable}"/>
+                        </aura:if>    
+                    </div>
+                 </div>
+                <div class="availableBookDate">
+                    <div class="slds-card__header-title bbDateFinal">
+                    	{!$Label.c.MovementHistory_InitialBalance}
+                    </div>
+                    <div class="">
+                        <!-- <span class="avIntegerRegular">{!v.initialBalanceInteger}</span>
+                        <span class="avDecimals">{!v.initialBalanceDecimal}</span> -->
+                        <!--<aura:if isTrue="{!v.initialBalance != null}">-->
+                            <c:CMP_displayAmount amount="{!v.IntialBalance}" decimalClass="avDecimals" wholeClass="avIntegerRegular" currency="{!v.currencyTable}"/>
+                        <!--</aura:if>-->
+                    </div>
+                 </div>
+                    
+                 <div class="availableBookBalance">
+                    <div class="slds-card__header-title bbAccount">
+                        {!$Label.c.MovementHistory_FinalBalance}
+                        </div>
+                    <div class="">
+                            <c:CMP_displayAmount amount="{!v.finalBalance}" decimalClass="bbDecimalsBold" wholeClass="bbInteger" currency="{!v.currencyTable}"/>
+                    </div>
+                   </div>
+               
+            </header>
+        </div>
+    </article>
+</aura:component>

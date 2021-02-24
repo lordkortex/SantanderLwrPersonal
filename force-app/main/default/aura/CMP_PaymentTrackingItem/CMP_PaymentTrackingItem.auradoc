@@ -1,0 +1,99 @@
+<aura:documentation>
+    <aura:description>
+        <p style="font-weight: bold">"Payment Tracking Item" is each station where a payment pass by when it's sent from an entity to another.</p>
+        
+        <h3>History</h3>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>12/11/2019</td>
+                <td>Laura Espinel</td>
+                <td>Design</td>
+            </tr>
+            <tr>
+                <td>15/11/2019</td>
+                <td>Amanda Fernandez</td>
+                <td>Layout coding of the page</td>
+            </tr>
+            <tr>
+                <td>20/11/2019</td>
+                <td>Shahad Naji</td>
+                <td>Lightning Component Initial Version</td>
+            </tr>
+            <tr>
+                <td>21/11/2019</td>
+                <td>Shahad Naji</td>
+                <td>Interactive web pages Back-end development</td>
+            </tr>
+            <tr>
+                <td>26/11/2019</td>
+                <td>Shahad Naji</td>
+                <td>Interactive web pages with dummy information</td>
+            </tr>
+            <tr>
+                <td>29/11/2019</td>
+                <td>Shaha Naji Jaffar</td>
+                <td>Back-end development: Mock MuleSoft connection</td>
+            </tr>
+            <tr>
+                <td>TBD</td>
+                <td>TBD</td>
+                <td>Back-end development</td>
+            </tr>
+        </table>
+        <h3>Notes</h3>
+        <p>This component/movement should be called taking into consideration the status of the payment, where the payment is located right now, and the position of movement within the payment tracking</p>
+        
+        <table style="width:100%">
+            <tr>
+                <th>Class</th>
+                <th>Acceptable value</th>
+                <th>Description</th>                        
+            </tr>
+            <tr>
+                <td>globalStatus: slds-progress__item slds-is-completed progress__[Color]</td>
+                <td>
+                    <ul>
+                        <li>In progress: slds-progress__item slds-is-completed progress__blue</li>
+                        <li>Rejected: slds-progress__item slds-is-completed progress__red</li>
+                        <li>On hold: slds-progress__item slds-is-completed progress__orange</li>
+                        <li>Completed: slds-progress__item slds-is-completed progress__green</li>
+                    </ul>
+                </td>
+                <td>When its about the last movement of the payment tracking the class that wraps all the component has to be "slds-is-completed". Then, we should add a progress bar color according to the payment status.</td>
+            </tr>
+            <tr>
+                <td>flagStatus: slds-media__figure flag</td>
+                <td>
+                    <ul>
+                        <li>Current payment location: slds-media__figure flagActive</li>
+                        <li>The payment has passed by the movement location: slds-media__figure flag</li>
+                        <li>The payment has not passed by the movement location: slds-media__figure flag flagDisabled</li>
+                    </ul>
+                </td>
+                <td>N/A</td>
+            </tr>
+            <tr>
+                <td>cardStatus: slds-progress__item_content slds-grid slds-grid_align-spread card__[Status]</td>
+                <td>
+                    <ul>
+                        <li>In progress: slds-progress__item_content slds-grid slds-grid_align-spread card__inProgress</li>
+                        <li>Rejected: slds-progress__item_content slds-grid slds-grid_align-spread card__rejected</li>
+                        <li>On hold: slds-progress__item_content slds-grid slds-grid_align-spread card__onHold</li>
+                        <li>Completed: slds-progress__item_content slds-grid slds-grid_align-spread card__completed</li>
+                    </ul>
+                </td>
+                <td>N/A</td>
+            </tr>
+        </table>
+        
+        
+    </aura:description>
+    <aura:example name="ExampleName" ref="c:CMP_PaymentTrackingItem" label="Label">
+        Example Description
+    </aura:example>
+</aura:documentation>

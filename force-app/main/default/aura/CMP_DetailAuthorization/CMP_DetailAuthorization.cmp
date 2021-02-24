@@ -1,0 +1,93 @@
+<!-- Author:       	 Diego Asis
+     Company:        Deloitte
+     Description:    Function to display only the necessary rows in the tables
+     History
+     <Date>			<Author>			<Description>
+ 	 05/02/2020		Diego Asis		     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_ViewAuthorization">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="breadCrumbs" type="List" default="['Authorizations','Detail']" description="Breadcrumbs for navigation"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="requestDate" 		type="String" 	description="Authorization request date"/>
+    <aura:attribute name="authorizeAction" 	type="String" 	description="Authorization authorize action"/>
+    <aura:attribute name="status"			type="String" 	description="Authorization status"/>
+    <aura:attribute name="approver" 		type="String" 	description="Authorization approver"/>
+    <aura:attribute name="approvalDate" 	type="String" 	description="Authorization approval date"/>
+    <aura:attribute name="comments" 		type="String" 	description="Authorization comments"/>
+    
+    <!-- TITLE VIEW -->
+    <c:CMP_TitleBreadcrumb title="{!$Label.c.Detail}" breadcrumb="{!v.breadCrumbs}"/>
+    
+    <!-- HEADER TITLE -->
+    <c:CMP_TitleHeader title="{!$Label.c.authorizationDetails}"/>
+    
+    <!-- AUTHORIZATION DETAILS -->
+    <div class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.Request_Date}
+                </div>
+                <div class="information">
+                    {!v.requestDate}
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.Authorise_Action}
+                </div>
+                <div class="information">
+                    {!v.authorizeAction}
+                </div>
+            </div> 
+        </div>  
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.status}
+                </div>
+                <div class="information">
+                    {!v.status}
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.Approver}
+                </div>
+                <div class="information">
+                    {!v.approver}
+                </div>
+            </div>
+        </div>  
+        <div class="slds-card__header slds-grid">
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.approvalDate}
+                </div>
+                <div class="information">
+                    {!v.approvalDate}
+                </div>
+            </div>
+            <div class="slds-card__header-title">
+                <div class="name">
+                    {!$Label.c.Comments}
+                </div>
+                <div class="information">
+                    {!v.comments}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- BUTTON-->
+    <div class="slds-clearfix">
+        <div class="slds-float_left">
+            <button class="slds-button slds-button_brand whiteButton" title="{!$Label.c.return}" onclick="{!c.goBack}">{!$Label.c.return}</button>
+        </div>
+    </div>
+    
+</aura:component>

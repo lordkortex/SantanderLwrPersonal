@@ -1,0 +1,18 @@
+<aura:component>
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" type="String"  name="label"     description="Checkbox filter option label." />
+    <aura:attribute access="public" type="String"  name="iden"      description="Name of the component." />
+    <aura:attribute access="public" type="Boolean" name="isChecked" description="Indicates if the checkbox is checked." default="false" />
+    <aura:attribute access="public" type="String"  name="value"     description="Name of the component." />
+
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+
+    <div class="slds-checkbox slds-truncate">
+        <input type="checkbox" name="options" id="{!v.iden}" value="{!v.value}" onclick="{!c.handleCheckbox}" checked="{!v.isChecked}" />
+        <label class="slds-checkbox__label" for="{!v.iden}">
+            <span class="slds-checkbox_faux"></span>
+            <span class="slds-form-element__label checkboxLabel">{!v.label}</span>
+        </label>
+    </div>
+</aura:component>

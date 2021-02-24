@@ -1,0 +1,3 @@
+<aura:event type="APPLICATION" description="Event fired when the 'collapse all' arrow is clicked in the Service Profiling window. It will collapse / expand all the data in the service profiling table">
+    <aura:attribute name="removeAllData" type="Boolean" description="Flag to indicate whether all data in the below tables must be removed"/>
+</aura:event>

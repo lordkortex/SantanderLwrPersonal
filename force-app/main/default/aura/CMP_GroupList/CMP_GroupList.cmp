@@ -1,0 +1,62 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Contains the table of the groups screen
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- List of attributes that the table is going to have -->
+    <aura:attribute name="groupList" type="List"/>
+
+    <!-- PAGINATION ATTRIBUTES -->
+    <aura:attribute name="groupsPerPage"    type="Integer"  default="14" description="Number of rows to show in each page of the table"/>
+    <aura:attribute name="currentPage"      type="Integer"  default="1" description="current page of the pagination"/>
+    <aura:attribute name="oldPage"          type="Integer"  default="1" description="previous page of the pagination"/>
+    <aura:attribute name="start"            type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"              type="Integer"  description="Row number of the last displayed row"/>
+    <aura:attribute name="paginatedGroups"    type="List"/>
+
+    <aura:handler name="change" value="{!v.groupList}" action="{!c.paginationChange}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTablePage}"/>
+
+    <!-- COMPONENT MARKUP -->
+
+    <c:CMP_Pagination allData="{!v.groupList}" paymentsPerPage="{!v.groupsPerPage}" aura:id="pagination"/>
+    <!--TABLE-->
+    <div class="slds-table--header-fixed_container slds-table_edit_container slds-is-relative">
+        <div class="slds-scrollable_y">
+            <table aria-multiselectable="true" class="slds-table slds-table_edit slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped slds-table_fixed-layout" role="grid">
+
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="Name">{!$Label.c.GroupList_Name}</span>
+                            </div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                    </tr>
+                </thead>
+
+                <!--BODY-->
+                <tbody>
+                    <aura:iteration items="{!v.groupList}" start="{!v.start}" end="{!v.end}" var="item" indexVar="index">      
+                        <c:CMP_GroupListRow dataObject="{!item}"/>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

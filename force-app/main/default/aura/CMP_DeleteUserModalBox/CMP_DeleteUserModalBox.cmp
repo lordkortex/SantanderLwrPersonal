@@ -1,0 +1,55 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Modal box when an user is deleting.
+History
+<Date>			<Author>		<Description>
+20/01/2020		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="isShowing" type="boolean" description="Sets if the actual attribute is showing" />
+    <aura:attribute name="titleText" type="String" default="{!$Label.c.Users_DeletionTitle}" description="contains the title of the modal box" />
+    <aura:attribute name="firstText" type="String"  description="contains the text of the first line" />
+    <aura:attribute name="secondText" type="String" default="{!$Label.c.Users_DeletionConfirmation}" description="contains the text of the first line" />
+    <aura:attribute name="userClicked" type="Object" description="Shows the user clicked" />
+    <aura:registerEvent name="DeleteUserEvent" type="c:EVT_DeleteUserModalBox"/>
+    
+
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container modal_list">
+            <header class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" id="buttonClose" onclick="{!c.buttonClicked}">
+                <div class="slds-button button-page icon-close"></div> 
+                <span class="slds-assistive-text">{!$Label.c.close}</span>
+            </button>
+            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.titleText}</h2>
+            </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <ul>
+                <li>
+                    <div class="circle icon-circle__blue text_list" ></div> 
+                    <div class="text-list"> {!v.firstText}</div>
+                
+                </li>
+                <li>
+                    <div class="circle icon-circle__blue" ></div> 
+                    <div class="text-list"> {!v.secondText} </div>
+                </li>
+
+            </ul>
+        </div>
+        <footer class="slds-modal__footer">
+                <div class="slds-form-element">
+                    <div class="slds-media__body">
+                        <button class="slds-button slds-button_brand whiteButton" id="buttonNo" onclick="{!c.buttonClicked}">{!$Label.c.No}</button>
+                        <button class="slds-button slds-button_brand redButton" id="buttonYes" onclick="{!c.buttonClicked}">{!$Label.c.Yes}</button>              
+                    </div>
+                </div>
+        </footer>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+</aura:component>

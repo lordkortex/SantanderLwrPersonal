@@ -1,0 +1,68 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="isExpandedSection" type="Boolean" default="true" description="Flag to indicate whether to collapse or expand the section"/>
+    <aura:attribute name="accounts" type="List" description="List of accounts to be displayed in the combo"/>
+    <aura:attribute name="accountData" type="Map" default="{}" description="Map to store the displayed, filtered and complete data of the accounts"/>
+    <aura:attribute name="entitlements" type="List" description="List of entitlements to be displayed in the combo"/>
+    <aura:attribute name="entitlementData" type="Map" default="{}" description="Map to store the displayed, filtered and complete data of the entitlements"/>
+    <aura:attribute name="countryMap" type="Map" description="Map of country code to country value, useful to filter accounts"/>
+
+    <!-- EVENTS -->
+    <aura:registerEvent name="updateProfileEvent" type="c:EVT_ServiceProfilingUpdateProfile" />
+    <aura:registerEvent name="resetProfileEvent" type="c:EVT_ServiceProfingResetProfile"/>
+    <aura:registerEvent name="toggleScreenVisibility" type="c:EVT_ServiceProfilingUpdateProfileOnClick"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="change" value="{!v.accounts}" action="{!c.initializeDropdowns}"/>
+    <aura:handler name="change" value="{!v.entitlements}" action="{!c.initializeDropdowns}"/>
+    <aura:handler name="valueMoved" event="c:EVT_MultipicklistValueMoved" action="{!c.handleMultipicklistValues}"/>
+    <aura:handler event="c:EVT_ServiceProfilingFilter" action="{!c.filterDisplayedAccounts}"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <div class="slds-grid slds-grid__collapse">
+        <div class="slds-col">
+            <div class="slds-card__header-title">
+                <span class="title">
+                    {!$Label.c.ServiceProfiling_AccEntTitle}
+                </span>
+                <span class="subtitle">
+                    {!$Label.c.ServiceProfiling_AccEntSubtitle}
+                </span>
+            </div>
+        </div>
+        <div class="slds-media__figure arrow">
+            <aura:if isTrue="{!not(v.isExpandedSection)}">
+                    <div class="button-arrow icon-arrowDown_big" data-title="{!$Label.c.T_Expand}" onclick="{!c.expandSection}"></div>
+            </aura:if>
+            <aura:if isTrue="{!v.isExpandedSection}">
+                    <div class="button-arrow icon-arrowUp_big" data-title="{!$Label.c.T_Collapse}" onclick="{!c.collapseSection}"></div>
+            </aura:if>
+        </div>
+    </div>
+
+    <aura:if isTrue="{!v.isExpandedSection}">
+        <div class="slds-grid slds-grid_vertical">
+            <div class="container-account-config">
+                <div class="slds-col">  
+                    <c:CMP_MultiSelectPicklist title="{!$Label.c.Accounts}" valuesLeft="{!v.accountData.filtered.available}" valuesRight="{!v.accountData.filtered.selected}" aura:id="accountsCombo"/>
+                </div>
+                <div class="slds-col">
+                    <c:CMP_MultiSelectPicklist title="{!$Label.c.ServiceProfiling_Entitlements}" valuesLeft="{!v.entitlementData.filtered.available}" valuesRight="{!v.entitlementData.filtered.selected}" aura:id="entitlementsCombo"/>
+                </div>
+
+                <div class="slds-col">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                        <div class="slds-media__body lastPill">
+                            <button class="slds-button slds-button_brand whiteButton" onclick="{!c.clearRightColumn}">{!$Label.c.Reset}</button>
+                            <aura:if isTrue="{!v.entitlementData.filtered.selected.length > 0}">
+                                <button class="slds-button slds-button_brand redButton" onclick="{!c.updateProfiling}">{!$Label.c.GroupNew_UpdateProfile}</button>    
+                            </aura:if>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,86 @@
+<!-- Author:       Diego Asis
+    Company:        Deloitte
+    Description:    Function to display only the necessary rows in the tables
+    History
+    <Date>			<Author>			<Description>
+ 	29/01/2020		Diego Asis		     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_AuthorizationsController">
+    
+    <aura:attribute name="isExpandedPending" type="Boolean" default="true" description="Expands the pending authorizations table when true"/>
+    <aura:attribute name="isExpandedRequest" type="Boolean" default="true" description="Expands the request authorizations table when true"/>
+    <aura:attribute name="pendingAuthorizations" type="List" description="List of pending authorizations to display in the table"/>
+    <aura:attribute name="requestAuthorizations" type="List" description="List of request authorizations to display in the table"/>
+    
+    <!-- PAGINATION ATTRIBUTES -->
+    <aura:attribute name="authsPerPage" 	type="Integer" default="40"/>
+    <aura:attribute name="currentPage"      type="Integer"  default="1" description="current page of the pagination"/>
+    <aura:attribute name="oldPage"          type="Integer"  default="1" description="previous page of the pagination"/>
+    <aura:attribute name="start"            type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"              type="Integer"  description="Row number of the last displayed row"/>
+    <aura:attribute name="paginatedAuths"    type="List"/>
+    
+    <!-- COMPONENT HANDLERS -->
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTableData}"/>
+    
+    <!-- LOGIC MARKUP -->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- COMPONENT MARKUP -->
+    <c:CMP_ServiceComponent aura:id="service"/>
+    <c:CMP_Title title="{!$Label.c.Authorizations}" subtitle="{!$Label.c.authorizationsSubtitle}"/>
+    
+    <!-- PENDING AUTHORIZ2ATIONS -->
+        <div class="slds-grid slds-grid__collapse">
+        <div class="slds-col">
+            <div class="slds-card__header-title">
+                <span class="title">
+                    {!$Label.c.pendingAuthorizations}
+                </span>
+                <!--<span class="subtitle">
+                    {!$Label.c.GroupNew_CopyProfileHelpText}
+                </span>-->
+            </div>
+        </div>
+        <div class="slds-media__figure arrow">
+            <aura:if isTrue="{!not(v.isExpandedPending)}">
+                <div class="button-arrow icon-arrowDown_big" title="{!$Label.c.Expand}" onclick="{!c.collapsePending}"></div>
+            </aura:if>
+            <aura:if isTrue="{!v.isExpandedPending}">
+                <div class="button-arrow icon-arrowUp_big" title="{!$Label.c.Collapse}" onclick="{!c.collapsePending}"></div>
+            </aura:if>
+        </div>
+    </div>
+    <aura:if isTrue="{!v.isExpandedPending}">
+        <!-- RESULTS TABLE -->
+        <c:CMP_AuthorizationsPendingTable pendingAuthorizations="{!v.pendingAuthorizations}"/>
+    </aura:if>
+    
+    <!-- REQUEST AUTHORIZATIONS -->
+        <div class="slds-grid slds-grid__collapse">
+        <div class="slds-col">
+            <div class="slds-card__header-title">
+                <span class="title">
+                    {!$Label.c.requestAuthorizations}
+                </span>
+                <!--<span class="subtitle">
+                    {!$Label.c.GroupNew_CopyProfileHelpText}
+                </span>-->
+            </div>
+        </div>
+        <div class="slds-media__figure arrow">
+            <aura:if isTrue="{!not(v.isExpandedRequest)}">
+                <div class="button-arrow icon-arrowDown_big" title="{!$Label.c.Expand}" onclick="{!c.collapseRequest}"></div>
+            </aura:if>
+            <aura:if isTrue="{!v.isExpandedRequest}">
+                <div class="button-arrow icon-arrowUp_big" title="{!$Label.c.Collapse}" onclick="{!c.collapseRequest}"></div>
+            </aura:if>
+        </div>
+    </div>
+    <aura:if isTrue="{!v.isExpandedRequest}">
+        <!-- RESULTS TABLE -->
+        <c:CMP_AuthorizationsRequestTable requestAuthorizations="{!v.requestAuthorizations}"/>
+    </aura:if>
+    
+</aura:component>

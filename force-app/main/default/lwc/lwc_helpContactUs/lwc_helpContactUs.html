@@ -1,0 +1,290 @@
+<template>
+    <div class="cardContainerHelp">
+                
+        <!-- HEADER -->   
+        <template if:true={isBrazil}><div class="titleHelp">{label.helpHeader_br}</div></template>
+        <template if:true={isSpain}><div class="titleHelp">{label.helpHeader_es}</div></template>
+        <template if:true={isGreatBritain}><div class="titleHelp">{label.helpHeader}</div></template>
+
+        <!-- CARD 1 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <template if:true={isBrazil}><span class="">{label.helpTitle1_br}</span></template>
+                                <template if:true={isSpain}><span class="">{label.helpTitle1_es}</span></template>
+                                <template if:true={isGreatBritain}><span class="">{label.helpTitle1}</span></template>
+                            </div>
+                        </div>
+                        
+                        <template if:false={isexpanded1}>
+                            <div class="button-arrow icon-arrowDown_small" title={label.expand} onclick={expand1}></div>
+                        </template>
+                        
+                        <template if:true={isexpanded1}>
+                            <div class="button-arrow icon-arrowUp_small" title={label.collapse} onclick={expand1}></div>
+                        </template>                  
+                        
+                    </header>
+                </div>
+                
+                <template if:true={isexpanded1}>
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        <template if:true={isBrazil}>{label.helpText1_1_br}&nbsp;<span class="bold">{label.helpTextBold1_br}</span>{label.helpText1_2_br}</template>
+                        <template if:true={isSpain}>{label.helpText1_1_es}&nbsp;<span class="bold">{label.helpTextBold1_es}</span>{label.helpText1_2_es}</template>
+                        <template if:true={isGreatBritain}>{label.helpText1_1}&nbsp;<span class="bold">{label.helpTextBold1}</span>{label.helpText1_2}</template>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- CARD 2: EXPAND -->
+        <div class="cardExpand">
+            <div class="slds-card">
+                
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <template if:true={isBrazil}><span class="">{label.helpTitle2_br}</span></template>
+                                <template if:true={isSpain}><span class="">{label.helpTitle2_es}</span></template>
+                                <template if:true={isGreatBritain}><span class="">{label.helpTitle2}</span></template>                                
+                            </div>
+                        </div>
+                        
+                        <template if:false={isexpanded2}>
+                            <div class="button-arrow icon-arrowDown_small" title={label.expand} onclick={expand2}></div>
+                        </template>
+                        
+                        <template if:true={isexpanded2}>
+                            <div class="button-arrow icon-arrowUp_small" title={label.collapse} onclick={expand2}></div>
+                        </template> 
+                        
+                    </header>
+                </div>
+                
+                <template if:true={isexpanded2}>
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        <template if:true={isBrazil}>{label.helpText2_1_br}&nbsp;<span class="bold">{label.helpTextBold2_br}</span>{label.helpText2_2_br}</template>
+                        <template if:true={isSpain}>{label.helpText2_1_es}&nbsp;<span class="bold">{label.helpTextBold2_es}</span>{label.helpText2_2_es}</template>
+                        <template if:true={isGreatBritain}>{label.helpText2_1}&nbsp;<span class="bold">{label.helpTextBold2}</span>{label.helpText2_2}</template>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <!-- CARD 3 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <template if:true={isBrazil}><span class="">{label.helpTitle3_br}</span></template>
+                                <template if:true={isSpain}><span class="">{label.helpTitle3_es}</span></template>
+                                <template if:true={isGreatBritain}><span class="">{label.helpTitle3}</span></template> 
+                            </div>
+                        </div>
+                        
+                        <template if:false={isexpanded3}>
+                            <div class="button-arrow icon-arrowDown_small" title={label.expand} onclick={expand3}></div>
+                        </template>
+                        
+                        <template if:true={isexpanded3}>
+                            <div class="button-arrow icon-arrowUp_small" title={label.collapse} onclick={expand3}></div>
+                        </template>   
+                        
+                    </header>
+                </div>
+                
+                <template if:true={isexpanded3}>
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        <template if:true={lang}>
+                            <template if:true={isBrazil}><span>{label.helpText3_1_br}&nbsp;</span></template>
+                            <template if:true={isSpain}><span>{label.helpText3_1_es}&nbsp;</span></template>
+                            <template if:true={isGreatBritain}><span>{label.helpText3_1}&nbsp;</span></template> 
+                        </template>
+                            <template if:true={isBrazil}><span class="bold">{label.helpTextBold3_1_br}&nbsp;</span>{label.helpText3_2_br}&nbsp;<span class="bold">{label.helpTextBold3_2}&nbsp;</span>{label.helpText3_3_br}</template>
+                            <template if:true={isSpain}><span class="bold">{label.helpTextBold3_1_es}&nbsp;</span>{label.helpText3_2_es}&nbsp;<span class="bold">{label.helpTextBold3_2}&nbsp;</span>{label.helpText3_3_es}</template>
+                            <template if:true={isGreatBritain}><span class="bold">{label.helpTextBold3_1}&nbsp;</span>{label.helpText3_2}&nbsp;<span class="bold">{label.helpTextBold3_2}&nbsp;</span>{label.helpText3_3}</template>  
+                    </div>
+                </template> 
+            </div>
+        </div>
+
+        <!-- CARD 4 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <template if:true={isBrazil}><span class="">{label.helpTitle4_br}</span></template>
+                                <template if:true={isSpain}><span class="">{label.helpTitle4_es}</span></template>
+                                <template if:true={isGreatBritain}><span class="">{label.helpTitle4}</span></template>
+                                
+                            </div>
+                        </div>
+                        
+                        <template if:false={isexpanded4}>
+                            <div class="button-arrow icon-arrowDown_small" title={label.expand} onclick={expand4}></div>
+                        </template>
+                        
+                        <template if:true={isexpanded4}>
+                            <div class="button-arrow icon-arrowUp_small" title={label.collapse} onclick={expand4}></div>
+                        </template>  
+                        
+                    </header>
+                </div>
+                
+                <template if:true={isexpanded4}>
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        <ul>
+                            <template if:true={isBrazil}>
+                                <li><span class="bold">{label.helpTextBold4_1_br}&nbsp;</span>{label.helpText4_1_br}</li>
+                                <li><span class="bold">{label.helpTextBold4_2_br}&nbsp;</span>{label.helpText4_2_br}</li>
+                                <li><span class="bold">{label.helpTextBold4_3_br}&nbsp;</span>{label.helpText4_3_br}</li>
+                                <li><span class="bold">{label.helpTextBold4_4_br}&nbsp;</span>{label.helpText4_4_br}</li>
+                            </template>
+                            <template if:true={isSpain}>
+                                <li><span class="bold">{label.helpTextBold4_1_es}&nbsp;</span>{label.helpText4_1_es}</li>
+                                <li><span class="bold">{label.helpTextBold4_2_es}&nbsp;</span>{label.helpText4_2_es}</li>
+                                <li><span class="bold">{label.helpTextBold4_3_es}&nbsp;</span>{label.helpText4_3_es}</li>
+                                <li><span class="bold">{label.helpTextBold4_4_es}&nbsp;</span>{label.helpText4_4_es}</li>
+                            </template>
+                            <template if:true={isGreatBritain}>
+                                <li><span class="bold">{label.helpTextBold4_1}&nbsp;</span>{label.helpText4_1}</li>
+                                <li><span class="bold">{label.helpTextBold4_2}&nbsp;</span>{label.helpText4_2}</li>
+                                <li><span class="bold">{label.helpTextBold4_3}&nbsp;</span>{label.helpText4_3}</li>
+                                <li><span class="bold">{label.helpTextBold4_4}&nbsp;</span>{label.helpText4_4}</li>
+                            </template>
+                        </ul>
+                    </div>
+                </template> 
+            </div>
+        </div>
+
+        <!-- CARD 5 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <template if:true={isBrazil}><span class="">{label.helpTitle5_br}</span></template>
+                                <template if:true={isSpain}><span class="">{label.helpTitle5_es}</span></template>
+                                <template if:true={isGreatBritain}><span class="">{label.helpTitle5}</span></template>
+                            </div>
+                        </div>
+                        
+                        <template if:false={isexpanded5}>
+                            <div class="button-arrow icon-arrowDown_small" title={label.expand} onclick={expand5}></div>
+                        </template>
+                        
+                        <template if:true={isexpanded5}>
+                            <div class="button-arrow icon-arrowUp_small" title={label.collapse} onclick={expand5}></div>
+                        </template>   
+                        
+                    </header>
+                </div>
+                
+                <template if:true={isexpanded5}>
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        <template if:true={isBrazil}>{label.helpText5_br}</template>
+                        <template if:true={isSpain}>{label.helpText5_es}</template>
+                        <template if:true={isGreatBritain}>{label.helpText5}</template>
+                        
+                    </div>
+                </template> 
+            </div>
+        </div>
+
+
+        <!-- CARD 6 -->
+       <template if:false={ispublic}>      
+            <div class="cardExpand">
+                <div class="slds-card">
+                    <div class="slds-card__header slds-grid containerInformation">
+                        <!-- TITLE -->
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            <div class="slds-media__body">
+                                <div class="slds-card__header-title">
+                                    <template if:true={isBrazil}><span class="">{label.helpTitle6_br}</span></template>
+                                    <template if:true={isSpain}><span class="">{label.helpTitle6_es}</span></template>
+                                    <template if:true={isGreatBritain}><span class="">{label.helpTitle6}</span></template>
+                                </div>
+                            </div>
+                            
+                            <template if:false={isexpanded6}>
+                                <div class="button-arrow icon-arrowDown_small" title={label.expand} onclick={expand6}></div>
+                            </template>
+                            
+                            <template if:true={isexpanded6}>
+                                <div class="button-arrow icon-arrowUp_small" title={label.collapse} onclick={expand6}></div>
+                            </template>    
+                            
+                        </header>
+                    </div>
+                    
+                    <template if:true={isexpanded6}>
+                        <!-- DETAILS -->
+                        <div class="slds-card__body slds-card__body_inner containerInformation">
+                            <template if:true={isBrazil}>{label.helpText6_1_br}&nbsp;<span class="bold">{label.helpTextBold6_br}&nbsp;</span> {label.helpText6_2_br} </template>
+                            <template if:true={isSpain}>{label.helpText6_1_es}&nbsp;<span class="bold">{label.helpTextBold6_es}&nbsp;</span> {label.helpText6_2_es} </template>
+                            <template if:true={isGreatBritain}>{label.helpText6_1}&nbsp;<span class="bold">{label.helpTextBold6}&nbsp;</span> {label.helpText6_2} </template>                            
+                        </div>
+                    </template> 
+                </div>
+            </div>
+        </template>
+
+        <!-- CARD 7 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <template if:true={isBrazil}><span class="">{label.helpTitle7_br}</span></template>
+                                    <template if:true={isSpain}><span class="">{label.helpTitle7_es}</span></template>
+                                    <template if:true={isGreatBritain}><span class="">{label.helpTitle7}</span></template>
+                            </div>
+                        </div>
+                        
+                        <template if:false={isexpanded7}>
+                            <div class="button-arrow icon-arrowDown_small" title={label.expand} onclick={expand7}></div>
+                        </template>
+                        
+                        <template if:true={isexpanded7}>
+                            <div class="button-arrow icon-arrowUp_small" title={label.collapse} onclick={expand7}></div>
+                        </template> 
+                        
+                    </header>
+                </div>
+                
+                <template if:true={isexpanded7}>
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        <template if:true={isBrazil}>{label.helpText7_br}</template>
+                        <template if:true={isSpain}>{label.helpText7_es}</template>
+                        <template if:true={isGreatBritain}>{label.helpText7}</template>
+                    </div>
+                </template> 
+            </div>
+        </div>
+
+    </div>
+</template>

@@ -1,0 +1,45 @@
+<!--
+	Author:         Pablo Tejedor & Guillermo Giral
+    Company:        Deloitte
+	Description:    Row component for each of the rows of the table
+    History
+    <Date>			<Author>			<Description>
+    26/12/2019		Pablo Tejedor   	Initial version
+    09/01/2020      Guillermo Giral     Final version
+-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+        
+    <!-- COMPONENT ATTRIBUTES-->
+
+    <aura:attribute name="rowData" type="Map"/>
+
+    <!-- COMPONENT MARKUP -->
+
+    <tr aria-selected="false" class="slds-hint-parent">
+        <td class="" role="gridcell">
+            <span class="slds-row-number slds-text-body_small slds-text-color_weak"></span>
+        </td>
+        <td class="" role="gridcell">
+            <span class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate" title="">{!v.rowData.rolName}</span>
+            </span>
+        </td>
+        <td class="input" role="gridcell">
+            <span class="slds-grid slds-grid_align-spread">
+                <input class="slds-input" type="text" id="text-input-id-1" value="{!v.rowData.rolAlias}" onblur="{!c.updateRowData}"/>
+                <aura:if isTrue="{!v.rowData.rolAlias != ''}">
+                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="{!$Label.c.T_Delete}" onclick="{!c.clearRolAlias}">
+                        <div class="slds-button__icon slds-button__icon_hint icon-close_filledCircle"></div>
+                    </button>
+                </aura:if>
+            </span>
+        </td>
+        <td class="" role="gridcell">
+            <span class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate" title=""></span>
+            </span>
+        </td>
+    </tr>
+	
+</aura:component>

@@ -1,0 +1,116 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Parent component for the Search Transactions screen
+History
+<Date>			<Author>		<Description>
+16/03/2020		Guillermo Giral     Initial version
+-->
+<aura:component  implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_TransactionSearchController">
+    
+    <!-- AURA ATTRIBUTES -->
+    <aura:attribute name="endOfDay" type="Boolean" default="false" description="Flag to show End of day / Last update"/>
+    <aura:attribute name="loading" type="Boolean" default="true" description="Flag indicating when the window data is loading"/>
+    <aura:attribute name="isInitialDataLoad" type="Boolean" default="true" description="Flag indicating if the component is initializing"/>
+    <aura:attribute name="showModal"    type="Boolean" default="false"      description="Flag to check if the modal is showing"/>
+    <aura:attribute name="filters"              type="List"       description="List passed to the CMP_CN_Filters components to populate the filters"/>
+    <aura:attribute name="defaultFilters"       type="List"       description="List of filter values initially retrieved from the server - Only applicable to Last Update"/>
+    <aura:attribute name="accountsData"    type="List"     description="List returned by the Balances webservice. It contains data related to the user"/>
+    <aura:attribute name="accountCodeToInfo"    type="Map"     description="Map storing the account code and its related data (country, currency and bank)"/>
+    <aura:attribute name="wholeTransactionResults"    type="Map"    description="List of all rows returned by the movements webservice" />
+    <aura:attribute name="transactionResults" type="Map" description="List of rows to show in the table"/>
+    <aura:attribute name="dates" type="List" description="List containing the selected dates" />
+    <aura:attribute name="formFilters" type="Map" default="{}" description="Map to store some advanced filters from the modal"/>
+    <aura:attribute name="timePeriods" type="List" description="List of options to show in the 'Time Period' dropdown"/>
+    <aura:attribute name="selectedTimeframe" type="String" default="{!$Label.c.last7Days}" description="Default selected timeframe for the dropdown"/>
+    <aura:attribute name="numberActiveFilters" type="Integer" default="0" description="Number of advanced filters currently active"/>
+    <aura:attribute name="dropdownHeader" type="String" default="{!$Label.c.TimePeriod}" description="Title for the dropdown"/>
+    <aura:attribute name="showAdvancedFilters" type="Boolean" default="false" description="Flag to display / hide the advanced filters based on the data retrieved"/>
+    <aura:attribute name="selectedFilters" type="List" default="[]" description="Filters captured from the 'Apply filters' event"/>
+    <aura:attribute name="accountCodesToSearch" type="List" default="[]" description="List of account codes to send to the LU transaction search webservice. Only applies to LU"/>
+    <aura:attribute name="categoriesList" type="List" description="List of categories to display in the dropdown"/>
+    <aura:attribute name="setOnlyDefaultFilters" type="Boolean" default="false" description="Flag to set only the default filters, when we come from Transaction Detail"/>
+    <aura:attribute name="downloadParams" type="Map" description="Map of request parameters to send to the download service"/>
+    <aura:attribute name="userTimezoneOffset" type="Integer" description="User timezone offset in miliseconds"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+    <aura:attribute name="tabChangedByCache" type="Boolean" default="true" description="Flag to stop the change handler on endOfDay when the tab has been updated by the cache"/>
+    <aura:attribute name="applyWithoutFilters" type="Boolean" default="false" description="Flag to control the number of callouts when we apply a search w/out filters vs doing a Clear All"/>
+
+    <!-- Sorting attributes -->
+    <aura:attribute name="sortBookDate" type="String" default='desc' description="Attributte to sort the Book date column"/>
+    <aura:attribute name="sortCategory" type="String" default='desc' description="Attributte to sort the Category column"/>
+    <aura:attribute name="sortamount" type="String" default='desc' description="Attributte to sort the Category column"/>
+    <aura:attribute name="fromDate" type="String"/>
+    <aura:attribute name="toDate" type="String"/>
+    
+    <aura:attribute name="maximumRecords" type="Integer" default="0"/>
+
+    <!-- Handler -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="fireFilter" event="c:EVT_FilterSearch" action="{!c.filterTableData}"/>
+    <aura:handler name="fireAdvancedFilter" event="c:EVT_FilterSearch" action="{!c.filterTableData}"/>
+    <aura:handler name="change" value="{!v.selectedTimeframe}" action="{!c.filterByTimePeriod}"/>
+    <aura:handler name="change" value="{!v.endOfDay}" action="{!c.getUpdatedData}"/>
+    <aura:handler name="searchAgain" event="c:EVT_ResultsNotFoundSearchAgain" action="{!c.getUpdatedData}"/>
+    <aura:handler name="sortColumn" event="c:EVT_sortColumnEvent" action="{!c.sortBy}"/>
+    <aura:handler name="onOptionSelection"  event="c:EVT_AdvancedFilterSelectOption" action="{!c.updateDropdownFilters}"/>
+    <aura:handler name="clearAllFilters" event="c:EVT_ClearAllFilters" action="{!c.updateDropdownFilters}"/>
+    <aura:handler name="launchDonwload" event="c:EVT_DownloadFile" action="{!c.downloadTransactions}"/>
+
+    <!-- Toast attributes -->
+    <!-- Download error -->
+    <aura:attribute name="showToast" type="Boolean" default="false" description="Show error message"/>
+    <aura:attribute name="msgToast" type="String" description="Message to be shown through the toast"/>
+    <aura:attribute name="typeToast" type="String" description="Type of the toast: success, warning or error"/>
+
+    <!-- Limit search of transactions -->
+    <aura:attribute name="showLimitTransactionsToast" type="Boolean" default="false" description="Show error message when more than 9,999 are to be downloaded"/>
+
+    <!-- MARKUP -->
+    <!-- Service component -->
+    <c:CMP_ServiceComponent aura:id="Service"/>
+    <c:CMP_Toast type="{!v.typeToast}" show="{!v.showToast}" message="{!v.msgToast}"/>  
+    <c:CMP_Toast type="error" show="{!v.showLimitTransactionsToast}" message="{!$Label.c.limitTransactionSearch + ' ' + $Label.c.limitTransactionSearchNumber}"/>  
+
+    <!-- Spinner -->
+    <aura:if isTrue="{!v.loading}">  
+        <div class="spinnerclass">
+            <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+        </div>
+    </aura:if> 
+
+    <aura:if isTrue="{!not(v.loading)}">
+        <!-- Breadcrumbs title -->
+        <c:CMP_CN_SimpleTitle title="{!$Label.c.SearchTransactions}" endOfDay="{!v.endOfDay}"/> 
+
+        <!-- Advanced filters modal -->
+        <aura:if isTrue="{!v.showModal}">
+            <c:CMP_Account_TransactionsModalFormFilter aura:id="advancedFilters" filters="{!v.filters}" formFilters="{!v.formFilters}" transactionResults="{!v.transactionResults}" convertDatesToUserTimezone= "false" 
+                                                        showModal="{!v.showModal}" dates="{!v.dates}" numberActiveFilters="{!v.numberActiveFilters}" endOfDay="{!v.endOfDay}" fromDate="{!v.fromDate}" toDate="{!v.toDate}"/>
+        </aura:if>
+
+        <!-- Standard filters -->
+        <!-- <c:CMP_CN_Filters aura:id="filterComponent" showAdvancedFilters="{!v.showAdvancedFilters}" showModal="{!v.showModal}" filters="{!v.filters}" numberActiveFilters="{!v.numberActiveFilters}"
+                            dates="{!v.dates}" dropdownHeader="{!v.dropdownHeader}" dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}"
+                            currentPage="transactions-search" displayDownloadIcon="{!v.endOfDay}" fromDate="{!v.fromDate}" toDate="{!v.toDate}"/> -->
+                            
+        <c:CMP_CN_Filters aura:id="filterComponent" showAdvancedFilters="{!v.showAdvancedFilters}" showModal="{!v.showModal}" filters="{!v.filters}" numberActiveFilters="{!v.numberActiveFilters}"
+                            dates="{!v.dates}" dropdownHeader="{!v.dropdownHeader}" dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}"
+                            currentPage="transactions-search" displayDownloadIcon="true" fromDate="{!v.fromDate}" toDate="{!v.toDate}"/>
+        
+        <!-- TABLE COMPONENT -->
+        <aura:if isTrue="{!or(v.wholeTransactionResults == null, v.transactionResults.length == 0)}">
+            <c:CMP_ResultsNotFound msg="{!$Label.c.noTransactionsFound}"/>
+            <aura:set attribute="else">
+                <c:CMP_Account_TransactionsTable aura:id="transactionsTable" loading="{!v.loading}" sourcePage="" 
+                                                    transactionResults="{!v.transactionResults.obtTransacBusqueda}" wholeTransactionResults="{!v.wholeTransactionResults.obtTransacBusqueda}"
+                                                    sortBookDate="{!v.sortBookDate}" sortamount="{!v.sortamount}" sortCategory="{!v.sortCategory}"
+                                                    filters="{!v.filters}" isEndOfDay="{!v.endOfDay}" accountsData="{!v.accountsData}" dates="{!v.dates}"
+                                                    accountCodeToInfo="{!v.accountCodeToInfo}" selectedTimeframe="{!v.selectedTimeframe}" selectedFilters="{!v.selectedFilters}"
+                                                    userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" maximumRecords="{!v.maximumRecords}"
+                                                    accountCodesToSearch="{!v.accountCodesToSearch}" formFilters="{!v.formFilters}"/>
+            </aura:set>
+        </aura:if>
+    </aura:if>
+</aura:component>

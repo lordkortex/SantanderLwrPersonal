@@ -1,0 +1,23 @@
+<template>
+     <div class="slds-combobox_container pillContainer">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="dialog" role="combobox">
+            <button class="slds-button slds-button_outline-brand buttonSelected buttonAccounts">{valueplaceholder}</button>
+            <section data-id="button" aria-describedby="dialog-body-id-25" aria-label="" class="slds-popover slds-popover_full-width amountCombobox slds-dropdown" id="popover-unique-id-02" role="dialog">
+                 <div class="slds-popover__body" id="dialog-body-id-25">
+                     <fieldset class="slds-form-element">
+                       <div class="slds-form-element__control">
+                        <lightning-input type="number" class='input_lwc' max-length="17" value={settledfrom} placeholder={label.from} formatter={numberFormat} data-id="settledFrom" onchange={settledfromChange}></lightning-input>
+                        <span class="textHelp">{settlederrorfrom}</span>
+                        <lightning-input type="number" class='input_lwc' max-length="17" value={settledto} placeholder={label.to} formatter={numberFormat} data-id="settledTo" onchange={settledtoChange}></lightning-input>
+                        <span class="textHelp">{settlederrorto}</span>
+                       </div>
+                   </fieldset>
+                </div>
+                <footer class="slds-popover__footer">
+                   <button class="slds-button slds-button_neutral whiteButton"  onclick={clear}>{label.clearAll}</button>
+                   <button class="slds-button slds-button_brand redButton" onclick={apply} >{label.apply}</button>
+                </footer>
+            </section>
+        </div>
+    </div>
+</template>

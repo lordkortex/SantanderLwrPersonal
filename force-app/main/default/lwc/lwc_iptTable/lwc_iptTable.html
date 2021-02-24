@@ -1,0 +1,152 @@
+<template>
+    <!--
+        <aura:handler name="change" value="{filters}" action="{!c.getData}"/>
+        <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+        <aura:registerEvent name="openAdvancedFilters" type="c:EVT_OpenModal" />
+    
+        <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildData}"/>
+    
+        <aura:method name="initTable" action="{!c.initTable}" description="Initializes the data">
+            <aura:attribute name="tableData" type="List" description="Data to be displayed in the table"/>
+        </aura:method>
+    
+        <lightning:navigation data-id="navService"/>
+    
+        <c:CMP_IPTPagination allData="{receivedList}" paymentsPerPage="{paymentsPerPage}" data-id="pagination"/>
+    
+    -->
+        <!-- TABLE -->
+        <c-lwc_ipt-pagination oncurrentpage={buildData} ongetpageevent={buildData} onfinish={getData} alldata={receivedList} paymentsperpage={paymentsPerPage}></c-lwc_ipt-pagination>
+        <div class="slds-table--header-fixed_container tableGPI">
+            <template if:false={hidespinner}>
+                <lightning-spinner data-id="spinnerTable" variant="brand" size="large" alternative-text={label.Loading}></lightning-spinner>
+            </template>
+    
+            <div class="slds-scrollable_y">
+
+                <table class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                    <!-- HEADER -->
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th class="containerIconStatus" scope="col">
+                                <div class="slds-truncate slds-cell-fixed"></div>
+                            </th>
+                            <th class="containerStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate slds-cell-fixed" >{label.status}</div>
+                            </th>
+                            
+                            <th class="containerOrigen" scope="col">
+                                  <div class="slds-truncate slds-cell-fixed" >{label.originAccount}</div>
+                            </th>
+                            <th class="containerBeneficiary" scope="col">
+                                <div class="slds-truncate slds-cell-fixed">{label.beneficiaryAccount}</div>
+                            </th>
+                            <th class="slds-is-sortable containerValue" aria-label="Stage" aria-sort="none" scope="col">
+                                <div class="slds-truncate slds-cell-fixed" >
+                                    <div if:true={isSortValueDateDesc}>
+                                        <span class="button-orderRight icon-arrowDown" data-title-left={label.AdminRoles_Order}  id="valueDateDesc" data-value="valueDateDesc" onclick={sortBy}></span>
+                                    </div>
+                                    <div if:false={isSortValueDateDesc}>
+                                        <span class="button-orderRight icon-arrowUp" data-title-left={label.T_ReverseOrder}  id="valueDateAsc" data-value="valueDateAsc" onclick={sortBy}></span>
+                                    </div>
+                                    <span>{label.valueDate}</span>
+                                </div>
+                            </th>
+                            <th class="slds-is-sortable containerSettled" aria-label="Confidence" aria-sort="none" scope="col">
+                                <div class="slds-truncate slds-cell-fixed" >
+                                    <div if:true={isSortSettledAmountDesc}>
+                                        <span class="button-orderRight icon-arrowDown" data-title-left={label.AdminRoles_Order}  id="settledAmountDesc" data-value="settledAmountDesc" onclick={sortBy}></span>
+                                    </div>
+                                    <div if:false={isSortSettledAmountDesc}>
+                                        <span class="button-orderRight icon-arrowUp" data-title-left={label.T_ReverseOrder} id="settledAmountAsc" data-value="settledAmountAsc" onclick={sortBy}></span>
+                                    </div>  
+                                    <span>{label.settledAmount}</span>
+                                </div>
+                            </th>
+                            <th class="containerIconDetail" scope="col">
+                                <div class="slds-truncate slds-assistive-text slds-cell-fixed">{label.actions}</div>
+                            </th>
+                            <th class="containerIconDetail" scope="col">
+                                <div class="slds-truncate slds-assistive-text slds-cell-fixed">{label.actions}</div>
+                            </th>
+                        </tr>
+                    </thead>
+    
+                    <!-- BODY -->
+                    <tbody if:true={isJsonArrayGreatherZero}>
+                        <!--NO DATA -->
+                        <template for:each={jsonArray} for:item='item' start={start} end={end} index-var="index">
+                            <template if:true={item.isvisible}>
+                                <tr key={item.Id} class="slds-hint-parent" aria-selected="false">
+                                    <td class="slds-text-align_center status" role="gridcell">
+                                        <div class={item.paymentDetail.statusClass}></div>
+                                    </td>
+                                    <td role="gridcell" class="statusInfo">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate text status">{item.paymentDetail.statusLabel}</span>
+                                        </div>
+                                        <div class="slds-grid slds-grid_align-spread" >
+                                            <span class="text">{item.paymentDetail.statusDate}</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td role="gridcell" class="originInfo">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate text">{item.paymentDetail.originatorData.originatorName}</span>
+                                        </div>
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate text">{item.paymentDetail.originatorData.originatorAccount.accountId}</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td role="gridcell" class="beneficiaryInfo">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate text">{item.paymentDetail.beneficiaryData.beneficiaryName}</span>
+                                        </div>
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate text">{item.paymentDetail.beneficiaryData.creditorCreditAccount.accountId}</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td role="gridcell" class="valueDateInfo">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate text">{item.paymentDetail.valueDate}</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td class="slds-text-align_right" role="gridcell">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <div class="slds-truncate" >
+                                                <span class="text amountInteger">{item.paymentDetail.paymentAmount.paymentAmount_FormattedEntirePart}</span>
+                                                <span class="text amountDecimals">{item.paymentDetail.paymentAmount.paymentAmount_FormattedDecimalPart} {item.paymentDetail.paymentAmount.currency_X}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                
+                                    <td class="slds-text-align_center tracking" role="gridcell">
+                                        <div class="icon-tracking" data-title={label.tracking} data-value={item.paymentDetail.paymentId} id={item.paymentDetail.paymentId} onclick={openPaymentDetails}></div>
+                                    </td>
+                                    <td class="slds-text-align_left doc" role="gridcell">
+                                        <div class="icon-doc103" data-title-left={label.downloadMT103} data-value={item.paymentDetail.paymentId} id={item.paymentDetail.paymentId} onclick={downloadMT103}></div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </template>
+                    </tbody>
+                </table>
+                <template if:true={isJsonArrayEmpty}>
+                    <div class="container_noResults image results-background">
+                        <div class="slds-media__figure"><div class="icon-warning"></div></div>
+                        <div class="slds-text-title">{label.noResultsFound}</div>
+                        <div class="text_container">
+                            <div class="slds-text-align_center">{noResultsLabel}</div>
+                        </div>
+                        <div class="pill-button">
+                            <button class="slds-button slds-button_brand redButton" onclick={openSearch}>{searchLabel}</button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </template>

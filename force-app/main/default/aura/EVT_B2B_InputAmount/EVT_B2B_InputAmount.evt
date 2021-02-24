@@ -1,0 +1,6 @@
+<aura:event type="COMPONENT" description="Fire change event in CMP_B2B_InputAmount component." >
+    <aura:attribute type="Decimal" name="amount" description="Amount entered in the input field." />
+    <aura:attribute type="String" name="inputId" description="Identifies whether the amount was input in the FROM field or the TO field; source-amount-input or recipient-amount-input." />
+    <!-- <aura:attribute type="aura:action" name="amount" description="Amount entered in the input field." /> -->
+
+</aura:event>

@@ -1,0 +1,49 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Parent component Extracts history table row.
+History
+<Date>			<Author>		<Description>
+16/01/2019		Teresa Santos Navarro     Initial version-->
+<aura:component controller = "CNT_MovementHistoryParentController">
+        <aura:attribute name="accountNumberAndEntity" type="String" description="Account Number"/>
+        <aura:attribute name="accountName" type="String" description="Subsidiary name"/> 
+        <aura:attribute name="accountNumberBank" type="String" description="Account bank"/>
+        <!-- <aura:attribute name="accountInteger" type="String" default="20.944.966,"/>
+        <aura:attribute name="accountDecimals" type="String" default= "17 EUR"/> -->
+        <aura:attribute name="SelectedAccount" type="String" description="seleccted account"/>
+        <aura:attribute name="lastHistoryFinalBalance"   type="Object"  description="Object to store all fields of one row"/>
+        <aura:attribute name="lastHistoryFinalBalanceAux"   type="Object" description="Object to work with the data store in lastHistoryFinalBalance" />
+        <aura:attribute name="dateFrom" type="Date" description="Attribute to store the date from"/>   
+        <aura:attribute name="dateTo" type="Date" description="Attribute to store the date to"/> 
+        <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+        <aura:attribute name="source" type="List" description="Navigation path, used to display the correct breadcrumbs"/>
+        <aura:attribute name="sourceMovementHistory" type="String" description="Attribute to kwown from where are navegating"/>  
+        <aura:attribute name="availableBalanceParam" type="String" description="Avaiable balance field value of the account information component"/>
+        <aura:attribute name="bookBalanceParam" type="String" description="Book balance field value of the account information component"/>  
+        
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:attribute name="HistoricoObject" type="Object" default="Object to show data row"/>
+    <aura:attribute name="url" type="String" description="Attribute to store param to redirections"/>
+        <tr class="slds-hint-parent border" aria-selected="false">
+                <td role="gridcell">
+                    <div class="slds-truncate" title="{!$Label.c.MovementHistory_AvailableDate}">{!v.HistoricoObject.availableDate}</div>
+                </td>
+                <td role="gridcell">
+                    <!-- <div class="slds-truncate amountInteger" title="-6.002,47 USD">{!v.HistoricoObject.availableBalanceEntero}</div> -->
+                    <!-- <div class="slds-truncate amountDecimals" title="-6.002,47 USD">{!v.HistoricoObject.availableBalanceDecimal}</div> -->
+                    <!-- <c:CMP_displayAmount amount="{!v.HistoricoObject.availableBalance}"  decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.HistoricoObject.currencyTable}"/> -->
+                    <c:CMP_displayAmount amount="{!v.HistoricoObject.availableBalance}"  decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.currencyTable}"/>  
+                </td>
+                <td role="gridcell">
+                    <div class="slds-truncate" title="{!$Label.c.MovementHistory_BookDate}" onclick="{!c.navigateToDetailsComponent}">{!v.HistoricoObject.bookDate}</div>
+                </td>
+                <td role="gridcell">
+                    <!-- <div class="slds-truncate amountInteger" title="{!v.HistoricoObject.saldoDisponibleEntero}">{!v.HistoricoObject.bookBalanceEntero}</div>
+                    <div class="slds-truncate amountDecimals" title="{!v.HistoricoObject.saldoDisponibleDecimal}">{!v.HistoricoObject.bookBalanceDecimal}</div> -->
+                    <!-- <c:CMP_displayAmount amount="{!v.HistoricoObject.bookBalance}" decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.HistoricoObject.currencyTable}"/> -->
+                    <c:CMP_displayAmount amount="{!v.HistoricoObject.bookBalance}" decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.currencyTable}"/>
+                </td>
+            </tr>
+</aura:component>

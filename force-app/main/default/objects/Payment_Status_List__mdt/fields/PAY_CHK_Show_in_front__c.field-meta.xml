@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PAY_CHK_Show_in_front__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>If the record (Status - Reason) has to be displayed in Front (community) --&gt; CHECKED
+Or the record (Status - Reason) doesn&apos;t have to be displayed in Front (community)--&gt; UNCHECKED</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Show in front</label>
+    <type>Checkbox</type>
+</CustomField>

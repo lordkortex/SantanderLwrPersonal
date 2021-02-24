@@ -1,0 +1,67 @@
+<!--Author:         R. Alexander Cervino
+    Company:        Deloitte
+    Description:    Toast component
+    History
+    <Date>			<Author>		<Description>
+    15/01/2020		R. Alexander Cervino     Initial version-->
+    
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="type" type="String"/>
+    <aura:attribute name="show" type="Boolean" default='test'/>
+    <aura:attribute name="openClass" type="String" default="" />
+    <!-- SNJ - 23/04/2020 - Close toast timeout -->
+    <aura:attribute name="toBeHidden" type="boolean" default="true"/>
+    
+    <aura:handler name="change" value="{!v.show}" action="{!c.closeAfter}"/>
+   
+    <!--Event to call from the component where the toast will be displayed
+        <aura:registerEvent name="showToast" type="c:EVT_Toast"/>
+
+        //Call the event to show the toast
+        var cmpEvent = component.getEvent("showToast"); 
+        cmpEvent.fire(); 
+
+            <aura:handler event="c:EVT_Toast" action="{!c.show}"/>
+
+    -->
+
+    <aura:if isTrue="{!v.show==true}">
+        <div class="{!' demo-only modal_container slds-align_absolute-center ' + v.openClass}">
+            <div class="slds-notify_container slds-is-fixed modal_backdrop">
+            <aura:if isTrue="{!v.type=='success'}">
+                <div class="slds-notify slds-notify_toast slds-theme_success "  role="status"> 
+                    <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top button-selected icon-check" data-title="Success"></span>
+                    <div class="slds-notify__content">{!v.message}</div>
+                    <div class="slds-notify__close">
+                        <button class="slds-button slds-button_icon icon-delete" data-title="Close" onclick="{!c.hide}"></button>
+                    </div>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.type=='warning'}">
+                <div class="slds-notify slds-notify_toast slds-theme_warning" role="status">
+                    <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top button-selected icon-warning" data-title="Warning"></span>
+                    <div class="slds-notify__content">{!v.message}</div>
+                    <div class="slds-notify__close">
+                        <button class="slds-button slds-button_icon icon-delete" data-title="Close" onclick="{!c.hide}"></button>
+                    </div>
+                </div>
+            </aura:if>
+
+            <aura:if isTrue="{!v.type=='error'}">
+                <div class="slds-notify slds-notify_toast slds-theme_error" role="status">
+                    <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top button-selected icon-prohibited" data-title="Error"></span>
+                    <div class="slds-notify__content">{!v.message}</div>
+                    <div class="slds-notify__close">
+                        <button class="slds-button slds-button_icon icon-delete" data-title="Close" onclick="{!c.hide}"></button>
+                    </div>
+                </div>
+            </aura:if>
+            </div>
+        </div>
+
+    </aura:if>
+</aura:component>

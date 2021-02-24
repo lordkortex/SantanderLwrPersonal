@@ -1,0 +1,105 @@
+<template>
+        
+    <!-- Methods 
+    <aura:method name="calculateLastUpdated" action="{!c.calculateLatestDate}" description="Given the accounts list, calculates the latest date">
+        <aura:attribute name="isLastUpdate" type="Boolean" description="Indicates whether the data is Last Update / End of day"/>
+        <aura:attribute name="accountsInfo" type="List" description="List of accounts returned from the balance tree"/>
+        <aura:attribute name="theUpdate" type="String" description="Last update of account list"/>  
+        <aura:attribute name="theUpdateMain" type="String" description="Last update of account list without changing GMT timezone to user's one"/>  
+    </aura:method>
+    
+
+    <aura:method name="selectCurrency" action="{!c.selectCurrency}" description="Select a currency from another component">
+        <aura:attribute name="currencyIsoCode" type="String" description="Iso code of the currency to be selected"/>
+    </aura:method>
+    -->
+
+    <!-- Handlers 
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> 
+    <aura:handler name="dropdownExchangeCurrency" event="c:EVT_DropdownValueSelected" action="{!c.selectCurrency}"/>
+    -->
+
+    <!-- Events 
+    
+    <aura:registerEvent name="AccountsTab" type="c:EVT_SelectedTab"/>
+    <aura:registerEvent name="Currency_Exchanger" type="c:EVT_Currency_Exchange"/>
+    <aura:registerEvent name="navigateBack" type="c:EVT_TitleSubtitleNavigate"/>
+    <aura:registerEvent name="launchToast" type="c:EVT_ShowToast"/>
+    -->
+
+    <!-- Component markup -->
+    
+    <div class="slds-grid title_container">
+        <div class="slds-col">
+            
+            <template if:true={isHome}>
+                <div class="slds-text-heading_medium">
+                    <div class="button-back icon-arrowLeft_big" onclick={goBack}></div>
+                    <span class="text-link" onclick={goBack}>{label.GlobalPosition}</span>
+                </div>
+            </template>
+            <div class="slds-text-heading_medium subtitle">{label.Accounts}</div>
+            <template if:true={islastupdate}>
+                <div class="slds-text-heading_subtitle">
+                        {label.Accounts_Updated}&nbsp;  
+                        <!--en el CMP viene a este valor date="{!v.upToDate}" pero de entrada al componente viene accountLastUpdate -->
+                        <c-lwc_display-date data-id="displayDate" userdateformat={userpreferreddateformat} dateclass="" date={accountlastupdate}/>
+                        </c-lwc_display-date>, {upToHour}&nbsp;</div>
+            </template>  
+            <template if:false={islastupdate}>  
+                    <div class="slds-text-heading_subtitle">{label.Accounts_Updated}&nbsp;
+                        <c-lwc_display-date converttousertimezone="false" data-id="displayDate"  userdateformat={userpreferreddateformat} dateclass="" date={accountlastupdate}>
+                        </c-lwc_display-date></div> 
+            </template>
+            
+            <div class="text_line"></div>
+        </div>
+        <template if:true={iscashnexus}>
+            <div class="slds-col">
+                <div class="slds-pill_container ">
+                    <button class={class1} role="option" tabindex="0" aria-selected="true" data-title={label.LastUpdate} onclick={LastUpdateTab}>
+                        <span class="slds-pill__label">{label.LastUpdate}</span>
+                    </button>
+                    
+                    <button class={class2} role="option" tabindex="0" aria-selected="true" data-title={label.EndOfDay} onclick={EndOfDayTab}>
+                        <span class="slds-pill__label">{label.EndOfDay}</span>
+                    </button>
+                </div>
+            </div>
+        </template>
+        
+        <div class="">
+            <div class="slds-form-element slds-combobox__Rg">    
+                <!-- DROPDOWN MARKUP -->
+                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                <template if:true={isSelectedTime}>
+                                        
+                    <c-lwc_cn_dropdown 
+                        data-id="currenciesDropdown"               
+                        issimpledropdown="true" 
+                        values={thistest}
+                        selectedvalue={label.selectOne} 
+                        headerdropdown={label.ConsolidationCurrency}
+                        isdisabled="true" 
+                        ondropdownvalueselected={selectCurrencyDropDown}>
+                    </c-lwc_cn_dropdown>
+
+                </template> 
+                <template if:false={isSelectedTime}> 
+                                        
+                    <c-lwc_cn_dropdown 
+                        data-id="currenciesDropdown"               
+                        issimpledropdown="true" 
+                        values={thistest}
+                        selectedvalue={label.selectOne} 
+                        headerdropdown={label.ConsolidationCurrency}
+                        isdisabled="false" 
+                        ondropdownvalueselected={selectCurrencyDropDown}>
+                    </c-lwc_cn_dropdown>
+                    
+                </template>
+            </div>
+        </div>
+    </div>
+
+</template>

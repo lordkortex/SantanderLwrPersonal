@@ -1,0 +1,70 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to be the header and search menu of MR Tracker
+History
+<Date>			<Author>		<Description>
+21/01/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_BackFrontPain002Search">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:handler name="clearSearch" event="c:EVT_SearchPillsClear" action="{!c.clear}"/>
+    <aura:handler name="clearConcretePill" event="c:EVT_ClearConcretePill" action="{!c.removePill}"/>
+    <aura:attribute name="showTable" type="Boolean" default="false"/>
+ 
+    <aura:attribute name="entityID" type="String"/> 
+    <aura:attribute name="selectedLookUpRecord" type="sObject" default="{}"/>
+    <aura:attribute name="pillsContainer" type="List" default="[]"/>
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:handler name="change" value="{!v.entityID}" action="{!c.refreshPills}"/>
+    <aura:handler name="change" value="{!v.selectedLookUpRecord}" action="{!c.getAccountData}"/>
+
+    <aura:registerEvent name="getFilter" type="c:EVT_searchFilter" />
+
+    <div class="slds-card__header slds-grid headerTable" >
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title titleTable errorText" aura:id="searchAreaTitle">
+                    {!$Label.c.fillCompanyId}
+                </div>
+            </div>
+            <div class="slds-media__body actions">
+                <aura:renderIf isTrue="{!v.showTable==true}">
+                    <div class="button-search-open button-search icon-search " onclick="{!c.openSearch}" aura:id="searchIcon"></div> 
+                    <aura:set attribute="else">
+                        <div class="button-search icon-search button-search-open"></div> 
+                    </aura:set>
+                </aura:renderIf>
+            </div>
+        </header>
+    </div>
+    <div class=" slds-grid mr_Tracker" aura:id="searchArea">
+        <div class="slds-row">
+            <div class="slds-col account">
+            <div class="slds-form-element">
+                    <c:CMP_customLookup aura:id="x" objectAPIName="account"  IconName="standard:account" label="{!$Label.c.company}" selectedRecord="{!v.selectedLookUpRecord}"/>
+                </div>
+            </div>
+            <div class="slds-col  status">
+                <div class="slds-col input_text">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__label">
+                            <label  for="form-element-01">{!$Label.c.companyID}</label>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <ui:inputText class="slds-input inputShadow inputLarge" aura:id="alias" keyup="{!c.refreshPills}" value="{!v.entityID}" updateOn="keyup"/>                                                    
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <div class="slds-form containerSearch" role="list">
+            <div class="slds-form__row">
+                <button onclick="{!c.clear}" class="slds-button slds-button_brand whiteButtonSmall">{!$Label.c.clear}</button>
+                <button onclick="{!c.apply}" class="slds-button slds-button_brand redButtonSmall">{!$Label.c.apply}</button>            
+            </div>
+        </div>
+        
+    </div> 
+</aura:component>

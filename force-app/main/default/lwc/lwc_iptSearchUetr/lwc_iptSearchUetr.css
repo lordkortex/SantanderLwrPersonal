@@ -1,0 +1,50 @@
+.UETRimage{
+    padding: 138px 0 0 0;
+    max-width: 1224px;
+    width: 100%;
+    margin: auto;
+}
+.UETRimage .textInfo{
+    min-height: 17px;
+}
+
+.UETRimage .textInfo p{
+    font-family: SantanderMicroText;
+    font-size: 12px;
+    line-height: 17px;
+    color: #767676;   
+}
+
+.UETRimage .textInfo p > span{
+    font-family: SantanderMicroText-Bd;
+    font-size: 12px;
+    line-height: 17px;
+    color: #767676;
+}
+
+.UETRimage .textContent{
+    margin: 88px 0 0 0;
+    text-align: center;
+}
+
+.UETRimage .textContent h2{
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    line-height: 34px;
+    color: #444444;
+    margin-bottom: 4px;
+}
+
+.UETRimage .textContent p{
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 22px;
+    color: #767676;
+}
+
+.UETRimage .slds-media__figure{
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    margin: 16px 0 0 0;
+}

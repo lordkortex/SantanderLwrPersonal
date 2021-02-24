@@ -1,0 +1,35 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Parent component of the group screen.
+History
+<Date>			<Author>		<Description>
+18/11/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="CNT_GroupController">
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:attribute name="maxWidth"     type="Integer"  default="1184"  description="Default width for the page container"/>
+    <aura:attribute name="groupList"    type="List"                     description="List of all groups"/>
+    <aura:attribute name="modalInfo"    type="Map"      default="{}"                 description="Show the info of the pop-up"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+    
+
+    <aura:handler name="buttonClickedEvent" event="c:EVT_TitleButtonClicked" action="{!c.handleComponentEvent}" />
+    <aura:handler name="groupNewDelete" event="c:EVT_GroupNew_Delete" action="{!c.deleteGroup}"/>
+
+
+    <div style="{!'width:' + v.maxWidth + 'px;'}">
+        <c:CMP_Title title="{!$Label.c.GroupHeader_Title}" subtitle="{!$Label.c.GroupHeader_Subtitle}" displayAddIcon="true" displayDownloadIcon="true" />
+        <c:CMP_GroupList groupList="{!v.groupList}"/>
+        
+    </div>
+
+    <c:CMP_GroupNew_DeleteService modalInfo="{!v.modalInfo}" aura:id="authorizationsDelete"/>
+
+
+
+</aura:component>

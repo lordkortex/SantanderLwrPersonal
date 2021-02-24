@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event that fire when the step is finished.">
+    <aura:attribute type="Map"      name="account"          description="Selected account by the user." />
+    <aura:attribute type="Boolean"  name="isForExpenses"    description="Indicates if the account search is for the expenses account." />
+</aura:event>

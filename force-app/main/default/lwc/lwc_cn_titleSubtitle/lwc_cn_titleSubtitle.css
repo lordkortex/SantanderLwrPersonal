@@ -1,0 +1,21 @@
+.slds-text-heading_medium {
+    align-items: center;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    line-height: 18px;
+    text-transform: capitalize;
+    font-family: "SantanderMicroText";
+}
+.text-link {
+    cursor: pointer;
+    color: #444444;
+}
+.breadcrumbs {
+    padding: 0 0 16px;
+}
+.slds-text-heading_medium.subtitle {
+    font-size: 18px;
+    line-height: 1.5;
+    margin-top: 4px;
+}

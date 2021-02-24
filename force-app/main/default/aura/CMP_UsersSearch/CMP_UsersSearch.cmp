@@ -1,0 +1,176 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Component for filtering the data in the users screen.
+History
+<Date>			<Author>		<Description>
+20/01/2020		Joaquin Vera Vallés     Initial version-->
+<aura:component access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- COMPONENT EVENTS -->
+    <aura:registerEvent name="searchUser" type="c:EVT_UsersSearch"/>
+
+    <!-- Component attributes -->
+    <aura:attribute name="isSearching"  type="boolean"                   description="List if is searching for users"/>
+    <aura:attribute name="hasSearched" type="boolean" default="false"   description="Attribute to set if the pills container is showing" />
+    
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="statesList" type="List" description="List of values to populate the dropdown"/>
+    <aura:attribute name="rolesList" type="List"  description="List of values to populate the dropdown"/>
+    <aura:attribute name="groupsList" type="List"  description="List of values to populate the dropdown"/>
+    <aura:attribute name="typeOfUserList" type="List"  description="List of values to populate the dropdown"/>
+
+
+    <!--SEARCHING ATTRIBUTES-->
+    <aura:attribute name="inputId" type="String" default = "" description="Selected option from the state dropdown"/>
+    <aura:attribute name="inputName" type="String" default = ""  description="Selected option from the state dropdown"/>
+    <aura:attribute name="inputSurname" type="String"  default = "" description="Selected option from the state dropdown"/>
+    
+    <aura:attribute name="selectedState" type="String"  description="Selected option from the state dropdown"/>
+    <aura:attribute name="selectedRole" type="String" description="Selected option from the role dropdown"/>
+    <aura:attribute name="selectedGroup" type="String" description="Selected option from the group dropdown"/>
+    <aura:attribute name="selectedTypeOfUser" type="String" description="Selected option from the type of user dropdown"/>
+
+    <!-- PILLS ATTRIBUTES -->
+    <aura:attribute name="pillsContainer" type="List" default="[]"/>
+    <aura:handler name="dropdownValueSelected" event="c:EVT_DropdownValueSelected" action="{!c.DropdownValueChanged}"/>
+    <aura:registerEvent name="clearSearch" type="c:EVT_SearchPillsClear" />
+    <aura:registerEvent name="clearConcretePill" type="c:EVT_ClearConcretePill" />
+    <aura:attribute name="showPillsArea" type="boolean" default="false" />
+
+    <aura:handler name="clearSearch" event="c:EVT_SearchPillsClear" action="{!c.clear}"/>
+    <aura:handler name="clearConcretePill" event="c:EVT_ClearConcretePill" action="{!c.removePill}"/>
+
+    <!-- DOINIT -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text"/>
+
+    <aura:if isTrue="{!v.isSearching}">  
+        <div class="slds-form pillContainer" role="list">   
+             
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel">{!$Label.c.UserNew_UserId}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputUserId" placeholder="" class="slds-input inputShadow inputSize" value="{!v.inputId}" onkeyup="{!c.saveData}" />                                                    
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="slds-form__row row">            
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel">{!$Label.c.UserNew_Name}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputName" placeholder="" class="slds-input inputShadow inputLarge" value="{!v.inputName}" onkeyup="{!c.saveData}" />                                                    
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel">{!$Label.c.Users_Surname}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputSurname" placeholder="" class="slds-input inputShadow inputLarge" value="{!v.inputSurname}"  onkeyup="{!c.saveData}" />                                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-form__row row">       
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel">{!$Label.c.Users_State}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                
+                                <!-- DROPDOWN MARKUP -->
+                                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <!-- DROPDOWN MARKUP -->
+                                    <c:CMP_Dropdown aura:id="StatesDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                                    values="{!v.statesList}" selectedValue="{!v.selectedState}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.Users_Role}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                
+                                <!-- DROPDOWN MARKUP -->
+                                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                        <c:CMP_Dropdown aura:id="RolesDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                                        values="{!v.rolesList}" selectedValue="{!v.selectedRole}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-form__row row">  
+                <div class="slds-form__item  colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.UserNew_Group}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                
+                                <!-- DROPDOWN MARKUP -->
+                                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                        <c:CMP_Dropdown aura:id="GroupsDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                                        values="{!v.groupsList}" selectedValue="{!v.selectedGroup}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.Users_TypeOfUser}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                
+                                <!-- DROPDOWN MARKUP -->
+                                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                        <c:CMP_Dropdown aura:id="TypeOfUserDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                                        values="{!v.typeOfUserList}" selectedValue="{!v.selectedTypeOfUser}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        <div class="slds-form__row ">
+            <div class="slds-form__item colSecond" role="listitem">
+                <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                    <div class="slds-media__body lastPill">
+                        <button class="slds-button slds-button_brand whiteButtonSmall" onclick="{!c.clear}">{!$Label.c.Users_Clear}</button>
+                        <button class="slds-button slds-button_brand redButtonSmall" onclick="{!c.filter}">{!$Label.c.Users_Apply}</button>              
+                    </div>
+                </div>
+            </div>
+        </div>
+         
+
+       
+        
+    </div> 
+    </aura:if>
+    <aura:if isTrue="{!v.showPillsArea}">
+        <c:CMP_Pill pillsContainer="{!v.pillsContainer}"/>
+    </aura:if>
+</aura:component>

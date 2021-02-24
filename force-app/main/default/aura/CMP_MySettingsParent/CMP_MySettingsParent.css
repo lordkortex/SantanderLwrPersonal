@@ -1,0 +1,25 @@
+.THIS {
+
+}
+
+.THIS .slds-modal__content {
+    height : 300px;
+    
+}
+@media (min-width: 48em){
+.THIS .slds-modal__container {
+    margin: 0 auto;
+    width: 50%;
+    max-width: 60rem !important;
+    min-width: 20rem;
+}
+}
+.THIS .cCMP_Dropdown .slds-dropdown{
+    min-width: 344px;
+    width: 344px;
+}
+
+.THIS .button-container {
+    margin-top: 20px;
+    text-align: right;
+}

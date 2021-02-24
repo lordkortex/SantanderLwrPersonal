@@ -1,0 +1,45 @@
+.THIS .list-exchange{
+    margin-bottom: 16px;
+}
+.THIS .exchange{
+    color: #444444;
+    font-family:"SantanderMicroText";
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    display: flex;
+}
+.THIS .exchange .icon-fx{
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+    margin-right:8px;
+}
+.THIS .exchange .icon-fx:before{
+    color: #ec0000!important;
+}
+.THIS ul{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.THIS li{
+    width:50%;
+    color: #444444;
+    font-family:"SantanderMicroText";
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom:4px;
+}
+.THIS .separationComponent:nth-child(2n+1){
+    padding-right:12px;
+}
+.THIS li:nth-child(2n+2){
+    padding-left:12px;
+}
+
+.THIS li strong{  
+    font-family:"SantanderMicroText-Bd";
+    font-size: 14px; 
+    padding-left:8px;
+}

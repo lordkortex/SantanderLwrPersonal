@@ -1,0 +1,49 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Keypad for the group creation.
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component controller="CNT_GroupController">
+
+    <aura:attribute name="currentStageNumber" type="Integer" description="Current stage of the group creation"/>
+    <aura:attribute name="stage1Finished" type="boolean"/>
+    <aura:attribute name="groupName" type="String" description="Name of the group " />
+    <aura:attribute name="hasProfile"     type="boolean" default="false" description="checks if has profiling the page where this comes from" />
+    <aura:attribute name="showModal"     type="boolean" default="false" description="Displays/hides the return confirmation modal" />
+
+    <lightning:navigation aura:id="navService"/>
+
+    <!--Buttons stage 1-->
+    <aura:if isTrue="{!v.currentStageNumber == 1}">
+        <div class="slds-form containerAdmin" role="list">
+            <div class="slds-form__row">
+                <div class="firstPillBig">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" title="{!$Label.c.GroupNew_Return}" onclick="{!c.navigateToDetailsComponent}">{!$Label.c.GroupNew_Return}</button>
+                </div>
+                <div class=" lastPillBig">
+                    <!--<button class="slds-button slds-button_brand whiteButtonBig1">Cancel</button>-->
+                    <button class="slds-button slds-button_brand whiteButtonBig2" title="{!$Label.c.GroupNew_SeeAllProfile}" onclick="{!c.goToSummaryPage}">{!$Label.c.GroupNew_SeeAllProfile}</button>
+                    <button class="slds-button slds-button_brand redButtonBig" title="{!$Label.c.GroupNew_Continue}" onclick="{!c.nextStep}">{!$Label.c.GroupNew_Continue}</button>              
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <!--Button stage 2-->
+    <aura:if isTrue="{!v.currentStageNumber == 2}">
+        <div class="slds-form containerAdmin" role="list">
+            <div class="slds-form__row">
+                <div class="firstPillBig">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" title="{!$Label.c.GroupNew_Return}" onclick="{!c.backStep}">{!$Label.c.GroupNew_Return}</button>
+                </div>
+                <div class=" lastPillBig">
+                    <!--<button class="slds-button slds-button_brand whiteButtonBig1">Cancel</button>-->
+                    <button class="slds-button slds-button_brand whiteButtonBig1" title="{!$Label.c.GroupNew_Cancel}" onclick="{!c.navigateToDetailsComponent}">{!$Label.c.GroupNew_Cancel}</button>
+                    <button class="slds-button slds-button_brand redButtonBig" title="{!$Label.c.GroupNew_Continue}" onclick="{!c.nextStep}">{!$Label.c.GroupNew_Continue}</button>              
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+</aura:component>

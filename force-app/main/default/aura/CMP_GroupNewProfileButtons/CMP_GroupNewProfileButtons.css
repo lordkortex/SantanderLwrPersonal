@@ -1,0 +1,187 @@
+.THIS .firstPillBig{
+    width:9.3%;
+}
+.THIS .firstPillSmall{
+    width:12.3%;
+}
+.THIS .keypad{
+    margin-right:16px;
+}
+.THIS .lastPillBig{
+    width: 90.7%;
+    display: flex;
+    justify-content: flex-end;
+}
+.THIS .lastPillSmall{
+    width: 86.4%;
+    display: flex;
+    justify-content: flex-end;
+}
+.THIS .lastRow{
+    margin: 0;
+}
+.THIS .paddingInput{
+    padding: 0;
+}
+.THIS.containerPopUp{
+    width: 1184px;
+    background-color: /*#eff6f9*/ white;
+    border: 0px;
+    padding: 16px 24px 16px 16px;
+}
+
+.THIS.containerAdmin{
+    width: 1184px;
+    background-color: /*#eff6f9*/ transparent;
+    border: 0px;
+    padding: 8px 0 16px 10px;
+}
+.THIS.containerSearch{
+    width: 1184px;
+    background-color: #eff6f9;
+    border: 0px;
+    padding: 34px 64px 24px 64px;
+}
+.THIS .redButtonBig{
+    /*width: 119px;*/
+    height: 40px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ec0000;
+    font-size: 14px;
+    font-family: "SantanderTextW05-Bold";
+    color: #ffffff;
+    margin:0;
+    padding:0 32px;
+}
+.THIS .redButtonBig:hover{
+    /*width: 119px;*/
+    height: 40px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #cc0000;
+    font-size: 14px;
+    font-family: "SantanderTextW05-Bold";
+    color: #ffffff;
+    margin:0; 
+    padding:0 32px;
+}
+.THIS .redButtonBig[disabled] {
+	background-color: #cccccc;
+	border: solid 1px #cccccc;
+}
+.THIS .redButtonSmall{
+    width: 86px;
+    height: 32px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ec0000;
+    font-size: 14px;
+    font-family: "SantanderTextW05-Bold";
+    color: #ffffff;
+    margin:0;
+}
+
+.THIS .redButtonSmall:hover{
+    width: 86px;
+    height: 32px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+     background-color: #cc0000;
+    font-size: 14px;
+    font-family: "SantanderTextW05-Bold";
+    color: #ffffff;
+    margin:0;
+}
+.THIS .redButtonSmall[disabled] {
+	background-color: #cccccc;
+	border: solid 1px #cccccc;
+}
+.THIS.row{
+    width:1180px;
+    background-color: blue;
+}
+.THIS .whiteButtonBig2{
+    width: 148px;
+    height: 40px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #ec0000;
+  	font-family: "SantanderTextW05-Bold";
+    /*margin-right: 16px;^*/
+}
+.THIS .whiteButtonBig2:hover{
+    width: 148px;
+    height: 40px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #f6f6f6;
+    font-size: 14px;
+    color: #ec0000;
+    font-family: "SantanderTextW05-Bold";
+    /*margin-right: 16px;*/
+}
+.THIS .whiteButtonBig2[disabled] {
+	color: #cccccc;
+    background-color: #ffffff;
+	border: solid 1px #cccccc;
+}
+.THIS .whiteButtonBig1{
+    width: 105px;
+    height: 40px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #ec0000;
+   	font-family: "SantanderTextW05-Bold";
+    /*margin-right: 16px;*/
+}
+.THIS .whiteButtonBig1:hover{
+    width: 105px;
+    height: 40px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #f6f6f6;
+    font-size: 14px;
+    color: #ec0000;
+   font-family: "SantanderTextW05-Bold";
+    /*margin-right: 16px;*/
+}
+.THIS .whiteButtonBig1[disabled] {
+	color: #cccccc;
+    background-color: #ffffff;
+	border: solid 1px #cccccc;
+}
+.THIS .whiteButtonSmall{
+    width: 82px;
+    height: 32px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #ec0000;
+    font-family: "SantanderTextW05-Bold";
+   /* margin-right: 16px;*/
+}
+.THIS .whiteButtonSmall:hover{
+    width: 82px;
+    height: 32px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #f6f6f6;
+    font-size: 14px;
+    color: #ec0000;
+   	font-family: "SantanderTextW05-Bold";
+    /*margin-right: 16px;*/
+}
+.THIS .whiteButtonSmall[disabled] {
+	color: #cccccc;
+    background-color: #ffffff;
+	border: solid 1px #cccccc;
+}
+.THIS .slds-button:focus{
+    box-shadow: 0 0 2px 1px #dadada;
+}

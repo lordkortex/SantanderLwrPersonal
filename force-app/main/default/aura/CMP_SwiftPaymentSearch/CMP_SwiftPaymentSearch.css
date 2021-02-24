@@ -1,0 +1,368 @@
+.THIS .actions{
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+}
+
+.THIS .button-download{
+    cursor: pointer;
+    font-size: 24px;
+    
+    margin-left: 8px;
+}
+
+.THIS .button-search{
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px;
+    height: 37px;
+}
+
+.THIS.headerTable{
+    background-color: transparent;
+    margin: 0;
+    padding: 16px 24px;
+}
+
+.THIS .titleTable{
+    color: #444444;
+    display: flex;
+    font-size: 18px;
+    height: 26px; 
+}
+
+
+.THIS .actions{
+    display: flex;
+    justify-content: flex-end;
+}
+.THIS .button-download{
+    cursor: pointer;
+    font-size: 24px;
+   padding: 4px 0 4px 4px;
+}
+
+.THIS .button-search-open{
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px;
+    height: 37px;
+    background-color: #eff6f9;
+}
+.THIS .colFirst{
+    padding: 0;
+    margin-right: 32px;
+}
+.THIS .colSecond{
+   padding: 0;
+    
+}
+.THIS .currencyFormat{
+    padding-right: 66px;
+    border-color: #8dd9de;
+}
+.THIS .firstRow{
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 8px;
+}
+.THIS.headerTable{
+    background-color: transparent;
+    margin: 0;
+    padding: 16px 24px 0px 24px;
+}
+
+.THIS .iconSize{
+    font-size: 24px;
+    margin-top: -6px; 
+    cursor: pointer;
+    
+}
+.THIS .inputLarge{
+    width: 368px;
+}
+.THIS .inputShadow{
+    height: 36px;
+    border-radius: 4px;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    border: none;
+}
+.THIS .slds-input:focus{
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+.THIS .inputSize{
+    width: 176px !important;
+    height: 36px;
+}
+.THIS .slds-media__body:hover{
+    outline: none;
+}
+
+.THIS .slds-pill:focus{
+    box-shadow: none;
+}
+
+
+.THIS .lastRow{
+    margin: 0;
+}
+.THIS .marginRow{
+    margin-top: 24px;
+}
+.THIS .noMargin{
+    margin-bottom: 0;
+}
+.THIS .paddingInput{
+    padding: 0;
+}
+.THIS.pillContainer{
+    background-color: #eff6f9;
+    border: 0px;
+    padding: 24px 64px 34px 64px;
+    margin-bottom:8px;
+}
+
+.THIS .pillContainer_res{
+    background-color: #eff6f9;
+    border: 0px;
+    padding: 8px 24px 8px 16px;
+}
+
+.THIS .redButton{
+    width: 100px;
+    height: 32px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ec0000;
+    font-size: 14px;
+    font-family: "SantanderTextW05-Regular";
+    
+    color: #ffffff;
+}
+.THIS .row{
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 26px;
+}
+.THIS .separator{
+    border-left-width :  1px solid #000;
+}
+.THIS .splitSeparation{
+    margin-left: 16px;
+    padding: 0 !important;
+}
+.THIS .textHelp{
+    height: 18px;
+    padding-left: 12px;
+    font-size: 12px;
+}
+
+.THIS .textLabel{
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    height: 36px;
+    padding: 0;
+    width: 128px;
+    margin-right: 16px;
+}
+
+.THIS .titleTable{
+    color: #444444;
+    display: flex;
+    font-size: 18px;
+    height: 26px; 
+}
+.THIS .whiteButton{
+    width: 96px;
+    height: 32px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #ec0000;
+    font-weight: bold;
+    margin-right: 16px;
+}
+
+.THIS.hidden{
+    display:none !important;
+}
+
+
+.THIS .button-page{
+    cursor: pointer;
+}
+
+.THIS .fillPill{
+    border: none;
+    height: 32px;
+    margin-left: 0;
+    padding: 8px 8px 8px 24px;
+    margin-top: 6px;
+}
+
+.THIS .fillPill:hover{
+    background-color: #ffffff;
+}
+
+.THIS .firstPill{
+    margin-right: 8px; 
+    margin-bottom: 8px;   
+  
+}
+
+.THIS.pillsPadding{
+    border: 0px;
+    padding: 8px 24px 8px 16px !important;
+}
+
+.THIS .lastPill{
+    display: flex;
+    font-size: 24px;
+    justify-content: flex-end;
+    margin-top: 6px;
+}
+.THIS .sizeXPill{
+    font-size: 16px;
+}
+
+.THIS .slds-media__body:hover{
+    outline: none;
+}
+
+.THIS .slds-pill:hover{
+    box-shadow: none;
+}
+
+.THIS .textPill{
+    color: #7c7c7c;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.THIS .optionCurrency {
+    display: inline-flex;
+    align-items: center;
+}
+
+
+
+.THIS .slds-datepicker td.slds-is-selected>.slds-day{
+    color: #444444;
+    background-color:#bbe9eb;
+}
+.THIS .slds-datepicker{
+   
+     width: 304px;
+   
+    border-radius: 4px 4px 0 0;
+    box-shadow: 0 2px 3px 0 rgba(68, 68, 68, 0.24);
+    border: solid 1px #dadada;
+    background-color: #ffffff;
+    text-align: center;
+    color: #444444;
+    padding: 16px;
+}
+
+.THIS .slds-input{
+    height: 36px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    border: none;
+}
+
+.THIS .slds-datepicker h2{
+      font-family:"SantanderTextW05-Regular";
+}
+.THIS .slds-button__icon{ 
+          color:red;
+}
+
+.THIS .slds-text-link{
+    font-family: "SantanderTextW05-Bold";
+    
+    color:red;
+}
+
+.THIS .slds-select_container:before {
+    border-bottom: 5px solid red;
+    top: calc((1.75rem / 2) - 6px);
+}
+.THIS .slds-select_container:after {
+    border-top: 5px solid red;
+    bottom: calc((1.75rem / 2) - 6px);
+}
+
+.THIS .errorText{
+    color: #cc0000;
+    max-width:176px !important;
+ }
+ .THIS .inputShadowError{
+     height: 36px;
+     border-radius: 4px 4px 0 0;
+     box-shadow: inset 0 -1px 0 0 #cc0000 !important;
+ }
+ .THIS .textHelp{
+     height: 18px;
+     padding-left: 12px;
+     font-size: 12px;
+ }
+ 
+ 
+ .THIS .buttonCross{
+    font-size:13.3px;
+ }
+
+ .THIS .dropdownCurrencies {
+    left: auto;
+    margin-top: 4px;
+    min-width: inherit;
+    padding: 4px 0;
+    right: 0;
+    width: 176px;
+    border: none;
+    box-shadow: 0 2px 3px 0 rgba(68, 68, 68, 0.24);
+    border-radius: 0 0 4px 4px;
+    max-height: 176px;
+    overflow-y: auto;
+} 
+
+.THIS .currencySelected {
+    align-items: center;
+    color: rgb(152,152,152);
+    display: flex;
+    font-family: "SantanderTextW05-Regular";
+    width: 127px;
+    height: 26px;
+    font-size: 12px;
+    border-right: 1px solid #d2f0f2;
+}
+
+.THIS .button-currency {
+    height: 36px;
+    width: 176px;
+    padding-left: 12px;
+    padding-right: 4px;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    border: transparent;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.THIS .slds-input::-webkit-input-placeholder{
+    color:#a2a2a2;
+    font-size:12px;
+}
+
+.THIS .slds-form_compound .slds-form-element__row .slds-form-element+.slds-form-element {
+    padding-left: 0px;
+    margin-left: 16px;
+    margin-top: 0;
+}

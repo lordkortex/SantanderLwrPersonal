@@ -1,0 +1,160 @@
+.THIS.cardContainerStatements .cardCollapse .slds-card {
+    background-color: transparent;
+    border: none;
+    padding: 0 0 16px 0px;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse  .slds-media__body{
+    margin-bottom: 16px;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse  .containerDetail_GPI,
+ .THIS.cardContainerStatements .cardCollapse .containerInformation {
+    margin: 0;
+    padding: 0;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse  .slds-table {
+   background-color:transparent;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse  .slds-card__header-title {
+   color: #444444;
+ } 
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-card__header-title  .space{
+   font-size: 28px;
+   margin-right: 8px;
+   line-height: 1.21;
+   font-family: "SantanderHeadlineW05-Rg";
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-card__header-title  .number{
+   font-size: 24px;
+   font-family: "SantanderHeadlineW05-Rg";
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-card__header-title  .currency{
+   font-size: 18px;
+   font-family: "SantanderMicroText";
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-card__header-title  .subDate{
+   font-size: 14px;
+   font-family: "SantanderMicroText";
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-card__header-title  .status_inProgress {
+    color: #1bb3bc;
+    font-size: 14px; 
+    margin-right: 8px;
+    line-height: 21px;
+    font-family: "SantanderMicroText-Bd";
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-card__header-title  .status_rejected {
+   color: #cc0000;
+   font-size: 14px; 
+   margin-right: 8px;
+   line-height: 21px;
+   font-family: "SantanderMicroText-Bd";
+ }
+ 
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-card__header-title  .status_onHold {
+   color: #ffcc33;
+   font-size: 14px; 
+   margin-right: 8px;
+   line-height: 21px;
+   font-family: "SantanderMicroText-Bd";
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-card__header-title  .status_completed {
+   color:#63ba68;
+   font-size: 14px; 
+   margin-right: 8px;
+   line-height: 21px;
+   font-family: "SantanderMicroText-Bd";
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-card__header-title .date {
+   font-size: 14px;
+   font-family: "SantanderMicroText";
+   line-height: 20px;
+   color: #767676;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse  tr > th{
+    font-size: 14px;
+    background-color: transparent;
+    font-family: "SantanderMicroText";
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 20px;
+    letter-spacing: normal;
+    color: #767676;
+    padding-right: 64px;
+    padding-left: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse  tr > th.col-balanceDebits{
+   padding-right: 0;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse  tr > td{
+   font-size: 14px;
+   line-height: 20px;
+   font-family: "SantanderMicroText";
+   font-weight: normal;
+   font-stretch: normal;
+   font-style: normal;
+   letter-spacing: normal;
+   color: #0d0d0d;
+   padding-right: 64px;
+   padding-left: 0;
+   padding-top: 0;
+   padding-bottom: 0;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse  tr > td:last-child{
+   padding-right: 0;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .bold {
+    font-family: "SantanderMicroText-Bd";
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .slds-button__icon {
+   width: 24px;
+   height: 24px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin-left: 2px;
+   cursor: pointer;
+ }
+ 
+ .THIS.cardContainerStatements .cardCollapse .icon-arrowDown_small,
+ .THIS.cardContainerStatements .cardCollapse .icon-arrowUp_small {
+   font-size: 24px;
+ 
+ }
+ 
+ .THIS.cardContainerStatements .col-valueNumber{
+   width: 183px;
+ 
+ }
+ .THIS.cardContainerStatements .col-valueCredits{
+    width: 198px;
+ 
+ }
+ .THIS.cardContainerStatements .col-valueDebits{
+    width: 180px;
+ 
+ }
+ .THIS.cardContainerStatements .col-balanceDebits{
+    width: 198px;
+ }

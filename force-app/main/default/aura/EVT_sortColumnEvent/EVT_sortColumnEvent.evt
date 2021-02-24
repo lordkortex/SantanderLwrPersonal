@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event fired when the sort column arrow is clicked in the data table">
+    <aura:attribute name="column" type="String" description="Name of the column that must be sorted"/>
+    <aura:attribute name="sortItem" type="String" description="Item to identify the column that is being sorted"/>
+</aura:event>

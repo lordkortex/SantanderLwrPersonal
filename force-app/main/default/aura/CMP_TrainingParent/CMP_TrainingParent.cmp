@@ -1,0 +1,6 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="CNT_GroupController">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <c:CMP_Training/>
+    <c:CMP_Userguide/>
+</aura:component>

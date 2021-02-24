@@ -1,0 +1,25 @@
+/* MODAL FULL SCREEN */
+.THIS.modalFullScreen .slds-modal__container {
+    min-width: 100%;
+    height: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #f6fafc;
+    padding: 0px;
+}
+
+/* MODAL CONTENT */
+.THIS.modalFullScreen .slds-modal__content {
+    background-color: #f6fafc;
+    width: 100%;
+}
+
+.THIS.modalFullScreen .slds-modal__content:last-child {
+	box-shadow: none;
+}
+
+.THIS.modalFullScreen .slds-modal__content .slds-grid__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

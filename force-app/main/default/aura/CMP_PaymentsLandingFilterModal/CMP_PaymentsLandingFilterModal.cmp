@@ -1,0 +1,478 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />   
+ 
+    
+    <aura:attribute		access="public" 	type="Boolean"	name="showFilterModal" 					default="false"				description="Boolean to show or hide advanced filter modat (CMP_PaymentsLandingFilterModal)"/>
+    <aura:attribute 	access="public" 	type="Map" 	name="currentUser"   												description="Current user data"/> 
+    <aura:attribute 	access="public"		type="Boolean" 	name="resetSearch" 		 											description="Flag to clear or not all filters"/>
+    <aura:attribute 	access="public" 	type="Integer" 	name="filterCounter" 					default="0" 				description="Counts the number of types of filers selected (source account, amount, currency, status, payment method, client reference, destination country, date)"/>
+    
+    <!--FROM-->
+    <aura:attribute		access="public" 	type="Decimal" 	name="fromDecimal" 						default="" 					description="Search information placed in the From Amount search input."/>
+    <aura:attribute 	access="private" 	type="Boolean" 	name="showFromMiniLabel" 				default="false" 			description="Control to show mini label." />
+    <aura:attribute 	access="private" 	type="Boolean" 	name="isFromDisabled"					default="false" 			description="Control to disable From Amount input"/>
+    <aura:attribute 	access="private" 	type="Boolean" 	name="errorAmount"      				default="false" 			description="Show error text and styles in From Amount"/>
+    
+    <!--TO-->
+    <aura:attribute		access="public" 	type="Decimal" 	name="toDecimal" 						default="" 					description="Search information placed in the To Amount search input."/>
+    <aura:attribute 	access="private" 	type="Boolean" 	name="showToMiniLabel" 					default="false" 			description="Control to show mini label." />
+    <aura:attribute 	access="private" 	type="Boolean" 	name="isToDisabled"						default="false" 			description="Control to disable To Amount input"/>    
+    
+    <!--CURRENCY-->
+    <aura:attribute 	access="public" 	type="List" 	name="currencyDropdownList" 			default="[]" 				description="List of currencies that are displayed in the dropdown"/>
+    <aura:attribute 	access="public" 	type="List" 	name="selectedCurrencies" 				default="[]" 				description="List of selected currencies." />
+    <aura:attribute		access="public"		type="Boolean" 	name="isCurrencyDisabled" 				default="false" 			description="Control to disable payment method dropdown"/>	
+    <aura:attribute 	access="public"		type="Boolean" 	name="clearCurrencyDropdown" 			default="false" 			description="Flag to clear or not the dropdown"/>
+    
+    <!--STATUS-->
+    <aura:attribute 	access="public"		type="Object"	name="selectedPaymentStatusBox"     	default="" 					description="Selected payment status"/>    
+    <aura:attribute 	access="public" 	type="List" 	name="statusDropdownList" 				default="[]" 				description="List of statuses that are displayed in the dropdown"/>
+    <aura:attribute 	access="public" 	type="List" 	name="selectedStatuses" 				default="[]" 				description="List of selected statuses." />
+    <aura:attribute 	access="public"		type="Boolean" 	name="clearStatusDropdown" 				default="false" 			description="Flag to clear or not the dropdown"/>
+    
+    <!--PAYMENT METHODS-->
+    <aura:attribute 	access="public"		type="List" 	name="paymentMethodDropdownList" 		default="[]" 				description="List of payment methods that are displayed in the dropdown in Single tab"/>
+    <aura:attribute		access="public"		type="String"	name="selectedMethod"					default="" 					description="Payment method selected"/>
+    <aura:attribute		access="public"		type="Boolean" 	name="isMethodDisabled" 				default="false" 			description="Control to disable payment method dropdown"/>
+    <aura:attribute 	access="public" 	type="Boolean" 	name="clearMethodDropdown" 				default="false" 			description="Flag to clear or not the dropdown"/>
+    
+    <!--ACCOUNTS DROPDOWN-->
+    <aura:attribute     access="public"     type="Map"      name="account"                          default="{}"        						description="Selected account." />
+    <aura:attribute     access="public"     type="List"     name="accountList"                      default="[]"        						description="List of accounts" />
+    <aura:attribute     access="public"     type="String"   name="searchedSourceAccount"            default=""          						description="Search information placed in the source account search input." />
+    <aura:attribute     access="public"     type="String"   name="selectedSourceAccount"            default="{}"          						description="Account selected from search dropdown." />
+    <aura:attribute     access="public"     type="String"   name="searchedDestinationAccount"       default=""          						description="Search information placed in the destination account search input." />
+    <aura:attribute     access="private"    type="List"     name="accountSuggestions"               default="[]"       						 	description="List of retrieved accounts that match the searched criteria." />
+    <aura:attribute     access="public"     type="String"   name="accountsSourcePlaceholder"        default="{!$Label.c.PAY_Source}"          	description="Label pf the account searcher input text." />
+    <aura:attribute     access="public"     type="String"   name="accountsDestinationPlaceholder"   default="{!$Label.c.PAY_Beneficiary}"       description="Label pf the account searcher input text." />
+    <aura:attribute     access="private"    type="Boolean"  name="showSourceAccountMiniLabel"       default="false"     						description="Control to show the source account mini label." />
+    <aura:attribute     access="private"    type="Boolean"  name="showDestinationAccountMiniLabel"  default="false"     						description="Control to show the destination account mini label." />
+    <aura:attribute     access="private"    type="Boolean"  name="showDropdown"                     default="false"     						description="Indicates if the dropdown must be visible." />
+    <aura:attribute 	access="public"  	type="Boolean" 	name="disabled"              			default="false"     						description="Indicates if the search input is read only." />
+    <aura:attribute 	access="public"  	type="String"  	name="errorMSG"              			default=""          						description="Indicates the error when clicked on continue." />
+    <aura:attribute 	access="public"  	type="Boolean" 	name="isModified"                                                       			description="Indicates if the input data has been modified." />
+    
+    <!--CLIENT REFERENCE-->
+    <aura:attribute 	access="public" 	type="String" 	name="searchedString" 					default=""   								description="Search information placed in the payment search input." />
+    <aura:attribute 	access="public" 	type="String" 	name="clientReference" 					               								description="User input for client reference filter." />
+    <aura:attribute 	access="private" 	type="Boolean" 	name="showClientReferenceMiniLabel" 	default="false" 							description="Control to show mini label." />
+    <aura:attribute 	access="private" 	type="Boolean" 	name="isClientReferenceDisabled"		default="false" 							description="Control to disable payment reference input"/>
+    
+    <!-- DESTINATION COUNTRY-->
+    <aura:attribute 	access="public" 	type="String" 	name="destinationCountryString" 		default="" 									description="Search information placed in the country search input."/>
+    <aura:attribute 	access="public" 	type="Boolean" 	name="showDestinationMiniLabel" 		default="false" 							description="Control to show mini label."/>
+    <aura:attribute 	access="public" 	type="Boolean" 	name="isDestinationCountryDisabled" 	default="false" 							description="Control to disable destination country input"/>
+    <aura:attribute 	access="public"		type="List" 	name="countryDropdownList" 	            default="[]" 								description="List of countries that are displayed in the dropdown in Single tab"/>
+    <aura:attribute 	access="public" 	type="String" 	name="selectedCountry" 	                default="" 	    							description="Country selected from dropdown." />
+    <aura:attribute 	access="public" 	type="Boolean" 	name="clearCountryDropdown" 			default="false" 							description="Flag to clear or not the dropdown"/>
+    
+    <!-- DATES -->
+    <aura:attribute 	access="public" 	type="List" 	name="dates" 							default="['', '']" 							description="List containing the selected dates" />
+    <aura:attribute 	access="private" 	type="List" 	name="datesPlaceholders" 				default="['', '']" 							description="List containing the selected dates, or if they are empty, the placeholder for the field" />
+    <aura:attribute 	access="private" 	type="Boolean" 	name="fromDateFormat"            		default="false" 							description="Show error text and styles in  Date when incorrect format input"/>
+    <aura:attribute 	access="private" 	type="Boolean" 	name="toDateFormat"            			default="false" 							description="Show error text and styles in  Date when incorrect format input"/>
+
+
+    <!--VALUE DATE FROM-->
+    <aura:attribute 	access="public" 	type="Boolean" 	name="dateFromMiniLabel" 				default="false" 							description="Control to show mini label."/>
+    <aura:attribute 	access="public" 	type="Boolean" 	name="isDateFromDisabled" 				default="false" 							description="Control to disable value date from input"/>
+    <aura:attribute 	access="private" 	type="Boolean" 	name="errorDate"            			default="false" 							description="Show error text and styles in  Date"/>
+    
+    <!-- VALUE DATE TO-->
+    <aura:attribute 	access="public" 	type="Boolean" 	name="dateToMiniLabel" 		    		default="false" 							description="Control to show mini label."/>
+    <aura:attribute 	access="public" 	type="Boolean" 	name="isDateToDisabled" 	    		default="false" 							description="Control to disable value date to input"/>
+    
+    
+    <aura:attribute		access="private"	type="Boolean"	name="isModalDataLoaded"	        	default=""									description="Attribute which detemines wheather single data tab has been loaded or not"/>
+    <aura:attribute		access="public" 	type="Boolean"	name="isLoading" 	                	default="false" 							description="Control to show spinner when loading records"/>
+
+    <!-- NUMBER FORMATTING -->
+    <aura:attribute     access="public"     type="String"  name="locale"/>
+    <aura:attribute     access="public"     type="String"  name="decimalSeparator" />
+    <aura:attribute     access="public"     type="String"  name="thousandsSeparator"/>
+    <aura:attribute     access="public"     type="String"  name="formattedValueFrom"/>
+    <aura:attribute     access="public"     type="String"  name="formattedValueTo"/>
+    <aura:attribute     access="public"     type="String"  name="userInputFrom" default =''/>
+    <aura:attribute     access="public"     type="String"  name="userInputTo" default=''/>
+
+    <!--TOAST-->
+    <aura:attribute access="public" type="String"   name="toastText"        default="{!$Label.c.B2B_Error_Problem_Loading}"/>
+    <aura:attribute access="public" type="String"   name="toastTitle"       default="{!$Label.c.B2B_Error_Check_Connection}"/>
+    <aura:attribute access="public" type="String"   name="toastType"        default="Warning"           description="Controls the style in toast component"/>
+    <aura:attribute access="public" type="Boolean"  name="showToast"        default ="false"             description="Indicates if the toast is shown after searching for accounts." />
+    <aura:attribute access="public" type="Boolean"  name="noReload"         default ="false"            description="Controls whether the toast has a reload button and icon." />
+    <aura:attribute access="public" type="Boolean"  name="reloadAccounts"                               description="Retry the call to retrieve list of accounts." />
+    
+    
+    <aura:attribute		access="public"		type="Boolean"	name="applyIsClicked"				default="false" />
+    
+
+    
+    <!--TEMPORARY FILTER VALUES TO REVERT TO ON CLOSING THE MODAL WITHOUT APPLYING CHANGES-->
+    <aura:attribute     access="private"    type="Map"   name="appliedSourceAccount"         default="{}"          description="Source account filter that has been applied." />
+    <aura:attribute     access="private"    type="String"   name="appliedFormattedValueFrom"                        description="From amount filter that has been applied."/>
+    <aura:attribute     access="private"    type="String"   name="appliedFormattedValueTo"                          description="To amount filter that has been applied."/>
+    <aura:attribute		access="private" 	type="Decimal" 	name="appliedFromDecimal"        	default="" 	        description="Decimal from amount that has been applied."/>
+    <aura:attribute		access="private" 	type="Decimal" 	name="appliedToDecimal"        	    default="" 	        description="Decimal to amount that has been applied."/>
+    <aura:attribute     access="private"    type="String"   name="appliedUserInputFrom"         default=''          description="User input from amount that has been applied."/>
+    <aura:attribute     access="private"    type="String"   name="appliedUserInputTo"           default=''          description="User input to amount that has been applied."/>
+    <aura:attribute 	access="private" 	type="List" 	name="appliedSelectedCurrencies"    default="[]"        description="List of selected currencies that have been applied."/>
+    <aura:attribute 	access="private" 	type="List" 	name="appliedSelectedStatuses"      default="[]" 	    description="List of selected statuses that have been applied."/>
+    <aura:attribute		access="private"	type="String"	name="appliedSelectedMethod"		default=""          description="Payment method filter that has been applied."/>
+    <aura:attribute 	access="private" 	type="String" 	name="appliedClientReference" 		default=""   	    description="Client reference filter that has been applied." />    
+    <aura:attribute 	access="private" 	type="String" 	name="appliedSelectedCountry" 	    default="" 	        description="Country that has been applied as a filter." />
+    <aura:attribute 	access="private" 	type="List" 	name="appliedDates" 			    default="['', '']" 	description="List containing the selected dates that have been applied" />
+
+    <aura:handler 	name="init" 	        value="{!this}" 					action="{!c.doInit}"/>
+    <aura:handler 	name="selectedAccount"  event="c:EVT_B2B_SelectedAccount" 	action="{!c.handleSelectedAccount}" />
+    <aura:handler   name="change"       action="{!c.handleChangeDates}"                 value="{!v.dates}" />
+    <aura:handler   name="change"       action="{!c.handleChangeDatesInternal}"         value="{!v.datesPlaceholders}" />
+
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <aura:if isTrue="{!v.showToast eq true}">
+            <c:CMP_B2B_Toast showToast="{!v.showToast}" bodyText="{!v.toastText}" notificationTitle="{!v.toastTitle}" functionTypeText="{!v.toastType}" reload="{!v.reloadAccounts}"/>
+        </aura:if>
+        
+        <div class="slds-modal__container">  
+            <div class="modal-content allFilters">  
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close"  onclick="{!c.closeFilterModal}">
+                        <div class="icon-close_big"></div> 
+                        <span class="slds-assistive-text">{!$Label.c.close}</span>
+                    </button>
+                    <div class="title"> 
+                        <h2 id="modal-heading-01"  class="slds-modal__title">{!$Label.c.AllFilters}</h2> 
+                        <div class="title-line"></div>
+                    </div>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>{!$Label.c.AllFilters_Subtitle}</p>
+                    <div class="accounts">
+                        <h3>{!$Label.c.Accounts}</h3>
+                        <!-- Cuando salga un error en el input añadir la clase "error" al siguiente div -->
+                        <!-- Esto hará que desaparezca el helpText y aparezca el errorText -->
+
+                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                        <!-- Esto hará que desaparezca el helpText y aparezca el errorText -->
+                        
+                        <div class="{!(and(not(empty(v.errorMSG)), empty(v.account)) ? 'error' : '') + ' slds-form-element inputLookup__single'}">
+                            
+                            <!-- La label solo se mostrará en el momento en el que se vaya a escribir en el input -->
+                            <aura:if isTrue="{!or(v.showSourceAccountMiniLabel eq true, not(empty(v.searchedSourceAccount)))}">
+                                <label class="slds-form-element__label" for="combobox-id-14">{!$Label.c.PAY_Source}</label>
+                            </aura:if>
+                            
+                        <!-- Añadir la clase slds-is-open al div siguiente para mostrar el desplegable -->
+                        <div class="{!(v.showDropdown eq true ? 'slds-is-open' : '')+' slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click'}" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                
+                                <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                                
+                                <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id-14" aria-autocomplete="list" 
+                                       aria-controls="listbox-id-11" autoComplete="off" role="textbox" 
+                                       placeholder="{!v.accountsSourcePlaceholder}" value="{!(empty(v.account) ? v.searchedSourceAccount : v.account.displayNumber+' - '+v.account.alias)}" 
+                                       disabled="{!v.disabled}" readonly="{!not(empty(v.account))}"
+                                       oninput="{!c.handleSourceInputSearch}" onfocus="{!c.handleSourceFocusSearch}" onblur="{!c.handleSourceBlurSearch}"/>
+                                
+                                <!-- Icono de cruz para eliminar una vez seleccionada una opción -->
+                                <aura:if isTrue="{!v.disabled eq false}">
+                                    <aura:if isTrue="{!or(!empty(v.account), !empty(v.searchedSourceAccount))}">
+                                        <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" 
+                                                onclick="{!c.handleClearInput}" disabled="{!v.disabled}">
+                                            <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                            <span class="slds-assistive-text">{!$Label.c.B2B_Clear_text_input}</span>
+                                        </button>
+                                    </aura:if>
+                                </aura:if>
+                            
+                                <!-- Descomentar una de las siguientes líneas en el caso de que haya o texto de ayuda, o texto de error  -->
+                              <!--  <aura:if isTrue="{!and(empty(v.searchedSourceAccount), empty(v.errorMSG))}">
+                                    <div class="slds-form-element__help">{!$Label.c.B2B_Alias_AccNo_Iban}</div>
+                                </aura:if>-->
+                                <aura:if isTrue="{!and(!empty(v.errorMSG), empty(v.account))}">
+                                    <div class="errorText">{!v.errorMSG}</div> 
+                                </aura:if>
+                            </div>
+                            <div id="listbox-id-11" class="slds-dropdown slds-dropdown_length-6 slds-dropdown_fluid" role="listbox">
+                                
+                                <!-- Esto debe mostrar el resultado de busqueda según lo que se ha escrito -->
+                                
+                                <div aria-selected="true" id="option0" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">
+                                    <span class="slds-media__body">
+                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                            <!--Suggestions for<mark>“ES21 0049”</mark>(5 results)-->
+                                            {!(empty(v.accountSuggestions) ? $Label.c.B2B_No_suggestions_for : $Label.c.B2B_Suggestions_for)}<mark><q>{!v.searchedSourceAccount}</q></mark>({!v.accountSuggestions.length + '&nbsp;' + $Label.c.results_lowercase}){!(empty(v.accountSuggestions) ? '.&nbsp;' + $Label.c.B2B_Search_new : '')}
+                                        </span>
+                                    </span>
+                                </div>
+                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    <aura:iteration items="{!v.accountSuggestions}" var="acc">
+                                        <li role="presentation" class="slds-listbox__item ">
+                                            <c:CMP_B2B_Account_Suggestion account="{!acc}" onclick="{!c.handleClickSuggestion}" showMore="false" />
+                                        </li>
+                                    </aura:iteration>      
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div> 
+                        
+                        
+                        
+                        
+                   
+                    </div>
+                    <div class="amountCurrency">
+                        <h3>{!$Label.c.amount} &amp; {!$Label.c.currency}</h3> 
+                        <div class="slds-row">    
+                            <div class="comboInputs">
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class="{!'slds-form-element input' + (v.errorAmount eq true ? ' error':'')}">
+                                    
+                                    <!-- Cuando no haya nada escrito en el input la label se oculta
+                                y cuando se escriba algo la label aparece -->
+                                    <aura:if isTrue="{!or(v.showFromMiniLabel eq true, not(empty(v.formattedValueFrom)))}">
+                                        <label class="slds-form-element__label" for="fromAmount">{!$Label.c.from}</label>
+                                    </aura:if>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                        <aura:if isTrue="{!not(empty(v.userInputFrom))}">
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick="{!c.handleClearAmountFrom}">
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">Clear the text input</span>
+                                            </button>
+                                        </aura:if>
+                                        
+                                        <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                                        <input type="text" id="fromAmount" placeholder="{!$Label.c.from}" class="slds-input" name="amount" value="{!v.formattedValueFrom}" 
+                                               autoComplete="off" aria-autocomplete="none" disabled="{!v.isFromDisabled}" 
+                                               oninput="{!c.handleInputAmount}" onfocus="{!c.handleFocusAmount}" onblur="{!c.handleBlurAmount}" onchange="{!c.valueChanges}" min="0"/>
+                                        
+                                        
+                                        <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                        <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                        
+                                        <!-- Cuando la cifra introducida por el usuario es mayor al saldo disponible saldrá
+                                    un mensaje de error -->
+                                        <div class="errorText">{!$Label.c.PAY_ErrorFromAmount}</div> 
+                                    </div>
+                                </div>
+                                <div class="hyphenInput"><p> - </p></div>
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class="{!'slds-form-element input' + (v.errorAmount eq true ? ' error':'')}">
+                                    <!-- Cuando no haya nada escrito en el input la label se oculta
+                                y cuando se escriba algo la label aparece -->
+                                    <aura:if isTrue="{!or(v.showToMiniLabel eq true, not(empty(v.formattedValueTo)))}">
+                                        <label class="slds-form-element__label" for="toAmount">{!$Label.c.to}</label>
+                                    </aura:if>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                        <aura:if isTrue="{!not(empty(v.userInputTo))}">
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick="{!c.handleClearAmountTo}">
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">{!$Label.c.B2B_Clear_text_input}</span>
+                                            </button>
+                                        </aura:if>
+                                        <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                                        <input type="text" id="toAmount" placeholder="{!$Label.c.to}" class="slds-input" name="amount" value="{!v.formattedValueTo}" 
+                                               autoComplete="off" aria-autocomplete="none" disabled="{!v.isToDisabled}" 
+                                               oninput="{!c.handleInputAmount}" onfocus="{!c.handleFocusAmount}" onblur="{!c.handleBlurAmount}" onchange="{!c.valueChanges}" min="0"/>
+                                        
+                                        
+                                        <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                        <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                        
+                                        <!-- Cuando la cifra introducida por el usuario es mayor al saldo disponible saldrá
+                                    un mensaje de error -->
+                                        <div class="errorText">{!$Label.c.PAY_ErrorToAmount}</div> 
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class="slds-form-element">
+                                    
+                                    <c:CMP_PAY_FilterDropdown aura:id="currencyDropdownModal" values="{!v.currencyDropdownList}" selectedValues="{!v.selectedCurrencies}" 
+                                                              helpTextDropdown="{!$Label.c.Show_More}" isSimpleDropdown="false" label="{!$Label.c.currency}" 
+                                                              isDisabled="false" valuesPlaceholder="" clearDropdown="{!v.clearCurrencyDropdown}"
+                                                              errorText="{!$Label.c.IncorrectInputFormat}"/>   
+                                </div>  
+                            </div>
+                            <div class="slds-col"></div>    <!--added to align the currency field hover functionality-->                            
+                            
+                        </div>
+                    </div>
+                    <div class="paymentDetails">
+                        <h3>{!$Label.c.PaymentDetails}</h3> 
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                {!v.selectedStatuses}
+                                <c:CMP_PAY_FilterDropdown aura:id="statusDropdownModal" values="{!v.statusDropdownList}" selectedValues="{!v.selectedStatuses}" 
+                                                          helpTextDropdown="{!$Label.c.Show_More}" isSimpleDropdown="false" label="{!$Label.c.status}" 
+                                                          isDisabled="false" valuesPlaceholder="" clearDropdown="{!v.clearStatusDropdown}"
+                                                          errorText="{!$Label.c.IncorrectInputFormat}"/>  
+                            </div>
+                            <div class="slds-col">
+                                <div class="">                                
+                                    <c:CMP_PAY_FilterDropdown aura:id="methodDropdownModal" values="{!v.paymentMethodDropdownList}" selectedValue="{!v.selectedMethod}" 
+                                                              helpTextDropdown="{!$Label.c.Show_More}" isSimpleDropdown="true" label="{!$Label.c.PAY_PaymentType}" 
+                                                              isDisabled="false" valuesPlaceholder="" clearDropdown="{!v.clearMethodDropdown}"
+                                                              errorText="{!$Label.c.IncorrectInputFormat}"/>                          
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <!-- <c:CMP_B2B_Reference value="{!v.clientReference}"/> -->
+                                <!--Comentado para reutilizar cmp_B2b_reference-->
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class="slds-form-element input">
+                                    
+                                    <!-- Cuando no haya nada escrito en el input la label se oculta
+                                y cuando se escriba algo la label aparece -->
+                                    <aura:if isTrue="{!or(v.showClientReferenceMiniLabel eq true, not(empty(v.clientReference)))}">
+                                        <label class="slds-form-element__label" for="clienteReference">{!$Label.c.ClientReference}</label>
+                                    </aura:if>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                        <aura:if isTrue="{!not(empty(v.clientReference))}">
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick="{!c.handleClearClientReference}">
+                                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                <span class="slds-assistive-text">{!$Label.c.B2B_Clear_text_input}</span>
+                                            </button>
+                                        </aura:if>
+                                        <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                                        <input type="text" id="clienteReference" placeholder="{!$Label.c.ClientReference}" class="slds-input" name="amount" value="{!v.clientReference}"
+                                               autoComplete="off" aria-autocomplete="none" disabled="{!v.isClientReferenceDisabled}"
+                                               oninput="{!c.setClientReference}" onfocus="{!c.handleFocusClientReference}" onblur="{!c.handleBlurClientReference}"/>
+                                        
+                                        
+                                        <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                        <!-- <div class="slds-form-element__help">Texto de ayuda</div> -->
+                                        
+                                        <!-- Cuando la cifra introducida por el usuario es mayor al saldo disponible saldrá
+                                    un mensaje de error -->
+                                        <div class="errorText">{!$Label.c.IncorrectInputFormat}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+
+                                 <c:CMP_PAY_FilterDropdown aura:id="countryDropdownModal" values="{!v.countryDropdownList}" selectedValue="{!v.selectedCountry}" 
+                                                              helpTextDropdown="{!$Label.c.Show_More}" isSimpleDropdown="true" label="{!$Label.c.destinationCountry}" 
+                                                              isDisabled="false" valuesPlaceholder="" clearDropdown="{!v.clearCountryDropdown}"
+                                                              errorText="{!$Label.c.IncorrectInputFormat}"/>  
+                            </div>
+                            
+                        </div>
+                        <div class="slds-row">
+                            
+                            
+                            <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                            <div class="slds-form-element calendar"> 
+                                <div class="slds-form slds-form_compound">
+                                    <div class="slds-form-element__row ">
+                                        <div class="{!'slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click' + ((v.errorDate eq true || v.fromDateFormat eq true) ? ' error':'')}">
+                                            <!-- <aura:if isTrue="{!or(v.dateFromMiniLabel, not(empty(v.dates[0])))}"> -->
+                                            <aura:if isTrue="{!v.datesPlaceholders[0] != $Label.c.valueDateFrom}">
+                                                <label class="slds-form-element__label doubleCalendar">{!$Label.c.valueDateFrom}</label>
+                                            </aura:if>
+                                            <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                                <!-- <aura:if isTrue="{!not(empty(v.dates[0]))}"> -->
+                                                <aura:if isTrue="{!v.datesPlaceholders[0] != $Label.c.valueDateFrom}">
+                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick="{!c.handleClearDateFrom}">
+                                                        <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                        <span class="slds-assistive-text">{!$Label.c.B2B_Clear_text_input}</span>
+                                                    </button>
+                                                </aura:if>
+                                                <!-- Iconco calendario -->
+                                                <div class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" aria-hidden="true">
+                                                    <div class="slds-button__icon icon-calendar"></div>
+                                                </div>
+
+                                                <ui:inputDate aura:id="dateField" value="{!v.datesPlaceholders[0]}"  class="field" displayDatePicker="true" format="{!v.currentUser.dateFormat}" updateOn="change" />
+                                                <!-- value="{!(empty(v.dates[0]) ? $Label.c.valueDateFrom : v.dates[0])}" -->
+                                                <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                <!-- <lightning:input type="date" name="inputFrom" autocomplete="off" value="{!v.dates[0]}" dateStyle="short" variant="label-hidden" placeholder="{!$Label.c.valueDateFrom}" format="{!v.currentUser.dateFormat}" onfocus="{!c.handleFocusFromDate}" onblur="{!c.handleBlurFromDate}" onchange="{!c.handleChangeDate}"/> -->
+                                                <!-- <ui:inputDate blur="{!c.handleBlurFromDate}" value="{!v.dates[0]}" displayDatePicker="true" format="{!v.currentUser.dateFormat}" label="{!$Label.c.from}"/> -->
+                                                <!-- <c:CMP_Calendar simple="true" placeholderFrom="{!$Label.c.from}" dateFrom="{!v.dates[0]}" dateFormat="{!v.currentUser.dateFormat}"/> -->
+
+                                            </div>
+                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                            <!-- <div class="slds-form-element__help helperText">dd/mm/yyyy</div> -->
+                                            
+                                            <!-- Cuando el texto introducido sea erronea saldrá un mensaje de error -->
+                                            <aura:if isTrue="{!and(v.fromDateFormat == false, v.toDateFormat == false)}">
+                                                <div class="errorText">{!$Label.c.PAY_ErrorFromDate}</div>
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{!v.fromDateFormat == true}">
+                                                        <div class="errorText">{!$Label.c.PAY_SelectCalendarDate}</div>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                                
+                                        </div>
+                                        <div class="hyphenInput"><p> - </p></div>
+                                        <div class="{!'slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click' + (or(v.errorDate eq true, v.toDateFormat eq true) ? ' error':'')}">
+                                            <!-- <aura:if isTrue="{!or(v.dateToMiniLabel, not(empty(v.dates[1])))}"> -->
+                                            <aura:if isTrue="{!v.datesPlaceholders[1] != $Label.c.valueDateTo}">
+                                                <label class="slds-form-element__label doubleCalendar">{!$Label.c.valueDateTo}</label>
+                                            </aura:if>
+                                            <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                                <!-- <aura:if isTrue="{!not(empty(v.dates[1]))}"> -->
+                                                <aura:if isTrue="{!v.datesPlaceholders[1] != $Label.c.valueDateTo}">    
+                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close" onclick="{!c.handleClearDateTo}">
+                                                        <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                        <span class="slds-assistive-text">{!$Label.c.B2B_Clear_text_input}</span>
+                                                    </button>
+                                                </aura:if>
+                                                <!-- Iconco calendario -->
+                                                <div class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" aria-hidden="true">
+                                                    <div class="slds-button__icon icon-calendar"></div>
+                                                </div>
+
+                                                <ui:inputDate aura:id="dateField" value="{!v.datesPlaceholders[1]}"  class="field" displayDatePicker="true" format="{!v.currentUser.dateFormat}" updateOn="change" />
+                                                
+                                                <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                                <!-- <lightning:input type="date" name="inputTo" autocomplete="off" value="{!v.dates[1]}" dateStyle="short" variant="label-hidden" placeholder="{!$Label.c.valueDateTo}" format="{!v.currentUser.dateFormat}" onfocus="{!c.handleFocusToDate}" onblur="{!c.handleBlurToDate}" onchange="{!c.handleChangeDate}"/> -->
+                                            </div>
+                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                            <!-- <div class="slds-form-element__help helperText">dd/mm/yyyy</div> -->
+                                            
+                                            <!-- Cuando el texto introducido sea erronea saldrá un mensaje de error -->
+                                            <aura:if isTrue="{!and(v.fromDateFormat == false, v.toDateFormat == false)}">
+                                                <div class="errorText">{!$Label.c.PAY_ErrorFromDate}</div>
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{!v.toDateFormat == true}">
+                                                        <div class="errorText">{!$Label.c.PAY_SelectCalendarDate}</div>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                    </div>   
+                                </div>
+                            </div>   
+                        </div>
+                    </div>
+                    
+                    <div class="slds-modal__footer"> 
+                        <div class="modal-footer-buttons">
+                            <button class="slds-button primary button_small button_full" onclick="{!c.applyFilterModal}">{!$Label.c.apply}</button> 
+                            <button class="slds-button secondary button_small button_full" onclick="{!c.clearAll}">{!$Label.c.clearAll}</button>         
+                        </div> 
+                    </div>     
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+ 
+</aura:component>

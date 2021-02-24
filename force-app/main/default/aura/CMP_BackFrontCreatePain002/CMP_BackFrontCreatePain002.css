@@ -1,0 +1,124 @@
+.THIS .inputShadow{
+    height: 36px;
+    border-radius: 4px;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    border: none;
+}
+.THIS .slds-form-element__label {
+    margin-left:0 !important;
+}
+.THIS .slds-input:focus{
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+.THIS .slds-modal__content {
+    height:220px;
+    overflow:inherit;
+    overflow-y:unset;
+}
+
+.THIS .slds-input {
+	background-color: #fff;
+	border-radius: 4px 4px 0 0;
+	border-style: none;
+	border-width: 0;
+	box-shadow: inset 0 -1px 0 0 #8dd9de;
+	color: #444444;
+	display: inline-block;
+	transition: none;
+}
+
+.THIS .input_text:last-child {
+    display: block !important;
+}
+
+
+.THIS .redButtonSmall {
+	background-color: #ec0000;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ffffff;
+	font-size: 14px;
+	height: 32px;
+	margin: 0;
+	width: 86px;
+}
+
+.THIS .slds-modal__footer .slds-button+.slds-button {
+    margin-left: 0 !important;
+}
+
+
+.THIS .redButtonSmall:hover {
+	background-color: #cc0000;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ffffff;
+	font-size: 14px;
+	height: 32px;
+	margin: 0;
+	width: 86px;
+}
+
+.THIS .redButtonSmall:focus {
+	box-shadow: 0 0 2px 1px #dadada;
+}
+
+
+.THIS .whiteButtonSmall {
+	background-color: #ffffff;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-size: 14px;
+	height: 32px;
+	margin-right: 16px;
+	width: 82px;
+}
+
+.THIS .whiteButtonSmall:focus {
+	box-shadow: 0 0 2px 1px #dadada;
+}
+
+.THIS .whiteButtonSmall:hover {
+	background-color: #f6f6f6;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-size: 14px;
+	height: 32px;
+	margin-right: 16px;
+	width: 82px;
+}
+
+.THIS .customRadioCls .slds-form-element__control .slds-radio{
+    display : inline-block !important;
+}
+
+.THIS .slds-form-element__legend {
+    width: 100% !important;
+}
+.THIS .errorText {
+	color:red !important;
+	margin-bottom: 20px !important;
+}
+
+.THIS .slds-col {
+    margin-bottom: 24px!important;
+    width: 50%;
+    float: left;
+}
+
+.THIS .slds-row{
+    margin: 0 10%;
+}
+
+.THIS .status {
+    width: 45% !important;
+    float: right;
+}
+
+.THIS .separator{
+    background: #a2a2a2;
+    height:1px;
+    margin-top:2px;
+}

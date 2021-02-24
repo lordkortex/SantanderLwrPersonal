@@ -1,0 +1,26 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_AccountBalanceOptions">
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="iAccount" type="Object" description="Account Information"/>
+    <aura:attribute name="iTabSelected" type="String"  description="Current selected tab"/>
+    <lightning:navigation aura:id="navService"/>
+    
+    <div class="slds-dropdown slds-dropdown_left slds-popover slds-nubbin_top-left menu">
+        <ul class="slds-dropdown__list" role="menu" aria-label="{!$Label.c.MoreOptions}">
+            <li class="{!(v.isCashNexus == 'False' || v.iTabSelected == 'LastUpdateTab')? 'slds-dropdown__item slds-hide' : 'slds-dropdown__item slds-show'}" role="presentation" onclick="{!c.goToHistoryOfExtracts}">
+                <a class="option" role="menuitem" tabindex="0" >
+                    <span class="slds-truncate optionName" title="{!$Label.c.HistoryOfExtracts}">{!$Label.c.HistoryOfExtracts}</span>
+                </a>
+            </li>
+            <li class="slds-dropdown__item" role="presentation" onclick="{!c.goToAccountTransactions}">
+                <a class="option" role="menuitem" tabindex="0" >
+                    <span class="slds-truncate optionName" title="{!$Label.c.Account_Transactions}">{!$Label.c.Account_Transactions}</span>
+                </a>
+            </li>
+            <li class="slds-dropdown__item" role="presentation" onclick="{!c.goToSwiftTracking}">
+                <a class="option" role="menuitem" tabindex="0">
+                    <span class="slds-truncate optionName" title="{!$Label.c.Account_Payments}">{!$Label.c.Account_Payments}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aura:component>

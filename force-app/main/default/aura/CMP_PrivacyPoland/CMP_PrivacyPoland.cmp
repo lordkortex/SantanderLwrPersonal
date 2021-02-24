@@ -1,0 +1,218 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+	<div class="slds-col titleContainer">
+        <div class="slds-text-heading_medium">{!$Label.c.privacyPolandTitle}</div>
+        <div class="text_line"></div>
+    </div>
+    <div class="privacyInfoContainer">
+        
+        <!--INTRO-->
+        <p>{!$Label.c.policyPolandIntro}</p>
+        <br></br>
+
+        <!-- PRIVACY 1-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland1}</span></p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland1_1}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland1_2}</li>
+                <li>{!$Label.c.privacyPoland1_3}</li>
+                <li>{!$Label.c.privacyPoland1_4}</li>
+            </ul>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland1_5}</p>
+        <br></br>
+        <p><span class="text-bold">{!$Label.c.privacyPoland1_6}</span></p>
+        <br></br>
+
+        <!-- PRIVACY 2-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland2}</span></p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland2_1}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland2_2}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland2_3}</li>
+                <li>{!$Label.c.privacyPoland2_4}</li>
+                <li>{!$Label.c.privacyPoland2_5}</li>
+            </ul>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland2_6}</p>
+        <p>
+            <ol class="slds-list--ordered">
+                <li>{!$Label.c.privacyPoland2_7}</li>
+                <li>{!$Label.c.privacyPoland2_8}</li>
+                <li>{!$Label.c.privacyPoland2_9}</li>
+            </ol>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland2_10}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland2_11}</li>
+            </ul>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland2_12}</p>
+        <br></br>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland2_13}</li>
+            </ul>
+        </p>
+        <br></br>
+        <p><span class="text-bold">{!$Label.c.privacyPoland2_14}</span></p>
+        <br></br>
+
+        <!-- PRIVACY 3-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland3}</span></p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland3_1}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland3_2}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland3_3}</p>
+        <br></br>
+
+        <!-- PRIVACY 4-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland4}</span></p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland4_1}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland4_2}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland4_3}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland4_4} &nbsp;<a href="https://www.privacyshield.gov/list" class="text-link">https://www.privacyshield.gov/list</a>.</p>
+        <br></br>
+
+        <!-- PRIVACY 5-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland5}</span></p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland5_1}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland5_2}</li>
+                <li>{!$Label.c.privacyPoland5_3}</li>
+                <li>{!$Label.c.privacyPoland5_4}</li>
+                <li>{!$Label.c.privacyPoland5_5}</li>
+            </ul>
+        </p>
+        <br></br>
+        
+        <!-- PRIVACY 6-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland6}</span></p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland6_1}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland6_2}</li>
+                <li>{!$Label.c.privacyPoland6_3}</li>
+                <li>{!$Label.c.privacyPoland6_4}</li>
+                <br></br>
+                <p><span class="text-bold">{!$Label.c.privacyPoland6_5}</span></p>
+                <br></br>
+                <li>{!$Label.c.privacyPoland6_6}</li>
+            </ul>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland6_7}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland6_8}</li>
+                <li>{!$Label.c.privacyPoland6_9}</li>
+                <br></br>
+                <p><span class="text-bold">{!$Label.c.privacyPoland6_10}</span></p>
+            </ul>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland6_11}</p>
+        <br></br>
+
+        <!-- PRIVACY 7-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland7}</span></p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland7_1}</p>
+        <br></br>
+
+        <!-- PRIVACY 8-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland8}</span></p>
+        <br></br>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland8_1}</li>
+                <li>{!$Label.c.privacyPoland8_2}</li>
+                <li>{!$Label.c.privacyPoland8_3}</li>
+                <li>{!$Label.c.privacyPoland8_4}</li>
+            </ul>
+        </p>
+        <br></br>
+
+        <!-- PRIVACY 9-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland9}</span></p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland9_1}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland9_2}</li>
+                <li>{!$Label.c.privacyPoland9_3}</li>
+                <li>{!$Label.c.privacyPoland9_4}</li>
+            </ul>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland9_5}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland9_6}</p>
+        <br></br>
+
+        <!-- PRIVACY 10-->
+        <p><span class="text-bold">{!$Label.c.privacyPoland10}</span></p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland10_1}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland10_2}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland10_3}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland10_4}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland10_5}</li>
+                <li>{!$Label.c.privacyPoland10_6}</li>
+                <li>{!$Label.c.privacyPoland10_7}</li>
+                <li>{!$Label.c.privacyPoland10_8}</li>
+            </ul>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland10_9}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland10_10}</li>
+                <li>{!$Label.c.privacyPoland10_11}</li>
+                <li>{!$Label.c.privacyPoland10_12}</li>
+                <li>{!$Label.c.privacyPoland10_13}</li>
+            </ul>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland10_14}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland10_15}</p>
+        <p>
+            <ul class="slds-list--dotted">
+                <li>{!$Label.c.privacyPoland10_16}</li>
+                <li>{!$Label.c.privacyPoland10_17}</li>
+                <li>{!$Label.c.privacyPoland10_18}</li>
+                <li>{!$Label.c.privacyPoland10_19}</li>
+                <li>{!$Label.c.privacyPoland10_20}</li>
+            </ul>
+        </p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland10_21}</p>
+        <br></br>
+        <p>{!$Label.c.privacyPoland10_22}</p>
+        <br></br>
+    </div>
+</aura:component>

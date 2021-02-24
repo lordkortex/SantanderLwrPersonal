@@ -1,0 +1,42 @@
+.THIS {
+    font-family: SantanderHeadlineW05-Rg;
+    height: 29px;
+    margin: 24px 0 16px 0;
+    display: flex;
+    
+    /*  color: #444444;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.5;*/
+}
+
+.THIS .separation{
+    color: #444444;
+    font-size: 14px;
+    margin-left: 4px;
+    margin-right: 4px;
+    opacity: 0.5; 
+}
+
+.THIS .title{
+    color: #000000;
+    font-size: 20px;
+    margin-right: 24px;
+}
+
+.THIS .tabDisabled{
+    color: #444444;
+    cursor: pointer;
+    font-size: 14px;
+    opacity: 0.5;
+}
+
+.THIS .tabDisabled:hover{
+    color: #990000;
+}
+
+.THIS .tabEnabled{
+    color: #cc0000;
+    font-size: 16px;
+    opacity: 1;
+}

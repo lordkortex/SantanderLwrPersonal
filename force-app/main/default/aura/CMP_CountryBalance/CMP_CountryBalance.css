@@ -1,0 +1,304 @@
+.THIS {
+    
+}
+
+.THIS .accounts{
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+.THIS .accountAlias{
+    color: #444444;
+    font-size: 12px; 
+    margin-right: 16px;
+    width: 96px;
+}
+
+.THIS .accountNumber{
+    font-size: 12px; 
+    margin-right: 16px;
+    width: 296px;
+}
+
+.THIS .accountNumber a{
+    color: #444444;
+    text-decoration: underline;
+}
+
+.THIS .accountNumber a:hover{
+    color: #990000;
+}
+
+.THIS .accountAvailable{
+    color: #a2a2a2;
+    margin-right: 16px;
+    max-width: 164px;
+    text-transform: uppercase;
+}
+
+.THIS .accountAvailableInteger{
+    font-size: 14px; 
+}
+
+.THIS .accountAvailableDecimals{
+    font-size: 10px; 
+}
+
+.THIS .accountBook{
+    color: #444444;
+    max-width: 188px;
+    text-transform: uppercase;
+}
+
+.THIS .accountBookDecimals{
+    font-size: 12px; 
+}
+
+.THIS .accountBookInteger{
+    font-size: 16px; 
+}
+
+.THIS .accountDate{
+    font-size: 12px; 
+    margin-right: 16px;
+    width: 97px;
+}
+
+.THIS .accountDate a{
+    color: #444444;
+    text-decoration: underline;
+}
+
+.THIS .accountDate a:hover{
+    color: #990000;
+}
+
+.THIS .accountSubsidiary{
+    color: #444444;
+    font-size: 12px; 
+    margin-right: 16px;
+    width: 120px;
+}
+
+.THIS .arrow{
+    margin-left: 12px;
+    margin-right: 0;
+}
+
+.THIS .availableBalance{
+    color: #a2a2a2;
+    text-align: right;
+}
+
+.THIS .availableDecimals{
+    font-size: 10px;
+}
+
+.THIS .availableInteger{
+    font-size: 14px;
+}
+
+.THIS .availableNumber{
+    height: 22px;
+}
+
+.THIS .availableText{
+    font-size: 12px;
+    height: 16px;
+}
+
+
+.THIS .avAccount{
+    color: #9b9b9b; 
+    font-size: 16px;
+    height: 21px;
+}
+
+.THIS .avDecimalsAccount{
+    font-size: 10px;
+}
+
+.THIS .avIntegerAccount{
+    font-size: 14px;
+}
+
+.THIS .balance{
+    text-align: right;
+    text-transform: uppercase;
+}
+
+.THIS .balanceAccount{
+    text-align: right;
+}
+
+.THIS .bbAccount{
+    color: #444444;
+    height: 23px;
+}
+
+.THIS .bbDecimalsAccount{
+    font-family:"SantanderTextW05-Bold";
+    font-size: 14px;
+}
+
+.THIS .bbIntegerAccount{
+    font-family:"SantanderTextW05-Bold";
+    font-size: 18px;
+}
+
+.THIS .bookBalance{
+    color: #444444;
+    margin-left: 24px;
+    text-align: right;
+}
+
+.THIS .bookDecimals{
+    font-size: 12px;
+    font-family:"SantanderTextW05-Bold";
+}
+
+.THIS .bookInteger{
+    font-size: 16px;
+    font-family:"SantanderTextW05-Bold";
+}
+
+.THIS .bookNumber{
+    height: 22px;
+}
+
+.THIS .bookText{
+    font-size: 12px;
+    height: 16px;
+}
+
+.THIS .button{
+    cursor: pointer;
+}
+
+.THIS .button-arrow{
+    cursor: pointer;
+    font-size: 32px;
+}
+
+.THIS .button-options{
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.THIS.card{
+    background-color: #ffffff;
+    border: solid 1px #ececec;
+    border-radius: 4px;
+    margin-top: 8px;
+}
+
+.THIS .colFixed{
+    align-items: center;
+    display: flex; 
+}
+
+.THIS .colVariable{
+    align-items: center;
+    display: flex; 
+    justify-content: flex-end;
+    width:100%;
+}
+
+.THIS .containerLine{
+    display: flex;
+    justify-content: center;
+}
+
+.THIS .contentAccount{
+    background-color: #ffffff;
+    margin: 0;
+    padding: 5px 56px 5px 15px;
+}
+
+.THIS .contentCard{
+    margin: 0;
+    padding: 12px 12px 12px 16px;
+}
+
+.THIS .contentCard__order2{
+    margin: 0;
+    padding: 9px 12px 9px 24px;
+}
+
+.THIS .flag{
+    margin-right: 16px;
+}
+
+.THIS .icon-arrowDown_small:before, .THIS .icon-arrowUp_small:before{
+	color: #444444;
+	font-size: 32px;    
+}
+
+.THIS .line{
+    border-top: 1px solid #ececec;
+    margin-bottom: 0;
+    margin-top: 0;
+    width: 100%;
+}
+
+.THIS .menu{
+    background-color: #ffffff;
+    border: solid 1px #dadada;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.16);
+    left: -.8rem;
+    top: .7rem;
+    width: 184px;
+}
+
+.THIS .moreOptions{
+    margin-right: 8px;
+}
+
+.THIS .option{
+	padding: .65rem 1rem .65rem 1rem; 
+}
+
+.THIS .optionName{
+    font-size: 14px;
+    height: 20px;  
+}
+
+.THIS .rowGray{
+    background-color: #ececec;
+    margin: 0;
+    padding: 4px 12px 4px 72px;
+}
+
+.THIS .rowGrayDecimals{
+    font-size: 12px;
+}
+
+.THIS .rowGrayInteger{
+    font-size: 16px;
+}
+
+.THIS .sizeFlag{
+    height: 32px;
+    width: 32px;
+}
+
+.THIS .slds-nubbin_top-left::before, 
+.THIS .slds-nubbin_top-left::after{
+    border-radius: 25%;
+    height: 0.5rem;
+    left: 1.75rem;
+    top: -.2rem;
+    width: 0.5rem;
+}
+
+.THIS .title{
+    color: #444444;
+    font-size: 16px; 
+    margin-right: 8px;
+}
+
+.THIS .titleRowGray{
+    color: #444444;
+    font-size: 14px;
+}

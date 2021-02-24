@@ -1,0 +1,125 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Contains the services for the group creation (TODO Integration of data with mulesoft)
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="values" type="List" default="['Beneficiaries','Payments','Reports', 'Uploads']" description="List of values to populate the dropdown"/>
+    <aura:attribute name="selectedValue" default ="" type="String" description="Selected option from the dropdown"/>
+    <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text"/>
+    
+    <div class="slds-card__header slds-grid container">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body slds-card__header-title text">
+                <div class="title">
+                    {!$Label.c.GroupNew_Services}
+                </div>
+                <div class="description">
+                   {!$Label.c.GroupNew_ServicesDesc}
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="slds-form-element">
+                    <!-- DROPDOWN MARKUP -->
+                    <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                    <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                            <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" title="{!v.helpTextDropdown}">
+                                <aura:if isTrue="{!v.selectedValue == ''}">
+                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{!$Label.c.GroupNew_ChooseService}</div>
+                                </aura:if>
+                                <aura:if isTrue="{!not(v.selectedValue == '')}">
+                                    <div class="slds-border_right orderSelected ">{!v.selectedValue}</div>
+                                </aura:if>
+                                
+                                <div class="slds-button__icon arrow" aria-hidden="true">
+                                    <div class="button-arrow icon-chevronDown"></div>
+                                </div>
+                                <span class="slds-assistive-text">{!v.helpTextDropdown}</span>
+                            </button>
+                        </div>
+                        <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
+                            <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                <aura:iteration items="{!v.values}" var="item">
+                                    <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}" onclick="{!c.selectValue}">
+                                        <a class="paddingOption" role="menuitemcheckbox" tabindex="0" aria-checked="true" >
+                                            <div class="slds-truncate optionOrder" title="{!item}">
+                                                <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
+                                                    <div class="button-selected icon-check"></div>
+                                                </div>
+                                                <span class="nameOrder">{!item}</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </aura:iteration>  
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="slds-button slds-button_brand redButtonSmall" title="{!$Label.c.GroupNew_Add}">
+                {!$Label.c.GroupNew_Add}
+            </button>
+        </header>
+    </div>
+    <!--TABLE-->
+    <div class="slds-table--header-fixed_container slds-table_edit_container slds-is-relative">
+        <div class="slds-scrollable_y">
+            <table aria-multiselectable="true" class="slds-table slds-table_edit slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped slds-table_fixed-layout" role="grid">
+                <!--HEADER-->
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.GroupNew_Service}">{!$Label.c.GroupNew_Service}</span>
+                            </div>
+                        </th>
+                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.GroupNew_Profiling}">{!$Label.c.GroupNew_Profiling}</span>
+                            </div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                    </tr>
+                </thead>
+                
+                <!--BODY-->
+                <tbody>
+                    <!--ROW1-->
+                    <tr aria-selected="false" class="slds-hint-parent">
+                        <td class="" role="gridcell">
+                            <span class="slds-grid slds-grid_align-spread">
+                                <span class="slds-truncate" title="{!$Label.c.GroupNew_Beneficiaries}">{!$Label.c.GroupNew_Beneficiaries}</span>
+                            </span>
+                        </td>
+                        <td class="" role="gridcell">
+                            <span class="slds-button slds-button_icon icon-check" title="{!$Label.c.T_ProfileCompleted}"></span>
+                        </td>
+                        <td role="gridcell">
+                            <button class="slds-button slds-button_icon icon-profile" title="{!$Label.c.T_Profile}"></button>
+                        </td>
+                        <td role="gridcell">
+                            <button class="slds-button slds-button_icon icon-viewProfile" title="{!$Label.c.T_ViewInformation}"></button>
+                        </td>
+                        <td role="gridcell">
+                            <button class="slds-button slds-button_icon icon-trash" title="{!$Label.c.T_Delete}"></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,203 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    First layer to display account information
+History
+<Date>			<Author>		    <Description>
+01/09/2019		Laura Espinel		Design
+25/10/2019		Amanda Fernandez	Layout coding of the page
+28/10/2019		Shahad Naji     	Initial version
+28/10/2019		Shahad Naji 		Interactive web pages and Back-end development
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_CountryBalance">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="cmpId" type="String" description="Component Id"/>
+    <aura:attribute name="iRegister" type="Object" description="Register to display"/>
+    <aura:attribute name="iCurrency" type="String" description="The selected currency to make the required changes to calculate the amounts"/>
+    <aura:attribute name="iSortSelected" type="String" default="{!$Label.c.GlobalBalanceOrderOne}" description="Accounts display order"/>
+    <aura:attribute name="iTabSelected" type="String" default="LastUpdateTab" description="Current selected tab"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="index" type="Integer" default="-1" description="The position of the current register to paint"/>
+    <aura:attribute name="countryName" type="String" description="Country Name"/> 
+    <aura:attribute name="bookBalance" type="Decimal" default="0.0" description="The sum of book balance value of all accounts"/>
+    <aura:attribute name="availableBalance" type="Decimal" default="0.0" description="The sum of available balance value of all accounts"/>
+    <aura:attribute name="accounts" type="List" description="Each register of this List contains two attributes: Key: Currency and Value: List of Accounts"/> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+   	<aura:handler name="change" value="{!v.iCurrency}" action="{!c.updateCurrency}"/>
+    
+    
+    <div class="slds-card card">
+        <!-- CAJA BLANCA -->
+        <div class="{!v.iSortSelected == $Label.c.GlobalBalanceOrderOne ? 'slds-card__header slds-grid contentCard' : 'slds-card__header slds-grid contentCard__order2'}">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <aura:if isTrue="{!v.iSortSelected == $Label.c.GlobalBalanceOrderOne}">
+                    <div class="slds-media__figure flag">
+                        <img class="sizeFlag" aura:id="countryImage"  src="{!$Resource.Flags + '/' + v.iRegister.key +'.svg'}"  onerror="{!c.defaultImage}"/> 
+                    </div>
+                </aura:if>
+                
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title">
+                        <span class="title">
+                            <aura:if isTrue="{!and(v.iSortSelected == $Label.c.GlobalBalanceOrderOne, v.countryName != '')}">
+                                {!v.countryName}
+                                <aura:set attribute="else">
+                                    {!v.iRegister.key}
+                                </aura:set>
+                            </aura:if>
+                            
+                        </span>
+                        <span class="accounts">
+                            <aura:if isTrue="{!v.iRegister.value.length > 1}">
+                                {!v.iRegister.value.length}&nbsp;{!$Label.c.Accounts}
+                                <aura:set attribute="else">
+                                    {!v.iRegister.value.length}&nbsp;{!$Label.c.Account}
+                                </aura:set>
+                            </aura:if>
+                        </span>
+                    </div>
+                </div>
+                <div class="availableBalance">
+                    <!--<aura:if isTrue="{!and(v.iTabSelected == 'LastUpdateTab', v.index == 0)}">
+                        <div class="slds-card__header-title availableText">
+                            {!$Label.c.Available_Balance}
+                        </div>
+                    </aura:if>-->
+                    <div class="slds-card__header-title availableNumber">
+                        <aura:if isTrue="{!v.availableBalance != 0}">
+                            <c:CMP_displayAmount amount="{!v.availableBalance}" 
+                                                 decimalClass="availableDecimals" 
+                                                 wholeClass="availableInteger" 
+                                                 currency="{!v.iCurrency}"/>
+                            <aura:set attribute="else">
+                                <c:CMP_displayAmount amount="0.00" 
+                                                     decimalClass="availableDecimals" 
+                                                     wholeClass="availableInteger" 
+                                                     currency="{!v.iCurrency}"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+                <div class="bookBalance">
+                   <!-- <aura:if isTrue="{!and(v.iTabSelected == 'LastUpdateTab', v.index == 0)}">
+                        <div class="slds-card__header-title bookText">
+                            {!$Label.c.Book_Balance}
+                        </div>
+                    </aura:if>-->
+                    <div class="slds-card__header-title bookNumber">
+                        <aura:if isTrue="{!v.bookBalance != 0}">
+                            <c:CMP_displayAmount amount="{!v.bookBalance}" 
+                                                 decimalClass="bookDecimals" 
+                                                 wholeClass="bookInteger" 
+                                                 currency="{!v.iCurrency}"/>
+                            <aura:set attribute="else">
+                                <c:CMP_displayAmount amount="0.00" 
+                                                     decimalClass="bookDecimals" 
+                                                     wholeClass="bookInteger" 
+                                                     currency="{!v.iCurrency}"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+                    <div class="slds-media__figure arrow">
+                        <!-- ICONO EXPANDIR -->
+                        <div id="{!v.cmpId}" aura:id="{!v.cmpId}" class="iElement icon expand slds-show" onclick="{!c.showAction}">
+                            <div class="button-arrow icon-arrowDown_small" title="{!$Label.c.Expand}"></div> 
+                        </div>
+                        <!-- ICONO COLAPSAR -->
+                        <div id="{!v.cmpId}" aura:id="{!v.cmpId}" class="iElement icon collapse slds-hide" onclick="{!c.showAction}">
+                            <div class="button-arrow icon-arrowUp_small" title="{!$Label.c.Collapse}"></div>
+                        </div>
+                        
+                    </div>
+            </header>
+        </div>
+       
+        <div class="iElement container slds-hide" id="{!v.cmpId}" aura:id="{!v.cmpId}">                
+            <aura:if isTrue="{!v.iSortSelected == $Label.c.GlobalBalanceOrderOne}">
+                <aura:iteration items="{!v.accounts}" var="item" indexVar="key">                
+                    <c:CMP_CurrencyBalance iRegister="{!item}" iParentId="{!v.cmpId}" iSortSelected="{!v.iSortSelected}" iTabSelected="{!v.iTabSelected}" isCashNexus="{!v.isCashNexus}"/>                         
+                </aura:iteration>                  
+            </aura:if> 
+            <aura:if isTrue="{!v.iSortSelected == $Label.c.GlobalBalanceOrderTwo}">
+                <aura:iteration items="{!v.accounts}" var="item" indexVar="key">                
+                    <c:CMP_CurrencyBalance iRegister="{!item}" iParentId="{!v.cmpId}" iSortSelected="{!v.iSortSelected}" iTabSelected="{!v.iTabSelected}" isCashNexus="{!v.isCashNexus}"/>                   
+                </aura:iteration>
+            </aura:if> 
+            <aura:if isTrue="{!v.iSortSelected == $Label.c.GlobalBalanceOrderThree}">
+                <aura:iteration items="{!v.accounts}" var="item" indexVar="key">                    
+                    <c:CMP_CurrencyBalance iRegister="{!item}" iParentId="{!'parent_' + v.cmpId}" iSortSelected="{!v.iSortSelected}" iCurrency="{!item.value[0].currencyCodeAvailableBalance}" iTabSelected="{!v.iTabSelected}" isCashNexus="{!v.isCashNexus}"/>                      
+                </aura:iteration>
+            </aura:if> 
+        </div>  
+    </div>    
+    
+    
+    
+    
+    
+    <!--
+    <div class="slds-card card">
+        <div class="slds-card__header slds-grid contentCard">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <aura:if isTrue="{!v.iSortSelected == $Label.c.GlobalBalanceOrderOne}">
+                    <div class="slds-media__figure flag">
+                        <img aura:id="countryImage" class="sizeFlag" src="{!$Resource.Flags + '/' + v.iCountry.key +'.svg'}"  onerror="{!c.defaultImage}"/> 
+                    </div>
+                </aura:if>
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title">
+                        <span class="title">
+                            {!v.iCountryName}
+                        </span>
+                        <span class="accounts">
+                            <aura:if isTrue="{!v.iCountry.value.length > 1}">
+                                {!v.iCountry.value.length}&nbsp;{!$Label.c.Accounts}
+                                <aura:set attribute="else">
+                                    {!v.iCountry.value.length}&nbsp;{!$Label.c.Account}
+                                </aura:set>
+                            </aura:if>
+                        </span>
+                    </div>
+                </div>
+                <aura:if isTrue="{!and(v.iAvailableBalance != 0, v.iBookBalance != 0)}">
+                    <div class="availableBalance">
+                        <div class="slds-card__header-title availableNumber">
+                            <c:CMP_displayAmount amount="{!v.iAvailableBalance}" 
+                                                 decimalClass="availableDecimals" 
+                                                 wholeClass="availableInteger" 
+                                                 currency="{!v.iCurrency}"/>
+                        
+                        </div>
+                    </div>
+                    <div class="bookBalance">
+                        <div class="slds-card__header-title bookNumber">
+                            <c:CMP_displayAmount amount="{!v.iBookBalance}" 
+                                                 decimalClass="bookDecimals" 
+                                                 wholeClass="bookInteger" 
+                                                 currency="{!v.iCurrency}"/>
+                        
+                        </div>
+                    </div>
+                </aura:if>
+                <div class="slds-media__figure arrow">
+                   
+                    <div id="{!v.iCmpId}" class="slds-show" onclick="{!c.showAction}">
+                        <div class="button-arrow icon-chevronDown__gray100" title="{!$Label.c.Expand}"></div> 
+                    </div>
+                  
+                    <div id="{!v.iCmpId}" class="slds-hide" onclick="{!c.showAction}">
+                        <div class="button-arrow icon-chevronUp__gray100" title="{!$Label.c.Collapse}"></div>
+                    </div>                    
+                </div>
+            </header>
+        </div>
+        <div class="slds-hide" id="{!v.iCmpId}">
+            <aura:iteration items="{!v.iAccounts}" var="item" indexVar="key">                
+                <c:CMP_CurrencyBalance iCmpId="{!v.iCmpId +'_'+item.key +'_'+ key}" iCurrency="{!item}"/>
+            </aura:iteration>
+        </div>
+    </div>-->
+</aura:component>

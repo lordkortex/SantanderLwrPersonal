@@ -1,0 +1,9 @@
+<!--Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Event to communicate pagination cmp with swift payments cmp
+History
+<Date>			<Author>		<Description>
+19/11/2019		R. Alexander Cervino     Initial version-->
+<aura:event type="COMPONENT" description="CMP_SwiftPaymentsPagination">
+    <aura:attribute name="currentPage" type="Integer" description="Current pagination page"/>
+</aura:event>

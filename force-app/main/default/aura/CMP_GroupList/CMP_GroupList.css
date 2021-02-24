@@ -1,0 +1,87 @@
+.THIS div::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS div::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.THIS div::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+.THIS div::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+.THIS .icon-profile:before,
+.THIS .icon-viewProfile:before,
+.THIS .icon-trash:before {
+    font-size: 24px;
+}
+
+.THIS .slds-button:focus {
+    box-shadow: none;
+}
+
+.THIS .slds-cell-fixed {
+    background-color: #ececec;
+}
+
+
+.THIS.slds-table--header-fixed_container:before {
+    border: unset;
+}
+
+.THIS.slds-table--header-fixed_container .slds-scrollable_y {
+    max-height: 510px;
+}
+
+.THIS .slds-table_striped tbody tr:nth-of-type(2n)>td {
+    background-color: #f9fcfd;
+}
+
+.THIS tbody .slds-truncate {
+    color: #444444;
+    font-family: SantanderTextW05-Regular;
+    font-size: 12px;
+}
+
+.THIS tbody .slds-hint-parent {
+    border: 1px solid #ececec;
+    border-left: 0;
+}
+
+.THIS tbody tr td {
+    height: 34px;
+    padding: 0 24px;
+}
+
+.THIS tbody tr td:nth-child(2),
+.THIS tbody tr td:nth-child(3),
+.THIS tbody tr td:nth-child(4) {
+    padding: 0 0 0 8px;
+}
+
+.THIS thead .slds-truncate {
+    color: #444444;
+    font-family: SantanderTextW05-Bold;
+    font-size: 14px;
+    padding: 6px 24px;
+}
+
+.THIS thead tr th:nth-child(2),
+.THIS thead tr th:nth-child(3),
+.THIS thead tr th:nth-child(4) {
+    width: 32px;
+}
+
+.THIS thead tr th:nth-child(4) {
+    padding: 0 24px;
+}
+
+.THIS.slds-table--header-fixed_container {
+    background-color: #ececec;
+    border: 1px solid #ececec;
+}

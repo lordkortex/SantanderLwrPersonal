@@ -1,0 +1,43 @@
+.THIS .icon.icon-close,
+.THIS .icon.icon-time,
+.THIS .icon.icon-arrowLeft_big {
+   color: #ec0000;
+   font-family: "SantanderMicroText" !important;
+   font-size: 14px;
+   line-height: 24px;
+   cursor: pointer;
+}
+
+.THIS .icon.icon-arrowLeft_big:before {
+   font-family: 'icomoon' !important;
+   font-size: 24px;
+   float: left;
+   margin-right: 4px;
+   height: 24px;
+}
+
+.THIS .icon.icon-close:before,
+.THIS .icon.icon-time:before {
+   font-family: 'icomoon' !important;
+   font-size: 24px;
+   float: right;
+   margin-left: 4px;
+}
+
+.THIS .icon.icon-close:hover,
+.THIS .icon.icon-time:hover,
+.THIS .icon.icon-arrowLeft_big:hover,
+.THIS .icon.icon-close:hover:before,
+.THIS .icon.icon-time:hover:before,
+.THIS .icon.icon-arrowLeft_big:hover:before {
+   color: #cc0000;
+}
+
+.THIS .icon.icon-close:active,
+.THIS .icon.icon-time:active,
+.THIS .icon.icon-arrowLeft_big:active,
+.THIS .icon.icon-close:active:before,
+.THIS .icon.icon-time:active:before,
+.THIS .icon.icon-arrowLeft_big:active:before {
+   color: #990000;
+}

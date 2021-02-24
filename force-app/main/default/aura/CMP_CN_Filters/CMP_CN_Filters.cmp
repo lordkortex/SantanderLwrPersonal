@@ -1,0 +1,223 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Reusable filter component. It displays some pills
+                that can be used to filter the information loaded on the screen
+History
+<Date>			<Author>		    <Description>
+02/03/2020		Guillermo Giral     Initial version
+08/05/2020		Shahad Naji 		Disable dropdown when it is required and clear input history
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="Global_Utilities">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+   
+    <!-- General attributes -->
+    <aura:attribute name="filters"    type="List"    description="Map with the filtering pills and options to be shown" />
+    <aura:attribute name="showAdvancedFilters" type="Boolean"  default="false" description="Flag to show advanced filters label"/>
+    <aura:attribute name="showModal" type="Boolean"  default="false" description="Flag to show the advanced filters modal"/>
+    <aura:attribute name="numberActiveFilters" type="Integer" default="0" description="Number of advanced filters currently active"/>
+    <aura:attribute name="currentPage" type="String" description="Name of the page in which the filter CMP is showing. Useful to implement per-page functionality"/>
+    <aura:attribute name="displayedDates" type="String" description="Date string to display when a search by dates is triggerd"/>
+    <aura:attribute name="displayedAmount" type="String" description="Number string to display when a search by amount is triggerd"/>
+    <aura:attribute name="displayPrintIcon" type="Boolean" default="true" description="Shows / hides the print icon"/>
+    <aura:attribute name="displayDownloadIcon" type="Boolean" default="false" description="Shows / hides the download icon"/>
+    <aura:attribute name="showAmountError" type="Boolean" default="False" description="Flag to check if the amount error is showing" />
+    <aura:attribute name="datesBis" type="List" description="List containing the selected dates"/>
+    <aura:attribute name="showFormatError" type="Boolean" default="false" description="Flag to check if the format error is showing (number less than 0 or string)"/>
+    <aura:attribute name="convertDatesToUserTimezone" type="Boolean" default="true" description="Flag to indicate whether the selected dates must be converted to ISO string based on the user's timezone"/>
+
+    <!-- Calendar attributes -->
+    <aura:attribute name="dates" type="List" description="List containing the selected dates" />
+    <aura:attribute name="calendarHelpText" type="String" default="dd/mm/yyyy" description="Calendar help text" />
+    <aura:attribute name="calendarLabel" type="String" default="Select a date" description="Date placeholder for single calendar" />
+    <aura:attribute name="placeholderFrom" type="String" default="{!$Label.c.from}" description="Calendar 'From' placeholder" />
+    <aura:attribute name="placeholderTo" type="String" default="{!$Label.c.to}" description="Calendar 'To' placeholder" />
+    
+    <!-- Dropdown attributes -->
+    <aura:attribute name="displayDropdown" type="Boolean" default="true" description="Flag to display / hide the dropdown"/>
+    <aura:attribute name="dropdownValues" type="List" description="List of values to populate the dropdown" />
+    <aura:attribute name="dropdownSelectedValue" type="String" description="Selected option from the dropdown" />
+    <aura:attribute name="helpTextDropdown" type="String" default="{!$Label.c.Show_More}" description="Dropdown help text" />
+    <aura:attribute name="dropdownPlaceholder" type="String" default="{!$Label.c.TimePeriod}" description="Placeholder for the dropdown"/>
+    <aura:attribute name="dropdownHeader" type="String" default="{!$Label.c.TimePeriod}" description="Title for the dropdown"/>
+    <aura:attribute name="isDropdownDisabled" type="Boolean" default="false" description="Attribute to indicate if the dropdown is disabled" />
+    
+    <!-- EVENTS -->
+    <aura:registerEvent name="OpenModal" type="c:EVT_OpenModal"/>
+    <aura:registerEvent name="fireFilter" type="c:EVT_FilterSearch"/> 
+    <aura:registerEvent name="launchDonwload" type="c:EVT_DownloadFile"/>
+    <aura:registerEvent name="onOptionSelection" type="c:EVT_AdvancedFilterSelectOption"/>
+    <aura:registerEvent name="clearAllFilters" type="c:EVT_ClearAllFilters"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.dates}" action="{!c.updateDatesBis}"/>
+
+
+    <aura:attribute name="fromDate" type="String"/>
+    <aura:attribute name="toDate" type="String"/>
+    <!--<aura:handler name="change" value="{!v.dates}" action="{!c.validateDate}"/>-->
+
+    <!-- HANDLERS -->
+    <aura:handler event="c:EVT_FilterSearchDates" action="{!c.updateTimeframeDropdown}"/>
+
+    <!-- METHODS -->
+    <aura:method name="filterData" action="{!c.applyFilters}" description="Method that applies the filter without user interaction"/>
+    <aura:method name="getDatesFromString" action="{!c.getDatesFromString}" description="Obtain the ISO string of the date, based on the user timezone">
+        <aura:attribute name="dateStrings" type="List" description="List of date strings to convert to ISO format"/>
+    </aura:method>
+
+    <!-- COMPONENT MARKUP -->
+    
+    <div class="slds-grid filterAccounts">
+        <!-- <div class="slds-col"> -->
+            <aura:if isTrue="{!v.displayDropdown}">
+                <div class="slds-form-element slds-combobox__Rg">     
+                    <!-- DROPDOWN MARKUP -->
+                    <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                    <c:CMP_CN_Dropdown aura:id="filterDropdown" isSimpleDropdown="true" values="{!v.dropdownValues}"
+                                        selectedValue="{!v.dropdownSelectedValue}" valuePlaceholder="{!v.dropdownPlaceholder}" headerDropdown="{!v.dropdownHeader}" isDisabled="{!v.isDropdownDisabled == false ? false : true}" />
+                </div>
+            </aura:if>
+            <!-- FILTERS -->
+        
+            <div class="filtersRow">
+                <label class="slds-form-element__label" for="text-input-id-1">{!$Label.c.filterBy}</label>
+                <div class="slds-col">
+                    <aura:if isTrue="{!v.filters.length > 0}">
+                        <!--PILL : MULTIPICKLIST-->                  
+                        <aura:iteration items="{!v.filters}" var="filter" indexVar="index">
+                            <aura:if isTrue="{!filter.displayFilter}">
+                                <div class="slds-combobox_container">
+                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" name="{!filter.name}" id="{!filter.name + '_pillDiv'}" aria-haspopup="dialog" role="combobox" onblur="{!c.toggleFilterVisibility}">
+                                        <aura:if isTrue="{!filter.type == 'checkbox'}">
+                                            <aura:if isTrue="{!filter.numberChecked == 0}">
+                                                <button id="{!filter.name}" name="{!filter.name}" class="slds-button slds-button_outline-brand" onclick="{!c.toggleFilterVisibility}">{!filter.name}</button>  
+                                            </aura:if>
+                                            <aura:if isTrue="{!filter.numberChecked gt 0}">
+                                                <button id="{!filter.name}" name="{!filter.name}"  class="slds-button slds-button_outline-brand" onclick="{!c.toggleFilterVisibility}">{!filter.name + ' (' + filter.numberChecked + ')'}</button>  
+                                            </aura:if>
+                                        </aura:if>
+                                        <aura:if isTrue="{!filter.type == 'text'}">
+                                            <button id="{!filter.name}" name="{!filter.name}"  class="slds-button slds-button_outline-brand" onclick="{!c.toggleFilterVisibility}">{!filter.name + v.displayedAmount}</button>  
+                                        </aura:if>
+                                        <aura:if isTrue="{!filter.type == 'dates'}">
+                                            <button id="{!filter.name}" name="{!filter.name}"  class="slds-button slds-button_outline-brand" onclick="{!c.toggleFilterVisibility}">{!filter.name + v.displayedDates}</button>  
+                                        </aura:if>
+                                        <aura:if isTrue="{!filter.displayOptions}">
+                                        <div class="content_modal" id="{!filter.name + '_content_modal'}"> 
+                                            <section aria-describedby="dialog-body-id-25" aria-label=""  class="slds-popover slds-popover_full-width slds-dropdown1" id="{!filter.name + '_popover'}" role="dialog">
+                                                <div class="slds-popover__body" id="dialog-body-id-25">
+                                                    <div class="slds-dropdown__list">
+                                                        <fieldset class="slds-form-element">
+                                                            <div class="slds-form-element__control">
+                                                                <!-- List of options scenario -->
+                                                                <aura:if isTrue="{!filter.type == 'checkbox'}">
+                                                                    <aura:iteration items="{!filter.data}" var="option" indexVar="optionIndex"> 
+                                                                        <div class="slds-form-element__checks">
+                                                                            <div class="slds-checkbox">                       
+                                                                                <input type="checkbox" name="{!filter.name}" id="{!option.value + optionIndex}" value="{!option.value}" checked="{!option.checked}" onclick="{!c.checkOption}"/>
+                                                                                <label class="slds-checkbox__label" for="{!option.value + optionIndex}">
+                                                                                    <span class="slds-checkbox_faux"></span>
+                                                                                    <span class="slds-form-element__label checkboxLabel">{!option.displayValue}</span>
+                                                                                </label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </aura:iteration> 
+                                                                </aura:if>
+                                                                <!-- Calendar dates scenario -->
+                                                                <aura:if isTrue="{!filter.type == 'dates'}">
+                                                                    <div class="slds-form-element__group">
+                                                                        <div class="slds-form-element__row ">
+
+                                                                            <!--<c:CMP_Calendar simple="false" placeholderTo="{!$Label.c.to}" placeholderFrom="{!$Label.c.from}" dateFrom="{!v.dates[0]}" dateTo="{!v.dates[1]}" helpText="dd/MM/yyyy" validity="{!v.datesValidity}"/>
+
+
+                                                                            -->
+
+
+                                                                            
+                                                                            <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                                                <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                                                    <lightning:input aura:id="dateFromInput" type="date" name="inputFrom" value="{!v.dates[0]}" dateStyle="short" label="{!v.calendarLabel}" variant="label-hidden" placeholder="{!v.placeholderFrom}" onchange="{!c.validateDate}" autocomplete="off"/>
+                                                                                </div>
+                                                                                <span class="textHelp">{!v.calendarHelpText}</span>
+                                                                            </div>
+                                                                            <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                                                <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                                                    <lightning:input aura:id="dateToInput" type="date" name="inputTo" value="{!v.dates[1]}" dateStyle="short" label="{!v.calendarLabel}" variant="label-hidden" placeholder="{!v.placeholderTo}" onchange="{!c.validateDate}" autocomplete="off"/>
+                                                                                </div>
+                                                                                <span class="textHelp">{!v.calendarHelpText}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </aura:if>
+                                                                <!-- Free text scenario (amounts) -->
+                                                                <aura:if isTrue="{!filter.type == 'text'}">   
+                                                                    <div class="slds-form-element__group">
+                                                                        <div class="slds-form-element__row ">        
+                                                                        <input type="text" name="{!filter.name}" id="AmountFrom" placeholder="{!$Label.c.from}" class="slds-input" value="{!filter.selectedFilters.from}" onblur="{!c.saveFreeTextData}" autocomplete="off"/>
+                                                                        <span class="textHelp"></span>
+                                                                        <aura:if isTrue="{!and(v.showAmountError, not(v.showFormatError))}">
+                                                                            <div  class="slds-form-element__help clr-red">{!$Label.c.toAmountLowerThanFrom}</div>
+                                                                        </aura:if>
+                                                                        <aura:if isTrue="{!v.showFormatError}">
+                                                                            <div  class="slds-form-element__help clr-red">{!$Label.c.amountLowerThanZero}</div>
+                                                                        </aura:if>
+                                                                        
+                                                                        <input type="text" name="{!filter.name}" id="AmountTo" placeholder="{!$Label.c.to}" class="slds-input" value="{!filter.selectedFilters.to}" onblur="{!c.saveFreeTextData}" autocomplete="off"/>
+                                                                        <span class="textHelp"></span>
+                                                                    </div>
+                                                                </div>
+                                                                </aura:if>
+                                                            </div>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+                                                <footer class="slds-popover__footer">
+                                                    <button class="slds-button slds-button_neutral whiteButton" id="{!filter.name}" name="clearBtn" onclick="{!c.clearFilters}">{!$Label.c.clearAll}</button>
+                                                    <button class="slds-button slds-button_brand redButton" id="{!filter.name}" name="filterBtn" onclick="{!c.applyFilters}" >{!$Label.c.apply}</button>
+                                                </footer>
+                                            </section>
+                                          
+                                        </div> 
+                                        </aura:if> 
+                                    </div>
+                                </div>
+                            </aura:if>
+                        </aura:iteration>                             
+                    </aura:if>
+                    <aura:if isTrue="{!v.showAdvancedFilters}">
+                        <!--FILTERS-->
+                        <div class="icon" onclick="{!c.openModal}">
+                            <span class="icon-filter"></span>
+                            <aura:if isTrue="{!v.numberActiveFilters > 0}">
+                                <span class="text-link">{!$Label.c.advancedFilters + ' ('+ v.numberActiveFilters + ')'}</span>
+                                <aura:set attribute="else">
+                                    <span class="text-link">{!$Label.c.advancedFilters}</span>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </aura:if>
+                </div> 
+            </div>
+        <!-- </div> -->
+        
+        <div class="slds-col box-buttons">
+            <!--PRINT-->
+            <aura:if isTrue="{!v.displayPrintIcon}">
+                <div class="icon">
+                    <span class="text-link" onclick="{!c.printScreen}">{!$Label.c.T_Print}</span>
+                    <span class="icon-print" onclick="{!c.printScreen}"></span>
+                </div>
+            </aura:if>
+            <!--DOWNLOAD-->
+            <aura:if isTrue="{!v.displayDownloadIcon}">
+                <div class="icon">
+                    <span class="text-link" onclick="{!c.donwloadFile}">{!$Label.c.T_Download}</span>
+                    <span class="icon-download" onclick="{!c.donwloadFile}"></span>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+
+   
+</aura:component>

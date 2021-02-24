@@ -1,0 +1,47 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to display amount values
+History
+<Date>			<Author>		                <Description>
+27/11/2019		R. Alexander Cervino            Initial version
+25/03/2019		Guillermo Giral                 Initial version
+-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="Global_Utilities">
+
+    <ltng:require scripts="{!$Resource.NumeralJs + '/numeralJs/numeral.js'}" afterScriptsLoaded="{!c.formatAmountNumeral}" />
+    <aura:attribute name="areScriptsLoaded" type="Boolean" default="false" description="Checks if the scripts are loaded" />
+
+    <c:CMP_ServiceComponent aura:id="Service" />
+    
+    <aura:attribute name="fromGPI" type="Boolean" default="false"/>
+    <!--<aura:attribute name="numberFormat" type="String" default="###.###.###,##"/>-->
+    <aura:attribute name="numberFormat" type="String"/>
+    <aura:attribute name="numberOfDec" type="String" default="8"/>
+    <aura:attribute name="wholeDecimal" type="Boolean" default="false"/>
+
+    <!-- NEW ATTRIBUTES -->
+    <aura:attribute name="userFormat" type="String" default="2" />
+    <aura:attribute name="toShow" type="String" />
+    <aura:attribute name="currency" type="String"/>
+
+    <aura:attribute name="amount" type="String"/>
+    <aura:attribute name="whole" type="String"/>
+    <aura:attribute name="decimal" type="String"/>
+    <aura:attribute name="wholeClass" type="String"/>
+    <aura:attribute name="decimalClass" type="String"/>
+    <aura:attribute name="currencyClass" type="String" />
+    <aura:attribute name="outputString" type="String" />
+    
+    <aura:handler name="change" value="{!v.amount}" action="{!c.formatAmountNumeral}"/>
+    
+    <aura:method name="formatNumber" action="{!c.formatAmountNumeral}" description="Method to allow the amount formatting on demand">
+        <aura:attribute name="numberFormat" type="String"/>
+    </aura:method>
+
+    <span class="{!v.wholeClass}">{!v.whole}</span>
+    <span class="{!v.decimalClass}">{!v.decimal}</span> 
+    <span class="{!v.currencyClass}">&nbsp; {!v.currency} </span>
+
+</aura:component>

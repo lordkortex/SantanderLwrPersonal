@@ -1,0 +1,230 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to be the header and search advanced filters
+History
+<Date>			<Author>		<Description>
+03/03/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_MRTrackerSearch">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="currencyList" type="List" default="['EUR','GPB','USD','BRL','MXN']"/>
+    <aura:attribute name="statusList" type="List" default="['On hold', 'In progress', 'Completed', 'Rejected']"/>
+    <aura:attribute name="countryList" type="List" default="[]"/>
+    <aura:attribute name="selectedCurrency" type="String" default="{!$Label.c.singleChoice}"/>
+    <aura:attribute name="selectedCountry" type="String" default="{!$Label.c.singleChoice}"/>
+    <aura:attribute name="selectedStatus" type="List"/> 
+    <aura:attribute name="selectedStatusLabel" type="String" default="{!$Label.c.multipleChoice}"/> 
+    <aura:attribute name="accountList" type="List" default="[]"/>
+    <aura:attribute name="selectedAccountLabel" type="String" default="{!$Label.c.multipleChoice}"/>
+    <aura:attribute name="selectedAccount" type="List"/> 
+    <aura:attribute name="beneficiaryAccount" type="String" default="" />
+    <aura:attribute name="thatContains" type="String" default="" />
+    <aura:attribute name="settledFrom" type="String" default=""/>
+    <aura:attribute name="settledTo" type="String" default=""/>
+    <aura:attribute name="settledErrorTo" type="String" default=''/> 
+    <aura:attribute name="settledErrorFrom" type="String"/> 
+    <aura:attribute name="dateErrorFrom" type="String" default="dd/mm/yyyy"/> 
+    <aura:attribute name="dateErrorTo" type="String" default="dd/mm/yyyy"/>
+    <aura:attribute name="datesValidity" type="Boolean" default="true"/>
+    <aura:attribute name="count" type="Integer" default="0"/>
+    
+    <aura:attribute name="inOutIndicator" type="String" />
+
+    <aura:attribute name="dateFrom" type="date" default=""/>
+    <aura:attribute name="dateTo" type="date" default=""/>
+    <aura:attribute name="accountListToDisplay" type="List"/>
+
+    <aura:attribute name="accountFilter" type="String"/>
+    
+    <!--01/04/2020 - Account Payments Tracker-->
+        <aura:attribute name="isAccountFilter" type="Boolean" default="false"/>
+    
+    <aura:handler name="change" value="{!v.selectedCurrency}" action="{!c.changeCurrency}"/>
+    <aura:handler name="change" value="{!v.selectedCountry}" action="{!c.refreshPills}"/>
+    <aura:handler name="change" value="{!v.selectedAccount}" action="{!c.changeAccount}"/>
+    <aura:handler name="change" value="{!v.selectedStatus}" action="{!c.refreshPills}"/>
+    <aura:handler name="change" value="{!v.dateFrom}" action="{!c.refreshPills}"/>
+    <aura:handler name="change" value="{!v.dateTo}" action="{!c.refreshPills}"/>
+    <aura:handler name="change" value="{!v.settledFrom}" action="{!c.changeFrom}"/>
+    <aura:handler name="change" value="{!v.settledTo}" action="{!c.changeTo}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="filters" type="String" default=""/>
+
+    <aura:registerEvent name="getFilter" type="c:EVT_searchFilter" />
+    <aura:handler name="change" value="{!v.isOpen}" action="{!c.refreshDropdowns}"/>
+
+
+    <!--Method to restart de pagination index-->
+    <aura:method name="updateFilterDropdown" action="{!c.updateFilterData}">
+        <aura:attribute name="filter" type="String"/>
+        <aura:attribute name="value" type="List"/>
+        <aura:attribute name="doFilter" type="Boolean" default="false"/>
+    </aura:method>
+
+    <aura:registerEvent name="updateFilter" type="c:EVT_updateFilter" />
+
+    <aura:attribute name="isOpen" type="Boolean" default="false"/>
+    <aura:if isTrue="{!v.isOpen}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!$Label.c.advancedFilters}</h2>
+                    <button class="slds-button" onclick="{!c.close}"  >
+                        <div class="icon-close_big"></div> 
+                        <span class="slds-assistive-text">{!$Label.c.close}</span>
+                    </button>
+                </header>
+                <div class="slds-modal__content" id="modal-content-id-1">
+                    <div class="slds-grid__content">
+                         <!--01/04/2020 - Account Payments Tracker-->
+                        <aura:if isTrue="{!v.isAccountFilter == false}">
+                            <div class="slds-row">
+                                <div class="slds-col">
+                                    <div class="slds-form-element slds-combobox__Rg">
+                                        <label class="slds-form-element__label" for="combobox-id-49">{!v.inOutIndicator == 'OUT' ? $Label.c.originAccount : $Label.c.beneficiaryAccount}</label>
+                                        <c:CMP_NewDropdown aura:id="accountDropdown" isSimpleDropdown="false" valuePlaceholder="{!v.selectedAccountLabel}" values="{!v.accountListToDisplay}" selectedValues="{!v.selectedAccount}"/>
+                                        
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="slds-form-element slds-combobox__Rg">
+                                        <!-- DROPDOWN MARKUP -->
+                                        <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                        <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.currency}</label>
+                                        <c:CMP_NewDropdown aura:id="currencyDropdown" isSimpleDropdown="true" values="{!v.currencyList}" selectedValue="{!v.selectedCurrency}"/>
+                                    </div>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="slds-col">
+                                        <div class="slds-form-element slds-combobox__Rg">
+                                            <label class="slds-form-element__label" for="combobox-id-49">{!v.inOutIndicator == 'OUT' ? $Label.c.originAccount : $Label.c.beneficiaryAccount}</label>
+                                            <c:CMP_NewDropdown aura:id="accountDropdown" isSimpleDropdown="false" valuePlaceholder="{!v.selectedAccountLabel}" values="{!v.accountListToDisplay}" selectedValues="{!v.selectedAccount}" isDisabled="true"/>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="slds-form-element slds-combobox__Rg">
+                                            <!-- DROPDOWN MARKUP -->
+                                            <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                            <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.currency}</label>
+                                            <c:CMP_NewDropdown aura:id="currencyDropdown" isSimpleDropdown="true" values="{!v.currencyList}" selectedValue="{!v.selectedCurrency}" isDisabled="true"/>
+                                        </div>
+                                    </div>
+                                </aura:set>
+                            </div>
+                            
+                            <aura:set attribute="else">
+                                <div class="slds-row">
+                                    <div class="slds-col">
+                                        <div class="slds-form-element slds-combobox__Rg">
+                                            <label class="slds-form-element__label" for="combobox-id-49">{!v.inOutIndicator == 'OUT' ? $Label.c.originAccount : $Label.c.beneficiaryAccount}</label>
+                                            <c:CMP_NewDropdown aura:id="accountDropdown" isSimpleDropdown="false" valuePlaceholder="{!v.selectedAccountLabel}" values="{!v.accountListToDisplay}" selectedValues="{!v.selectedAccount}" isDisabled="true"/>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="slds-form-element slds-combobox__Rg">
+                                            <!-- DROPDOWN MARKUP -->
+                                            <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                            <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.currency}</label>
+                                            <c:CMP_NewDropdown aura:id="currencyDropdown" isSimpleDropdown="true" values="{!v.currencyList}" selectedValue="{!v.selectedCurrency}" isDisabled="false"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </aura:set>
+                            
+                        </aura:if>
+
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <div class="slds-col">
+                                    <div class="slds-form-element input_text">
+                                        <label class="slds-form-element__label" for="text-input-id-1">{!$Label.c.amount}</label>
+                                        <div class="input_text__combo">
+                                            <div class="slds-form-element__control">
+                                                <ui:inputNumber placeholder="{!$Label.c.from}"  maxlength="17" class="slds-input inputShadow" format=",00" value="{!v.settledFrom}" aura:id="settledFrom"/>                                                    
+                                            </div>
+                                            <div class="slds-form-element__control">
+                                                <ui:inputNumber placeholder="{!$Label.c.to}"  maxlength="17" class="slds-input inputShadow" value="{!v.settledTo}" aura:id="settledTo"/>                                                  
+                                            </div>
+                                        </div>
+                                        <span class="textHelp">{!v.settledErrorTo}</span>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <!-- DROPDOWN MARKUP -->
+                                     <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                <div class="slds-form-element slds-combobox__Rg">
+                                    <label class="slds-form-element__label" for="combobox-id-49">{!$Label.c.status}</label>
+                                    <c:CMP_NewDropdown aura:id="statusDropdown" isSimpleDropdown="false"  valuePlaceholder="{!v.selectedStatusLabel}" values="{!v.statusList}" selectedValues="{!v.selectedStatus}"/>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <div class="slds-form-element input_text">
+                                    <label class="slds-form-element__label" for="text-input-id-1">{!v.inOutIndicator == 'IN' ? $Label.c.originAccount : $Label.c.beneficiaryAccount}</label>
+                                    <div class="slds-form-element__control">
+                                        <ui:inputText placeholder="{!$Label.c.writeAnAccountNumber}" maxlength="34" class="slds-input inputShadow inputLarge" aura:id="beneficiaryAccount" keyup="{!c.refreshPills}" value="{!v.beneficiaryAccount}" updateOn="keyup"/>                                                    
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                    <div class="slds-form-element slds-combobox__Rg">
+                                        <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.beneficiaryCountry}</label>
+                                        <c:CMP_NewDropdown aura:id="countryDropdown" isSimpleDropdown="true" values="{!v.countryList}" selectedValue="{!v.selectedCountry}"/>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <div class="slds-form-element"> 
+                                    <div class="slds-form slds-form_compound calendar">
+                                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.valueDate}</div> 
+                                        <div class="slds-form-element__control paddingInput">                        
+                                            <div class="slds-form slds-form_compound">
+                                                <fieldset class="slds-form-element">
+                                                    <c:CMP_Calendar simple="false" placeholderTo="{!$Label.c.to}" placeholderFrom="{!$Label.c.from}" dateFrom="{!v.dateFrom}" dateTo="{!v.dateTo}" helpText="dd/MM/yyyy" validity="{!v.datesValidity}"/>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-form-element input_text">
+                                    <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.thatContains}</label>
+                                    <div class="slds-form-element__control">
+                                        <ui:inputText placeholder="{!$Label.c.writeAWord}" maxlength="155" class="slds-input inputShadow inputLarge" aura:id="thatContains" value="{!v.thatContains}"/>                                                    
+                                        <!--<ui:inputText  placeholder="{!$Label.c.writeAWord}" maxlength="155" class="slds-textarea" aura:id="thatContains" value="{!v.thatContains}" updateOn="keyup"/>                                                 
+                                        <textarea placeholder="{!$Label.c.writeAWord}" maxlength="34" class="slds-textarea" aura:id="thatContains" value="{!v.thatContains}" updateOn="keyup"></textarea>-->
+                                        <!--<input type="text" name="thatContains" value="{! v.thatContains }" class="slds-input slds-textarea" placeholder="{!$Label.c.writeAWord}" />-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <div class="slds-form-element">
+                                <div class="slds-media__footer">
+                                    <div onclick="{!c.clear}"> <button class="slds-button slds-button_brand whiteButton">{!$Label.c.clearAll}</button></div>
+                                    <div onclick="{!c.apply}"> <button class="slds-button slds-button_brand redButton">{!$Label.c.apply}</button></div>           
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

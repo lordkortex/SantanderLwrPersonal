@@ -1,0 +1,71 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+
+    <!-- COMPONENT ATTRIBUTES -->   
+    <aura:attribute name="valuesLeft" type="List" description="List of values to be shown in the left column" default="['Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5', 'Option 6']"/>
+    <aura:attribute name="valuesRight" type="List" description="List of values to be shown in the right column"/>
+    <aura:attribute name="selectedValue" type="String" description="Selected value to be passed from left to right and viceversa"/>
+    <aura:attribute name="title" type="String" description="Title to be shown above the multiselect combo"/>
+
+    <!-- EVENTS -->
+    <aura:registerEvent name="valueMoved" type="c:EVT_MultipicklistValueMoved"/>
+
+    <!-- COMPONENT MARKUP -->
+    <div class="slds-form-element" role="group" aria-labelledby="picklist-group-label">
+        <div class="slds-form-element__control">
+            <div class="slds-dueling-list">
+                <div class="slds-assistive-text" id="drag-live-region" aria-live="assertive"></div>
+                <div class="slds-assistive-text" id="option-drag-label">Press space bar when on an item, to move it within the list. CMD plus left and right arrow keys, to move items between lists.</div>
+
+                <!-- VALUES ON THE LEFT -->
+                <div class="slds-dueling-list__column">
+                    <aura:if isTrue="{!v.title != null}">
+                        <span class="slds-form-element__label" id="label-103">{!v.title}</span>
+                    </aura:if>
+                    <div class="slds-dueling-list__options">
+                        <ul aria-describedby="option-drag-label" aria-labelledby="label-103" aria-multiselectable="true" class="slds-listbox slds-listbox_vertical slds-scrollable_y" role="listbox">
+                            <aura:iteration items="{!v.valuesLeft}" var="itemLeft">
+                                <li role="presentation" class="slds-listbox__item">
+                                    <div class="slds-listbox__option slds-listbox__option_plain slds-media slds-media_small slds-media_inline" id="{!itemLeft}" onclick="{!c.onValueSelected}" aria-selected="false" draggable="true" role="option" tabindex="0">
+                                        <span class="slds-media__body">
+                                            <span class="slds-truncate" data-title="{!itemLeft}">{!itemLeft}</span>
+                                        </span>
+                                    </div>                                  
+                                </li>
+                            </aura:iteration>
+                        </ul>
+                    </div> 
+                </div>
+            
+                <!-- SELECTION ARROWS -->
+                <div class="slds-dueling-list__column">
+                    <button id="arrowRight" class="slds-button slds-button_icon slds-button_icon-container" data-title="{!$Label.c.T_PreviousMonth}" onclick="{!c.onArrowClick}">
+                        <div class="button-page icon-right"></div>
+                        <span class="slds-assistive-text">Move Selection to Second Category</span>
+                    </button>
+                    <button id="arrowLeft" class="slds-button slds-button_icon slds-button_icon-container" data-title="{!$Label.c.T_NextMonth}" onclick="{!c.onArrowClick}">
+                        <div class="button-page icon-left"></div>
+                        <span class="slds-assistive-text">Move Selection to First Category</span>
+                    </button>
+                </div>
+            
+                <!-- VALUES ON THE RIGHT -->
+                <div class="slds-dueling-list__column">
+                    <span class="slds-form-element__label" id="label-104"></span>
+                    <div class="slds-dueling-list__options">
+                        <ul aria-describedby="option-drag-label" aria-labelledby="label-103" aria-multiselectable="true" class="slds-listbox slds-listbox_vertical slds-scrollable_y" role="listbox">
+                            <aura:iteration items="{!v.valuesRight}" var="itemRight">
+                                <li role="presentation" class="slds-listbox__item">
+                                    <div class="slds-listbox__option slds-listbox__option_plain slds-media slds-media_small slds-media_inline" id="{!itemRight}" onclick="{!c.onValueSelected}" aria-selected="false" draggable="true" role="option" tabindex="0">
+                                        <span class="slds-media__body">
+                                            <span class="slds-truncate" data-title="{!itemRight}">{!itemRight}</span>
+                                        </span>
+                                    </div>                                  
+                                </li>
+                            </aura:iteration>
+                        </ul>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>	
+</aura:component>

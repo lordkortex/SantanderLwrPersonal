@@ -1,0 +1,5 @@
+<aura:event type="COMPONENT" description="Event fired when one button in the c:CMP_Title is clicked">
+    <aura:attribute name="downloadClicked" type="Boolean"/>
+    <aura:attribute name="searchClicked" type="Boolean"/>
+    <aura:attribute name="addClicked" type="Boolean"/>
+</aura:event>

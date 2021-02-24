@@ -1,0 +1,65 @@
+.THIS.titleHistory{
+	width: 100%;
+	margin: 0 0 16px 0;  
+}
+.THIS.titleHistory .slds-col.title {
+	display: block;
+}
+.THIS.titleHistory .title .slds-text-heading_medium {
+	color: #444444;
+	font-family:"SantanderHeadlineW05-Rg";
+	font-size: 28px;
+	line-height: 34px;
+	margin-bottom: 8px;
+}
+.THIS.titleHistory .title .text_line{
+	border-bottom: solid 3px #ec0000;
+    width:40px;
+}
+
+.THIS.titleSubtitle{
+    margin-bottom: 16px;
+}
+
+.THIS.titleSubtitle .containerInformation {
+   margin: 0;
+   padding: 0;
+   margin-bottom: 8px;
+}
+
+.THIS.titleSubtitle .slds-card__header-title {
+   color: #444444;
+   display: flex;
+   align-items: flex-end;
+   margin-bottom: 4px;
+} 
+
+.THIS.titleSubtitle .slds-card__header-title .bankAccount{
+   font-family: "SantanderMicroText";
+   font-size: 14px;
+   line-height: 21px;
+}
+
+.THIS.titleSubtitle .separation{
+   justify-content: space-between;
+}
+
+.THIS.titleSubtitle .slds-card__header-title  .title {
+   color: #444444;
+   font-size: 28px; 
+   font-weight: normal;
+   font-family: "SantanderHeadlineW05-Rg";
+   line-height: 34px;
+   letter-spacing: normal;
+}
+
+.THIS.titleSubtitle .text_line{
+     width: 40px;
+     border-bottom: 3px solid #ec0000;
+}
+.THIS.spinnerclass{
+   position: relative;
+   display: inline-block;
+   width: 100%;
+   height:300px;
+}

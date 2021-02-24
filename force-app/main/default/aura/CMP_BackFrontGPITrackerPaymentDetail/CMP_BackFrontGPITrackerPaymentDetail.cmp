@@ -1,0 +1,13 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    MR Tracker component
+History
+<Date>			<Author>		<Description>
+27/01/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global">
+    <div style="margin: 0 1%;">
+        <c:CMP_PaymentDetails backfront="true"/>
+    </div>
+</aura:component>

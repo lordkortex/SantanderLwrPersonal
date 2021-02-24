@@ -1,0 +1,14 @@
+<template>
+    <div class="UETRimage">
+        <div class="spinnerNoResults">
+            <div role="status" class="slds-spinner">
+                <span class="icon-prohibited"></span>
+            </div>
+            <div class="spinnerText">
+                <div class="title">{label.paymentByUETRErrorTitle}</div>
+                <div class="subtitle">{label.paymentByUETRErrorSub}</div>
+                <button class="slds-button primary button_big button_full" onclick={resetSearch}>{label.resetSearch}</button>
+            </div>
+        </div>
+    </div>
+</template>

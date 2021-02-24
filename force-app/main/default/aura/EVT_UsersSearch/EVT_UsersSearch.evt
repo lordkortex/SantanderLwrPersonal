@@ -1,0 +1,19 @@
+<!--Author:     Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Event to send the user search filters
+History
+<Date>			<Author>		<Description>
+20/01/2020		Joaquin Vera Vallés     Initial version-->
+<aura:event type="APPLICATION" description="CMP_UsersSearch">
+
+    <!--SEARCHING ATTRIBUTES-->
+    <aura:attribute name="inputId" type="String" description="Selected option from the state dropdown"/>
+    <aura:attribute name="inputName" type="String" description="Selected option from the state dropdown"/>
+    <aura:attribute name="inputSurname" type="String" description="Selected option from the state dropdown"/>
+    
+    <aura:attribute name="selectedState" type="String" description="Selected option from the state dropdown"/>
+    <aura:attribute name="selectedRole" type="String" description="Selected option from the role dropdown"/>
+    <aura:attribute name="selectedGroup" type="String" description="Selected option from the group dropdown"/>
+    <aura:attribute name="selectedTypeOfUser" type="String" description="Selected option from the type of user dropdown"/>
+
+</aura:event>

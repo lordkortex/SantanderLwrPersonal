@@ -1,0 +1,41 @@
+.THIS.titleSubtitle{
+    margin-bottom: 16px;
+}
+
+.THIS.titleSubtitle .containerInformation {
+   margin: 0;
+   padding: 0;
+   margin-bottom: 8px;
+}
+
+.THIS.titleSubtitle .slds-card__header-title.separation {
+   color: #444444;
+   display: flex;
+   align-items: flex-end;
+   margin-bottom: 4px;
+} 
+
+.THIS.titleSubtitle .slds-card__header-title .subtitle{
+   font-family: "SantanderMicroText";
+   font-size: 14px;
+   line-height: 20px;
+   color: #767676;
+}
+
+.THIS.titleSubtitle .separation{
+   justify-content: space-between;
+}
+
+.THIS.titleSubtitle .slds-card__header-title  .title {
+   color: #444444;
+   font-size: 28px; 
+   font-weight: normal;
+   font-family: "SantanderHeadlineW05-Rg";
+   line-height: 34px;
+   letter-spacing: normal;
+}
+
+.THIS.titleSubtitle .text_line{
+     width: 40px;
+     border-bottom: 3px solid #ec0000;
+}

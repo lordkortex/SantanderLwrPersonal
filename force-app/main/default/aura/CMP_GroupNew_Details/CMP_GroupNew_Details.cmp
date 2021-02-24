@@ -1,0 +1,39 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Component for inserting the group name (Step 1)
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component>
+
+    <aura:attribute name="groupName" type="String" description="Name of the group that is getting created"/>
+
+    <div class="slds-grid slds-grid_vertical">
+        <div class="slds-col">
+            <div class="slds-card__header-title">
+                <span class="title">
+                    {!$Label.c.GroupNew_GroupDetails}
+                </span>
+                <span class="subtitle">
+                    {!$Label.c.GroupNew_Assignorchangethegroupname}
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="container-detail">
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <div class="slds-form-element input_text">
+                        <div class="slds-form-element__label">
+                            <abbr class="slds-required">*</abbr>
+                            <label  for="text-input-id-2">{!$Label.c.GroupList_Name}</label>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" id="text-input-id-2" placeholder="" required="" value ="{!v.groupName}" onkeyup="{!c.saveData}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</aura:component>

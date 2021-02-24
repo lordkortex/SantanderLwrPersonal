@@ -1,0 +1,235 @@
+.THIS {
+}
+
+.THIS .bank{
+    align-items: center; 
+    color: #444444;
+    display: flex;
+    font-size: 14px;
+    height: 21px;
+    width: 280px; 
+}
+
+.THIS .bank__disabled{
+    align-items: center;   
+    color: #a2a2a2;
+    display: flex;
+    font-size: 14px;
+    height: 21px;
+    width: 280px; 
+}
+
+.THIS .card{
+    background-color: #ffffff;
+    border: 1px solid #ececec;
+    border-radius: 4px;
+    height: 56px;
+    margin: 0;
+    padding: 8px 24px 8px 16px; 
+}
+
+.THIS .card__inProgress{
+    background-color: #f4fcfc;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px 0 rgba(218, 218, 218, 0.5), inset 0 -1px 0 0 #1bb3bc;
+   	height: 56px;
+    margin: 0;
+    padding: 8px 24px 8px 16px;
+}
+
+
+.THIS .card__onHold{
+    background-color: #fffdf5;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px 0 rgba(68, 68, 68, 0.16), inset 0 -1px 0 0 #ffcc33;
+   	height: 56px;
+    margin: 0;
+    padding: 8px 24px 8px 16px;
+}
+
+.THIS .card__rejected{
+    background-color: #fff2f2;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px 0 rgba(68, 68, 68, 0.16), inset 0 -1px 0 0 #cc0000;
+   	height: 56px;
+    margin: 0;
+    padding: 8px 24px 8px 16px;
+}
+
+.THIS .card__completed{
+    background-color: #f8fcf8;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px 0 rgba(68, 68, 68, 0.16), inset 0 -1px 0 0 #63ba68;
+   	height: 56px;
+    margin: 0;
+    padding: 8px 24px 8px 16px;
+}
+
+
+
+
+.THIS .city{
+    align-items: center;
+    color: #a2a2a2;
+    display: flex;
+    height: 18px; 
+    font-size: 12px;
+    width: 280px; 
+}
+
+.THIS .city__disabled{
+    align-items: center;
+    color: #c7c7c7;
+    display: flex;
+    height: 18px; 
+    font-size: 12px;
+    width: 280px;
+}
+
+.THIS .colDate{
+    align-items: center;
+    display: flex;
+    font-size: 12px;
+    height: 18px; 
+}
+
+.THIS .colFee{
+    align-items: center;
+    display: flex;
+    font-size: 12px;
+    height: 18px;
+    justify-content: flex-end;
+    width: 80px;
+}
+
+.THIS .colIdentity{
+    flex: initial;
+    margin-right: 64px;
+}
+
+.THIS .colTime{
+    align-items: center;
+    display: flex;
+    font-size: 12px;
+    height: 18px;
+    justify-content: center;
+}
+
+.THIS .containerFlag{
+    background-color: #f7f7f7 !important;
+    border: none;
+    box-shadow: none !important;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.THIS .date{
+    color: #444444;
+    width: 164px;
+}
+
+.THIS .date__disabled{
+    color: #a2a2a2;
+    width: 164px;
+}
+
+.THIS .decimalsFee{
+    font-size: 10px;
+}
+
+.THIS .flag{
+    height: 40px;
+    margin: 0;
+    padding: 4px;
+    width: 40px;
+}
+
+.THIS .flagActive{
+    display: flex;
+    height: 44px;
+    margin: 0;
+    width: 40px;
+}
+
+.THIS .flagDisabled{
+    opacity: 0.5;
+}
+
+.THIS .hidden{
+    display: none;
+}
+
+.THIS .icon{
+    font-size: 24px;
+    margin-right: 4px;
+}
+
+.THIS .separationCard{
+    padding-top: 16px;
+}
+
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__blue::before, 
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__blue::after,
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-active.progress__blue::before{
+    background-color: transparent;
+    border: 1.3px solid #1bb3bc;
+    left: calc(1.75rem - 1px);
+}
+
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__red::before, 
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__red::after,
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-active.progress__red::before{
+    background-color: transparent;
+    border: 1.3px solid #cc0000;
+    left: calc(1.75rem - 1px);
+}
+
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__orange::before, 
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__orange::after,
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-active.progress__orange::before{
+    background-color: transparent;
+    border: 1.3px solid #ffcc33;
+    left: calc(1.75rem - 1px);
+}
+
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__green::before, 
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__green::after,
+.THIS.slds-progress_vertical .slds-progress__item.slds-is-active.progress__green::before{
+    background-color: transparent;
+    border: 1.3px solid #63ba68;
+    left: calc(1.75rem - 1px);
+}
+
+
+.THIS.slds-progress_vertical .slds-progress__item:before, 
+.THIS.slds-progress_vertical .slds-progress__item:after {
+    background-color: transparent;
+    border: 1px solid #dadada;
+    border-style: dashed;
+    left: calc(1.75rem - 1px); 
+}
+
+.THIS .textFee{
+    margin-right: 4px;
+}
+
+.THIS .text__gray{
+    color: #444444;
+}
+
+.THIS .text__red{
+    color: #cc0000;
+}
+
+.THIS .time{
+    color: #444444;
+    width: 104px;
+}
+
+.THIS.trackingPayment{
+    margin-top: 16px;
+}

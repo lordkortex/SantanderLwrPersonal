@@ -1,0 +1,131 @@
+<!-- Shahad Naji : 28/04/2020 : Disable dropdown -->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="values" type="List" default="['Value 1', 'Value 2', 'Value 3']" description="List of values to populate the dropdown"/>
+    <aura:attribute name="selectedValue" type="String" description="Selected option from the dropdown"/>
+    <aura:attribute name="headerDropdown" type="String" description="header of the Dropdown"/>
+    <aura:attribute name="helpText" type="String" default="Show More" description="Dropdown help text"/>
+    <aura:attribute name="isSimpleDropdown" type="boolean" default="true" description="Flag to switch between simple and multiselect dropdown"/>
+    
+    <!-- MULTISELECT DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="selectedValues" type="List" description="Multi-select selected values"/>
+    <aura:attribute name="selectAllValues" type="String" default="All" description="Option label for all values selection"/>
+    <aura:attribute name="valuePlaceholder" type="String" default="{!$Label.c.selectOne}" description="Value selected in the dropdown by default"/>
+    <aura:attribute name="valueSingle" type="String" default="value selected" description="Value selected in the dropdown when only one value has been selected"/>
+    <aura:attribute name="valueMulti" type="String" default="values selected" description="Value selected in the dropdown when more than one value has been selected"/>
+    <aura:attribute name="allValuesSelected" type="Boolean" default="false" description="Flag to indicate whether the 'All Values' option has been selected"/>
+    <aura:attribute name="isDisabled" type="Boolean" default="false" description="Attribute to indicate if the dropdown is disabled" />
+    <aura:attribute name="isSeparated" type="Boolean" default="true" description="Flag to check if is separated" />
+
+
+    <!-- DROPDOWN EVENTS -->
+    <aura:registerEvent name="dropdownValueSelected" type="c:EVT_DropdownValueSelected"/>
+    <aura:registerEvent name="dropdownExchangeCurrency" type="c:EVT_DropdownValueSelected"/>
+
+    <!-- DROPDOWN HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.values}" action="{!c.doInit}"/>
+
+
+    <!-- DROPDOWN METHODS -->
+    <aura:method name="updateSelection" action="{!c.onSelectionUpdate}" description="Method to update the seleced values from outside the component">
+        <aura:attribute name="changedValues" type="List" description="List of values that has been selected/unselected"/> 
+    </aura:method>
+    <aura:method name="keepSelection" action="{!c.keepSelected}" description="Method to maintain selected values">
+        <aura:attribute name="valueToKeep" type="String" description="List of values that to keep selected"/> 
+    </aura:method>
+    
+    <div class="slds-grid currencyDropdown_container">
+        <div class="{!v.isSeparated ? 'slds-col' : 'slds-col disableMargin'}">
+        <!--<div class="slds-col">-->
+            <div class="slds-form-element slds-combobox__Rg">
+                <!-- DROPDOWN MARKUP -->
+                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                <label class="slds-form-element__label" for="textarea-id-01">{!v.headerDropdown}</label>
+                <div class="{!v.isDisabled ? 'slds-combobox slds-dropdown-trigger disabled' : 'slds-combobox slds-dropdown-trigger'}" aria-expanded="true" aria-haspopup="dialog" role="combobox" >
+                    <aura:if isTrue="{!v.isSimpleDropdown}">
+                            <!-- SIMPLE DROPDOWN -->
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" disabled="{!v.isDisabled ==  true ? true : false}">
+                                    <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                    <aura:if isTrue="{!v.selectedValue == $Label.c.selectOne}">
+                                        <div class="slds-border_right orderSelected selectedValue-placeholder">{!v.selectedValue}</div>
+                                    </aura:if>
+                                    <aura:if isTrue="{!and(v.selectedValue != null,v.selectedValue != $Label.c.selectOne)}">
+                                        <div class="slds-border_right orderSelected selectedValue">{!v.selectedValue}</div>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.selectedValue == null}">
+                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{!v.valuePlaceholder}</div>
+                                    </aura:if>
+                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                    </div>
+                                    <span class="slds-assistive-text">{!v.helpText}</span>
+                                </button>
+                            </div>
+                            <div class="{!v.isDisabled == true ? 'slds-dropdown slds-dropdown_left dropdownOrder__none' : 'slds-dropdown slds-dropdown_left dropdownOrder' }">
+                                <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpText}">
+                                    <aura:iteration items="{!v.values}" var="item">
+                                        <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}" onclick="{!c.selectOption}">
+                                            <a class="paddingOption" role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                <div class="slds-truncate optionOrder">
+                                                    <!-- <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
+                                                                    <div class="button-selected icon-check"></div>
+                                                                </div> -->
+                                                    <span class="nameOrder">{!item}</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </aura:iteration>
+                                </ul>
+                            </div>
+                        <aura:set attribute="else">
+                            <!-- MULTISELECT DROPDOWN -->
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" disabled="{!v.isDisabled ==  true ? true : false}">
+                                    <aura:if isTrue="{!v.selectedValues.length == 0}">
+                                        <div class="slds-border_right orderSelected  selectedValue-placeholder ">{!v.valuePlaceholder}</div> 
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.selectedValues.length == 1}">
+                                        <div class="slds-border_right orderSelected">{!v.selectedValues[0]}</div> 
+                                    </aura:if>
+                                    <aura:if isTrue="{!and(v.selectedValues.length > 1, v.allValuesSelected)}">
+                                        <div class="slds-border_right orderSelected">{!v.selectedValues.length-1}{!' ' + v.valueMulti}</div> 
+                                    </aura:if>
+                                    <aura:if isTrue="{!and(v.selectedValues.length > 1, not(v.allValuesSelected))}">
+                                        <div class="slds-border_right orderSelected">{!v.selectedValues.length}{!' ' + v.valueMulti}</div> 
+                                    </aura:if>
+                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                    </div>
+                                    <span class="slds-assistive-text">{!v.helpText}</span>
+                                </button>
+                            </div>
+                            <!-- <div class="slds-dropdown slds-dropdown_left dropdownOrder"> -->
+                                <div class="{!v.isDisabled == true ? 'slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder__none' : 'slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder' }">
+                                    <ul class="slds-dropdown__list"  role="menu" aria-label="{!v.helpText}">
+                                    <aura:iteration items="{!v.values}" var="item">
+                                        <!--<li class="{!v.selectedValueMap[item_index].selected ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}" onclick="{!c.selectOption}">-->
+                                        <li class="slds-dropdown__item" role="presentation" id="{!item}" onclick="{!c.selectOption}">
+                                            <a class="paddingOption"  role="menuitemcheckbox" tabindex="0" aria-checked="true" >
+                                                <div class="slds-truncate optionOrder">
+                                                    <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
+                                                        <div id="{!item + '_option'}" class="button-selected icon-check"></div>
+                                                    </div>
+                                                    <span class="nameOrder">{!item}</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </aura:iteration>  
+                                </ul>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

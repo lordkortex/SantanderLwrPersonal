@@ -1,0 +1,61 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component for the backfront pain002 remove
+History
+<Date>			<Author>		<Description>
+24/01/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_BackFrontPain002Table">
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <aura:attribute name="isDelete" type="boolean" default="false"/>
+    <aura:attribute name="toastType" type="String" default="success"/>
+    <aura:attribute name="showToast" type="Boolean" default="false"/>
+    <aura:attribute name="toastMessage" type="String" default="{!$Label.c.painDeactivatedCorrectly}"/>
+    <aura:attribute name="accountId" type="String"/>
+    <aura:attribute name="toDelete" type="Map"
+    default="{
+             account : '',
+             bic : ''                          
+             }"    />
+
+    <c:CMP_Toast type="{!v.toastType}" show="{!v.showToast}" message="{!v.toastMessage}"/>  
+
+    <aura:if isTrue="{!v.isDelete==true}">
+        <!--Use "slds-m-around_xx-large" class to add standard X-Large padding to the component--> 
+    <div class="slds-m-around_xx-large">
+        <!--Use aura:if tag to display Model Box, on the bese of conditions. [isOpen boolean attribute] -->   
+            
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                onclick="{! c.closeModel }"
+                                                alternativeText="close"
+                                                variant="bare-inverse"
+                                                class="slds-modal__close"/>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.deactivePain002}</h2>
+                        </header>
+                        <!--###### MODAL BOX BODY Part Start######-->
+                        <div class="slds-modal__content slds-p-around_large" id="modal-content-id-1">                        
+                            <div>
+                                {!$Label.c.confirmationDeactivePain002}
+                            </div>
+                        </div>
+                        <!--###### MODAL BOX FOOTER Part Start ######-->
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_brand whiteButtonSmall"  onclick="{!c.closeModel}">{!$Label.c.cancel}</button>
+                            <button class="slds-button slds-button_brand redButtonSmall"  onclick="{!c.delete}">{!$Label.c.deactive}</button>              
+                        </footer>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+    </div>
+</aura:if>
+
+</aura:component>

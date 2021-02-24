@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PUR_PCK_Purpose__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Purpose</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Charitable Aid</fullName>
+                <default>true</default>
+                <label>Charitable Aid</label>
+            </value>
+            <value>
+                <fullName>Payment for identifiable goods</fullName>
+                <default>false</default>
+                <label>Payment for identifiable goods</label>
+            </value>
+            <value>
+                <fullName>Direct Capital investment in an Enterprise</fullName>
+                <default>false</default>
+                <label>Direct Capital investment in an Enterprise</label>
+            </value>
+            <value>
+                <fullName>Payment for identifiable services</fullName>
+                <default>false</default>
+                <label>Payment for identifiable services</label>
+            </value>
+            <value>
+                <fullName>Repatriation of sale of identifiable goods</fullName>
+                <default>false</default>
+                <label>Repatriation of sale of identifiable goods</label>
+            </value>
+            <value>
+                <fullName>Repatriation of sale of identifiable services</fullName>
+                <default>false</default>
+                <label>Repatriation of sale of identifiable services</label>
+            </value>
+            <value>
+                <fullName>Property purchase</fullName>
+                <default>false</default>
+                <label>Property purchase</label>
+            </value>
+            <value>
+                <fullName>Mortgage repayment</fullName>
+                <default>false</default>
+                <label>Mortgage repayment</label>
+            </value>
+            <value>
+                <fullName>Property rental/maintenance</fullName>
+                <default>false</default>
+                <label>Property rental/maintenance</label>
+            </value>
+            <value>
+                <fullName>Salary/payroll</fullName>
+                <default>false</default>
+                <label>Salary/payroll</label>
+            </value>
+            <value>
+                <fullName>Travel costs</fullName>
+                <default>false</default>
+                <label>Travel costs</label>
+            </value>
+            <value>
+                <fullName>Living costs</fullName>
+                <default>false</default>
+                <label>Living costs</label>
+            </value>
+            <value>
+                <fullName>Repayment of a loan</fullName>
+                <default>false</default>
+                <label>Repayment of a loan</label>
+            </value>
+            <value>
+                <fullName>Balance sheet hedging</fullName>
+                <default>false</default>
+                <label>Balance sheet hedging</label>
+            </value>
+            <value>
+                <fullName>Repatriation of revenues from investments</fullName>
+                <default>false</default>
+                <label>Repatriation of revenues from investments</label>
+            </value>
+            <value>
+                <fullName>Portfolio netting</fullName>
+                <default>false</default>
+                <label>Portfolio netting</label>
+            </value>
+            <value>
+                <fullName>Other not related to identifiable goods or services</fullName>
+                <default>false</default>
+                <label>Other not related to identifiable goods or services</label>
+            </value>
+            <value>
+                <fullName>Other</fullName>
+                <default>false</default>
+                <label>Other</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

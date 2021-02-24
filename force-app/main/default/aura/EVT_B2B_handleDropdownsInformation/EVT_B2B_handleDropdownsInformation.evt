@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Handles de dropdowns from the information step (4)">
+    <aura:attribute name="name"         type="String"  description="Name of the selected dropdown." />
+    <aura:attribute name="showDropdown" type="Boolean" description="Indicates if the dropdown is open." />
+</aura:event>

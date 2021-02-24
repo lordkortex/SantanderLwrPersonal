@@ -1,0 +1,99 @@
+.cardContainerHelp {
+    margin-bottom: 64px;
+    margin-right: 8px;
+}
+
+ .cardContainerHelp .titleHelp{
+    color: #444444; 
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 28px;
+   	line-height: 34px;
+    margin-bottom: 24px;
+    margin-top: 24px;
+ }
+ 
+ .cardContainerHelp .slds-card {
+    background-color: #ffffff;
+    border: 0px;
+    border-bottom: 1px solid #cedee7;
+    border-radius: 0px;
+    min-height: 56px;
+    padding: 16px;   
+ }
+
+ .cardContainerHelp .cardExpand .slds-card {
+    background-color: #ffffff;
+    border: 0px;
+    border-bottom: 1px solid #cedee7;
+    border-radius: 0px;
+    min-height: 56px;
+    padding: 0px;
+ }
+
+ .cardContainerHelp .cardExpand header {
+    padding: 16px;   
+ }
+
+ .cardContainerHelp div:nth-of-type(2) .slds-card {
+    border-top: 1px solid #cedee7;  
+ }
+
+ .cardContainerHelp .containerInformation {
+     margin: 0;
+     padding: 0;
+ }
+
+.cardContainerHelp .slds-card__header-title {
+    color: #444444;
+    font-family: "SantanderMicroText-Bd";
+    font-size: 16px;
+    line-height: 24px;
+}
+
+.cardContainerHelp .slds-card__body_inner{
+    border-top: 1px solid #cedee7;
+    color: #444444;
+    font-family: "SantanderMIcroText";
+    font-size: 14px;
+    line-height: 21px;
+    padding: 16px;
+ }
+
+.cardContainerHelp .slds-card__body_inner p{
+    margin-bottom: 16px;
+ }
+
+.cardContainerHelp .slds-card__body_inner ul{
+    list-style-type: none;
+    padding: 0;
+  	margin: 0;
+ }
+
+.cardContainerHelp .slds-card__body_inner li{
+    text-indent: -14px;
+    padding-left: 30px;
+ }
+
+.cardContainerHelp .slds-card__body_inner li:before {
+  content: "•"; 
+  padding-right: 8px;
+  color: #ec0000;
+}
+ 
+.cardContainerHelp .slds-button__icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardContainerHelp .icon-arrowDown_small,
+.cardContainerHelp .icon-arrowUp_small {
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.cardContainerHelp .bold {
+    font-family: "SantanderMicroText-Bd";
+}

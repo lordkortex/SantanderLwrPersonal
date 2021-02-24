@@ -1,0 +1,43 @@
+<template>
+    <div class="slds-card__header slds-grid pagination">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title results">
+                    <template if:true={pageListLength}>
+                      {label.viewing}&nbsp;<span class="number">{paymentsPage}-{paymentsCurrentPage}</span>&nbsp;{label.of}&nbsp;<span class="number">{totalRetrieved}</span>&nbsp;{label.Payments}
+                    </template>   
+                    <template if:false={pageListLength}>
+                      {label.viewing}&nbsp;<span class="number">{paymentsPage}-{totalRetrieved}</span>&nbsp;{label.of}&nbsp;<span class="number">{totalRetrieved}</span>&nbsp;{label.Payments}
+                    </template> 
+                </div>
+            </div>
+
+            <div class="navigationPage">
+                <div if:true={getCurrentPage}>
+                    <div class="button-pageLeft icon-arrowLeft_big" title={label.previousPage} onclick={previousPage}></div>
+                </div>
+                <template for:each={iterationPageList} for:item='item'>
+                    <span key={item.Id} class="span__align">
+                        <template if:true={item.show}>
+                            <template if:true={item.showfirstpoints}>
+                                <div class="number__gray">...</div>
+                            </template>
+                            <template if:true={item.iscurrerntpage}>
+                                <div class="number__gray selected">{item.value}</div>
+                            </template>
+                            <template if:false={item.iscurrerntpage}>
+                                <div class="number__gray">{item.value}</div>
+                            </template>
+                            <template if:true={item.showlastpoints}>
+                                <div class="number__gray">...</div>
+                            </template>
+                        </template>
+                    </span>
+                </template>               
+                <div if:true={getcurrentPageInt}>
+                    <div class="button-pageRight icon-arrowRight_big" title={label.nextPage} onclick={nextPage}></div>
+                </div> 
+            </div>
+        </header>
+    </div>
+</template>

@@ -1,0 +1,76 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_Global_Available_Balance">
+
+    <!--<aura:attribute name="countAccounts" type="Integer" default="0" description="Total number of accounts"/>-->
+    <aura:attribute name="accountList" type="List" description="Accounts"/> 
+    <aura:attribute name="globalBookBalance" type="Decimal" description="The sum of book balance value of all accounts"/>
+    <aura:attribute name="globalAvailableBalance" type="Decimal"  description="The sum of available balance value of all accounts"/>
+    <aura:attribute name="currentCurrency" type="String" description="The selected currency to make the required changes to calculate the amounts"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.currentCurrency}" action="{!c.doUpdate}"/>
+    <div class="slds-card globalCard">
+        <div class="slds-card__header slds-grid contentCard">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure icon">
+                    <img class="world" src="{!$Resource.Flags + '/World.svg'}"/>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title global">
+                        {!$Label.c.Global_Available_Balance}
+                    </div>
+                </div>
+                <div class="availableBalance">
+                    <div class="slds-card__header-title availableText">
+                        {!$Label.c.Available_Balance}
+                    </div>
+                    <div class="slds-card__header-title availableNumber">
+                        <c:CMP_displayAmount amount="{!v.globalAvailableBalance}"
+                                             decimalClass="availableDecimals" 
+                                             wholeClass="availableInteger" 
+                                             currency="{!v.currentCurrency}"/>                        
+                    </div>
+                </div>
+                <div class="bookBalance">
+                    <div class="slds-card__header-title bookText">
+                        {!$Label.c.Book_Balance}
+                    </div>
+                    <div class="slds-card__header-title bookNumber">
+                        <c:CMP_displayAmount amount="{!v.globalBookBalance}" 
+                                             decimalClass="bookDecimals" 
+                                             wholeClass="bookInteger" 
+                                             currency="{!v.currentCurrency}"/>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </div>
+    
+    <!--<article class="slds-card globalCard">
+        <div class="slds-card__header slds-grid contentCard">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure icon">
+                    <img class="world" src="{!$Resource.Flags + '/World.svg'}"/>
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title global">
+                        {!$Label.c.Global_Available_Balance}
+                    </div>
+                    <div class="slds-card__header-title accounts">
+                        {!v.countAccounts}&nbsp;{!$Label.c.Accounts}
+                    </div>
+                </div>
+                <aura:if isTrue="{!and(v.globalBookBalance != 0, v.globalAvailableBalance != 0)}">
+                    <div class="slds-media__body balance">
+                        <div class="slds-card__header-title bookBalance">
+                            <span class="bbName">{!$Label.c.Book_Balance}</span>
+                            <c:CMP_displayAmount amount="{!v.globalBookBalance}" decimalClass="bbDecimals" wholeClass="bbInteger" currency="{!v.currentCurrency}"/>
+                        </div>
+                        <div class="slds-card__header-title available">
+                            <span class="avName">{!$Label.c.Available_Balance}</span>
+                            <c:CMP_displayAmount amount="{!v.globalAvailableBalance}" decimalClass="avDecimals" wholeClass="avInteger" currency="{!v.currentCurrency}"/>
+                        </div>
+                    </div>
+                </aura:if>
+            </header>
+        </div>
+    </article>-->
+</aura:component>

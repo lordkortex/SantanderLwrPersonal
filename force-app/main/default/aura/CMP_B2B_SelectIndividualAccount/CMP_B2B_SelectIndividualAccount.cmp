@@ -1,0 +1,74 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <ltng:require scripts="/resource/tostadas" />
+
+    <aura:attribute access="public"  type="String"  name="label"                description="Label pf the account searcher input text." />
+    <aura:attribute access="public"  type="Map"     name="account"              description="Selected account." />
+    <aura:attribute access="public"  type="String"  name="searchedString"       description="Search information placed in the account search input." />
+    <aura:attribute access="public"  type="String"  name="errorMSG"             description="Indicates the error when clicked on continue." />
+    <aura:attribute access="public"  type="Map"     name="steps"                description="Data of the steps." />
+    <aura:attribute access="public"  type="String"  name="headerCard"           default=""                                 description="Header of the card." />
+    <aura:attribute access="public"  type="String"  name="headerLabel"          description="Header label" />
+    <aura:attribute access="public"  type="String"  name="placeholder"          description="Label pf the account searcher input text." />
+    <aura:attribute access="private" type="List"    name="accountSuggestions"   description="List of retrieved accounts that match the searched criteria." />
+    <aura:attribute access="private" type="Boolean" name="showDropdown"         description="Indicates if the dropdown must be visible." />
+    <aura:attribute access="public"  type="Boolean" name="isModified"           description="Indicates if the input data has been modified." />
+    <aura:attribute access="public"  type="List"    name="accountList"          description="List of accounts" />
+    <aura:attribute access="public"  type="Boolean" name="isEditing"            description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+    <aura:attribute access="public"  type="Map"     name="userData"             description="User data." />
+    <aura:attribute access="public"  type="Map"     name="accountData"          description="Account data." />
+    <aura:attribute access="public"  type="Boolean" name="beneficiaryDetails"   description="Show beneficiary details." />
+    
+    <aura:handler name="selectedAccount" event="c:EVT_B2B_SelectedAccount" action="{!c.handleSelectedAccount}" />
+
+    <div class="slds-grid">  
+        <div class="{!(not(empty(v.errorMSG)) ? 'error' : '') + ' slds-form-element inputLookup'}">
+            <aura:if isTrue="{!or(v.showMiniLabel eq true, not(empty(v.searchedString)))}">
+                <label class="slds-form-element__label" for="SelectAccount">{!v.label}</label>
+            </aura:if>
+            <div class="{!(v.showDropdown eq true ? 'slds-is-open' : '') + ' slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click'}" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                    <input id="{!(v.beneficiaryDetails == true ? 'beneficiaryInput' : 'sourceInput')}" type="text" class="slds-input slds-combobox__input slds-combobox__input-value" aria-autocomplete="none" aria-controls="SelectAccountListBox" autoComplete="nope" role="textbox" placeholder="{!v.placeholder}" value="{!(empty(v.account) ? v.searchedString : v.account.displayNumber)}" readonly="{!not(empty(v.account))}" oninput="{!c.handleInputSearch}" onfocus="{!c.handleFocusSearch}" onblur="{!c.handleBlurSearch}" />
+                    <aura:if isTrue="{!or(!empty(v.account), !empty(v.searchedString))}">
+                        <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick="{!c.handleClearInput}">
+                            <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                            <span class="slds-assistive-text">{!$Label.c.B2B_Clear_text_input}</span>
+                        </button>
+                    </aura:if>
+                    <aura:if isTrue="{!and(and(empty(v.searchedString), empty(v.account)), empty(v.errorMSG))}">
+                        <div class="slds-form-element__help">{!$Label.c.B2B_Alias_AccNo_Iban}</div>
+                    </aura:if>
+                    <aura:if isTrue="{!!empty(v.errorMSG)}">
+                        <div class="slds-form-element__help errorText">{!v.errorMSG}</div>
+                    </aura:if>
+                </div>
+                <div id="SelectAccountListBox" class="slds-dropdown slds-dropdown_length-6 slds-dropdown_fluid" role="listbox">
+                    <div aria-selected="true" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">
+                        <span class="slds-media__body">
+                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                {!(empty(v.accountSuggestions) ? $Label.c.B2B_No_suggestions_for : $Label.c.B2B_Suggestions_for)}<mark><q>{!v.searchedString}</q></mark>({!v.accountSuggestions.length + '&nbsp;' + $Label.c.results_lowercase}){!(empty(v.accountSuggestions) ? '.&nbsp;' + $Label.c.B2B_Search_new : '')}
+                            </span>
+                        </span>
+                    </div>
+                    <aura:iteration items="{!v.accountSuggestions}" var="acc">
+                        <c:CMP_B2B_Account_Suggestion account="{!acc}" onclick="{!c.handleClickSuggestion}" />
+                    </aura:iteration>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aura:if isTrue="{!empty(v.account)}">
+        <div class="slds-grid align-button contentButtons">
+            <button class="slds-button secondary button_small" onclick="{!c.handleSearchAccounts}">{!$Label.c.B2B_Browse_accounts}</button>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!not(empty(v.account))}">
+        <div class="accountInformation">
+            <div class="slds-text-title">{!v.headerCard}</div>
+            <c:CMP_B2B_Card_Account userData='{!v.userData}' accountData="{!v.accountData}" account="{!v.account}" selected="true" beneficiaryDetails="{!v.beneficiaryDetails}" />
+        </div>
+    </aura:if>
+
+    <c:CMP_B2B_Search_Accounts userData='{!v.userData}' aura:id="searchAccounts" headerLabel="{!v.headerLabel}" accountList="{!v.accountList}" steps="{!v.steps}" isForExpenses="{!v.isForExpenses}" />
+
+</aura:component>

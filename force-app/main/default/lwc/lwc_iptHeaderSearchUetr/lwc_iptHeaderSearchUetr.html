@@ -1,0 +1,51 @@
+<template>
+    <c-lwc_service-component data-id="Service" onsuccesscallback={successcallback}></c-lwc_service-component>
+    <div class="slds-grid headerSearch">
+        <div class="slds-align_absolute-center">
+            <div if:true={comesfromtracker}>
+                <div class="slds-col">
+                    <button class="slds-button slds-truncate" onclick={goBack}>
+                        <div class="icon icon-arrowLeft_big">{label.back}</div>
+                    </button>
+                </div>
+            </div>
+
+        <div class="slds-col">
+            <div class="tooltip__content">
+                <div class="text">{label.trackPaymentByUETR}</div>
+                <div class="tooltip tooltip_center__bottom">
+                    <button class="slds-button slds-button_icon" aria-describedby="help" aria-disabled="true">
+                        <span class="slds-button__icon icon icon-information"></span>
+                        <span class="slds-assistive-text">{label.help}</span>
+                    </button>
+                    <!-- Añadir la clase "show" para verlo fijo  -->
+                    <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom" role="tooltip" id="help">
+                        <div class="slds-popover__body">
+                            <div class="title">{label.TrackByUETR}</div>
+                            <div class="line"></div>
+                            <div class="text">{label.TrackUETRHelpDetails}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search">
+                <div class="slds-form-element search">
+                    <div class="slds-form-element__control slds-input-has-icon ">
+                        <!-- El siguiente button de cerrar debe estar oculto hasta que se vaya a escribir en el buscador -->
+                        <template if:true={searchValueNotEmpty}>
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" aria-hidden={searchValueNotEmpty} onclick={handleClear}>
+                                <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true"></div>
+                                <span class="slds-assistive-text">{label.clear}</span>
+                            </button>
+                        </template>
+                        <input type="search" maxlength="36" data-id="text-input-id-1" data-item="uetr" value={searchvalue} onkeydown={setInputOnKeyDown} onblur={setInputOnBlur} placeholder={label.searchUETR} class={searchValueClass} name="Search"/>
+                        <div class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true"></div>                     
+                    </div>
+                    <div class={classError} data-item="uetrError">{label.uetrError}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   
+</template>

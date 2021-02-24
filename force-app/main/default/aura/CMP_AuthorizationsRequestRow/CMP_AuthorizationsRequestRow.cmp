@@ -1,0 +1,54 @@
+<!-- Author:       	 Diego Asis
+     Company:        Deloitte
+     Description:    Function to display only the necessary rows in the tables
+     History
+     <Date>			<Author>			<Description>
+ 	 06/02/2020		Diego Asis		     Initial version
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_ViewAuthorization">
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:attribute name="itemPosition" type="Integer"/>
+    <aura:attribute name="item" type="Object"/>  
+    
+    <aura:registerEvent name="authorizationDelete" type="c:EVT_AuthorizationDelete" />
+    
+    <tr class="slds-hint-parent border" aria-selected="false">
+        
+        <td role="gridcell" data-title="{!v.item.requestDate}">
+            <div class="slds-truncate" >{!v.item.requestDate}</div>
+        </td >
+        <td role="gridcell" data-title="{!v.item.authorizeAction}">
+            <div class="slds-truncate" >{!v.item.authorizeAction}</div>
+        </td>
+        <td role="gridcell" data-title="{!v.item.state}">
+            <div class="slds-truncate" >{!v.item.state}</div>
+        </td >
+        <td role="gridcell" data-title="{!v.item.approver}">
+            <div class="slds-truncate" >{!v.item.approver}</div>
+        </td>
+        <td role="gridcell" data-title="{!v.item.approvalDate}">
+            <div class="slds-truncate" >{!v.item.approvalDate}</div>
+        </td >
+        <td role="gridcell" data-title="{!v.item.comment}">
+            <div class="slds-truncate" >{!v.item.comment}</div>
+        </td >
+        <td role="gridcell" data-title="{!$Label.c.T_Modify}">
+            <button class="slds-button slds-button_icon icon-edit" ></button>
+        </td>
+        <td role="gridcell" data-title="{!$Label.c.T_ViewInformation}">
+            <button class="slds-button slds-button_icon icon-viewProfile" onclick="{!c.goToView}"></button>
+        </td>
+        <td role="gridcell" data-title="{!$Label.c.T_ViewDetail}">
+            <button class="slds-button slds-button_icon icon-document" onclick="{!c.goToDetail}"></button>
+        </td>
+        <td role="gridcell">
+            <!--<button class="slds-button slds-button_icon icon-settings" title="Reissue"></button>-->
+        </td>
+        <td role="gridcell" data-title="{!$Label.c.T_Delete}">
+            <button class="slds-button slds-button_icon icon-trash" onclick="{!c.modalDelete}"></button>
+        </td>
+    </tr>
+    
+</aura:component>

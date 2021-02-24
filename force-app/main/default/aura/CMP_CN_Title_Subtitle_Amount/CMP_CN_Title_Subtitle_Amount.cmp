@@ -1,0 +1,63 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+
+    <aura:attribute name="accountBank" type="String" description="Account bank"/>
+    <aura:attribute name="accountNumber" type="String" description="Account number when it's comes from transactions page"/>
+    <aura:attribute name="accountAlias" type="String" description="Subsidiary name of the account"/>
+    <aura:attribute name="currencyAcc" type="String" description="Currency of the account"/>
+    <aura:attribute name="amount" type="String" description="Currency of the account"/>
+    
+    <!-- AM - 28/09/2020 - Ebury Accounts -->
+    <aura:attribute name="resultingAmount"  type="String"   default=""  description="Resulting amount for external accounts"/>
+    <aura:attribute name="dataProvider"     type="String"   description="String to determinate what is the origin of the data"/>
+    <aura:attribute name="country"          type="String"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <div class="cardTitleDetail">
+        <!-- TITLE -->
+        <div class="slds-card__header slds-grid containerInformation">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title separation">
+                        
+                        <!-- AM - 28/09/2020 - Ebury Accounts -->
+                        <aura:if isTrue="{!v.country == $Label.c.Ebury}">
+                            <div class="title">{!v.accountAlias}<img class="eburySymbol" src="/sfsites/c/resource/1603818802000/Images/ebury.svg"></img></div>
+                        <aura:set attribute="else">
+                            <div class="title">{!v.accountAlias}</div>
+                        </aura:set>
+                        </aura:if>
+                        <div class="col-amount">
+                            <div class="slds-card__header-title">
+                                <span class="space">{!$Label.c.MovementHistory_Amount}</span>
+                                <div class="secondRow">
+                                    <c:CMP_displayAmount amount="{!v.amount}" decimalClass="number" wholeClass="number" currency="{!v.currencyAcc}"/>
+                                </div>
+                            </div>
+                            <!-- AM - 28/09/2020 - Ebury Accounts -->
+                            <aura:if isTrue="{!v.country == $Label.c.Ebury}">
+                                <div class="slds-card__header-subtitle">
+                                    <span class="space">{!$Label.c.ResultingBalance}</span>
+                                    <div class="secondRow">
+                                        <c:CMP_displayAmount amount="{!v.resultingAmount}" decimalClass="number" wholeClass="number" currency="{!v.currencyAcc}"/>
+                                    </div>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+
+                        <!-- AM - 28/09/2020 - Ebury Accounts -->
+                        <aura:if isTrue="{!v.country == $Label.c.Ebury}">
+                            <div class="bankAccount">{!v.accountBank + ' - ' + $Label.c.Ebury + ' ' + v.currencyAcc + ' ' + $Label.c.Account}</div>
+                        <aura:set attribute="else">
+                            <div class="bankAccount">{!v.accountBank + ' - ' + v.currencyAcc + ' ' + v.accountNumber}</div>
+                        </aura:set>
+                        </aura:if>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text_line"></div>
+    </div>
+</aura:component>

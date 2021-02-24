@@ -1,0 +1,84 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Component to be the header and search menu of SwiftPayments
+History
+<Date>			<Author>		<Description>
+18/11/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+ 
+    <!-- DATA ATIBUTTES -->  
+    <aura:attribute name="accountName" type="String" description="subsidiary name"/>     
+    <aura:attribute name="accountNumberAndEntity" type="String"  description="Account number"/>
+    <aura:attribute name="lastHistoryDate" type="String" default="08/08/2019" description="Last date"/>
+    <aura:attribute name="finalAvailableDate" type="String" description="Final availbe date"/>
+    <aura:attribute name="finalAvailableBalanceInteger" type="String" description="Final balance integer part" />
+    <aura:attribute name="finalAvailableBalanceDecimal" type="String" description="Final balance decimal part"/>
+    <aura:attribute name="accountNumberBank" type="String" description="Account bank"/>
+    <aura:attribute name="lastHistoryFinalBalance" type="Object"/> 
+    
+    <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+    <aura:attribute name="hiddeDatesFields" type="Boolean" description="To hidde dates in transacction component" default="true"/>
+    <aura:attribute name="availableBalanceParam" type="String" description="Avaiable balance field value of the account information component"/>
+    <aura:attribute name="dateParam" type="String" description="Book date and Available date field value of the account information component"/>
+    <aura:attribute name="bookBalanceParam" type="String" description="Book balance field value of the account information component"/>
+
+<ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <article class="slds-card accountCard">
+        <div class="slds-card__header slds-grid selectedAccount">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title identity">
+                        {!v.accountName}
+                    </div>
+                    <aura:if isTrue="{!or(v.accountNumberAndEntity != null,v.accountNumberBank != null)}">
+                        <div class="slds-card__header-title accountNumber">
+                            {!v.accountNumberAndEntity}<span> | </span>{!v.accountNumberBank}
+                        </div>
+                    </aura:if>
+                </div>
+                <aura:if isTrue="{!v.hiddeDatesFields}">
+                    <div class="availableDate">
+                        <div class="slds-card__header-title avFinalDate">
+                            <span class="avName">{!$Label.c.MovementHistory_FinalAvailableDate}</span>
+                        </div>
+                        <div class="slds-card__header-title avDate">
+                            <!-- <span class="avDate">{!v.lastHistoryFinalBalance.avaiableDate}</span> -->
+                            <span class="avDate">{!v.dateParam}</span>
+                        </div>
+                    </div>
+                </aura:if>
+                <div class="availableBalance">
+                    <div class="slds-card__header-title avBalance">
+                        <span class="avName">{!$Label.c.MovementHistory_FinalAvailableBalance}</span>
+                    </div>
+                    <div class="">
+                        <!-- <c:CMP_displayAmount amount="{!v.lastHistoryFinalBalance.availableBalance}" decimalClass="avDecimals" wholeClass="avIntegerRegular" currency="{!v.currencyTable}"/> -->
+                        <c:CMP_displayAmount amount="{!v.availableBalanceParam}" decimalClass="avDecimals" wholeClass="avIntegerRegular" currency="{!v.currencyTable}"/>
+                    </div>
+                </div>
+                <aura:if isTrue="{!v.hiddeDatesFields}">
+                    <div class="availableBookDate">
+                        <div class="slds-card__header-title bbDateFinal">
+                            <span class="bbName">{!$Label.c.MovementHistory_LastContableDate}</span>
+                        </div>
+                        <div class="slds-card__header-title bbDate">
+                            <!-- <span class="bbDate">{!v.lastHistoryFinalBalance.bookDate}</span> -->
+                            <span class="bbDate">{!v.dateParam}</span>
+                        </div>
+                    </div>
+                </aura:if>
+                <div class="availableBookBalance">
+                    <div class="slds-card__header-title bbAccount">
+                            
+                        <span class="bbName">{!$Label.c.MovementHistory_FinalBalance}</span>
+                    </div>
+                    <div class="">
+                        <!-- <c:CMP_displayAmount amount="{!v.lastHistoryFinalBalance.bookBalance}" decimalClass="bbDecimals" wholeClass="bbInteger" currency="{!v.currencyTable}"/>   -->
+                        <c:CMP_displayAmount amount="{!v.bookBalanceParam}" decimalClass="bbDecimals" wholeClass="bbInteger" currency="{!v.currencyTable}"/>  
+                    </div>
+                </div>
+            </header>
+        </div>
+    </article>
+</aura:component>

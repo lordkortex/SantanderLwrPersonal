@@ -1,0 +1,42 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Component of the modal with text.
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="isShowing" type="boolean" description="Sets if the actual attribute is showing" />
+    <aura:attribute name="title" type="String" description="Modal title" />
+    <aura:attribute name="subtitle" type="String" description="Modal subtitle" />
+
+    <aura:registerEvent name="modalEvent" type="c:EVT_ModalWithTextEvent"/>
+
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"  id="buttonClose" onclick="{!c.buttonClicked}">
+            <div class="slds-button button-page icon-close" ></div> 
+            <span class="slds-assistive-text">{!$Label.c.close}</span>
+            </button>
+            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.title}</h2>
+            </header>
+        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+        <p>{!v.subtitle}</p>
+        </div>
+        <footer class="slds-modal__footer">
+                <div class="slds-form-element">
+                    <div class="slds-media__body">
+                        <button class="slds-button slds-button_brand whiteButton"  id="buttonNo" onclick="{!c.buttonClicked}">{!$Label.c.No}</button>
+                        <button class="slds-button slds-button_brand redButton"  id="buttonYes" onclick="{!c.buttonClicked}">{!$Label.c.Yes}</button>              
+                    </div>
+                </div>
+        </footer>
+        </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+
+</aura:component>

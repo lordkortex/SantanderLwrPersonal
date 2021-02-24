@@ -1,0 +1,214 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <!-- DUMMY DATA-->
+    <aura:attribute name="iObject" type="Object"/>
+    <aura:attribute name="charges" type="String" default="N/A"/>
+    <aura:attribute name="statusClass" type="String" default="icon-circle__red"/>
+    <aura:attribute name="statusLabel" type="String" default="{!$Label.c.payment_statusOne}"/>
+    <aura:handler name="change" value="{!v.iObject.status}" action="{!c.getStatuses}"/>
+    <aura:handler name="change" value="{!v.iObject.reason}" action="{!c.getStatuses}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.getStatuses}" />
+    
+    <!--0 = do not show fees
+        1 = do not show amount
+        2 = show amount-->
+    <aura:attribute name="showFee"              type="String"   default="1"/>
+    <aura:attribute name="totalElapsedTime"     type="String" />
+    <aura:attribute name="comesFromUETRSearch" type="boolean" default="false" description="Indicates if comes from the UETR search page"/>
+
+    <div class="slds-card card">
+        <!-- INFORMATION -->
+        <div class="slds-card__header slds-grid containerInformation">
+            
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="{!'circle '+v.statusClass}"></div>
+                
+                
+                    
+                
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title titleWidth">{!v.statusLabel}&nbsp;{!v.iObject.currentBank}</div>
+                    <div class="slds-card__header-title tracking">
+                        <span class="date">{!$Label.c.statusUpdate}:&nbsp;{!v.iObject.lastUpdate}</span>
+                    </div>
+                </div>
+                <aura:if isTrue="{!!v.comesFromUETRSearch}">
+                    <div class="slds-media__body">
+                        <div class="text" scope="col">
+                            <div class="slds-truncate">{!$Label.c.uert}</div>
+                        </div>
+                        <div class="slds-truncate">{!v.iObject.uetr}</div>
+                    </div>
+                </aura:if>
+
+                <div class="slds-media__body payment">
+                        
+                    <aura:if isTrue="{!v.iObject.hasForeignExchange}">
+
+                        <div class="slds-card__header-title transaction">
+                            <span class="space">{!$Label.c.creditedAmount}</span>
+                            <c:CMP_displayAmount amount="{!v.iObject.confirmedAmount.amount}" decimalClass="slds-truncate currency" wholeClass="slds-truncate number" currency="{!v.iObject.confirmedAmount.tcurrency}"/>
+                        </div>
+
+                        <div class="slds-card__header-title transaction">
+                            <span class="space">{!$Label.c.orderAmount}</span>
+                            <c:CMP_displayAmount amount="{!v.iObject.instructedAmount.amount}" decimalClass="slds-truncate currency" wholeClass="slds-truncate number" currency="{!v.iObject.instructedAmount.tcurrency}"/>
+                        </div>
+
+                        <aura:set attribute="else">
+                            <div class="slds-card__header-title transaction">
+                                <aura:if isTrue="{!v.comesFromUETRSearch}">
+                                    <c:CMP_displayAmount amount="{!v.iObject.instructedAmount.amount}" decimalClass="decimals" wholeClass="integer" currency="{!v.iObject.instructedAmount.tcurrency}"/>
+                                    
+                                    <aura:set attribute="else">
+                                        <c:CMP_displayAmount amount="{!v.iObject.amount}" decimalClass="decimals" wholeClass="integer" currency="{!v.iObject.currencyAux}"/>
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+
+
+                    <aura:if isTrue="{!and(v.showFee !='0',and(v.iObject.fees!=0,and(v.iObject.fees!=undefined,v.iObject.fees.length!=0)))}">
+                        <div class="slds-card__header-title fees">                     
+                            <span class="space">{!$Label.c.Fees}</span>
+                            <aura:iteration items="{!v.iObject.fees}" var="item" indexVar="index">
+                                <aura:if isTrue="{!index > 0}">
+                                    &nbsp;<span>/</span>&nbsp; <c:CMP_displayAmount amount="{!item[1]}" decimalClass="numberFee" wholeClass="numberFee" currency="{!item[0]}"/>
+                                    <aura:set attribute="else">
+                                        <c:CMP_displayAmount amount="{!item[1]}" decimalClass="currency" wholeClass="" currency="{!item[0]}"/>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:iteration>
+                        </div>
+
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+        
+        <!-- DETAILS -->
+        <div class="containerDetail">
+            <table class="slds-table slds-table_cell-buffer slds-no-row-hover contentTable">
+                <thead>
+                    <tr class="slds-line-height_reset row">
+                        
+                        <aura:if isTrue="{!and(v.iObject.valueDate!=undefined, v.iObject.valueDate!=null)}">
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col1">{!$Label.c.valueDate}</div>
+                            </th>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.totalElapsedTime!=undefined, v.totalElapsedTime!=null)}">
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col2">{!$Label.c.totalElapsedTime}</div>
+                            </th>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.comesFromUETRSearch}">
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col3">{!$Label.c.uert}</div>
+                            </th>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.originAccountNumber!=undefined, v.iObject.originAccountNumber!=null)}">
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col3">{!$Label.c.orderingAccount}</div>
+                            </th>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.originAccountBic!=undefined, v.iObject.originAccountBic!=null)}">
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col4">{!$Label.c.orderingBIC}</div>
+                            </th>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.beneficiaryAccountNumber!=undefined, v.iObject.beneficiaryAccountNumber!=null)}">
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col5">{!$Label.c.beneficiaryAccount}</div>
+                            </th>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.beneficiaryAccountBank!=undefined, v.iObject.beneficiaryAccountBank!=null)}">
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col6">{!$Label.c.beneficiaryBank}</div>
+                            </th>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.beneficiaryAccountBic!=undefined, v.iObject.beneficiaryAccountBic!=null)}">
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col7">{!$Label.c.beneficiaryBIC}</div>
+                            </th>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.charges!=undefined, v.iObject.charges!=null)}">
+                            <th class="text last" scope="col">
+                                <div class="slds-truncate col8" >{!$Label.c.charges}</div>
+                            </th>                                      
+                        </aura:if>
+
+                    </tr>
+                </thead>
+
+                <tbody class="body">
+                    <tr class="slds-hint-parent row">
+
+                        <aura:if isTrue="{!and(v.iObject.valueDate!=undefined, v.iObject.valueDate!=null)}">
+                            <th data-label="Value Date" scope="row">
+                                <div class="slds-truncate col1">{!v.iObject.valueDate}</div>
+                            </th>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.totalElapsedTime!=undefined, v.totalElapsedTime!=null)}">
+                            <td data-label="Total Elapsed Time">
+                                <div class="slds-truncate col2">{!v.totalElapsedTime}</div>
+                            </td>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.comesFromUETRSearch}">
+                            <td data-label="UETR">
+                                <div class="slds-truncate">{!v.iObject.uetr}</div>
+                            </td>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.originAccountNumber!=undefined, v.iObject.originAccountNumber!=null)}">
+                            <td data-label="Ordering Account">
+                                <div class="slds-truncate col3">{!v.iObject.originAccountNumber}</div>
+                            </td>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.originAccountBic!=undefined, v.iObject.originAccountBic!=null)}">
+                            <td data-label="Ordering BIC">
+                                <div class="slds-truncate col4">{!v.iObject.originAccountBic}</div>
+                            </td>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.beneficiaryAccountNumber!=undefined, v.iObject.beneficiaryAccountNumber!=null)}">
+                            <td data-label="Beneficiary Account">
+                                <div class="slds-truncate col5"> {!v.iObject.beneficiaryAccountNumber}</div>
+                            </td>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.beneficiaryAccountBank!=undefined, v.iObject.beneficiaryAccountBank!=null)}">
+                            <td data-label="Beneficiary Bank">
+                                <div class="slds-truncate col6">{!v.iObject.beneficiaryAccountBank}</div>
+                            </td>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.beneficiaryAccountBic!=undefined, v.iObject.beneficiaryAccountBic!=null)}">
+                            <td data-label="Beneficiary BIC">
+                                <div class="slds-truncate col7">{!v.iObject.beneficiaryAccountBic}</div>
+                            </td>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.iObject.charges!=undefined, v.iObject.charges!=null)}">
+                            <td class="last" data-label="Charges">
+                                <div class="slds-truncate col8">{!v.iObject.charges}</div>
+                            </td>
+                        </aura:if>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

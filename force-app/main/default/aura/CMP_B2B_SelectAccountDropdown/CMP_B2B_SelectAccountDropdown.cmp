@@ -1,0 +1,22 @@
+<aura:component>
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" type="String" name="filter" description="Combobox filter."/>
+
+
+    <div class="slds-combobox_container">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+            <!-- Añadir la clase filterButton cuando el boton esté filtrado -->
+            <button class="slds-button buttons">{!v.filter}
+                <div class="numberSelected">
+                    <span>2</span>
+                </div>
+                <!-- Cuando el dropdown está cerrado -->
+                <!--<div class="icon-arrowDown_small"></div>-->
+                <!-- Cuando el dropdown está abierto -->
+                <div class="icon-arrowUp_small" />
+            </button>
+        </div>
+    </div>
+    
+</aura:component>

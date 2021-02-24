@@ -1,0 +1,24 @@
+<!--
+Author:         Antonio Duarte
+Company:        Deloitte
+Description:    Dynamic login error page
+History
+<Date>			<Author>		    <Description>
+10/08/2020		Antonio Duarte     	Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_LoginError">
+	<aura:attribute name="language" 		type="String" 	description="User language" 			default="EN"/>
+    <aura:attribute name="errorCode" 		type="String" 	description="identifier of the error" 	default=""/>
+    <aura:attribute name="errorMessage" 	type="String" 	description="message of the error" 		default=""/>
+    <aura:attribute name="msgReady"			type="Boolean" 	description="indicates whether the error message is ready to be shown" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <c:CMP_ServiceComponent aura:id="service"/>
+    
+        
+    <aura:if isTrue="{!v.msgReady}">
+        <aura:unescapedHtml value="{!v.errorMessage}"/>
+  	</aura:if> 
+    
+</aura:component>

@@ -1,0 +1,23 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_Account_Balance_Options">
+   
+
+    <aura:attribute name="cmpId" type="String" default="0" description="Component Id"/>
+	<aura:attribute name="accountItem" type="Object" description="Account Information"/>
+    <lightning:navigation aura:id="navService"/>
+    
+        <div id="who" class="slds-dropdown slds-dropdown_left slds-popover slds-nubbin_top-left menu">
+            <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                <li class="slds-dropdown__item" role="presentation" onclick="{!c.itemOne}">
+                    <a class="option" role="menuitem" tabindex="0">
+                        <span class="slds-truncate optionName" title="Menu Item One">{!$Label.c.Account_Transactions}</span>
+                    </a>
+                </li>
+                <li aura:id="TBD" class="slds-dropdown__item" role="presentation" onclick="{!c.goToSwiftTracking}">
+                    <a class="option" role="menuitem" tabindex="-1">
+                        <span class="slds-truncate optionName" title="Menu Item Two">{!$Label.c.Account_Payments}</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    
+</aura:component>

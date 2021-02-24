@@ -1,0 +1,162 @@
+.THIS {
+}
+
+.THIS.cardContainerGPI .cardCollapse .slds-card {
+     background-color: transparent;
+     border-top: 0;
+     border-left: 0;
+     border-right: 0;
+     border-bottom: 1px solid #cedee7;
+     padding: 0 0 16px 0px;
+ }
+  
+ .THIS.cardContainerGPI .cardCollapse  .slds-media__body{
+     margin-bottom: 16px;
+ }
+
+ .THIS.cardContainerGPI .cardCollapse  .containerDetail_GPI,
+ .THIS.cardContainerGPI .cardCollapse .containerInformation {
+     margin: 0;
+     padding: 0;
+ }
+  
+ .THIS.cardContainerGPI .cardCollapse  tr > td{
+    font-size: 14px;
+    line-height: 20px;
+    font-family: "SantanderMicroText";
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    color: #0d0d0d;
+ }
+
+ .THIS.cardContainerGPI .cardCollapse tr td:last-child{
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: #ec0000;
+    font-family: "SantanderMicroText";
+ }
+
+.THIS.cardContainerGPI .cardCollapse  tr > th{
+    width: 100px;
+}
+
+.THIS.cardContainerGPI .cardCollapse  .slds-table_cell-buffer tr>td:first-child,
+.THIS.cardContainerGPI .cardCollapse .slds-table_cell-buffer tr > th:first-child,
+.THIS.cardContainerGPI .cardCollapse .slds-table_cell-buffer tr > td:first-child, 
+.THIS.cardContainerGPI .cardCollapse .slds-table--cell-buffer tr > th:first-child, 
+.THIS.cardContainerGPI .cardCollapse .slds-table--cell-buffer tr > td:first-child,
+.THIS.cardContainerGPI .cardCollapse .slds-table_cell-buffer tr > td:first-child {
+    padding: 0 0 0 0;
+}
+ 
+ .THIS.cardContainerGPI .cardCollapse  .slds-table thead th,
+ .THIS.cardContainerGPI .cardCollapse  .slds-table td {
+     padding: 0 0 0 0;
+ }
+
+.THIS.cardContainerGPI .cardCollapse  .slds-table {
+    background-color:transparent;
+}
+
+.THIS.cardContainerGPI .cardCollapse  .slds-card__header-title {
+    color: #444444;
+} 
+ 
+.THIS.cardContainerGPI .cardCollapse .slds-card__header-title  .space{
+    font-size: 28px;
+    margin-right: 8px;
+    line-height: 1.21;
+    font-family: "SantanderHeadlineW05-Rg";
+}
+
+.THIS.cardContainerGPI .cardCollapse .slds-card__header-title  .number{
+    font-size: 24px;
+    font-family: "SantanderHeadlineW05-Rg";
+}
+
+.THIS.cardContainerGPI .cardCollapse .slds-card__header-title  .currency{
+    font-size: 18px;
+    font-family: "SantanderMicroText";
+}
+
+.THIS.cardContainerGPI .cardCollapse .slds-card__header-title  .subDate{
+    font-size: 14px;
+    font-family: "SantanderMicroText";
+}
+
+.THIS.cardContainerGPI .cardCollapse .slds-card__header-title  .status_inProgress {
+     color: #1bb3bc;
+     font-size: 14px; 
+     margin-right: 8px;
+     line-height: 21px;
+     font-family: "SantanderMicroText-Bd";
+}
+
+.THIS.cardContainerGPI .cardCollapse .slds-card__header-title  .status_rejected {
+    color: #cc0000;
+    font-size: 14px; 
+    margin-right: 8px;
+    line-height: 21px;
+    font-family: "SantanderMicroText-Bd";
+}
+
+
+.THIS.cardContainerGPI .cardCollapse .slds-card__header-title  .status_onHold {
+    color: #ffcc33;
+    font-size: 14px; 
+    margin-right: 8px;
+    line-height: 21px;
+    font-family: "SantanderMicroText-Bd";
+}
+
+.THIS.cardContainerGPI .cardCollapse .slds-card__header-title  .status_completed {
+    color:#63ba68;
+    font-size: 14px; 
+    margin-right: 8px;
+    line-height: 21px;
+    font-family: "SantanderMicroText-Bd";
+}
+
+.THIS.cardContainerGPI .cardCollapse .slds-card__header-title .date {
+    font-size: 14px;
+    font-family: "SantanderMicroText";
+    line-height: 20px;
+    color: #767676;
+}
+.THIS .slds-spinner_container {
+    top: 23px !important;
+}
+.THIS.cardContainerGPI .cardCollapse  tr > th{
+     font-size: 14px;
+     background-color: transparent;
+     font-family: "SantanderMicroText";
+     font-weight: normal;
+     font-stretch: normal;
+     font-style: normal;
+     line-height: 20px;
+     letter-spacing: normal;
+     color: #767676;
+}
+
+.THIS.cardContainerGPI .cardCollapse .bold {
+     font-family: "SantanderMicroText-Bd";
+}
+ 
+.THIS.cardContainerGPI .cardCollapse .slds-button__icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+.THIS.cardContainerGPI .cardCollapse .icon-arrowDown_small,
+.THIS.cardContainerGPI .cardCollapse .icon-arrowUp_small {
+    font-size: 24px;
+}

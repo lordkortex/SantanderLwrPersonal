@@ -1,0 +1,78 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_Country_Balance">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="cmpId" type="String" default="N/A" description="Component Id"/>
+    <aura:attribute name="currentCountry" type="String" default="N/A" description="Country ISO Code"/>
+    <aura:attribute name="currentUserCurrency" type="String" default="N/A" description="The selected currency to make the required changes to calculate the amounts" />
+    <aura:attribute name="currentUserLanguage" type="String" default="N/A" description="Community user language"/>
+    <aura:attribute name="receivedList" type="List" access="global" description="A list of accounts provided by parent component"/> 
+    <aura:attribute name="currencyList" type="List" access="global" description="A list of the distinct currencies of a country accounts"/>
+    <aura:attribute name="currencyAccountList" type="List" access="global" description="Each register of this List contains two attributes: Key: Currency and Value: List of Accounts"/>
+    
+    <aura:attribute name="countryBookBalance" type="Decimal" default="0.0" description="The sum of book balance value of all accounts"/>
+    <aura:attribute name="countryAvailableBalance" type="Decimal" default="0.0" description="The sum of available balance value of all accounts"/>
+    <aura:attribute name="countryName" type="String" default="N/A" description="Country Name"/>   
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    
+    <aura:handler name="change" value="{!v.currentUserCurrency}" action="{!c.exchangeCurrency}"/>
+
+    <article class="slds-card countryCard">
+        <!-- PAÍS -->
+        <div class="slds-card__header slds-grid contentCard">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure icon">
+                 
+                    <img  aura:id="countryImage" class="flag" src="{!$Resource.Flags + '/' + v.currentCountry +'.svg'}"  onerror="{!c.defaultImage}"/>
+                    
+                </div>
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title country">
+                        {!v.countryName}
+                    </div>
+                    <div class="slds-card__header-title accounts">
+                        {!v.receivedList.length}&nbsp;{!$Label.c.Accounts}
+                    </div>
+                </div>
+                <aura:if isTrue="{!and(v.countryBookBalance != 0, v.countryAvailableBalance != 0)}">
+                    <div class="slds-media__body balance">
+                        <div class="slds-card__header-title availableCountry" >
+                            <!--The functionality of refresh is just to test-->
+                            <div class="refresh icon-refresh" onclick="{!c.refresh}"></div>
+                            <div>
+                                <span class="bbName">{!$Label.c.Book_Balance}</span> 
+                                <c:CMP_displayAmount amount="{!v.countryBookBalance}" decimalClass="bbDecimals" wholeClass="bbInteger" currency="{!v.currentUserCurrency}"/>
+                            </div>
+                        </div>
+                        <div class="slds-card__header-title bookCountry">
+                            <span class="avName">{!$Label.c.Available_Balance}</span>
+                            <aura:if isTrue="{!v.countryAvailableBalance!=null}">
+                                    <c:CMP_displayAmount amount="{!v.countryAvailableBalance}" decimalClass="avDecimals" wholeClass="avInteger" currency="{!v.currentUserCurrency}"/>
+                            </aura:if>
+                        </div>
+                    </div> 
+                </aura:if>
+                <div class="slds-media__figure arrow" >
+                    <!-- Flecha para arriba / Desplegado -->
+                    <div id="{!'_'+v.cmpId}"  class="slds-hide" onclick="{!c.showHideAction}">
+                        <div class="button-arrow icon-chevronUp"></div>
+                    </div>
+                    <!-- Flecha para abajo / Plegado -->
+                    <div id="{!'_'+v.cmpId}" class="slds-show" onclick="{!c.showHideAction}">
+                        <div class="button-arrow icon-chevronDown"></div>
+                    </div>                        
+                </div>
+            </header>
+        </div>
+        <div class="slds-hide" id="{!'_'+v.cmpId}">
+            <aura:iteration items="{!v.currencyAccountList}" var="item" indexVar="key">
+                <c:CMP_Currency_Balance country="{!v.currentCountry}" currency="{!item.key}" receivedList="{!item.value}" />
+            </aura:iteration>
+            
+            
+        </div>
+    </article>
+    
+</aura:component>

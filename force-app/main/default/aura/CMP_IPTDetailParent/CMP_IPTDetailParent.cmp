@@ -1,0 +1,72 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    International Payments Detail Parent component
+History
+<Date>			<Author>		    <Description>
+19/02/2020		Laura Espinel		Design
+21/02/2020		Amanda Fernandez	Layout coding of the page
+26/02/2020		Shahad Naji     	Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_IPTDetailParent">
+    
+    <aura:attribute name="uetr" type="String" description="Payment Identifier" default="N/A"/>
+    <aura:attribute name="agent" type="String" description="" />
+    <!--<aura:attribute name="iObject" type="CNT_IPTDetailParent" description=""/>-->
+    <aura:attribute name="currentBank" type="String" description=""/>
+    <aura:attribute name="totalTransaction" type="Decimal" description=""/>
+    <aura:attribute name="totalFee" type="Decimal" description=""/>
+    <aura:attribute name="iObject" type="CNT_IPTDetailParent" />
+    <aura:attribute name="steps" type="List" />
+    <aura:attribute name="ready" type="Boolean" default="false" />
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    <aura:attribute name="fakeError" type="Boolean" default="false"/>
+    <aura:attribute name="segment" type="String" default=""/>
+
+    <aura:attribute name="UETRSearchResult" type="Object"/>
+    <aura:attribute name="comesFromUETRSearch" type="boolean" default="false" description="Indicates if comes from the UETR search page"/>
+    <aura:attribute name="isPaymentIngested" type="boolean" default="true" description="Indicates whether the payment is ingested or not"/>
+    <aura:attribute name="comesFromTracker" type="Boolean" description="flag to check if back button is checked" />
+
+    <!-- AM - 05/11/2020 - Portugal SSO Tracker -->
+    <aura:attribute name="comesFromSSO" type="Boolean" default="false" description="flag to check if comes from SSO with params" />
+    
+    <aura:attribute name="BICList" type="List"/>
+
+    <!--0 = do not show fees
+        1 = do not show amount
+        2 = show amount-->
+    <aura:attribute name="showFee" type="String" default="1"/>
+
+
+    <aura:attribute name="statusLabel" type="String" />
+    <aura:attribute name="totalElapsedTime" type="String" />
+
+    <aura:handler name="paymentDetailEvent" event="c:EVT_IPTPaymentDetail" action="{!c.getDataEvent}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div><lightning:spinner aura:id="spinnerCreate" variant="brand" size="large"  alternativeText="{!$Label.c.Loading+ '...'}"/></div>
+    
+    <aura:if isTrue="{!or(v.UETRSearchResult == undefined, v.UETRSearchResult == null)}">
+        <c:CMP_CN_Title_Subtitle title="{!$Label.c.T_InternationalPaymentsTracker}" subtitle="{!$Label.c.trackingDetails}"/>
+    </aura:if>
+
+    <aura:if isTrue="{!v.ready}">
+
+        <aura:if isTrue="{!v.showError == true}" >
+            <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.ERROR_NOT_RETRIEVED}"/>
+        </aura:if> 
+
+        <c:CMP_IPTDetailHeader item="{!v.iObject}" showFee="{!v.showFee}" UETRSearchResult="{!v.UETRSearchResult}"/>
+        <c:CMP_IPTDetailInfo iObject="{!v.iObject}" comesFromTracker="{!v.comesFromTracker}" totalElapsedTime="{!v.totalElapsedTime}" UETRSearchResult="{!v.UETRSearchResult}"/>
+
+        <aura:if isTrue="{!v.showError == false}">
+            <c:CMP_IPTDetailProgress iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+        </aura:if>
+    </aura:if>
+    
+    <!-- Error in case code is 200 but data is null -->
+    <aura:if isTrue="{!v.fakeError == true}" >
+        <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.ERROR_NOT_RETRIEVED}"/>
+    </aura:if>
+</aura:component>

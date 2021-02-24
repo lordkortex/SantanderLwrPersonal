@@ -1,0 +1,50 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <aura:attribute name="title" type="String" default="N/A" description="A sentence provided by parent component to be displayed as a page title"/>
+    <aura:attribute name="breadcrumb" type="List" description="Breadcrumb navigation" />
+    <aura:attribute name="navigation" type="List" description="Auxiliar navigation items" />
+    <aura:attribute name="back" type="Boolean" description="the title may able to go back" default="true" />
+    <aura:attribute name="source" type="String" description="Indicates the source screen, to display the breadcrumbs accordingly"/>
+    <aura:attribute name="sourceAux" type="String" description="Indicates the source screen, to display the breadcrumbs accordingly"/>
+    <!-- ATTRIBUTES TO DISPLAY ICONS -->
+    <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+    <aura:attribute name="displaySearchIcon"    type="Boolean"      default="false"   description="Flag to display the search icon"/>
+    
+    <!-- EVENTS -->
+    <aura:registerEvent name="getDataBack" type="c:EVT_GetDataExtractBack" />
+    <aura:registerEvent name="buttonClickedEvent" type="c:EVT_TitleButtonClicked"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:registerEvent name="openTransactionForm" type="c:EVT_OpenSearchForm"/>
+    
+    <div class="breadcrumbs">
+        <div class="slds-media__body">
+            <div class="slds-text-heading_medium  title">
+                <aura:if isTrue="{!v.back==true}">
+                    <span class="button-back icon-arrowLeft_big" title="{!$Label.c.T_Return}" onclick="{!c.goBack}"></span>
+                </aura:if>
+                <span>{!v.title}</span>
+                
+            </div>
+            <div class="textBreadbrumbs">
+                <aura:iteration items="{!v.navigation}" var="item" indexVar="index">
+                    <span>{!item}</span>
+                    <aura:if isTrue="{! ((index+1) != v.navigation.length)}">
+                        <span class="button-next icon-arrowRight_big"></span>
+                    </aura:if>
+                </aura:iteration>
+                <div class="slds-media__body actions">
+                    <aura:if isTrue="{!v.displayDownloadIcon}">
+                        <div class="button-download icon-download iconSize" title="{!$Label.c.T_Download}" onclick="{!c.onButtonClick}"></div> 
+                    </aura:if>    
+                    <aura:if isTrue="{!v.displaySearchIcon}"> 
+                        <div class="button-search-close icon-search iconSearch iconSize" title="{!$Label.c.T_Search}" onclick="{!c.openSearchForm}"></div> 
+                    </aura:if>  
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+</aura:component>

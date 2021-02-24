@@ -1,0 +1,39 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Buttons for the component CMP_UserProfileSummary
+History
+<Date>			<Author>		<Description>
+10/01/2019		Pablo Tejedor     Initial version-->
+
+<aura:component controller="CNT_UserNewButtonsController"  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    
+    <!--DATA ATTRIBUTES-->
+    <aura:attribute name="onlyRetunr" type="Boolean" Description="Show only the ReturnButton" default="false" />
+    
+    <!-- PARAM ATTRIBUTES -->
+    <aura:attribute name="selectedValueRol" type="String" description="Selected rol from the dropdown" />
+    <aura:attribute name="selectedValueGroup" type="String" description="Selected group from the dropdown" />
+    <aura:attribute name="userId" type="String" default="13412" description="Id of the user"/>
+    <aura:attribute name="userName" type="String" default="Maria Castaña" description="name of the group"/>
+    <aura:attribute name="comesFrom" type="String" description="Checks where this component comes from" />
+    <aura:attribute name="comesFromUsers" type="boolean" default="false" description="checks if comes from users" />
+    <aura:attribute name="comesFromGroups" type="boolean" default="false" description="checks if comes from users" />
+    <aura:attribute name="hasData" type="boolean" default="true" description="checks if the sumary has data" />
+
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    
+     <!--Button only show Return button-->
+    <aura:if isTrue="{!v.onlyRetunr == true}">
+        <div class="slds-form containerAdmin" role="list">
+            <div class="slds-form__row">
+                <div class="firstPillBig">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" title="{!$Label.c.GroupNew_Return}" onclick="{!c.backStep}">{!$Label.c.GroupNew_Return}</button>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+   
+</aura:component>

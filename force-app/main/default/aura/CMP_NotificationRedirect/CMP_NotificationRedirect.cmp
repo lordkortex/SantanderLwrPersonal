@@ -1,0 +1,22 @@
+<!--
+Author:         Antonio Duarte
+Company:        Deloitte
+Description:    Notification redirection component
+History
+<Date>			<Author>		    <Description>
+14/09/2020		Antonio Duarte     	Initial version
+-->
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute type="Object" name="notificationRecord"  description="A simplified view record object to be displayed"/>
+    <aura:attribute type="String" name="recordError"  description="An error message bound to force:recordData"/>
+
+    <force:recordData aura:id="recordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Target_URL__c, URLParams__c, Page_Name__c"
+                      targetError="{!v.recordError}"
+                      targetFields="{!v.notificationRecord}"
+                      recordUpdated="{!c.doInit}"/>
+    
+    <c:CMP_ServiceComponent aura:id="service"/>
+    <lightning:navigation aura:id="navService"/>
+</aura:component>
