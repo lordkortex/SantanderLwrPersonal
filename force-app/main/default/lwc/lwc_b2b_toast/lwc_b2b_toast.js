@@ -3,7 +3,7 @@ import { LightningElement , api, track } from 'lwc';
 //Import styles
 import {loadStyle} from 'lightning/platformResourceLoader';
 //import santanderSheetJS from '@salesforce/resourceUrl/SheetJS';
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 //Import labels
 // DESCOMENTAR LAS LABELS UNA VEZ ESTÉN EN EL ENTORNO
@@ -25,48 +25,38 @@ export default class Lwc_b2b_toast extends LightningElement {
     @api showtoast;                                             //description="Indicates if the toast is shown."
     @api action = false;                                        //description="Indicates if the toast action icon is shown (reload icon is shown if false)." 
     @api static = false;                                        //description="Indicates if the toast is static." />
-    @api notificationtitle = this.label.B2B_Error_Problem_Loading;   //description="Toast's title (B2B_Error_Lost_Connection, B2B_Error_Problem_Loading)" />
-    @api bodytext = this.label.B2B_Error_Check_Connection;           //description="Toast's body text (B2B_Error_Check_Connection)" />
+    @api notificationtitle;// = this.label.B2B_Error_Problem_Loading;   //description="Toast's title (B2B_Error_Lost_Connection, B2B_Error_Problem_Loading)" />
+    @api bodytext;// = this.label.B2B_Error_Check_Connection;           //description="Toast's body text (B2B_Error_Check_Connection)" />
     @api functiontypetext = "Error";                            //description="Indicates the function type of toast message (Information, Success, Warning, Error)." />
-    @track functiontypeclass = "warning";                       //description="Indicates the function type of toast message (Information, Success, Warning, Error)." />
-    @track functiontypeclassIcon = "warning";                   //description="Indicates the function type of toast message (Information, Success, Warning, Error)." />
+    @track functionTypeClass = "warning";                       //description="Indicates the function type of toast message (Information, Success, Warning, Error)." />
+    @track functionTypeClassIcon = "warning";                   //description="Indicates the function type of toast message (Information, Success, Warning, Error)." />
     @api noreload = false;                                      //description="Indicates if neither action nor reload icon are shown." />
     @api reload;                                                //description="Confirm that the action must be reloaded or executed."/>
     @track landing;                                             //description="Confirm that the action must be done in the langing or B2B page." />
 
     connectedCallback(){
         loadStyle(this, santanderStyle + '/style.css');
+        this.notificationtitle = this.label.B2B_Error_Problem_Loading;
+        this.bodytext = this.label.B2B_Error_Check_Connection;
         this.getFunctionTypeClass();
     }
     
     @api 
     openToast (event) {
         var params = event.detail;
+        //var params = event.getParam("arguments");
         if (params) this.action=params.action;
         if (params) this.static=params.static;
         if (params) this.notificationtitle= params.notificationTitle;
         if (params) this.bodytext= params.bodyText;
         if (params) this.functiontypetext= params.functionTypeText;
-        if (params) this.functiontypeclass=params.functionTypeClass;
-        if (params) this.functiontypeclassicon=params.functionTypeClassIcon;
+        if (params) this.functionTypeClass=params.functionTypeClass;
+        if (params) this.functionTypeClassIcon=params.functionTypeClassIcon;
         if (params) this.noreload= params.noReload;
         if (params) this.landing= params.landing;
-        
-
         this.getFunctionTypeClass();
         this.showToast();
     }
-    /*@api openToast(){//!c.openToast}"
-        @track action;
-        @track static;
-        @track notificationTitle;
-        @track bodyText;
-        @track functionTypeText;
-        @track functionTypeClass;
-        @track functionTypeClassIcon;
-        @track noReload;
-        @track landing;
-    }*/
 
     handleCloseToast () {
         this.hideToast();
@@ -84,15 +74,14 @@ export default class Lwc_b2b_toast extends LightningElement {
         this.dispatchEvent(reloadaccounts);
     }
 
-    //helper
     getFunctionTypeClass () {
         var functionTypeText = this.functiontypetext ;
         console.log(functionTypeText.localeCompare('Information'));
         var functionTypeClass = functionTypeText.toLowerCase();
-        this.functiontypeclass = functionTypeClass;
+        this.functionTypeClass = functionTypeClass;
         var iconClass=functionTypeClass;
         if (functionTypeText.localeCompare('Information') == 0) {
-            this.functiontypeclass = 'info';
+            this.functionTypeClass = 'info';
         }
         if (functionTypeText.localeCompare('Warning') == 0) {
             iconClass='caution';
@@ -103,7 +92,7 @@ export default class Lwc_b2b_toast extends LightningElement {
         if (functionTypeText.localeCompare('Success') == 0) {
             iconClass='check_circle';
         }
-        this.functiontypeclassicon = iconClass;
+        this.functionTypeClassIcon = iconClass;
     }
 
     showToast() {
@@ -124,6 +113,6 @@ export default class Lwc_b2b_toast extends LightningElement {
         return 'slds-icon_container slds-m-right_small slds-no-flex slds-align-top button-selected slds-icon-utility-' + this.functionTypeClassIcon + ' icon-' + this.functionTypeClassIcon;
     }
     get classButton(){
-        return 'slds-button slds-button_icon icon-' + (thi.action == true ? 'action': 'reload');
+        return 'slds-button slds-button_icon icon-' + (this.action ? 'action': (this.reload ? 'reload' : ''));
     }
 }

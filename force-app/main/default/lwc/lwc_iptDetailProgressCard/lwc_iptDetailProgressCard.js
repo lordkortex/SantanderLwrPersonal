@@ -10,12 +10,15 @@ import NOT_TRACEABLE from '@salesforce/label/c.notTraceable';
 import APPLIED from '@salesforce/label/c.Applied';
 import NOT_APPLIED from '@salesforce/label/c.NotApplied';
 import DAYS from '@salesforce/label/c.Days';
+import UNDEFINED from '@salesforce/label/c.undefined';
+
+
 
 export default class Lwc_ipt_detailProgressCard extends LightningElement {
     @api status;
     @track iobject;
     @api item;
-    @api mainclass = 'slds-progress__item progress__gray slds-is-completed';
+    @api mainclass = 'slds-progress__item progress__grayx slds-is-completed';
     @api cardclass;
     @api progressicon = 'icon-check iconBlack';
     @api textbold;
@@ -67,8 +70,13 @@ export default class Lwc_ipt_detailProgressCard extends LightningElement {
         NOT_TRACEABLE,
         NOT_APPLIED,
         APPLIED,
-        DAYS
+        DAYS,
+        UNDEFINED
     };
+
+    get mainclassattribute() {
+        return (this._item.isUnique === true || this._item.isLast === true) ? this.mainclass + ' none' : this.mainclass;
+    }
 
     set fxlabel(fxlabel) {
         if (fxlabel) {
@@ -97,6 +105,10 @@ export default class Lwc_ipt_detailProgressCard extends LightningElement {
             this.setSvgCountry(item);
             this.doInit();
         }
+    }
+
+    get itemJson(){
+        return JSON.stringify(this._item);
     }
 
     set textbold(textbold) {
@@ -132,7 +144,7 @@ export default class Lwc_ipt_detailProgressCard extends LightningElement {
         return (this._item && this._item.data.city ? this._item.data.city : '');
     }
     get itemCountryName() {
-        return (this._item && this._item.data.countryName ? this._item.data.countryName : '');
+        return (this._item && this._item.data.countryName ? this._item.data.countryName : this.label.UNDEFINED);
     }
     get itemArrivalDate() {
         return (this.arrivalDate ? this.arrivalDate : '');
@@ -265,7 +277,7 @@ export default class Lwc_ipt_detailProgressCard extends LightningElement {
     }
     setSvgCountry(item) {
         var country = 'Default';
-        if (this._item.data.country) {
+        if (this._item.data.country && this._item.data.country !== 'undefined') {
             country = this._item.data.country;
         }
         this.countryImg = flagsIcon + '/' + country + '.svg';

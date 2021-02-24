@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import { loadStyle } from'lightning/platformResourceLoader';
 import imageFlag from '@salesforce/resourceUrl/Flags';
 import Images from '@salesforce/resourceUrl/Images';
@@ -7,6 +7,7 @@ import Images from '@salesforce/resourceUrl/Images';
 //label
 import Country from '@salesforce/label/c.Country';
 import currency from '@salesforce/label/c.currency';
+import Corporate from '@salesforce/label/c.Corporate';
 import Expand from '@salesforce/label/c.Expand';
 import Collapse from '@salesforce/label/c.Collapse';
 
@@ -20,6 +21,7 @@ export default class Lwc_accountsCard extends LightningElement {
     label = {
         Country,
         currency,
+        Corporate,
         Expand,
         Collapse
     };
@@ -28,7 +30,7 @@ export default class Lwc_accountsCard extends LightningElement {
     @api ikey;                           //" type="String" description="Id Component"/>
     @api iregister;                      //" type="Object" description="Register to display"/>
     @api icurrency;                      //" type="String" description="The selected currency to make the required changes to calculate the amounts"/>
-    @api isortselected = this.label.Country;  //" type="String" default="{!$Label.c.Country}" description="Accounts display order"/>
+    @api isortselected;// = this.label.Country;  //" type="String" default="{!$Label.c.Country}" description="Accounts display order"/>
     @api itabselected = 'LastUpdateTab'; // type="String" default="LastUpdateTab" description="Current selected tab"/>
     
     //¿DONDE SE USA?
@@ -42,7 +44,7 @@ export default class Lwc_accountsCard extends LightningElement {
     @track isCardExpanded = true;                 //" type="Boolean" default="true" description="Flag to indicate whether the accounts in the card must be expanded or collapsed"/>
     @api tabschange;                     //" type="Boolean"/>
     @api firstaccountcountrylist;        //" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
-    firstTAccountCountryList;       //" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
+    @api firsttaccountcountrylist;       //" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
     @api islastupdate;                   //" type="Boolean" default="true" description="Flag to indicate whether to show Last Update / End of day"/>
     @api filters;                        //"    type="List"     description="List passed to the CMP_CN_Filters components to populate the filters"/>
     @api source;                         //" type="String" description="Source page to know where to navigate to and from"/>
@@ -65,7 +67,7 @@ export default class Lwc_accountsCard extends LightningElement {
     // _cmpId;
 
     _countryName;
-
+    
     get countryName(){
         return this._countryName;
     }
@@ -75,22 +77,21 @@ export default class Lwc_accountsCard extends LightningElement {
         this.getCountryName();
     }
 
-    // get cmpId(){
-    //    return this._cmpId;
-    // }
+    /* get cmpId(){
+        return this._cmpId;
+     }
 
-    // set cmpId(cmpId){
-    //     this._cmpId = cmpId;
-    // }
+     set cmpId(cmpId){
+         this._cmpId = cmpId;
+     }*/
 
     get icurrency(){
         return this._icurrency;
     }
 
     set icurrency(icurrency){
-        console.log('set icurrency '+ icurrency);
         this._icurrency = icurrency;
-        this.updateCurrency();
+        //this.updateCurrency();
     }
 
     get tabschange(){
@@ -163,14 +164,16 @@ export default class Lwc_accountsCard extends LightningElement {
     set iregister(iregister) {
         if (iregister) {
             this._iregister = iregister;
+            
             this.setSvgCountry(iregister);
-            this.doInit();
+            //this.doInit();
         }
     }
     
     get iregister() {
         return this._iregister;
     }
+    
 
     get expandirClass(){
         return this.islastupdate == true ? 'iElement accountsCardLU icon expand slds-show' : 'iElement accountsCardEOD icon expand slds-show';
@@ -179,6 +182,18 @@ export default class Lwc_accountsCard extends LightningElement {
     get colapseClass(){
         return this.islastupdate == true ? 'iElement accountsCardLU icon collapse slds-hide' : 'iElement accountsCardEOD icon collapse slds-hide';
     }
+
+    @api
+    setDropDown(sel){
+        this.isortselected = sel;
+    }
+
+    /*
+    recoverselected(){
+        const evt = new CustomEvent('recoverselected');
+        this.dispatchEvent(evt);
+    }
+    */
 
     @api
     setShowCards(show){
@@ -197,20 +212,25 @@ export default class Lwc_accountsCard extends LightningElement {
         
     }
 
+    
     connectedCallback() {
         loadStyle(this, santanderStyle + '/style.css');
+        this._iregister = this.iregister;
+        this.setSvgCountry(this._iregister);
+        this.doInit();
         /*if(this._iregister){
             this.doInit();
         }*/
     }
 
-    /*renderedCallback(){
+    /*
+    renderedCallback(){
         console.log('renderedCallback');
         if(this._iregister){
             this.doInit();
         }
-    }*/
-
+    }
+    */
 
     doInit(){
         this.getCmpId();
@@ -260,12 +280,13 @@ export default class Lwc_accountsCard extends LightningElement {
     }
 
     getInformation(){  
+        //this.recoverselected();
         var sortSelected = this.isortselected;
-        
-        if(sortSelected == undefined) {
+                
+        /*if(sortSelected == undefined) {
             sortSelected = this.label.Country;
             this.sumBalanceExperto();
-        }
+        }*/
         if(sortSelected == this.label.Country){
             this.getAccountsPerCountry();
             this.sumBalanceExperto();
@@ -281,52 +302,54 @@ export default class Lwc_accountsCard extends LightningElement {
     }
 
     sumBalanceExperto(){
-        var iCurrencyList = this.icurrencylist;
-        var iCurrentCurrency = this.icurrency;
-        var iAccountMap = this._accounts;
-        var lst = [];        
-        
-        if(iAccountMap){
-            iAccountMap.forEach(function(e1) {
-                var aux_i = e1.value;
-                aux_i.forEach(function(e2){
-                    lst.push(e2);                
-                });            
-            });
-        }
-
-        getSumBalanceExperto({
-            currentCurrency : iCurrentCurrency,
-            accountList : lst,
-            currencies : iCurrencyList 
-        }).then(response => {
-            console.log('getSumBalanceExperto response '+ response);
-            var conts = response; 
-                for ( var key in conts ) {
-                    if(key == "countryBookBalance"){
-                        let num = conts[key];   
-                        if(num == 0) {
-                            this._bookBalance = '0.00';
-                        }else{
-                            this._bookBalance = num; 
-                        }    
-                    }
-                    if(key == "countryAvailableBalance"){
-                        let num = conts[key];                        
-                        if(num == 0){
-                            this._availableBalance = '0.00';
-                        }else{
-                            this._availableBalance = num;
-                        }                        
-                    }
-                }
-        }).catch(error => {
-            if (error) {
-                console.log("AccountsCard getSumBalanceExperto Error message: " + error);
-            } else {
-                console.log("AccountsCard getSumBalanceExperto Unknown error");
+        if(this.icurrencylist != undefined && this._icurrency != undefined && this._accounts != undefined){
+            var iCurrencyList = this.icurrencylist;
+            var iCurrentCurrency = this._icurrency;
+            var iAccountMap = this._accounts;
+            var lst = [];        
+            
+            if(iAccountMap){
+                iAccountMap.forEach(function(e1) {
+                    var aux_i = e1.value;
+                    aux_i.forEach(function(e2){
+                        lst.push(e2);                
+                    });            
+                });
             }
-        }); 
+
+            getSumBalanceExperto({
+                currentCurrency : iCurrentCurrency,
+                accountList : lst,
+                currencies : iCurrencyList 
+            }).then(response => {
+                console.log('getSumBalanceExperto response '+ response);
+                var conts = response; 
+                    for ( var key in conts ) {
+                        if(key == "countryBookBalance"){
+                            let num = conts[key];   
+                            if(num == 0) {
+                                this._bookBalance = '0.00';
+                            }else{
+                                this._bookBalance = num; 
+                            }    
+                        }
+                        if(key == "countryAvailableBalance"){
+                            let num = conts[key];                        
+                            if(num == 0){
+                                this._availableBalance = '0.00';
+                            }else{
+                                this._availableBalance = num;
+                            }                        
+                        }
+                    }
+            }).catch(error => {
+                if (error) {
+                    console.log("AccountsCard getSumBalanceExperto Error message: " + error);
+                } else {
+                    console.log("AccountsCard getSumBalanceExperto Unknown error");
+                }
+            }); 
+        }
 
     }
 

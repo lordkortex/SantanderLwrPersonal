@@ -53,3 +53,22 @@
 .availableDecimals { 
     font-size: 14px;
 }
+@media print {
+
+    .numberTitle.bookInteger{
+        font-size: 19px!important; 
+         line-height: 1.4;
+    }
+    .numberTitle.bookDecimals{
+        font-size: 14px!important; 
+        line-height: 1.5;
+    }
+    .numberSubtitle .bookInteger{
+        font-size: 10px!important; 
+         line-height: 1.4;
+    }
+    .numberSubtitle .bookDecimals{
+        font-size: 10px!important; 
+        line-height: 1.5;
+    }
+}

@@ -1,0 +1,304 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-22-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   02-22-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        
+        <template if:true={spinner}>
+            <!--lightning:spinner alternativeText="{label.Loading}" size="medium" />-->
+        </template>
+        <div class="slds-modal__container">
+            <!--<c:CMP_B2B_ProcessHeader hasBackButton="true" headerLabel="{label.Authorization}" handleBack='{!c.sendToLanding}'  hasDiscardButton="false" /> -->           
+            <div class="slds-modal__content" id="modal-content-id-1">
+                <div class="slds-grid__content">
+                    <div class="container_lastStep">  
+                        <div class="slds-text-title">{label.VerifyBeforeAuth}</div>
+                        <article class="slds-card">
+                            <header class="slds-card__header">
+                                <div class="slds-card__header-title">
+                                    <span>{label.UserGroupProfileSummary}</span>
+                                </div>
+                            </header>
+                            <div class="slds-card__body">
+                                <div class="source"> 
+                                    <div class="slds-card__header-title">
+                                        <span>{label.sourceandRecepientAccounts}</span>
+                                        <div class="line-title"></div>
+                                    </div>
+                                    <div class="slds-card__body">
+                                        <div class="slds-grid">
+                                            <div class="col title">{label.PAY_Summary_from}</div>
+                                            <div class="col title">{label.PAY_Summary_To}</div>
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="col">
+                                                <div class="subtitle">{label.orderingHolder}</div>
+                                                <div class="text">{paymentData.sourceAccountHolder}</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="subtitle">{label.Beneficiary}</div>
+                                                <div class="text">{paymentData.beneficiaryAccountHolder}</div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="col">
+                                                <div class="subtitle">{label.orderingBank}</div>
+                                                <div class="text">{paymentData.sourceBank}</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="subtitle">{label.beneficiaryBank}</div>
+                                                <div class="text">{paymentData.beneficiaryBank}</div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="col">
+                                                <div class="subtitle">{label.orderingAccount}</div>
+                                                <div class="text">{paymentData.sourceAccount}</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="subtitle">{label.beneficiaryAccount}</div>
+                                                <div class="text">{paymentData.beneficiaryAccount}</div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="col">
+                                                <div class="subtitle">{label.Country}</div>
+                                                <div class="text">{paymentData.parsedSourceCountry}</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="subtitle">{label.Country}</div>
+                                                <div class="text">{paymentData.parsedDestinationCountry}</div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="col">
+                                                <div class="subtitle">{label.Corporate}</div>
+                                                <div class="text">{paymentData.sourceAlias}</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="subtitle">{label.taxIdDocPassport}</div>
+                                                <div class="text">{paymentData.beneficiarySwiftCode}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="source"> 
+                                    <div class="slds-card__header-title">
+                                        <span>{label.paymentInformation}</span>
+                                        <div class="line-title"></div>
+                                    </div>
+                                    <div class="slds-card__body">
+                                        <div class="slds-grid">
+                                            <div class="col">
+                                                <div class="subtitle">{label.PAY_ProcessDate}</div>
+                                                <div class="text">{paymentData.valueDate}</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="subtitle">{label.transferMethod}</div>
+                                                <div class="text">{paymentData.parsedPaymentMethod}</div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="col">
+                                                <div class="subtitle">{label.ClientReference}</div>
+                                                <div class="text">{paymentData.clientReference}</div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="subtitle">{label.PaymentID}</div>
+                                                <div class="text">{paymentData.paymentId}</div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="col">
+                                                <div class="subtitle">{label.PaymentReference}</div>
+                                                <div class="text">{paymentData.subject}</div>
+                                            </div>
+                                            <div class="col">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <template if:true={isPaymentAmountNotUndefined}>
+                                    <div class="amount">
+                                        <div class="slds-card__header-title">
+                                            <template if:true={isCibAndCurrenciesNotEquals}>
+                                                <span>{label.amountAndFees}</span>
+                                                <div class="line-title"></div>
+                                            </template>
+                                            <template if:false={isCibAndCurrenciesNotEquals}>
+                                                <span>{label.amount}</span>
+                                                <div class="line-title"></div>
+                                            </template>
+                                        </div>
+                                        <template if:true={isCibFalse}>
+                                            <div class="slds-card__body">
+                                                <div class="slds-grid">
+                                                    <div class="col title">{label.amount}</div>
+                                        		    <template if:true={isPaymentDataAmountReceiveNotEmpty}>
+                                                    <!--<c:CMP_displayAmount
+                                                        amount="{paymentData.amountReceive}"
+                                                        decimalClass="title"
+                                                        wholeClass="title"
+                                                        currencyClass="title"
+                                                        currency="{paymentData.beneficiaryCurrency}" 
+                                                        numberFormat="{userData.convertedCurrency}" 
+                                                        outputString = "{paymentAmountString}"/>-->
+                                                    </template>	
+                                                    
+                                                    <template if:false={isPaymentDataAmountReceiveNotEmpty}>
+                                                    <!--<c:CMP_displayAmount
+                                                        amount="{paymentData.amount}"
+                                                        decimalClass="title"
+                                                        wholeClass="title"
+                                                        currencyClass="title"
+                                                        currency="{paymentData.beneficiaryCurrency}" 
+                                                        numberFormat="{userData.convertedCurrency}" 
+                                                        outputString = "{paymentAmountString}"/>-->
+                                                    </template>
+                                                </div>
+                                        		<template if:true={isCurrenciesNotEquals}>
+                                                    <div class="slds-grid">
+                                                        <div class="col">
+                                                            <div class="tooltip__content">
+                                                                <template if:true={isSignatoryAndLastSign}>
+                                                                    <div class="text">{label.exchangeRate}</div>
+                                                                </template>
+                                                                <template if:false={isSignatoryAndLastSign}>
+                                                                	<div class="text">{label.indicativeExchangeRate}</div>
+                                                                </template>
+
+
+                                                                <div class="tooltip tooltip_center__top">
+                                                                    <button class="slds-button slds-button_icon" aria-describedby="help" aria-disabled="true">
+                                                                        <span class="slds-button__icon icon icon-information"></span>
+                                                                        <span class="slds-assistive-text">{label.help}</span>
+                                                                    </button>
+                                                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom" role="tooltip" id="help">
+                                                                        <div class="slds-popover__body">
+                                                                            <div class="title">
+                                                                                {label.exchangeRate}
+                                                                            </div>
+                                                                            <div class="line"></div>
+                                                                            <div class="text">
+                                                                                {label.B2B_PaymentSummaryValue}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>  
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                        	<!--<c:CMP_displayAmount amount="{paymentData.operationNominalFxDetails.customerExchangeRate}" decimalClass="number" wholeClass="number" outputString = "{exchangeRateString}" currency="{label.EUR}" numberFormat="{userData.numberFormat}" /> / {label.GBP}-->
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-grid">
+                                                        <div class="col">
+                                                            <div class="text">
+                                                                {label.amountIn}&nbsp;<span>{paymentData.sourceCurrency}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <!--
+                                                                <c:CMP_displayAmount
+                                                                amount="{paymentData.amountSend}" 
+                                                                decimalClass="number"
+                                                                wholeClass="number"
+                                                                currency="{paymentData.sourceCurrency}"
+                                                                numberFormat="{userData.numberFormat}"/>
+                                                            -->
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <div class="slds-grid">
+                                                    <div class="col">
+                                                        <div class="tooltip__content">
+                                                            <div class="text">{label.transferFee}</div>
+                                                            <div class="tooltip tooltip_center__top">
+                                                                <button class="slds-button slds-button_icon" aria-describedby="help" aria-disabled="true">
+                                                                    <span class="slds-button__icon icon icon-information"></span>
+                                                                    <span class="slds-assistive-text">{label.help}</span>
+                                                                </button>
+                                                                <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom" role="tooltip" id="help1">
+                                                                    <div class="slds-popover__body">
+                                                                        <div class="title">
+                                                                            {label.transferFee}
+                                                                        </div>
+                                                                        <div class="line"></div>
+                                                                        <div class="text">
+                                                                            {label.B2B_PaymentSummary3}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>  
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <!--
+                                                        <c:CMP_displayAmount
+                                                            amount="{paymentData.fees}" 
+                                                            decimalClass="number"
+                                                            wholeClass="number"
+                                                            currency="{paymentData.feesCurrency}"
+                                                            numberFormat="{userData.numberFormat}" 
+                                                            outputString = "{feesString}"/>
+                                                        -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                            <footer class={classCardFooter}>
+                                <template if:true={isPaymentDataTotalAmountNotEmpty}>
+                                    <div class="slds-grid">
+                                        <div class="col">
+                                            <div class="title-text">{label.AmountToAuth}</div>
+                                        </div>
+                                        <div class="col finalNumber">
+                                            <!--
+                                            <c:CMP_displayAmount
+                                                amount="{paymentData.totalAmount}" 
+                                                decimalClass="title-number"
+                                                wholeClass="title-number"
+                                                currency="{paymentData.sourceCurrency}"
+                                                numberFormat="{userData.numberFormat}" 
+                                                outputString = "{debitAmountString}"/>
+                                            -->
+                                        </div>
+                                    </div>
+                                </template>
+                                    <template if:true={isSignatoryAndLastSignAndCurrenciesNotEquals}>
+                                       <!--
+                                           <c:CMP_CountDown minutes="5" spinner="{spinnerCountDown}" FXAction="{!c.reloadFX}" update="true" expiredFX="{expiredFX}" />
+                                       --> 
+                                    </template>
+                            </footer> 
+                        </article>
+
+                        
+
+
+
+                        <template if:true={isExpiredFX}>
+                        	<!--<c:CMP_WaitingAuthorization expired="{expiredFX}" spinner="{spinnerVerificationCode}" resendAction="{!c.sendOTP_Strategic}" error="{!or(v.errorSign,v.expiredFX)}" errorOTP = "{errorOTP}"/>-->
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--<c:CMP_B2B_Toast aura:id="errorToast" reload="{reload}" />-->
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>
+
+
+
+</template>

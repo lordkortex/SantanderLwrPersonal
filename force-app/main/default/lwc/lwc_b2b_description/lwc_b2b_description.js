@@ -116,6 +116,17 @@ export default class Lwc_b2b_description extends LightningElement {
 			}
 			
 		}
+
+		/*
+		event.preventDefault();
+        const selectEventLowerCase = new CustomEvent('handleinputdescription',{ detail: {descriptionValue : this.value}, bubbles: true });
+        this.dispatchEvent(selectEventLowerCase);
+		*/
+
+		const cancelpayment = new CustomEvent('handleinputdescription', {
+            detail: { "descriptionValue" : this.value}
+        });
+        this.dispatchEvent(cancelpayment);
 	}
 
 	handleFocus() {

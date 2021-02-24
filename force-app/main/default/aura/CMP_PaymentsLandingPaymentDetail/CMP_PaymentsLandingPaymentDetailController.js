@@ -25,12 +25,13 @@
             component.set('v.isLoading', false);
         }));
 
+        /*
         let actions = {
             'edit': true,
             'discard': true,
             'reuse': true,
             'addToTemplate': true,
-            'trySaveAgain': true, //saveForLater
+            'trySaveAgain': true, 
             'authorize': true,
             'reject': true,
             'sendToReview': true,
@@ -38,6 +39,7 @@
             'cancel':true
         }
         component.set('v.actions', actions);
+        */
     },
 
     /*

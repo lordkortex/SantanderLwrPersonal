@@ -6,18 +6,18 @@
                 <div class={classContainer}>
                 <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
                 <div class={classNotifyToast} role="status">
-                    <span class="slds-assistive-text">{functionTypeText}</span>
-                    <span class={classIcon} data-title={functionTypeText}></span>
+                    <span class="slds-assistive-text">{functiontypetext}</span>
+                    <span class={classIcon} data-title={functiontypetext}></span>
                     <div class="slds-notify__content">
-                        <h2 class="slds-text-heading_small">{notificationTitle}</h2>
-                        <p class="notifyText">{bodyText}</p>
+                        <h2 class="slds-text-heading_small">{notificationtitle}</h2>
+                        <p class="notifyText">{bodytext}</p>
                         <!-- ACTION BUTTON --> 
                         <button class={classButton} onclick={handleActionToast}>
                             <span class="action">
                                 <template if:true={action}>
                                     {label.Action}
                                 </template>
-                                <template if:false={action}>
+                                <template if:true={reload}>
                                     {label.Reload}
                                 </template>
                             </span>

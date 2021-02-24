@@ -323,48 +323,61 @@
     margin: 0px;
 }
 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__gray::before, 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__gray::after,
-.slds-progress_vertical .slds-progress__item.slds-is-active.progress__gray::before{
-    background-color: transparent;
-    border: 1px solid #444444!important;
-    left: calc(1.75rem - 1px);
+.slds-progress__item.slds-is-completed.progress__grayx.none::before, 
+.slds-progress__item.slds-is-completed.progress__grayx.none::after, 
+.slds-progress__item.slds-is-active.progress__grayx.none::before {
+    border: none    !important;
+    height: 0px    !important;
 }
 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__blue::before, 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__blue::after,
-.slds-progress_vertical .slds-progress__item.slds-is-active.progress__blue::before{
+.slds-progress__item.slds-is-completed.progress__grayx::before, 
+.slds-progress__item.slds-is-completed.progress__grayx::after, 
+.slds-progress__item.slds-is-active.progress__grayx::before {
+   background-color: transparent   !important;
+   border: 1px solid #444444   !important;
+   left: calc(1.75rem - 1px)   !important;
+   top: calc(1.75rem - 1px)   !important;
+   content: ""   !important;
+   position: absolute   !important;
+   height: 100%   !important;
+}
+
+
+
+.slds-progress__item.slds-is-completed.progress__blue::before, 
+.slds-progress__item.slds-is-completed.progress__blue::after,
+.slds-progress__item.slds-is-active.progress__blue::before{
     background-color: transparent;
     border: 1px solid #1bb3bc!important;
     left: calc(1.75rem - 1px);
 }
 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__red::before, 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__red::after,
-.slds-progress_vertical .slds-progress__item.slds-is-active.progress__red::before{
+.slds-progress__item.slds-is-completed.progress__red::before, 
+.slds-progress__item.slds-is-completed.progress__red::after,
+.slds-progress__item.slds-is-active.progress__red::before{
     background-color: transparent;
     border: 1px solid #cc0000!important;
     left: calc(1.75rem - 1px);
 }
 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__orange::before, 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__orange::after,
-.slds-progress_vertical .slds-progress__item.slds-is-active.progress__orange::before{
+.slds-progress__item.slds-is-completed.progress__orange::before, 
+.slds-progress__item.slds-is-completed.progress__orange::after,
+.slds-progress__item.slds-is-active.progress__orange::before{
     background-color: transparent;
     border: 1px solid #ffcc33!important;
     left: calc(1.75rem - 1px);
 }
 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__green::before, 
-.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__green::after,
-.slds-progress_vertical .slds-progress__item.slds-is-active.progress__green::before{
+.slds-progress__item.slds-is-completed.progress__green::before, 
+.slds-progress__item.slds-is-completed.progress__green::after,
+.slds-progress__item.slds-is-active.progress__green::before{
     background-color: transparent;
     border: 1px solid #63ba68 !important;
     left: calc(1.75rem - 1px);
 }
 
-.slds-progress_vertical .slds-progress__item:before, 
-.slds-progress_vertical .slds-progress__item:after {
+.slds-progress__item:before, 
+.slds-progress__item:after {
     background-color: transparent;
     background-size: 2px 10px;
     background-repeat: repeat-y;
@@ -373,12 +386,8 @@
     height: 40px;
 }
 
-.slds-progress_vertical .slds-progress__list .progress__gray:nth-child(2):before {
-    border: none;
-    height: 0px;
-}
 
-.slds-progress_vertical .slds-progress__marker {
+.slds-progress__marker {
     margin-right:0px;
     background: #ffffff;
 }

@@ -5,6 +5,9 @@ import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import { NavigationMixin } from 'lightning/navigation';
 
+//Class
+import encryptData from '@salesforce/apex/CNT_PaymentsPaymentDetail.encryptData';
+
 //Import labels
 import close                from '@salesforce/label/c.close';
 import sendPaymentForReject from '@salesforce/label/c.sendPaymentForReject';
@@ -266,6 +269,7 @@ export default class Lwc_b2b_redomodal extends  NavigationMixin(LightningElement
         }).then((value) => {
             return this.sendNotification();
         }).then((value) => {
+            this.showToastMode(event, 'Review Successful', 'Review Successful', false, 'success');
             return this.sendToLanding(variable, true);
         }).catch(error => {
             console.log(error);
@@ -422,7 +426,7 @@ export default class Lwc_b2b_redomodal extends  NavigationMixin(LightningElement
             .then((value) => {
                     var  output = value;
                     if (output != undefined && output != null && output.success) { 
-                        if(output.value != undefined && output.value != null){
+                        if(output.value != undefined && output.value != null && output.value.limitsResult != undefined){
                             if (output.value.limitsResult.toLowerCase() != ok.toLowerCase()) { 
                                 resolve('ok'); 
                             }else{
@@ -599,6 +603,7 @@ export default class Lwc_b2b_redomodal extends  NavigationMixin(LightningElement
         }).then(value => {
             return this.sendNotification();
         }).then(value => {
+            this.showToastMode(event, 'Reject Successful', 'Reject Successful', false, 'success');
             this.sendToLanding(variable, true);
         }).catch(error => {
             console.log(error);
@@ -620,14 +625,19 @@ export default class Lwc_b2b_redomodal extends  NavigationMixin(LightningElement
                 errorToast.openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload);
             }
             if (mode ==='success') {
-                errorToast.openToast(true, false, title,  body,  'Success', 'success', 'success', noReload);
+                errorToast.openToast({
+                    detail:{action : '',static : '',notificationTitle : title,bodyText : body,
+                        functionTypeText : 'Success',functionTypeClass : 'Success',functionTypeClassIcon : '',
+                        noReload : noReload,landing : ''
+                    }
+                });
             }
         }
     }
 
 
     sendToLanding (variable, signed) {
-        
+
         var url = '';
         if (variable === 'review'){
              url = 'c__review=' + signed;
@@ -635,21 +645,14 @@ export default class Lwc_b2b_redomodal extends  NavigationMixin(LightningElement
              url = 'c__reject=' + signed;
         }
 
-        this.encrypt(component, url)
-        .then(results => {
-            this[NavigationMixin.Navigate]({
-                type: "comm__namedPage", 
-                attributes: {
-                    pageName: this.handleCancel
-                }, 
-                state: {
-                    params : results
-                }
-            });
-        });
+        var handleCancel = 'landing-payments';
+        this.goTo(handleCancel, url);
+        
     }
 
 
+    setInputDescription(event){
+        this.description = event.detail.descriptionValue;
 
-    
+    }
 }

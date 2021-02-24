@@ -610,6 +610,7 @@
     reloadFX: function (component, event,  helper) {
         new Promise($A.getCallback(function (resolve, reject) {
             component.set('v.reloadAction', component.get('c.reloadFX'));
+            component.set("v.scaUid",'');
             component.set('v.reload', false);
             component.set('v.errorSign', true);
             component.set('v.spinnerCountDown', true);

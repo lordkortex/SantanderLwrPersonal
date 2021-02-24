@@ -43,10 +43,11 @@ global with sharing class WS_GetPaymentDetail {
         this.result = null;
         try {
             Map<String, String> extraHeaderParameters = new Map<String, String>();
+            String B2B = System.Label.CNF_payment_productId_001;
             extraHeaderParameters.put('Access-Channel', 'Web');
             extraHeaderParameters.put('Global-Payment-Id', this.paymentId);
             finalEndpoint = baseEndpoint.replace('{paymentId}', this.paymentId);
-            finalEndpoint = finalEndpoint.replace('{productId}', 'book_to_book');
+            //finalEndpoint = finalEndpoint.replace('{productId}', B2B);
             //String response = Global_IntegrationWrapper.launchHTTP('', finalEndpoint, this.baseMethod, extraHeaderParameters);
             String response = null;
              WrapperUserData userData = ServiceUserData.getUserData(UserInfo.getUserId()); 

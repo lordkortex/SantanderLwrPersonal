@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 02-16-2021
+  @last modified on  : 02-22-2021
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
   Modifications Log 
   Ver   Date         Author                               Modification
@@ -114,12 +114,7 @@
                                     <div class="slds-card__header-title separation transaction">
                                         <span class="space">{label.amount}</span>
                                             <div>
-                                                <c-lwc_display-amount data-id="amountReceive"
-                                                    amount={payment.amountReceive} decimalclass="currency"
-                                                    wholeclass="number" currencyclass="currency"
-                                                    currency={payment.paymentCurrency}
-                                                    numberformat={userPreferredNumberFormat}>
-                                                </c-lwc_display-amount>
+                                                <c-lwc_display-amount data-id="amountReceive" amount={payment.amountReceive} decimalclass="currency" wholeclass="number" currencyclass="currency"     currency={payment.paymentCurrency} numberformat={userPreferredNumberFormat}></c-lwc_display-amount>
                                             </div>
                                     </div>
                                     <div class="slds-card__header-title fees separation">

@@ -226,9 +226,9 @@ export default class lwc_displayAmount extends LightningElement{
         //  }
 
         if (response == '###.###.###,##') {
-            numeral.locale('type2');
-        } else {
             numeral.locale('type1');
+        } else {
+            numeral.locale('type2');
         }
 
         if (this.amount != undefined) {

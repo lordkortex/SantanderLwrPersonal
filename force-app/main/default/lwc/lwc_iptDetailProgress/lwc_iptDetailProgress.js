@@ -194,10 +194,17 @@ export default class Lwc_iptDetailProgress extends LightningElement {
             obj.itemCondition4 = !iobject.stepList[step].arrival && !iobject.stepList[step].departure;
             obj.itemCondition5 = iobject.stepList[step].arrival && !iobject.stepList[step].departure;
             obj.data = iobject.stepList[index];
+            obj['isUnique'] = (iobject.stepList.length === 1) ? true : false;
+            obj['isLast'] = (index === iobject.stepList.length - 1) ? true : false;
             listSteps.push(obj);
         });
         this.stepListArray = [...listSteps];
         return iobjectAux;
+    }
+
+
+    get stepListArrayLength(){
+        this.stepListArray.length;
     }
 
 }

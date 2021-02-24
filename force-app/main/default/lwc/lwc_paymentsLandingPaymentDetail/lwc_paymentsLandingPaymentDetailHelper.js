@@ -385,27 +385,30 @@ export const helper = {
     12/08/2020      R. Cervino          Initial version
     01/11/2020      Candido             Refactor and add accountIdType to WS
     */
-   checkAccounts (event,payment) {
+   checkAccounts (event,paymentItem,letras) {
+       //var paymentItem = JSON.parse(paymentInput);
+       var texto = letras;
+       console.log(texto);
         return new Promise((resolve, reject) => {
             //let payment = component.get('v.payment');
             let amount = 0;
-            if (payment.amount != undefined) {
-                amount = parseFloat(payment.amount);
+            if (paymentItem.amount != undefined) {
+                amount = parseFloat(paymentItem.amount);
             }
-            if (payment.amountOperativeDRAFT != undefined) {
-                amount = parseFloat(payment.amountOperativeDRAFT);
+            if (paymentItem.amountOperativeDRAFT != undefined) {
+                amount = parseFloat(paymentItem.amountOperativeDRAFT);
             }
             let fees = 0;
-            if (payment.fees != undefined) {
-                fees = parseFloat(payment.fees);
+            if (paymentItem.fees != undefined) {
+                fees = parseFloat(paymentItem.fees);
             }
-            if (payment.feesDRAFT != undefined) {
-                fees = parseFloat(payment.feesDRAFT);
+            if (paymentItem.feesDRAFT != undefined) {
+                fees = parseFloat(paymentItem.feesDRAFT);
             }
             var totalAmount = amount + fees;
 
             validateAccount({ 
-                payment : payment,
+                payment : paymentItem,
                 amount : totalAmount
             })
             .then( actionResult => {
@@ -660,7 +663,7 @@ export const helper = {
                 var  output = response;
                 if (output != undefined  && output != null && output.success) {
                     let ok = 'ok';
-                    if(output.value != undefined && output.value != null && output.value != ''){
+                    if(output.value != undefined && output.value != null && output.value.limitsResult != undefined){
                         if (output.value.limitsResult.toLowerCase() != ok.toLowerCase()) { 
                             resolve('ok'); 
                         }else{

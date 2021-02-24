@@ -74,12 +74,12 @@ export default class Lwc_ipt_detailInfo extends LightningElement {
     doInit() {
         var check = this.iobject;
         var originalDate = check.valueDate;
-        //Commented from original because no test needed this workaronund
-        /*if(!this.comesfromtracker) {
+        
+        if(this.comesfromtracker != undefined && !this.comesfromtracker) {
             this.valueDate = originalDate.substring(8, 10)+"/"+originalDate.substring(5, 7)+"/"+originalDate.substring(0, 4);
         } else{
             this.valueDate = originalDate;
-        }*/
-        this.valueDate = originalDate;
+        }
+       // this.valueDate = originalDate;
     }
 }

@@ -218,9 +218,17 @@ History
                 }else{
                     convertedValue = 0.0;
                 }
+                
             }
+
+            System.debug('toCurrency: ' + toCurrency);
+            System.debug('fromCurrency: ' + fromCurrency);
+            
         }
         
+    
+        System.debug('From: ' + fromIsoCode + ' To: ' + toIsoCode + ' Value: ' + value  + ' ConvertedValue: ' + convertedValue);
+        System.debug('*****************');
         return convertedValue;
     }
 }

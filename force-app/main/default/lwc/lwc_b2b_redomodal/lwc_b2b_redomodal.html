@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 02-16-2021
+  @last modified on  : 02-18-2021
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
   Modifications Log 
   Ver   Date         Author                               Modification
@@ -135,7 +135,7 @@
                 <!-- TEXTAREA -->
                 <div class="textareaContainer">
                     <!-- <c:CMP_B2B_Description charactersMax='{!v.charactersMax}' charactersRemaining='{!v.charactersRemaining}' placeholder="{label.MovementHistory_Description+' ('+$Label.c.optional+')'}" value="{!v.description}"/>-->
-                    <c-lwc_b2b_description charactersmax={charactersmax} charactersremaining={charactersremaining} placeholder={getplaceholder} value={description} error-msg={errorDescription}/></c-lwc_b2b_description>
+                    <c-lwc_b2b_description charactersmax={charactersmax} charactersremaining={charactersremaining} placeholder={getplaceholder} value={description} error-msg={errorDescription} onhandleinputdescription={setInputDescription}/></c-lwc_b2b_description>
                 </div>
 
                 <!-- INFORMATION TOAST -->

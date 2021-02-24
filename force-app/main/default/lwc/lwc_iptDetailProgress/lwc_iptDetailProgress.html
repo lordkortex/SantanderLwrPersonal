@@ -1,3 +1,13 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-19-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   02-19-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
 <template>
 
     <!--0 = do not show fees
@@ -56,7 +66,8 @@
                     
                 </div>
                 <template for:each={stepListArray} for:item="item" for:index="index">
-                    <li key={item.index} id={item.index} data-id="items-list">
+                    <!--<li key={item.index} id={item.index} data-id="items-list" class="slds-progress__item progress__grayx slds-is-completed">-->
+                    <li key={item.index} id={item.index} data-id="items-list" >
                         <!--Paints the card which is inmidiately before the last one-->
                         <div if:true={iObjectStatus}>
                             <div if:true={iObjectStepListLength2}>

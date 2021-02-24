@@ -236,7 +236,7 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
         })
         .then((result) => {
             console.log('Operation getUserData ' + result);
-            this.currentUser = result.userDataAttribute;
+            //this.currentUser = result.userDataAttribute;
             return helper.getAccountData();
         })
         .then((result) => {
@@ -253,7 +253,7 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
             this.template.querySelectorAll('c-lwc_display-date').forEach(element => {
                 element.formatDate();
             });
-            this.enableActions();
+            //this.enableActions();
         })
     }
 
@@ -428,15 +428,17 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
     */
    handleAuthorize (event) {
 		let signature = this.signLevel;
-        if (signature != null && signature.lastSign === 'true') {
+        if (signature != null && signature.lastSign === 'true') { 
             this.isLoading = true;
             helper.reloadFX(event, false, this.paymentID, this.payment, this.accountData)
             .then(value => {
+                console.log('value: ' +  value);
+                this.payment = value.paymentAttribute;
                 return helper.reloadFX( event, true, this.paymentID, this.payment, this.accountData);
             })
             .then(value => {
-                this.payment = value.paymentAttribute;
-                return helper.checkAccounts(event,this.payment);
+                var paymentJson = JSON.stringify(this.payment);
+                return helper.checkAccounts(event,this.payment,paymentJson);
             })
             .then(value => {
                 var page = 'authorizationfinal'; 
@@ -488,6 +490,7 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
                         '&c__paymentDetails=' + JSON.stringify(this.payment) +
                         '&c__signatoryDetails=' + JSON.stringify(signature);
                 }
+                console.log(page + url);
                 this.goTo( page, url);
             }).catch(error => {
                 console.log(error);
@@ -563,6 +566,7 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
                     this.clientReference = payment.clientReference;
                     msg = msg.replace('{0}', this.clientReference);
                     this.showToastMode( event, msg, '', true, 'success');
+                    this.doInit();
                 }else{
                     return Promise.resolve('OK');
                 }
@@ -614,6 +618,7 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
         this.spinner = true;    
         return helper.goToDiscard(event,this.payment)
         .then(value => { 
+            this.showToastMode(event, 'Discard Successful', 'Discard Successful', false, 'success');
             this.sendToLanding(event, true);
         }).catch(error => {
             console.log(error);
@@ -663,13 +668,17 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
         //https://salesforcesas.home.blog/2019/07/16/lwc-selectors-identification-of-elements/
         //var errorToast  = this.template.querySelector("c-lwc_b2b_toast[data-my-id=errorToast]");
         var errorToast  = this.template.querySelector("c-lwc_b2b_toast");
-
         if (errorToast != undefined && errorToast != null) {
             if (mode === 'error') {
                 errorToast.openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload);
             }
             if (mode ==='success') {
-                errorToast.openToast(true, false, title,  body,  'Success', 'success', 'success', noReload);
+                errorToast.openToast({
+                    detail:{action : '',static : '',notificationTitle : title,bodyText : body,
+                        functionTypeText : 'Success',functionTypeClass : 'Success',functionTypeClassIcon : '',
+                        noReload : noReload,landing : ''
+                    }
+                });
             }
         }
     }
@@ -740,7 +749,7 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
         }
     }
 
-      /*
+    /*
     Author:        	Beatrice Hill
     Company:        Deloitte
     Description:    Go to page with lightning navigation

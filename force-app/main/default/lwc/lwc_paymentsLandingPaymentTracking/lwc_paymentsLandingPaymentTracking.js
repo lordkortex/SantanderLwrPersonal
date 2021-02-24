@@ -318,11 +318,11 @@ export default class Lwc_paymentsLandingPaymentTracking extends LightningElement
 
     handleInReviewModal() {
         let payment = this.payment;
-        let subject = payment.reviewAdditionalData.subject;
-        let description = payment.reviewAdditionalData.description;
+        let subject = payment.reviewAdditionalData != undefined ? payment.reviewAdditionalData.subject : undefined;
+        let description = payment.reviewAdditionalData != undefined ? payment.reviewAdditionalData.description : undefined;
         let currentUserGlobalId = this.currentuserGlobalId ;
         let paymentUserGlobalId = this.payment.userGlobalId;
-        let signatory = this.signLevel.signatory;
+        let signatory = (this.signLevel != undefined && this.signLevel != null) ? this.signLevel.signatory : null;
         let reviewSenderGlobalId = this.reviewSenderGlobalId;
 
 
