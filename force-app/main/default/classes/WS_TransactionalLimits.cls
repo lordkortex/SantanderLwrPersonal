@@ -43,13 +43,13 @@ global with sharing class WS_TransactionalLimits {
             String sourceCustomerId = paymentDraft.sourceAccount.codigoCorporate;
             if ((this.userData.cashNexus == true) || (this.userData.multiOneTrade == true)) {
                 userType = 'nexus';
-                if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get('LOCAL'))) {
-                    sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get('GLOBAL');
+                if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_GTSIdentifier))) {
+                    sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_GTSIdentifier);
                 }
             } else {
                 userType = 'nonexus';
-                if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get('LOCAL'))) {
-                    sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get('LOCAL');
+                if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
             }
             WS_TransactionalLimits.AmountCurrency transactionAmount = new WS_TransactionalLimits.AmountCurrency(paymentDraft.amountSend, paymentDraft.sourceAccount.currencyCodeAvailableBalance);

@@ -109,10 +109,30 @@ global class WS_B2B_ValidateAccount {
     }
 
     global static ValidateAccountOutput validateAccount (WRAPPER_AccountList.AccountDetails account, validateAccountBody validateBody) {
-        return validateAccount(account.displayNumber, account.idType, account.country, account.codigoBic, validateBody);
+        String accountId = '';
+        String accountIdType = '';
+        String country = '';
+        String codigoBic = '';
+        String localCompanyIdentifier = '';
+        try {
+            if (account == null) {
+                throw new CustomException('You need to inform the accountId.');
+            }
+            accountId = account.displayNumber;
+            accountIdType = account.idType;
+            country = account.country;
+            codigoBic = account.codigoBic;
+            if (account.companyIdsList != null &&  String.isNotBlank(account.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                localCompanyIdentifier = account.companyIdsList.get(System.Label.CNF_APIIdentifier);
+            }
+        } catch (Exception e) {
+            System.debug('WS_B2B_ValidateAccount.validateAccount: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            throw new CustomException(e.getMessage()); 
+        }
+        return validateAccount(accountId, accountIdType, country, codigoBic, localCompanyIdentifier, validateBody);
     }
 
-    global static ValidateAccountOutput validateAccount (String accountId, String accountIdType, String country, String codigoBic, validateAccountBody validateBody) {
+    global static ValidateAccountOutput validateAccount (String accountId, String accountIdType, String country, String codigoBic, String localCompanyIdentifier, validateAccountBody validateBody) {
         validateAccountOutput = null;
         try {
             if (String.isBlank(accountId)) {
@@ -135,9 +155,17 @@ global class WS_B2B_ValidateAccount {
             finalEndPoint = finalEndpoint.replace('{account_id}', accountId);
             finalEndPoint = finalEndpoint.replace('{accountIdType}', accountIdType);
             TokenInformation tokenInformation = new TokenInformation(country, configWs.tokenPlatform__c, configWs.tokenUser__c, null, codigoBic, null, null, null, null);
-            String authenticationplatform = getTokenPlatform(country);
             Map<String, String> extraHeaders = new Map<String, String>();
-            extraHeaders.put('authenticationplatform',  authenticationplatform);
+            String authenticationplatform = TokenService.getTokenPlatform(country);
+            extraHeaders.put('authenticationplatform', authenticationplatform);
+            Boolean xCompanySan = ServiceCustomLabels.checkCountryWithXCompanySan(country);
+            if (xCompanySan == true) {
+                if (String.isNotBlank(localCompanyIdentifier)) {
+                    extraHeaders.put('X-Company-San', localCompanyIdentifier);
+                } else {
+                    throw new CustomException('You need to inform the localCompanyIdentifier.');
+                }
+            }
             String res = Global_IntegrationWrapper.launchHTTP(JSON.serialize(validateBody, true), finalEndPoint, configWs.CNT_HTTPMethod__c, extraHeaders, null, null, 120000, tokenInformation);      
             validateAccountOutput = (ValidateAccountOutput) System.JSON.deserialize(res, ValidateAccountOutput.class); 
             // FLOWERPOWER_PARCHE_CPC
@@ -174,20 +202,5 @@ global class WS_B2B_ValidateAccount {
             throw new CustomException(e.getMessage()); 
         }
         return validateAccountOutput;
-    }
-
-    private static String getTokenPlatform (String country) {
-        String res = null;
-        try {
-            TokenInformation tokenInformation = new TokenInformation(country, 'SANDIGITAL', 'platform');
-            System.debug(tokenInformation);
-            Map<String, String> tokenMap = TokenService.generateTokenByInstance(null, tokenInformation);
-            String globalId = new List<String>(tokenMap.keySet())[0];
-            res = tokenMap.get(globalId);
-        } catch (Exception e) {
-            System.debug('WS_B2B_ValidateAccount.getTokenPlatform: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
-            throw new AuraHandledException(e.getMessage()); 
-        }
-        return res;
     }
 }

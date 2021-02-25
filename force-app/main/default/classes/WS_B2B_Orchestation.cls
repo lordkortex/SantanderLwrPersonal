@@ -1004,8 +1004,8 @@ global class WS_B2B_Orchestation {
                     if (String.isNotBlank(paymentDraft.sourceAccount.customerId)) {
                         sourceCustomerId = paymentDraft.sourceAccount.customerId;
                     }
-                    if(paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get('LOCAL'))) {
-                        sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get('LOCAL');
+                    if(paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                        sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                     }
                     headers.put('customer_id', sourceCustomerId);
                     headers.put('Access-Channel', 'web');

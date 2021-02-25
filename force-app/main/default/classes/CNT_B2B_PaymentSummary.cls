@@ -152,13 +152,13 @@ public with sharing  class CNT_B2B_PaymentSummary {
                 if (paymentDraft.fromOrigin != null) {
                     if (paymentDraft.fromOrigin == true) {
                         sendAmount = paymentDraft.amountSend;
-                        if (paymentDraft.sourceAccount.companyIdsList != null && String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get('LOCAL'))) {
-                            customerId = paymentDraft.sourceAccount.companyIdsList.get('LOCAL');
+                        if (paymentDraft.sourceAccount.companyIdsList != null && String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                            customerId = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                         }
                     } else {
                         receiveAmount = paymentDraft.amountReceive;
-                        if (paymentDraft.destinationAccount.companyIdsList != null && String.isNotBlank(paymentDraft.destinationAccount.companyIdsList.get('LOCAL'))) {
-                            customerId = paymentDraft.destinationAccount.companyIdsList.get('LOCAL');
+                        if (paymentDraft.destinationAccount.companyIdsList != null && String.isNotBlank(paymentDraft.destinationAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                            customerId = paymentDraft.destinationAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                         }
                     }
                 }

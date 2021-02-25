@@ -112,7 +112,7 @@ public class MockResponse {
     
     @TestVisible
     public static String AccountListAccountDetails_ES(){
-        String res = '{"address":{"country":"ES","streetName":"Calle Patones","townName":"Madrid"},"alias":"","amountAvailableBalance":671.36,"amountMainBalance":670.36,"balanceAllowed":true,"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"J101484427",List":{"API":"J101484427","GTS":"-1363016250","LOCAL":"4382"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","customerId":"J101484427","displayNumber":"ES7700490454193000541739","hasSwiftPayments":"false","idType":"IBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-20 13:51:07","lastUpdateAvailableBalanceMain":"2021-01-20T12:51:07.285+0000","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"M.G.M. ACCIAIERIA ITALIA","transactionsAllowed":true,"valueDate":"2021-01-20T12:51:07.285+0000"}';
+        String res = '{"address":{"country":"ES","streetName":"Calle Patones","townName":"Madrid"},"alias":"","amountAvailableBalance":671.36,"amountMainBalance":670.36,"balanceAllowed":true,"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"J101484427","companyIdsList":{"API":"J101484427","GTS":"-1363016250","LOCAL":"4382"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","customerId":"J101484427","displayNumber":"ES7700490454193000541739","hasSwiftPayments":"false","idType":"IBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-20 13:51:07","lastUpdateAvailableBalanceMain":"2021-01-20T12:51:07.285+0000","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"M.G.M. ACCIAIERIA ITALIA","transactionsAllowed":true,"valueDate":"2021-01-20T12:51:07.285+0000"}';
         return res;
     }
     @TestVisible
@@ -1535,7 +1535,7 @@ public class MockResponse {
 		'\"entity\": \"\"'+
 		'},'+
 		'\"companyGlobalId\": \"\", '+
-		'\"companyName\": \"\",'+
+		'\"companyName\": \"test\",'+
 		'\"tradeName\": \"\",'+
 		'\"localSegment\": {'+
 		'\"segmentCode\": \"\",'+

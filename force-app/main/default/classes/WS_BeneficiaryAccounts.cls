@@ -26,7 +26,7 @@ global with sharing class WS_BeneficiaryAccounts {
         String countryOriginator = null; 
         if (sourceAccount != null){
             if (sourceAccount.companyIdsList != null){
-                 companyGlobalId = sourceAccount.companyIdsList.get('GLOBAL');
+                 companyGlobalId = sourceAccount.companyIdsList.get(System.Label.CNF_GTSIdentifier);
             } 
             if(sourceAccount.country != null){
                 countryOriginator = sourceAccount.country;
@@ -67,15 +67,50 @@ global with sharing class WS_BeneficiaryAccounts {
 
     global List<WRAPPER_AccountList.AccountDetails> getList (WS_BeneficiaryAccounts.OUTPUT output) {
         List<WRAPPER_AccountList.AccountDetails> result = new List<WRAPPER_AccountList.AccountDetails>();
+        String serviceAPILine = ServiceAPILine.getAPILine();
+
         if (output != null) {
             for (AccountsData accountsData : output.accountsListResponse.accountsDataList) {
                 WRAPPER_AccountList.AccountDetails element = new WRAPPER_AccountList.AccountDetails();
-                for (AccountId accountIdElement : accountsData.accountIdList) {
-                    element.displayNumber = accountIdElement.accountId;
+
+                if(accountsData.accountIdList != null){
+                    if(accountsData.accountIdList.size() == 1){
+                        element.displayNumber =  accountsData.accountIdList.get(0).accountId;
+                        element.idType = accountsData.accountIdList.get(0).idType;
+                    }else{
+                        //NEXUS
+                        if (serviceAPILine == System.Label.PAY_ServiceAPILine_002) {
+                            for(WS_BeneficiaryAccounts.AccountId accountIdListItem : accountsData.accountIdList){
+                                if(accountIdListItem.idType == 'BBA'){
+                                    element.displayNumber = accountIdListItem.accountId;
+                                    element.idType = accountIdListItem.idType;
+                                }
+                            }
+                            
+                            if(element.displayNumber == null && element.idType == null){
+                                element.displayNumber =  accountsData.accountIdList.get(0).accountId;
+                                element.idType = accountsData.accountIdList.get(0).idType;
+                            }
+                            
+                        } else if (serviceAPILine == System.Label.PAY_ServiceAPILine_001|| serviceAPILine == System.Label.PAY_ServiceAPILine_003) { //LOCAL OR AQUANIMA
+                            for(WS_BeneficiaryAccounts.AccountId accountIdListItem : accountsData.accountIdList){
+                                if(accountIdListItem.idType == 'IBA'){
+                                    element.displayNumber = accountIdListItem.accountId;
+                                    element.idType = accountIdListItem.idType;
+                                }
+                            }
+                            
+                            if(element.displayNumber == null && element.idType == null){
+                                element.displayNumber =  accountsData.accountIdList.get(0).accountId;
+                                element.idType = accountsData.accountIdList.get(0).idType;
+                            }
+                        }
+                    }
                 }
+                
                 element.alias = accountsData.alias;
                 element.type = accountsData.type;
-                element.idType = accountsData.type;
+                //element.idType = accountsData.type; 
                 element.description = accountsData.description;
                 element.status = accountsData.status;
                 element.codigoCorporate = accountsData.customerId;

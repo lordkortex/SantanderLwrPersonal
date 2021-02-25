@@ -2,14 +2,15 @@ public with sharing class ServiceValidateAccount {
 
     public static final String STATUS_OPEN = 'open';
 
-    /*----------------------------------------------------------------------------------
+    /*
     Author:         Candido
     Company:        Deloitte
     Description:    validate Account
     History:
     <Date>          <Author>            <Description>
     02/11/2020      Candido             Initial version
-    ----------------------------------------------------------------------------------*/
+    24/02/2021      Candido             Update to send company identifier
+    */
     @AuraEnabled
     public static ReturnValue validateAccount (WRAPPER_AccountList.AccountDetails sourceAccount, String status, Decimal amount) {
         ReturnValue response = null;
@@ -56,21 +57,22 @@ public with sharing class ServiceValidateAccount {
         return response;
     }
 
-    /*----------------------------------------------------------------------------------
+    /*
     Author:         Candido
     Company:        Deloitte
     Description:   	validate Account
     History:
     <Date>          <Author>            <Description>
     02/11/2020      Candido             Initial version
-    ----------------------------------------------------------------------------------*/
+    24/02/2021      Candido             Update to send company identifier
+    */
     @AuraEnabled
     public static ReturnValue validateAccount (WRAPPER_PaymentDetail.OperationDetail payment, Decimal amount) {
         ReturnValue response = null;
-        try{
-            Map<String, Object> value = new Map<String, Object>();
+        Map<String, Object> value = new Map<String, Object>();
+        try {
             WS_B2B_ValidateAccount.ValidateAccountBody validateBodySource = new  WS_B2B_ValidateAccount.ValidateAccountBody(STATUS_OPEN, amount, null, null);
-            WS_B2B_ValidateAccount.ValidateAccountOutput validateOutputSource = WS_B2B_ValidateAccount.validateAccount(payment.sourceAccount, payment.sourceAccountIdType, payment.sourceCountry, payment.sourceSwiftCode, validateBodySource);
+            WS_B2B_ValidateAccount.ValidateAccountOutput validateOutputSource = WS_B2B_ValidateAccount.validateAccount(payment.sourceAccount, payment.sourceAccountIdType, payment.sourceCountry, payment.sourceSwiftCode, payment.sourceData.customerId, validateBodySource);
             String amountResult = null;
             String statusResult = null;
             if (validateOutputSource != null) {
@@ -97,7 +99,7 @@ public with sharing class ServiceValidateAccount {
             }
             if (amountResult != null && amountResult != 'KO' && statusResult != null && statusResult != 'KO') {
                 WS_B2B_ValidateAccount.ValidateAccountBody validateBodyBeneficiary = new  WS_B2B_ValidateAccount.ValidateAccountBody(STATUS_OPEN, null, null, null);
-                WS_B2B_ValidateAccount.ValidateAccountOutput validateOutputBeneficiary = WS_B2B_ValidateAccount.validateAccount(payment.beneficiaryAccount, payment.beneficiaryAccountIdType, payment.destinationCountry, payment.beneficiarySwiftCode, validateBodyBeneficiary);
+                WS_B2B_ValidateAccount.ValidateAccountOutput validateOutputBeneficiary = WS_B2B_ValidateAccount.validateAccount(payment.beneficiaryAccount, payment.beneficiaryAccountIdType, payment.destinationCountry, payment.beneficiarySwiftCode, payment.destinationData.customerId, validateBodyBeneficiary);
                 if (validateOutputBeneficiary != null) {
                     if (validateOutputBeneficiary.statusResult != null) {
                         if (validateOutputBeneficiary.statusResult.result != null) {

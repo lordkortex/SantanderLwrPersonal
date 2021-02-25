@@ -34,8 +34,8 @@ public class ControllerTransferFees {
                 if (String.isNotBlank(transactionFeeCurrencyString) && String.isNotBlank(paymentDraft.sourceAccount.currencyCodeAvailableBalance)) {
                     if (transactionFeeCurrencyString != paymentDraft.sourceAccount.currencyCodeAvailableBalance) {
                         String sourceCustomerId = paymentDraft.sourceAccount.codigoCorporate;
-                        if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get('LOCAL'))) {
-                            sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get('LOCAL');
+                        if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                            sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                         }
                         WS_ExchangeRate exchangeRate = new WS_ExchangeRate(paymentDraft.paymentId, 'b2b', 'I', 'ONI', null, 25000, 'Fee_request');
                         Map<String, Object> convertedOutput = exchangeRate.execute(originalTransactionFee, null, paymentDraft.sourceAccount.currencyCodeAvailableBalance, originalTransactionFeeCurrency, paymentDraft.sourceAccount.alias, paymentDraft.sourceAccount.aliasEntidad, sourceCustomerId, paymentDraft.sourceAccount.country, paymentDraft.sourceAccount.codigoBic);

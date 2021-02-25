@@ -69,7 +69,7 @@ global with sharing class WS_TransferFees {
     30/11/2020      Shahad Naji         Initial version
     18/02/2021      Candido             Added TokenInformation control
     */
-    public Map<String, Object> execute (String country, String codigoBic, Map<String,String> queryParameters) {
+    public Map<String, Object> execute (String country, String codigoBic, Map<String, String> queryParameters, Map<String, String> extraHeaderParameters) {
         this.result = new Map<String, Object>();
         try {
             if (!queryParameters.isEmpty()) {
@@ -93,7 +93,9 @@ global with sharing class WS_TransferFees {
                 } else {
                     this.endPoint = this.baseEndpoint;
                 }
-                Map<String, String> extraHeaderParameters = new Map<String, String>();
+                if (extraHeaderParameters == null) {
+                    extraHeaderParameters = new Map<String, String>();
+                }
                 extraHeaderParameters.put('Access-Channel', 'Web');
                 extraHeaderParameters.put('Global-Payment-Id', queryParameters.get('operation_id'));
                 TokenInformation token = null;
@@ -131,12 +133,12 @@ global with sharing class WS_TransferFees {
             getParameters('agreement_type', 'Product');
             getParameters('agreement_id', sourceAccountData.displayNumber);
             String sourceCustomerId = sourceAccountData.codigoCorporate;
-            if (sourceAccountData.companyIdsList != null &&  String.isNotBlank(sourceAccountData.companyIdsList.get('LOCAL'))) {
-                sourceCustomerId = sourceAccountData.companyIdsList.get('LOCAL');
+            if (sourceAccountData.companyIdsList != null &&  String.isNotBlank(sourceAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                sourceCustomerId = sourceAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier);
             }
             String recipientCustomerId = recipientAccountData.codigoCorporate;
-            if (recipientAccountData.companyIdsList != null &&  String.isNotBlank(recipientAccountData.companyIdsList.get('LOCAL'))) {
-                recipientCustomerId = recipientAccountData.companyIdsList.get('LOCAL');
+            if (recipientAccountData.companyIdsList != null &&  String.isNotBlank(recipientAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                recipientCustomerId = recipientAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier);
             }
             getParameters('customer_id', sourceCustomerId);
             getParameters('bank_id', sourceAccountData.codigoBic);

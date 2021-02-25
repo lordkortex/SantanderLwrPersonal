@@ -59,11 +59,11 @@ global with sharing class WS_CreatePaymentOperation {
             String sourceCustomerId = sourceAccountData.customerId;
             String sourceCompanyGlobalId = '';
             if (sourceAccountData.companyIdsList != null) {
-                if (String.isNotBlank(sourceAccountData.companyIdsList.get('LOCAL'))) {
-                    sourceCustomerId = sourceAccountData.companyIdsList.get('LOCAL');
+                if (String.isNotBlank(sourceAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    sourceCustomerId = sourceAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
-                if (String.isNotBlank(sourceAccountData.companyIdsList.get('GLOBAL'))) {
-                    sourceCompanyGlobalId = sourceAccountData.companyIdsList.get('GLOBAL');
+                if (String.isNotBlank(sourceAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier))) {
+                    sourceCompanyGlobalId = sourceAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier);
                 }
             }
             WS_CreatePaymentOperation.SourceData sourceData = new WS_CreatePaymentOperation.SourceData(sourceAccountData.subsidiaryName, sourceAccount, sourceAgent, sourceAddress, sourceAccountData.country, sourceCustomerId, sourceCompanyGlobalId);
@@ -80,11 +80,11 @@ global with sharing class WS_CreatePaymentOperation {
                 String recipientCustomerId = recipientAccountData.customerId;
                 String recipientCompanyGlobalId = '';
                 if (recipientAccountData.companyIdsList != null) {
-                    if (String.isNotBlank(recipientAccountData.companyIdsList.get('LOCAL'))) {
-                        recipientCustomerId = recipientAccountData.companyIdsList.get('LOCAL');
+                    if (String.isNotBlank(recipientAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                        recipientCustomerId = recipientAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier);
                     }
-                    if (String.isNotBlank(recipientAccountData.companyIdsList.get('GLOBAL'))) {
-                        recipientCompanyGlobalId = recipientAccountData.companyIdsList.get('GLOBAL');
+                    if (String.isNotBlank(recipientAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier))) {
+                        recipientCompanyGlobalId = recipientAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier);
                     }
                 }
                 destinationData = new WS_CreatePaymentOperation.DestinationData(recipientAccountData.subsidiaryName, destinationAccount, destinationAgent, destinationAddress, recipientAccountData.country, recipientCustomerId, recipientCompanyGlobalId);
@@ -102,11 +102,11 @@ global with sharing class WS_CreatePaymentOperation {
                 String sourceFeeCustomerId = sourceFeeAccountData.customerId;
                 String sourceFeeCompanyGlobalId = '';
                 if (sourceFeeAccountData.companyIdsList != null) {
-                    if (String.isNotBlank(sourceFeeAccountData.companyIdsList.get('LOCAL'))) {
-                        sourceFeeCustomerId = sourceFeeAccountData.companyIdsList.get('LOCAL');
+                    if (String.isNotBlank(sourceFeeAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                        sourceFeeCustomerId = sourceFeeAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier);
                     }
-                    if (String.isNotBlank(sourceFeeAccountData.companyIdsList.get('GLOBAL'))) {
-                        sourceFeeCompanyGlobalId = sourceFeeAccountData.companyIdsList.get('GLOBAL');
+                    if (String.isNotBlank(sourceFeeAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier))) {
+                        sourceFeeCompanyGlobalId = sourceFeeAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier);
                     }
                 }
                 sourceFeeData = new WS_CreatePaymentOperation.SourceData(sourceFeeAccountData.subsidiaryName, sourceFeeAccount, sourceFeeAgent, sourceFeeAddress,  sourceFeeAccountData.country, sourceFeeCustomerId, sourceFeeCompanyGlobalId);

@@ -374,8 +374,8 @@ global with sharing class CNT_B2B_SelectDestination {
             if (currency1 != currency2) {
                 WS_ExchangeRate exchangeRate = new WS_ExchangeRate(paymentDraft.paymentId, 'b2b', 'I', 'ONL', null, 25000, 'Nominal_request');
                 String sourceCustomerId = paymentDraft.sourceAccount.codigoCorporate;
-                if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get('LOCAL'))) {
-                    sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get('LOCAL');
+                if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
                 value = exchangeRate.execute(1, null, currency1, currency2, paymentDraft.sourceAccount.alias, paymentDraft.sourceAccount.aliasEntidad,sourceCustomerId, paymentDraft.sourceAccount.country, paymentDraft.sourceAccount.codigoBic);
             } else {

@@ -36,11 +36,12 @@ global with sharing class ServiceTransferFees {
             String amountReceive = '';
             String apiConfiguration = '';
             Map<String, String> queryParameters = new Map<String, String>();
+            Map<String, String> extraHeaderParameters = null;
             if (paymentDraft.sourceAccount != null) {
                 sourceId = String.isNotBlank(paymentDraft.sourceAccount.displayNumber) ? paymentDraft.sourceAccount.displayNumber : '';
                 sourceCodigoCorporate = paymentDraft.sourceAccount.codigoCorporate;
-                if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get('LOCAL'))) {
-                    sourceCodigoCorporate = paymentDraft.sourceAccount.companyIdsList.get('LOCAL');
+                if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    sourceCodigoCorporate = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
                 sourceCodigoBic = String.isNotBlank(paymentDraft.sourceAccount.codigoBic) ? paymentDraft.sourceAccount.codigoBic : '';
                 sourceBranch = String.isNotBlank(paymentDraft.sourceAccount.branch) ? paymentDraft.sourceAccount.branch : '';
@@ -51,8 +52,8 @@ global with sharing class ServiceTransferFees {
                 recipientCountry = String.isNotBlank(paymentDraft.destinationAccount.country) ? paymentDraft.destinationAccount.country : '';
                 recipientCodigoBic = String.isNotBlank(paymentDraft.destinationAccount.codigoBic) ? paymentDraft.destinationAccount.codigoBic : '';
                 recipientCodigoCorporate = String.isNotBlank(paymentDraft.destinationAccount.codigoCorporate) ? paymentDraft.destinationAccount.codigoCorporate : '';
-                if (paymentDraft.destinationAccount.companyIdsList != null && String.isNotBlank(paymentDraft.destinationAccount.companyIdsList.get('LOCAL'))) {
-                    recipientCodigoCorporate = paymentDraft.destinationAccount.companyIdsList.get('LOCAL');
+                if (paymentDraft.destinationAccount.companyIdsList != null && String.isNotBlank(paymentDraft.destinationAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    recipientCodigoCorporate = paymentDraft.destinationAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
             }
             if (paymentDraft.amountReceive != null || paymentDraft.amountSend != null) {
@@ -68,10 +69,19 @@ global with sharing class ServiceTransferFees {
                 } else if ((paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_002) || paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_003)) && serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
                     apiConfiguration = API_CONFIGURATION_002;
                     queryParameters = ServiceTransferFees.setInternationalInstantPaymentParameters(paymentId, sourceId, sourceCodigoCorporate, recipientCodigoCorporate, sourceCodigoBic, recipientCodigoBic, sourceBranch, recipientCurrency, amountReceive, sourceCountry, recipientCountry);
+                    Boolean xCompanySan = ServiceCustomLabels.checkCountryWithXCompanySan(sourceCountry);
+                    if (xCompanySan == true) {
+                        if (String.isNotBlank(sourceCodigoCorporate)) {
+                            extraHeaderParameters = new Map<String, String>();
+                            extraHeaderParameters.put('X-Company-San', sourceCodigoCorporate);
+                        } else {
+                            throw new CustomException('You need to inform the sourceCodigoCorporate.');
+                        }
+                    }
                 }
             }
             WS_TransferFees transferFees = new WS_TransferFees(apiConfiguration);
-            response = transferFees.execute(sourceCountry, sourceCodigoBic, queryParameters);
+            response = transferFees.execute(sourceCountry, sourceCodigoBic, queryParameters, extraHeaderParameters);
         } catch (Exception e) {
             System.debug('ServiceTransferFees.transferFeesExecute: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
             response = null;

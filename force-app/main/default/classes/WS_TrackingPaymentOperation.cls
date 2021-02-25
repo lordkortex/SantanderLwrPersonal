@@ -449,21 +449,21 @@ global with sharing class WS_TrackingPaymentOperation {
             String sourceCustomerId = sourceAccountData.customerId;
             String sourceCompanyGlobalId = '';
             if (sourceAccountData.companyIdsList != null) {
-                if (String.isNotBlank(sourceAccountData.companyIdsList.get('LOCAL'))) {
-                    sourceCustomerId = sourceAccountData.companyIdsList.get('LOCAL');
+                if (String.isNotBlank(sourceAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    sourceCustomerId = sourceAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
-                if (String.isNotBlank(sourceAccountData.companyIdsList.get('GLOBAL'))) {
-                    sourceCompanyGlobalId = sourceAccountData.companyIdsList.get('GLOBAL');
+                if (String.isNotBlank(sourceAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier))) {
+                    sourceCompanyGlobalId = sourceAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier);
                 }
             }
             String recipientCustomerId = recipientAccountData.customerId;
             String recipientCompanyGlobalId = '';
             if (recipientAccountData.companyIdsList != null) {
-                if (String.isNotBlank(recipientAccountData.companyIdsList.get('LOCAL'))) {
-                    recipientCustomerId = recipientAccountData.companyIdsList.get('LOCAL');
+                if (String.isNotBlank(recipientAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    recipientCustomerId = recipientAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
-                if (String.isNotBlank(recipientAccountData.companyIdsList.get('GLOBAL'))) {
-                    recipientCompanyGlobalId = recipientAccountData.companyIdsList.get('GLOBAL');
+                if (String.isNotBlank(recipientAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier))) {
+                    recipientCompanyGlobalId = recipientAccountData.companyIdsList.get(System.Label.CNF_GTsIdentifier);
                 }
             }
             WRAPPER_TrackingPaymentOperation.SourceData sourceData = new WRAPPER_TrackingPaymentOperation.SourceData(sourceAccountData.subsidiaryName, sourceCustomerId, sourceCompanyGlobalId, sourceAddress, sourceAccount, sourceAgent, sourceAccountData.country);

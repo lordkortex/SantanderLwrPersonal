@@ -28,8 +28,8 @@ global with sharing class ServiceFraud {
             String operationSubtype = '101';
             String callType = '04';
             String sourceCustomerId = paymentDraft.sourceAccount.codigoCorporate;
-            if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get('LOCAL'))) {
-                sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get('LOCAL');
+            if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
             }
             String country = paymentDraft.sourceAccount.country;
             String codigoBic = paymentDraft.sourceAccount.codigoBic;

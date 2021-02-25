@@ -254,7 +254,7 @@ global class ServiceTransfersBeneficiaries {
             if (sourceAccount != null) {
                 res.companyGlobalId = sourceAccount.codigoCorporate;
                 if (sourceAccount.companyIdsList != null) {
-                    String companyGlobalId = sourceAccount.companyIdsList.get('GLOBAL');
+                    String companyGlobalId = sourceAccount.companyIdsList.get(System.Label.CNF_GTSIdentifier);
                     if (String.isNotBlank(companyGlobalId)) {
                         res.companyGlobalId = companyGlobalId;
                     }

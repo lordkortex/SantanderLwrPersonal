@@ -480,9 +480,47 @@ History
             subsidiaryList = new List<String>();
             bankList = new List<String>(); 
             tipoDeCambioList = new List<WRAPPER_AccountList.TipoDeCambio>();
+            
+            //Get user type
+            String serviceAPILine = ServiceAPILine.getAPILine();
+            
             for(WRAPPER_Balance_LU.AccountsDataList item : balancesObj.accountsList.accountsDataList){
                 WRAPPER_AccountList.AccountDetails myAccount = new WRAPPER_AccountList.AccountDetails();
-                myAccount.displayNumber =  item.accountIdList.get(0).accountId;
+                if(item.accountIdList != null){
+                    if(item.accountIdList.size() == 1){
+                        myAccount.displayNumber =  item.accountIdList.get(0).accountId;
+                        myAccount.idType = item.accountIdList.get(0).idType;
+                    }else{
+                        //NEXUS
+                        if (serviceAPILine == System.Label.PAY_ServiceAPILine_002) {
+                            for(WRAPPER_Balance_LU.AccountIdList accountIdListItem : item.accountIdList){
+                                if(accountIdListItem.idType == 'BBA'){
+                                    myAccount.displayNumber = accountIdListItem.accountId;
+                                    myAccount.idType = accountIdListItem.idType;
+                                }
+                            }
+                            
+                            if(myAccount.displayNumber == null && myAccount.idType == null){
+                                myAccount.displayNumber =  item.accountIdList.get(0).accountId;
+                                myAccount.idType = item.accountIdList.get(0).idType;
+                            }
+                            
+                        } else if (serviceAPILine == System.Label.PAY_ServiceAPILine_001|| serviceAPILine == System.Label.PAY_ServiceAPILine_003) { //LOCAL OR AQUANIMA
+                            for(WRAPPER_Balance_LU.AccountIdList accountIdListItem : item.accountIdList){
+                                if(accountIdListItem.idType == 'IBA'){
+                                    myAccount.displayNumber = accountIdListItem.accountId;
+                                    myAccount.idType = accountIdListItem.idType;
+                                }
+                            }
+                            
+                            if(myAccount.displayNumber == null && myAccount.idType == null){
+                                myAccount.displayNumber =  item.accountIdList.get(0).accountId;
+                                myAccount.idType = item.accountIdList.get(0).idType;
+                            }
+                        }
+                    }
+                }
+                
                 if(iWhen == 'lastUpdate'){
                     myAccount.alias = item.aliasCuentaPerfilado != null ? item.aliasCuentaPerfilado : '';//HHH
                 } else if(iWhen == 'oneTrade'){
@@ -571,7 +609,6 @@ History
                 //myAccount.subsidiaryName =  (iWhen == 'oneTrade' && item.parentCustomerName != null) ? item.parentCustomerName : item.customerName;
                 myAccount.subsidiaryName =  item.customerName;
                 myAccount.internationalPaymentsAllowed = item.internationalPaymentsAllowed;//HHH
-                myAccount.idType = item.accountIdList.get(0).idType;
                 myAccount.aliasEntidad = item.aliasEntidad;
                 myAccount.status = item.status != null ? item.status : '';
                 myAccount.transactionsAllowed = item.transactionsAllowed != null ? item.transactionsAllowed : false;
