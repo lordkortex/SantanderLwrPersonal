@@ -1,4 +1,4 @@
-import { LightningElement,api} from 'lwc';
+import { LightningElement,api,track} from 'lwc';
 
 
 
@@ -34,13 +34,20 @@ export default class CmpOTVTableUsersLanding extends LightningElement {
      
      
     // Expose URL of assets included inside an archive file
-    image = Images + '/03-with-image@3x.jpg';
+    
     @api lstusers;
     @api items;
-    colors = ['blue', 'green', 'pink','lightpink', 'cream', 'gray'];
     @api isbackfront = false;
     @api isClicked = false;
     @api showtoast = false;
+    @api filters;
+    @track showtoastError = false;
+    @track showtoast = false;
+    @track msgtoast;
+    @track typetoast;
+    @track tobehiddentoast;
+    colors = ['blue', 'green', 'pink','lightpink', 'cream', 'gray'];
+    image = Images + '/03-with-image@3x.jpg';
     user;
     lstAccounts ={};
     lstCountriesAux ={};
@@ -48,7 +55,10 @@ export default class CmpOTVTableUsersLanding extends LightningElement {
     lstSubsidiaries ={};
     loading = false;
     
+
     connectedCallback(){
+        console.log('this.filters TABLA');
+        console.log(this.filters);
         Promise.all([
             loadStyle(this, Santander_Icons + '/style.css'),
         ]);
@@ -106,10 +116,19 @@ export default class CmpOTVTableUsersLanding extends LightningElement {
 
     closeuserinfo(event){
         this.isClicked = event.detail.isClicked;
-        console.log(event.detail.showtoast);
+        console.log('toast: ' + event.detail.showtoast);
+        console.log('toastError: ' + event.detail.showtoastError);
         this.showtoast = event.detail.showtoast;
+        this.showtoastError = event.detail.showtoastError,
         this.loading = event.detail.loading;
-        const saveUserInfoParent = new CustomEvent('saveuserinfo', {detail: {showtoast : this.showtoast}});
+        this.msgtoast = event.detail.msgtoast;
+        this.typetoast = event.detail.typetoast;
+        this.tobehiddentoast = event.detail.tobehiddentoast;
+        const saveUserInfoParent = new CustomEvent('saveuserinfo', {detail: {showtoast : this.showtoast,
+                                                                             showtoastError : this.showtoastError,
+                                                                             msgtoast  : this.msgtoast,
+                                                                             typetoast : this.typetoast,
+                                                                             tobehiddentoast : this.tobehiddentoast}});
         this.dispatchEvent(saveUserInfoParent);
     }
 

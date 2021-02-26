@@ -47,6 +47,8 @@ public without sharing class  CNT_OTV_UsersLanding {
         public String value{get;set;}
         @AuraEnabled
         public String url{get;set;}
+        @AuraEnabled
+        public Boolean isActive{get;set;}
     }
     
     public class AccountsUser { 
@@ -295,6 +297,7 @@ public without sharing class  CNT_OTV_UsersLanding {
             if(setCountries.size()>0 && setCountries.contains(entry.getValue())){
                 country.label = entry.getLabel();
                 country.value = entry.getValue();
+                country.isActive = false;
 				String url = '/resource/'
 						   + String.valueOf(((DateTime)static_resource.get('SystemModStamp')).getTime())
                            + '/Flags/' 
@@ -307,6 +310,7 @@ public without sharing class  CNT_OTV_UsersLanding {
             CountryName country = new CountryName();
             country.label = 'Default';
             country.value = 'Default';
+            country.isActive = false;
             String url = '/resource/'
 					   + String.valueOf(((DateTime)static_resource.get('SystemModStamp')).getTime())
                        + '/Flags/' 
@@ -428,12 +432,13 @@ public without sharing class  CNT_OTV_UsersLanding {
             for (WRAPPER_AccountList_OTV.AccountAvailableService act : accountsList) {
                 String response;
                 OmnichannelServiceUserData osd = new OmnichannelServiceUserData();
-                    if(act.status =='ACTIVE'){
+                   /* if(act.status =='ACTIVE'){
                         osd.status= 'INACTIVE';                 
                     }else{
                         osd.status= 'ACTIVE';
-                    }
-               
+                    }*/
+                //osd.status= 'INACTIVE';
+                osd.status = act.status;
                 osd.startDate= '16022021';
                 osd.endDate= '16022021';
                 system.debug('Body del servicio:' + osd);

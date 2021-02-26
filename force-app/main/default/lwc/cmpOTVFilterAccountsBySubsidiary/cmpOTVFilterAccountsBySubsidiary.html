@@ -16,15 +16,15 @@
                                                 <!--Poner disabled="true" en el siguiente input-->
                                                 <input checked type="checkbox" name="checkbox-toggle-15"
                                                     value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15"
-                                                    if:true={checked} data-item={account.accountId} onchange={saveAccount}/>
+                                                    if:true={checked} data-item={account.accountId} onchange={saveAccount} data-id="test"/>
                                                 <input type="checkbox" name="checkbox-toggle-15"
                                                     value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15"
-                                                    if:false={checked} data-item={account.accountId} onchange={saveAccount}/>
+                                                    if:false={checked} data-item={account.accountId} onchange={saveAccount} data-id="test"/>
                                                     <!--onchange={saveAccount}--> 
                                                 <span data-id="checkbox-toggle-15" class="slds-checkbox_faux_container"
                                                     aria-live="assertive">
                                                     <span class="slds-checkbox_faux"></span>
-                                                </span>
+                                                </span> 
                                             </label>
                                         </div>
                                         <div class="subtitleText">{account.alias}</div>

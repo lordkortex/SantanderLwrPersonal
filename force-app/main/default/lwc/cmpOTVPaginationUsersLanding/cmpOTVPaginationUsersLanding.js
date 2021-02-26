@@ -30,20 +30,25 @@ export default class CmpOTVPaginationUsersLanding extends LightningElement {
     selectedValue = '1';
     selectedPage = '1';
     helpTextDropdown = "Show More";
-    @api actualPage=1;
+    actualpage=1;
     @api numpages;
     @api items;
     @api lastpage;
+    @api paginaactual;
+    @api paginainicial;
  
     connectedCallback(){
-        
         this.resetActivePage();
         Promise.all([
             loadStyle(this, Santander_Icons + '/style.css'),
         ])
         
     }
-
+    renderedCallback(){
+        this.actualpage = this.paginaactual;
+        this.selectedPage = this.paginainicial;
+        this.resetActivePage();
+    }
     conditions(event){
         if (event.target.getAttribute("data-item") == this.selectedValue){
             this.selectedClass = 'slds-dropdown__item slds-is-selected';
@@ -60,29 +65,32 @@ export default class CmpOTVPaginationUsersLanding extends LightningElement {
 
     clickPage(event){
          this.pageClicked =event.target.getAttribute("data-item");
-        if(this.pageClicked != this.actualPage){
-            this.actualPage = this.pageClicked;
+        if(this.pageClicked != this.actualpage){
+            this.actualpage = this.pageClicked;
             this.resetActivePage();
             event.target.className="active";
-            const returnPage = new CustomEvent('returnpageselected', {detail: {actualPage : this.actualPage}});
+            const returnPage = new CustomEvent('returnpageselected', {detail: {actualpage : this.actualpage}});
             this.dispatchEvent(returnPage);
         }
     }
 
     prevPage(event){
-        if(this.actualPage != 1){
-            this.actualPage--;
+        if(this.actualpage != 1){   
+            this.actualpage--;
             this.resetActivePage();
-            const returnPage = new CustomEvent('returnpageselected', {detail: {actualPage : this.actualPage}});
+            const returnPage = new CustomEvent('returnpageselected', {detail: {actualpage : this.actualpage}});
             this.dispatchEvent(returnPage);
         }
     }
 
     nextPage(event){
-        if(this.actualPage != this.lastpage){
-            this.actualPage++;
+        console.log('this.actualpage');
+        console.log(this.actualpage);
+        console.log(this.lastpage);
+        if(this.actualpage < this.lastpage){
+            this.actualpage++;
             this.resetActivePage();
-            const returnPage = new CustomEvent('returnpageselected', {detail: {actualPage : this.actualPage}});
+            const returnPage = new CustomEvent('returnpageselected', {detail: {actualpage : this.actualpage}});
             this.dispatchEvent(returnPage);
         }
     }
@@ -92,8 +100,8 @@ export default class CmpOTVPaginationUsersLanding extends LightningElement {
             if(element.className == "active"){
                 element.className =""; 
             }
-            console.log(this.actualPage);
-            if(element.dataset.item == this.actualPage){
+            console.log(this.actualpage);
+            if(element.dataset.item == this.actualpage){
                 element.className ="active"; 
             }
                 

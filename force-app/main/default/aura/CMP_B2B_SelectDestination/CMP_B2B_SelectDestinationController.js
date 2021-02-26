@@ -173,6 +173,14 @@
     },
 
     handleSelectAccount: function(component, event, helper) {
+        let canNewBen = component.get('v.canCreateBeneficiaries');
+        if (canNewBen == false) {
+            let paymentDraft = component.get('v.paymentDraft');
+        	paymentDraft.exchangeRate = null;
+            paymentDraft.timestamp = '';
+            paymentDraft.sourceCurrencyDominant  = null;
+            component.set('v.paymentDraft', paymentDraft);
+        }
         let country = event.getParam('country');
         component.set('v.selectedCountry', country);
         var countryDropdown = component.find('countryDropdown');

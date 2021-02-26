@@ -1,9 +1,5 @@
-import { LightningElement,api } from 'lwc';
+import { LightningElement,api,track } from 'lwc';
 
-
-import calloutGetUsersAccounts   from '@salesforce/apex/CNT_OTV_UsersLanding.calloutGetUserAccounts';
-import getLstCountriesUser       from '@salesforce/apex/CNT_OTV_UsersLanding.getLstCountriesUser';
-import setUserInfo               from '@salesforce/apex/CNT_OTVUserInfo.setUserInfo';
 import calloutUpdateUserAccounts from '@salesforce/apex/CNT_OTV_UsersLanding.calloutUpdateUserAccounts';
 import calloutUpdateUserStatus   from '@salesforce/apex/CNT_OTV_UsersLanding.calloutUpdateUserStatus';
 
@@ -54,8 +50,7 @@ export default class CmpOTVUserInfoPermissions extends LightningElement {
     // DROPDOWN ATTRIBUTES 
     values =['Administrator','Operator'];
     @api lstaccounts ={};
-    lstCountriesAux ={};
-    @api lstcountries =[];
+    @api lstcountries ={};
     @api lstsubsidiaries ={};
     lstsubsidiariesaux =[];
     lstsubsidiaries = {};
@@ -67,7 +62,13 @@ export default class CmpOTVUserInfoPermissions extends LightningElement {
     subsidiarieslistNew = [];
     lstUpdatedAccounts =[];
     cuentaSeleccionada;
-
+    statusButton = false;
+    @track showtoast = false;
+    @track showtoastError = false;
+    @track msgtoast;
+    @track typetoast;
+    @track tobehiddentoast;
+    countriesloaded = false;
     // Expose URL of assets included inside an archive file
     logoOneTrade = images + '/logo-santander-one-trade.svg';
     flagES = flags + '/ES.svg';
@@ -78,14 +79,7 @@ export default class CmpOTVUserInfoPermissions extends LightningElement {
             loadStyle(this, Santander_Icons + '/style.css'),
         ])
 
-        // this.lstaccounts.forEach(element => {
-        //     if(!this.lstsubsidiariesaux.includes(element.companyName) && !this.lstsubsidiariesaux.includes(element.country)){
-        //         this.lstsubsidiariesaux.push(element.companyName);
-        //         this.lstsubsidiaries.push({country:element.country, companyName:element.companyName});
-        //     }
-        // }); 
-
-        //console.log('lstsubsidiaries'+ JSON.stringify(this.lstsubsidiaries));
+        this.updateCountryCombos(true);
     }
 
     conditions(event){
@@ -118,60 +112,84 @@ export default class CmpOTVUserInfoPermissions extends LightningElement {
     }
 
     changeaccount(event){
-        
+
         if(this.subsidiarieslistNew.includes(event.detail.account)){
             this.subsidiarieslistNew = this.subsidiarieslistNew.filter(value => value !== event.detail.account);
         }else{
             this.subsidiarieslistNew.push(event.detail.account);
         }
+
+        var listaAuxiliar = JSON.parse(JSON.stringify(this.lstaccounts));
+        var accountElement = listaAuxiliar.find(account => account.accountId == event.detail.account);
+        var updateCountry = false;
+        if(accountElement != null){
+            if(accountElement.status == 'INACTIVE'){
+                accountElement.status = 'ACTIVE';
+                updateCountry = true;
+            }else{
+                accountElement.status = 'INACTIVE';
+            }
+        }
+        this.lstaccounts = listaAuxiliar;
+        if(updateCountry){
+            this.updateCountryCombos(false);
+        }
+        console.log(this.lstaccounts);
         console.log(this.subsidiarieslistNew);
 
     }
 
-
-
-
     saveUserInfo(){
-        /*setUserInfo({ updateStr:this.subsidiariesList})
-        .then(result => { 
-            window.console.log(JSON.stringify(result));
-        })*/
-        //calloutUpdateUserAccounts({ updateStr:this.subsidiariesList})
-            console.log(this.subsidiarieslistNew);
-            for(var i=0; i<this.subsidiarieslistNew.length; i++){
-                console.log('Valor' + this.subsidiarieslistNew[i]);
-                let accountElement = this.lstaccounts.find(account => account.accountId == this.subsidiarieslistNew[i]);
-                console.log('Objecto');
-                console.log(accountElement);
-                console.log(accountElement.status);
-               
-                this.lstUpdatedAccounts.push(accountElement);
-            }
-            console.log(this.lstUpdatedAccounts);
-
-        console.log('Entra');
-        console.log(this.userselected.globalId);
-        console.log(this.userselected.companyId);
-        calloutUpdateUserStatus({userId:this.userselected.globalId,
-                                serviceId:'one_trade_view_multi',
-                                companyId:this.userselected.companyId,
-                                statusButton:true})
-        .then(result => { 
-        window.console.log(JSON.stringify(result));
-        })
-        if(JSON.stringify(this.lstUpdatedAccounts)!= null){
+        console.log(this.subsidiarieslistNew);
+        for(var i=0; i<this.subsidiarieslistNew.length; i++){
+            let accountElement = this.lstaccounts.find(account => account.accountId == this.subsidiarieslistNew[i]);
+            this.lstUpdatedAccounts.push(accountElement);
+        }
+        console.log(this.lstUpdatedAccounts);
+        if(this.statusButton){
+            console.log('Entra statusButton');
+            calloutUpdateUserStatus({userId:this.userselected.globalId,
+                                     serviceId:'one_trade_view_m_operation',
+                                     companyId:this.userselected.companyId,
+                                     statusButton:true})          
+            .catch(error => {
+                var msg = error;
+                this.showtoastError = true;
+                this.msgtoast = msg;
+                this.typetoast = error;
+                this.tobehiddentoast = false;
+            });
+        }else{
+            console.log('Entra ELSE statusButton');
+        }
+        if(this.lstUpdatedAccounts != undefined && this.lstUpdatedAccounts.length >0 ){
             console.log('Entra?');
             calloutUpdateUserAccounts({accountList:JSON.stringify(this.lstUpdatedAccounts),
                                         userId:this.userselected.globalId,
                                         serviceId:'one_trade_view_account',
-                                        companyId:this.userselected.companyId})
+                                        companyId:this.userselected.companyId})    
+            .catch(error => {
+                var msg = error;
+                this.showtoastError = true;
+                this.msgtoast = msg;
+                this.typetoast = error;
+                this.tobehiddentoast = false;
+            });
         }else{
             console.log('Sale?');
         }
-        window.console.log(JSON.stringify(result));
-        
+        //window.console.log(JSON.stringify(result));
+        if(this.showtoastError){
+            this.showtoast = false;
+        }else{
+            this.showtoast = true;
+        }
         const saveUserInfo = new CustomEvent('closeuserinfo', {detail: {isClicked : false,
-                                                                        showtoast : true}});
+                                                                        showtoast : this.showtoast,
+                                                                        showtoastError : this.showtoastError,
+                                                                        msgtoast  : this.msgtoast,
+                                                                        typetoast : this.typetoast,
+                                                                        tobehiddentoast : this.tobehiddentoast}});
         this.dispatchEvent(saveUserInfo);
     }
 
@@ -179,5 +197,65 @@ export default class CmpOTVUserInfoPermissions extends LightningElement {
         return 'slds-dropdown__item slds-is-selected';
         /*{this.item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}*/
     }
+ 
+    changeStatus(event){
+        console.log('Entra changeStatus');
+        this.statusButton = !this.statusButton;
+        console.log(this.statusButton);
+    }
+
+    updateCountryCombos(isRenderedCallback){
         
+        if((isRenderedCallback && !this.countriesloaded) || !isRenderedCallback){
+            var lstcountriesaux = JSON.parse(JSON.stringify(this.lstcountries));
+            for(var n=0; n<lstcountriesaux.length; n++){
+                lstcountriesaux[n].isActive = false;
+            }
+    
+            for(var i=0; i<this.lstaccounts.length; i++){
+                if(this.lstaccounts[i].status == 'ACTIVE'){
+                    var country = lstcountriesaux.find(cntry => cntry.value == this.lstaccounts[i].country);
+                    country.isActive = true;
+                    console.log('paso a activo country: '+country.value);
+                }
+            }
+    
+            this.lstcountries = lstcountriesaux;
+            this.countriesloaded = true;
+            console.log('actualizo los countries');
+        }        
+    }
+
+    handleCountryChange(event){
+        console.log(event.target);
+        var countrylist = JSON.parse(JSON.stringify(this.lstcountries));
+        var country = countrylist.find(cntry => cntry.value == event.target.dataset.item);
+
+        if(!event.target.checked){
+            var listaAuxiliar = JSON.parse(JSON.stringify(this.lstaccounts));
+            for(var i=0; i<listaAuxiliar.length; i++){
+                if(listaAuxiliar[i].country == country.value && listaAuxiliar[i].status == 'ACTIVE'){
+                    listaAuxiliar[i].status = 'INACTIVE';
+                    if(!this.subsidiarieslistNew.includes(listaAuxiliar[i].accountId)){
+                        console.log('entra nuevo elemento lista');
+                        console.log(this.subsidiarieslistNew);
+                        this.subsidiarieslistNew.push(listaAuxiliar[i].accountId);
+                    }else{
+                        console.log('entra quitar elemento lista');
+                        this.subsidiarieslistNew = this.subsidiarieslistNew.filter(value => value !== listaAuxiliar[i].accountId);
+                    }
+                }
+            }
+            console.log('acaba for');
+            this.lstaccounts = listaAuxiliar;
+            console.log('actualiza lista accounts final');
+            country.isActive = false;
+            console.log('actualiza country false');
+        }else{
+            country.isActive = true;
+            console.log('actualiza country true');
+        }
+        this.lstcountries = countrylist;
+    }
+
 }

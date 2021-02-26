@@ -1,8 +1,7 @@
-import { LightningElement,api } from 'lwc';
+import { LightningElement,api,track } from 'lwc';
 
 //import getUsers from '@salesforce/apex/CNT_OTV_UsersLanding.getUsers';
 import getUsers from '@salesforce/apex/CNT_OTV_UsersLanding.calloutGetUserList';
-import getUsersWithCompanyId from '@salesforce/apex/CNT_OTV_UsersLanding.calloutGetUserList_BBO';
 import getCheckBox from '@salesforce/apex/CNT_OTV_WelcomePack_Controller.getCheckboxWelcomePack';
 
 import { loadStyle } from 'lightning/platformResourceLoader';
@@ -35,12 +34,18 @@ export default class CmpOTVParentUsersLanding extends LightningElement {
     @api isBackfront = false;
     @api filters = '';
     @api items;
+    paginaActual = 1;
     showFilters = false;
     posInicial;
     posFinal;
     busqueda;
     loading = true;
-    
+    @track showtoast = false;
+    @track showtoastError = false;
+    @track msgtoast;
+    @track typetoast;
+    @track tobehiddentoast;
+
     connectedCallback(){
         Promise.all([
             loadStyle(this, Santander_Icons + '/style.css'),
@@ -76,6 +81,8 @@ export default class CmpOTVParentUsersLanding extends LightningElement {
                    this.loading = false;
                 })
             } else {
+                console.log('this.filters PARENT');
+                console.log(this.filters);
                 getUsers({companyId:this.filters}).then((results)=>{
                     console.log(results);
                     this.lstUsers = results;
@@ -133,7 +140,7 @@ export default class CmpOTVParentUsersLanding extends LightningElement {
     }
     returnPage(event){
         var numArray=0;
-        this.posFinal = this.selectedValue * event.detail.actualPage;
+        this.posFinal = this.selectedValue * event.detail.actualpage;
         this.posInicial = this.posFinal - this.selectedValue;   
         this.displayedList = [];
         this.lstUsersAux = [];
@@ -167,27 +174,20 @@ export default class CmpOTVParentUsersLanding extends LightningElement {
             this.busqueda = event.detail.busqueda;
         
             for(var i=0; i<this.lstUsers.length;i++){
+                isBusqueda = false;
+                isSelectedRole = false;
+                isSelectedStatus = false;
                 if((event.detail.busqueda != null && this.lstUsers[i].name.includes(this.busqueda)) || event.detail.busqueda == null){
                     isBusqueda = true;
-                    //this.lstUsersFilters[numArray]= this.lstUsers[i];
-                    //numArray++;
                 }
                 if((event.detail.selectedRole != null && this.lstUsers[i].role == event.detail.selectedRole) || event.detail.selectedRole == null){
-                    console.log('Entra selectedRole');
-                    console.log(this.lstUsers[i].role);
-                    console.log(event.detail.selectedRole);
                     isSelectedRole = true;
                 }
                 
                 if((event.detail.selectedStatus != null && this.lstUsers[i].active == event.detail.selectedStatus) || event.detail.selectedStatus == null){
-                    console.log('Entra selectedStatus');
-                    console.log(this.lstUsers[i].active);
-                    console.log(event.detail.selectedStatus);
                     isSelectedStatus = true;
                 }
                 if(isBusqueda && isSelectedRole && isSelectedStatus){
-                    console.log('Entra');
-                    console.log(this.lstUsers[i]);
                     this.lstUsersFilters[numArray]= this.lstUsers[i];
                     numArray++;
                 }
@@ -209,6 +209,8 @@ export default class CmpOTVParentUsersLanding extends LightningElement {
                 }
             }
         }
+        this.paginaActual = 1;
+        this.paginaInicial = 1;
         this.lstUsersAux = this.displayedList;
         this.calculatePagination();
     }
@@ -220,11 +222,17 @@ export default class CmpOTVParentUsersLanding extends LightningElement {
     calculatePagination(){
         this.numPages=[];
         var pages;
-        if(!this.lstUsersFilters.length == 0){
-            pages = this.lstUsersFilters.length/this.selectedValue;
+        console.log(this.lstUsersAux.length);
+        if(this.lstUsersAux.length == 0){
+            pages = 1;
         }else{
-            pages = this.lstUsers.length/this.selectedValue;
+            if(!this.lstUsersFilters.length == 0){
+                pages = this.lstUsersFilters.length/this.selectedValue;
+            }else{
+                pages = this.lstUsers.length/this.selectedValue;
+            }
         }
+        
         
         for(var i=0;i<pages;i++){
             this.numPages[i]=i+1;
@@ -233,6 +241,10 @@ export default class CmpOTVParentUsersLanding extends LightningElement {
     }
     saveuserinfo(event){
         this.showtoast = event.detail.showtoast;
+        this.showtoastError= event.detail.showtoastError;
+        this.msgtoast = event.detail.msgtoast;
+        this.typetoast = event.detail.typetoast;
+        this.tobehiddentoast = event.detail.tobehiddentoast;
         console.log(this.showtoast);
     }
     get checkWelcomeModal(){

@@ -3,10 +3,17 @@
     margin-top: -24px;
     width: 100%;
 }
-.contentUsers .contentPag{
+.contentUsers .contentPag,
+.slds-grid__button{
     margin:0 auto;
     width: 1224px;
 }
+
+.slds-grid__button{
+    margin-top:40px;
+    margin-bottom:120px;
+}
+
 .contentUsers .searchFiltersAccounts {
     padding-top:180px;
 }
@@ -230,9 +237,9 @@
     padding: 4px 16px;
     display: inline-flex;
     justify-content: center;
-    position: absolute;
+    /* position: absolute;
     left: 328px;
-    bottom: 85px;
+    bottom: 85px; */
 }
 
 .slds-button:not(.button_disabled).primary:hover, .slds-button:not(.button_disabled).secondary:hover {

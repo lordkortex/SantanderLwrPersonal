@@ -27,8 +27,8 @@
                          <label class="slds-checkbox_toggle slds-grid">
                              
                              <!-- Al precionar el toggle y cambiar a inactivo se cambia el estado y el color de la clase "image" -->
-                             <input checked type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" if:true={userselected.active}/>
-                             <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" if:false={userselected.active}/>
+                             <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" checked if:true={userselected.active} onchange={changeStatus}/>
+                             <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" if:false={userselected.active} onchange={changeStatus}/>
                              <span id="checkbox-toggle-15" class="slds-checkbox_faux_container" aria-live="assertive">
                                  <span class="slds-checkbox_faux"></span>
                              </span>
@@ -229,12 +229,13 @@
                                                     </div>
                                                 </h2>
                                             </div>
-                                            <div class="slds-form-element">
+                                            <div class="slds-form-element" data-item={country}>
                                                 <label class="slds-checkbox_toggle slds-grid">
                                                     <!--Poner disabled="true" en el siguiente input-->
-                                                    <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" checked="" />
-                                                    <span data-id="checkbox-toggle-15" class="slds-checkbox_faux_container" aria-live="assertive">
-                                                        <span class="slds-checkbox_faux"></span>
+                                                    <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" if:true={country.isActive} onchange={handleCountryChange} checked data-item={country.value}/>
+                                                    <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" if:false={country.isActive} onchange={handleCountryChange} data-item={country.value}/>
+                                                    <span data-id="checkbox-toggle-15" class="slds-checkbox_faux_container" aria-live="assertive" data-item={country}>
+                                                        <span class="slds-checkbox_faux" data-item={country}></span>
                                                     </span>
                                                 </label>
                                             </div>
@@ -242,7 +243,7 @@
                                     </div>
                                     <div class="slds-form-element__control" for:each={lstsubsidiaries} for:item="subsidiary" key={subsidiary} data-id="subsidiary">
                                         <!-- <h3>{subsidiary.companyName}</h3> -->
-                                        <c-cmp-o-t-v-filter-accounts-by-country onchangeaccount ={changeaccount} country={country.value} subsidiary={subsidiary} lstaccounts={lstaccounts}></c-cmp-o-t-v-filter-accounts-by-country>
+                                        <c-cmp-o-t-v-filter-accounts-by-country data-id={country.value} onchangeaccount ={changeaccount} country={country.value} subsidiary={subsidiary} lstaccounts={lstaccounts}></c-cmp-o-t-v-filter-accounts-by-country>
                                         <!--<c-cmp-o-t-v-subsidiary-by-country-with-accounts country={country.value} subsidiary={subsidiary} lstaccounts={lstaccounts}  ></c-cmp-o-t-v-subsidiary-by-country-with-accounts>-->
                                     </div>
                                 </article>

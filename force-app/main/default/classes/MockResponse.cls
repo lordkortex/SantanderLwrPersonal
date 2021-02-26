@@ -1421,7 +1421,28 @@ public class MockResponse {
         String res = '{"Test":"Test"}';  
         return res;
     }
-    
+
+    @TestVisible
+    public static String WS_B2B_ValidateAccount () {
+        WS_B2B_ValidateAccount.ValidateAccountOutput validateAccountOutput = new WS_B2B_ValidateAccount.ValidateAccountOutput();
+        validateAccountOutput.customerIdResult = new WS_B2B_ValidateAccount.CustomerIdResult();
+        validateAccountOutput.customerIdResult.result = 'OK';
+        validateAccountOutput.customerIdResult.customerId = '2123';
+        validateAccountOutput.amountResult = new WS_B2B_ValidateAccount.AmountResult();
+        validateAccountOutput.amountResult.result = 'OK';
+        validateAccountOutput.amountResult.amount = '12345.0';
+        validateAccountOutput.currencyCodeResult = new WS_B2B_ValidateAccount.CurrencyCodeResult();
+        validateAccountOutput.currencyCodeResult.result = 'OK';
+        validateAccountOutput.currencyCodeResult.currencyCode = 'EUR';
+        validateAccountOutput.statusResult = new WS_B2B_ValidateAccount.StatusResult();
+        validateAccountOutput.statusResult.result = 'OK';
+        validateAccountOutput.statusResult.status = 'Active';
+        validateAccountOutput.productTypeResult = new WS_B2B_ValidateAccount.ProductTypeResult();
+        validateAccountOutput.productTypeResult.result = 'OK';
+        validateAccountOutput.productTypeResult.productType = 'accounts';
+        return JSON.serialize(validateAccountOutput, true);
+    }
+
     @TestVisible
     public static String WS_OperationsList(){
         String res = '{"Test":"Test"}';  

@@ -9,7 +9,7 @@
         </div>
     </div>
     <!-- FULL SCREEN -->
-    <c-cmp-o-t-v-modal if:false={checkWelcomeModal}></c-cmp-o-t-v-modal>
+    <c-cmp-o-t-v-modal if:true={isBackfront} if:false={checkWelcomeModal}></c-cmp-o-t-v-modal>
     <div class="contentUsers" if:false={loading}>
         <!--TOAST SUCCESS -->
         <!-- añadir la clase toast_static para evitar que el toast flote en medio de la pantalla -->
@@ -35,7 +35,11 @@
               	</div>
             </div>
         </div> 
-
+        <c-lwc_toast
+            type={typetoast}
+            show={showtoastError}
+            message={msgtoast}>
+        </c-lwc_toast> 
         
         <!-- HEADER -->
         <div>
@@ -47,11 +51,11 @@
         </div>
         <!-- TABLE -->
         <div>
-            <c-cmp-o-t-v-table-users-landing onsaveuserinfo={saveuserinfo} lstusers={lstUsersAux} selectedpage={selectedPage} selectedvalue={selectedValue} items={items} isbackfront={isBackfront}></c-cmp-o-t-v-table-users-landing>
+            <c-cmp-o-t-v-table-users-landing onsaveuserinfo={saveuserinfo} filters={filters} lstusers={lstUsersAux} selectedpage={selectedPage} selectedvalue={selectedValue} items={items} isbackfront={isBackfront}></c-cmp-o-t-v-table-users-landing>
         </div>
          <!-- PAGs -->
         <div class="contentPag">
-            <c-cmp-o-t-v-pagination-users-landing onreturnvalues={returnValues} onreturnpageselected={returnPage} lstusers={lstUsersAux} numpages={numPages} lastpage={lastpage} items={items}></c-cmp-o-t-v-pagination-users-landing>
+            <c-cmp-o-t-v-pagination-users-landing onreturnvalues={returnValues} onreturnpageselected={returnPage} lstusers={lstUsersAux} paginaactual={paginaActual} paginainicial={paginaInicial} numpages={numPages} lastpage={lastpage} items={items}></c-cmp-o-t-v-pagination-users-landing>
         </div>
         <!--Cambiar la clase "footer" a "footerContact" para añadir el fotter de contacto-->
         <div class="footer" if:false={isBackfront}>

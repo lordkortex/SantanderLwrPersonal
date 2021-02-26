@@ -47,6 +47,9 @@ global class TokenService {
             if (tokenInformation.mapClaims.TXT_realm__c != null) {
                 claims.put('realm', tokenInformation.mapClaims.TXT_realm__c);
             }
+            if (tokenInformation.mapClaims.TXT_country__c != 'GTSNEXUSBIC') {
+                claims.put('platform_id', System.Label.jwtIss);
+            }
             jwt.setAdditionalClaims(claims);
             jwt.setValidityLength(86400);
             Auth.JWS signedToken = new Auth.JWS(jwt, System.Label.certificateName);

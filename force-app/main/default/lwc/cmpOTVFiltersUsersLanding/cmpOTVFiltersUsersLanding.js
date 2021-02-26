@@ -22,17 +22,18 @@ export default class CmpOTVFiltersUsersLanding extends LightningElement {
         cmpOTVFiltersUsersLanding_5,
         cmpOTVFiltersUsersLanding_6
     }
-    busqueda;
-    filtroStatus = [{ label: 'Select a Status' , value: ''},
+    
+    filtroStatus = [{ label: 'Select a Status' , value: null},
                     { label: 'Active', value: 'true' },
                     {  label: 'Inactive', value: 'false' },
                    ];
-    filtroTypeUser = [{ label: 'Select a type of user' , value: ''},
-                   { label: 'Administrator', value: 'one_trade_v_m_global_administration' },
-                   {  label: 'Operator', value: 'one_trade_v_m_global_operator' },
+    filtroTypeUser = [{ label: 'Select a type of user' , value: null},
+                   { label: 'Administrator', value: 'one_trade_view_m_administration' },
+                   {  label: 'Operator', value: 'one_trade_view_m_operation' },
                   ];
-    selectedRole;
-    selectedStatus;
+    busqueda = null;
+    selectedRole = null;
+    selectedStatus = null;
     renderedCallback() {
         Promise.all([
             loadStyle(this, Santander_Icons + '/style.css'),
@@ -45,18 +46,27 @@ export default class CmpOTVFiltersUsersLanding extends LightningElement {
         this.goTable();
     }
     buscar(event){
+        this.busqueda = null;
         console.log('buscar');
         this.busqueda = this.template.querySelector('.slds-input').value;
        // this.busqueda = this.busqueda.uppercase();
        this.goTable();
     }
     changeStatus(event){
+        this.selectedStatus = null;
         console.log('changeStatus');
-        this.selectedStatus = event.target.value;
+        if(event.target.value == 'true'){
+            this.selectedStatus = true;
+        }else if(event.target.value == 'false'){
+            this.selectedStatus = false;
+        }
+        console.log('selectedStatus :' + this.selectedStatus);
+        //this.selectedStatus = event.target.value;
         this.goTable();
     }
 
     changeRole(event){
+        this.selectedRole = null;
         console.log('changeRole');
         this.selectedRole = event.target.value;
         this.goTable();
@@ -64,8 +74,8 @@ export default class CmpOTVFiltersUsersLanding extends LightningElement {
 
     goTable(){
         console.log('busqueda :' + this.busqueda);
-        console.log('busqueda :' + this.selectedRole);
-        console.log('busqueda :' + this.selectedStatus);
+        console.log('selectedRole :' + this.selectedRole);
+        console.log('selectedStatus :' + this.selectedStatus);
         const returnFiltros = new CustomEvent('returnfiltros', {detail: {busqueda : this.busqueda,
                                                                          selectedRole :this.selectedRole,
                                                                          selectedStatus : this.selectedStatus}});

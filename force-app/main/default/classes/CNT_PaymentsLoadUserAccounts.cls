@@ -97,11 +97,11 @@ public with sharing class CNT_PaymentsLoadUserAccounts {
             String PTT_international_transfer_single = System.Label.PTT_international_transfer_single;
             if (transferType == PTT_international_transfer_single) {
                 // FLOWERPOWER_PARCHE_JHM
-                if (serviceAPILine == LOCAL_BANKING) {
+                //if (serviceAPILine == LOCAL_BANKING) {
                     accountList = ServiceTransfersBeneficiaries.getBeneficiaries();
-                } else { 
-                    throw new CustomException('Incorrect user type.');
-                }
+                //} else { 
+                //    throw new CustomException('Incorrect user type.');
+                //}
             } else if (transferType == PTT_instant_transfer) {
                 if (serviceAPILine == NEXUS || serviceAPILine == MULTI_ONE_TRADE) {
                     WS_BeneficiaryAccounts beneficiaryAccounts = new WS_BeneficiaryAccounts(userData, sourceAccount);

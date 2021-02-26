@@ -11,12 +11,11 @@ checked = false;
 cuentaSeleccionada;
     renderedCallback(){
         if(this.account.status == 'ACTIVE'){
-            console.log('ACTIVE');
             this.checked = true;
         }else{
-            console.log('INACTIVE');
             this.checked = false;
         }
+        
         if(this.account.country == this.country && this.account.companyName == this.subsidiary.companyName){
             this.isshow = true;
         }else{
