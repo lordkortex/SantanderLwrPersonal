@@ -6,16 +6,19 @@ import executePayment from '@salesforce/apex/CNT_B2B_Authorization.decryptData';
 import authorizePayment from '@salesforce/apex/CNT_B2B_Authorization.authorizePayment';
 import getOTP from '@salesforce/apex/CNT_B2B_Authorization.getOTP';
 import getOTP_Strategic from '@salesforce/apex/CNT_B2B_Authorization.getOTP_Strategic';
+import getExchangeRate from '@salesforce/apex/CNT_B2B_Authorization.getExchangeRate';
+import removeSignature from '@salesforce/apex/CNT_B2B_Authorization.removeSignature';
+import encryptData from '@salesforce/apex/CNT_B2B_Authorization.encryptData';
+import getSessionId from '@salesforce/apex/CNT_B2B_Authorization.getSessionId';
+import sendNotification from '@salesforce/apex/CNT_B2B_Authorization.sendNotification';
+import getAccountData from '@salesforce/apex/CNT_B2B_Authorization.getAccountData';
 
-
-
-
-
-
+import OTPWrongCheckSMS from '@salesforce/label/c.OTPWrongCheckSMS';
 
 
 export const helper = {
 
+   
     /*
     Author:        	Bea Hill
     Company:        Deloitte
@@ -24,8 +27,8 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    getPaymentData  (event,paymentID) {
-        return new Promise( (resolve, reject)  => {
+    getPaymentData (event,paymentID) {
+        return new Promise( (resolve, reject) => {
             getPaymentDetail({ 
                 paymentId : paymentID
             })
@@ -38,7 +41,8 @@ export const helper = {
                     } else {
                         reject('ko');
                     }
-            }).catch(errors => {
+            })
+            .catch(errors => {
                 console.log('Error message: ' + errors);
                 reject('ko');
             });
@@ -86,7 +90,7 @@ export const helper = {
                                     }
                                 }
                                 if (paymentDetails === undefined || paymentDetails === null) {
-                                    helper.getPaymentData(paymentId)
+                                    this.getPaymentData(paymentId)
                                     .then((returnValue) => {
                                         resolve({ paymentDetailAttribute: returnValue, messageAttribute: 'ok' });
                                     });
@@ -260,19 +264,19 @@ export const helper = {
                                 (orchestationOutput.level != undefined && orchestationOutput.level != null && orchestationOutput.level != 'OK'))
                              {
                                 //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
-                                helper.updateStatus('999','003');
+                                this.updateStatus('999','003');
                                 reject('ko');
                             } else {
                                 resolve('ok');
                             }
                         } else {
-                            helper.updateStatus('999','003');
+                            this.updateStatus('999','003');
                             reject('ko');
                         }
                 })
                 .catch(errors => {
                     console.log('Error message: ' + errors);
-                    helper.updateStatus('999','003');
+                    this.updateStatus('999','003');
                     reject('ko');
                 });
 
@@ -322,7 +326,7 @@ export const helper = {
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
     sendOTP(paymentData,paymentId) {
-            return new Promise($A.getCallback(function (resolve, reject) {
+            return new Promise((resolve, reject) => {
                 //component.set('v.reload', false);
                 //component.set('v.reloadAction', component.get('c.getOTP'));
                 var sourceCountry = '';
@@ -347,6 +351,7 @@ export const helper = {
                         if (!returnValue.success) {
                             //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.errorObtainingOTP'), false, 'error');
                         } else {
+                            
                             //component.set('v.showOTP', true);
                         }
                         resolve(true);
@@ -358,7 +363,7 @@ export const helper = {
                     //component.set('v.spinnerVerificationCode', false);
                     reject('ko');
                 });
-            }), this);
+            }, this);
     },
         
     /*
@@ -369,7 +374,9 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    sendOTP_Strategic(paymentData,paymentId,debitAmountString,feesString,exchangeRateString,paymentAmountString,labelCNF_mockeoFirmas) {
+    sendOTP_Strategic(paymentData,paymentId,debitAmountString,
+                    feesString,exchangeRateString,paymentAmountString,
+                    labelCNF_mockeoFirmas,validateOTP,OTP,signLevel,OTPWrongCheckSMS) {
             return new Promise((resolve, reject) => {
                 //component.set('v.reload', false);
                 //component.set('v.reloadAction', component.get('c.sendOTP_Strategic'));
@@ -398,7 +405,7 @@ export const helper = {
                                 messageAttribute: 'ko' });
                         } else {
                             if( labelCNF_mockeoFirmas === 'ok'){
-                                helper.checkOTP();
+                                this.checkOTP(validateOTP,paymentData,paymentId,OTP,signLevel,OTPWrongCheckSMS);
                             }
                             resolve({ 
                                 scaUidAttribute : returnValue.value.initiateOTP.scaUid , 
@@ -411,7 +418,7 @@ export const helper = {
                 })
                 .catch(errors => {
                     console.log('Error message: ' + errors);
-                    resolve({ 
+                    reject({ 
                         errorSignAttribute: true, 
                         errorOTPAttribute: true,
                         spinnerVerificationCodeAttribute: false, 
@@ -429,79 +436,72 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */        
-    checkOTP: function (component, event, helper) {
+    checkOTP(validateOTP,paymentData,paymentId,OTP,signLevel,OTPWrongCheckSMS) {
+        return new Promise((resolve, reject) => {
             //component.set('v.spinnerVerificationCode', true);
-            var action = component.get('c.validateOTP');
             var sourceCountry = '';
             var sourceBIC = '';
-            var payment = component.get('v.paymentData');
-            if(!$A.util.isEmpty(payment)) {
-                if(!$A.util.isEmpty(payment.sourceCountry)) {
+            var payment = paymentData;
+            if(payment != undefined && payment != null) {
+                if(payment.sourceCountry != undefined && payment.sourceCountry != null) {
                     sourceCountry = payment.sourceCountry;
                 }
-                if(!$A.util.isEmpty(payment.sourceSwiftCode)) {
+                if(payment.sourceSwiftCode != undefined && payment.sourceSwiftCode != null) {
                     sourceBIC = payment.sourceSwiftCode;
                 }
             }
-            action.setParams({  
-                'paymentId': component.get('v.paymentId'),
-                'metaData': component.get('v.OTP'),
-                'sourceCountry': sourceCountry,
-                'sourceBIC': sourceBIC
-            });
-            action.setCallback(this, function (actionResult) {
-                if (actionResult.getState() == 'SUCCESS') {
-                    var returnValue = actionResult.getReturnValue();
+
+            validateOTP({  
+                paymentId : paymentId,
+                metaData: OTP,
+                sourceCountry: sourceCountry,
+                sourceBIC: sourceBIC
+            })
+            .then((actionResult) => {
+                    var returnValue = actionResult;
                     console.log(returnValue);
                     if (!returnValue.success) {
-                        //component.set('v.spinnerVerificationCode', false);
-                        helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
+                        resolve({ OTPErrorMessageAttribute : '' })
+                        //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
                     } else {
                         if (returnValue.value.validateOTP.validateResult != 'ko' && returnValue.value.validateOTP.validateResult != 'KO') {
-                            component.set('v.OTPErrorMessage','');
-                            let signature = component.get('v.signLevel');
-                            if (signature.lastSign == 'true') {
-                                helper.signPayment(component, event, helper,true)
-                                .then($A.getCallback(function (value) {
-                                    return helper.handleExecutePayment(component, event, helper);
-                                })).then($A.getCallback(function (value) {
-                                    return helper.deleteSignatureRecord(component, event, helper);
-                                })).then($A.getCallback(function (value) {
-                                    return helper.sendNotification(component, event, helper);
-                                })).then($A.getCallback(function (value) {
-                                    // helper.showToast(component, event, helper, $A.get('$Label.c.success'), $A.get('$Label.c.authorizeSuccess'), true, 'success');
-                                    helper.sendToLanding(component, event, helper, true);
-                                })).catch(function (error) {
+                            let signature = signLevel;
+                            if (signature.lastSign ==='true') {
+                                this.signPayment(true)
+                                .then((value) => {
+                                    return this.handleExecutePayment();
+                                }).then((value)  => {
+                                    return this.deleteSignatureRecord();
+                                }).then((value)  => {
+                                    return this.sendNotification();
+                                }).then((value)  => {
+                                    this.sendToLanding( true);
+                                }).catch(function (error) {
                                     console.log(error);
-                                }).finally($A.getCallback(function (value){
+                                }).finally( (value)  => {
                                     //component.set('v.spinnerVerificationCode', false);
-                                }));
+                                });
                             } else {
-                                helper.signPayment(component, event, helper,false).then($A.getCallback(function (value) {
-                                    // helper.showToast(component, event, helper, $A.get('$Label.c.success'), $A.get('$Label.c.authorizeSuccess'), true, 'success');
-                                    helper.sendToLanding(component, event, helper,true);
-                                })).catch($A.getCallback(function (error) {
-                                    //component.set('v.spinnerVerificationCode', false);
+                                this.signPayment(false)
+                                .then((value) => {
+                                    this.sendToLanding(true);
+                                }).catch( (error) =>{
                                     console.log(error);
-                                }));
+                                });
                             }
+                            resolve({ OTPErrorMessageAttribute : '' })
                         }else{
-                            //component.set('v.spinnerVerificationCode', false);
-                            component.set('v.OTPErrorMessage', $A.get('$Label.c.OTPWrongCheckSMS'));
-                            // helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false, 'error');
+                            resolve({ OTPErrorMessageAttribute : OTPWrongCheckSMS })
                         }
                     }
-                } else if (actionResult.getState() == 'ERROR') {
-                    var errors = actionResult.getError();
-                    if (errors) {
-                        if (errors[0] && errors[0].message) {
-                            console.log('Error message: ' + errors[0].message);
-                        }
-                    }
-                    helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
-                }
+                
+            })
+            .catch(errors => {
+                console.log('Error message: ' + errors);
+                reject({ errorSignAttribute: true });
+                //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
             });
-            $A.enqueueAction(action);
+        }, this);  
     },
     
     /*
@@ -519,14 +519,15 @@ export const helper = {
                 console.log(signature);
                 if (signature.signatory === 'true' && signature.signed === 'false') {
                     if (signature.lastSign === 'true') {
-                        helper.sendOTP_Strategic(paymentData,paymentId,debitAmountString,feesString,exchangeRateString,paymentAmountString,labelCNF_mockeoFirmas)
+                        this.sendOTP_Strategic(paymentData,paymentId,debitAmountString,
+                            feesString,exchangeRateString,paymentAmountString,labelCNF_mockeoFirmas,
+                            validateOTP,OTP,signLevel,OTPWrongCheckSMS)
                         .then((value) => {
                             resolve({ 
                                 scaUidAttribute : value.scaUidAttribute,
                                 errorSignAttribute: value.errorSignAttribute, 
                                 errorOTPAttribute: value.errorOTPAttribute,
                                 spinnerVerificationCodeAttribute: value.spinnerVerificationCodeAttribute, 
-
                                 messageAttribute: value.messageAttribute ,
                                 showOTPAttribute: true 
                             });
@@ -536,20 +537,20 @@ export const helper = {
                                 errorSignAttribute: value.errorSignAttribute, 
                                 errorOTPAttribute: value.errorOTPAttribute,
                                 spinnerVerificationCodeAttribute: value.spinnerVerificationCodeAttribute, 
-
                                 messageAttribute: value.messageAttribute 
                             });
                         }).finally(() => {
                         });
                     } else {
-                        helper.sendOTP_Strategic(paymentData,paymentId,debitAmountString,feesString,exchangeRateString,paymentAmountString,labelCNF_mockeoFirmas)
+                        this.sendOTP_Strategic(paymentData,paymentId,debitAmountString,feesString,exchangeRateString,
+                                                paymentAmountString,labelCNF_mockeoFirmas,
+                                                validateOTP,OTP,signLevel,OTPWrongCheckSMS)
                         .then((value) => {
                             resolve({ 
                                 scaUidAttribute : value.scaUidAttribute,
                                 errorSignAttribute: value.errorSignAttribute, 
                                 errorOTPAttribute: value.errorOTPAttribute,
                                 spinnerVerificationCodeAttribute: value.spinnerVerificationCodeAttribute, 
-
                                 messageAttribute: value.messageAttribute ,
                                 showOTPAttribute: true 
                             });
@@ -561,11 +562,11 @@ export const helper = {
                                     errorSignAttribute: value.errorSignAttribute, 
                                     errorOTPAttribute: value.errorOTPAttribute,
                                     spinnerVerificationCodeAttribute: value.spinnerVerificationCodeAttribute, 
-
                                     messageAttribute: value.messageAttribute ,
                                     showOTPAttribute: true 
                                     });
-                        }).finally(() => {
+                        })
+                        .finally(() => {
                         });
                     }
                 } 
@@ -581,41 +582,33 @@ export const helper = {
         07/08/2020      Bea Hill            Initial version
         12/11/2020      Antonio Matachana   send userdata
     */
-    updateStatus: function (component, event, helper, status, reason) {
-            return new Promise($A.getCallback(function (resolve, reject) {
-                let paymentId = component.get('v.paymentId');
-                var action = component.get('c.updateStatus');
-                var userData = component.get('v.userData');
-                action.setParams({
-                    'paymentId': paymentId,
-                    'status': status,
-                    'reason': reason,
-                    'userdata': userData
+    updateStatus(status, reason, paymentId, userData) {
+            return new Promise((resolve, reject) => {
+                let paymentId = paymentId;
+                var userData = userData;
+                updateStatus({
+                    paymentId: paymentId,
+                    status: status,
+                    reason: reason,
+                    userdata: userData
                 });
-                action.setCallback(this, function (actionResult) {
-                    if (actionResult.getState() == 'ERROR') {
-                        var errors = actionResult.getError();
-                        if (errors) {
-                            if (errors[0] && errors[0].message) {
-                                console.log('Error message: ' + errors[0].message);
-                            }
-                        } else {
-                            helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
-                        }
-                        reject('ko');
-                    } else {
-                        var stateRV = actionResult.getReturnValue();
+                then((actionResult) => {
+                        var stateRV = actionResult;
                         console.log(stateRV);
                         if (stateRV == 'OK') {
                             resolve('ok');
                         } else {
                             reject('ko');
-                            helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
+                            //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
                         }
-                    }
-                });
-                $A.enqueueAction(action);
-            }), this);   
+                })
+                .catch((error) => {
+                    console.log(error);
+                    //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
+                    reject('ko');
+                })
+              
+            }, this);   
         },
 
     /*
@@ -626,25 +619,17 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    reloadFX: function (component, event,  helper) {
-            new Promise($A.getCallback(function (resolve, reject) {
-                component.set('v.reloadAction', component.get('c.reloadFX'));
-                component.set("v.scaUid",'');
-                component.set('v.reload', false);
-                component.set('v.errorSign', true);
-                component.set('v.spinnerCountDown', true);
+    reloadFX(paymentData,paymentId,accountData){
+            new Promise( (resolve, reject) => {
                 resolve('ok');
-            })).then($A.getCallback(function (value) {
-                return helper.reloadFXValue(component,event, helper, false);
-            })).then($A.getCallback(function (value) {
-                return helper.reloadFXValue(component, event, helper, true);
-            })).catch($A.getCallback(function (error) {
+            }).then((value) => {
+                return this.reloadFXValue(false,paymentData,paymentId,accountData);
+            }).then((value) => {
+                return this.reloadFXValue(true,paymentData,paymentId,accountData);
+            }).catch( (error)  =>{
                 console.log(error);
-            })).finally($A.getCallback(function () {
-                
-                component.set('v.spinnerCountDown', false);
-            }));
-        },
+            })
+    },
     
     
     /*
@@ -655,53 +640,50 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    reloadFXValue: function (component, event,  helper, feesBoolean) {
-            return new Promise($A.getCallback(function (resolve, reject) {
-                let payment = component.get('v.paymentData');
-                let paymentFees = ($A.util.isEmpty(payment.fees) ? '' : payment.fees);
-                let paymentCurrency = ($A.util.isEmpty(payment.paymentCurrency) ? '' : payment.paymentCurrency);
-                let feesCurrency = ($A.util.isEmpty(payment.feesCurrency) ? '' : payment.feesCurrency);
-                if (feesBoolean == true && (($A.util.isEmpty(paymentFees) || $A.util.isEmpty(feesCurrency)) || (!$A.util.isEmpty(paymentFees) && (paymentCurrency == feesCurrency)))) {
+    reloadFXValue: function (feesBoolean,paymentData,paymentId,accountData) {
+            return new Promise( (resolve, reject) => {
+                let payment = paymentData;
+                let paymentFees = ((payment.fees == undefined || payment.fees != undefined) ? '' : payment.fees);
+                let paymentCurrency = ((payment.paymentCurrency == undefined || payment.paymentCurrency != undefined)   ? '' : payment.paymentCurrency);
+                let feesCurrency = ((payment.feesCurrency == undefined || payment.feesCurrency != undefined)  ? '' : payment.feesCurrency);
+                if (feesBoolean == true && ((paymentFees === '' || feesCurrency === '' || (paymentFees === '' &&  (paymentCurrency === feesCurrency))))) {
                     resolve('ok');
-                }else if (feesBoolean == false && payment.sourceCurrency == payment.beneficiaryCurrency) {
+                }else if (feesBoolean == false && payment.sourceCurrency === payment.beneficiaryCurrency) {
                     resolve('ok');
                 } else {
-                    let paymentId = component.get('v.paymentId');
-                    let accountData = component.get('v.accountData');
-                    let action = component.get('c.getExchangeRate');
-                    action.setParams({
-                        'paymentId': paymentId,
-                        'accountData': accountData,
-                        'payment': payment,
-                        'feesBoolean': feesBoolean
-                    });
-                    action.setCallback(this, function (actionResult) {
-                        if (actionResult.getState() == 'SUCCESS') {
-                            let stateRV = actionResult.getReturnValue();
+                    let paymentId = paymentId;
+                    let accountData = accountData;
+                    getExchangeRate({
+                        paymentId: paymentId,
+                        accountData: accountData,
+                        payment: payment,
+                        feesBoolean : feesBoolean
+                    })
+                    .then(this, function (actionResult) {
+                            let stateRV = actionResult;
                             console.log(stateRV);
                             console.log(payment.amountSend);
                             if (stateRV.success) {
-                                if (feesBoolean == true){
-                                    if (!$A.util.isEmpty(stateRV.value.convertedAmount)) {
+                                if (feesBoolean === true){
+                                    if (stateRV.value.convertedAmount != undefined && stateRV.value.convertedAmount != null) {
                                         payment.fees = stateRV.value.convertedAmount;
                                         if (payment.convertedAmount != null && payment.convertedAmount != undefined && payment.addFees == true) {
-                                            
                                             payment.totalAmount =  parseFloat(stateRV.value.convertedAmount) + parseFloat(payment.amountSend);
                                         }
                                     }
-                                    if (!$A.util.isEmpty(stateRV.value.output)) {
+                                    if (stateRV.value.output != undefined && stateRV.value.output != null) {
                                         payment.FXFeesOutput = stateRV.value.output;
                                     }          
-                                    payment.feesFXDateTime = helper.getCurrentDateTime(component, event, helper);
+                                    payment.feesFXDateTime = this.getCurrentDateTime();
                                 } else {
-                                    if (!$A.util.isEmpty(stateRV.value.exchangeRate)) {
+                                    if (stateRV.value.exchangeRate != null && stateRV.value.exchangeRate != undefined) {
                                         payment.tradeAmount = stateRV.value.exchangeRate;
                                         payment.operationNominalFxDetails.customerExchangeRate = stateRV.value.exchangeRate;
                                     } 
-                                    if (!$A.util.isEmpty(stateRV.value.timestamp)) {
+                                    if (stateRV.value.timestamp != undefined && stateRV.value.timestamp != null) {
                                         payment.timestamp = stateRV.value.timestamp;
                                     }
-                                    if (!$A.util.isEmpty(stateRV.value.convertedAmount)) {
+                                    if (stateRV.value.convertedAmount != undefined && stateRV.value.convertedAmount != null) {
                                         if(stateRV.value.amountObtained == 'send'){
                                             payment.amountSend = stateRV.value.convertedAmount;
                                         }
@@ -711,31 +693,37 @@ export const helper = {
                                         payment.convertedAmount = stateRV.value.convertedAmount;
     
                                         payment.amountOperative = stateRV.value.convertedAmount;
-                                        if ($A.util.isEmpty(paymentFees) == false && payment.addFees == true) {
+                                        if ( paymentFees != ''  && payment.addFees === true) {
                                             payment.totalAmount =  parseFloat(payment.amountSend) + parseFloat(paymentFees);
                                         }
                                         
                                     }
-                                    if (!$A.util.isEmpty(stateRV.value.output)) {
+                                    if (stateRV.value.output != undefined && stateRV.value.output != null) {
                                         payment.FXoutput = stateRV.value.output;
                                     }                               
-                                    payment.FXDateTime = helper.getCurrentDateTime(component, event, helper);
+                                    payment.FXDateTime = this.getCurrentDateTime();
                                 }
-                                component.set('v.paymentData', payment);
-                                component.set('v.expiredFX', false);
-                                resolve('ok');
+                                resolve({
+                                        paymentDataAttribte : paymentData,
+                                        expiredFX : false,
+                                        messageAttribte : 'ok',
+                                });
                             } else {
                                 reject('ko');
-                                helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), component.get('v.showOTP'), 'error');
+                                //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), component.get('v.showOTP'), 'error');
                             }
-                        } else {
-                            reject('ko');
-                            helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), component.get('v.showOTP'), 'error');
-                        }
+                        
+                    })
+                    .catch( (error)  =>{
+                        reject('ko');
+                        //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), component.get('v.showOTP'), 'error');
+                    })
+                    .finally(() => {
+                        console.log(error);
                     });
-                    $A.enqueueAction(action);
+                   
                 }
-            }), this);
+            }, this);
         },
     
     /*
@@ -746,7 +734,7 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    getCurrentDateTime: function (component, event, helper) {
+    getCurrentDateTime() {
             var today = new Date();
             var month = today.getMonth() + 1;
             if (month < 10) {
@@ -782,35 +770,30 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    deleteSignatureRecord: function (component, event, helper) {
-            return new Promise($A.getCallback(function (resolve, reject) {
-                var action = component.get('c.removeSignature');
-                action.setParams({
-                    'paymentId': component.get('v.paymentId')
-                });
-                action.setCallback(this, function (actionResult) {
-                    if (actionResult.getState() == 'SUCCESS') {
-                        var returnValue = actionResult.getReturnValue();
+    deleteSignatureRecord(paymentId){
+            return new Promise( (resolve, reject) => {
+                removeSignature({
+                    paymentId: paymentId
+                })
+                .then((actionResult) => {
+                        var returnValue = actionResult;
                         console.log(returnValue);
                         if (!returnValue.success) {
-                            helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false, 'error');
+                            //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false, 'error');
                             reject('ko');
                         } else {
                             resolve('ok');
                         }
-                    } else if (actionResult.getState() == 'ERROR') {
-                        var errors = actionResult.getError();
-                        if (errors) {
-                            if (errors[0] && errors[0].message) {
-                                console.log('Error message: ' + errors[0].message);
-                            }
-                        }
-                        helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false, 'error');
-                        reject('ko');
-                    }
+                })
+                .catch( (error)  =>{
+                    //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), component.get('v.showOTP'), 'error');
+                    reject('ko');
+                })
+                .finally(() => {
+                    console.log(error);
                 });
-                $A.enqueueAction(action);
-            }), this);
+                
+            }, this);
         },
     
     /*
@@ -821,34 +804,36 @@ export const helper = {
         <Date>          <Author>            <Description>
         18/06/2020      R. Cervino          Initial version - adapted from B2B
     */
-    encrypt: function (component, data) {
-            var result = 'null';
-            var action = component.get('c.encryptData');
-            action.setParams({
-                'str': data
-            });
-            return new Promise(function (resolve, reject) {
-                action.setCallback(this, function (response) {
-                    var state = response.getState();
-                    if (state === 'ERROR') {
-                        var errors = response.getError();
-                        if (errors) {
-                            if (errors[0] && errors[0].message) {
-                                console.log('Error message: ' + errors[0].message);
-                                reject(response.getError()[0]);
-                            }
-                        } else {
-                            console.log('Unknown error');
-                        }
-                    } else if (state === 'SUCCESS') {
-                        result = response.getReturnValue();
-                    }
-                    resolve(result);
+
+      /*
+    Author:        	Bea Hill
+    Company:        Deloitte
+    Description:    Get payment details
+    History:
+    <Date>          <Author>            <Description>
+    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
+    */
+   encrypt(data) {
+        try {
+            var result = "null"; 
+            return new Promise((resolve, reject) => {
+                encryptData({ 
+                    str : data 
+                })
+                .then(response => {
+                        resolve(response);
+                })
+                .catch(errors => {
+                    console.log('Error message: ' + errors);
+                    reject(errors);
                 });
-                $A.enqueueAction(action);
-            });
-        },
-        
+            });            
+        } catch (e) {
+            console.error(e);
+        }
+    },
+
+   
     /*
     Author:        	Bea Hill
     Company:        Deloitte
@@ -857,27 +842,26 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    auxCometD: function (component, event, helper) {
-            component.set('v.cometdSubscriptions', []);
-            component.set('v.notifications', []);
+    auxCometD (cometd,expiredFX,errorOTP,scaUid,errorSign,signLevel,cometdSubscriptions){
+            //component.set('v.cometdSubscriptions', []);
+            //component.set('v.notifications', []);
             // Disconnect CometD when leaving page
             window.addEventListener('unload', function (event) {
-                helper.disconnectCometd(component);
+                this.disconnectCometd(cometd,cometdSubscriptions);
             });
             // Retrieve session id
-            var action = component.get('c.getSessionId');
-            action.setCallback(this, function (response) {
-                if (component.isValid() && response.getState() === 'SUCCESS') {
-                    component.set('v.sessionId', response.getReturnValue());
-                    if (component.get('v.cometd') != null) {
-                        helper.connectCometd(component, event, helper);
+            getSessionId()
+            .then((response)  => {
+                    //component.set('v.sessionId', response.getReturnValue());
+                    if (cometd != null) {
+                        var sessionId = response;
+                        this.connectCometd(cometd,sessionId,expiredFX,errorOTP,scaUid,errorSign,signLevel,cometdSubscriptions);
                     }
-                } else {
-                    console.error(response);
-                }
+            })
+            .catch(errors => {
+                console.log('Error message: ' + errors);
             });
-            $A.enqueueAction(action);
-        },
+    },
     
     /*
     Author:        	Bea Hill
@@ -888,60 +872,57 @@ export const helper = {
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
     // METHODS TO CONNECT WITH THE WS_OTPVALIDATION SERVICE
-    connectCometd: function (component, event, helper) {
-            var helper = this;
+    connectCometd (cometd,sessionId,expiredFX,errorOTP,scaUid,errorSign,signLevel,cometdSubscriptions) {
+        return new Promise( (resolve, reject) => {
+            //var helper = this;
             // Configure CometD
             var cometdUrl = window.location.protocol + '//' + window.location.hostname + '/cometd/40.0/';
-            var cometd = component.get('v.cometd');
             cometd.configure({
                 'url': cometdUrl,
                 'requestHeaders': {
-                    'Authorization': 'OAuth '+ component.get('v.sessionId')
+                    'Authorization': 'OAuth '+ sessionId
                 },
                 'appendMessageTypeToURL' : false
             });
             cometd.websocketEnabled = false;
             // Establish CometD connection
             console.log('Connecting to CometD: '+ cometdUrl);
-            cometd.handshake(function (handshakeReply) {
+            cometd.handshake((handshakeReply) => {
                 if (handshakeReply.successful) {
                     console.log('Connected to CometD.');
                     // Subscribe to platform event
                     var newSubscription = cometd.subscribe('/event/OTPValidation__e', function (platformEvent) {
-                        if(component.get("v.expiredFX")==false && component.get("v.errorOTP")==false){
-                            
-                            var scaUid = component.get("v.scaUid");
-                            if(platformEvent.data.payload.scaUid__c == scaUid){
+                        if(expiredFX === false && errorOTP === false){
+                            if(platformEvent.data.payload.scaUid__c === scaUid){
                                 if (platformEvent.data.payload.status__c == 'KO' || platformEvent.data.payload.status__c == 'ko') {
-                                    component.set("v.errorSign",true);
+                                   this.errorSign =true;
                                 } else {
-                                    component.set('v.spinnerVerificationCode', true);
-                                    //helper.handleExecutePayment(component, event, helper);
-                                        let signature = component.get('v.signLevel');
+                                    this.spinnerVerificationCode = true;
+                                        let signature = signLevel;
                                         if (signature.lastSign == 'true') {
-                                            helper.signPayment(component, event, helper,true).then($A.getCallback(function (value) {
-                                                return helper.handleExecutePayment(component, event, helper);
-                                            })).then($A.getCallback(function (value) {
-                                                return helper.deleteSignatureRecord(component, event, helper);
-                                            })).then($A.getCallback(function (value) {
-                                                return helper.sendNotification(component, event, helper);
-                                            })).then($A.getCallback(function (value) {
-                                                helper.sendToLanding(component, event, helper, true);
-                                            })).catch($A.getCallback(function (error) {
-                                                component.set("v.errorOTP",true);
-                                                component.set("v.errorSign",true);
-                                            })).finally($A.getCallback(function (){
-                                                component.set('v.spinnerVerificationCode', false);
-                                            }));
+                                            this.signPayment(true).then((value) => {
+                                                return this.handleExecutePayment();
+                                            }).then((value) => {
+                                                return this.deleteSignatureRecord();
+                                            }).then((value) => {
+                                                return this.sendNotification();
+                                            }).then((value) => {
+                                                this.sendToLanding( true);
+                                            }).catch( (error)  =>{
+                                                this.errorOTP = true;
+                                                this.errorSign = true;
+                                            }).finally(() => {
+                                                this.spinnerVerificationCode = false;
+                                            });
                                         } else {
-                                            helper.signPayment(component, event, helper,false).then($A.getCallback(function (value) {
-                                                helper.sendToLanding(component, event, helper,true);
-                                            })).catch($A.getCallback(function (error) {
-                                                component.set("v.errorOTP",true);
-                                                component.set("v.errorSign",true);
-                                            })).finally($A.getCallback(function (){
-                                                component.set('v.spinnerVerificationCode', false);
-                                            }));
+                                            this.signPayment(false).then((value) => {
+                                                this.sendToLanding(true);
+                                            }).catch( (error)  =>{
+                                                this.errorOTP = true;
+                                                this.errorSign = true;
+                                            }).finally(() => {
+                                                this.spinnerVerificationCode = false;
+                                            });
                                         }
                                         
                                 }
@@ -949,13 +930,16 @@ export const helper = {
                         }
                     });
                     // Save subscription for later
-                    var subscriptions = component.get('v.cometdSubscriptions');
-                    subscriptions.push(newSubscription);
-                    component.set('v.cometdSubscriptions', subscriptions);
+                    if(cometdSubscriptions != undefined){
+                        var subscriptions = cometdSubscriptions;
+                        subscriptions.push(newSubscription);
+                        this.cometdSubscriptions = subscriptions;
+                    }
                 } else {
                     console.error('Failed to connected to CometD.');
                 }
             });
+        }, this);
     },
         
      /*
@@ -966,20 +950,19 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    disconnectCometd: function (component) {
-            var cometd = component.get('v.cometd');
+    disconnectCometd(cometd,cometdSubscriptions){
             // Unsuscribe all CometD subscriptions
             cometd.batch(function () {
-              var subscriptions = component.get('v.cometdSubscriptions');
+              var subscriptions = cometdSubscriptions;
               subscriptions.forEach(function (subscription) {
                 cometd.unsubscribe(subscription);
               });
             });
-            component.set('v.cometdSubscriptions', []);
+            this.cometdSubscriptions = [];
             // Disconnect CometD
             cometd.disconnect();
             console.log('CometD disconnected.');
-        },
+    },
         
     /*
     Author:        	Bea Hill
@@ -989,26 +972,18 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    sendNotification: function (component, event, helper){
-            return new Promise($A.getCallback(function (resolve, reject) {
-                var action = component.get('c.sendNotification');
-                action.setParams({
-                    'paymentId': component.get('v.paymentData.paymentId')
+    sendNotification(paymentData){
+            return new Promise( (resolve, reject) => {
+                sendNotification({
+                    paymentId : paymentData.paymentId
+                })
+                .then((response)  => {
+                    resolve('ok');
+                })
+                .catch(errors => {
+                    console.log('Error message: ' + errors);
+                    resolve('ko');
                 });
-                action.setCallback(this, function (actionResult) {
-                    if (actionResult.getState() == 'SUCCESS') {
-                        resolve('ok');
-                    } else if (actionResult.getState() == 'ERROR') {
-                        var errors = actionResult.getError();
-                        if (errors) {
-                            if (errors[0] && errors[0].message) {
-                                console.log('Error message: ' + errors[0].message);
-                            }
-                        }
-                        resolve('ok');
-                    }
-                });
-                $A.enqueueAction(action);
-            }), this);
+            }, this);
     }
 }

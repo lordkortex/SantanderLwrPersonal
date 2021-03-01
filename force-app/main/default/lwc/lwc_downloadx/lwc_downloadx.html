@@ -1,0 +1,70 @@
+<!--
+Author:        	R. Cerviño
+Company:        Deloitte
+Description:    Download Global iD app modal
+History:
+<Date>          <Author>            <Description>
+10/11/2020      Cerviño             Creation
+-->
+
+<template>
+    <section if:true={show} role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalStepBack" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container sizeM">  
+           <div class="modal-content">  
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close" onclick={hideModal}>
+                    <div class="icon-close_big"></div> 
+                    <span class="slds-assistive-text">{label.close}</span>
+                </button>
+                <div class="title">
+                	<h2 id="modal-heading-01"  class="slds-modal__title">{label.downloadSantaderIDApp}</h2> 
+                	<div class="title-line"></div>
+                </div>
+            </header>
+
+            <div if:true={apple} class="slds-modal__content">
+                <div class="slds-p-around_medium">
+                    <p>{label.scanQR}</p>
+                </div>
+                <div class="code">
+                   <img class="qr-code" src={qr}/>
+                </div>
+            </div>
+
+            <div if:true={google} class="slds-modal__content">
+                <div class="slds-p-around_medium">
+                    <p>{label.scanQR}</p>
+                </div>
+                <div class="code">
+                   <img class="qr-code" src={qr}/>
+                </div>
+            </div>
+
+            <div if:true={main} class="slds-modal__content "> 
+               <div class="slds-p-around_medium">
+                	<p>{label.SantanderIDisADedicatedApp}</p> 
+                	<p>{label.useSantanderIDtoAuthorize}</p> 
+                </div>
+                <div class="image_conainer" >
+                    <a href="#" onclick={showApple}>
+                        <div class="slds-image">
+                            <img src={apple_icon_white}></img>
+                            <span>{label.appStore}</span>
+                        </div>
+                    </a>
+
+                    <a href="#" onclick={showGoogle}>
+                        <div class="slds-image">
+                            <img src={googlePlay_icon}></img>
+                            <span>{label.googlePlay}</span>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+
+          </div>
+        </div>
+    </section>
+    <div if:true={show} class="slds-backdrop slds-backdrop_open"></div>
+</template>

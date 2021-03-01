@@ -15,7 +15,7 @@ import useSantanderIDtoAuthorize from '@salesforce/label/c.useSantanderIDtoAutho
 import appStore from '@salesforce/label/c.appStore';
 import googlePlay from '@salesforce/label/c.googlePlay';
 
-export default class Lwc_downloadApp extends LightningElement {
+export default class Lwc_downloadx extends LightningElement {
 
     //Labels
 

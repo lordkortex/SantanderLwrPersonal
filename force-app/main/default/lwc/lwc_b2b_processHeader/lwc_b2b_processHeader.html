@@ -1,0 +1,76 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-27-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   02-26-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+   <!-- <lightning:navigation aura:id="navService"/>-->
+       <div class="content-step">
+        <!--Añadir oneStep a la clase cuando la barra de progreso tenga un único paso-->
+        <header class={classHeader}>
+            <div class="row slds-grid">
+                <div class="slds-col slds-size_1-of-3">
+                    <template if:true={hasBackButtonIsTrue}>
+                        <button class="slds-button button_link" onclick={handleBack}><span
+                            class="icon_left icon-arrowLeft_big"></span>{label.B2B_Button_Back}</button>
+                        <!--<c-lwc_b2b_button
+                            label={label.B2B_Button_Back}
+                            icon="icon-arrowLeft_big"
+                            onclickbutton={handleBack}>
+                        </c-lwc_b2b_button>
+                        -->
+                    </template>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <img class="logo-red" src={imageLogo}/>
+                    <!--<img class="logo-red" src="{!$Resource.Images + '/logo_symbol_red.svg'}"/>-->
+                    <h2 class="slds-modal__title slds-hyphenate">{headerlabel}</h2>
+                </div>
+                <div class="slds-col slds-size_1-of-3">
+                    <!-- ******** ACTUALIZACION DESPLIEGE 25-02-2021 INICIO ******** -->
+                    <template if:true={saveButtonCondition}>
+                        <c-lwc_b2b_button 
+                            label={label.B2B_Button_SaveForLater} 
+                            icon="icon-time" 
+                            click={handleShowSaveLater}>
+                        </c-lwc_b2b_button>
+                    </template>
+                    <!-- ******** ACTUALIZACION DESPLIEGE 25-02-2021 FIN ******** -->
+                    <template if:true={hasDiscardButtonIsTrue}>
+                        <c-lwc_b2b_button
+                            label={label.B2B_Button_Cancel}
+                            icon="icon-close"
+                            onclickbutton={handleShowDiscard}>
+                        </c-lwc_b2b_button>
+                    </template>
+                </div>                    
+            </div>
+            <div class="row">
+                <c-lwc_b2b_progress-bar>
+                    steps={steps}
+                </c-lwc_b2b_progress-bar>
+            </div>
+        </header>
+    </div>
+    <template if:true={showCancelModalIsTrue}>
+       <c-lwc_b2b_discard-payment>
+        </c-lwc_b2b_discard-payment>
+    </template>
+    <!-- ******** ACTUALIZACION DESPLIEGE 25-02-2021 INICIO ******** -->
+    <template if:true={showSFLModal}>
+       <c-cmp-pay-modal-remove 
+            onsaveaction={handleSavePaymentForLater} 
+            oncloseaction={handleCloseSaveForLater} 
+            headingmsg={label.B2B_SaveLaterQuestion} 
+            contentmsg={label.B2B_SaveLaterDescription} 
+            primarybtn={label.PAY_SaveForLater} 
+            secondarybtn={label.cancel}>
+        </c-cmp-pay-modal-remove>
+    </template> 
+    <!-- ******** ACTUALIZACION DESPLIEGE 25-02-2021 FIN ******** -->
+</template>

@@ -1,8 +1,18 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-27-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   02-27-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
 <template>
       
     <div class="authorization_card">
 
-        <article class="cardAuthorization card_s slds-card card_buttons">
+        <article class={cardClass}>
             
             <!-- CARD HEADER -->
             <div class="slds-card__header slds-grid">
@@ -16,9 +26,13 @@
                                 <img class="error_icon" src={imageAlert}/>
                             </template>
                             <template if:false={error}>
-                                <img class="app_icon" src={imageApp}/> 
+                                <template if:true={localuser}>
+                                    <div class="icon-signature-pending"></div> 
+                                </template>
+                                <template if:false={localuser}> 
+                                    <img class="app_icon" src={imageId}/> 
+                                 </template>   
                             </template> 
-                            
                         </div>
                         
                         <template if:true={error}>
@@ -27,8 +41,14 @@
                             </template>
                             <template if:false={expired}>
                                 <template if:true={errorOTP}>
-                                    <h2 class="slds-card__header-title slds-truncate">{Label.errorGetOTP_Strategic}</h2>
-                                    <span class="card_subtitle">{Label.WaitingAuthorization2}&nbsp;<button class="slds-button button_link"  onclick={showDownload}>{Label.WaitingAuthorization3}</button> </span>
+                                    <template if:true={localUser}>
+                                 		<h2 class="slds-card__header-title slds-truncate">{Label.apologiesElectronicSignature}</h2>
+                                         <span class="card_subtitle">{Label.please}&nbsp;<button class="slds-button button_link" onclick={handleResend}>{Label.WaitingAuthorizationfail2}</button> </span>
+                                    </template>
+                                    <template if:false={localUser}>
+                                        <h2 class="slds-card__header-title slds-truncate">{Label.apologiesSantaderId}</h2>
+                                        <span class="card_subtitle">{Label.please}&nbsp;<button class="slds-button button_link" onclick={handleResend}>{Label.WaitingAuthorizationfail2}</button> </span>
+                                    </template>
                                 </template>
                                 <template if:false={errorOTP}>
                                     <h2 class="slds-card__header-title slds-truncate">{Label.WaitingAuthorizationExpired}</h2>
@@ -37,8 +57,13 @@
                             </template>
                         </template>                           
                         <template if:false={error}>
-                            <h2 class="slds-card__header-title slds-truncate">{Label.WaitingAuthorization1}</h2> 
-                            <span class="card_subtitle">{Label.WaitingAuthorization2}&nbsp;<button class="slds-button button_link" onclick={showDownload}>{Label.WaitingAuthorization3}</button> </span>
+                            <template if:true={localUser}>
+                                <h2 class="slds-card__header-title slds-truncate">{Label.waitingForAuthorizationLocalBank}</h2> 
+                            </template>
+                            <template if:false={localuser}>
+                                <h2 class="slds-card__header-title slds-truncate">{Label.WaitingAuthorization1}</h2> 
+                                <span class="card_subtitle">{Label.WaitingAuthorization2}&nbsp;<button class="slds-button button_link" onclick={showDownload}>{Label.WaitingAuthorization3}</button> </span>
+                            </template>
                         </template> 
                             
                     </div>
@@ -46,8 +71,10 @@
             </div>
             
             <!-- DIVISION LINE -->        
-            <div class="card-line"></div>
-            
+            <template if:true={showDivisionLine}>
+            	<div class="card-line"></div>
+            </template>
+                        
             <!-- CARD BODY -->
             <!-- añadir la clase error junto a la clase slds-card__body cuando el código introducido sea incorrecto -->
             <!-- añadir la clase expired-code junto a la clase slds-card__body cuando el código haya expirado 
@@ -58,7 +85,7 @@
             <!-- Footer por defecto. Se ocultará cuando el código haya expirado -->
             <template if:true={footerExpired}>
                 <footer class="slds-card__footer">        
-                    <button class="slds-button primary button_small button_full" onclick={handleResend}>{Label.WaitingAuthorizationResend}</button>
+                    <button class="slds-button button_link" onclick={handleResend}>{Label.WaitingAuthorizationResend}<span class="icon_right icon-reload"></span></button>
                 </footer>
             </template>
             <template if:true={spinnerEqualsTrue}>
@@ -68,6 +95,10 @@
         </article>
     </div>
     
+    <!-- CARD BODY -->
+    <div class="slds-card__body">
+    </div>
+
      <!-- Enlace de contacto que se mostrará a la vez que la card de autorización -->
     <div class="contact">
         <div class="contentCard"> 
@@ -79,6 +110,8 @@
         </div>
     </div>
     
-    <!--<c:lwc_DownloadApp show="{!v.showDownload}" onhidemodal="{!c.setShowDownload}"/>-->
+    <template if:true={isShowDownload}>
+        <c-lwc_downloadx show={showDownloadInitial}  onhidemodal={setShowDownload} ></c-lwc_downloadx>
+    </template>
 
 </template>

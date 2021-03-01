@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 // Import styles
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import imagePack from '@salesforce/resourceUrl/Images';
 
 import { NavigationMixin } from 'lightning/navigation';
@@ -14,18 +14,15 @@ import WaitingAuthorizationfail1 from '@salesforce/label/c.WaitingAuthorizationf
 import WaitingAuthorization1 from '@salesforce/label/c.WaitingAuthorization1';
 import WaitingAuthorizationResend from '@salesforce/label/c.WaitingAuthorizationResend';
 import WaitingAuthorizationResendHelp1 from '@salesforce/label/c.WaitingAuthorizationResendHelp1';
+import WaitingAuthorizationResendHelp2 from '@salesforce/label/c.WaitingAuthorizationResendHelp2';
+import apologiesElectronicSignature from '@salesforce/label/c.apologiesElectronicSignature';
+import please from '@salesforce/label/c.please';
+import WaitingAuthorizationfail2 from '@salesforce/label/c.WaitingAuthorizationfail2';
+import apologiesSantaderId from '@salesforce/label/c.apologiesSantaderId';
+import waitingForAuthorizationLocalBank from '@salesforce/label/c.waitingForAuthorizationLocalBank';
+import WaitingAuthorization3 from '@salesforce/label/c.WaitingAuthorization3';
 
-export default class Lwc_waitingAuthorization extends LightningElement {
-
-    @api expired = false;
-    @api error = false;
-    @api errorOTP = false;
-    @api spinner = false;
-    
-    @track showDownload = false;
-
-    @track imageAlert = imagePack + '/alert.svg';
-    @track imageApp = imagePack + '/app-santander.svg';
+export default class Lwc_waitingAuthorization extends NavigationMixin(LightningElement)  {
 
     Label={
         WaitingAuthorizationExpired,
@@ -34,21 +31,53 @@ export default class Lwc_waitingAuthorization extends LightningElement {
         WaitingAuthorizationfail1,
         WaitingAuthorization1,
         WaitingAuthorizationResend,
-        WaitingAuthorizationResendHelp1
+        WaitingAuthorizationResendHelp1,
+        WaitingAuthorizationResendHelp2,
+        apologiesElectronicSignature,
+        please,
+        WaitingAuthorizationfail2,
+        apologiesSantaderId,
+        waitingForAuthorizationLocalBank,
+        WaitingAuthorization3
     }
 
-    connectedCallback() {
-		loadStyle(this, santanderStyle + '/style.css');
+    @api expired = false;
+    @track error = false;
+    @api errorOTP = false;
+    @api spinner = false;
+    @api localuser = false;
+    
+    @track isShowDownload = false;
+    @track showDownloadInitial = false;
 
+    @track imageAlert = imagePack + '/alert.svg';
+    @track imageId = imagePack + '/i-d.jpg';
+
+    @api setError(value){
+        this.error = value;
+    }
+
+    get cardClass(){
+        return 'cardAuthorization ' + (this.error ? ' errorClass ' : '') + 'card_s slds-card card_buttons';
     }
 
     get spinnerEqualsTrue(){
         return this.spinner == true;
     }
-    get footerExpired(){
-        return (this.error || this.errorOTP) && this.expired;
+
+    get showDivisionLine(){
+        return !this.error && !this.errorOTP && !this.expired;
     }
-    
+
+    get footerExpired(){
+        return (((!this.error && !this.errorOTP) || (this.error && !this.errorOTP)) && !this.expired);
+    }
+
+    connectedCallback() {
+		loadStyle(this, santanderStyle + '/style.css');
+        this.showDownloadInitial = true;
+
+    }    
 
     handleResend() {
         this.dispatchEvent(new CustomEvent('resendaction'));
@@ -59,15 +88,16 @@ export default class Lwc_waitingAuthorization extends LightningElement {
 	}
 
 	showDownload() {
-        this.showDownload = true;
+        this.isShowDownload = true;
 	}
 
 	setShowDownload(event) {
-        this.showDownload = event.getParam('showDownload');
+        //this.isShowDownload = event.getParam('showDownload');
+        this.isShowDownload  = event.detail.showDownload;
     }
     
     goTo(page, url) {
-        let navService = component.find('navService');
+        //let navService = component.find('navService');
         if (url != '') {
             this.encrypt( url)
             .then((result) => {

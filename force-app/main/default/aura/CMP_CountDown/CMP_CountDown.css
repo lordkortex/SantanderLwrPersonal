@@ -122,12 +122,15 @@
     padding: 22px 0;
     border-radius: 4px;
     background-color: #f6fafc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .THIS .progress-ring_container__update p{
     font-family: SantanderMicroText;
     font-size: 14px;
-    line-height: 21px;
+    line-height: 20px;
     color: #767676;
     text-align: center;
     margin-bottom: 8px;

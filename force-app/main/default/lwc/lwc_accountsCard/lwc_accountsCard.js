@@ -91,7 +91,7 @@ export default class Lwc_accountsCard extends LightningElement {
 
     set icurrency(icurrency){
         this._icurrency = icurrency;
-        //this.updateCurrency();
+        this.updateCurrency();
     }
 
     get tabschange(){

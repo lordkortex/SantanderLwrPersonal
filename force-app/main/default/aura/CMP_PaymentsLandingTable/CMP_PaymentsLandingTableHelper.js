@@ -315,6 +315,29 @@
         }
 
     },
+    
+        /*
+	Author:        	Andrea Martin
+    Company:        Deloitte
+	Description:    Encrypt the accounts numbers
+    History
+    <Date>			<Author>			<Description>
+    10/02/2020      Andrea Martin       Encrypt the accounts numbers
+    */
+
+   encryptAccountNumber : function (component, event, page, accountNumber){
+    if(accountNumber != null && accountNumber != '' && accountNumber != undefined){
+        var first = accountNumber.substring(0,4) + '****' ; 
+        var second = accountNumber.substring(accountNumber.length - 8);
+        var secondWithBlack = second.substring(0,4)  +  ' ' + second.substring(4);
+    
+        return first + secondWithBlack ;
+       
+    }else{
+        return '';
+    }
+
+	},
 
     /*
 	Author:        	Beatrice Hill
@@ -464,17 +487,17 @@
         }
 
         let actions = {
-                'edit': false,
-                'discard': false,
-                'reuse': false,
-                'addToTemplate': false,
-                'trySaveAgain': false, //saveForLater
-                'authorize': false,
-                'reject': false,
-                'sendToReview': false,
-                'gpiTracker': false,
-                'cancel':false
-            }
+            'edit': false,
+            'discard': false,
+            'reuse': false,
+            'addToTemplate': false,
+            'trySaveAgain': false, //saveForLater
+            'authorize': false,
+            'reject': false,
+            'sendToReview': false,
+            'gpiTracker': false,
+            'cancel':false
+        }
         if (status == '001' || status == 'Draft') {
             if (reason == '000') {
                 actions.edit = isCreator;
@@ -557,7 +580,7 @@
         }
         if (status == '997' || status == 'Not authorized') {
             if (reason == '001') {
-                actions.reuse = isCreator;
+               actions.reuse = isCreator;
             }
         }
         if (status == '998' || status == 'Canceled') {

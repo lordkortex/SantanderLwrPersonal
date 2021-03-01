@@ -6,6 +6,7 @@
     <aura:attribute access="public" type="Boolean"     name="errorOTP"               default="false" />
     <aura:attribute access="public" type="Aura.Action" name="resendAction"/>
     <aura:attribute access="public" type="Boolean"      name="spinner"              default="false"/>
+    <aura:attribute access="public" type="Boolean"      name="localUser"              default="false"/>
 
     <aura:attribute access="public" type="Boolean"      name="showDownload"              default="false"/>
 
@@ -14,9 +15,9 @@
     <!-- Añadir la clase error cuando el tiempo para autorizar el pago haya expirado -->
     <lightning:navigation aura:id="navService"/>
     
-    <div class="authorization_card">
+    <div class="authorization_card">        
 
-        <article class="cardAuthorization card_s slds-card card_buttons">
+        <article class="{!'cardAuthorization ' + (v.error ? ' errorClass ' : '') + 'card_s slds-card card_buttons'}">
             
             <!-- CARD HEADER -->
             <div class="slds-card__header slds-grid">
@@ -29,7 +30,12 @@
                             <aura:if isTrue ="{!v.error}">
                                 <img class="error_icon" src="{!$Resource.Images + '/alert.svg'}"/>
                                 <aura:set attribute="else">
-                                    <img class="app_icon" src="{!$Resource.Images + '/app-santander.svg'}"/> 
+                                    <aura:if isTrue="{!v.localUser}">
+                        				<div class="icon-signature-pending"></div> 
+                                        <aura:set attribute="else">
+                                    	<img class="app_icon" src="{!$Resource.Images + '/i-d.jpg'}"/> 
+                                        </aura:set>
+                                    </aura:if>   
                                 </aura:set> 
                             </aura:if>
                         </div>
@@ -39,10 +45,16 @@
                                  <h2 class="slds-card__header-title slds-truncate">{!$Label.c.WaitingAuthorizationExpired}</h2>
                                  <aura:set attribute="else">
                                  <aura:if isTrue="{!v.errorOTP}">
-                                 	<h2 class="slds-card__header-title slds-truncate">{!$Label.c.errorGetOTP_Strategic}</h2>
-                                     <span class="card_subtitle">{!$Label.c.WaitingAuthorization2}&nbsp;<button class="slds-button button_link"  onclick="{!c.showDownload}">{!$Label.c.WaitingAuthorization3}</button> </span>
+                                     <aura:if isTrue="{!v.localUser}">
+                                 		<h2 class="slds-card__header-title slds-truncate">{!$Label.c.apologiesElectronicSignature}</h2>
+                                         <span class="card_subtitle">{!$Label.c.please}&nbsp;<button class="slds-button button_link" onclick="{!v.resendAction}">{!$Label.c.WaitingAuthorizationfail2}</button> </span>
+                                         <aura:set attribute="else">
+                                 		<h2 class="slds-card__header-title slds-truncate">{!$Label.c.apologiesSantaderId}</h2>
+                                         <span class="card_subtitle">{!$Label.c.please}&nbsp;<button class="slds-button button_link" onclick="{!v.resendAction}">{!$Label.c.WaitingAuthorizationfail2}</button> </span>
+                                         </aura:set>
+                                     </aura:if>
                                      <aura:set attribute="else">
-                                         <h2 class="slds-card__header-title slds-truncate">{!$Label.c.WaitingAuthorizationExpired}</h2>
+                                         <h2 class="slds-card__header-title slds-truncate">{!$Label.c.thePaymentHasNotBeenAuthorized}</h2>
                                          <span class="card_subtitle">{!$Label.c.WaitingAuthorizationfail1}&nbsp;<button class="slds-button button_link" onclick="{!v.resendAction}">{!$Label.c.WaitingAuthorizationfail2}</button> </span>
                                      </aura:set>
                                      </aura:if>
@@ -51,63 +63,28 @@
                              </aura:if>	
                                                         
                                 <aura:set attribute="else">
-                                	<h2 class="slds-card__header-title slds-truncate">{!$Label.c.WaitingAuthorization1}</h2> 
-                                    <span class="card_subtitle">{!$Label.c.WaitingAuthorization2}&nbsp;<button class="slds-button button_link" onclick="{!c.showDownload}">{!$Label.c.WaitingAuthorization3}</button> </span>
-
+                                    <aura:if isTrue="{!v.localUser}">
+                                		<h2 class="slds-card__header-title slds-truncate">{!$Label.c.waitingForAuthorizationLocalBank}</h2> 
+                                        <aura:set attribute="else">
+                                		<h2 class="slds-card__header-title slds-truncate">{!$Label.c.WaitingAuthorization1}</h2> 
+                                    	<span class="card_subtitle">{!$Label.c.WaitingAuthorization2}&nbsp;<button class="slds-button button_link" onclick="{!c.showDownload}">{!$Label.c.WaitingAuthorization3}</button> </span>
+                                        </aura:set>
+                                    </aura:if>                                    
                                 </aura:set> 
                             </aura:if>
                     </div>
                 </header>
                 
-                <!-- Header que se muestra cuando el tiempo está a punto de agotarse 
-                <header class="slds-media slds-has-flexi-truncate">
-                    <div class="slds-media__body">
-                        <div class="card_icon">-->
-                            <!-- Se descomentará la evolución que se quiera y las demás permanecerán comentadas: slds-progress-ring__progress, slds-progress-ring__progress slds-progress-ring__progress__50, slds-progress-ring__progress slds-progress-ring__progress__25 ... -->
-                            <!--<div class="progress-ring_container available">
-                                <div class="slds-progress-ring"> -->
-                                    <!-- <div class="slds-progress-ring__progress" role="progressbar" ></div> -->
-                                    <!-- <div class="slds-progress-ring__progress slds-progress-ring__progress__25" role="progressbar" ></div> -->
-                                    <!-- <div class="slds-progress-ring__progress slds-progress-ring__progress__50" role="progressbar" ></div> -->
-                                    <!--<div class="slds-progress-ring__progress slds-progress-ring__progress__75" role="progressbar" ></div>  -->
-                                    <!-- <div class="slds-progress-ring__progress slds-progress-ring__progress__100" role="progressbar" ></div> -->
-                                    <!--<div class="slds-progress-ring__content">
-                                        <p>5:00</p>
-                                    </div>
-                                </div>
-                            </div> 
-                        </div>
-                        <h2 class="slds-card__header-title slds-truncate">Error bitch</h2>
-                        <span class="card_subtitle">If you do not have the app <button class="slds-button button_link">download it here</button> </span>
-                    </div>
-                </header>-->
-                
-                <!-- Header que se muestra cuando el tiempo se ha agotado 
-                <header class="slds-media slds-has-flexi-truncate">
-                    <div class="slds-media__body">
-                        <div class="card_icon">
-                            <img class="error_icon" src="{!$Resource.Images + '/alert.svg'}"/>
-                        </div>
-                        <h2 class="slds-card__header-title slds-truncate">The time to authorize the payment is about to expire</h2>
-                        <span class="card_subtitle">Could you kindly <button class="slds-button button_link">try again</button> </span>
-                    </div>
-                </header>-->
             </div>
             
-            <!-- DIVISION LINE -->        
-            <div class="card-line"></div>
+            <!-- DIVISION LINE -->      
+            <aura:if isTrue ="{!and(and(!v.error,!v.errorOTP),!v.expired)}">
+            	<div class="card-line"></div>
+            </aura:if>
             
-            <!-- CARD BODY -->
-            <!-- añadir la clase error junto a la clase slds-card__body cuando el código introducido sea incorrecto -->
-            <!-- añadir la clase expired-code junto a la clase slds-card__body cuando el código haya expirado 
-            <div class="slds-card__body">
-            </div>-->
-            
-            <!-- CARD FOOTER -->
-            <!-- Footer por defecto. Se ocultará cuando el código haya expirado -->
-            <aura:if isTrue ="{!and(or(!v.error,v.errorOTP),!v.expired)}">
+            <aura:if isTrue ="{!and(or(and(!v.error,!v.errorOTP),and(v.error,!v.errorOTP)),!v.expired)}">
                 <footer class="slds-card__footer">        
-                    <button class="slds-button primary button_small button_full" onclick="{!v.resendAction}">{!$Label.c.WaitingAuthorizationResend}</button>
+                    <button class="slds-button button_link" onclick="{!v.resendAction}">{!$Label.c.WaitingAuthorizationResend}<span class="icon_right icon-reload"></span></button>
                 </footer>
             </aura:if>
             <aura:if isTrue="{!v.spinner eq true}">
@@ -115,6 +92,10 @@
             </aura:if>
             
         </article>
+    </div>
+    
+    <!-- CARD BODY -->
+    <div class="slds-card__body">
     </div>
     
      <!-- Enlace de contacto que se mostrará a la vez que la card de autorización -->

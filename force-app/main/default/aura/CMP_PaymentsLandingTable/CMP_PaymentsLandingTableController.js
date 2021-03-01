@@ -7,6 +7,7 @@
     <Date>			<Author>			<Description>
     01/05/2020		Shahad Naji  		Initial version
     30/06/2020      Bea Hill            Include filteredPaymentList
+    10/02/2021      Andrea Marin        Encrypt the accounts numbers
     */
     doInit : function(component, event, helper) {
         component.set('v.isLoading', true);
@@ -17,6 +18,8 @@
                 for (let i = 0; i<paymentList.length;  i++) {
                     let payment = paymentList[i];
                     payment.checked = false;
+                    payment.sourceAccountEncripted = helper.encryptAccountNumber(component, event, helper, payment.sourceAccount);
+                    payment.beneficiaryAccountEncripted = helper.encryptAccountNumber(component, event, helper, payment.beneficiaryAccount);
                 }
                 component.set('v.paymentList', paymentList);
             }else{

@@ -1,13 +1,34 @@
 ({
+    
     cancelPayment: function (component, helper) {
         component.set('v.spinner', true);
-        helper.updateStatus(component).then($A.getCallback(function (value) {
+        let status = '990';
+        let reason = '001';
+        helper.updateStatus(component, status, reason).then($A.getCallback(function (value) {
                 return helper.goToLanding(component);
         })).catch(function (error) {
                 console.log(error);
         }).finally($A.getCallback(function () {
                 console.log('OK');
                 component.set('v.spinner', false);
+        }));
+    },
+
+    sendToLanding: function (component, event, helper, signed) {
+        let navService = component.find('navService');
+        var url = 'c__saveForLater=' + signed;
+        this.encrypt(component, url)
+        .then($A.getCallback(function (results) {
+            let pageReference = {
+                'type': 'comm__namedPage',
+                'attributes': {
+                    'pageName': component.get('v.handleCancel')
+                },
+                'state': {
+                    'params': results
+                }
+            }
+            navService.navigate(pageReference);
         }));
     },
 
@@ -45,15 +66,16 @@
         }), this);
     },
 
-    updateStatus: function (component) {
+    //29/12/2020 - SNJ - make updateStatus Method generic to update various statuses and reasons 
+    updateStatus: function (component, status, reason) {
         return new Promise($A.getCallback(function (resolve, reject) {
-            let paymentId = component.get('v.paymentId');
+            let paymentId = component.get('v.paymentId');          
             if (!$A.util.isEmpty(paymentId)) {
                 var action = component.get('c.updateStatus');
                 action.setParams({
                     "paymentId": paymentId,
-                    "status": '990',
-                    "reason": '001'
+                    "status": status,
+                    "reason": reason
                 });
                 action.setCallback(this, function (actionResult) {
                     if (actionResult.getState() == "ERROR") {
@@ -114,4 +136,5 @@
                         $A.enqueueAction(action);
                 });
         }
+      
 })

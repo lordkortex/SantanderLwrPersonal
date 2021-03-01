@@ -1,5 +1,5 @@
 /* MODAL HEADER */
-.THIS .slds-modal__header {
+.THIS.content-step  .slds-modal__header {
 	border-bottom: none;
     padding: 0px;
     width: 100%;
@@ -7,7 +7,7 @@
     left: 0; /* Added by Maria Iñigo*/
 }
 
-.THIS .slds-modal__header .row:first-child {
+.THIS.content-step  .slds-modal__header .row:first-child {
     padding: 12px 24px;
     margin: 0px;
     width: 100%;
@@ -15,41 +15,41 @@
     background-color: #ffffff;
 }
 
-.THIS .slds-modal__header .slds-col {
+.THIS.content-step  .slds-modal__header .slds-col {
     display: flex;
     align-items: center;
     margin: 0px;
     padding: 0px;
 }
 
-.THIS .slds-modal__header .slds-col:nth-child(2) {
+.THIS.content-step  .slds-modal__header .slds-col:nth-child(2) {
     justify-content: center;
 }
-.THIS .slds-modal__header .slds-col:last-child {
+.THIS.content-step  .slds-modal__header .slds-col:last-child {
     justify-content: flex-end;
 }
 
-.THIS .slds-modal__header .slds-modal__title {
+.THIS.content-step  .slds-modal__header .slds-modal__title {
 	color: #444444;
     font-family: "SantanderHeadlineW05-Bold";
 	font-size: 20px;
 	line-height: 28px;
 }
 
-.THIS .slds-modal__header .logo-red {
+.THIS.content-step  .slds-modal__header .logo-red {
     width: 48px;
     height: 48px;
     margin-right: 12px;
 }
 
-.THIS .slds-modal__header .slds-col:last-child .slds-button {
-	margin-left: 20px;
+.THIS.content-step  .slds-modal__header .slds-col:last-child .slds-button {
+	margin-left: 24px;
 }
 
 /* HEADER ICONS */
-.THIS .icon.icon-close,
-.THIS .icon.icon-time,
-.THIS .icon.icon-arrowLeft_big {
+.THIS.content-step  .icon.icon-close,
+.THIS.content-step  .icon.icon-time,
+.THIS.content-step  .icon.icon-arrowLeft_big {
    color: #ec0000;
    font-family: "SantanderMicroText" !important;
    font-size: 14px;
@@ -57,7 +57,7 @@
    cursor: pointer;
 }
 
-.THIS .icon.icon-arrowLeft_big:before {
+.THIS.content-step  .icon.icon-arrowLeft_big:before {
    font-family: 'icomoon' !important;
    font-size: 24px;
    float: left;
@@ -66,8 +66,8 @@
    margin-right: 4px;
 }
 
-.THIS .icon.icon-close:before,
-.THIS .icon.icon-time:before {
+.THIS.content-step  .icon.icon-close:before,
+.THIS.content-step  .icon.icon-time:before {
    font-family: 'icomoon' !important;
    font-size: 24px;
    float: right;
@@ -76,33 +76,39 @@
    margin-left: 4px;
 }
 
-.THIS .icon.icon-close:hover,
-.THIS .icon.icon-time:hover,
-.THIS .icon.icon-arrowLeft_big:hover,
-.THIS .icon.icon-close:hover:before,
-.THIS .icon.icon-time:hover:before,
-.THIS .icon.icon-arrowLeft_big:hover:before {
+.THIS.content-step  .icon.icon-close:hover,
+.THIS.content-step  .icon.icon-time:hover,
+.THIS.content-step  .icon.icon-arrowLeft_big:hover,
+.THIS.content-step  .icon.icon-close:hover:before,
+.THIS.content-step  .icon.icon-time:hover:before,
+.THIS.content-step  .icon.icon-arrowLeft_big:hover:before {
    color: #cc0000;
 }
 
-.THIS .icon.icon-close:active,
-.THIS .icon.icon-time:active,
-.THIS .icon.icon-arrowLeft_big:active,
-.THIS .icon.icon-close:active:before,
-.THIS .icon.icon-time:active:before,
-.THIS .icon.icon-arrowLeft_big:active:before {
+.THIS.content-step  .icon.icon-close:active,
+.THIS.content-step  .icon.icon-time:active,
+.THIS.content-step  .icon.icon-arrowLeft_big:active,
+.THIS.content-step  .icon.icon-close:active:before,
+.THIS.content-step  .icon.icon-time:active:before,
+.THIS.content-step  .icon.icon-arrowLeft_big:active:before {
    color: #990000;
 }
 
 /* ONE STEP */
-.THIS .slds-modal__header.oneStep .row .slds-col:last-child{
+.THIS.content-step  .slds-modal__header.oneStep .row .slds-col:last-child{
     visibility: hidden;
 }
-.THIS .slds-modal__header.oneStep .slds-progress-bar{
+.THIS.content-step  .slds-modal__header.oneStep .slds-progress-bar{
     height: 4px;
     background-color: #ffffff;
     box-shadow: inset 0 -1px 0 0 #cedee7;
 }
-.THIS .slds-modal__header.oneStep .slds-progress-bar .slds-progress-bar__value{
+.THIS.content-step  .slds-modal__header.oneStep .slds-progress-bar .slds-progress-bar__value{
     display: none;
 }
+
+/* SCROLLBAR */
+/*.THIS ::-webkit-scrollbar { width: 6px;}
+.THIS ::-webkit-scrollbar-track { border-radius: 10px;}
+.THIS ::-webkit-scrollbar-track-piece { background: transparent;}
+.THIS ::-webkit-scrollbar-thumb { background: #dadada; border-radius: 10px;}*/

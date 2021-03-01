@@ -2,7 +2,7 @@
     <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
     
     <aura:attribute access="public" 	name="selectedPaymentStatusBox" type="Object"  default="" 		description="Selected payment status"/>
-    <aura:attribute access="public" 	name="currentUser" 				type="Map"  					description="Current user data"/>
+    <aura:attribute access="public" 	name="currentUser" 				type="Map" 	   		description="Current user data"/>
     <aura:attribute access="public" 	name="paymentList" 				type="List"  					description="List of payments that are displayed in the dropdown"/>
     <aura:attribute access="public" 	name="hasSearched" 				type="Boolean" default="false"	description="Controls whether the user has made a search or not"/>
     <aura:attribute access="public" 	name="showFilterModal" 		    type="Boolean" default="false"	description="Controls whether the All Filters modal shows or not"/>
@@ -87,8 +87,10 @@
                         <tr class="slds-text-title_caps"> 
                             <th class="headCheck checkboxContainer" scope="col">
                                 <div class="slds-checkbox" >
+                                    <!--Para que el checkbox sea Disabled, se tiene que indicar que sea disabled = "true"-->
                                     <input type="checkbox" value="{!v.isAllSelected}" name="options" id="selectAllPayments" onclick="{!c.handleSelectAll}"/>
                                     <label class="slds-checkbox__label" for="selectAllPayments">
+                                        <!--Aquí se debe añadir la clase intermedite-->
                                         <span class="slds-checkbox_faux"></span> 
                                     </label>
                                 </div> 
@@ -266,13 +268,13 @@
                                     </td>
                                     <td role="gridcell" class="infoSource" onclick="{!c.handleClickRow}">
                                         <div class="slds-grid flexCol">
-                                            <span class="slds-truncate strong">{!item.sourceAccount}</span>
+                                            <span class="slds-truncate strong">{!item.sourceAccountEncripted}</span>
                                             <span class="slds-truncate ">{!item.sourceAlias}</span>
                                         </div>
                                     </td> 
                                     <td role="gridcell" class="infoBeneficiary" onclick="{!c.handleClickRow}">
                                         <div class="slds-grid flexCol">
-                                            <span class="slds-truncate strong">{!item.beneficiaryAccount}</span>
+                                            <span class="slds-truncate strong">{!item.beneficiaryAccountEncripted}</span>
                                             <span class="slds-truncate ">{!item.beneficiaryAlias}</span>
                                         </div>
                                     </td> 

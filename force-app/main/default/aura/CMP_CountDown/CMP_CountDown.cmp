@@ -14,12 +14,10 @@
     <aura:handler name="change" action="{!c.setStartTimeOnUI}" value="{!v.seconds}" />
     <aura:handler name="change" action="{!c.restart}" value="{!v.expiredFX}" />
 
-    
-
     <aura:if isTrue="{!v.expiredFX == false}">
         
         <!-- PROGRESS RING AVAILABLE -->
-        <div class="progress-ring_container available sizeS">
+        <div class="progress-ring_container available">
             <div class="slds-progress-ring"> 
                     <div class="{!'slds-progress-ring__progress slds-progress-ring__progress'+v.evolution}" role="progressbar" ></div>  
                     <div class="slds-progress-ring__content">
@@ -37,24 +35,20 @@
 
         <aura:set attribute="else">
 
-
-
-
         <!-- PROGRESS RING NOT AVAILABLE -->
         <aura:if isTrue="{!v.update}">
-            <div class="progress-ring_container__update sizeS">
+            <div class="progress-ring_container__update">
                 <aura:if isTrue="{!v.spinner eq true}">
                     <lightning:spinner alternativeText="Loading" size="medium" />
                 </aura:if>
                 <p>{!$Label.c.theExchangeRateExpired}</p>
-                <button class="slds-button secondary" onclick="{!v.FXAction}">
-                    {!$Label.c.UpdateExchangeRate}&nbsp;<span class="icon-reload " ></span>
+                <button class="slds-button secondary button_icon button_small" onclick="{!v.FXAction}">
+                    {!$Label.c.UpdateExchangeRate}&nbsp;<span class="icon icon-reload"></span>
                 </button>
-                
             </div>
 
             <aura:set attribute="else">
-                <div class="progress-ring_container notAvailable sizeS">
+                <div class="progress-ring_container notAvailable">
                     <div class="slds-progress-ring"> 
                             <div class="slds-progress-ring__progress" role="progressbar" ></div> 
                         

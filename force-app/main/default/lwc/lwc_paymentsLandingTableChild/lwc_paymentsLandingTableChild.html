@@ -1,0 +1,101 @@
+<template>
+    <tr class={isCheckedClass} aria-selected="false" id={trId} > 
+        <td role="gridcell" class="infoCheck checkboxContainer">
+            <div class="slds-checkbox" >
+                <input type="checkbox" value={item} name="options" id={item.paymentId} onclick={handleSelectedRow} data-id="checkbox"/>
+                <label class="slds-checkbox__label" for={item.paymentId}>
+                    <span class="slds-checkbox_faux"></span> 
+                </label>
+            </div> 
+        </td> 
+        <td role="gridcell" class="infoReference" onclick={handleClickRow}>
+            <div class="slds-grid slds-grid_align-spread"  >
+                <span class="slds-truncate">{item.clientReference}</span>
+            </div>
+        </td> 
+        <td role="gridcell" class="infoStatus" onclick={handleClickRow}>
+            <div class="slds-grid slds-grid_align-spread"  title={item.parsedPaymentStatus} >
+                <!-- paymentStatus: {!item.paymentStatus} -->
+                <template if:true={itemPaymentStatus001}>
+                    <span class="slds-badge badgeDraft" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus002}>
+                    <span class="slds-badge badgePending"  title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus003}>
+                    <span class="slds-badge badgeReview" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus997}>
+                    <span class="slds-truncate slds-badge badgeNotAuthorized"  title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus101}>
+                    <span class="slds-badge badgeAuthorized" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus201}>
+                    <span class="slds-badge badgeScheduled" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus998}>
+                    <span class="slds-badge badgeCanceled" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus202}>
+                    <span class="slds-badge badgeReleased" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus999}>
+                    <span class="slds-badge badgeRejected" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <!-- <aura:if isTrue="{!item.paymentStatus == ''}">
+                    <span class="slds-badge badgeInProgress" title="{!item.parsedPaymentStatus}">{!item.parsedPaymentStatus}</span>
+                </aura:if> -->
+                <template if:true={itemPaymentStatus102}>
+                    <span class="slds-badge badgeProcessed" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus801}>
+                    <span class="slds-badge badgeDelayed" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus800}>
+                    <span class="slds-badge badgeHold" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                <template if:true={itemPaymentStatus103}>
+                    <span class="slds-badge badgeCompleted" title={item.parsedPaymentStatus}>{item.parsedPaymentStatus}</span>
+                </template>
+                
+            </div>
+        </td>
+        <td role="gridcell" class="infoSource" onclick={handleClickRow}>
+            <div class="slds-grid flexCol">
+                <span class="slds-truncate strong">{item.sourceAccount}</span>
+                <span class="slds-truncate ">{item.sourceAlias}</span>
+            </div>
+        </td> 
+        <td role="gridcell" class="infoBeneficiary" onclick={handleClickRow}>
+            <div class="slds-grid flexCol">
+                <span class="slds-truncate strong">{item.beneficiaryAccount}</span>
+                <span class="slds-truncate ">{item.beneficiaryAlias}</span>
+            </div>
+        </td> 
+        <td role="gridcell" class="infoAmount" onclick={handleClickRow}>
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate">
+                    <c-lwc_display-amount data-id ="avaibleBalanceRow"
+                        amount={item.amount} 
+                        decimalclass="" 
+                        wholeclass=""
+                        numberformat={currentuser.numberFormat}>
+                    </c-lwc_display-amount>
+                </span>
+            </div>
+        </td>
+        <td role="gridcell" class="infoCurrency" onclick={handleClickRow}>
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate textBox">{item.paymentCurrency}</span>
+            </div>
+        </td> 
+        <td role="gridcell" class="infoValue" onclick={handleClickRow}>
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate"> 
+                    <c-lwc_display-date userdateformat={currentuser.dateFormat} dateclass="" date={item.valueDate}></c-lwc_display-date>
+                </span>
+            </div>
+        </td>                               
+    </tr> 
+</template>

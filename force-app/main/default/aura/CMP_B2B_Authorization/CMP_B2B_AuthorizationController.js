@@ -12,14 +12,23 @@
             	helper.auxCometD(component, event, helper);
             }
             resolve('Ok');
-        }), this).then(function (value) {
+        }), this).then($A.getCallback(function (value){
+            
+            helper.getNavigatorInfo(component, event, helper);
+        })).then($A.getCallback(function (value){
             return helper.getUserData(component,event, helper);
-        }).then(function (value) {
+        })).then($A.getCallback(function (value){
             return helper.getAccountData(component, event, helper);
-        }).then(function (value) {
+        })).then($A.getCallback(function (value){
             return helper.getURLParams(component, event, helper);
-        }).then($A.getCallback(function (){
+        })).then($A.getCallback(function (value){
             //helper.beginAuthorize(component, event, helper);
+            let payment = component.get('v.paymentData');
+            let fees = ($A.util.isEmpty(payment.fees) ? '0' : payment.fees);
+            let amount = ($A.util.isEmpty(payment.amountSend) ? '0' : payment.amountSend);
+            payment.totalAmount = parseFloat(amount) + parseFloat(fees);
+            component.set('v.paymentData', payment);
+
         })).catch($A.getCallback(function (error) {
             console.log(error);
         })).finally($A.getCallback(function () {
