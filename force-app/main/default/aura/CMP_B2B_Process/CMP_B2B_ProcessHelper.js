@@ -781,8 +781,8 @@
             if (focusStep == 3) {
                 component.set('v.spinner', true);
                 helper.getLimits(component, event, helper).then($A.getCallback(function (value) { 
-                    return helper.updatePaymentDetails(component, event, helper);
-                })).then($A.getCallback(function (value) { 
+                    /*return helper.updatePaymentDetails(component, event, helper);
+                })).then($A.getCallback(function (value) {*/
                     return helper.checkFCCDowJones(component, event, helper);
                 })).then($A.getCallback(function (value) { 
                     return helper.getPaymentSignatureStructure(component, event, helper);

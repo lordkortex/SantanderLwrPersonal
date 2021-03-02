@@ -305,4 +305,18 @@ public with sharing class CNT_B2B_SelectAmount {
         }
         return response;
     }
+
+     @AuraEnabled
+    public static ReturnValue updatePaymentInformation (String paymentId, String clientReference, String purpose, String description, String chargeBearer, String paymentMethod, String commercialCode, Double baseAmount, String baseCurrency) {
+        ReturnValue response = null;
+        try {
+            WS_TrackingPaymentOperation wsObject = new WS_TrackingPaymentOperation(paymentId);
+            wsObject.updateInformation(clientReference, purpose, description, chargeBearer, paymentMethod, commercialCode, null, baseAmount, baseCurrency);
+            response = new ReturnValue(true);
+        } catch (Exception e) {
+            System.debug('CNT_B2B_PaymentInformation.updatePaymentInformation: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            response = new ReturnValue(false, null, e.getMessage());
+        }
+        return response;
+    }
 }

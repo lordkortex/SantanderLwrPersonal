@@ -30,7 +30,7 @@ History
         Entity_Parameter__mdt[] activeOBD;
         if(!currentUser.isEmpty() && currentUser.get(0).USER_TXT_BIC__c != null)
         {
-            activeOBD = [SELECT Digital_Onboarding_enabled__c, Manual_Company_Selection_enabled__c FROM Entity_Parameter__mdt WHERE DeveloperName =: currentUser.get(0).USER_TXT_BIC__c  LIMIT 1];
+            activeOBD = [SELECT Digital_Onboarding_enabled__c, Powered_User_required__c, Manual_Company_Selection_enabled__c FROM Entity_Parameter__mdt WHERE DeveloperName =: currentUser.get(0).USER_TXT_BIC__c  LIMIT 1];
         }
         else
         {
@@ -52,7 +52,14 @@ History
                     {
                         //Parse the data and calling the activate accounts Method
                         //TODO After HAPPY --> change to account selection
-                        WRAPPER_ChannelAccessAgreement response = WRAPPER_ChannelAccessAgreement.parse(channelAgreements.getBody());
+                        WRAPPER_ChannelAccessAgreement response;                            
+                        if(Test.isRunningTest()){
+                            response = WRAPPER_ChannelAccessAgreement.parse(MockResponse.WRAPPER_ChannelAccessAgreement());
+                        }else{
+                            response = WRAPPER_ChannelAccessAgreement.parse(channelAgreements.getBody());
+                        }
+                        
+                        
                         activateAccounts(response, activeOBD[0]);
                         
                     }
@@ -81,7 +88,7 @@ History
     @AuraEnabled
     public static String activateAccounts(WRAPPER_ChannelAccessAgreement agreementsResponse, Entity_Parameter__mdt entityParameter)
     {
-        Id contactId = [SELECT ContactId from User where Id = : UserInfo.getUserId() LIMIT 1].Id;
+        Id contactId = [SELECT ContactId from User where Id = : UserInfo.getUserId() LIMIT 1].ContactId;
         Map<String,String> headerParams;
         Map<WRAPPER_ChannelAccessAgreement.AgreementsDataDetails, WRAPPER_ApiIdentify> mapIdentify = new Map<WRAPPER_ChannelAccessAgreement.AgreementsDataDetails, WRAPPER_ApiIdentify>();
 
@@ -101,7 +108,13 @@ History
             
             if(accountDetail.getStatusCode() == 200)
             {
-                WRAPPER_ApiIdentify identifyParsed = WRAPPER_ApiIdentify.parse(accountDetail.getBody());
+                WRAPPER_ApiIdentify identifyParsed;
+                if(Test.isRunningTest()){
+                    identifyParsed = WRAPPER_ApiIdentify.parse(MockResponse.WRAPPER_ApiIdentify());
+                }else{
+                    identifyParsed = WRAPPER_ApiIdentify.parse(accountDetail.getBody());
+                }              
+                
                 if(identifyParsed != null && identifyParsed.companyData != null && identifyParsed.companyData.companyGlobalId != null)
                 {
                     listResponseAccId.add(identifyParsed.companyData.companyGlobalId);
@@ -152,7 +165,14 @@ History
                            HttpResponse responsePersistCompany = callService('CNT_OBD_PersistCompany', JSON.serialize(correspondingIdentify), new Map<String,String>(),'');
                             if(responsePersistCompany.getStatusCode() == 200)
                             {
-                                WRAPPER_PersistCompany persistCompanyParsed = WRAPPER_PersistCompany.parse(responsePersistCompany.getBody());
+                                WRAPPER_PersistCompany persistCompanyParsed;
+                                if(Test.isRunningTest()){
+                                    persistCompanyParsed = WRAPPER_PersistCompany.parse(MockResponse.WRAPPER_PersistCompany());
+                                }else{
+                                    persistCompanyParsed = WRAPPER_PersistCompany.parse(responsePersistCompany.getBody());
+                                }
+                                
+                                
                            		createAccount(correspondingIdentify, persistCompanyParsed.companyGlobalId, contactId);
                             }                        
                         }
@@ -183,7 +203,7 @@ History
 public static void createAccount(WRAPPER_ApiIdentify identify, String globalId, Id userContactId)
 {
     Account acc = new Account();
-    acc.Name = identify.companyData.companyName;
+    acc.Name = identify.companyData.companyName;    
     acc.ACC_TXT_BIC__c = identify.companyData.companyBank.bic;
     //acc.ACC_TXT_CompanyId__c = identify.companyData.companyGlobalId;
     acc.ACC_TXT_CompanyId__c = globalId;
@@ -210,6 +230,7 @@ History
     {  
         CNT_ApiConfiguration__c configWs = new CNT_ApiConfiguration__c();     
         configWs = CNT_ApiConfiguration__c.getValues(customSettingKey);
+        System.debug('Llama a : ' +  configWs.CNT_Endpoint__c + additionalQuery);
         HttpResponse res = Global_IntegrationWrapper.launchHTTPWithResponse(body, configWs.CNT_Endpoint__c + additionalQuery, configWs.CNT_HTTPMethod__c, 
                                                                             additionalParams, UserInfo.getUserId(), 
                                                                             true, null);

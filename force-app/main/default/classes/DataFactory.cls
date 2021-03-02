@@ -117,6 +117,12 @@ History
         // Create a unique UserName
         String uniqueUserName = 'standarduser' + DateTime.now().getTime() + '@testorg.com';
 
+        UserRole adminRole;
+        if(Schema.sObjectType.UserRole.isAccessible()&&
+        Schema.sObjectType.UserRole.fields.Id.isAccessible())
+        {
+        	adminRole = [SELECT ID FROM UserRole WHERE Name = 'Admin'];
+        }
         // This code runs as the system user
 
         User user = new User();
@@ -137,6 +143,7 @@ History
         user.USER_CHK_CashNexus__c=false;
         user.USER_CHK_TermsConditions__c=false;
         user.USER_TXT_BIC__c='BIC0GB00000';
+        user.UserRoleId = adminRole.Id;
 
         if(insertUser)
         {
@@ -268,6 +275,8 @@ History
         wsSetting.CNT_Endpoint__c = 'https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/structure/signatures?operation_id=00000001&service_id={service_id}&amount={amount}&currency={currency}';
         wsSetting.CNT_HTTPMethod__c = 'GET';
         wsSetting.CNT_Service__c = 'mulesoft';
+        wsSetting.tokenPlatform__c = 'GTS';
+        wsSetting.tokenUser__c = 'local';
         listCustomSettings.add(wsSetting);
 
         wsSetting = new CNT_ApiConfiguration__c();
@@ -485,7 +494,7 @@ History
         wsSetting.CNT_HTTPMethod__c = 'POST';
         wsSetting.CNT_Service__c = 'mulesoft';
         wsSetting.tokenPlatform__c = 'GTS';
-        wsSetting.CNT_Service__c = 'local';
+        wsSetting.tokenUser__c = 'local';
         listCustomSettings.add(wsSetting);
 
         // 10/11/2020 - Adding WS_TransactionalLimits
@@ -746,7 +755,39 @@ History
         wsSetting.CNT_HTTPMethod__c = 'GET';
         wsSetting.CNT_Service__c = 'mulesoft';
         listCustomSettings.add(wsSetting);
-
+		
+        // 24/02/2020 - Adding CNT_OBD_PersistCompany
+        wsSetting = new CNT_ApiConfiguration__c();
+        wsSetting.Name = 'CNT_OBD_PersistCompany';
+        wsSetting.CNT_Endpoint__c ='https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/company';
+        wsSetting.CNT_HTTPMethod__c = 'POST';
+        wsSetting.CNT_Service__c = 'mulesoft';
+        listCustomSettings.add(wsSetting);
+        
+        // 24/02/2020 - Adding CNT_OBD_Identify
+        wsSetting = new CNT_ApiConfiguration__c();
+        wsSetting.Name = 'CNT_OBD_Identify';
+        wsSetting.CNT_Endpoint__c ='https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/identify/me';
+        wsSetting.CNT_HTTPMethod__c = 'GET';
+        wsSetting.CNT_Service__c = 'mulesoft';
+        listCustomSettings.add(wsSetting);
+        
+        // 24/02/2020 - Adding CNT_OBD_CustomerLinks
+        wsSetting = new CNT_ApiConfiguration__c();
+        wsSetting.Name = 'CNT_OBD_CustomerLinks';
+        wsSetting.CNT_Endpoint__c ='https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/customer_links/me?relationship_group_type={rgt}&status_relations={sr}';
+        wsSetting.CNT_HTTPMethod__c = 'GET';
+        wsSetting.CNT_Service__c = 'mulesoft';
+        listCustomSettings.add(wsSetting);
+        
+        // 24/02/2020 - Adding CNT_OBD_ChannelAccessAgreements
+        wsSetting = new CNT_ApiConfiguration__c();
+        wsSetting.Name = 'CNT_OBD_ChannelAccessAgreements';
+        wsSetting.CNT_Endpoint__c ='https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/channel_access_agreements';
+        wsSetting.CNT_HTTPMethod__c = 'GET';
+        wsSetting.CNT_Service__c = 'mulesoft';
+        listCustomSettings.add(wsSetting);
+        
         if (insertSettings && Schema.sObjectType.CNT_ApiConfiguration__c.isCreateable()) {
             insert listCustomSettings;
         }
@@ -811,27 +852,25 @@ History
         Multi_One_Trade_B2B_Ordering_Filters__c multiOneTradeOrdFilter = new Multi_One_Trade_B2B_Ordering_Filters__c (
                 Name = 'ordfilter2', B2B_TXT_Country_ISO_Code__c = 'ES', B2B_TXT_Country_Name__c  ='Spain', B2B_TXT_Currencies__c  = 'EUR',  B2B_CHK_Active__c = true);
 
-        //NOT YET IMPLEMENTED ON INT AND PRE
-        /*Local_Banking_Filters__c localBankingFilter = new Local_Banking_Filters__c (
+         Local_Banking_Filters__c localBankingFilter = new Local_Banking_Filters__c (
             Name = 'ordFilter3', LB_CHK_Active__c = true, LB_TXT_Country_ISO_Code__c = 'ES', LB_TXT_Country_Name__c = 'Spain', LB_TXT_Currencies__c = 'EUR'
-        );*/
+        );
 
         insert NexusOrdFilter;
         insert multiOneTradeOrdFilter;
-        //insert localBankingFilter;
+        insert localBankingFilter;
 
     }
 
     public static void createClaims () {
-        parametrized_claims__c claim = new parametrized_claims__c(
-        Name = 'Claim', PCK_Token_Country__c = 'ES', PCK_Token_Platform__c = 'BBOO', PCK_Token_User__c = '');
-        parametrized_claims__c claim2 = new parametrized_claims__c(
-        Name = 'Claim', PCK_Token_Country__c = 'ALL', PCK_Token_Platform__c = 'Faketoken', PCK_Token_User__c = 'Faketoken');
-        parametrized_claims__c claim3 = new parametrized_claims__c(
-        Name = 'Claim', PCK_Token_Country__c = 'ALL', PCK_Token_Platform__c = 'GTS', PCK_Token_User__c = 'local');
+        parametrized_claims__c claim = new parametrized_claims__c(Name = 'Claim', PCK_Token_Country__c = 'ES', PCK_Token_Platform__c = 'BBOO', PCK_Token_User__c = '');
+        parametrized_claims__c claim2 = new parametrized_claims__c(Name = 'Claim2', PCK_Token_Country__c = 'ALL', PCK_Token_Platform__c = 'Faketoken', PCK_Token_User__c = 'Faketoken');
+        parametrized_claims__c claim3 = new parametrized_claims__c(Name = 'Claim3', PCK_Token_Country__c = 'ALL', PCK_Token_Platform__c = 'GTS', PCK_Token_User__c = 'local');
+        parametrized_claims__c claim4 = new parametrized_claims__c(Name = 'Claim4', PCK_Token_Country__c = 'ALL', PCK_Token_Platform__c = 'SANDIGITAL', PCK_Token_User__c = 'platform');
         insert claim;
         insert claim2;
         insert claim3;
+        insert claim4;
     }
 
     public static void createSignatureStructure(){
@@ -922,6 +961,69 @@ History
         }
         return user;
     }
+
+    public static User getWrapperUserDataNexus () {
+        Profile p;
+        if (Schema.sObjectType.Profile.isAccessible() && Schema.sObjectType.Profile.fields.Id.isAccessible()) {
+            p = [
+                SELECT Id
+                FROM Profile
+                WHERE Name = 'System Administrator'
+                LIMIT 1
+            ];
+        }
+        String uniqueUserName = 'standarduser' + DateTime.now().getTime() + '@testorg.com';
+        String bic = 'GTSNEXUSBIC';
+        String firstName = 'Peter';
+        String lastName = 'Test';
+        User user = new User(
+            Alias = 'alias',
+            Email = 'test@test.es',
+            MobilePhone = '666777888',
+            EmailEncodingKey = 'UTF-8',
+            LastName = lastName,
+            FirstName = firstName,
+            LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US',
+            TimeZoneSidKey = 'America/Los_Angeles',
+            ProfileId = p.Id,
+            UserName = uniqueUserName,
+            USER_TXT_GlobalId__c = 'DummyDataGlobalId' + DateTime.now().getTime(),
+            CurrencyIsoCode = 'EUR',
+            USER_NumberFormat__c = '###.###.###,##',
+            USER_DateFormat__c = 'dd/MM/yyyy',
+            USER_country__c = 'ES',
+            USER_CHK_CashNexus__c = true,
+            USER_CHK_TermsConditions__c = false,
+            USER_TXT_BIC__c = bic
+        );
+        if (Schema.sObjectType.User.isCreateable()) {
+            insert user;
+        }
+        Account account = new Account(
+            Name = uniqueUserName,
+            ACC_CHK_CIB__c = false,
+            ACC_TXT_DocumentType__c = 'tax_id',
+            ACC_TXT_DocumentNumber__c = 'B86561412',
+            ACC_TXT_CompanyId__c = '2119',
+            ACC_TXT_BIC__c = bic
+        );
+        if (Schema.sObjectType.Account.isCreateable()) {
+            insert account;
+        }
+        Contact contact = new Contact(
+            LastName = lastName,
+            FirstName = firstName,
+            AccountId = account.Id,
+            CONTACT_User__c = user.Id,
+            CHK_MultiOneTrade__c = false
+        );
+        if (Schema.sObjectType.Contact.isCreateable()) {
+            insert contact;
+        }
+        return user;
+    }
+
 
     public static Map<String, String> getNavigatorInfo () {
         Map<String, String> navigatorInfo = new Map<String, String>();

@@ -1442,7 +1442,7 @@ public class MockResponse {
         validateAccountOutput.productTypeResult.productType = 'accounts';
         return JSON.serialize(validateAccountOutput, true);
     }
-
+    
     @TestVisible
     public static String WS_OperationsList(){
         String res = '{"Test":"Test"}';  
@@ -1555,7 +1555,7 @@ public class MockResponse {
 		'\"bic\": \"\", '+
 		'\"entity\": \"\"'+
 		'},'+
-		'\"companyGlobalId\": \"\", '+
+		'\"companyGlobalId\": \"0051j000003HaaaAAA\", '+
 		'\"companyName\": \"test\",'+
 		'\"tradeName\": \"\",'+
 		'\"localSegment\": {'+

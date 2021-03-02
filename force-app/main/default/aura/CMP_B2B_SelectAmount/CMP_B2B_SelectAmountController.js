@@ -42,14 +42,16 @@
     },
 
     handleCheckContinue: function (component, event, helper) {
-      
+        component.set('v.spinner', true);
         helper.paymentDetailsContinue(component, event, helper).then($A.getCallback(function (value) {
-            component.set('v.spinner', true);
+            return helper.updatePaymentDetails(component, helper);
+		})).then($A.getCallback(function (value) {
             return helper.processPaymentTransferFees(component, event, helper);
         })).then($A.getCallback(function (value) {
             helper.completeStep(component, event, helper);
         })).catch($A.getCallback(function (error) {
             console.log(error);
+            reject('KO');
         })).finally($A.getCallback(function () {
             component.set('v.spinner', false);
         }));

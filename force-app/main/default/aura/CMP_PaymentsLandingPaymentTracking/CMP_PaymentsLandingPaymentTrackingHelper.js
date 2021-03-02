@@ -14,8 +14,9 @@
         var authorizationList = [];
         var inProgressList = [];
         var completedList = [];
-        for (let i = 0; i < statusHistory.length; i++) {
-            let statusItem = statusHistory[i];
+        var historyLength = statusHistory.length;
+        for (let i = 0; i < historyLength; i++) {
+            var statusItem = statusHistory[i];
             statusItem.time = $A.localizationService.formatTime(statusItem.statusDate, 'HH:mm');
             if (statusItem.status == "001"  && statusItem.reason == "000") {
                 if (statusHistory.length==1) {
@@ -31,9 +32,21 @@
                 statusItem.comment2 = $A.get("$Label.c.PAY_authorization") + '.';
                 authorizationList.push(statusItem);
             } else if (statusItem.status == "002"  && statusItem.reason == "002") {
-                statusItem.comment1 = $A.get("$Label.c.PAY_paymentPendingOf");
-                statusItem.comment2 = $A.get("$Label.c.PAY_authorization") + '.';
+                
+                statusItem.comment1 = $A.get("$Label.c.PAY_paymentAuthorisedBy");
+                statusItem.comment2 = statusItem.userName + '.';
                 authorizationList.push(statusItem);
+
+                //Copy the item data to set the pending of authorization row
+                let auxStatusItem = {};
+                auxStatusItem.globalUserId = statusItem.globalUserId;
+                auxStatusItem.reason = statusItem.reason;
+                auxStatusItem.status = statusItem.status;
+                auxStatusItem.statusDate = statusItem.statusDate;
+                auxStatusItem.time = statusItem.time;
+                auxStatusItem.comment1 = $A.get("$Label.c.PAY_paymentPendingOf");
+                auxStatusItem.comment2 = $A.get("$Label.c.PAY_authorization") + '.';
+                authorizationList.push(auxStatusItem);                
             }else if (statusItem.status == "003"  && statusItem.reason == "001") {
                 statusItem.comment1 = $A.get("$Label.c.PAY_paymentSentToReviewBy");
                 statusItem.comment2 = statusItem.userName  + '.';
@@ -66,7 +79,7 @@
                 statusItem.comment2 = '';
                 authorizationList.push(statusItem);
             }else if (statusItem.status == "998" && statusItem.reason == "003") { 
-                statusItem.comment1 = $A.get("$Label.c.PAY_PaymentCanceledBy") + '.'; 
+                statusItem.comment1 = $A.get("$Label.c.PAY_PaymentCanceledBy") + '.';
                 statusItem.comment2 = statusItem.userName + '.';
                 authorizationList.push(statusItem);
             }else {

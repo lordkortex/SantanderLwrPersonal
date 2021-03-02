@@ -390,7 +390,7 @@
                 component.set('v.errorMSG', errorMSG); 
                 reject('KO');
             }
-            if(transferType != PTT_international_transfer_single || description.length > maxCharacters){
+            if(transferType != PTT_international_transfer_single && description.length > maxCharacters){
                 reject('KO');
             }
             if (component.get("v.disabledContinue") == true) {

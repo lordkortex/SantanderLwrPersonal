@@ -86,8 +86,8 @@
     		let countryOriginator = "";
    			if(sourceAccount != null){
     			if (sourceAccount.companyIdsList != null){
-                    if (!$A.util.isEmpty(sourceAccount.companyIdsList.GLOBAL)){
-                        companyGlobalId = sourceAccount.companyIdsList.GLOBAL;
+                    if (!$A.util.isEmpty(sourceAccount.companyIdsList.GTS)){
+                        companyGlobalId = sourceAccount.companyIdsList.GTS;
                     }
 				}
  				if(sourceAccount.country != null){
@@ -100,8 +100,6 @@
                     masterResolve(value);
                 } else {
                     helper.getAccountsToB2BOrigin(component, helper, user, transferType).then($A.getCallback(function (value) {
-                        console.log('testAlex');
-                        console.log(value);
                         return helper.callToBeneficiaryAccounts(component, helper, user, transferType, sourceAccount, value)
                         .then($A.getCallback(function (value) {
                             return helper.handleSaveToCache(component, helper, keyCache, value);

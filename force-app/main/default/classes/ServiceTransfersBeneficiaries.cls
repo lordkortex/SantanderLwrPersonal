@@ -176,15 +176,21 @@ global class ServiceTransfersBeneficiaries {
                 throw new CustomException('Destination account is mandatory to register new beneficiary');
             }
             String iban = data.displayNumber;
-            if (String.isNotBlank(iban)) {
+            /*if (String.isNotBlank(iban)) {
                 if (iban.contains('ES')) {
                     data.idType = 'IBA';
                 } else {
                     data.idType = 'BBA';
                 }
-            }
+            }*/
             String country = data.country;
             if (country != null) {
+                String idType = Global_Utilities.getCountryPreferredAccountType(country);
+                if (idType == 'BBA') {
+                	data.idType = 'BBA';
+                } else {
+                    data.idType = 'IBA';
+                }
                 String baseCurrency = Global_Utilities.getCountryCurrency(country);
                 data.currencyCodeAvailableBalance = String.isNotBlank(baseCurrency) ? baseCurrency : '';
                 Boolean mandatoryPurpose = Global_Utilities.getCountryMandatoryPurpose(country); 

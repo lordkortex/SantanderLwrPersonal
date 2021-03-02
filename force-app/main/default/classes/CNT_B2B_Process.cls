@@ -94,7 +94,7 @@ public with sharing class CNT_B2B_Process {
     15/01/2021      Shahad Naji             Add baseAmount and baseCurrency
     17/02/2021      Shahad Naji             Copy from CNT_B2B_PaymentInformation APEX class
     */
-    @AuraEnabled
+    /*@AuraEnabled
     public static ReturnValue updatePaymentInformation (String paymentId, String clientReference, String purpose, String description, String chargeBearer, String paymentMethod, String commercialCode, Double baseAmount, String baseCurrency) {
         ReturnValue response = null;
         try {
@@ -106,7 +106,7 @@ public with sharing class CNT_B2B_Process {
             response = new ReturnValue(false, null, e.getMessage());
         }
         return response;
-    }
+    }*/
 
        /*
     Author:         Shahad Naji

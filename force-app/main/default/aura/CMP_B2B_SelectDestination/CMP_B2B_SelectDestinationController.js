@@ -6,6 +6,7 @@
         let transferType = component.get('v.transferType');
         let enableBrowseAccount = true;
         if (transferType == $A.get('$Label.c.PTT_international_transfer_single')) {
+            component.set('v.canCreateBeneficiaries', true);
             helper.getCountryList(component, event, helper)
             .then($A.getCallback(function (value) {
                 return helper.setCountryList(component, event, helper, value);
@@ -88,15 +89,6 @@
 
     handleChangeCountryOrCurrency: function (component, event, helper) {
         let value = event.getParam('value');
-        let currentValue =  event.getParam('value');
-        let oldValue = event.getParam('oldValue');
-        console.log('>>> BBB: ' + currentValue);
-        console.log('>>> BBB: ' + oldValue);
-        
-        if(currentValue != oldValue){
-            //comprobar a que lista pertenece
-        }
-        
         if (value.length == 3) {
             helper.handleChangeCurrency(component, event, helper, value);
         } else if(value.length == 2){

@@ -40,7 +40,6 @@
     <aura:attribute access="public" type="String"       name="paymentAmountString"      default="" />
     <aura:attribute access="public" type="String"       name="valueDateString"          default="" />
     <aura:attribute access="public" type="Boolean"      name="errorOTP"                 default="false" />
-    <aura:attribute access="public" type="List" 	    name="uploadedDocuments" 	   default="['Prueba1', 'Prueba2', 'Prueba3', 'Prueba4']" 	description="A collection of uploaded documents names"/>
 
     <lightning:navigation aura:id="navService" />
 
@@ -224,22 +223,18 @@
                 </div>
                 <!--PENDIENTE: definir atributos para los document1 , document2-->
                 <!--Uploaded documentation-->
-                <!--aura:if isTrue="{! v.paymentDraft.documents.length gt 0}"-->
-                <aura:if isTrue="{! v.uploadedDocuments.length gt 0}">
+                <aura:if isTrue="{! v.paymentDraft.documents.length gt 0}">
                     <div class="row">
                     </div>
                     <div class="row">
                         <div class="section-title slds-truncate">{!$Label.c.PAY_PaymentSummary_upDoc}</div>
                     </div>
                     <div class="section-content slds-grid slds-wrap">
-                        <!--aura:iteration items="{!v.paymentDraft.documents}" var="item" indexVar="key"-->
-                        <aura:iteration items="{!v.uploadedDocuments}" var="item" indexVar="key">
+                        <aura:iteration items="{!v.paymentDraft.documents}" var="item" indexVar="key">
                             <div class="slds-col">
                                 <div class="row">
-                                    <div class="slds-truncate">{!$Label.c.document + ' ' + (key+1)}</div><!--Para probar-->
-                                    <!--div class="slds-truncate">{!$Label.c.document} {key+1}</div--><!--Con datos reales-->
-                                    <div class="bold slds-truncate">{!item}</div><!--Para probar-->
-                                    <!--div class="bold slds-truncate">{!item.name}</div--><!--Con datos reales-->
+                                    <div class="slds-truncate">{!$Label.c.document} {key+1}</div>
+                                    <div class="bold slds-truncate">{!item.name}</div>
                                 </div>
                             </div>
                         </aura:iteration>

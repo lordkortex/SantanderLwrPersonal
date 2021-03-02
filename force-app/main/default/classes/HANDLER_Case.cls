@@ -377,7 +377,8 @@ History
                 if(c.Status == 'CAU1' || c.Status == 'IT' || c.Status == 'Closed Solved' || c.Status == 'Closed Cancelled'){
                     c.IsStopped = true;
                 } 
-                else if(c.Status != 'CAU1' && c.Status != 'IT'){
+                //else if(c.Status != 'CAU1' && c.Status != 'IT'){
+                else if(c.Status == 'In Progress'){
                     c.IsStopped = false;                    
                 }                 
             }
