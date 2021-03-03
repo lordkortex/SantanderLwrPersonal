@@ -95,7 +95,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
     @track finalitem;
     @track paymentsnumber;
     @api pagesnumbers;
-    @api paginationlist;
+    @track paginationlist;
     @api currentpage;
 
     @api detailspage = "landing-payment-details";
@@ -119,11 +119,13 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
 
     get hasPaymentList(){
         //!and(v.isLoading == false, not(empty(v.paymentList)))
-        return (!this.isloading &&  this.paymentlist);
+        //return (!this.isloading &&  this.paymentlist != undefined &&  this.paymentlist.length > 0 );
+        return (this.paymentlist != undefined &&  this.paymentlist.length > 0 );
+        //return true;
     }
     get emptyPaymentList(){
         //!and(empty(v.paymentList), v.isLoading == false)
-        return (!this.isloading && (this.paymentlist == null || this.paymentlist == undefined));
+        return (!this.isloading && ( this.paymentlist == undefined || this.paymentlist == null || this.paymentlist.length > 0 ));
     }
     get isSearchedString(){
         //!or(v.filterCounter != 0, not(empty(v.searchedString)))
@@ -255,12 +257,22 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
 
     connectedCallback(event){
         loadStyle(this, santanderStyle + '/style.css');
+        this.values = ['10','20','40'];
         this.calculateCSSclass();
+        doInit();
+    }
+
+    @api setPaymentList(value){
+        this.paymentList = value;
+    }
+
+
+    @api doInit(){
         this.isloading = true;
-        var params = event.getParam("arguments");
-        if(params){
-            if(params.paymentList != "[]" && params.paymentList != null && params.paymentList != undefined){
-                let paymentList = params.paymentList;
+        //var params = event.getParam("arguments");
+        //if(params){
+            if(this.paymentList != "[]" && this.paymentList != null && this.paymentList != undefined){
+                let paymentList = this.paymentList;
                 for (let i = 0; i<paymentList.length;  i++) {
                     let payment = paymentList[i];
                     payment.checked = false;
@@ -273,7 +285,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
                 this.paymentlist = [];
             }
            
-        }
+        //}
         this.selectedrows = [];
         this.singleselectedpayment = {};
         this.actions = {};
@@ -287,12 +299,12 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
             this.isloading = false;
 
         }));*/
-        aux.catch(function (error) {
+        aux.catch((error) => {
             console.log('error');
-        }).finally((function() {
+        }).finally(() => {
             this.isloading = false;
+        });
 
-        }));
     }
 
     calculateCSSclass(){
@@ -370,7 +382,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
     }
 
     setPaginations() {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             var paginationsList = this.values;
             var itemsXpage = this.selectedvalue;
             let selectAll = this.selectall;
@@ -392,6 +404,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
                 }
                 for (let i = 0; i < itemsXpage; i++) {
                     if (numberItems > i) {
+                        items[i]['key'] = i;
                         listItems.push(items[i]);
                         lastItemPage++;
                     }
@@ -401,13 +414,16 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
                 this.finalitem =  lastItemPage;
                 this.firstitem = 1;
                 this.pagesnumbers = pagesList;
-                this.paginationlist = listItems;
+                this.paginationlist = JSON.parse(JSON.stringify(listItems));
                 this.currentpage = 1;
                 this.selectall = selectAll;
+
+                console.log('Lista: ' +JSON.stringify(listItems));
             }
 
-            resolve('Ok');
-        }.bind(this)); 
+          resolve('Ok');
+        //}.bind(this)); 
+        }, this); 
         
     }
 
@@ -1001,4 +1017,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
     }
 
 
+    get paginationListJson(){
+        return JSON.stringify(this.paginationlist);
+    }
 }

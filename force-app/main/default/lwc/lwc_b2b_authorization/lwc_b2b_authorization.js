@@ -87,6 +87,8 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
 
     @track hasDiscardButton;
     @track steps;
+    @track navigatorInfo;
+    
 
     label = {
         Loading,
@@ -166,6 +168,7 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
         this.accountData  = [];
         this.steps = [];
         this.signLevel = [];
+        this.navigatorInfo = [];
         this.expiredFX = false;
         this.hasDiscardButton = false;
 
@@ -182,22 +185,37 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
             if( this.label.CNF_mockeoFirmas != 'ok'){
                 this.cometdSubscriptions = [];
                 this.notifications = [];
-            	helper.auxCometD(this.cometd,this.expiredFX,this.errorOTP,this.scaUid,this.errorSign,this.signLevel,this.cometdSubscriptions);
+            	helper.auxCometD(this.cometd,this.expiredFX,this.errorOTP,this.scaUid,
+                    this.errorSign,this.signLevel,this.cometdSubscriptions,this.localWindow);
             }
             resolve('Ok');
-        }, this).then( (value) => {
+        }, this)
+        .then( (value) => {
+            return helper.getNavigatorInfo(this.navigatorInfo);
+        })
+        .then( (value) => {
+            this.navigatorInfo = value.navigatorInfoAttribute;
             return helper.getCurrentUserData();
-        }).then( (value) => {
+        })
+        .then( (value) => {
             this.userData = value.userDataAttribute;
             return helper.getAccountData();
-        }).then( (value) => {
+        })
+        .then( (value) => {
             this.accountData = value.accountDataAttribute;
             return helper.getURLParams();
-        }).then((value) => {
+        })
+        .then((value) => {
             this.paymentData = value.paymentDetailAttribute;
+            //helper.beginAuthorize(component, event, helper);
+            let payment = this.paymentData ;
+            let fees = (payment.fees === undefined && payment.fees === null  ? '0' : payment.fees);
+            let amount = (payment.amountSend === undefined && payment.amountSend === null ? '0' : payment.amountSend);
+            payment.totalAmount = parseFloat(amount) + parseFloat(fees);
+            this.paymentData = payment;
         }).catch( (error) =>  {
             console.log(error);
-            this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
+            this.showToastMode(null, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
         }).finally( () => {
             this.spinner = false;
         });
@@ -277,6 +295,8 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
                  
                  var waitingAuthorizationComponent  = this.template.querySelector("c-lwc_waiting-authorization");
                  waitingAuthorizationComponent.setError(this.isError());
+                 waitingAuthorizationComponent.setLocaluser(this.isUserCashNexusOrMultiOneTrade());
+                 
 
                  this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
 
@@ -319,7 +339,7 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     <Date>          <Author>            <Description>
     19/06/2020      Bea Hill            Initial version
     */
-    reloadFX() {
+    reloadFX(event) {
         this.reloadAction = this.reloadFX;
         this.scaUid = '';
         this.reload = false;
@@ -344,7 +364,7 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     <Date>          <Author>            <Description>
     19/06/2020      Bea Hill            Initial version
     */
-    handleConfirm() {
+    handleConfirm(event) {
         this.spinner = true;
 
         this.reload = false;
@@ -353,8 +373,9 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
 
         helper.beginAuthorize(this.signLevel,this.paymentData,this.paymentId,
                             this.debitAmountString,this.feesString,this.exchangeRateString,
-                            this.paymentAmountString,this.label.CNF_mockeoFirmas)
+                            this.paymentAmountString,this.label.CNF_mockeoFirmas,this.navigatorInfo)
         .then((value) => {
+            this.localWindow = value.winAttribute;
             this.scaUid = value.scaUidAttribute;
             this.errorSign = value.errorSignAttribute; 
             this.errorOTP = value.errorOTPAttribute; 
@@ -408,7 +429,9 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
         if (this.sessionId != null) {
             helper.connectCometd();
         }else{
-            helper.auxCometD(this.cometd,this.expiredFX,this.errorOTP,this.scaUid,this.errorSign,this.signLevel,this.cometdSubscriptions);
+            helper.auxCometD(this.cometd,this.expiredFX,this.errorOTP,
+                this.scaUid,this.errorSign,this.signLevel,
+                this.cometdSubscriptions,this.localWindow);
         }
     }
 
@@ -448,7 +471,7 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     <Date>          <Author>            <Description>
     23/06/2020      Beatrice Hill       Adapted from CMP_AccountsCardRow
     */
-    goTo(page, url){
+    goTo(event,page, url){
         if(url != undefined && url != ''){
             helper.encrypt(url)
             .then((results) => {
@@ -489,7 +512,7 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     }
 
     get isPaymentAmountNotUndefined(){
-        return this.paymentData.amount != undefined;
+        return this.paymentData.amount != undefined && this.paymentData.amount != null ;
     }
 
     get isCibAndCurrenciesNotEquals(){
@@ -501,11 +524,11 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     }
 
     get isPaymentDataAmountReceiveNotEmpty(){
-        return this.paymentData.amountReceive != null;
+        return this.paymentData.amountReceive != undefined && this.paymentData.amountReceive != null;
     }
 
     get isPaymentDataTotalAmountNotEmpty(){
-        return this.paymentData.totalAmount != undefined
+        return this.paymentData.totalAmount != undefined && this.paymentData.totalAmount != null
     }
 
     get isCurrenciesNotEquals(){
@@ -537,4 +560,44 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
         return this.label.Authorization;
     }
     
+    get isPaymentSubjectEmpty(){
+        return (this.paymentData.subject === undefined || this.paymentData.subject === null);
+    }
+
+    get isPaymentAmountSendEmpty(){
+        return (this.paymentData.amountSend === undefined || this.paymentData.amountSend === null);
+    }
+
+    get isPaymentFeesEmpty(){
+        return (this.paymentData.fees === undefined || this.paymentData.fees === null);
+    }
+
+    get paymentOperationNomFxExchangeRate(){
+        return this.paymentData.operationNominalFxDetails.customerExchangeRate;
+    }
+    
+    get isEmptyPaymentOperationNomFxExchangeRate(){
+        return (this.paymentData.operationNominalFxDetails === undefined || this.paymentData.operationNominalFxDetails === null) 
+        || (this.paymentData.operationNominalFxDetails.customerExchangeRate === undefined || this.paymentData.operationNominalFxDetails.customerExchangeRate === null);
+        
+    }
+
+    get isLocalUser(){
+        return this.isUserCashNexus() === false && this.isMultiOneTrade()  === false;
+    }
+
+    get isMultiOneTrade(){
+        return ( this.userData  != undefined && this.userData.multiOneTrade  != undefined )   ? this.userData.multiOneTrade  : false ;
+    }
+
+    
+    get isUserCashNexus(){
+       return ( this.userData  != undefined && this.userData.cashNexus  != undefined   ? this.userData.cashNexus  : false );
+    }
+
+    get isUserCashNexusOrMultiOneTrade(){
+        return  (this.userData  != undefined && this.userData.cashNexus  != undefined  && this.userData.multiOneTrade  != undefined ) 
+                    ? (this.userData.cashNexus  === false &&  this.userData.multiOneTrade === false) : true;
+    }
+ 
 }

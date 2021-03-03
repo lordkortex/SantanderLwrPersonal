@@ -158,26 +158,10 @@ export const helper = {
                         if (stateRV.value != undefined) {
                             userData = stateRV.value.userData;
                         }
-                        if (stateRV.value != undefined && stateRV.value.userId != undefined ) {
-                            userData.userId = stateRV.value.userId;
-                        } 
-                        if (stateRV.value != undefined && stateRV.value.isNexus != undefined) {
-                            userData.isNexus = stateRV.value.isNexus;
-                        } else {
-                            userData.isNexus = false; // Añadir un error PARCHE MINIGO
-                        }
-                        if (stateRV.value != undefined && stateRV.value.numberFormat != undefined) {
-                            userData.numberFormat = stateRV.value.numberFormat;
-                        }
-                        if (stateRV.value != undefined && stateRV.value.globalId != undefined) {
-                            userData.globalId = stateRV.value.globalId;
-                        } 
-                        if (stateRV.value != undefined && stateRV.value.MobilePhone != undefined) {
-                            userData.MobilePhone = stateRV.value.MobilePhone;
-                        } 
-                        
+                        resolve({ userDataAttribute: userData, messageAttribute: 'ok' });
+                    }else{
+                        reject('ko');
                     }
-                    resolve({ userDataAttribute: userData, messageAttribute: 'ok' });
                 }).catch(errors => {
                     console.log('Error message: ' + errors);
                     reject('ko');
@@ -261,25 +245,26 @@ export const helper = {
                         if (returnValue.success === true && returnValue.value != undefined) {
                             var orchestationOutput = returnValue.value.OrchestationOutput;
                             if ((orchestationOutput != undefined && orchestationOutput != null) || 
-                                (orchestationOutput.level != undefined && orchestationOutput.level != null && orchestationOutput.level != 'OK'))
-                             {
+                                (orchestationOutput.level != undefined && orchestationOutput.level != null && orchestationOutput.level != 'OK')) {
                                 //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
-                                this.updateStatus('999','003');
+                                //helper.updateStatus(component,event, helper,'101','001');
+                                //helper.updateStatus(component,event, helper,'999','003');
                                 reject('ko');
                             } else {
                                 resolve('ok');
                             }
                         } else {
-                            this.updateStatus('999','003');
+                            //helper.updateStatus(component,event, helper,'101','001');
+                            //helper.updateStatus(component,event, helper,'999','003');
                             reject('ko');
                         }
                 })
                 .catch(errors => {
                     console.log('Error message: ' + errors);
-                    this.updateStatus('999','003');
+                    //helper.updateStatus(component,event, helper,'101','001');
+                    //helper.updateStatus(component,event, helper,'999','003');
                     reject('ko');
                 });
-
             }, this);
     },
     
@@ -376,7 +361,10 @@ export const helper = {
     */
     sendOTP_Strategic(paymentData,paymentId,debitAmountString,
                     feesString,exchangeRateString,paymentAmountString,
-                    labelCNF_mockeoFirmas,validateOTP,OTP,signLevel,OTPWrongCheckSMS) {
+                    labelCNF_mockeoFirmas,validateOTP,OTP,signLevel,OTPWrongCheckSMS,navigatorInfo) {
+
+            var win;
+
             return new Promise((resolve, reject) => {
                 //component.set('v.reload', false);
                 //component.set('v.reloadAction', component.get('c.sendOTP_Strategic'));
@@ -392,23 +380,37 @@ export const helper = {
                     debitAmount: debitAmountString,
                     fees: feesString,
                     exchangeRate: exchangeRateString,
-                    paymentAmount: paymentAmountString
+                    paymentAmount: paymentAmountString,
+                    paymentDetail: paymentData,
+                    service_id : 'international_payment',
+                    navigatorInfo : navigatorInfo
                 })
                 .then((actionResult) => {
                         var returnValue = actionResult;
                         console.log(returnValue);
                         if (!returnValue.success) {
-                            resolve({ 
+                            reject({ 
                                 errorSignAttribute: true, 
                                 errorOTPAttribute: true,
                                 spinnerVerificationCodeAttribute: false, 
                                 messageAttribute: 'ko' });
                         } else {
+                            var scaUidVar;
+                            if(returnValue.value.initiateOTP.localSigningUrl === null || returnValue.value.initiateOTP.localSigningUrl === undefined ){
+                                scaUidVar = returnValue.value.initiateOTP.scaUid;
+                            }else{
+                                scaUidVar = returnValue.value.initiateOTP.signId;
+                                win = window.open(returnValue.value.initiateOTP.localSigningUrl, '_blank');
+                                //component.set("v.localWindow", win);
+                                win.focus();
+                            }
+                           
                             if( labelCNF_mockeoFirmas === 'ok'){
                                 this.checkOTP(validateOTP,paymentData,paymentId,OTP,signLevel,OTPWrongCheckSMS);
                             }
                             resolve({ 
-                                scaUidAttribute : returnValue.value.initiateOTP.scaUid , 
+                                winAttribute : win, 
+                                scaUidAttribute : scaUidVar, 
                                 errorSignAttribute: false, 
                                 errorOTPAttribute: false,
                                 spinnerVerificationCodeAttribute: false, 
@@ -521,9 +523,10 @@ export const helper = {
                     if (signature.lastSign === 'true') {
                         this.sendOTP_Strategic(paymentData,paymentId,debitAmountString,
                             feesString,exchangeRateString,paymentAmountString,labelCNF_mockeoFirmas,
-                            validateOTP,OTP,signLevel,OTPWrongCheckSMS)
+                            validateOTP,OTP,signLevel,OTPWrongCheckSMS,navigatorInfo)
                         .then((value) => {
                             resolve({ 
+                                winAttribute : value.winAttribute,
                                 scaUidAttribute : value.scaUidAttribute,
                                 errorSignAttribute: value.errorSignAttribute, 
                                 errorOTPAttribute: value.errorOTPAttribute,
@@ -544,9 +547,10 @@ export const helper = {
                     } else {
                         this.sendOTP_Strategic(paymentData,paymentId,debitAmountString,feesString,exchangeRateString,
                                                 paymentAmountString,labelCNF_mockeoFirmas,
-                                                validateOTP,OTP,signLevel,OTPWrongCheckSMS)
+                                                validateOTP,OTP,signLevel,OTPWrongCheckSMS,navigatorInfo)
                         .then((value) => {
                             resolve({ 
+                                winAttribute : value.winAttribute,
                                 scaUidAttribute : value.scaUidAttribute,
                                 errorSignAttribute: value.errorSignAttribute, 
                                 errorOTPAttribute: value.errorOTPAttribute,
@@ -674,7 +678,6 @@ export const helper = {
                                     if (stateRV.value.output != undefined && stateRV.value.output != null) {
                                         payment.FXFeesOutput = stateRV.value.output;
                                     }          
-                                    payment.feesFXDateTime = this.getCurrentDateTime();
                                 } else {
                                     if (stateRV.value.exchangeRate != null && stateRV.value.exchangeRate != undefined) {
                                         payment.tradeAmount = stateRV.value.exchangeRate;
@@ -682,6 +685,9 @@ export const helper = {
                                     } 
                                     if (stateRV.value.timestamp != undefined && stateRV.value.timestamp != null) {
                                         payment.timestamp = stateRV.value.timestamp;
+                                    }
+                                    if (stateRV.value.fxTimer != undefined && stateRV.value.fxTimer != null) {
+                                        payment.FXDateTime = stateRV.value.fxTimer;
                                     }
                                     if (stateRV.value.convertedAmount != undefined && stateRV.value.convertedAmount != null) {
                                         if(stateRV.value.amountObtained == 'send'){
@@ -701,7 +707,6 @@ export const helper = {
                                     if (stateRV.value.output != undefined && stateRV.value.output != null) {
                                         payment.FXoutput = stateRV.value.output;
                                     }                               
-                                    payment.FXDateTime = this.getCurrentDateTime();
                                 }
                                 resolve({
                                         paymentDataAttribte : paymentData,
@@ -842,7 +847,7 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    auxCometD (cometd,expiredFX,errorOTP,scaUid,errorSign,signLevel,cometdSubscriptions){
+    auxCometD (cometd,expiredFX,errorOTP,scaUid,errorSign,signLevel,cometdSubscriptions,localWindow){
             //component.set('v.cometdSubscriptions', []);
             //component.set('v.notifications', []);
             // Disconnect CometD when leaving page
@@ -855,7 +860,8 @@ export const helper = {
                     //component.set('v.sessionId', response.getReturnValue());
                     if (cometd != null) {
                         var sessionId = response;
-                        this.connectCometd(cometd,sessionId,expiredFX,errorOTP,scaUid,errorSign,signLevel,cometdSubscriptions);
+                        this.connectCometd(cometd,sessionId,expiredFX,errorOTP,scaUid,
+                                                errorSign,signLevel,cometdSubscriptions,localWindow);
                     }
             })
             .catch(errors => {
@@ -872,7 +878,8 @@ export const helper = {
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
     // METHODS TO CONNECT WITH THE WS_OTPVALIDATION SERVICE
-    connectCometd (cometd,sessionId,expiredFX,errorOTP,scaUid,errorSign,signLevel,cometdSubscriptions) {
+    connectCometd (cometd,sessionId,expiredFX,errorOTP,scaUid,
+                    errorSign,signLevel,cometdSubscriptions,localWindow) {
         return new Promise( (resolve, reject) => {
             //var helper = this;
             // Configure CometD
@@ -894,6 +901,10 @@ export const helper = {
                     var newSubscription = cometd.subscribe('/event/OTPValidation__e', function (platformEvent) {
                         if(expiredFX === false && errorOTP === false){
                             if(platformEvent.data.payload.scaUid__c === scaUid){
+                                var win = localWindow;
+                                if(win != undefined && win != null){
+                                    win.close();
+                                }
                                 if (platformEvent.data.payload.status__c == 'KO' || platformEvent.data.payload.status__c == 'ko') {
                                    this.errorSign =true;
                                 } else {
@@ -985,5 +996,44 @@ export const helper = {
                     resolve('ko');
                 });
             }, this);
+    },
+
+
+    getNavigatorInfo: function (navigatorInfoInput) {
+        return  new Promise((resolve, reject) => {
+            let navigatorInfo = navigatorInfoInput;
+            if(navigatorInfo != undefined && navigator != undefined){
+                navigatorInfo.userAgent = navigator.userAgent;
+                if(navigator.geolocation){
+                    navigator.geolocation.getCurrentPosition((position) => {
+                    navigatorInfo.latitude = position.coords.latitude;
+                    navigatorInfo.longitude = position.coords.longitude;
+                    console.log(navigatorInfo.latitude);
+                    console.log(navigatorInfo.longitude);
+                    console.log(navigatorInfo.userAgent);
+                    resolve({ 
+                        navigatorInfoAttribute : navigatorInfo,
+                        messageAttribute: 'ok'
+                    });
+        
+                    }, () => {
+                        resolve({ 
+                            navigatorInfoAttribute : navigatorInfo,
+                            messageAttribute: 'ok'
+                        });
+                    });
+                }else{
+                    resolve({ 
+                        navigatorInfoAttribute : navigatorInfo,
+                        messageAttribute: 'ok'
+                    });
+                }
+            }else{
+                resolve('ok');
+            }
+        }).catch((error) => {
+            console.log(error);
+            resolve('ok');
+        });
     }
 }

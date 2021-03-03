@@ -30,9 +30,12 @@
             Promise.all([
                 helper.getCurrentUserData(component, event, helper)
             ]).then($A.getCallback(function (value) {
-                return helper.getPaymentsStatuses(component, event, helper, isSingleTabSelected);
-            }), this).then($A.getCallback(function (value) {
-                return helper.getPaymentsInformation(component, event, helper, isSingleTabSelected);
+                
+                return Promise.all([
+                    helper.getPaymentsStatuses(component, event, helper, isSingleTabSelected),
+                    helper.getPaymentsInformation(component, event, helper, isSingleTabSelected)
+                ]);
+                
             }), this).catch(function (error) {
                 console.log('error');
             }).finally($A.getCallback(function () {

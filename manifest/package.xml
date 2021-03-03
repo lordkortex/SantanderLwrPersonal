@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	 <types>
-        <members>CMP_B2B_authorization</members>
-        <members>CMP_B2B_ProcessHeader</members>
-        <members>CMP_CountDown</members>
-        <members>CMP_WaitingAuthorization</members>
-        <name>AuraDefinitionBundle</name>
+        <members>lwc_downloadsNexus</members>
+        <members>lwc_cn_dropdown</members>
+        <name>LightningComponentBundle</name>
     </types>
 	<version>50.0</version>
 </Package>

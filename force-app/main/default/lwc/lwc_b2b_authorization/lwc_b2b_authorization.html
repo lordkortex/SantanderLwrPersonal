@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-01-2021
+  @last modified on  : 03-02-2021
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
   Modifications Log 
   Ver   Date         Author                               Modification
@@ -123,8 +123,14 @@
                                         </div>
                                         <div class="slds-grid">
                                             <div class="col">
-                                                <div class="subtitle">{label.PaymentReference}</div>
-                                                <div class="text">{paymentData.subject}</div>
+                                                <template if:false={isPaymentSubjectEmpty}>
+                                                    <div class="subtitle">{label.PaymentReference}</div>
+                                                    <div class="text">{paymentData.subject}</div>
+                                                </template>
+                                                <template if:true={isPaymentSubjectEmpty}>
+                                                    <div class="subtitle">{label.PaymentReference}</div>
+                                                    <div class="text"> - </div>
+                                                </template>
                                             </div>
                                             <div class="col">
                                             </div>
@@ -155,7 +161,7 @@
                                                                 wholeclass="title" 
                                                                 currencyclass="title"  
                                                                 currency={paymentData.beneficiaryCurrency} 
-                                                                numberformat={userData.convertedCurrency}
+                                                                numberformat={userData.numberformat}
                                                                 output-string={paymentAmountString}>
                                                             </c-lwc_display-amount>
                                                     </template>	
@@ -167,7 +173,7 @@
                                                                 wholeclass="title" 
                                                                 currencyclass="title"     
                                                                 currency={paymentData.beneficiaryCurrency} 
-                                                                numberformat={userData.convertedCurrency}
+                                                                numberformat={userData.numberformat}
                                                                 output-string={paymentAmountString}>
                                                             </c-lwc_display-amount>
                                                     </template>
@@ -202,14 +208,21 @@
                                                             </div>
                                                         </div>
                                                         <div class="col">
-                                                            <c-lwc_display-amount data-id="nominalDetail" 
-                                                                amount={paymentData.operationNominalFxDetails.customerExchangeRate} 
-                                                                decimalclass="number" 
-                                                                wholeclass="number" 
-                                                                output-string={exchangeRateString}
-                                                                currency={label.EUR} 
-                                                                numberformat={userData.convertedCurrency}>
-                                                            </c-lwc_display-amount> / {label.GBP}
+                                                            <template if:false={isEmptyPaymentOperationNomFxExchangeRate}>
+                                                                <div class="text"> 
+                                                                    <c-lwc_display-amount data-id="nominalDetail" 
+                                                                        amount={paymentOperationNomFxExchangeRate} 
+                                                                        decimalclass="number" 
+                                                                        wholeclass="number" 
+                                                                        output-string={exchangeRateString}
+                                                                        currency={label.EUR} 
+                                                                        numberformat={userData.convertedCurrency}>
+                                                                    </c-lwc_display-amount> / {label.GBP}
+                                                                </div>
+                                                            </template>
+                                                            <template if:true={isEmptyPaymentOperationNomFxExchangeRate}>
+                                                                <div class="text"> - </div>
+                                                            </template>
                                                         </div>
                                                     </div>
                                                     <div class="slds-grid">
@@ -219,13 +232,18 @@
                                                             </div>
                                                         </div>
                                                         <div class="col">
-                                                            <c-lwc_display-amount data-id="amountSend" 
-                                                                amount={paymentData.amountSend} 
-                                                                decimalclass="number" 
-                                                                wholeclass="number" 
-                                                                currency={paymentData.sourceCurrency} 
-                                                                numberformat={userData.numberFormat}>
-                                                            </c-lwc_display-amount> 
+                                                            <template if:false={isPaymentAmountSendEmpty}>
+                                                                <c-lwc_display-amount data-id="amountSend" 
+                                                                    amount={paymentData.amountSend} 
+                                                                    decimalclass="number" 
+                                                                    wholeclass="number" 
+                                                                    currency={paymentData.sourceCurrency} 
+                                                                    numberformat={userData.numberFormat}>
+                                                                </c-lwc_display-amount> 
+                                                            </template>
+                                                            <template if:true={isPaymentAmountSendEmpty}>
+                                                                <div class="number"> - </div>
+                                                            </template>
                                                         </div>
                                                     </div>
                                                 </template>
@@ -253,14 +271,21 @@
                                                         </div>
                                                     </div>
                                                     <div class="col">
-                                                        <c-lwc_display-amount data-id="amountFees" 
-                                                            amount={paymentData.fees} 
-                                                            decimalclass="number" 
-                                                            wholeclass="number" 
-                                                            currency={paymentData.feesCurrency} 
-                                                            numberformat={userData.numberFormat}
-                                                            output-string = "{feesString}" >
-                                                        </c-lwc_display-amount> 
+                                                        <template if:false={isPaymentFeesEmpty}>
+                                                            <div class="number"> 
+                                                                <c-lwc_display-amount data-id="amountFees" 
+                                                                    amount={paymentData.fees} 
+                                                                    decimalclass="number" 
+                                                                    wholeclass="number" 
+                                                                    currency={paymentData.feesCurrency} 
+                                                                    numberformat={userData.numberFormat}
+                                                                    output-string = "{feesString}" >
+                                                                </c-lwc_display-amount> 
+                                                            </div>
+                                                        </template>
+                                                        <template if:true={isPaymentFeesEmpty}>
+                                                            <div class="number"> - </div>
+                                                        </template>
                                                     </div>
                                                 </div>
                                             </div>
@@ -298,14 +323,14 @@
                         </article>
                         <template if:true={isExpiredFX}>
                             <c-lwc_waiting-authorization 
-                                headerlabel
                                 expired={expiredFX}
+                                localuser={isUserCashNexusOrMultiOneTrade}  
                                 spinner={spinnerVerificationCode}
                                 onresendaction={sendOTP_Strategic} 
+                                error={isError} 
                                 error-o-t-p ={errorOTP}>
                             </c-lwc_waiting-authorization >
                         </template>
-
                         <button  onclick={handleConfirm}>Confirmar</button>
                     </div>
                 </div>

@@ -45,7 +45,7 @@ export default class Lwc_waitingAuthorization extends NavigationMixin(LightningE
     @track error = false;
     @api errorOTP = false;
     @api spinner = false;
-    @api localuser = false;
+    @track localuser = false;
     
     @track isShowDownload = false;
     @track showDownloadInitial = false;
@@ -55,6 +55,10 @@ export default class Lwc_waitingAuthorization extends NavigationMixin(LightningE
 
     @api setError(value){
         this.error = value;
+    }
+
+    @api setLocaluser(value){
+        this.localuser = value;
     }
 
     get cardClass(){

@@ -1,11 +1,11 @@
 ({
     /*
-	Author:        	Shahad Naji
+    Author:        	Shahad Naji
     Company:        Deloitte
-	Description:    Initialize CMP_PaymentsLandingParent component
+    Description:    Initialize CMP_PaymentsLandingParent component
     History
     <Date>			<Author>			<Description>
-	28/05/2020		Shahad Naji   		Initial version
+    28/05/2020		Shahad Naji   		Initial version
     24/07/2020		Shahad Naji			Simplify code that handles the success or failure of asynchronous calls, or code that chains together multiple asynchronous calls.
     23/09/2020      Bea Hill            Moved to helper, to allow handleReloadPage to call it.
     */
@@ -14,7 +14,7 @@
         component.set('v.noService', false);
         var isSingleTabSelected = component.get('v.isSingleTabSelected');
         if (isSingleTabSelected == true) {
-            
+
             Promise.all([
                 helper.getURLParams(component, event, helper)
             ]).then($A.getCallback(function (value) {
@@ -26,9 +26,12 @@
             }), this).then($A.getCallback(function (value) {
                 return helper.handleAccountsToList(component, helper, value);
             }), this).then($A.getCallback(function (value) {
-                return helper.getPaymentsStatuses(component, event, helper, isSingleTabSelected);
+                return Promise.all([
+                    helper.getPaymentsStatuses(component, event, helper, isSingleTabSelected),
+                    helper.getPaymentsInformation(component, event, helper, isSingleTabSelected)
+                ]);
             }), this).then($A.getCallback(function (value) {
-                return helper.getPaymentsInformation(component, event, helper, isSingleTabSelected);
+                return helper.getURLStatus(component, event, helper);
             }), this).catch(function (error) {
                 console.log(error);
                 helper.showToast(component, event, helper, error.title, error.body, error.noReload);
@@ -40,44 +43,44 @@
             console.log('>>> SNJ - CMP_PaymentsLandingParent/doInit - Functionality to be develped the next Sprints');
         }
     },
-    
+
     /*
-	Author:        	Shahad Naji
+    Author:        	Shahad Naji
     Company:        Deloitte
-	Description:    Returns Current User Information
+    Description:    Returns Current User Information
     History:
     <Date>			<Author>			<Description>
-	28/05/2020		Shahad Naji   		Initial version
+    28/05/2020		Shahad Naji   		Initial version
     24/07/2020		Shahad Naji			Simplify code that handles the success or failure of asynchronous calls.
     26/10/2020		Shahad Naji			currentUser attribute is set with values of WrapperUserData
     */
     getCurrentUserData: function (component, event, helper) {
         return new Promise($A.getCallback(function (resolve, reject) {
             var action = component.get('c.getUserData');
-            action.setCallback(this, function(response) {
+            action.setCallback(this, function (response) {
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var result = response.getReturnValue();
                     if (result.success) {
-                        if(!$A.util.isEmpty(result.value)){
-                            if(!$A.util.isEmpty(result.value.userData)){
+                        if (!$A.util.isEmpty(result.value)) {
+                            if (!$A.util.isEmpty(result.value.userData)) {
                                 component.set('v.currentUser', result.value.userData);
                                 resolve('getCurrentUserData_OK');
-                            }else{
+                            } else {
                                 reject({
                                     'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
                                     'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
                                     'noReload': false
                                 });
                             }
-                        }else{
+                        } else {
                             reject({
                                 'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
                                 'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
                                 'noReload': false
                             });
-                        }                       
-                        
+                        }
+
                     } else {
                         reject({
                             'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
@@ -104,11 +107,11 @@
                         'noReload': false
                     });
                 }
-            });        
-            $A.enqueueAction(action); 
-        }), this); 
+            });
+            $A.enqueueAction(action);
+        }), this);
     },
-    
+
     getAccountData: function (component, helper) {
         return new Promise($A.getCallback(function (resolve, reject) {
             var action = component.get('c.getAccountData');
@@ -157,8 +160,8 @@
             $A.enqueueAction(action);
         }), this);
     },
-    
-    handleAccountsToList : function(component, helper, value) {	
+
+    handleAccountsToList: function (component, helper, value) {
         return new Promise($A.getCallback(function (resolve, reject) {
             if (!$A.util.isEmpty(value)) {
                 component.set('v.accounts', value);
@@ -170,13 +173,13 @@
                     'noReload': false
                 });
             }
-        }), this);  
+        }), this);
     },
-    
+
     /*
-	Author:        	Maria Iñigo
+    Author:        	Maria Iñigo
     Company:        Deloitte
-	Description:    Returns Current User Information
+    Description:    Returns Current User Information
     History
     <Date>			<Author>			<Description>
     05/06/2020		Maria Iñigo  		Initial version
@@ -227,20 +230,20 @@
             }
         }), this);  
     },*/
-    
+
     /*
-	Author:        	Shahad Naji
+    Author:        	Shahad Naji
     Company:        Deloitte
-	Description:    Returns payments statuses and calculates singleNumRecords
+    Description:    Returns payments statuses and calculates singleNumRecords
     History
     <Date>			<Author>			<Description>
-	28/05/2020		Shahad Naji   		Initial version
+    28/05/2020		Shahad Naji   		Initial version
     24/07/2020		Shahad Naji			Simplify code that handles the success or failure of asynchronous calls.
     22/09/2020		Bea Hill			If this service fails it shows an error message but does not stop the rest of calls in the promise in the init method.
-    */ 
-    getPaymentsStatuses : function (component, event, helper, isSingleTabSelected) {
+    */
+    getPaymentsStatuses: function (component, event, helper, isSingleTabSelected) {
         return new Promise($A.getCallback(function (resolve, reject) {
-            var action = component.get('c.getPaymentsStatuses');  
+            var action = component.get('c.getPaymentsStatuses');
             var accounts = component.get('v.accounts');
             var globalUserId = component.get('v.currentUser.globalId');
             var errorTitle = $A.get('$Label.c.B2B_Error_Problem_Loading');
@@ -249,20 +252,20 @@
             action.setParams({
                 'accountList': accounts,
                 'globalUserId': globalUserId
-            });                 
+            });
             action.setCallback(this, function (response) {
                 var state = response.getState();
-                
+
                 if (state === 'SUCCESS') {
                     var result = response.getReturnValue();
-                    if (result.success) {  
-                        if (result != null &&  result != undefined && isSingleTabSelected) {
+                    if (result.success) {
+                        if (result != null && result != undefined && isSingleTabSelected) {
                             if (!$A.util.isEmpty(result.value)) {
                                 if (!$A.util.isEmpty(result.value.output)) {
-                                    if (!$A.util.isEmpty(result.value.output.paymentStatusList)) {                  
+                                    if (!$A.util.isEmpty(result.value.output.paymentStatusList)) {
                                         component.set('v.singlePaymentStatusBoxes', result.value.output.paymentStatusList);
                                     }
-                                    if (!$A.util.isEmpty(result.value.output.totalNumberOfRecords)) {                  
+                                    if (!$A.util.isEmpty(result.value.output.totalNumberOfRecords)) {
                                         component.set('v.singleNumRecords', result.value.output.totalNumberOfRecords);
                                     }
                                     resolve('ok');
@@ -277,7 +280,7 @@
                         } else {
                             resolve('error statusHeader');
                             helper.showToast(component, event, helper, errorTitle, errorBody, errorNoReload);
-                        }                      
+                        }
                     } else {
                         resolve('error statusHeader');
                         helper.showToast(component, event, helper, errorTitle, errorBody, errorNoReload);
@@ -295,65 +298,65 @@
                     resolve('error statuseHeader');
                     helper.showToast(component, event, helper, errorTitle, errorBody, errorNoReload);
                 }
-            });        
-            $A.enqueueAction(action); 
-        }), this); 
+            });
+            $A.enqueueAction(action);
+        }), this);
     },
-    
+
     /*
-	Author:        	Shahad Naji
+    Author:        	Shahad Naji
     Company:        Deloitte
-	Description:    Returns payments information (payments, the list of currencies, list of payment methods and list of statuses)
+    Description:    Returns payments information (payments, the list of currencies, list of payment methods and list of statuses)
     History
     <Date>			<Author>			<Description>
     28/05/2020		Shahad Naji   		Initial version
     16/06/2020		Beatrice Hill   	Set simple countries list for payment method modal
     24/07/2020		Shahad Naji			Simplify code that handles the success or failure of asynchronous calls.
-    */     
-    getPaymentsInformation : function(component, event, helper, isSingleTabSelected) {
+    */
+    getPaymentsInformation: function (component, event, helper, isSingleTabSelected) {
         return new Promise($A.getCallback(function (resolve, reject) {
             var action = component.get('c.getPaymentsInformation');
-            action.setParams({     
+            action.setParams({
                 'accountList': component.get('v.accounts')
             });
-            action.setCallback(this, function(response) {
+            action.setCallback(this, function (response) {
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var result = response.getReturnValue();
-                    if(isSingleTabSelected){
-                        if(result != null &&  result != undefined){
-                            if(result.success){
-                                if(!$A.util.isEmpty(result.value)){
-                                    if(!$A.util.isEmpty(result.value.output)){
+                    if (isSingleTabSelected) {
+                        if (result != null && result != undefined) {
+                            if (result.success) {
+                                if (!$A.util.isEmpty(result.value)) {
+                                    if (!$A.util.isEmpty(result.value.output)) {
                                         component.set('v.singleStatusDropdownList', result.value.output.statusList);
                                         component.set('v.singleCurrencyDropdownList', result.value.output.currencyList);
                                         component.set('v.singlePaymentMethodDropdownList', result.value.output.paymentTypeList);
                                         component.set('v.singleCountryDropdownList', result.value.output.countryList);
-                                        component.set('v.simpleCountryDropdownList', result.value.output.countryList);                                         
+                                        component.set('v.simpleCountryDropdownList', result.value.output.countryList);
                                         component.set('v.initialSinglePaymentList', result.value.output.paymentsList);
                                         component.set('v.singlePaymentList', result.value.output.paymentsList);
-                                        component.find('paymentsLandingTable').setComponent(result.value.output.paymentsList);                                        
+                                        component.find('paymentsLandingTable').setComponent(result.value.output.paymentsList);
                                         component.set('v.isSingleDataLoaded', true);
                                         component.set('v.availableStatuses', result.value.output.availableStatuses);
-                                        resolve('getPaymentsInformation_OK'); 
-                                    }else{
+                                        resolve('ok');
+                                    } else {
                                         reject({
                                             'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
                                             'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
                                             'noReload': false
-                                        }); 
-                                    } 
-                                }else{
+                                        });
+                                    }
+                                } else {
                                     reject({
                                         'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
                                         'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
                                         'noReload': false
                                     });
                                 }
-                                
-                            }else{
-                                if(!$A.util.isEmpty(result.value)){
-                                    if(!$A.util.isEmpty(result.value.output)){
+
+                            } else {
+                                if (!$A.util.isEmpty(result.value)) {
+                                    if (!$A.util.isEmpty(result.value.output)) {
                                         component.set('v.singleStatusDropdownList', result.value.output.statusList);
                                         component.set('v.singleCurrencyDropdownList', result.value.output.currencyList);
                                         component.set('v.singlePaymentMethodDropdownList', result.value.output.paymentTypeList);
@@ -364,31 +367,31 @@
                                             'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
                                             'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
                                             'noReload': false
-                                        }); 
+                                        });
                                         //resolve('getPaymentsInformation_OK'); 
-                                    }else{
+                                    } else {
                                         reject({
                                             'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
                                             'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
                                             'noReload': false
-                                        }); 
+                                        });
                                     }
-                                }else{
+                                } else {
                                     reject({
                                         'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
                                         'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
                                         'noReload': false
                                     });
                                 }
-                                
+
                             }
-                            
-                        }else{
+
+                        } else {
                             reject({
                                 'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
                                 'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
                                 'noReload': false
-                            }); 
+                            });
                         }
                     }
                     /*  if (result.success) {
@@ -417,7 +420,7 @@
                             'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
                             'noReload': false
                         });
-                    } */  
+                    } */
                 } else if (state === 'INCOMPLETE') {
                     reject({
                         'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
@@ -438,16 +441,16 @@
                     });
                 }
             });
-            $A.enqueueAction(action); 
+            $A.enqueueAction(action);
         }), this);
     },
-    
-    searchOperationsList: function (component, event, helper) {        
+
+    searchOperationsList: function (component, event, helper) {
         return new Promise($A.getCallback(function (resolve, reject) {
-            var globalUserId = event.getParam('globalUserId'); 
-            var pendingAuthorization = event.getParam('pendingAuthorization'); 
+            var globalUserId = event.getParam('globalUserId');
+            var pendingAuthorization = event.getParam('pendingAuthorization');
             var latestOperationsFlag = false;//event.getParam('latestOperationsFlag'); 
-            var sourceAccountList = event.getParam('sourceAccountList'); 
+            var sourceAccountList = event.getParam('sourceAccountList');
             var destinationCountry = event.getParam('destinationCountry');
             var statusList = event.getParam('statusList');
             var amountFrom = event.getParam('amountFrom');
@@ -459,8 +462,8 @@
             var valueDateTo = event.getParam('valueDateTo');
             var accountList = component.get('v.accounts');
             var action = component.get('c.searchPaymentsInformation');
-           
-            action.setParams({     
+
+            action.setParams({
                 'globalUserId': globalUserId,
                 'pendingAuthorization': pendingAuthorization,
                 'sourceAccountList': sourceAccountList,
@@ -483,13 +486,13 @@
                     if (result.success) {
                         component.find('paymentsLandingTable').setComponent(result.value.output.paymentsList);
                         component.set('v.singlePaymentList', result.value.output.paymentsList);
-                        resolve('ok');                    
+                        resolve('ok');
                     } else {
                         component.find('paymentsLandingTable').setComponent(null);
                         component.set('v.singlePaymentList', null);
                         console.log('ko');
-                        reject($A.get('$Label.c.ERROR_NOT_RETRIEVED'));                       
-                    }                
+                        reject($A.get('$Label.c.ERROR_NOT_RETRIEVED'));
+                    }
                 } else if (state === 'INCOMPLETE') {
                     reject($A.get('$Label.c.ERROR_NOT_RETRIEVED'));
                 } else if (state === 'ERROR') {
@@ -505,39 +508,45 @@
                     component.set('v.singlePaymentList', null);
                     reject($A.get('$Label.c.ERROR_NOT_RETRIEVED'));
                 }
-            });        
-            $A.enqueueAction(action); 
-        }), this); 
+            });
+            $A.enqueueAction(action);
+        }), this);
     },
-    
+
     showToast: function (component, event, helper, title, body, noReload) {
         var errorToast = component.find('errorToast');
         component.set('v.noService', true);
         if (!$A.util.isEmpty(errorToast)) {
             //errorToast.showToast(action, static, notificationTitle, bodyText, functionTypeText, functionTypeClass, functionTypeClassIcon, noReload, landing)
-            errorToast.openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload, true);
+            errorToast.openToast(false, false, title, body, 'Error', 'warning', 'warning', noReload, true);
         }
     },
-    
+    //Modificado po JHM 12/01/2021
     showSuccessToast: function (component, event, helper, title, body) {
-        var successToast = component.find('successToast');
+        var successToast = component.find('errorToast');
         component.set('v.noService', true);
         if (!$A.util.isEmpty(successToast)) {
             //errorToast.showToast(action, static, notificationTitle, bodyText, functionTypeText, functionTypeClass, functionTypeClassIcon, noReload, landing)
-            successToast.openToast(false, false, title,  body, 'Success', 'success', 'success', true, true);
+            successToast.openToast(false, false, title, body, 'Success', 'success', 'success', true, true);
         }
     },
-    
-    
+    /* showSuccessToast: function(component, event, helper, title, body, method) {
+         var toast = component.find('toast');
+         if (!$A.util.isEmpty(toast)) {
+             toast.openToast(true, false, title, body, 'Success', 'success', 'success', false,false , method);
+         }
+     },*/
+
+
     /*
-	Author:        	Bea Hill 
+    Author:        	Bea Hill 
     Company:        Deloitte
-	Description:    Call searchOperations service to download file
+    Description:    Call searchOperations service to download file
     History
     <Date>			<Author>			<Description>
     04/09/2020		Bea Hill   		    Initial version
     */
-    getDocumentId: function(component, event, helper, fileFormat) {
+    getDocumentId: function (component, event, helper, fileFormat) {
         return new Promise($A.getCallback(function (resolve, reject) {
             var action = component.get('c.downloadPayments');
             action.setParams(
@@ -547,16 +556,16 @@
                 }
             );
             var documentId = '';
-            action.setCallback(this, function(response) {
+            action.setCallback(this, function (response) {
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var result = response.getReturnValue();
                     if (result.success) {
                         if (!$A.util.isEmpty(result.value)) {
                             if (!$A.util.isEmpty(result.value.output)) {
-                                if (!$A.util.isEmpty(result.value.output.documentId)) {    
+                                if (!$A.util.isEmpty(result.value.output.documentId)) {
                                     documentId = result.value.output.documentId;
-                                    var fileName = '';  
+                                    var fileName = '';
                                     if (!$A.util.isEmpty(result.value.output.fileName)) {
                                         fileName = result.value.output.fileName;
                                     }
@@ -564,7 +573,7 @@
                                     toastText = toastText.replace("{0}", fileName);
                                     helper.showSuccessToast(component, event, helper, $A.get('$Label.c.PAY_downloadSuccessful'), toastText);
                                     resolve(documentId);
-                                }else {
+                                } else {
                                     reject({
                                         'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
                                         'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
@@ -585,7 +594,7 @@
                                 'noReload': true
                             });
                         }
-                        
+
                     } else {
                         reject({
                             'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
@@ -612,52 +621,52 @@
                         'noReload': true
                     });
                 }
-            });        
-            $A.enqueueAction(action); 
-        }), this); 
+            });
+            $A.enqueueAction(action);
+        }), this);
     },
-    
+
     /*Author:         R. Alexander Cervino
     Company:        Deloitte
     Description:    Method to remove the downloaded
     History
     <Date>			<Author>		<Description>
     17/12/2019		R. Alexander Cervino     Initial version*/
-    
-    removeFile : function(component, event, helper, ID){
-        
-        try{
+
+    removeFile: function (component, event, helper, ID) {
+
+        try {
             var action = component.get("c.removeFile");
             //Send the payment ID
-            action.setParams({id:ID});
-            action.setCallback(this, function(response) {
+            action.setParams({ id: ID });
+            action.setCallback(this, function (response) {
                 var state = response.getState();
-                
+
                 if (state === "ERROR") {
                     var errors = response.getError();
                     if (errors) {
                         if (errors[0] && errors[0].message) {
-                            console.log("Error message: " + 
-                                        errors[0].message);
+                            console.log("Error message: " +
+                                errors[0].message);
                         }
                     } else {
                         console.log("Unknown error");
                     }
-                }else if (state === "SUCCESS") {
+                } else if (state === "SUCCESS") {
                 }
             });
             $A.enqueueAction(action);
-            
+
         } catch (e) {
             console.log(e);
         }
     },
-    
-    downloadFile: function(component, event, helper, documentId) {
+
+    downloadFile: function (component, event, helper, documentId) {
         return new Promise($A.getCallback(function (resolve, reject) {
-            if(documentId!=null && documentId!='' && documentId!=undefined){
-                var domain=$A.get('$Label.c.domainCashNexus');
-                window.location.href = domain+'/sfc/servlet.shepherd/document/download/'+documentId+'?operationContext=S1';
+            if (documentId != null && documentId != '' && documentId != undefined) {
+                var domain = $A.get('$Label.c.domain');
+                window.location.href = domain + '/sfc/servlet.shepherd/document/download/' + documentId + '?operationContext=S1';
                 resolve(documentId);
             } else {
                 reject({
@@ -666,10 +675,10 @@
                     'noReload': true
                 });
             }
-        }), this); 
-        
+        }), this);
+
     },
-    
+
     /*Author:       R. Alexander Cervino
     Company:        Deloitte
     Description:    Method to decrypt data
@@ -680,9 +689,9 @@
         try {
             var result = "null";
             var action = component.get("c.decryptData");
-            
+
             action.setParams({ str: data });
-            
+
             return new Promise(function (resolve, reject) {
                 action.setCallback(this, function (response) {
                     var state = response.getState();
@@ -693,7 +702,7 @@
                         if (errors) {
                             if (errors[0] && errors[0].message) {
                                 console.log("Error message: " +
-                                            errors[0].message);
+                                    errors[0].message);
                                 reject(response.getError()[0]);
                             }
                         } else {
@@ -706,7 +715,7 @@
                 });
                 $A.enqueueAction(action);
             });
-            
+
         } catch (e) {
             console.error(e);
         }
@@ -717,18 +726,42 @@
             var sURLVariablesMain = sPageURLMain.split('&')[0].split("=");
             var sParameterName;
             var sPageURL;
+            var paymentAction = '';
+            var paymentData = {};
+            var message = '';
+            var method = '';
             if (sURLVariablesMain[0] == 'params') {
                 if (sURLVariablesMain[1] != '' && sURLVariablesMain[1] != undefined && sURLVariablesMain[1] != null) {
                     helper.decrypt(component, sURLVariablesMain[1]).then($A.getCallback(function (results) {
                         sURLVariablesMain[1] === undefined ? 'Not found' : sPageURL = results;
                         var sURLVariables = sPageURL.split('&');
-                        
+
                         for (var i = 0; i < sURLVariables.length; i++) {
                             sParameterName = sURLVariables[i].split('=');
-                            
+
                             if (sParameterName[0] === 'c__signed') {
-                                if(sParameterName[1] != undefined && sParameterName[1] != 'false'){
+                                if (sParameterName[1] != undefined && sParameterName[1] != 'false') {
                                     helper.showSuccessToast(component, event, helper, $A.get('$Label.c.success'), $A.get('$Label.c.authorizeSuccess'));
+                                }
+                            }
+                            if (sParameterName[0] === 'c__discard') {
+                                if (sParameterName[1] != undefined && sParameterName[1] != 'false') {
+                                    helper.showSuccessToast(component, event, helper, $A.get('$Label.c.success'), $A.get('$Label.c.Pay_discarted'));
+                                }
+                            }
+                            if (sParameterName[0] === 'c__saveForLater') {
+                                if (sParameterName[1] != undefined && sParameterName[1] != 'false') {
+                                    helper.showSuccessToast(component, event, helper, $A.get('$Label.c.success'), $A.get('$Label.c.PAY_savedSuccess'));
+                                }
+                            }
+                            if (sParameterName[0] === 'c__review') {
+                                if (sParameterName[1] != undefined && sParameterName[1] != 'false') {
+                                    helper.showSuccessToast(component, event, helper, $A.get('$Label.c.success'), $A.get('$Label.c.PAY_sendReview'));
+                                }
+                            }
+                            if (sParameterName[0] === 'c__reject') {
+                                if (sParameterName[1] != undefined && sParameterName[1] != 'false') {
+                                    helper.showSuccessToast(component, event, helper, $A.get('$Label.c.success'), $A.get('$Label.c.PAY_sendRejected'));
                                 }
                             }
                             if (sParameterName[0] === 'c__FFCError') {
@@ -736,16 +769,126 @@
                                     helper.showToast(component, event, helper, $A.get('$Label.c.FCCError'), $A.get('$Label.c.FCCErrorDescription'), true);
                                 }
                             }
+                            
+
                         }
-                        
+
                     }));
+
+                }
+            }else if(sURLVariablesMain[0] == 'publicParams'){
+                if (sURLVariablesMain[1] != '' && sURLVariablesMain[1] != undefined && sURLVariablesMain[1] != null) {
+                    if ((sURLVariablesMain[1] === 'c__pendingByMe' || sURLVariablesMain[1] === 'c__pendingByOthers'
+                                || sURLVariablesMain[1] === 'c__inReview' || sURLVariablesMain[1] === 'c__scheduled'
+                                || sURLVariablesMain[1] === 'c__completed' || sURLVariablesMain[1] === 'c__rejected')) {
+                                component.set('v.urlFilter', sURLVariablesMain[1]);
+                            }
                 }
             }
+
+
         } catch (e) {
             console.log(e);
         }
+    },
+
+    goToPaymentDetail: function (component, event, helper) {
+        var payment = component.get('v.paymentObject');
+        var paymentID = payment.paymentId;
+        var url = "c__currentUser=" + JSON.stringify(component.get("v.currentUser")) + "&c__paymentID=" + paymentID;
+        var page = 'landing-payment-details';
+        helper.goTo(component, event, page, url);
+    },
+
+    /*
+    Author:        	Beatrice Hill
+    Company:        Deloitte
+    Description:    Encryption for page navigation
+    History
+    <Date>			<Author>			<Description>
+    18/11/2020      Beatrice Hill       Adapted from CMP_AccountsCardRow
+    */
+
+    goTo: function (component, event, page, url) {
+        let navService = component.find("navService");
+
+        if (url != '') {
+
+            this.encrypt(component, url).then(function (results) {
+
+                let pageReference = {
+                    type: "comm__namedPage",
+                    attributes: {
+                        pageName: page
+                    },
+                    state: {
+                        params: results
+                    }
+                }
+                navService.navigate(pageReference);
+            });
+        } else {
+            let pageReference = {
+                type: "comm__namedPage",
+                attributes: {
+                    pageName: page
+                },
+                state: {
+                    params: ''
+                }
+            }
+            navService.navigate(pageReference);
+
+        }
+
+    },
+
+    getURLStatus: function (component, event, helper) {
+        return new Promise($A.getCallback((resolve, reject) => {
+            try {
+                let urlFilter = component.get('v.urlFilter');
+                let paymentStatusBoxes = component.get('v.singlePaymentStatusBoxes');
+                if (!$A.util.isEmpty(urlFilter)) {
+                    let statusName = null;
+                    if (urlFilter === 'c__pendingByMe') {
+                        statusName = $A.get('$Label.c.PAY_Status_PendingOne');
+                    } else if (urlFilter === 'c__pendingByOthers') {
+                        statusName = $A.get('$Label.c.PAY_Status_PendingTwo');
+                    } else if (urlFilter === 'c__inReview') {
+                        statusName = $A.get('$Label.c.PAY_Status_InReviewOne');
+                    } else if (urlFilter === 'c__scheduled') {
+                        statusName = $A.get('$Label.c.PAY_Status_ScheduledOne');
+                    } else if (urlFilter === 'c__completed') {
+                        statusName = $A.get('$Label.c.PAY_Status_CompletedOne');
+                    } else if (urlFilter === 'c__rejected') {
+                        statusName = $A.get('$Label.c.PAY_Status_RejectedOne');
+                    }
+                    if (!$A.util.isEmpty(statusName)) {
+                        let paymentStatusBox = null;
+                        for (let i = 0; i < paymentStatusBoxes.length && paymentStatusBox == null; i++) {
+                            if (paymentStatusBoxes[i].parsedStatusDescription == statusName) {
+                                paymentStatusBox = paymentStatusBoxes[i];
+                            }
+                        }
+                        if (!$A.util.isEmpty(paymentStatusBox)) {
+                            component.set('v.selectedPaymentStatusBox', paymentStatusBox);
+                            component.set('v.isHeaderOptionSelected', true);
+                        } else {
+                            throw 'Error searching the box';
+                        }
+                    } else {
+                        throw 'Error looking the statusName';
+                    }
+                }
+                resolve('OK_getURLStatus');  
+            } catch (e) {
+                console.log(e);
+                reject({
+                    'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
+                    'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
+                    'noReload': true
+                });
+            }
+        }));
     }
-    
-    
-    
 })

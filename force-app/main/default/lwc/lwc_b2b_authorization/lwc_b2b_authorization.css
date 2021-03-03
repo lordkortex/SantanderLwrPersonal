@@ -193,9 +193,10 @@
 
  .container_lastStep .slds-card__body .slds-card__header-title .line-title{
     border-radius: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-top: 1px solid #cedee7;
     margin-top: 4px;
 }
+
 
  .container_lastStep .slds-card__body .slds-card__header-title span{
     font-family: "SantanderHeadlineW05-Rg";
@@ -218,6 +219,34 @@
 
  .container_lastStep .reference .slds-grid{
     margin-bottom: 24px;
+}
+
+/* CARD AUTORIZACIÓN */
+.container_lastStep .authorization_card{
+    margin-top: 24px;
+}
+/* CARD CONTACTO */
+ .cardProcessExit{
+   	background-color: transparent;
+}
+
+/* ESTADO POR DEFECTO */
+.container_lastStep .authorization_card,
+.container_lastStep .contact,
+.container_lastStep > .slds-card .progress-ring_container {
+    display: none;
+}
+
+/* ESTADO CONFIRMADO */
+.container_lastStep.confirm .authorization_card,
+.container_lastStep.confirm .contact,
+.container_lastStep.confirm > .slds-card .progress-ring_container{
+    display: flex;
+    justify-content: center;
+}
+
+.container_lastStep.confirm .confirmation_buttons {
+    display: none;
 }
 
 
@@ -314,19 +343,33 @@
     color: #444444;  
 } 
 
- .container_lastStep .amount .text {
-    font-family: SantanderMicroText;
+.container_lastStep .amount .col .text {
+   font-family: SantanderMicroText;
     font-size: 16px;
     line-height: 24px;
     color: #444444;
 }
 
- .container_lastStep .amount .number {
+.container_lastStep .amount .col .number {
     font-family: SantanderMicroText;
     font-size: 14px;
     line-height: 21px;
     color: #444444;
 }
+
+.container_lastStep .amount .col.noResults div.text:nth-child(1),
+.container_lastStep .amount .col.noResults div.number:nth-child(1){
+    display: none;
+}
+.container_lastStep .amount .col div.text:nth-child(2),
+.container_lastStep .amount .col div.number:nth-child(2) {
+    display: none;
+}
+.container_lastStep .amount .col.noResults div.number:nth-child(2),
+.container_lastStep .amount .col.noResults div.text:nth-child(2) {
+    display: block;
+}
+
 
 /* FOOTER  */
 
@@ -336,15 +379,16 @@
 }
 
  .container_lastStep .slds-card__footer {
-    text-align: start;
+     text-align: start;
     margin-top: 0;
     padding: 16px 0 0 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.15);
+    border-top: 1px solid #cedee7;
     font-family:SantanderHeadlineW05-Bold;
     font-size: 24px;
     line-height: 29px;
     color: #444444;
 }
+
 
  .container_lastStep .slds-card__footer .title-number span,
  .container_lastStep .slds-card__footer .title-text{
@@ -357,7 +401,7 @@
 
  .container_lastStep .slds-card__footer .title-number{
     font-size: 32px;
-    line-height: 32px;
+    line-height: 38px;
     text-align: end;
 }
 
@@ -381,10 +425,10 @@
 }
 
 /* BOTÓN */
- .container_lastStep .slds-form-element{
+.container_lastStep .confirmation_buttons{
     display: flex;
     justify-content: center;
-    margin-bottom: 40px;
+    margin-top: 40px;
 }
 
  .container_lastStep .slds-button{
@@ -433,7 +477,7 @@
     border-radius: 4px;
     background-color: #ffffff;
     padding: 8px 16px 16px 16px;
-    box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+    box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08);
 }
 
  .container_lastStep .tooltip_center__top .slds-nubbin_bottom::before,
@@ -446,7 +490,7 @@
     left: 184px;
     bottom: -12px;
     margin-left: 0;
-    box-shadow: 4px 3px 8px -4px rgba(206, 214, 219, 0.4)!important;
+    box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08)!important;
     z-index: -1;
     border-radius: 0 0 4px 0;
 }
@@ -635,6 +679,12 @@
     font-family: "SantanderMicroText";
     height:32px;
 }
+
+/* SCROLLBAR */
+ ::-webkit-scrollbar { width: 6px;}
+ ::-webkit-scrollbar-track { border-radius: 10px;}
+ ::-webkit-scrollbar-track-piece { background: transparent;}
+ ::-webkit-scrollbar-thumb { background: #dadada; border-radius: 10px;}
 
 /*  .progress-ring_container__update .slds-button:hover, 
  .progress-ring_container__update .slds-button:focus, 

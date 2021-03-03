@@ -1,3 +1,13 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-02-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   03-02-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
 <template>
     <div class="listItems">
         <template if:true={hasPaymentList}>
@@ -68,6 +78,7 @@
                     <tbody> 
                         
                         <!--SPINNER-->
+                        
                         <template if:true={isloading} >
                            <c-lwc_payments-landing-spinner></c-lwc_payments-landing-spinner>
                         </template>
@@ -89,13 +100,13 @@
                                 </c-lwc_payments-landing-spinner-no-results>
                             </template>
                         </template>
-                            
-                    
+                        
+
                         <template if:true={hasPaymentList} >
-                            <template for:each={paginationList} for:item="item" for:index="index">
+                            <template for:each={paginationlist} for:item="item" for:index="index">
                                 <div key={item.key}>
                                     <c-lwc_payments-landing-table-child 
-                                        key={item} item={item} 
+                                        key={item.key} item={item} 
                                         currentuser={currentuser}>
                                     </c-lwc_payments-landing-table-child> 
                                 </div>
