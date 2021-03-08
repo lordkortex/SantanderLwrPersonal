@@ -68,7 +68,11 @@ export default class Lwc_iptPagination extends LightningElement {
     }
  
     get paymentsPage(){
-        return  1+(this.currentPage-1)*this.paymentsperpage
+        var ret = 1;
+        if(this.currentPage){
+            ret = 1+(this.currentPage-1)*this.paymentsperpage;
+        }
+        return  ret;
     }
 
     get paymentsCurrentPage(){

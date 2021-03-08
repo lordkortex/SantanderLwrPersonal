@@ -1,21 +1,29 @@
-public class Wrapper_MuleSoft_Classes {
+global class Wrapper_MuleSoft_Classes {
   
-    public class Wrapper_GlobalBalance{
-       public String globalId {get;set;}
-       public List<Wrapper_Account> accounts {get;set;}
+    global class Wrapper_GlobalBalance{
+       global String globalId {get;set;}
+       global List<Wrapper_Account> accounts {get;set;}
+       global Wrapper_GlobalBalance(){
+        System.debug('Wrapper_MuleSoft_Classes.Wrapper_GlobalBalance');
     }
-    public class Wrapper_Account{
-        public String	accountId	{get;set;}   
-        public String	country	{get;set;} 
-        public String	alias	{get;set;} 
-		public String 	subsidiaryName {get;set;}  
-        public String	lastUpdateAvailableBalance	{get;set;}
-        public String	displayNumber	{get;set;} 
-        public String	bankName	{get;set;}
-        public String	amountMainBalance	{get;set;} 
-        public String	amountAvailableBalance	{get;set;}    
-        public String	currencyCodeAvailableBalance	{get;set;}
-        public String	agent	{get;set;}
+    }
+    global class Wrapper_Account{
+        global String	accountId	{get;set;}   
+        global String	country	{get;set;} 
+        global String	alias	{get;set;} 
+		global String 	subsidiaryName {get;set;}  
+        global String	lastUpdateAvailableBalance	{get;set;}
+        global String	displayNumber	{get;set;} 
+        global String	bankName	{get;set;}
+        global String	amountMainBalance	{get;set;} 
+        global String	amountAvailableBalance	{get;set;}    
+        global String	currencyCodeAvailableBalance	{get;set;}
+        global String	agent	{get;set;}
+
+        global Wrapper_Account(){
+            System.debug('Wrapper_MuleSoft_Classes.Wrapper_Account');
+        }
+        
 
     }
     

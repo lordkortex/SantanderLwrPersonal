@@ -20,9 +20,11 @@
 	font-size: 24px;
 }
 
+/*
 .slds-backdrop {
 	background-color: #444444;
 }
+*/
 
 .slds-button{
 	cursor: pointer;
@@ -114,7 +116,6 @@
 }
 
 .slds-row{
-    display: inline-flex;
         max-width: 100%;
 }
 .slds-form-element__row  >.slds-form-element{
@@ -130,8 +131,8 @@
    width:50%;
    padding-right: 12px;
 }
+
 .slds-col:nth-child(even){
-    padding-left: 12px;
      padding-right: 0px;
 }
 .slds-combobox{
@@ -831,4 +832,18 @@ h2,
 
 .dropdownOrder__none{
     display: none;
+}
+
+table{
+	border-spacing: 20px;
+  }
+
+.dropdownTable{
+	margin-bottom: 36px;
+}  
+
+.dropdownTable2{
+	margin-top: 36px;
+	margin-bottom: 36px;
+	height: 77px;
 }

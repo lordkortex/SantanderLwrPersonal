@@ -75,17 +75,25 @@
         }), this);
     },
 
-    getAccountsToB2BDestination: function (component, helper, user) {
+    getAccountsToB2BDestination: function (component, helper, user, sourceAccount) {
         return new Promise($A.getCallback(function (masterResolve, masterReject) {
             let key = 'AccountsToB2BDestination';
-            helper.handleRetrieveFromCache(component, helper, key + '_' + user.companyId)
+            let countryOriginator = "";
+            let companyGlobalId = user.companyId;
+            if(sourceAccount != null){
+                if(sourceAccount.country != null){
+                countryOriginator = sourceAccount.country;
+                }           
+            }
+            let keyCache = key + '_' + companyGlobalId + '_' + countryOriginator;
+            helper.handleRetrieveFromCache(component, helper, keyCache)
             .then($A.getCallback(function (value) {
                 if (!$A.util.isEmpty(value)) {
                     masterResolve(value);
                 } else {
-                    return helper.callToBeneficiaryAccounts(component, helper, user)
+                    return helper.callToBeneficiaryAccounts(component, helper, user, sourceAccount)
 					.then($A.getCallback(function (value) {
-                        return helper.handleSaveToCache(component, helper, key + '_' + user.companyId, value);
+                        return helper.handleSaveToCache(component, helper, keyCache, value);
                     })).then($A.getCallback(function (value) {
                         masterResolve(value);
                     })).catch($A.getCallback(function (error) {
@@ -171,11 +179,12 @@
         }), this);
     },
 
-    callToBeneficiaryAccounts: function (component, helper, userData, companyGlobalId) {
+    callToBeneficiaryAccounts: function (component, helper, userData, sourceAccount) {
         return new Promise($A.getCallback(function (resolve, reject) {
             var action = component.get('c.callToBeneficiaryAccounts');
             action.setParams({
-                'userData': userData
+                'userData': userData,
+                'sourceAccount': sourceAccount
             });
             action.setCallback(this, function (actionResult) {
                 if (actionResult.getState() === 'SUCCESS') {

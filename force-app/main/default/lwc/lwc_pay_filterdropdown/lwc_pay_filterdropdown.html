@@ -1,5 +1,5 @@
 <template>
-    <div if:true={isSimpleDropdown}>
+    <template if:true={isSimpleDropdown}>
         <c-lwc_pay_filter-dropdown-checkbox onnotification={handleSelectValue}>
         </c-lwc_pay_filter-dropdown-checkbox>
         <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
@@ -9,9 +9,9 @@
             <!-- ESTADO 2: (Se activa | FILLED): LA LABEL DEBE APARECER -->
             <!-- ESTADO 3: (Se abre | OPEN): LA LABEL DEBE APARECER, EL ICONO pasa a ser icon-arrowUp_small (Se descomenta la línea comentada con  icon-arrowUp_small y se comenta la de icon-arrowDown_small ) -->
             <!-- ESTADO 4: Opción seleccionada: LA LABEL DEBE APARECER, EL ICONO vuelve a ser icon-arrowDown_small  -->
-            <div if:true={valueIsNotEmpty}>
+            <template if:true={valueIsNotEmpty}>
                 <label class="slds-form-element__label" for="text-input-id-1">{labelvar}</label>
-            </div>
+            </template>
             <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
                 <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
                     
@@ -20,12 +20,12 @@
                         
                         <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por
                                                         selectedValue-filled -->
-                        <div if:true={valueIsNotEmpty}>
+                        <template if:true={valueIsNotEmpty}>
                             <div class="slds-border_right selectedValue-filled">{selectedvaluestext}</div>
-                        </div>
-                        <div if:false={valueIsNotEmpty}>
+                        </template>
+                        <template if:false={valueIsNotEmpty}>
                             <div class="slds-border_right selectedValue-placeholder">{labelvar}</div>
-                        </div>
+                        </template>
                         <div class="slds-button__icon arrow" aria-hidden="true">
                             <div class="button-arrow icon-arrowDown_small"></div>
                             <div class="button-arrow icon-arrowUp_small"></div>
@@ -42,23 +42,25 @@
                 </div>
                 
                 <!-- Cuando el button esté disabled el dropdown se oculta -->
-                <div class="slds-dropdown slds-dropdown_left dropdownOrder">
-                    <ul class="slds-dropdown__list" role="menu" aria-label={helptextdropdown}>
-                        
-                        <template for:each={values} for:item='item'>
+                <template if:false={isdisabled}>
+                    <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                        <ul class="slds-dropdown__list" role="menu" aria-label={helptextdropdown}>
                             
-                            <li key={item.value} class={item.class1} role="presentation" id={item.value} onclick={selectOption}>
-                                <a role="menuitemcheckbox" tabindex="0" aria-checked="true" >
-                                    <div class="slds-truncate optionOrder">{item.label}</div>
-                                </a>
-                            </li>
-                        </template>
-                    </ul>
-                </div>                
+                            <template for:each={values} for:item='item'>
+                                <li key={item.value} class={item.class1} role="presentation" id={item.value} onclick={selectOption}>
+                                    <a role="menuitemcheckbox" tabindex="0" aria-checked="true" >
+                                        <div class="slds-truncate optionOrder">{item.label}</div>
+                                    </a>
+                                </li>
+                            </template>
+
+                        </ul>
+                    </div>              
+                </template>  
             </div>            
         </div>
-    </div>
-    <div if:false={isSimpleDropdown}>
+    </template>
+    <template if:false={isSimpleDropdown}>
         <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
         <div class="slds-form-element">
             <!-- Escribir la clase show para verlo abierto-->
@@ -109,5 +111,5 @@
             <!-- Cuando tenga que aparecer un mensaje de error -->
             <div class="errorText">{errortext}</div>
         </div> 
-    </div>
+    </template>
 </template>

@@ -29,11 +29,15 @@ export default class Lwc_accountsCardRowChild extends LightningElement {
 
     @api
     handleExpand(){
-        this.template.querySelector("c-lwc_accounts-card-row").doExpand();
+        this.template.querySelectorAll("c-lwc_accounts-card-row").forEach(child =>{
+            child.doExpand();
+        });
     }
 
     @api
     handleCollapse(){
-        this.template.querySelector("c-lwc_accounts-card-row").doCollapse();
+        this.template.querySelectorAll("c-lwc_accounts-card-row").forEach(child =>{
+            child.doCollapse();
+        });
     }
 }

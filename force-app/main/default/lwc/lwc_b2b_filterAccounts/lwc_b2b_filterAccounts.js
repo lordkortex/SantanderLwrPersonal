@@ -14,24 +14,6 @@ import B2B_Currency from '@salesforce/label/c.B2B_Currency';
 
 export default class Lwc_b2b_filterAccounts extends LightningElement {
 
-
-    @api accountlist = "[]";
-    @api accountsfiltered = "[]";
-    @api numberformat = '###,###,###.##';
-    @api resetsearch = "false";
-    @api filters = "[]";
-
-    @track minimumBalance = "";
-    @track maximumBalance = "";
-    @track corporates = "[]";
-    @track corporatesSelected = "[]";
-    @track countries = "[]";
-    @track countriesSelected = "[]";
-    @track currencies = "[]";
-    @track currenciesSelected = "[]";
-    @track searchedString = "";
-    
-
     Label = {
         clear,
         search,
@@ -41,12 +23,26 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
         B2B_Currency
     }
 
+    @api accountlist = [];
+    @api accountsfiltered = [];
+    @api numberformat = '###,###,###.##';
+    @api resetsearch;
+    @api filters = [];
+
+    @track minimumBalance = "";
+    @track maximumBalance = "";
+    @track corporates = [];
+    @track corporatesSelected = [];
+    @track countries = [];
+    @track countriesSelected = [];
+    @track currencies = [];
+    @track currenciesSelected = [];
+    @track searchedString = "";
 
     connectedCallback() {
         loadStyle(this, santanderStyle + '/style.css');
         this.init();
     }
-
 
     init() {
         let accountlist = this.accountlist;
@@ -59,19 +55,19 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
     }
 
     handleFilter(event) {
-        var eventDropdown = event.getParam('showDropdown');
-        var eventName = event.getParam('name');
-        var eventAction = event.getParam('action');
+        var eventDropdown = event.detail.showDropdown;
+        var eventName = event.detail.name;
+        var eventAction = event.detail.action;
         if (eventAction) {
             this.applyFilters(eventAction);
         }
         if (eventDropdown) {
-            let filters = component.find('filter');
+            let filters = this.template.querySelectorAll('[data-id="filter"]');
             for (let i = 0; i < filters.length; i++) {
-                if (filters[i].get('v.name') == eventName) {
-                    filters[i].set('v.showDropdown', true);
+                if (filters[i].name == eventName) {
+                    filters[i].showDropdown = true;
                 } else {
-                    filters[i].set('v.showDropdown', false);
+                    filters[i].showDropdown = false;
                 }
             }
         }
@@ -121,44 +117,51 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
         }).then((value) => {
             return this.getFilters();
         }).then((value) => {
-            
-                return this.filterAccounts(this.accountlist, value);
-            
+            return this.filterAccounts(this.accountlist, value);
         }).then((value) => {
             return this.setListFilters();
         }).catch((error) => {
             console.log('Ha ocurrido un error.');
         }).finally(() => {
+            const accountsFilteredEvent = new CustomEvent('accountsfiltered',
+                { detail : {accountsFiltered : this.accountsfiltered}
+            });
+            this.dispatchEvent(accountsFilteredEvent);
             console.log('Finalizar filtrado.');
         });
     }
 
     getFilters() {
-        return new Promise(function (resolve, reject) {
+        // return new Promise(function (resolve, reject) {
             let filters = {
                 filtersRequired: 0
             };
-            let corporatesSelected = this.corporatesSelected;
-            if (corporatesSelected) {
+            let corporatesSelected = this.template.querySelectorAll('c-lwc_b2b_filter-button-dropdown')[1].selectedfilters;
+            //let corporatesSelected = this.corporatesSelected;
+            if (corporatesSelected.length > 0) {
                 filters['corporatesSelected'] = corporatesSelected;
                 filters['filtersRequired']++;
             }
-            let currenciesSelected = this.currenciesSelected;
-            if (currenciesSelected) {
+            let currenciesSelected = this.template.querySelectorAll('c-lwc_b2b_filter-button-dropdown')[2].selectedfilters;
+            //let currenciesSelected = this.currenciesSelected;
+            if (currenciesSelected.length > 0) {
                 filters['currenciesSelected'] = currenciesSelected;
                 filters['filtersRequired']++;
             }
-            let countriesSelected = this.countriesSelected;
-            if (countriesSelected) {
+            let countriesSelected = this.template.querySelectorAll('c-lwc_b2b_filter-button-dropdown')[0].selectedfilters;
+            //let countriesSelected = this.countriesSelected;
+            if (countriesSelected.length > 0) {
                 filters['countriesSelected'] = countriesSelected;
                 filters['filtersRequired']++;
             }
-            let minimumBalance = this.minimumBalance;
+            let minimumBalance = this.template.querySelector('c-lwc_b2b_filter-button-balances').minimumbalance;
+            // let minimumBalance = this.minimumBalance;
             if (minimumBalance) {
                 filters['minimumBalance'] = minimumBalance;
                 filters['filtersRequired']++;
             }
-            let maximumBalance = this.maximumBalance;
+            let maximumBalance = this.template.querySelector('c-lwc_b2b_filter-button-balances').maximumbalance;
+            // let maximumBalance = this.maximumBalance;
             if (maximumBalance) {
                 filters['maximumBalance'] = maximumBalance;
                 filters['filtersRequired']++;
@@ -168,9 +171,10 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
                 filters['searchedString'] = searchedString;
                 filters['filtersRequired']++;
             }
-            component.set("v.filters",filters);
-            resolve(filters);
-        }, this);
+            this.filters = filters;
+            return filters;
+            // resolve(filters);
+        // }, this);
     }
 
     filterAccounts(accountlist, filters) {
@@ -203,22 +207,24 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
                     }
                     let minimumBalance = filters.minimumBalance;
                     let maximumBalance = filters.maximumBalance;
+                    let minimumBalanceNotNull = minimumBalance != undefined && minimumBalance != null;
+                    let maximumBalanceNotNull = maximumBalance != undefined && maximumBalance != null;
                     let amountAvailableBalance = accountlist[i].amountAvailableBalance;
-                    if ((minimumBalance || maximumBalance) && amountAvailableBalance) {
-                        if (minimumBalance && maximumBalance) {
+                    if ((minimumBalanceNotNull || maximumBalanceNotNull) && amountAvailableBalance != undefined && amountAvailableBalance != null) {
+                        if (minimumBalanceNotNull && maximumBalanceNotNull) {
                             minimumBalance = parseInt(minimumBalance, 10);
                             maximumBalance = parseInt(maximumBalance, 10);
                             amountAvailableBalance = parseInt(amountAvailableBalance, 10);
                             if (amountAvailableBalance >= minimumBalance && amountAvailableBalance <= maximumBalance) {
                                 passedFilter+=2;
                             }
-                        } else if (minimumBalance) {
+                        } else if (minimumBalanceNotNull) {
                             minimumBalance = parseInt(minimumBalance, 10);
                             amountAvailableBalance = parseInt(amountAvailableBalance, 10);
                             if (amountAvailableBalance >= minimumBalance) {
                                 passedFilter++;
                             }
-                        } else if (maximumBalance) {
+                        } else if (maximumBalanceNotNull) {
                             maximumBalance = parseInt(maximumBalance, 10);
                             amountAvailableBalance = parseInt(amountAvailableBalance, 10);
                             if (amountAvailableBalance <= maximumBalance) {
@@ -233,6 +239,7 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
                         // Filter by IBAN
                         let displayNumber = accountlist[i].displayNumber;
                         if (displayNumber) {
+                            displayNumber = displayNumber.toLowerCase();
                             if (displayNumber.includes(searchedString)) {
                                 hasString = true;
                             }

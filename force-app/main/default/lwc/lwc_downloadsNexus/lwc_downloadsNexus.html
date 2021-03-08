@@ -1,21 +1,4 @@
-<!--
-  @description       : 
-  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
-  @group             : 
-  @last modified on  : 03-02-2021
-  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
-  Modifications Log 
-  Ver   Date         Author                               Modification
-  1.0   03-02-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
--->
 <template>
-    <!-- <aura:handler name="change" value="{!v.selectedCountries}" action="{!c.selectedCountry}"/>
-
-<aura:handler name="accountChange" event="c:EVT_DownloadsNexusEvent" action="{!c.updateAccountSelection}"/>
-<aura:registerEvent name="accountChange" type="c:EVT_DownloadsNexusEvent"/>
-
-<aura:handler name="init" value="{!this}" action="{!c.doInit}"/> -->
-<!-- <c:CMP_ServiceComponent aura:id="service"/> -->
     <c-lwc_service-component data-id="service" onsuccesscallback={handlerSuccessCallback}></c-lwc_service-component>
 
     <template if:true={loadingUserInfo}>  
@@ -23,7 +6,7 @@
             <lightning-spinner data-id="spinner" variant="brand" size="large" title={getLoadingTitle} alternative-text={getLoadingTitle}></lightning-spinner>
         </div>
     </template>
-    <!-- <aura:set attribute="else"> -->
+    
     <template if:false={loadingUserInfo}>
         <c-lwc_cn_title-subtitle-gray title={label.DownloadBalance_DocumentDownload} subtitle={label.DownloadBalance_DocumentDownloadSubtitle}></c-lwc_cn_title-subtitle-gray>
         <div class="downloads_CNF">
@@ -34,7 +17,6 @@
                         <div class="slds-form-element__control">
                             <span class="slds-radio">
                                 <label class="slds-radio__label" for="radio-42">
-                                    <!-- <span class="slds-radio_faux"></span>-->
                                     <span class="slds-form-element__label">{label.DownloadBalance_Online}</span>
                                 </label>
                             </span>
@@ -44,85 +26,47 @@
             
                 <div class="slds-row">
                     <div class="slds-form-element slds-combobox__Rg country">                       
-                        <!-- <c:CMP_CN_Dropdown aura:id="dropdownCountries" headerDropdown="{!$Label.c.Country}" values="{!v.countries}" selectedValues="{!v.selectedCountries}" isSimpleDropdown="false" selectAllValues="{!$Label.c.AllCountries}"/> -->
-                        <c-lwc_cn_dropdown data-id="dropdownCountries" headerdropdown={label.Country} values={countries} selectedvalues={selectedcountries} selectallvalues={label.AllCountries} issimpledropdown={issimpledropdownAuxFalse} ondropdownvalueselected={handlerSelectedCountry}></c-lwc_cn_dropdown>
-                        <!-- <c-lwc_cn_dropdown data-id="dropdownCountries" issimpledropdown={issimpledropdown} headerdropdown={label.Country} values={countries} selectedvalues={selectedCountries} selectallvalues={label.AllCountries}></c-lwc_cn_dropdown> -->
+                        <c-lwc_cn_dropdown data-id="dropdownCountries" headerdropdown={label.Country} values={countries} selectedvalues={selectedcountries} selectallvalues={label.AllCountries} issimpledropdown={issimpledropdownAuxFalse} ondropdownvalueselected={handlerSelectedCountry} oncleardataevent={handlerSelectedCountry}></c-lwc_cn_dropdown>
                     </div>
                     
                     <div class="account">
-                        <!-- <c:CMP_CN_Dropdown aura:id="dropdownAccounts" headerDropdown="{!$Label.c.Account}" values="{!v.accountsListString}" selectedValues="{!v.selectedAccounts}" isSimpleDropdown="false" selectAllValues="{!$Label.c.AllAccounts}"/> -->
-                        <c-lwc_cn_dropdown data-id="dropdownAccounts" headerdropdown={label.Account} values={accountsListString} selectedvalues={selectedAccounts} selectallvalues={label.AllAccounts} issimpledropdown={issimpledropdownAuxFalse} ondropdownvalueselected={handlerAccountSelection}></c-lwc_cn_dropdown>
+                        <c-lwc_cn_dropdown data-id="dropdownAccounts" headerdropdown={label.Account} values={accountsListString} selectedvalues={selectedAccounts} selectallvalues={label.AllAccounts} issimpledropdown={issimpledropdownAuxFalse} ondropdownvalueselected={handlerAccountSelection} oncleardataevent={handlerAccountSelection}></c-lwc_cn_dropdown>
                     </div>
                 </div>
                 <div class="slds-row typeOfFile">
                     <div class="slds-form-element slds-combobox__Rg ">
-                        <!-- <c:CMP_CN_Dropdown headerDropdown="{!$Label.c.DownloadBalance_FileFormat}" values="{!v.fileFormatList}" selectedValue="{!v.fileFormat}" isSimpleDropdown="true"/> -->
                         <c-lwc_cn_dropdown headerdropdown={label.DownloadBalance_FileFormat} values={fileFormatList} selectedvalue={fileFormat} issimpledropdown={issimpledropdownAux} ondropdownvalueselected={setFileFormat}></c-lwc_cn_dropdown>
                     </div>
                     <div class="radioButtons typeofFileDate ">
                         <fieldset class="slds-form-element radioCalendarSingle">
                             <legend class="slds-form-element__legend slds-form-element__label">{label.DownloadBalance_FileDate}</legend>
                             <div class="slds-form-element__control">
-                                <!-- <aura:if isTrue="{!v.fileFormat != 'SIC Contingency'}"> -->
                                 <template if:true={isFileFormatnotSIC}>
                                     <span class="slds-radio">
-                                        <!--<input type="radio" id="radio-52" value="lastStatement" name="date" checked onchange={getFileDate}/>-->
                                         <lightning-input type="radio" data-id="radio-52" value="lastStatement" name="date" checked onchange={getFileDate} label={label.DownloadBalance_LastStatement}>
                                         </lightning-input>
-                                        <!-- <lightning-radio-group id="radio-52" options={radioOptions} value={value} name="date" onchange={getFileDate}
-                                        variant="label-inline">
-                                        </lightning-radio-group> -->
-                                        <!--<label class="slds-radio__label" for="radio-52">
-                                            <span class="slds-radio_faux"></span>
-                                            <span class="slds-form-element__label">{label.DownloadBalance_LastStatement}</span>
-                                        </label>-->
                                     </span>
                                 </template>
-                                    <!-- <aura:set attribute="else"> -->
                                 <template if:false={isFileFormatnotSIC}>
                                     <div class="calendarSIC">
-                                        <!-- <c:CMP_CN_Calendar aura:id="calendarDay" simple="true" placeholderSingle="{!$Label.c.Day}" dates="{!v.singleDate}"/> -->
                                         <c-lwc_cn_calendar data-id="calendarDay" simple placeholdersingle={label.Day} dates={singleDate}></c-lwc_cn_calendar>
                                     </div>
-                                    <!-- </aura:set>
-                                </aura:if> -->
                                 </template>
                             
                                 <span class="slds-radio">
-                                    <!--<input type="radio" id="radio-53" value="statementFor" name="date" checked="" onchange={getFileDate}/>-->
                                     <lightning-input type="radio" data-id="radio-53" value="statementFor" name="date" onchange={getFileDate} label={label.DownloadBalance_UniqueDate}>
                                     </lightning-input>
-                                    <!-- <lightning-radio-group type="radio" id="radio-53" value="statementFor" name="date" checked="" onchange={getFileDate}></lightning-radio-group> -->
-                                    <!--<label class="slds-radio__label" for="radio-53">
-                                        <span class="slds-radio_faux"></span>
-                                        <span class="slds-form-element__label">{label.DownloadBalance_UniqueDate}</span>
-                                    </label>-->
                                 </span>
-                                <!-- <aura:if isTrue="{!v.fileFormat != 'SIC Contingency'}"> -->
                                 <template if:true={isFileFormatnotSIC}>
                                     <span class="slds-radio">
-                                        <!--<input type="radio" id="radio-54" value="betweenDates" name="date" onchange={getFileDate}/>-->
                                         <lightning-input  type="radio" data-id="radio-54" value="betweenDates" name="date" onchange={getFileDate} label={label.DownloadBalance_BetweenDates}>
                                         </lightning-input>
-                                        <!-- <lightning-radio-group type="radio" id="radio-54" value="betweenDates" name="date" onchange={getFileDate}></lightning-radio-group> -->
-                                        <!--<label class="slds-radio__label" for="radio-54">
-                                            <span class="slds-radio_faux"></span>
-                                            <span class="slds-form-element__label">{label.DownloadBalance_BetweenDates}</span>
-                                        </label>-->
                                     </span>
     
                 
                                     <div class="radioCalendarDoble">
-                                        <!-- <aura:if isTrue="{!v.fileDate != 'statementFor'}"> -->
                                         <template if:true={isfileDatestatementFor}>
-                                            <!-- <aura:if isTrue="{!v.fileDate == 'lastStatement'}"> -->
-                                                <!-- <aura:set attribute="else"> -->
-                                            <!--<template if:true={isfileDatelastStatement}>
-                                            </template>-->
                                             <template if:false={isfileDatelastStatement}>
-                                                <!-- <div class="comboCalendars"> -->
-                                                    <!-- <c:CMP_CN_Calendar aura:id="calendarBetweenDates" simple="false" placeholderFrom="{!$Label.c.from}" placeholderTo="{!$Label.c.to}" 
-                                                    dateTo="{!v.dates[1]}" dateFrom="{!v.dates[0]}" dates="{!v.dates}"/> -->
                                                     <div class="unicCalendarDoble">
                                                     <c-lwc_cn_calendar data-id="calendarBetweenDates" 
                                                         simple={isSimpleFalse}
@@ -135,21 +79,11 @@
                                                         ondatechangeto={changedatetohandler}>
                                                     </c-lwc_cn_calendar>
                                                     </div>
-                                                <!-- </div> -->
-                                            <!-- </aura:set> -->
-                                            <!-- </aura:if> -->
                                             </template>
 
-                                            <!--<aura:set attribute="else">
-                                                <div class="unicCalendar">
-                                                    <c:CMP_CN_Calendar aura:id="calendarDay" simple="true" placeholderSingle="{!$Label.c.Day}" dates="{!v.singleDate}"/>
-                                                </div> 
-                                            </aura:set> -->
-                                        <!-- </aura:if> -->
                                         </template>
                                         <template if:false={isfileDatestatementFor}>
                                             <div class="unicCalendar">
-                                                <!-- <c:CMP_CN_Calendar aura:id="calendarDay" simple="true" placeholderSingle="{!$Label.c.Day}" dates="{!v.singleDate}"/> -->
                                                 <c-lwc_cn_calendar data-id="calendarDay" 
                                                     simple
                                                     placeholdersingle={label.Day}
@@ -158,17 +92,14 @@
                                             </div> 
                                         </template>
                                     </div>
-                                <!-- </aura:if> --> 
                                 </template>
                             </div>
                         </fieldset>
                     </div>
                 </div>
 
-                <!-- <aura:if isTrue="{!v.fileFormat == $Label.c.pdfStatement}"> -->
-                <template if:true={isFileDataPdf}>
-                    <!-- <aura:if isTrue="{!v.fileDate == 'statementBetween'}"> -->
-                    <template if:true={isfileDatestatementBetween}>
+                 <template if:true={isFileDataPdf}>
+                     <template if:true={isfileDatestatementBetween}>
                         <div class="slds-row radioButtons reportType">
                             <fieldset class="slds-form-element">
                                 <legend class="slds-form-element__legend slds-form-element__label">{label.DownloadBalance_TypeOfReport}</legend>
@@ -190,18 +121,14 @@
                                 </div>
                             </fieldset>
                         </div>
-                    <!-- </aura:if> -->
-                    </template>
-                <!-- </aura:if>  -->
-                </template>
+                       </template>
+                   </template>
                 <div class="pill-button">
                     <button class="slds-button slds-button_neutral whiteButton" data-aura-rendered-by="504:2;a" onclick={cleanData}>{label.clearAll}</button>
                     <button class="slds-button slds-button_brand redButton" data-aura-rendered-by="506:2;a" onclick={download}>{label.DownloadBalance_Download}</button>
                 </div>
-                <!-- <c:CMP_Toast type="{!v.type}" show="{!v.show}" message="{!v.message}"/> -->
                 <c-lwc_toast type={type} show={show} message={message}/></c-lwc_toast>
             </div>
         </div>
-        <!-- </aura:set> -->
     </template>
 </template>

@@ -324,6 +324,20 @@
 	height: 48px;
     line-height: 24px;
 }
+
+.slds-input {
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+	border-radius: 4px;
+    background-color: #f6fafc;
+    color: #444444;
+	cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+	height: 48px;
+    line-height: 24px;
+}
+
 .filterAccounts .slds-input:focus {
     border-bottom: 2px solid #257fa4;
     color: #444444;
@@ -914,4 +928,21 @@
     .filterAccounts .icon {
         display: none;
     }
+}
+
+.calendar input {
+	background-color: #f6fafc;
+	border-color: #deedf2;
+	border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	display: inline-block;
+	height: 48px;
+	line-height: 36px;
+	padding: 0 1rem 0 .75rem;
+	transition: none;
+	color: #444444;
+	font-size: 16px;
 }

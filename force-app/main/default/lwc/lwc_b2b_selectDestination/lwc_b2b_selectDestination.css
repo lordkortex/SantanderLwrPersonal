@@ -1,0 +1,29 @@
+/* MODAL CONTAINER */
+.modal-container__secondStep {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 808px;
+    /*margin-bottom: 64px;
+    margin-top: 56px;  PARCHEADO */
+    padding-top: 56px;
+    outline: none;
+}
+
+.modal-container__secondStep .slds-text-heading_large {
+    font-size: 28px;
+    line-height: 34px;
+    font-family: "SantanderHeadlineW05-Rg";
+    color: #444444;
+    margin-bottom: 32px;
+}
+
+.modal-container__secondStep .slds-grid {
+	margin-bottom: 0px;
+    width: 100%;
+}
+
+.heightTotal{
+    height: 100vh;
+}

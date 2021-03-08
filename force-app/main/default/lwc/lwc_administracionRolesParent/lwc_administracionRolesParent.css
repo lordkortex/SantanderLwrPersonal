@@ -1,0 +1,112 @@
+.whiteButton {
+	background-color: #ffffff;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-family: SantanderTextW05-Bold;
+	font-size: 14px;
+	height: 40px;
+	padding: 0 32px;
+}
+ .slds-button:focus {
+	box-shadow: none;
+}
+ .redButton {
+	background-color: #ec0000;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ffffff;
+	font-family: SantanderTextW05-Bold;
+	font-size: 14px;
+	height: 40px;
+	padding: 0 32px;
+}
+.breadcrumbs {
+    margin: 32px 0 16px 0;
+}
+ .title {
+    align-items: center;
+    color: #000000;
+    display: flex;
+    font-family: SantanderHeadlineW05-Rg;
+    font-size: 20px;
+    height: 29px;
+    letter-spacing: normal;
+    line-height: normal;
+}
+
+/* TOAST CSS */
+
+.demo-only .slds-notify__close {
+    bottom: 0;
+    height: 16px;
+    margin: auto;
+    top: 0;
+    width: 16px;
+}
+
+.demo-only .slds-notify__close .slds-button.slds-button_icon {
+    display: flex;
+}
+
+.demo-only .slds-notify__close .slds-button.slds-button_icon .icon-delete:before {
+    font-size: 16px;
+}
+
+ .icon-check:before {
+    font-size: 16px;
+    color: #63ba68;   
+}
+
+ .icon-delete__circle-gray:before {
+    font-size: 16px;
+}
+
+ .slds-icon_selected {
+    margin-right: 8px;
+}
+
+ .slds-icon_container {
+    margin: 0;
+}
+
+ .slds-notify__content {
+    color: #444444;
+}
+
+ .slds-notify__content .slds-text-heading_small {
+    font-size: 12px;
+}
+
+ .slds-theme_success {
+    background-color: #f8fcf8;
+    border: solid 1px #f0f8f0;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px 0 rgba(68, 68, 68, 0.16);
+    height: 40px;
+    margin: 0;
+    margin-bottom: 8px;
+    padding: 12px;
+    width: 100%;
+}
+
+/* TABLE HEADER CSS */
+.pagination{
+    background-color: #dadada;
+    height: 40px;
+    margin: 0;
+    padding: 0 30px 0 24px;
+}
+
+ .results{
+    align-items: center;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    height: 18px; 
+}
+
+/* Toast z-index */
+ .slds-notify_container.slds-is-relative{
+    z-index: -1;
+}

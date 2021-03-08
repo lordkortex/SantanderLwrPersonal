@@ -25,6 +25,81 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-time:before {
+  content: "\e962";
+  color: #ec0000;
+}
+
+.icon-call-center-DB:before {
+  content: "\e961";
+  color: #ec0000;
+}
+
+.icon-circle-account-user:before {
+  content: "\e960";
+  color: #ec0000;
+}
+
+.icon-signature-pending:before {
+  content: "\e95f";
+  color: #ec0000;
+}
+
+.icon-upload:before {
+  content: "\e95e";
+  color: #ec0000;
+}
+
+.icon-speeches:before {
+  content: "\e95d";
+  color: #ec0000;
+}
+
+.icon-benefitiary:before {
+  content: "\e958";
+  color: #ec0000;
+}
+
+.icon-lightening:before {
+  content: "\e959";
+  color: #ec0000;
+}
+
+.icon-subsidiaries:before {
+  content: "\e95a";
+  color: #ec0000;
+}
+
+.icon-urgent:before {
+  content: "\e95b";
+  color: #ec0000;
+}
+
+.icon-wallet:before {
+  content: "\e95c";
+  color: #ec0000;
+}
+
+.icon-security-block:before {
+  content: "\e956";
+  color: #ec0000;
+}
+
+.icon-security-open:before {
+  content: "\e957";
+  color: #ec0000;
+}
+
+.icon-ok:before {
+  content: "\e955";
+  color: #ec0000;
+}
+
+.icon-phone-support:before {
+  content: "\e954";
+  color: #ec0000;
+}
+
 .icon-circle_check .path1:before {
   content: "\e94f";
   color: rgb(68, 68, 68);
@@ -611,4 +686,835 @@ transition: all 0.5s ease;
 
 .slds-carousel__autoplay{
   display:none;
+}
+
+
+/* cn_Filters */
+.slds-input {
+  border: 1px solid #deedf2;
+  border-bottom: 1px solid #257fa4;
+  border-radius: 4px;
+  background-color: #f6fafc;
+  color: #444444;
+  cursor: pointer;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  height: 48px;
+  line-height: 24px;
+}
+
+.slds-row >.slds-col{
+  width:50%;
+  padding-right: 12px;
+}
+.slds-col:nth-child(even){
+    padding-right: 0px;
+}
+
+.filterAccounts .slds-input {
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+	border-radius: 4px;
+    background-color: #f6fafc;
+    color: #444444;
+	cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+	height: 48px;
+    line-height: 24px;
+}
+
+/* Filtros Avanzados */
+
+.calendar input:-ms-input-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+.calendar input:-moz-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+
+.calendar .slds-button{
+	left: -16px;
+    bottom: 13px;
+}
+
+.calendar .slds-align-middle .slds-button{
+	left: 0;
+    bottom: 0;
+}
+
+.calendar .slds-button_icon-bare {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	height: 24px;
+	line-height: 1;
+	text-transform: none;
+	width: 24px;
+}
+
+.calendar .slds-button_icon-bare:before {
+	color: #ec0000;
+	content: "\e90b";
+	cursor: pointer;
+	font-size: 24px;
+}
+.calendar .slds-button_icon-bare svg {
+	display: none;
+}
+.calendar .slds-input__icon.slds-input__icon_right {
+	bottom: 0;
+	height: 24px;
+	margin: auto;
+	padding: 12px 16px;
+	right: 0px;
+	top: 0;
+	width: 33px;
+}
+/*
+.slds-button.primary {
+  background-color: #ec0000;
+  border-radius: 100px;
+  color: #ffffff;
+  cursor: pointer;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  line-height: 24px;
+  padding: 8px 16px;
+}
+*/
+
+.slds-button.slds-button_icon.slds-button_icon-border-filled.button-order div {
+  width: 100%;
+}
+
+.slds-button.slds-button_icon.slds-button_icon-border-filled.button-order div.slds-button__icon.arrow{
+  width: 20%;
+}
+
+.button-order .arrow {
+  border-left: 1px solid #d2f0f2;
+  bottom: 4px;
+  display: inline-block;
+  height: calc(100% - 8px);
+  position: absolute;
+  right: 0;
+  top: 4px;
+  width: 33px;
+}
+
+li.slds-progress__item.slds-is-completed.progress__gray::before, 
+li.slds-progress__item.slds-is-completed.progress__gray::after,
+li.slds-progress__item.slds-is-active.progress__gray::before{
+    background-color: transparent;
+    border: 1px solid #444444!important;
+    left: calc(1.75rem - 1px);
+    content: "";
+    position: absolute;
+    width:27px;
+    height:100%;  
+}
+
+.icon-check:before {
+  content: "\e90d";
+  color: green;
+}
+
+.slds-pill_container{
+  padding: 0;
+  border:none;
+  border-radius: 0;
+  justify-content: flex-end;
+}
+
+ .slds-pill_container .slds-pill{
+  margin: 0;
+  justify-content: center;
+  background-color: #eff6f9;
+  border: 1px solid #deedf2;
+  width: 124px;
+  border-radius: 4px 0 0 4px;
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 21px;
+  color: #444444;
+}
+
+/*DOWNLOAD NEXUS*/
+  
+.downloads_CNF{
+	width: 100%;
+}
+ .downloads_CNF .slds-row,
+ .downloads_CNF .radioButtons .slds-form-element__control {
+    display: flex;
+}
+
+ .downloads_CNF .slds-row{
+    margin-bottom: 36px;
+}
+
+ .downloads_CNF .slds-row.radioButtons.fileDate{
+    margin-bottom: 12px;
+}
+
+ .downloads_CNF .slds-row.typeOfFile{
+    margin-bottom: 0px;
+    height: 138px;
+
+}
+
+ .downloads_CNF .slds-form_compound .slds-form-element__row{
+    margin-bottom: 0;
+}
+
+ .downloads_CNF .fileDate .slds-radio,
+ .downloads_CNF .reportType .slds-radio{
+    margin-right: 36px;
+
+}
+ .downloads_CNF .reportType{
+	margin: 22px 0 0 0;
+}
+
+ .downloads_CNF .radioCalendarSingle .slds-radio .slds-radio__label{
+	margin-right: 26px;
+}
+
+
+/* radio buttons nexus */
+
+ .downloads_CNF .radioButtons .slds-form-element__control{
+    height: 48px;
+    align-items: center;
+}
+
+ .downloads_CNF .radioButtons:last-child .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_right:first-child{
+	margin-top: 14px;
+}
+
+  .slds-form-element.slds-dropdown-trigger.slds-dropdown-trigger_click.calendar.calendar--single > 
+.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_right.inputSize{
+	margin-top: 14px;
+}
+
+ .downloads_CNF .radioButtons .slds-form-element__label{
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+	color: #444444;
+	padding: 0;
+}
+
+ .downloads_CNF .radioButtons .slds-form-element__legend,
+ .downloads_CNF .radioButtons .slds-form-element__label:first-child,
+ .downloads_CNF .slds-combobox__Rg .slds-form-element__label,
+ .downloads_CNF .account .slds-form-element__label  {
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 21px;
+	color: #444444;
+	padding: 0;
+	margin-bottom: 4px;
+}
+
+ .downloads_CNF .radioButtons .slds-form-element__label {
+    font-size: 16px;
+	line-height: 24px;
+	padding: 0;
+}
+ .downloads_CNF .slds-radio.fileDate{
+	width: 264px;
+}
+
+ .downloads_CNF .slds-radio [type=radio]+.slds-radio__label .slds-radio_faux {
+    background-color: #ffffff;
+    border: solid 1px #767676;
+    border-radius: 50%;
+    box-shadow: none;
+    color: #ececec;
+    cursor: pointer;
+    height: 24px;
+    margin-right: 8px;
+    position: relative;
+    vertical-align: middle;
+    width: 24px;
+}
+
+ .downloads_CNF .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:after {
+    background: #1bb3bc;
+    border-radius: 50%;
+    box-shadow: none;
+    content: '';
+    height: 10px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    width: 10px;
+}
+ .downloads_CNF .slds-radio [type=radio]:checked+.slds-radio__label span:first-child {
+    border: solid 2px #1bb3bc;
+}
+
+
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list{
+	overflow-y: auto;
+	overflow-x: hidden;
+	max-height: 187px;
+}
+
+ .downloads_CNF .slds-combobox__Rg.country .slds-dropdown{
+	max-width: 184px;
+	min-width: 184px;
+}
+
+ .downloads_CNF .typeOfFile .slds-combobox__Rg .slds-dropdown{
+	max-width: 288px;
+	min-width: 288px;
+}
+
+
+ .downloads_CNF .slds-combobox__Rg  .slds-button__icon{
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .optionOrder {
+	align-items: center;
+	display: inline-flex;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .orderSelected {
+	align-items: center;
+	border: 0;
+	color: #444444;
+	display: flex;
+	font-size: 16px;
+	height: 24px;
+	padding: 0 0px 0 12px;
+	width: 100%;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .paddingOption {
+	height: 36px;
+	margin-bottom: 12px;
+	cursor: pointer;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .dropdownOrder .paddingOption:hover,
+ .downloads_CNF .slds-combobox__Rg .paddingOption:active,
+ .downloads_CNF .slds-combobox__Rg  .paddingOption:focus {
+	border-radius: 4px;
+	background-color:#deedf2;
+}
+
+ .downloads_CNF .slds-combobox__Rg .dropdownOrder .slds-dropdown__item > a {
+	padding:0 12px;
+	font-size: 16px;
+	font-family: SantanderMicroText;
+	color: #444444;
+	line-height: 24px;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .dropdownOrder .optionOrder .slds-form-element__label {
+	margin: 0 ;
+	font-family: SantanderMicroText;
+	font-size: 16px;
+	line-height: 24px;
+	color: #444444;
+}
+
+ .downloads_CNF .slds-combobox__Rg .selectedValue-placeholder {
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	color: #767676;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .selectedValue-filled {
+	color: #444444;
+	font-size: 12px;
+}
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list::-webkit-scrollbar {
+	width: 6px;
+}
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+} 
+
+ .downloads_CNF .country .slds-combobox{
+    width: 184px;
+    margin-right: 24px;
+}
+
+ .downloads_CNF .typeOfFile .slds-combobox{
+	width: 288px;
+	margin-right: 24px;
+} 
+
+/* calendar download nexus */
+
+  .currencyDropdown_container {
+    margin-bottom: 0px;
+}
+
+ .downloads_CNF .radioCalendarSingle .calendar{
+	position: absolute;
+	margin-left: 0;
+}
+ .downloads_CNF .radioCalendarDoble .calendar{
+	position: absolute;
+	margin-left: 30px;
+
+}
+
+  .calendarSIC{
+	margin-top: 44px;
+}
+
+  .comboCalendars {
+	margin-top: 78px;
+}
+
+  .unicCalendar {
+	margin-top: 44px;
+}
+
+.unicCalendarDoble {
+	margin-top: 80px;
+}
+
+  .radioCalendarDoble .calendar:last-child{
+	left: 207px;
+}
+
+  .radioCalendarDoble .slds-form.slds-form_compound.calendar.calendar--double {
+	margin-left: 168px;
+	margin-bottom:32px;
+}
+
+  .radioCalendarDoble .slds-form.slds-form_compound.calendar.calendar--double > .slds-form-element.calendar:last-child {
+	margin-left: 24px;
+}
+
+ .downloads_CNF .calendar input {
+	background-color: #f6fafc;
+	border-color: #deedf2;
+	border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	display: inline-block;
+	height: 48px;
+	line-height: 36px;
+	padding: 0 1rem 0 .75rem;
+	transition: none;
+	width: 184px;
+	color: #444444;
+	font-size: 16px;
+}
+
+ .downloads_CNF .calendar input:focus {
+	box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+ .downloads_CNF .calendar input::-webkit-input-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+ .downloads_CNF .calendar input::-moz-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+ .downloads_CNF .calendar input:-ms-input-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+ .downloads_CNF .calendar input:-moz-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+
+ .downloads_CNF .calendar .slds-button{
+	left: -16px;
+    bottom: 13px;
+}
+
+ .downloads_CNF .calendar .slds-align-middle .slds-button{
+	left: 0;
+    bottom: 0;
+}
+
+ .downloads_CNF .calendar .slds-button_icon-bare {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	height: 24px;
+	line-height: 1;
+	speak: none;
+	text-transform: none;
+	width: 24px;
+	padding-right: 16px;
+}
+ .downloads_CNF .calendar .slds-button_icon-bare:before {
+	color: #ec0000;
+	content: "\e90b";
+	cursor: pointer;
+	font-size: 24px;
+}
+ .downloads_CNF .calendar .slds-button_icon-bare svg {
+	display: none;
+}
+ .downloads_CNF .calendar .slds-input__icon.slds-input__icon_right {
+	bottom: 0;
+	height: 24px;
+	margin: auto;
+	padding: 12px 16px;
+	right: 0px;
+	top: 0;
+	width: 33px;
+}
+ .downloads_CNF .calendar.slds-form_compound .slds-form-element__row .slds-form-element+.slds-form-element {
+	padding-left: 24px;
+	margin:0;
+}
+ .downloads_CNF .calendar .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_right.inputSize > .textHelp,
+  .slds-form-element.slds-dropdown-trigger.slds-dropdown-trigger_click.calendar.calendar--single > .textHelp{
+	display: none;
+}
+ .downloads_CNF .calendar .textHelp {
+	color: #444444;
+	display: inline-block;
+	font-size: 12px;
+	height: 18px;
+	padding-left: 12px;
+}
+ .downloads_CNF .calendar .slds-datepicker {
+	padding: 16px 16px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-button:focus {
+	box-shadow: none;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-button__icon {
+	fill: #ec0000;
+}
+ .downloads_CNF .slds-datepicker .slds-datepicker__filter.slds-grid {
+	padding: 0;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-datepicker__month {
+	position: relative;
+	right: 9px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-datepicker__month thead tr {
+	text-transform: uppercase;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-datepicker__month thead th {
+	color: #444444;
+	font-size: 12px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-day,
+ .downloads_CNF .calendar .slds-datepicker th,
+ .downloads_CNF .calendar h2,
+ .downloads_CNF .calendar .slds-select {
+	font-size: 12px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-select {
+	font-family: SantanderTextW05-Regular;
+	height: 32px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-select_container {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 1;
+	speak: none;
+	text-transform: none;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-select_container:after {
+	border: none;
+	bottom: 13px;
+	color: #ec0000;
+	content: "\e904";
+	font-size: 19px;
+	height: 8px;
+	right: 15px;
+	transform-origin: 50% 50%;
+	width: 8px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-select_container:before {
+	border: none;
+	color: #ec0000;
+	content: "\e904";
+	font-size: 19px;
+	height: 8px;
+	right: 4px;
+	top: 13px;
+	transform: rotate(180deg);
+	transform-origin: 50% 50%;
+	width: 8px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-text-link {
+	color: #ec0000;
+	font-family: SantanderTextW05-Bold;
+	font-size: 12px;
+}
+ .downloads_CNF .calendar .slds-datepicker td {
+	padding: 0;
+}
+ .downloads_CNF .calendar .slds-datepicker td.slds-is-selected>.slds-day {
+	background: #444444;
+}
+
+ .downloads_CNF .radioCalendarDoble .slds-form_compound .slds-form-element__row .slds-form-element + .slds-form-element,
+ .downloads_CNF .radioCalendarDoble .slds-form--compound .slds-form-element__row .slds-form-element + .slds-form-element {
+    padding-left: 24px;
+}
+
+/** LANDING PAGOS - KPIs Boxes**/
+.paymentBoxes .slds-grid {
+	width: 1224px;
+  justify-content: space-between;
+}
+
+.paymentBoxes .slds-col {
+	display:inline-block;
+  margin: 0 16px;
+  border: none;
+  cursor:pointer;
+  line-height: initial;
+}
+.paymentBoxes .slds-col:first-child {
+  margin-left:0;
+}
+
+.paymentBoxes .slds-col .number {
+  color: #444444;
+  display: block;
+  font-family:"SantanderHeadlineW05-Rg";
+  font-size: 42px;
+  line-height: 50px;
+}
+
+.paymentBoxes .slds-col .slds-truncate {
+  white-space: inherit;
+  display: inline-flex;
+  vertical-align: top;
+}
+.paymentBoxes .slds-col .text {
+  color: #444444;
+  display: inline-block;
+  font-family: "SantanderMicroText";
+  font-size: 12px;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 156px;
+}
+
+.paymentBoxes .slds-col.slds-button:hover .number,
+.paymentBoxes .slds-col.slds-button:hover .text{
+  color:#cc0000;
+}
+.paymentBoxes .slds-col.slds-button:focus .number,
+.paymentBoxes .slds-col.slds-button:focus .text,
+.paymentBoxes .slds-col.slds-button:active .number,
+.paymentBoxes .slds-col.slds-button:active .text,
+.paymentBoxes .slds-col.slds-button.slds-button-active .number,
+.paymentBoxes .slds-col.slds-button.slds-button-active .text{
+  color:#990000;
+}
+
+/** LANDING PAGOS - KPIs Boxes**/
+.searchFiltersAccounts .slds-col.slds-button{
+  cursor:pointer;
+}
+
+.searchFiltersAccounts .slds-form-element.search {
+  margin-right: 24px;
+  width: 392px;
+}
+
+.searchFiltersAccounts .slds-input:focus,
+.searchFiltersAccounts .slds-input:active {
+  box-shadow:unset;
+   border: solid 2px #257fa4
+}
+.searchFiltersAccounts .slds-input:focus + .icon-search:before,
+.searchFiltersAccounts .slds-input:active + .icon-search:before {
+  color: #257fa4;
+}
+
+.searchFiltersAccounts .slds-input:active + .icon-search,
+.searchFiltersAccounts .slds-input:focus + .icon-search {
+  left: 16px;
+}
+
+.searchFiltersAccounts .slds-input:active,
+.searchFiltersAccounts .slds-input:focus {
+  padding-left: 48px;
+}
+
+.searchFiltersAccounts .slds-input.filledInput {    
+  border: solid 1px #257fa4;
+}
+
+.searchFiltersAccounts .slds-input.filledInput + .icon-search:before {
+  color: #444444;
+}
+
+.searchFiltersAccounts .slds-input__icon_right ~ .icon-search {
+  left:16px;
+}
+
+.searchFiltersAccounts .slds-input__icon_right + .slds-input {
+  padding-left: 48px!important;
+}
+
+/** LANDING PAGOS - Table**/
+.slds-badge{
+  display: block;
+  border-radius: 100px;
+  border: solid 1px #979797;
+  background-color: #f6f6f6;
+  font-family: SantanderMicroText-Bd;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #444444;
+  padding: 2px 4px;
+  width: 100px;
+  min-width: 100px;
+  height: 24px;
+  max-width: 100px; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center; 
+}
+
+.slds-badge.badgeDraft{
+  border-color: #767676;
+  background-color: #ececec;
+}
+
+.slds-badge.badgePending,
+.slds-badge.badgeDelayed,
+.slds-badge.badgeHold{
+  border-color: #ffcc33;
+  background-color: #fff5d7;
+}
+
+.slds-badge.badgeReview{
+  border-color: #9e3667;
+  background-color: #ecd7e1;
+}
+
+.slds-badge.badgeNotAuthorized,
+.slds-badge.badgeCanceled,
+.slds-badge.badgeDenied,
+.slds-badge.badgeRejected{
+  border-color: #cc0000;
+  background-color: #fccccc;
+}
+
+.slds-badge.badgeScheduled,
+.slds-badge.badgeReleased,
+.slds-badge.badgeInProgress{
+  border-color: #1bb3bc;
+  background-color: #d2f0f2;
+}
+
+.slds-badge.badgeAuthorized,
+.slds-badge.badgeProcessed,
+.slds-badge.badgeCompleted{
+  border-color: #63ba68;
+  background-color: #e0f2e1;
+}
+
+.checkboxContainer .slds-checkbox_faux{
+  border-radius: 4px;
+  border-color: #767676;
+  cursor: pointer;
+  height: 24px; 
+  width: 24px;
+}
+
+.checkboxContainer .slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+  box-shadow: none;
+  border-color: #767676;
+}
+
+.checkboxContainer .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+  border: 2px solid #1bb3bc;
+}
+
+.checkboxContainer .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+  border-bottom: 2px solid #1bb3bc;
+  border-left: 2px solid #1bb3bc;
+  height: 6px;
+  width: 9px;
+}
+
+.checkboxContainer .slds-checkbox__label .slds-checkbox_faux:active {
+  border: 2px solid #1bb3bc;
+}
+
+.listItems .slds-text-body_regular{ 
+  font-family: SantanderMicroText;
+  font-size: 12px; 
+  line-height: 1.42;
+  letter-spacing: normal;
+  color: #767676;
+}
+
+.listItems .slds-text-body_regular strong{ 
+  margin:0 2px;
+  font-family: SantanderMicroText-Bd;
+}
+
+.tablePaymentsContent >.slds-grid {
+    width: 1224px; 
+}
+
+thead th.slds-is-sortable {
+  cursor:pointer;
+}
+
+.infoPage .slds-text-body_regular {
+  font-family: SantanderMicroText-Bd;
+  font-size: 12px;
+  line-height: 1.42;
+  letter-spacing: normal;
+  color: #767676;
+  margin-left:16px;
+}
+
+.infoPage .slds-combobox {
+  position: relative;
 }

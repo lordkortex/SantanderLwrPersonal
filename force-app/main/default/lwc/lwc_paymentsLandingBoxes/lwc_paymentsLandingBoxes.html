@@ -3,18 +3,16 @@
         <div class="slds-grid">
             <div class="slds-form-element">
                 <template for:each={paymentstatusboxes} for:item='item' for:index="index">
-                    <div key = {item.index}>
-                        <!-- Cuando uno de los botones esté activo añadir la clase "slds-button-active"-->
-                        <div class={item.class1} id={item.statusName} onclick={selectPaymentStatus}>
-                            <span class="number">{item.numberOfRecords}</span>
-                            <div class="slds-truncate">
-                                <span class="text">{item.parsedStatusDescription}</span>
-                            </div>
+                    <!-- Cuando uno de los botones esté activo añadir la clase "slds-button-active"-->
+                    <div key={item.index} class={item.class1} id={item.statusName} onclick={selectPaymentStatus}>
+                        <span class="number">{item.numberOfRecords}</span>
+                        <div class="slds-truncate">
+                            <span class="text">{item.parsedStatusDescription}</span>
                         </div>
                         <template if:true={item.line}>
                             <div class="line"></div>
-                        </template>        
-                    </div>             
+                        </template>   
+                    </div>
                 </template>                
             </div>
         </div>        

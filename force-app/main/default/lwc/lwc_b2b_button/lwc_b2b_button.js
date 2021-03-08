@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 // Import styles
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 export default class lwc_b2b_button extends LightningElement {
 

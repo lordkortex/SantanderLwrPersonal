@@ -1,0 +1,52 @@
+<template>
+    <div data-id="variableWidth">
+        <c-lwc_title-breadcrumb 
+            title={Label.Users_AddUsers} 
+            breadcrumb={breadcrumb}>
+        </c-lwc_title-breadcrumb>
+
+        <c-lwc_title-header 
+            title={Label.userDetails}>
+        </c-lwc_title-header>
+
+         <!-- TOAST COMPONENT -->
+        <c-lwc_toast 
+            type={typeToast} 
+            show={showToast} 
+            message={messageToast}>
+        </c-lwc_toast>
+
+         <c-lwc_user-new-form 
+            userinfo={userInfo} 
+            rendercorporates={showCorporates} 
+            typeslist={typesList}>
+        </c-lwc_user-new-form> 
+
+        <template if:true={showCorporates}>
+            <c-lwc_title-header 
+                title={Label.Corporates}>
+            </c-lwc_title-header>
+            <c-lwc_user-new-corporates 
+                showmodal={showModal} 
+                selectedcorporates={selectedCorporates}
+                corporateslistback={corporatesListBack} 
+                corporateslistfront={corporatesListFront}>
+            </c-lwc_user-new-corporates>
+        </template>
+
+        <c-lwc_user-new-buttons 
+            currentstagenumber={currentStageNumber}
+            onuserbuttonclicked={buttonClicked}>
+        </c-lwc_user-new-buttons> 
+        </div>
+
+    <template if:true={deleteCondition}>
+        <c-lwc_delete-user-modal-box 
+            data-id="ConfirmCreationModal" 
+            isshowing={deleteCondition} 
+            titletext={Label.Users_ConfirmModify} 
+            firsttext={firstText} 
+            secondtext={Label.Users_WarningDuplicate}>
+        </c-lwc_delete-user-modal-box>
+    </template>
+</template>

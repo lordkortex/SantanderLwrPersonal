@@ -8,8 +8,9 @@ global with sharing class WS_BeneficiaryAccounts {
     private List<WRAPPER_AccountList.AccountDetails> result;
 
     private WrapperUserData userData;
+    private WRAPPER_AccountList.AccountDetails sourceAccount;
 
-    global WS_BeneficiaryAccounts (WrapperUserData userData) {
+    global WS_BeneficiaryAccounts (WrapperUserData userData, WRAPPER_AccountList.AccountDetails sourceAccount) {
         CNT_ApiConfiguration__c configWs = new CNT_ApiConfiguration__c();
         configWs = CNT_ApiConfiguration__c.getValues('WS_BeneficiaryAccounts');
         this.endpoint = configWs.CNT_Endpoint__c;
@@ -17,23 +18,35 @@ global with sharing class WS_BeneficiaryAccounts {
         this.tokenPlatform = configWs.tokenPlatform__c;
         this.tokenUser = configWs.tokenUser__c;
         this.userData = userData;
+        this.sourceAccount = sourceAccount;
     }
 
     global List<WRAPPER_AccountList.AccountDetails> execute () {
         String companyGlobalId = null;
-        if (userData != null && userData.companyId != null) {
-            companyGlobalId = userData.companyId;
+        String countryOriginator = null; 
+        if (sourceAccount != null){
+            if (sourceAccount.companyIdsList != null){
+                 companyGlobalId = sourceAccount.companyIdsList.get('GLOBAL');
+            } 
+            if(sourceAccount.country != null){
+                countryOriginator = sourceAccount.country;
+            }           
         }
-        return execute(companyGlobalId);
+        return execute(companyGlobalId, countryOriginator);
     }
 
-    global List<WRAPPER_AccountList.AccountDetails> execute (String companyGlobalId) {
+    global List<WRAPPER_AccountList.AccountDetails> execute (String companyGlobalId, String countryOriginator) {
         this.result = new List<WRAPPER_AccountList.AccountDetails>(); 
         try {
             if (String.isNotBlank(companyGlobalId)) {
                 this.endPoint = this.endPoint.replace('{companyGlobalId}', companyGlobalId);
             } else {
                 throw new CustomException('Empty company global ID.');
+            }
+            if (String.isNotBlank(countryOriginator)){
+                this.endPoint = this.endPoint.replace('{countryOriginator}', countryOriginator);
+             } else {
+                throw new CustomException('Empty Country Originator.');
             }
             Map<String,String> extraHeaderParameters = new Map<String,String> ();
             extraHeaderParameters.put('X-Santander-Client-Id', this.userData.userId);
@@ -52,7 +65,7 @@ global with sharing class WS_BeneficiaryAccounts {
         return this.result;
     }
 
-    private List<WRAPPER_AccountList.AccountDetails> getList (WS_BeneficiaryAccounts.OUTPUT output) {
+    global List<WRAPPER_AccountList.AccountDetails> getList (WS_BeneficiaryAccounts.OUTPUT output) {
         List<WRAPPER_AccountList.AccountDetails> result = new List<WRAPPER_AccountList.AccountDetails>();
         if (output != null) {
             for (AccountsData accountsData : output.accountsListResponse.accountsDataList) {
@@ -85,6 +98,16 @@ global with sharing class WS_BeneficiaryAccounts {
                        element.address.country = accountsData.accountHolderAddress.country;
                    }
 				}
+                
+                if(accountsData.companyIdsList != null){
+                    Map<String, String> auxCompanyIds = new  Map<String, String>();
+                    for(CompanyId idItem : accountsData.companyIdsList){
+                        if(String.isNotBlank(idItem.id) && String.isNotBlank(idItem.idType))
+                        auxCompanyIds.put(idItem.idType, idItem.id);
+                    }
+                    element.companyIdsList = auxCompanyIds;
+                }
+                
                  
                 if(accountsData.bankId != null){
 					if(String.isNotEmpty(accountsData.bankId)){
@@ -188,6 +211,7 @@ global with sharing class WS_BeneficiaryAccounts {
         global Boolean pain002Active {get;set;}
         global Boolean balanceAllowed {get;set;}
         global Boolean internationalPaymentsAllowed {get;set;}
+        global List<CompanyId> companyIdsList {get;set;} 
 
         global AccountsData () {
         }
@@ -200,6 +224,16 @@ global with sharing class WS_BeneficiaryAccounts {
         global AccountId () {
         }
     }
+    
+     global with sharing class CompanyId {
+        global String id {get;set;} 
+        global String idType {get;set;}
+        
+        global CompanyId(){
+            System.debug('WRAPPER_Balance_LU.CompanyId');
+        }
+     }
+        
 
     global with sharing class Balance {
         global Decimal amount {get;set;}

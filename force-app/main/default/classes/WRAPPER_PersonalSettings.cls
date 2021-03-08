@@ -7,141 +7,149 @@ History
 <Date>			<Author>		<Description>
 06/04/2020		R. Cervino     Initial version
 ----------------------------------------------------------------------------------*/
-public class WRAPPER_PersonalSettings {
-    public class Idioma {
+global class WRAPPER_PersonalSettings {
+    global class Idioma {
         @AuraEnabled
         
-        public String IDIOMA_ISO;
+        global String IDIOMA_ISO;
         @AuraEnabled
         
-        public String DIALECTO_ISO;
+        global String DIALECTO_ISO;
+
+        global Idioma() {}
     }
     @AuraEnabled
     
-    public Personalsettings personalsettings;
+    global Personalsettings personalsettings;
     
-    public class Personalsettings {
+    global class Personalsettings {
         @AuraEnabled
         
-        public String apellidosUsuario;
+        global String apellidosUsuario;
         @AuraEnabled
         
-        public String backoffice;
+        global String backoffice;
         @AuraEnabled
         
-        public String checkMovil;
+        global String checkMovil;
         @AuraEnabled
         
-        public Integer codigoCliente;
+        global Integer codigoCliente;
         @AuraEnabled
         
-        public String codigoErc;
+        global String codigoErc;
         @AuraEnabled
         
-        public String codigoFormatoCantidad;
+        global String codigoFormatoCantidad;
         @AuraEnabled
         
-        public String codigoFormatoFecha;
+        global String codigoFormatoFecha;
         @AuraEnabled
         
-        public String codigoFormatoZona;
+        global String codigoFormatoZona;
         @AuraEnabled
         
-        public String dataCript;
+        global String dataCript;
         @AuraEnabled
         
-        public String direccionUsuario;
+        global String direccionUsuario;
         @AuraEnabled
         
-        public String estado;
+        global String estado;
         @AuraEnabled
         
-        public String fechaModificacion;
+        global String fechaModificacion;
         @AuraEnabled
         
-        public String idLogin;
+        global String idLogin;
         @AuraEnabled
         
-        public String idToken;
+        global String idToken;
         @AuraEnabled
         
-        public Idioma idioma;
+        global Idioma idioma;
         @AuraEnabled
         
-        public String indAprob;
+        global String indAprob;
         @AuraEnabled
         
-        public String indCriptoVirtual;
+        global String indCriptoVirtual;
         @AuraEnabled
         
-        public List<Listacorporates> listacorporates;
+        global List<Listacorporates> listacorporates;
         @AuraEnabled
         
-        public String mailUsuario;
+        global String mailUsuario;
         @AuraEnabled
         
-        public String nombreCliente;
+        global String nombreCliente;
         @AuraEnabled
         
-        public String nombreFormatoCantidad;
+        global String nombreFormatoCantidad;
         @AuraEnabled
         
-        public String nombreFormatoFecha;
+        global String nombreFormatoFecha;
         @AuraEnabled
         
-        public String nombreFormatoZona;
+        global String nombreFormatoZona;
         @AuraEnabled
         
-        public String nombreUsuario;
+        global String nombreUsuario;
         @AuraEnabled
         
-        public String telefonoUsuario;
+        global String telefonoUsuario;
         @AuraEnabled
         
-        public String tieneVasco;
+        global String tieneVasco;
         @AuraEnabled
         
-        public String tipoUsuario;
+        global String tipoUsuario;
         @AuraEnabled
         
-        public String token;
+        global String token;
         @AuraEnabled
         
-        public String UIDModificacion;
+        global String UIDModificacion;
         @AuraEnabled
         
-        public String ultimoLoginKO;
+        global String ultimoLoginKO;
         @AuraEnabled
         
-        public String ultimoLoginOK;
+        global String ultimoLoginOK;
         @AuraEnabled
         
-        public String usuarioDumy;
+        global String usuarioDumy;
         @AuraEnabled
         
-        public String vascoID;
+        global String vascoID;
+
+        global Personalsettings() {}
     }
     
-    public class Corporates {
+    global class Corporates {
         @AuraEnabled
         
-        public Integer codigoCorporate;
+        global Integer codigoCorporate;
         @AuraEnabled
         
-        public String nombreCorporate;
+        global String nombreCorporate;
         @AuraEnabled
         
-        public String numDocumento;
+        global String numDocumento;
+
+        global Corporates() {}
     }
     
-    public class Listacorporates {
+    global class Listacorporates {
         @AuraEnabled
         
-        public Corporates corporates;
+        global Corporates corporates;
+    
+        global Listacorporates() {}
     }
     
     
-    public static WRAPPER_PersonalSettings parse(String json) {
+    global static WRAPPER_PersonalSettings parse(String json) {
         return (WRAPPER_PersonalSettings) System.JSON.deserialize(json, WRAPPER_PersonalSettings.class);
     }
     

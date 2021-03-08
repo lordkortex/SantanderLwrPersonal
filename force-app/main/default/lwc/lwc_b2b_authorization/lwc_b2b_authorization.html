@@ -2,7 +2,7 @@
   @description       : 
   @author            : ChangeMeIn@UserSettingsUnder.SFDoc
   @group             : 
-  @last modified on  : 03-02-2021
+  @last modified on  : 03-05-2021
   @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
   Modifications Log 
   Ver   Date         Author                               Modification
@@ -15,7 +15,7 @@
         </template>
         <div class="slds-modal__container">
             <c-lwc_b2b_process-header   
-                has-back-button="true" 
+                hasbackbutton="true" 
                 headerlabel={labelAuthorization} 
                 onhandleback={sendToLanding}  
                 has-discard-button={hasDiscardButton} 
@@ -331,11 +331,14 @@
                                 error-o-t-p ={errorOTP}>
                             </c-lwc_waiting-authorization >
                         </template>
-                        <button  onclick={handleConfirm}>Confirmar</button>
+                        <!--<button  onclick={handleConfirm}>Confirmar</button>-->
                     </div>
                 </div>
             </div>
         </div>
+
+        <c-lwc_contact-us></c-lwc_contact-us>
+
         <c-lwc_b2b_toast data-id="errorToast" reload={reload}></c-lwc_b2b_toast>
     </section>
     <div class="slds-backdrop slds-backdrop_open"></div>

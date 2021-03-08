@@ -31,7 +31,7 @@ import CreditorBankCode from '@salesforce/label/c.CreditorBankCode';
 import DebtorBankCode from '@salesforce/label/c.DebtorBankCode';
 
 
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 export default class Lwc_account_transactionsDetail extends LightningElement {
 

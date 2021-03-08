@@ -1,0 +1,284 @@
+<template>
+    <div class="slds-form pillContainer" role="list">
+        <!-- ### USER ID BLOCK -->
+            <div class="slds-form__row firstRow">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr> {Label.Users_UserId}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputId" placeholder="" class="slds-input inputShadow inputSize" value={userinfo.userId} onkeyup={updateData} />                                                    
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <!-- ### USER NAME BLOCK -->
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr> {Label.LogAdmin_Name}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputName" placeholder="" class="slds-input inputShadow inputLarge" value={userinfo.userName} onkeyup={updateData}/>                                                    
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER SURNAME BLOCK -->
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"> <abbr class="requireText" title="Required field">* </abbr>{Label.Users_Surname}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputSurname" placeholder="" class="slds-input inputShadow inputLarge" value={userinfo.userSurname} onkeyup={updateData}/>                                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ### USER TYPE BLOCK -->
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr>{Label.Users_Type}</div>
+                            <div class="slds-form-element__control paddingInput"> 
+                                <div class="slds-form-element"> 
+                                    <!-- DROPDOWN MARKUP -->
+                                    <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                        <c-lwc_dropdown 
+                                            data-id="RolesDropdown" 
+                                            issimpledropdown={issimpledropdown} 
+                                            valueplaceholder={Label.LogAdmin_SelectOne}  
+                                            values={typesList}
+                                            selectedvalue={userinfo.type_Z}>
+                                        </c-lwc_dropdown>
+                                    </div> 
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER STATE BLOCK -->
+                <div class="slds-form__item colSecond " role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr>{Label.Users_State}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <c-lwc_dropdown 
+                                        data-id="RolesDropdown" 
+                                        issimpledropdown={issimpledropdown} 
+                                        valueplaceholder={Label.LogAdmin_SelectOne}  
+                                        values={statesList} 
+                                        selectedvalue={userinfo.State}>
+                                    </c-lwc_dropdown>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <!-- ### USER LANGUAGE BLOCK -->
+            <div class="slds-form__row row"> 
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel "><abbr class="requireText" title="Required field">* </abbr> {Label.Users_Language}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element"> 
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <c-lwc_dropdown 
+                                        data-id="RolesDropdown" 
+                                        issimpledropdown={issimpledropdown}
+                                        valueplaceholder={Label.LogAdmin_SelectOne}  
+                                        values={languagesList} 
+                                        selectedvalue={userinfo.Language}>
+                                    </c-lwc_dropdown>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER TIME ZONE BLOCK -->
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel "><abbr class="requireText" title="Required field">* </abbr> {Label.Users_TimeZone}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <c-lwc_dropdown 
+                                        data-id="RolesDropdown" 
+                                        issimpledropdown={issimpledropdown} 
+                                        valueplaceholder={Label.LogAdmin_SelectOne}  
+                                        values={TimeZoneList} 
+                                        selectedvalue={userinfo.TimeZone}>
+                                    </c-lwc_dropdown>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- ### USER NUMBER FORMAT BLOCK -->
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel "><abbr class="requireText" title="Required field">* </abbr> {Label.Users_NumberFormat}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <c-lwc_dropdown 
+                                        data-id="RolesDropdown" 
+                                        issimpledropdown={issimpledropdown} 
+                                        valueplaceholder={Label.LogAdmin_SelectOne}  
+                                        values={NumberFormatList} 
+                                        selectedvalue={userinfo.NumberFormat}>
+                                    </c-lwc_dropdown>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER DATE FORMAT BLOCK -->
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel "><abbr class="requireText" title="Required field">* </abbr> {Label.Users_DateFormat}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <c-lwc_dropdown 
+                                        data-id="RolesDropdown" 
+                                        issimpledropdown={issimpledropdown} 
+                                        valueplaceholder={Label.LogAdmin_SelectOne}  
+                                        values={dateFormatList} 
+                                        selectedvalue={userinfo.dateFormat}>
+                                    </c-lwc_dropdown>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ### USER EMAIL BLOCK -->
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr> {Label.Users_Email}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputEmail" placeholder="" class="slds-input inputShadow inputLarge" value={userinfo.Email} onkeyup={updateData}/>                                                    
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER PHONE BLOCK -->
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"> {Label.Users_Phone}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="tel" id="inputPhone" placeholder="" class="slds-input inputShadow inputSize" value={userinfo.Phone} onkeyup={updateData}/>                                                    
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- ### USER ADDRESS BLOCK -->
+            <div class="slds-form__row row"> 
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel">{Label.Users_Address}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <lightning-textarea type="text" id="inputAddress" placeholder="" class="slds-input inputShadow inputXXL" value={userinfo.Address} onkeyup={updateData}></lightning-textarea>                                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ### USER MOBILE APP ACCESS BLOCK -->
+            <template if:true={renderMobile}>
+                <div class="slds-form__row radioRow">
+                    <div class="slds-form__item colFirst" role="listitem">
+                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing ">
+                            
+                            <div class="slds-form-element__label slds-form-element__legend radioLabel ">{Label.Users_MobileAppAccess}</div>
+                            <span class="slds-radio">
+                                <input type="radio" id="mobileYes" value="mobileYes" name="mobile" aria-describedby="error_01" checked={mobileAppEqY} onclick={updateRadios}/>
+                                <label class="slds-radio__label" for="mobileYes">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label marginRadioLabel ">{Label.Yes}</span>
+                                </label>
+                            </span>
+                            <span class="slds-radio">
+                                <input type="radio" id="mobileFalse" value="radio-44" name="mobile" aria-describedby="error_01"  checked={mobileAppEqN} onclick={updateRadios}/>
+                                <label class="slds-radio__label" for="mobileFalse">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label marginRadioLabel ">{Label.No}</span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <!-- ### USER CRYPTOCALCULATOR BLOCK -->
+            <template if:true={renderCrypto}>
+                <div class="slds-form__row radioRow">
+                    <div class="slds-form__item colFirst" role="listitem">
+                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing "> 
+                            <div class="slds-form-element__label slds-form-element__legend radioLabel ">{Label.Users_IsCryptocalculator}</div>
+                            <span class="slds-radio">
+                                <input type="radio" id="cryptoYes" value="" name="crypto" aria-describedby="error_01" checked={tieneVascoEqY} onclick={updateRadios}/>
+                                <label class="slds-radio__label" for="cryptoYes">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label marginRadioLabel  ">{Label.Yes}</span>
+                                </label>
+                            </span>
+                            <span class="slds-radio">
+                                <input type="radio" id="cryptoNo" value="" name="crypto" aria-describedby="error_01" checked={tieneVascoEqN} onclick={updateRadios} />
+                                <label class="slds-radio__label" for="cryptoNo">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label marginRadioLabel ">{Label.No}</span>
+                                </label>
+                            </span>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-form__row row cryptoRow lastRow">
+                    <div class="slds-form__item colFirst" role="listitem">
+                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                            <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr>{Label.Users_TypeAndNumber}</div>
+                            <div class="slds-form-element__control paddingInput"> 
+                                <div class="slds-form-element"> 
+                                    <c-lwc_dropdown 
+                                        data-id="RolesDropdown" 
+                                        issimpledropdown={issimpledropdown} 
+                                        valueplaceholder={Label.LogAdmin_SelectOne}  
+                                        values={typeAndNumberList} 
+                                        selectedvalue={userinfo.tipoVasco} 
+                                        isdisabled={tieneVascoEqN}>
+                                    </c-lwc_dropdown>
+                                    <div class="slds-input-has-icon slds-input-has-icon_right paddingInput">
+                                        <input type="text" id="date-input-id-011" placeholder="" value={userinfo.VascoNumber} class="slds-input inputShadow inputSize"  disabled={inputDisabled} />
+                                        <small>{Label.Users_CryptoNumber}</small>
+                                    </div>
+                                </div>
+                                <template if:true={tipoVascoEqVirtual}>
+                                    <div class=" lastPillBig">
+                                        <div data-title={Label.Users_ObtainCrypto}><button class="slds-button slds-button_brand redButtonBig" onclick={obtainCrypto}>{Label.Users_ObtainCrypto}</button></div>           
+                                    </div>
+                                </template>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="slds-form__item colSecond" role="listitem"> </div>
+                </div>
+            </template>
+            
+            
+            <!--  
+            <div class="slds-form__row lastRow">
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-media__body lastPill">
+                            <button class="slds-button slds-button_brand whiteButton" title="Clear">Clear</button>
+                            <button class="slds-button slds-button_brand redButton"  data-title="Apply" >Apply</button>              
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+        
+
+
+    
+</template>

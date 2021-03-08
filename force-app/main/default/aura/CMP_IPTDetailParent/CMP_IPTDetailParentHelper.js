@@ -255,6 +255,12 @@
                         if (sParameterName[0] === 'c__beneficiaryCountry') { 
                             sParameterName[1] === undefined ? 'Not found' : component.set("v.iObject.beneficiaryCountry",sParameterName[1]);              
                         }
+                        if (sParameterName[0] === 'c__filters') { 
+                            sParameterName[1] === undefined ? component.set("v.filters", []) : component.set("v.filters",sParameterName[1]);	
+                        }
+                        if (sParameterName[0] === 'c__allAccounts') { 
+                            sParameterName[1] === undefined ? component.set("v.fullAccountList", []) : component.set("v.fullAccountList",sParameterName[1]);	
+                        }
                         /*if (sParameterName[0] === 'c__beneficiaryCountryName') { 
                             sParameterName[1] === undefined ? 'Not found' : component.set("v.iObject.beneficiaryCountryName",sParameterName[1]);              
                         }*/

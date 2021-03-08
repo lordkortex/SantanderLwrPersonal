@@ -17,12 +17,20 @@ global class WRAPPER_OperationsByStatus {
 			}
 		}
 	}
+    
+    global WRAPPER_OperationsByStatus(){
+        System.debug('WRAPPER_OperationsByStatus');
+    }
 	
 	global class StatusList {
 		global String status {get;set;} 
 		global Boolean pendingAuthorization {get;set;} 
 		global Integer countOperation {get;set;} 
-        
+		global String reason {get;set;} 
+		global String valueDateFrom {get;set;} 
+		global String valueDateTo {get;set;} 
+
+		
         global StatusList(){
             System.debug('WRAPPER_OperationByStatus.StatusList');
         }
@@ -38,6 +46,12 @@ global class WRAPPER_OperationsByStatus {
 							pendingAuthorization = parser.getBooleanValue();
 						} else if (text == 'countOperation') {
 							countOperation = parser.getIntegerValue();
+						} else if (text == 'reason') {
+							reason = parser.getText();
+						} else if (text == 'valueDateFrom') {
+							valueDateFrom = parser.getText();
+						} else if (text == 'valueDateTo') {
+							valueDateTo = parser.getText();
 						} else {
 							System.debug(LoggingLevel.WARN, 'StatusList consuming unrecognized property: '+text);
 							consumeObject(parser);

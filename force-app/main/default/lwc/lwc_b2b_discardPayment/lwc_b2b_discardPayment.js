@@ -2,7 +2,7 @@ import { LightningElement, api, track} from 'lwc';
 
 import {loadStyle, loadScript } from 'lightning/platformResourceLoader';
 //import santanderSheetJS from '@salesforce/resourceUrl/SheetJS';
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 // DESCOMENTAR LAS LABELS UNA VEZ ESTÉN EN EL ENTORNO
 import close from '@salesforce/label/c.close';
@@ -57,7 +57,7 @@ export default class Lwc_b2b_discardPayment extends LightningElement {
     cancelPayment(cancel) {
         const cancelpayment = new CustomEvent('cancelpayment', {
             detail: {
-                "cancel" : cancel,
+                cancel : cancel,
             }
         });
         this.dispatchEvent(cancelpayment);
@@ -66,7 +66,7 @@ export default class Lwc_b2b_discardPayment extends LightningElement {
     cancelSelectedPayment(cancelSelected) {
         const cancelselectedpayment = new CustomEvent('cancelselectedpayment', {
             detail: {
-                "cancelSelectedPayment" : cancelSelected
+                cancelSelectedPayment : cancelSelected
             }
         });
         this.dispatchEvent(cancelselectedpayment);

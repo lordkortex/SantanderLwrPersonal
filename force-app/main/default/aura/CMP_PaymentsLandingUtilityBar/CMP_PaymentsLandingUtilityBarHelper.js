@@ -1,8 +1,8 @@
 ({
     /*
-	Author:        	Bea Hill
+    Author:        	Bea Hill
     Company:        Deloitte
-	Description:    Get details of selected payment to pass to edit payment screen
+    Description:    Get details of selected payment to pass to edit payment screen
     History:
     <Date>          <Author>            <Description>
     28/07/2020      Bea Hill            Initial version
@@ -20,7 +20,7 @@
                         resolve('payment details OK');
                     } else {
                         helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
-						reject($A.get('$Label.c.ERROR_NOT_RETRIEVED'));
+                        reject($A.get('$Label.c.ERROR_NOT_RETRIEVED'));
                     }
                 } else if (actionResult.getState() == 'ERROR') {
                     var errors = actionResult.getError();
@@ -32,7 +32,7 @@
                         console.log('problem getting list of payments msg2');
                     }
                     helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
-					reject($A.get('$Label.c.ERROR_NOT_RETRIEVED'));
+                    reject($A.get('$Label.c.ERROR_NOT_RETRIEVED'));
                 }
             });
             $A.enqueueAction(action);
@@ -40,9 +40,9 @@
     },
 
     /*
-	Author:        	Bea Hill
+    Author:        	Bea Hill
     Company:        Deloitte
-	Description:    Pass payment details to the CMP_B2B_Process
+    Description:    Pass payment details to the CMP_B2B_Process
     History
     <Date>          <Author>            <Description>
     28/07/2020      Bea Hill            Initial version
@@ -73,23 +73,32 @@
     History:
     <Date>          <Author>            <Description>	    
     16/09/2020      Adrian Munio        Initial version
+    26/11/2020		Shahad Naji			Pass parameters to  reverseLimits
     */    
     reverseLimits: function (component, event, helper) {
-        return new Promise($A.getCallback(function (resolve, reject) {
-            resolve('ok');
-            /* var action = component.get('c.reverseLimits');
-            action.setParams({ 
-                'operationId': component.get('v.paymentDetails').paymentId,
-                'serviceId': 'add_international_payment_internal',
+        return new Promise($A.getCallback(function (resolve, reject) {           
+            var action = component.get('c.reverseLimits');
+            action.setParams({               
                 'paymentData': component.get('v.paymentDetails')
             });
             action.setCallback(this, function (response) {
                 var state = response.getState();
                 if (state === 'SUCCESS') {
                     var  output = response.getReturnValue();
-                    if (output.success) {
-                        resolve('ok');
+                    if (output.success) { 
+                        let ok = 'ok';
+                        if(!$A.util.isEmpty(output.value)){
+                            if (returnValue.value.limitsResult.toLowerCase() != ok.toLowerCase()) { 
+                                resolve('ok'); 
+                            }else{
+                                helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
+                                reject('ko');
+                            }
+                        }else{
+                            resolve('ok'); 
+                        }                    
                     } else {
+                        helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
                         reject('ko');
                     }
                 } else if (state === 'ERROR') {
@@ -107,14 +116,14 @@
                     reject('ko');
                 }
             });       
-            $A.enqueueAction(action); */
+            $A.enqueueAction(action); 
         }), this);
     },
 
     /*
-	Author:        	Adrian Munio
+    Author:        	Adrian Munio
     Company:        Deloitte
-	Description:    Send the status change to the service
+    Description:    Send the status change to the service
     History:
     <Date>          <Author>            <Description>
     15/09/2020      Adrian Munio        Initial version
@@ -185,11 +194,12 @@
                 if (state === 'SUCCESS') {
                     var  output = response.getReturnValue();
                     if (output.success) {
-                        
-                        var msg = $A.get('$Label.c.PAY_ThePaymentHasBeenCanceled');
-                        var clientReference = payment.clientReference;
-                        msg = msg.replace('{0}', clientReference);
-                        helper.showToastMode(component, event, helper, msg, '', false, 'success');
+                          //FLOWERPOWER_PARCHE_JHM  	
+                       /* var msg = $A.get('$Label.c.PAY_ThePaymentHasBeenCanceled');	
+                        var clientReference = payment.clientReference;	
+                        msg = msg.replace('{0}', clientReference);	
+                        helper.showToastMode(component, event, helper, msg, '', false, 'success');	
+                       */
                         resolve('ok');
                         
                     } else {
@@ -215,7 +225,7 @@
             });       
             $A.enqueueAction(action);
         }), this);
-	},
+    },
     
      /*
     Author:         Antonio Matachana
@@ -271,28 +281,32 @@
 },
 
     /*
-	Author:        	Adrian Munio
+    Author:        	Adrian Munio
     Company:        Deloitte
-	Description:    Pass payment details to the CMP_B2B_Process
+    Description:    Pass payment details to the CMP_B2B_Process
     History:
     <Date>          <Author>            <Description>
     25/08/2020      Adrian Munio        Initial version
     */
     goToReusePayment: function (component, event, helper) {
+
         try {
+            var payment = component.get('v.paymentDetails');
             var page = 'payments-b2b';
-            var url = '';
-            var source = 'landing-payment-details';
-            var action = 'Reuse';
-            var paymentId = component.get('v.paymentDetails').paymentId;
-            url = 'c__source=' + source +
-                '&c__paymentId=' + paymentId +
-                '&c__action=' + action +
-                '&c__paymentDetails=' + JSON.stringify(component.get('v.paymentDetails'));
+            var url ='';
+            var source= 'landing-payment-details';
+            var paymentId = payment.paymentId;
+            if (!$A.util.isEmpty(paymentId)) {
+                url = 
+                    'c__source=' + source +
+                    '&c__reuse=' + true +
+                    '&c__paymentDetails=' + JSON.stringify(payment);
+            }
             helper.goTo(component, event, page, url);
         } catch (e) {
             console.log(e);
         }
+
     },
 
     /*
@@ -336,10 +350,10 @@
     /*
     Author:        	Bea Hill
     Company:        Deloitte
-	Description:    Encryption for page navigation
+    Description:    Encryption for page navigation
     History:
     <Date>          <Author>            <Description>
-	28/07/2020      Bea Hill            Initial version
+    28/07/2020      Bea Hill            Initial version
     */
     encrypt: function (component, data) {
         var result = 'null';
@@ -399,7 +413,9 @@
                                 if (!$A.util.isEmpty(stateRV.value.output)) {
                                     payment.FXFeesOutputDRAFT = stateRV.value.output;
                                 }
-                                payment.feesFXDateTimeDRAFT = helper.getCurrentDateTime(component, event, helper);
+                                if (!$A.util.isEmpty(stateRV.value.fxTimer)) {
+                                    payment.feesFXDateTimeDRAFT = stateRV.value.fxTimer;
+                                }
                             } else {
                                 if (!$A.util.isEmpty(stateRV.value.exchangeRate)) {
                                     payment.tradeAmountDRAFT = stateRV.value.exchangeRate;
@@ -413,16 +429,18 @@
                                     payment.amountOperativeDRAFT = stateRV.value.convertedAmount;
                                     
                                     if(stateRV.value.amountObtained == 'send'){
-                                    	payment.amountSendDRAFT = stateRV.value.convertedAmount;
+                                        payment.amountSendDRAFT = stateRV.value.convertedAmount;
                                     }
                                     if(stateRV.value.amountObtained == 'received'){
-                                    	payment.amountReceiveDRAFT = stateRV.value.convertedAmount;
+                                        payment.amountReceiveDRAFT = stateRV.value.convertedAmount;
                                     }
                                 }
                                 if (!$A.util.isEmpty(stateRV.value.output)) {
                                     payment.FXoutputDRAFT = stateRV.value.output;
                                 }
-                                payment.FXDateTimeDRAFT = helper.getCurrentDateTime(component, event, helper);
+                                if (!$A.util.isEmpty(stateRV.value.fxTimer)) {
+                                    payment.FXDateTimeDRAFT = stateRV.value.fxTimer;
+                                }
                             }
                             component.set('v.paymentDetails', payment);
                             resolve('ok');
@@ -438,34 +456,6 @@
                 $A.enqueueAction(action);
             }
         }), this);  
-    },
-
-    getCurrentDateTime: function (component, event, helper) {
-        var today = new Date();
-        var month = today.getMonth() + 1;
-        if (month < 10) {
-            month = '0' + month;
-        }
-        var day = today.getDate();
-        if (day < 10) {
-            day = '0' + day;
-        }
-        var date = today.getFullYear() + '-' + month + '-' + day;
-        var hours = today.getHours();
-        if (hours < 10) {
-            hours = '0' + hours;
-        }
-        var minutes = today.getMinutes();
-        if (minutes < 10) {
-            minutes = '0' + minutes;
-        }
-        var seconds = today.getSeconds();
-        if (seconds < 10) {
-            seconds = '0' + seconds;
-        }
-        var time = hours + ':' + minutes + ':' + seconds;
-        var dateTime = date + 'T' + time;       
-        return dateTime; 
     },
 
     getUserData: function (component, event, helper) {
@@ -642,9 +632,9 @@
     },
 
     /*
-	Author:        	Beatrice Hill
+    Author:        	Beatrice Hill
     Company:        Deloitte
-	Description:    Encryption for page navigation
+    Description:    Encryption for page navigation
     History
     <Date>			<Author>			<Description>
     18/11/2020      Beatrice Hill       Adapted from CMP_AccountsCardRow
@@ -719,6 +709,171 @@
                 $A.enqueueAction(action);
         });
     
+    },
+     /*
+	Author:        	Julian Hoyos
+    Company:        
+	Description:    Show modal when Save for later button is pressed
+    History:
+    <Date>          <Author>            	<Description>
+    09/11/2020      Antonio Matachana       Initial version
+    29/12/2020		Shahad Naji 			saveForLater method has been saved in the helper document of this component to be invoked by controller when it is required.
+    29/12/2020		Shahad Naji				Call updateStatusEditPayment method instead of handleDiscardPayment in order to update status and reason of the payment to 001 and 000, respectively.
+    */
+    saveForLater: function (component, event, helper) {
+        component.set('v.spinner', true); 
+        let variable = 'save';       
+        helper.getPaymentDetails(component, event, helper).then($A.getCallback(function (value) { 
+            return helper.updateStatusEditPayment(component, event, helper);
+        })).catch($A.getCallback(function (error) {
+            console.log('Error discard: ' + error);
+        })).finally($A.getCallback(function() {
+            component.set('v.spinner', false);
+            $A.get('e.force:refreshView').fire();
+            helper.showSuccessToast(component, event, helper, variable);
+        }));
+    },
+    
+   
+  /*
+    Author:         Adrian Munio
+    Company:        Deloitte
+    Description:    method to discard a payment, calling the payment details, reverse limits and then changing the status and reason.
+    History:
+    <Date>          <Author>            <Description>
+    18/09/2020      Adrian Munio        Initial version
+    26/11/2020		Shahad Naji			Removes transaction from transactional counters for accumulated limits according to 
+    									the productId of the selected payment
+    */
+   discard: function (component, event, helper) { 
+    return new Promise($A.getCallback(function (resolve, reject) { 
+    component.set('v.spinner', true);  
+    helper.getPaymentDetails(component, event, helper).then($A.getCallback(function (value) { 
+        return helper.reverseLimits(component, event, helper);  
+    })).then($A.getCallback(function (value) { 
+        return helper.handleDiscardPayment(component, event, helper);
+    })).catch($A.getCallback(function (error) {
+        console.log('Error discard: ' + error);
+        reject ('ko');
+    })).finally($A.getCallback(function() {
+        component.set('v.spinner', false);
+        //$A.get('e.force:refreshView').fire();	
+        resolve('OK');
+    }));
+}), this); 
+},
+    /*	
+	Author:        	Julian Hoyos	
+    Company:        	
+	Description:    Show modal when Save for later button is pressed	
+    History:	
+    <Date>          <Author>            	<Description>	
+    02/02/2021      Julian Hoyos      Initial version	
+    */	
+cancel: function (component, event, helper) { 	
+    return new Promise($A.getCallback(function (resolve, reject) { 	
+    component.set('v.spinner', true);  	
+    helper.getPaymentDetails(component, event, helper).then($A.getCallback(function (value) { 	
+        return helper.reverseLimits(component, event, helper);  	
+    })).then($A.getCallback(function (value) { 	
+        return helper.cancelSelectedPayment(component, helper);	
+    })).catch($A.getCallback(function (error) {	
+        console.log('Error discard: ' + error);	
+        reject ('ko');	
+    })).finally($A.getCallback(function() {	
+        component.set('v.spinner', false);	
+        //$A.get('e.force:refreshView').fire();	
+        resolve('OK');	
+    }));	
+    }), this); 	
+},
+sendToLanding: function (component, event, helper, variable, discard) {	
+    let navService = component.find('navService');	
+    var url = '';	
+    if (variable === 'discard'){	
+        url = 'c__discard=' + discard;	
+   } else if (variable === 'cancel'){	
+        url = 'c__cancel=' + discard;	
+   }	
+    this.encrypt(component, url)	
+    .then($A.getCallback(function (results) {	
+        let pageReference = {	
+            'type': 'comm__namedPage',	
+            'attributes': {	
+                'pageName': component.get('v.onwardPage')	
+            },	
+            'state': {	
+                'params': results	
+            }	
+        }	
+        navService.navigate(pageReference);	
+    }));	
+},
+showSuccessToast : function(component, event, helper, variable) {
+    var toastEvent = $A.get("e.force:showToast");
+    if (variable == 'discard'){
+        toastEvent.setParams({
+            title : $A.get("$Label.c.Toast_Success"),
+            message:  $A.get("$Label.c.Pay_discarted"),          
+            duration:' 5000',
+            key: 'info_alt',
+            type: 'success',
+            mode: 'pester'
+        }) 
+    }else if (variable == 'save'){
+        toastEvent.setParams({
+            title : $A.get("$Label.c.Toast_Success"),
+            message:  $A.get("$Label.c.PAY_savedSuccess"),          
+            duration:' 5000',
+            key: 'info_alt',
+            type: 'success',
+            mode: 'pester'
+        })
     }
- 
+    toastEvent.fire();
+},
+//PARCHE_FLOWERPOWER JHM
+//CÓDIGO REPLICADO A FALTA DE AVERIGUAR COMO UTILIZAR LA FUNCIÓN .FIND DE UN MÉTODO DE OTRO COMPONENTE
+formatUserDate : function(component, response) {
+    // If a date format exists for the User, make use of the given format
+    // If not, the Locale's short date format is used
+    var dateString = component.get("v.paymentDetails.draftDate");
+    var format = (response != '' && response != null) ? response : $A.get("$Locale.shortDateFormat");
+    
+    if(dateString != "N/A" && dateString != undefined){
+        if(component.get("v.convertToUserTimezone")){
+            var dateToFormat = new Date(dateString.substring(0,4), parseInt(dateString.substring(5,7)) - 1, dateString.substring(8,10), dateString.substring(11,13), dateString.substring(14,16), 0, 0 );
+            dateToFormat.setMinutes(dateToFormat.getMinutes() - dateToFormat.getTimezoneOffset());
+            $A.localizationService.getDateStringBasedOnTimezone($A.get("$Locale.timezone"), dateToFormat, function(formattedDate){
+                if(formattedDate != "Invalid Date"){
+                    switch(format){
+                        case "dd/MM/yyyy" :
+                            formattedDate = formattedDate.substring(8,10) + "/" + formattedDate.substring(5,7) + "/" + formattedDate.substring(0,4);
+                            break;
+                        case "MM/dd/yyyy" :
+                            formattedDate = formattedDate.substring(5,7) + "/" + formattedDate.substring(8,10) + "/" + formattedDate.substring(0,4);
+                            break;
+                    }
+                    component.set("v.paymentDetails.draftDate", formattedDate);
+                } else {
+                    component.set("v.paymentDetails.draftDate", dateString);
+                }
+            });
+        } else {
+            var formattedDate = "";
+            switch(format){
+                case "dd/MM/yyyy" :
+                    formattedDate = dateString.substring(8,10) + "/" + dateString.substring(5,7) + "/" + dateString.substring(0,4);
+                    break;
+                case "MM/dd/yyyy" :
+                    formattedDate = dateString.substring(5,7) + "/" + dateString.substring(8,10) + "/" + dateString.substring(0,4);
+                    break;
+            }
+            component.set("v.paymentDetails.draftDate", formattedDate);
+        } 
+    } else {
+        component.set("v.paymentDetails.draftDate", "N/A");
+    }
+}
+    
 })

@@ -461,6 +461,51 @@
         }
         helper.sortBy(component, event, helper, sortFieldName);
     },
+    
+    normalizeMixedDataValue: function( value ) {
+ 
+        var padding = "000000000000000";
+        
+        // Loop over all numeric values in the string and
+        // replace them with a value of a fixed-width for
+        // both leading (integer) and trailing (decimal)
+        // padded zeroes.
+        value = value.replace(
+        /(\d+)((\.\d+)+)?/g,
+        function( $0, integer, decimal, $3 ) {
+        
+                // If this numeric value has "multiple"
+                // decimal portions, then the complexity
+                // is too high for this simple approach -
+                // just return the padded integer.
+                if ( decimal !== $3 ) {
+                
+                return(
+                padding.slice( integer.length ) +
+                integer +
+                decimal
+                );
+                
+            }
+     
+             decimal = ( decimal || ".0" );
+            
+                return(
+                    padding.slice( integer.length ) +
+                    integer +
+                    decimal +
+                    padding.slice( decimal.length )
+                );
+    
+    	}
+    	);
+    
+        console.log( value );
+        
+        return( value );
+    
+    },
+ 
 
     sortBy: function (component, event, helper, sortBy) {
         var sort;
@@ -468,9 +513,9 @@
         var data = component.get('v.paymentList');
         if (orderBy == true) {
             if (sortBy == 'paymentReference') {                   
-                sort = data.sort((a,b) => (a.clientReference.toUpperCase() > b.clientReference.toUpperCase()) ? 1 : ((b.clientReference.toUpperCase() > a.clientReference.toUpperCase()) ? -1 : 0));
-            } else if (sortBy == 'paymentStatus') {                   
-                sort = data.sort((a,b) => (a.parsedPaymentStatus.toUpperCase() > b.parsedPaymentStatus.toUpperCase()) ? 1 : ((b.parsedPaymentStatus.toUpperCase() > a.parsedPaymentStatus.toUpperCase()) ? -1 : 0));
+                sort = data.sort((a,b) => (a.paymentId.toLowerCase() > b.paymentId.toLowerCase()) ? 1 : (b.paymentId.toLowerCase() >a.paymentId.toLowerCase()) ? -1 : 0);
+            } else if (sortBy == 'paymentStatus') {  
+                sort = data.sort((a,b) => (helper.normalizeMixedDataValue(a.parsedPaymentStatus) > helper.normalizeMixedDataValue(b.parsedPaymentStatus)) ? 1 : ((helper.normalizeMixedDataValue(b.parsedPaymentStatus) >helper.normalizeMixedDataValue(a.parsedPaymentStatus)) ? -1 : 0));
             } else if (sortBy == 'paymentMethod') {                   
                 sort = data.sort((a,b) => (a.parsedPaymentMethod.toUpperCase() > b.parsedPaymentMethod.toUpperCase()) ? 1 : ((b.parsedPaymentMethod.toUpperCase() > a.parsedPaymentMethod.toUpperCase()) ? -1 : 0));
             } else if (sortBy == 'valueDate') {
@@ -488,9 +533,9 @@
             }
         } else {
         	if (sortBy == 'paymentReference') {                   
-                sort = data.sort((a,b) => (a.clientReference.toUpperCase() < b.clientReference.toUpperCase()) ? 1 : ((b.clientReference.toUpperCase() < a.clientReference.toUpperCase()) ? -1 : 0));
-            } else if(sortBy == 'paymentStatus') {                   
-                sort = data.sort((a,b) => (a.parsedPaymentStatus.toUpperCase() < b.parsedPaymentStatus.toUpperCase()) ? 1 : ((b.parsedPaymentStatus.toUpperCase() < a.parsedPaymentStatus.toUpperCase()) ? -1 : 0));
+                sort = data.sort((a,b) => (a.paymentId.toLowerCase() < b.paymentId.toLowerCase()) ? 1 : (b.paymentId.toLowerCase() < a.paymentId.toLowerCase()) ? -1 : 0);
+            } else if(sortBy == 'paymentStatus') { 
+                sort = data.sort((a,b) => (helper.normalizeMixedDataValue(a.paymentStatus) < helper.normalizeMixedDataValue(b.paymentStatus)) ? 1 : ((helper.normalizeMixedDataValue(b.paymentStatus) < helper.normalizeMixedDataValue(a.paymentStatus)) ? -1 : 0));
             } else if(sortBy == 'paymentMethod') {                   
                 sort = data.sort((a,b) => (a.parsedPaymentMethod.toUpperCase() < b.parsedPaymentMethod.toUpperCase()) ? 1 : ((b.parsedPaymentMethod.toUpperCase() < a.parsedPaymentMethod.toUpperCase()) ? -1 : 0));
             } else if(sortBy == 'valueDate') {                    

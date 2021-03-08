@@ -1,0 +1,38 @@
+.breadcrumbs{
+    margin: 24px 0 16px 0;
+}
+
+ .button-back{
+    cursor: pointer;
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+ .button-next{
+    font-size: 16px;
+    margin: 0 4px;
+    height: 16px;
+    line-height: 18px;
+}
+
+ .textBreadbrumbs{
+    align-items: center;
+    color: #767676;
+    display: flex;
+    font-size: 16px;
+    margin-left: 32px;
+    height: 23px;
+}
+
+ .title{
+    align-items: center;
+    color: #444444;
+    display: flex;
+    font-family: SantanderHeadlineW05-Rg;
+    font-size: 20px;
+    line-height: 28px; 
+}
+
+ .icon-arrowRight_big:before{
+    color: #444444;
+}

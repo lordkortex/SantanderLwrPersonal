@@ -21,8 +21,22 @@ import getUserInfo from '@salesforce/apex/CNT_International_Treasury_Management.
 import orderByCountry from '@salesforce/apex/CNT_International_Treasury_Management.orderByCountry';
 import orderByCurrency from '@salesforce/apex/CNT_International_Treasury_Management.orderByCurrency';
 import orderBySubsidiary from '@salesforce/apex/CNT_International_Treasury_Management.orderBySubsidiary';
+import getDataContacUs from '@salesforce/apex/CNT_ContactUsController.getDataContacUs';
 
 import updateOneTradeAlias from '@salesforce/apex/CNT_AccountDetails.updateOneTradeAlias';
+import retrieveData from '@salesforce/apex/CNT_GlobalPositionController.retrieveData';
+import retrieveInitialData from '@salesforce/apex/CNT_StatementHistoryController.retrieveInitialData';
+import callAccountServices from '@salesforce/apex/CNT_AccountConverter.callAccountServices';
+import getTransactionsByAccount from '@salesforce/apex/CNT_TransactionSearchController.getTransactionsByAccount';
+import retrieveInitialDatad from '@salesforce/apex/CNT_DownloadBalanceMovementsController.retrieveInitialData';
+import getTransactionCategories from '@salesforce/apex/CNT_TransactionSearchController.getTransactionCategories';
+import getCountryValuesMap from '@salesforce/apex/CNT_ICMOriginDestinationTable.getCountryValuesMap';
+import sendPayment from '@salesforce/apex/CNT_InstantCashManagementController.sendPayment';
+import getUserPreferredFormat from '@salesforce/apex/CNT_TransactionSearchController.getUserPreferredFormat';
+import getFiltersData from '@salesforce/apex/CNT_TransactionSearchController.getFiltersData';
+import getTransactions from '@salesforce/apex/CNT_TransactionSearchController.getTransactions';
+import searchMovements from '@salesforce/apex/CNT_StatementHistoryController.searchMovements';
+import getUETR from '@salesforce/apex/CNT_SwiftPaymentTable.getUETR';
 
 
 // Import current user info
@@ -60,13 +74,13 @@ export default class Lwc_serviceComponent extends NavigationMixin(LightningEleme
 		var controllermethod = data.controllermethod;
 		this.handleDecrypt(callercomponent, datauri);
 	}
-	@api saveToCache() {
+	@api saveToCache(dat) {
 		console.log('saveToCache');     
-		let key = data.key;
-		let data = data.data;
+		let key = dat.key;
+		let data = dat.data;
 		this.handleSaveToCache(key, data)
     }
-    @api retrieveFromCache() {
+    @api retrieveFromCache(data) {
 		console.log('retrieveFromCache');
 		let key = data.key;
 		let callercomponent = data.callercomponent;
@@ -387,7 +401,211 @@ export default class Lwc_serviceComponent extends NavigationMixin(LightningEleme
 				console.log('KO '+ JSON.stringify(error));
             });
 		}
-		
+		else if (controllerMethod === 'retrieveData'){
+			retrieveData(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getDataContacUs'){
+			getDataContacUs(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'retrieveInitialData'){
+			retrieveInitialData(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'callAccountServices'){
+			callAccountServices(actionParameters)
+			.then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+			})
+			.catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+			});
+		}
+		else if (controllerMethod === 'getTransactionsByAccount'){
+			console.log('getTransactionsByAccount');
+			getTransactionsByAccount(actionParameters)
+			.then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+			})
+			.catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+			});
+		}
+		else if (controllerMethod === 'retrieveInitialDataDow'){
+			console.log('retrieveInitialDataDow');
+			retrieveInitialDatad(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getTransactionCategories'){
+			console.log('getTransactionCategories');
+			getTransactionCategories()
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getCountryValuesMap'){
+			getCountryValuesMap(actionParameters)
+			.then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+			})
+			.catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+			});
+		}
+		else if (controllerMethod === 'sendPayment'){
+			sendPayment(actionParameters)
+			.then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+			})
+			.catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+			});
+		}
+		else if (controllerMethod === 'getUserPreferredFormat'){
+			console.log('getUserPreferredFormat');
+			getUserPreferredFormat(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getFiltersData'){
+			console.log('getFiltersData');
+			getFiltersData(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getTransactions'){
+			console.log('getTransactions');
+			getTransactions(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'searchMovements'){
+			console.log('searchMovements');
+			searchMovements(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getUETR'){
+			console.log('getUETR');
+			getUETR(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+	
 	}
 	handleRedirection(page, url) {
 		//var results = this.encrypt(url);
@@ -492,6 +710,13 @@ export default class Lwc_serviceComponent extends NavigationMixin(LightningEleme
 			.catch((error) => {
 				console.log(error); // TestError
 			});
+		}
+		else{
+			const successcallback = new CustomEvent('successcallback', {
+				detail: { callercomponent : callercomponent,  value : undefined},
+			});
+			// Fire the custom event
+			this.dispatchEvent(successcallback);
 		}
 		
     }

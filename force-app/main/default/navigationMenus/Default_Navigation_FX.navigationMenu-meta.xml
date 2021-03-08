@@ -4,15 +4,37 @@
     <containerType>Network</containerType>
     <label>Default Navigation FX</label>
     <navigationMenuItem>
-        <label>International Payments Tracker</label>
+        <label>FX</label>
         <position>1</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <subMenu>
+            <navigationMenuItem>
+                <label>FX Dashboard</label>
+                <position>0</position>
+                <publiclyAvailable>false</publiclyAvailable>
+                <target>/foreign-exchange</target>
+                <type>InternalLink</type>
+            </navigationMenuItem>
+            <navigationMenuItem>
+                <label>Trades</label>
+                <position>1</position>
+                <publiclyAvailable>false</publiclyAvailable>
+                <target>/trades</target>
+                <type>InternalLink</type>
+            </navigationMenuItem>
+        </subMenu>
+        <type>MenuLabel</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>International Payments Tracker</label>
+        <position>2</position>
         <publiclyAvailable>false</publiclyAvailable>
         <target>/</target>
         <type>InternalLink</type>
     </navigationMenuItem>
     <navigationMenuItem>
         <label>Help and Contact Us</label>
-        <position>2</position>
+        <position>3</position>
         <publiclyAvailable>false</publiclyAvailable>
         <target>/help-and-contact-us</target>
         <type>InternalLink</type>

@@ -1,13 +1,14 @@
 ({
     handleSelection : function(component, event, helper, items) {
         var isSimpleDropdown = component.get('v.isSimpleDropdown');
+        var deselectOption = component.get('v.deselectOption');
         if(isSimpleDropdown){
             var selected = items[0];
             var objArray = component.get('v.values');
             var obj = objArray.find(obj => obj.value == selected);
             var value = component.get('v.selectedValue');
             if(value !=  null && value != undefined){
-                if(value == selected){
+                if(value == selected && deselectOption){
                     component.set('v.selectedValue',''); 
                 }else{
                     component.set('v.selectedValue',selected);
@@ -98,7 +99,7 @@
             if(value !=  null && value != undefined){
                 
                 component.set('v.selectedValue',selected);
-                component.set('v.selectedValuesText', obj.label);
+               component.set('v.selectedValuesText', obj.label);
                 
             }
         }  

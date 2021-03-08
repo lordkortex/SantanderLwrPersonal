@@ -6,28 +6,55 @@ public class MockResponse {
         String res = '{"Test":"Test", "status":"OK"}';
         return res; 
     }
+    
+     @TestVisible
+    public static String storeSignature(){  
+        String res = '{"operationGlobalId":"Test", "globalUserId":"OK","userId":"Test"}';
+        return res; 
+    }
 
     @TestVisible
     public static String WS_Attributions(){  
         String res = '{"serviceListResponse":{"serviceDataList":[{"serviceId":"test1","status":"active", "relationList":[{"status":"active","contractType":"test", "operabilityIndicator":"Consultive"}, {"status":"active","contractType":"test", "operabilityIndicator":"Operative"}]},{"serviceId":"test2","status":"active"}]}}';     
         return res;
     }
-
+    
     @TestVisible
+    public static String WS_DominantCurrencyResponse(){  
+        String res = '{"currencyPairListResponse":[{"currencyPairResponse": {"currency1": "EUR", "currency2": "GBP", "dominantCurrency": "EUR"}}]}';
+        return res;
+    }
+        @TestVisible
+    public static String WS_GetMeAccountDetails(){  
+        String res = '{"AccountDetailsResponse": {"displayNumber": "displayNumber_Test","accountId": "accountId_Test","accountIdType": "accountIdType_Test","alias": "alias","mainItem": true,"type": "type_test","description": "description_test","status": "OPEN","customerId": "customerId_test","lastTransactionDate": "lastTransactionDate_test","relatedCards": [{"relatedCard": {"displayNumber": "displayNumber_test","cardLink": "cardLink_test"}}],"costCenter": "costCenter_test","mainBalance": {"amount": 10,"currencyCode": "currencyCode_test","lastUpdate": "lastUpdate_test"},"availableBalance": {"amount": 10,"currencyCode": "currencyCode_test","lastUpdate": "lastUpdate_test"},"pendingBalance": {"amount": 10,"currencyCode": "currencyCode_test","lastUpdate": "lastUpdate_test"},"withholdingBalance": {"amount": 10,"currencyCode": "currencyCode_test","lastUpdate": "lastUpdate_test"},"overdraftLimit": {"amount": 10,"currencyCode": "currencyCode_test","lastUpdate": "lastUpdate_test"},"overdraftUsed": {"amount": 10,"currencyCode": "currencyCode_test","lastUpdate": "lastUpdate_test"},"latestTransactions": [{"transactionId": "transactionId_test","creationDate": "creationDate_test","processedDate": "processedDate_test","accountingDate": "accountingDate_test","description": "description_test","transactionType": "transactionType_test","transactionCategory": "transactionCategory_test","amount": {"amount": 10,"currencyCode": "currencyCode_test"},"transactionDetailsLink": "transactionDetailsLink_test"}],"transactionsListLink": "transactionsListLink_test"}}';
+        return res;
+    }
+
+        @TestVisible
     public static String WS_ChannelServices(){  
-        String res = '{"servicesListResponse":{"servicesDataList":[{"serviceId":"test1","status":"active", "relationList":[{"status":"active","contractType":"test", "operabilityIndicator":"Consultive"}, {"status":"active","contractType":"test", "operabilityIndicator":"Operative"}]},{"serviceId":"test2","status":"active"}]}}';     
+        String res = '{"servicesDataList": [{ "serviceId": "add_international_payment_internal", "contractsList": [{ "contractId": "contractId_Test", "operativityIndicatorContract": "Operative", "contractType": "contractType_Test"}]}]}';     
         return res;
     }
 
     @TestVisible
+    public static String PaymentOptionsResult_IIP () {
+        String res ='{"userGlobalId":"d2f1b326-0133-41ec-a94f-03cf83a02835","userDefinedAmount":"source","tradeAmount":7.99,"trackingStep":"Authorization","totalAmount":"3.04","subject":"ref RTE202012101255","statusUpdateUser":"aa75542a-dff9-4e85-8540-0da3c4ef4010","statusUpdateDate":"2020-12-10T13:18:47.776+0000","sourceTotalAmount":{},"sourceSwiftCode":"BSCHESMMXXX","sourceFeeData":{"sourceAgent":{"name":"","agentId":"","address":""},"sourceAccount":{"tcurrency":"","accountType":"","accountId":""},"parsedCountry":"","name":"","country":""},"sourceData":{"sourceAgent":{"name":"BANCO SANTANDER S.A.","agentId":"BSCHESMMXXX","address":"Spain"},"sourceAddress":{"townName":"Boadilla del Monte, Madrid","streetName":"Avda. de Cantabria s/n","country":"ES"},"sourceAccount":{"tcurrency":"EUR","accountType":"IBA","accountId":"ES7700490454193000541739"},"name":"M.G.M. ACCIAIERIA ITALIA","customerId":"J101484427","country":"ES"},"sourceCurrency":"EUR","sourceCountry":"ES","sourceBank":"BANCO SANTANDER S.A.","sourceAlias":"M.G.M. ACCIAIERIA ITALIA","sourceAccountIdType":"IBA","sourceAccountHolder":"M.G.M. ACCIAIERIA ITALIA","sourceAccount":"ES7700490454193000541739","serviceId":"add_international_payment_internal","purpose":"Payment for identifiable goods","productId":"International_Instant_Payment","pricingDetails":{"totalPrice":1.8,"tcurrency":"EUR","productName":"International_Instant_Payment","currencyList":[{"tcurrency":"GBP","conceptsList":[{"standardPrice":{"standardTiersList":[{"standardFixedRatePrice":{},"standardFixedAmountPrice":{"tcurrency":"EUR","standardFixedAmount":1.8},"standardAmountTier":9.999999999E9}]},"specialPrice":{"specialTiersList":[{"specialFixedRatePrice":{},"specialFixedAmountPrice":{}}]},"conceptName":"OUR Expenses Commission","conceptId":"291","conceptAmount":{"tcurrency":"EUR","amount":1.8}}]}]},"paymentStatus":"999","paymentReason":"003","paymentMethod":"International_Instant_Payment","paymentId":"f548286b75ca42e7ad5c5602589338c7","paymentCurrency":"GBP","parsedSourceCountry":"Spain","parsedPurpose":"Payment for identifiable goods","parsedPaymentStatus":"Rejected","parsedPaymentReason":"003","parsedPaymentMethod":"Book to Book","parsedDestinationCountry":"United Kingdom","operationType":"Order","operationStep2Data":{"intermediateAgentAccount":{}},"operationStep1Data":{"intermediateAgentAccount":{}},"operationStatusesHistorical":[{"userName":"aquanima2","statusDate":"2020-12-10T12:55:21.087+0000","status":"001","reason":"002","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T12:57:11.682+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:07:55.891+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"aquanima2","statusDate":"2020-12-10T12:54:34.232+0000","status":"001","reason":"000","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:08:08.054+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:07:13.181+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"aquanima2","statusDate":"2020-12-10T12:55:40.784+0000","status":"002","reason":"002","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:17:35.079+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:03:13.654+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T12:57:14.581+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:07:15.139+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"aquanima2","statusDate":"2020-12-10T12:55:38.151+0000","status":"002","reason":"001","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:18:47.776+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:03:06.482+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"}],"operationNominalFxRollbackDetails":{"ccyCountervalue":{}},"operationNominalFxDetails":{"valueDateEfx":"2020-12-10","priceType":"ONI","nominalAmountNoMarkUp":{"tcurrency":"GBP","amount":7.75},"fxCountervalueId":"GTS0000000000000110988","fxComercialMargin":{"fxComercialMarginCurrency":"EUR","fxComercialMarginAmount":0.0},"discount":0,"customerExchangeRate":0.872176,"ccyCountervalue":{"ccyCountervalueCurrency":"GBP","ccyCountervalueAmount":1.24}},"operationFraudDetails":{},"operationFeesFxDetails":{"ccyCountervalue":{}},"operationDescription":"","operationAmount":{},"feesCurrency":"EUR","fees":"1.8","destinationData":{"destinationAgent":{"name":"SANTANDER UK PLC","agentId":"ABBYGB20XXX","address":"United Kingdom"},"destinationAddress":{"townName":"Madrid","streetName":"Calle Factor","country":"ES"},"destinationAccount":{"tcurrency":"GBP","accountType":"IBA","accountId":"GB37ABBY09072445283289"},"customerId":"J000726877","country":"GB"},"destinationCountry":"GB","counterValueOperationAmount":{"tradeCurrency":"GBP","tcurrency":"EUR","amount":7.99},"convertedCurrency":"GBP","convertedAmount":"1.24","clientReference":"RTE202012101255","chargeBearer":"OUR","beneficiarySwiftCode":"ABBYGB20XXX","beneficiaryCurrency":"GBP","beneficiaryBank":"SANTANDER UK PLC","beneficiaryAlias":"EASYJET LEASING LIMITED","beneficiaryAccountIdType":"IBA","beneficiaryAccountHolder":"EASYJET LEASING LIMITED","beneficiaryAccount":"GB37ABBY09072445283289","amountSend":"7.99","amountReceive":"1.24","amount":1.24,"addFees":false}';
+        return res;
+	}
+    @TestVisible
     public static String PaymentOptionsResult () {
-        String res = '{"userGlobalId":"d2f1b326-0133-41ec-a94f-03cf83a02835","userDefinedAmount":"source","tradeAmount":7.99,"trackingStep":"Authorization","totalAmount":"3.04","subject":"ref RTE202012101255","statusUpdateUser":"aa75542a-dff9-4e85-8540-0da3c4ef4010","statusUpdateDate":"2020-12-10T13:18:47.776+0000","sourceTotalAmount":{},"sourceSwiftCode":"BSCHESMMXXX","sourceFeeData":{"sourceAgent":{"name":"","agentId":"","address":""},"sourceAccount":{"tcurrency":"","accountType":"","accountId":""},"parsedCountry":"","name":"","country":""},"sourceData":{"sourceAgent":{"name":"BANCO SANTANDER S.A.","agentId":"BSCHESMMXXX","address":"Spain"},"sourceAddress":{"townName":"Boadilla del Monte, Madrid","streetName":"Avda. de Cantabria s/n","country":"ES"},"sourceAccount":{"tcurrency":"EUR","accountType":"IBA","accountId":"ES7700490454193000541739"},"name":"M.G.M. ACCIAIERIA ITALIA","customerId":"J101484427","country":"ES"},"sourceCurrency":"EUR","sourceCountry":"ES","sourceBank":"BANCO SANTANDER S.A.","sourceAlias":"M.G.M. ACCIAIERIA ITALIA","sourceAccountIdType":"IBA","sourceAccountHolder":"M.G.M. ACCIAIERIA ITALIA","sourceAccount":"ES7700490454193000541739","serviceId":"add_international_payment_internal","purpose":"Payment for identifiable goods","productId":"book_to_book","pricingDetails":{"totalPrice":1.8,"tcurrency":"EUR","productName":"book_to_book","currencyList":[{"tcurrency":"GBP","conceptsList":[{"standardPrice":{"standardTiersList":[{"standardFixedRatePrice":{},"standardFixedAmountPrice":{"tcurrency":"EUR","standardFixedAmount":1.8},"standardAmountTier":9.999999999E9}]},"specialPrice":{"specialTiersList":[{"specialFixedRatePrice":{},"specialFixedAmountPrice":{}}]},"conceptName":"OUR Expenses Commission","conceptId":"291","conceptAmount":{"tcurrency":"EUR","amount":1.8}}]}]},"paymentStatus":"999","paymentReason":"003","paymentMethod":"book_to_book","paymentId":"f548286b75ca42e7ad5c5602589338c7","paymentCurrency":"GBP","parsedSourceCountry":"Spain","parsedPurpose":"Payment for identifiable goods","parsedPaymentStatus":"Rejected","parsedPaymentReason":"003","parsedPaymentMethod":"Book to book","parsedDestinationCountry":"United Kingdom","operationType":"Order","operationStep2Data":{"intermediateAgentAccount":{}},"operationStep1Data":{"intermediateAgentAccount":{}},"operationStatusesHistorical":[{"userName":"aquanima2","statusDate":"2020-12-10T12:55:21.087+0000","status":"001","reason":"002","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T12:57:11.682+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:07:55.891+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"aquanima2","statusDate":"2020-12-10T12:54:34.232+0000","status":"001","reason":"000","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:08:08.054+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:07:13.181+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"aquanima2","statusDate":"2020-12-10T12:55:40.784+0000","status":"002","reason":"002","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:17:35.079+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:03:13.654+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T12:57:14.581+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:07:15.139+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"aquanima2","statusDate":"2020-12-10T12:55:38.151+0000","status":"002","reason":"001","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:18:47.776+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:03:06.482+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"}],"operationNominalFxRollbackDetails":{"ccyCountervalue":{}},"operationNominalFxDetails":{"valueDateEfx":"2020-12-10","priceType":"ONI","nominalAmountNoMarkUp":{"tcurrency":"GBP","amount":7.75},"fxCountervalueId":"GTS0000000000000110988","fxComercialMargin":{"fxComercialMarginCurrency":"EUR","fxComercialMarginAmount":0.0},"discount":0,"customerExchangeRate":0.872176,"ccyCountervalue":{"ccyCountervalueCurrency":"GBP","ccyCountervalueAmount":1.24}},"operationFraudDetails":{},"operationFeesFxDetails":{"ccyCountervalue":{}},"operationDescription":"","operationAmount":{},"feesCurrency":"EUR","fees":"1.8","destinationData":{"destinationAgent":{"name":"SANTANDER UK PLC","agentId":"ABBYGB20XXX","address":"United Kingdom"},"destinationAddress":{"townName":"Madrid","streetName":"Calle Factor","country":"ES"},"destinationAccount":{"tcurrency":"GBP","accountType":"IBA","accountId":"GB37ABBY09072445283289"},"customerId":"J000726877","country":"GB"},"destinationCountry":"GB","counterValueOperationAmount":{"tradeCurrency":"GBP","tcurrency":"EUR","amount":7.99},"convertedCurrency":"GBP","convertedAmount":"1.24","clientReference":"RTE202012101255","chargeBearer":"OUR","beneficiarySwiftCode":"ABBYGB20XXX","beneficiaryCurrency":"GBP","beneficiaryBank":"SANTANDER UK PLC","beneficiaryAlias":"EASYJET LEASING LIMITED","beneficiaryAccountIdType":"IBA","beneficiaryAccountHolder":"EASYJET LEASING LIMITED","beneficiaryAccount":"GB37ABBY09072445283289","amountSend":"7.99","amountReceive":"1.24","amount":1.24,"addFees":false}';
+        String res = '{"userGlobalId":"d2f1b326-0133-41ec-a94f-03cf83a02835","userDefinedAmount":"source","tradeAmount":7.99,"trackingStep":"Authorization","totalAmount":"3.04","subject":"ref RTE202012101255","statusUpdateUser":"aa75542a-dff9-4e85-8540-0da3c4ef4010","statusUpdateDate":"2020-12-10T13:18:47.776+0000","sourceTotalAmount":{},"sourceSwiftCode":"BSCHESMMXXX","sourceFeeData":{"sourceAgent":{"name":"","agentId":"","address":""},"sourceAccount":{"tcurrency":"123","accountType":"123","accountId":"123"},"parsedCountry":"","name":"","country":""},"sourceData":{"sourceAgent":{"name":"BANCO SANTANDER S.A.","agentId":"BSCHESMMXXX","address":"Spain"},"sourceAddress":{"townName":"Boadilla del Monte, Madrid","streetName":"Avda. de Cantabria s/n","country":"ES"},"sourceAccount":{"tcurrency":"EUR","accountType":"IBA","accountId":"ES7700490454193000541739"},"name":"M.G.M. ACCIAIERIA ITALIA","customerId":"J101484427","country":"ES"},"sourceCurrency":"EUR","sourceCountry":"ES","sourceBank":"BANCO SANTANDER S.A.","sourceAlias":"M.G.M. ACCIAIERIA ITALIA","sourceAccountIdType":"IBA","sourceAccountHolder":"M.G.M. ACCIAIERIA ITALIA","sourceAccount":"ES7700490454193000541739","serviceId":"add_international_payment_internal","purpose":"Payment for identifiable goods","productId":"Book_to_Book","pricingDetails":{"totalPrice":1.8,"tcurrency":"EUR","productName":"Book_to_Book","currencyList":[{"tcurrency":"GBP","conceptsList":[{"standardPrice":{"standardTiersList":[{"standardFixedRatePrice":{},"standardFixedAmountPrice":{"tcurrency":"EUR","standardFixedAmount":1.8},"standardAmountTier":9.999999999E9}]},"specialPrice":{"specialTiersList":[{"specialFixedRatePrice":{},"specialFixedAmountPrice":{}}]},"conceptName":"OUR Expenses Commission","conceptId":"291","conceptAmount":{"tcurrency":"EUR","amount":1.8}}]}]},"paymentStatus":"999","paymentReason":"003","paymentMethod":"Book_to_Book","paymentId":"f548286b75ca42e7ad5c5602589338c7","paymentCurrency":"GBP","parsedSourceCountry":"Spain","parsedPurpose":"Payment for identifiable goods","parsedPaymentStatus":"Rejected","parsedPaymentReason":"003","parsedPaymentMethod":"Book to Book","parsedDestinationCountry":"United Kingdom","operationType":"Order","operationStep2Data":{"intermediateAgentAccount":{}},"operationStep1Data":{"intermediateAgentAccount":{}},"operationStatusesHistorical":[{"userName":"aquanima2","statusDate":"2020-12-10T12:55:21.087+0000","status":"001","reason":"002","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T12:57:11.682+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:07:55.891+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"aquanima2","statusDate":"2020-12-10T12:54:34.232+0000","status":"001","reason":"000","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:08:08.054+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:07:13.181+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"aquanima2","statusDate":"2020-12-10T12:55:40.784+0000","status":"002","reason":"002","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:17:35.079+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:03:13.654+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T12:57:14.581+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:07:15.139+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"aquanima2","statusDate":"2020-12-10T12:55:38.151+0000","status":"002","reason":"001","globalUserId":"d2f1b326-0133-41ec-a94f-03cf83a02835"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:18:47.776+0000","status":"999","reason":"003","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"},{"userName":"Carmen Iniesta","statusDate":"2020-12-10T13:03:06.482+0000","status":"101","reason":"001","globalUserId":"aa75542a-dff9-4e85-8540-0da3c4ef4010"}],"operationNominalFxRollbackDetails":{"ccyCountervalue":{}},"operationNominalFxDetails":{"valueDateEfx":"2020-12-10","priceType":"ONI","nominalAmountNoMarkUp":{"tcurrency":"GBP","amount":7.75},"fxCountervalueId":"GTS0000000000000110988","fxComercialMargin":{"fxComercialMarginCurrency":"EUR","fxComercialMarginAmount":0.0},"discount":0,"customerExchangeRate":0.872176,"ccyCountervalue":{"ccyCountervalueCurrency":"GBP","ccyCountervalueAmount":1.24}},"operationFraudDetails":{},"operationFeesFxDetails":{"ccyCountervalue":{}},"operationDescription":"","operationAmount":{},"feesCurrency":"EUR","fees":"1.8","destinationData":{"destinationAgent":{"name":"SANTANDER UK PLC","agentId":"ABBYGB20XXX","address":"United Kingdom"},"destinationAddress":{"townName":"Madrid","streetName":"Calle Factor","country":"ES"},"destinationAccount":{"tcurrency":"GBP","accountType":"IBA","accountId":"GB37ABBY09072445283289"},"customerId":"J000726877","country":"GB"},"destinationCountry":"GB","counterValueOperationAmount":{"tradeCurrency":"GBP","tcurrency":"EUR","amount":7.99},"convertedCurrency":"GBP","convertedAmount":"1.24","clientReference":"RTE202012101255","chargeBearer":"OUR","beneficiarySwiftCode":"ABBYGB20XXX","beneficiaryCurrency":"GBP","beneficiaryBank":"SANTANDER UK PLC","beneficiaryAlias":"EASYJET LEASING LIMITED","beneficiaryAccountIdType":"IBA","beneficiaryAccountHolder":"EASYJET LEASING LIMITED","beneficiaryAccount":"GB37ABBY09072445283289","amountSend":"7.99","amountReceive":"1.24","amount":1.24,"addFees": false, "operationAmountBaseCurrency" :{ "amount": 7.99, "tcurrency":"EUR" }}';     
+        return res;
+	}
+        @TestVisible
+    public static String OperationDetail () {
+        String res = '{"operationDetail":{"paymentMethod":"paymentMethod_TEST","operationStatus":{"status":"Authorized","reason":"Paymentispartiallyauthorized","statusDate":"2020-04-22T17:15:35.552Z","globalUserId":"globalUserId_TEST"},"sourceData":{"sourceName":"BancoSantander","customerId":"customerId_Test","companyGlobalId":"companyGlobalId_TEST","sourceAddress":{"streetName":"streetName_TEST","townName":"townName_TEST","country":"country_TEST"},"sourceAccount":{"accountType":"IBA","accountId":"GB54ABBY6578956387330","tcurrency":"GBP"},"sourceAgent":{"agentId":"ABBYGB2LXXX","name":"SANTANDERUKPLC","address":"BridleRoad"},"country":"ES"},"sourceFeeData":{"sourceName":"sourceName_TEST","sourceAccount":{"accountType":"IBA","accountId":"GB54ABBY6578956387330","tcurrency":"GBP"},"sourceAgent":{"agentId":"ABBYGB2LXXX","name":"SANTANDERUKPLC","address":"BridleRoad"},"country":"ES"},"destinationData":{"sourceName":"sourceName_TEST","customerId":"customerId_TEST","companyGlobalId":"companyGlobalId","destinationAddress":{"streetName":"streetName_TEST","townName":"townName_TEST","country":"country_TEST"},"destinationAccount":{"accountType":"IBA","accountId":"ES54004956387330056782","tcurrency":"EUR"},"destinationAgent":{"agentId":"BSCHESMMXXX","name":"BancoSantanderEspaña","address":"AvdaCantabrias/nBoadilladelMonte"},"country":"ES"}}}';     
         return res;
 	}
 
     @TestVisible
     public static String PaymentDetail(){
-        String res = '{		"operationResponse":{		"operationDetail":{		"operationType":"b2b",		"serviceId":"add_international_payment_internal",		"userGlobalId":"ab34521",		"operationStatus":{		"status":"Authorized",		"reason":"Paymentispartiallyauthorized",		"statusDate":"2020-04-22T17:15:35.552Z"		},		"sourceData":{		"name":"BancoSantander",		"sourceAccount":{		"accountType":"IBA",		"accountId":"GB54ABBY6578956387330",		"tcurrency":"GBP"		},		"sourceAgent":{		"agentId":"ABBYGB2LXXX",		"name":"SANTANDERUKPLC",		"address":"BridleRoad"		},		"country":"ES"		},		"destinationData":{		"name":"string",		"destinationAccount":{		"accountType":"IBA",		"accountId":"ES54004956387330056782",		"tcurrency":"EUR"		},		"destinationAgent":{		"agentId":"BSCHESMMXXX",		"name":"BancoSantanderEspaña",		"address":"AvdaCantabrias/nBoadilladelMonte"		},		"country":"ES"		},		"operationStep1Data":{		"opStep1Id":"string",		"status":"string",		"valueDate":"2020-06-17",		"flowIndicator":"S",		"intermediateAgentAccount":{		"accountType":"string",		"accountId":"string"		}		},		"operationStep2Data":{		"opStep2Id":"string",		"status":"string",		"valueDate":"2020-06-17",		"flowIndicator":"D",		"intermediateAgentAccount":{		"accountType":"string",		"accountId":"string"		}		},		"issueDate":"2020-07-07T13:05:30.346Z",		"chargeBearer":"string",		"operationAmount":{		"tcurrency":"PLN",		"amount":1000		},		"counterValueOperationAmount":{		"tcurrency":"USD",		"amount":0,		"tradeCurrency":"EUR"		},		"sourceTotalAmount":{		"tcurrency":"USD",		"amount":0		},		"clientReference":"string",		"purpose":"string",		"operationDescription":"string",		"subject":"CustomerOrder0123213213",		"operationFraudDetails":{		"fraudValidationResult":"OK",		"fraudReference":"9a0a67d3675b4627b28034517737437f"		},		"operationNominalFxDetails":{		"fxCountervalueId":"A12345678901234567890123456789012345B",		"priceType":"ONL",		"discount":25,		"ccyCountervalue":{		"ccyCountervalueAmount":1200.85,		"ccyCountervalueCurrency":"EUR"		},		"valueDateEfx":"2020-07-15",		"customerExchangeRate":1.10000002,		"fxComercialMargin":{		"fxComercialMarginCurrency":"EUR",		"fxComercialMarginAmount":27.05		},		"nominalAmountNoMarkUp":{		"amount":345.89,		"tcurrency":"EUR"		}		},		"operationFeesFxDetails":{		"fxCountervalueId":"A12345678901234567890123456789012345B",		"priceType":"ONL",		"discount":25,		"ccyCountervalue":{		"ccyCountervalueAmount":1200.85,		"ccyCountervalueCurrency":"EUR"		},		"valueDateEfx":"2020-07-15",		"customerExchangeRate":1.10000002		},		"pricingDetails":{		"productName":"string",		"totalPrice":38.9,		"tcurrency":"EUR",		"currencyList":[		{		"tcurrency":"USD",		"currencyName":"U.S.dollar",		"conceptsList":[		{		"conceptId":293,		"conceptName":"sharefee",		"specialPrice":{		"specialPriceLevel":"productagreement",		"specialTiersList":[		{		"specialAmountTier":50000.12345,		"specialAmountTierType":"I",		"specialFixedRatePrice":{		"specialRate":1.250126,		"specialMinimumAmount":10,		"specialMaximumAmount":500,		"tcurrency":"EUR"		},		"specialFixedAmountPrice":{		"specialFixedAmount":3,		"tcurrency":"EUR"		}		}		]		},		"standardPrice":{		"standardTiersList":[		{		"standardAmountTier":5000.12345,		"standardAmountTierType":"S",		"standardFixedRatePrice":{		"standardRate":1.25,		"standardMinimumAmount":10,		"standardMaximumAmount":500,		"tcurrency":"EUR"		},		"standardFixedAmountPrice":{		"standardFixedAmount":3,		"tcurrency":"EUR"		}		}		]		},		"conceptAmount":{		"amount":250,		"tcurrency":"EUR",		"fixing":1.25		}		}		]		}		]		}		},		"refundDetails":{		"globalUserId":"x124903",		"authUserId":"x569085",		"authDate":"2020-06-17T10:20:33.256Z",		"authComments":"Thefundscanbereturnedtothecustomer.ValidationOK",		"creationDate":"2020-06-17T10:20:33.256Z",		"refundType":"bank_error",		"refundAmount":{		"amount":1234566.98,		"tcurrency":"EUR"		},		"status":"string",		"reason":"Duplicatedpaymentconfirmedduetoabankerror.Fundshavetobereturnedtotheoriginatoroftheoriginalpayment",		"comments":"Refundneededduetoapossibleduplicateddetected",		"refundDate":"2020-06-17"		}		}		}';
+        String res = '{		"operationResponse":{		"operationDetail":{		"operationType":"b2b",		"serviceId":"add_international_payment_internal",		"userGlobalId":"ab34521",		"operationStatus":{		"status":"Authorized",		"reason":"Paymentispartiallyauthorized",		"statusDate":"2020-04-22T17:15:35.552Z"		},		"":{		"name":"BancoSantander",		"sourceAccount":{		"accountType":"IBA",		"accountId":"GB54ABBY6578956387330",		"tcurrency":"GBP"		},		"sourceAgent":{		"agentId":"ABBYGB2LXXX",		"name":"SANTANDERUKPLC",		"address":"BridleRoad"		},		"country":"ES"		},		"destinationData":{		"name":"string",		"destinationAccount":{		"accountType":"IBA",		"accountId":"ES54004956387330056782",		"tcurrency":"EUR"		},		"destinationAgent":{		"agentId":"BSCHESMMXXX",		"name":"BancoSantanderEspaña",		"address":"AvdaCantabrias/nBoadilladelMonte"		},		"country":"ES"		},		"operationStep1Data":{		"opStep1Id":"string",		"status":"string",		"valueDate":"2020-06-17",		"flowIndicator":"S",		"intermediateAgentAccount":{		"accountType":"string",		"accountId":"string"		}		},		"operationStep2Data":{		"opStep2Id":"string",		"status":"string",		"valueDate":"2020-06-17",		"flowIndicator":"D",		"intermediateAgentAccount":{		"accountType":"string",		"accountId":"string"		}		},		"issueDate":"2020-07-07T13:05:30.346Z",		"chargeBearer":"string",		"operationAmount":{		"tcurrency":"PLN",		"amount":1000		},		"counterValueOperationAmount":{		"tcurrency":"USD",		"amount":0,		"tradeCurrency":"EUR"		},		"sourceTotalAmount":{		"tcurrency":"USD",		"amount":0		},		"clientReference":"string",		"purpose":"string",		"operationDescription":"string",		"subject":"CustomerOrder0123213213",		"operationFraudDetails":{		"fraudValidationResult":"OK",		"fraudReference":"9a0a67d3675b4627b28034517737437f"		},		"operationNominalFxDetails":{		"fxCountervalueId":"A12345678901234567890123456789012345B",		"priceType":"ONL",		"discount":25,		"ccyCountervalue":{		"ccyCountervalueAmount":1200.85,		"ccyCountervalueCurrency":"EUR"		},		"valueDateEfx":"2020-07-15",		"customerExchangeRate":1.10000002,		"fxComercialMargin":{		"fxComercialMarginCurrency":"EUR",		"fxComercialMarginAmount":27.05		},		"nominalAmountNoMarkUp":{		"amount":345.89,		"tcurrency":"EUR"		}		},		"operationFeesFxDetails":{		"fxCountervalueId":"A12345678901234567890123456789012345B",		"priceType":"ONL",		"discount":25,		"ccyCountervalue":{		"ccyCountervalueAmount":1200.85,		"ccyCountervalueCurrency":"EUR"		},		"valueDateEfx":"2020-07-15",		"customerExchangeRate":1.10000002		},		"pricingDetails":{		"productName":"string",		"totalPrice":38.9,		"tcurrency":"EUR",		"currencyList":[		{		"tcurrency":"USD",		"currencyName":"U.S.dollar",		"conceptsList":[		{		"conceptId":293,		"conceptName":"sharefee",		"specialPrice":{		"specialPriceLevel":"productagreement",		"specialTiersList":[		{		"specialAmountTier":50000.12345,		"specialAmountTierType":"I",		"specialFixedRatePrice":{		"specialRate":1.250126,		"specialMinimumAmount":10,		"specialMaximumAmount":500,		"tcurrency":"EUR"		},		"specialFixedAmountPrice":{		"specialFixedAmount":3,		"tcurrency":"EUR"		}		}		]		},		"standardPrice":{		"standardTiersList":[		{		"standardAmountTier":5000.12345,		"standardAmountTierType":"S",		"standardFixedRatePrice":{		"standardRate":1.25,		"standardMinimumAmount":10,		"standardMaximumAmount":500,		"tcurrency":"EUR"		},		"standardFixedAmountPrice":{		"standardFixedAmount":3,		"tcurrency":"EUR"		}		}		]		},		"conceptAmount":{		"amount":250,		"tcurrency":"EUR",		"fixing":1.25		}		}		]		}		]		}		},		"refundDetails":{		"globalUserId":"x124903",		"authUserId":"x569085",		"authDate":"2020-06-17T10:20:33.256Z",		"authComments":"Thefundscanbereturnedtothecustomer.ValidationOK",		"creationDate":"2020-06-17T10:20:33.256Z",		"refundType":"bank_error",		"refundAmount":{		"amount":1234566.98,		"tcurrency":"EUR"		},		"status":"string",		"reason":"Duplicatedpaymentconfirmedduetoabankerror.Fundshavetobereturnedtotheoriginatoroftheoriginalpayment",		"comments":"Refundneededduetoapossibleduplicateddetected",		"refundDate":"2020-06-17"		}		}		}';
     	return res;
 	}
         
@@ -39,7 +66,7 @@ public class MockResponse {
     
     @TestVisible
     public static String WS_ExchangeRate(){
-    	String res = '{ "amountReceive": "test", "amountSend": "test", "timestamp": "test", "priceType": "test", "fxExchangeResponse": { "fxCountervalueId": "test", "valueDateEfx": "test", "customerExchangeRate": "100", "ccyCountervalue": { "ccyCountervalueAmount": "ccyCountervalueAmountTest", "ccyCountervalueCurrency": "ccyCountervalueCurrencyTest" }, "fxComercialMargin": { "fxComercialMarginAmount": 123.34, "fxComercialMarginCurrency": "fxComercialMarginCurrencyTest" } }, "errors": [] }';
+    	String res = '{ "amountReceive": 0.0, "amountSend": 0.0, "timestamp": "test", "priceType": "test", "fxExchangeResponse": { "fxCountervalueId": "test", "valueDateEfx": "test", "customerExchangeRate": "100", "ccyCountervalue": { "ccyCountervalueAmount": "100.0", "ccyCountervalueCurrency": "ccyCountervalueCurrencyTest" }, "fxComercialMargin": { "fxComercialMarginAmount": 123.34, "fxComercialMarginCurrency": "EUR" } }, "errors": [] }';
         return res;
     }
     
@@ -57,13 +84,46 @@ public class MockResponse {
     
     @TestVisible
     public static String B2BData_PaymentAmount(){
-        String res = '{"fromOrigin":true, "amountSend":"1000", "amountReceive":"990", "exchangeRate":"1", "timestamp":"test", "transactionFee":"10", "transactionFeeCurrency":"test", "convertedTransactionFee":"10", "convertedTransactionFeeCurrency":"test"}';
+        String res = '{"fromOrigin":true, "amountSend":"0", "amountReceive":"0", "exchangeRate":"1", "timestamp":"test", "transactionFee":"10", "transactionFeeCurrency":"test", "convertedTransactionFee":"10", "convertedTransactionFeeCurrency":"test"}';
         return res;
     }
     
     @TestVisible
     public static String AccountList_AccountDetails(String country, String tcurrency){
-        String res = '{ "accountId": "1234", "displayNumber": "1234", "codigoBic": "123", "IdType": "BBA", "status": "Active", "country": "' + country + '", "currencyCodeAvailableBalance": "' + tcurrency + '", "valueDate": "10-10-2020", "lastUpdateAvailableBalance": "10-10-2020", "customerId": "customerIdTest", "subsidiaryName": "subsidiaryNameTest", "bankName": "bankNameTest", "address": { "streetName": "streetNameTest", "townName": "townNameTest", "country": "countryTest" } }';
+        String res = '{ "accountsListResponse": { "accountsDataList": [{ "status": "Active", "companyIdsList":[{"idType":"GLOBAL","id":"test"},{"idType":"LOCAL","id":"test"}],"customerId": "customerId", "country": "ES", "displayNumber": "displayNumber", "accountHolderAddress": { "streetName": "streetNameTest", "townName": "townNameTest", "country": "countryTest" }, "bankId": "ES1802000044445555", "mainBalance": { "amount": 123.23, "currencyCode": "currencyCodeTest", "lastUpdate": "lastUpdateTest" }, "availableBalance": { "amount": 123.23, "currencyCode": "currencyCodeTest", "lastUpdate": "lastUpdateTest" }, "pendingBalance": { "amount": 123.23, "currencyCode": "currencyCodeTest", "lastUpdate": "lastUpdateTest" }, "withholdingBalance": { "amount": 123.23, "currencyCode": "currencyCodeTest", "lastUpdate": "lastUpdateTest" }, "overdraftLimit": { "amount": 123.23, "currencyCode": "currencyCodeTest", "lastUpdate": "lastUpdateTest" }, "accountIdList": [{ "IdType": "type", "accountId": "1234" } ] } ] } }';  
+        return res;
+    }
+    
+    @TestVisible
+    public static String AccountListAccountDetails_ES(){
+        String res = '{"address":{"country":"ES","streetName":"Calle Patones","townName":"Madrid"},"alias":"","amountAvailableBalance":671.36,"amountMainBalance":670.36,"balanceAllowed":true,"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"J101484427","companyIdsList":{"LOCAL":"J101484427","GLOBAL":"-1363016250","NEXUS":"4382"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","customerId":"J101484427","displayNumber":"ES7700490454193000541739","hasSwiftPayments":"false","idType":"IBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-20 13:51:07","lastUpdateAvailableBalanceMain":"2021-01-20T12:51:07.285+0000","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"M.G.M. ACCIAIERIA ITALIA","transactionsAllowed":true,"valueDate":"2021-01-20T12:51:07.285+0000"}';
+        return res;
+    }
+    @TestVisible
+    public static String AccountListAccountDetails_GB(){
+        String res ='{"address":{"country":"ES","streetName":"Calle Patones","townName":"Madrid"},"alias":"STANDARD PRODUCTS","amountAvailableBalance":144199.73,"amountMainBalance":144199.73,"balanceAllowed":true,"bankName":"SANTANDER UK PLC","bic":"ABBY","branch":"XXX","codigoBic":"ABBYGB20XXX","codigoCorporate":"4382","companyIdsList":{"LOCAL":"4382","GLOBAL":"-1363016250","NEXUS":"4382"},"country":"GB","countryName":"United Kingdom","currencyCodeAvailableBalance":"GBP","customerId":"4382","displayNumber":"GB37ABBY09072445283289","hasSwiftPayments":"false","idType":"IBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-20 13:51:08","lastUpdateAvailableBalanceMain":"2021-01-20T12:51:08.166+0000","locatorbic":"20","mandatoryPurpose":false,"paisbic":"GB","status":"Open","subsidiaryName":"M.G.M. ACCIAIERIA ITALIA","transactionsAllowed":true,"valueDate":"2021-01-20T12:51:08.166+0000"}';
+        return res;
+    }
+    
+    @TestVisible
+    public static String sourceAccount_Fraud(){
+        String res = '{"address":{"country":"GB","streetName":"","townName":"Belo Horizonte"},"alias":"","amountAvailableBalance":40001,"amountMainBalance":40000,"balanceAllowed":true,"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"J000104892","country":"GB","countryName":"Spain","currencyCodeAvailableBalance":"GBR","customerId":"J000104892","displayNumber":"GB37ABBY09072445283289","hasSwiftPayments":"false","idType":"BBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-05 10:48:40","lastUpdateAvailableBalanceMain":"2021-01-05T09:48:40.247+0000","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"TESTGTS","transactionsAllowed":true,"valueDate":"2021-01-05T09:48:40.247+0000"}';
+        return res;
+    }
+    
+    @TestVisible
+    public static String destinationAccount_Fraud(){
+        String res = '{"address":{"country":"ES","streetName":"Calle Patones","townName":"Madrid"},"amountAvailableBalance":6277.71,"amountMainBalance":6276.71,"amountOverdraftLimit":1,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"J101484427","country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J101484427","description":"CUENTA CORRIENTE SANTANDER PB","displayNumber":"ES7700490454193000541739","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastUpdateAvailableBalance":"2020-12-30T14:29:18Z","lastupdateMainBalance":"2020-12-30T14:29:18Z","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"M.G.M. ACCIAIERIA ITALIA","type":"IBA"}';
+        return res;
+    }
+    @TestVisible
+    public static String amountData_Fraud(){
+        String res= '{"amountSend": 5, "timestamp": "15:48", "exchangeRate": 1.11, "fromOrigin": true, "amountReceive": 4.5, "exchangeRateToShow": "1.11", "exchangeRateServiceResponse": { "amountSend": "5", "fxExchangeResponse": { "ccyCountervalue": { "ccyCountervalueAmount": "4.50", "ccyCountervalueCurrency": "GBP" }, "customerExchangeRate": 1.11, "fxComercialMargin": { "fxComercialMarginAmount": 0.135, "fxComercialMarginCurrency": "GBP"}, "fxCountervalueId": "GTS0000000000000000038", "valueDateEfx": "2020-12-29"}, "priceType": "ONL", "timestamp": "15:48"}, "transactionFee": 0.2, "transactionFeeCurrency": "EUR", "transactionFeeServiceResponse": { "currencyList": [{ "conceptsList": [{"conceptAmount": { "amount": 0.2, "tcurrency": "EUR"},"conceptId": "291", "conceptName": "OUR Expenses Commission", "specialPrice": { "specialTiersList": [{"specialFixedAmountPrice": {}}]}, "standardPrice": { "standardTiersList": [{ "standardAmountTier": 9999999999, "standardFixedAmountPrice": { "standardFixedAmount": 0.2, "tcurrency": "EUR"}}]}}],"tcurrency": "GBP" } ],"productName": "Book_to_Book", "transactionFee": "0.2", "transactionFeeCurrency": "EUR"}}';
+        return res;
+    }
+    @TestVisible
+    public static String metaData_Fraud(){
+        String res= '{"accessChannel": "web", "customerId":"customerId", "documentNumber": "documentNumber", "documentType":"documentType", "PaymentDataArea" : {"idempotentReference": "idempotentReference", "destinationName": "destinationName", "destinationAccount": { "accountIdType": "accountIdType", "accountId" : "accountId"}, "destinationAgent":{ "agent" : "agent"}, "sourceAccount":{"accountIdType": "accountIdType", "accountId": "accountId"}, "flowIndicator": "flowIndicator"}}';
         return res;
     }
     
@@ -96,7 +156,7 @@ public class MockResponse {
 		'        "singsRequired": 1,'+
 		'        "userList": ['+
 		'          {'+
-		'            "userId": 43244234'+
+		'            "userId":"test"'+
 		'          }'+
 		'        ]'+
 		'      },'+
@@ -165,10 +225,43 @@ public class MockResponse {
     }
     
     @TestVisible
+    public static String WS_TransactionalLimitsReverse(){
+        String res = '{"Test":"Test"}';  
+        return res;
+    }
+    
+    @TestVisible
+    public static String WS_TransactionalLimitsValidation(){
+        String res = '{"Test":"Test"}';  
+        return res;
+    }
+    
+     @TestVisible
+    public static String WS_Fraud(){
+        String res = '{"Test":"Test"}';  
+        return res;
+    }
+    @TestVisible
+    public static String WS_TransfersBeneficiariesResponse(){
+        String res = '{"beneficiaryList": [{"beneficiaryId": "beneficiaryId_Test", "beneficiaryName": "beneficiaryName_Test", "name": "name_Test", "account": {"accountId": "09072322275601","accountIdType": null }, "bank": {  "bankId": "ABBYGB20XXX",  "bankName": "SANTANDER UK PLC",  "bankCountry": "GB",  "bankIdType": "BBA",  "bankbranchId": "bankbranchId_Type" }, "residenceIndicator": "residenceIndicator_Test", "residenceCountry": "residenceCountry_Test", "documentType": "documentType_Test", "documentNumber": "documentNumber_Test", "address": {  "streetName": "Calle Patones",  "townName": "Madrid",  "country": "ES" }, "emailAddress": "", "phoneNumber": "", "alias": "OTHER VT", "favorite": true, "visibility": true, "companyGlobalId": "", "lastUsedDate": "2021-01-26T08:24:48Z"}]}';  
+        return res;
+    }
+        @TestVisible
+    public static String WS_TransfersBeneficiaries(){
+        String res = '{"Test":"Test"}';  
+        return res;
+    }
+    
+    @TestVisible
     public static String WS_CancelBuySell(){
         String res = '{"Test":"Test"}';  
         return res;
     } 
+      @TestVisible
+    public static String WS_CreatePaymentOperation(){
+        String res = '{"Test":"Test"}';  
+        return res;
+    }
     
     @TestVisible
     public static String WS_BeneficiaryAccounts(){
@@ -906,6 +999,17 @@ public class MockResponse {
 	'  \"operationResponse\": {' +
 	'    \"operationDetail\": {' +
 	'      \"operationType\": \"b2b\",' +
+	'      \"amountSend\": \"10\",' +
+	'      \"amountReceive\": \"10\",' +
+    '      \"paymentMethod\": \"book_to_book\",' +
+    '      \"operationStatusesHistorical\": [' +
+    '	     {' +
+	'        	\"status\": \"001\",' +
+	'        	\"reason\": \"000\",' +
+	'        	\"statusDate\": \"2020-04-22T17:15:35.552Z\",' +
+    '           \"globalUserId\": \"ab34521\"' +
+    '        }' +            
+	'      ],' +
 	'      \"serviceId\": \"add_international_payment_internal\",' +
 	'      \"userGlobalId\": \"ab34521\",' +
 	'      \"operationStatus\": {' +
@@ -914,15 +1018,15 @@ public class MockResponse {
 	'        \"statusDate\": \"2020-04-22T17:15:35.552Z\"' +
 	'      },' +
 	'      \"sourceData\": {' +
-	'        \"name\": \"Banco Santander\",' +
+	'        \"name\": \"subsidiaryNameTest\",' +
 	'        \"sourceAccount\": {' +
-	'          \"accountType\": \"IBA\",' +
-	'          \"accountId\": \"GB54ABBY6578956387330\",' +
+	'          \"accountType\": \"BBA\",' +
+	'          \"accountId\": \"1234\",' +
 	'          \"tcurrency\": \"GBP\"' +
 	'        },' +
 	'        \"sourceAgent\": {' +
-	'          \"agentId\": \"ABBYGB2LXXX\",' +
-	'          \"name\": \"SANTANDER UK PLC\",' +
+	'          \"agentId\": \"123\",' +
+	'          \"name\": \"bankNameTest\",' +
 	'          \"address\": \"Bridle Road\"' +
 	'        },' +
 	'        \"country\": \"ES\",' +
@@ -933,15 +1037,15 @@ public class MockResponse {
 	'				}								'+
 	'      },' +
 	'      \"destinationData\": {' +
-	'        \"name\": \"string\",' +
+	'        \"name\": \"subsidiaryNameTest\",' +
 	'        \"destinationAccount\": {' +
-	'          \"accountType\": \"IBA\",' +
-	'          \"accountId\": \"ES54004956387330056782\",' +
+	'          \"accountType\": \"BBA\",' +
+	'          \"accountId\": \"1234\",' +
 	'          \"tcurrency\": \"EUR\"' +
 	'        },' +
 	'        \"destinationAgent\": {' +
-	'          \"agentId\": \"BSCHESMMXXX\",' +
-	'          \"name\": \"Banco Santander España\",' +
+	'          \"agentId\": \"123\",' +
+	'          \"name\": \"bankNameTest\",' +
 	'          \"address\": \"Avda Cantabria s/n Boadilla del Monte\"' +
 	'        },' +
 	'        \"country\": \"ES\",' +
@@ -974,8 +1078,8 @@ public class MockResponse {
 	'      \"issueDate\": \"2020-07-07T13:05:30.346Z\",' +
 	'      \"chargeBearer\": \"string\",' +
 	'      \"operationAmount\": {' +
-	'        \"tcurrency\": \"PLN\",' +
-	'        \"amount\": 1000' +
+	'        \"tcurrency\": \"EUR\",' +
+	'        \"amount\": 0' +
 	'      },' +
 	'      \"counterValueOperationAmount\": {' +
 	'        \"tcurrency\": \"USD\",' +
@@ -986,27 +1090,27 @@ public class MockResponse {
 	'        \"tcurrency\": \"USD\",' +
 	'        \"amount\": 0' +
 	'      },' +
-	'      \"clientReference\": \"string\",' +
+	'      \"clientReference\": \"clientreference\",' +
 	'      \"purpose\": \"string\",' +
 	'      \"operationDescription\": \"string\",' +
-	'      \"subject\": \"Customer Order 0123213213\",' +
+	'      \"subject\": \"description\",' +
 	'      \"operationFraudDetails\": {' +
 	'        \"fraudValidationResult\": \"OK\",' +
 	'        \"fraudReference\": \"9a0a67d3675b4627b28034517737437f\"' +
 	'      },' +
 	'      \"operationNominalFxDetails\": {' +
-	'        \"fxCountervalueId\": \"A12345678901234567890123456789012345B\",' +
+	'        \"fxCountervalueId\": \"test\",' +
 	'        \"priceType\": \"ONL\",' +
 	'        \"discount\": 25,' +
 	'        \"ccyCountervalue\": {' +
-	'          \"ccyCountervalueAmount\": 1200.85,' +
-	'          \"ccyCountervalueCurrency\": \"EUR\"' +
+	'          \"ccyCountervalueAmount\": 100.0,' +
+	'          \"ccyCountervalueCurrency\": \"ccyCountervalueCurrencyTest\"' +
 	'        },' +
-	'        \"valueDateEfx\": \"2020-07-15\",' +
-	'        \"customerExchangeRate\": 1.10000002,' +
+	'        \"valueDateEfx\": \"test\",' +
+	'        \"customerExchangeRate\": 100,' +
 	'        \"fxComercialMargin\": {' +
 	'          \"fxComercialMarginCurrency\": \"EUR\",' +
-	'          \"fxComercialMarginAmount\": 27.05' +
+	'          \"fxComercialMarginAmount\": 123.34' +
 	'        },' +
 	'        \"nominalAmountNoMarkUp\": {' +
 	'          \"amount\": 345.89,' +
@@ -1014,15 +1118,19 @@ public class MockResponse {
 	'        }' +
 	'      },' +
 	'      \"operationFeesFxDetails\": {' +
-	'        \"fxCountervalueId\": \"A12345678901234567890123456789012345B\",' +
+	'        \"fxCountervalueId\": \"test\",' +
 	'        \"priceType\": \"ONL\",' +
 	'        \"discount\": 25,' +
 	'        \"ccyCountervalue\": {' +
-	'          \"ccyCountervalueAmount\": 1200.85,' +
-	'          \"ccyCountervalueCurrency\": \"EUR\"' +
+	'          \"ccyCountervalueAmount\": 100.0,' +
+	'          \"ccyCountervalueCurrency\": \"ccyCountervalueCurrencyTest\"' +
 	'        },' +
-	'        \"valueDateEfx\": \"2020-07-15\",' +
-	'        \"customerExchangeRate\": 1.10000002' +
+	'        \"valueDateEfx\": \"test\",' +
+	'        \"customerExchangeRate\": 100,' +
+	'        \"fxComercialMargin\": {' +
+	'          \"fxComercialMarginCurrency\": \"EUR\",' +
+	'          \"fxComercialMarginAmount\": 123.34' +
+	'        }' +
 	'      },' +
 	'      \"pricingDetails\": {' +
 	'        \"productName\": \"string\",' +
@@ -1339,7 +1447,7 @@ public class MockResponse {
         String res = '{'+
 		'  \"inicio\": {'+
 		'    \"user\": {'+
-		'      \"apellidosUsuario\": \"DOS                                                                             \",'+
+		'      \"apellidosUsuario\": \"DOS\",'+
 		'      \"backoffice\": \"S\",'+
 		'      \"checkMovil\": \"N\",'+
 		'      \"codigoCliente\": 7,'+
@@ -1357,11 +1465,21 @@ public class MockResponse {
 	
         return res;
     }
-    
-    public static String WRAPPER_PaymentSF(){
+
+     @TestVisible
+    public static String GetOTP_Local(){
         String res = '{' +
-  		   '   "paymentId":"paymentId",  '+
-            '   "clientReference":"clientReference"}  ';
+  		   '   "signId":"test",  '+
+  		   '   "serviceId":"test",  '+
+  		   '   "operationId":"test",  '+
+  		   '   "language":"test"}  ';
+        
+
+        return res;
+    }
+    
+        public static String WS_VAMGetList(){
+        String res = '{   "accountsDataList": [     {       "country": "ES",       "bankId": "BMSXMXMMXXX",       "currency": "EUR",       "vamAccount": "VAESEUR",       "liquidityBufferManagementScheme": "Central",       "accountId": "32180000118359700",       "destinationEntityDetails": {         "destinationEntityName": "BSCHESMMXXX",         "destinationEntityBic": "Banco Santander España"       }     },     {       "country": "ES",       "bankId": "BMSXMXMMXXX",       "currency": "EUR2",       "vamAccount": "VAESEUR",       "liquidityBufferManagementScheme": "Refund",       "accountId": "321800001183597002",       "destinationEntityDetails": {         "destinationEntityName": "BSCHESMMXXX2",         "destinationEntityBic": "Banco Santander España2"       }     }   ] }';
         return res;
     }
 }

@@ -3,7 +3,7 @@
     <div class="contentPayments">
         <div>
             <!-- HEADER -->
-            <div if:true={comesfromtracker}>
+           <div if:true={comesfromtracker}>
                 <c-lwc_ipt-header-search-uetr 
                     comesfromsso={comesFromSSO}
                     searchvalue={searchvalue}
@@ -25,6 +25,16 @@
                     comesfromtracker={comesfromtracker}
                     onresults={handleResultsEvent}> 
                 </c-lwc_ipt-header-search-uetr-public> 
+            <!--    <c-lwc_ipt-header-search-uetr 
+                    comesfromsso={comesFromSSO}
+                    searchvalue={searchvalue}
+                    issearched={issearched}
+                    noresults={noresults}
+                    result={result}
+                    isingested={isingested}
+                    comesfromtracker={comesfromtracker}
+                    onresults={handleResultsEvent}>
+                </c-lwc_ipt-header-search-uetr> -->
             </div>
             <!-- SEARCHED PAGE -->
             <template if:true={issearched}>               

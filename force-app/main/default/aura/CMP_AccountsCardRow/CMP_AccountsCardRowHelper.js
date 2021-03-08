@@ -21,7 +21,7 @@
                     var elementSelect = document.getElementById(iOptionsId);
                     if(elementSelect.classList.contains('showDialogs') == false){
                         var elements = document.getElementsByClassName("showDialogs");
-                        elements.forEach(function(element) {             
+                        Array.from(elements).forEach(function(element) {             
                             element.classList.remove("showDialogs");
                         });
                         //elementSelect.classList.add("showDialogs"); 

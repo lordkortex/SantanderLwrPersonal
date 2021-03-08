@@ -67,7 +67,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
 
     @api selectedpaymentstatusbox = '';
     @api currentuser;
-    @track paymentlist;
+    @track paymentList;
     @api hassearched = false;
     @api showfiltermodal = false;
     @track isloading = true;
@@ -75,7 +75,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
     @api resetsearch = false;
     @api searchedstring = '';
     @api noservice = false;
-    @api selectall = [];
+    @track selectall = [];
 
     @api selectedsort = 'valuedate';
     @api clientreferenceorderby = 'asc';
@@ -91,7 +91,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
     @api values = "['10','20','40']";
     @track selectedvalue;
     @api helptextdropdown = this.label.Show_More;
-    @track firstitem = "1";
+    @track firstitem = 1;
     @track finalitem;
     @track paymentsnumber;
     @api pagesnumbers;
@@ -99,7 +99,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
     @api currentpage;
 
     @api detailspage = "landing-payment-details";
-    @api filtercounter = "0";
+    @api filtercounter = 0;
     @api filteredpaymentlist = [];
     @track singleselectedpayment = {};
     @track actions = {};
@@ -118,23 +118,20 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
     @track showresetbutton = false;
 
     get hasPaymentList(){
-        //!and(v.isLoading == false, not(empty(v.paymentList)))
-        //return (!this.isloading &&  this.paymentlist != undefined &&  this.paymentlist.length > 0 );
-        return (this.paymentlist != undefined &&  this.paymentlist.length > 0 );
-        //return true;
+        return (!this.isloading && this.paymentList);
     }
+
     get emptyPaymentList(){
-        //!and(empty(v.paymentList), v.isLoading == false)
-        return (!this.isloading && ( this.paymentlist == undefined || this.paymentlist == null || this.paymentlist.length > 0 ));
+        return (!this.isloading && ( this.paymentList == undefined || this.paymentList == null || this.paymentList.length > 0 ));
     }
     get isSearchedString(){
-        //!or(v.filterCounter != 0, not(empty(v.searchedString)))
         return (this.filtercounter != 0 || this.searchedstring);
     }
+
     get isNotSearchedString(){
-        //!and(v.filterCounter == 0, empty(v.searchedString))
         return (this.filtercounter == 0 && (this.searchedstring == null || this.searchedstring == undefined));
     }
+
     get isSearchedStringGTZ(){
         //!or(v.filterCounter > 0, not(empty(v.searchedString)))
         return (this.filtercounter > 0 || this.searchedstring);
@@ -280,9 +277,9 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
                     payment.beneficiaryAccountEncripted = this.encryptAccountNumber(payment.beneficiaryAccount);
 
                 }
-                this.paymentlist = paymentList;
+                this.paymentList = paymentList;
             }else{
-                this.paymentlist = [];
+                this.paymentList = [];
             }
            
         //}
@@ -437,7 +434,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
 
     selectPage() {
         var selectedPage = this.currentpage;
-        var items = this.paymentlist;
+        var items = this.paymentList;
         var itemsXpage = this.selectedvalue;
         var firstItem = (parseInt(selectedPage) - 1) * parseInt(itemsXpage);
         var finalItem = parseInt(firstItem)  + parseInt(itemsXpage);
@@ -489,7 +486,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
         if(columnId != null && columnId != '' && columnId != undefined){
             var sorted = this.sortByColumnId(columnId);
             if(sorted != null && sorted != undefined){
-                this.paymentlist = sorted;
+                this.paymentList = sorted;
                 //var orderBy = component.get('v.'+columnId+'OrderBy');
     
                 var orderBy = this.getOrderByName(columnId);
@@ -597,7 +594,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
         //var orderBy = component.get('v.'+sortBy+'OrderBy');
         var orderBy = this.getOrderByName(sortBy);
         if(orderBy != null && orderBy != '' && orderBy != undefined){
-            var data = this.paymentlist;
+            var data = this.paymentList;
             // var data = component.get('v.filteredPaymentList');
             if(orderBy == 'desc'){
                 if(sortBy == 'clientReference'){                   
@@ -653,8 +650,9 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
         if(paginationList.length > 0){
             for(let i=0; i<paginationList.length;i++){
                 var item = paginationList[i].paymentId;
-                //var row = document.getElementById(item);
-                var row = this.template.querySelector('#'+item);
+                console.log(JSON.stringify(document));
+                var row = document.getElementById(item);
+                //var row = this.template.querySelector('#'+item);
                 if(row != null && row != undefined){
                     row.checked = this.isallselected; 
                     this.selectRow(item, row.checked); 
@@ -674,8 +672,8 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
         if(item != '' && item != null && item != undefined){
             //var element = document.getElementById('ROW_'+item);
             var element = this.template.querySelector('#ROW_'+item);
-            let paymentList = this.paymentlist;
-            console.log(this.paymentlist);
+            let paymentList = this.paymentList;
+            console.log(this.paymentList);
             let paymentIndex = paymentList.findIndex(payment => payment.paymentId == item);
             if(element != null && element != undefined){
                 if(checked){
@@ -699,14 +697,14 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
                     }
                     if (selectedRows.length == 1) {
                         let selectedId = selectedRows[0];
-                        let paymentList = this.paymentlist;
+                        let paymentList = this.paymentList;
                         let payment = paymentList.find(payment => payment.paymentId == selectedId)
                         this.singleselectedpayment = payment;
                         this.setActions();
                     } 
                 }
                 
-                this.paymentlist = paymentList;    
+                this.paymentList = paymentList;    
             } else {
 
             }

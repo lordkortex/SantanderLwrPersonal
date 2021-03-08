@@ -1,0 +1,49 @@
+<template>    
+    <div class="slds-is-relative modal-container__firstStep" data-id="step-1" tabindex="-1">
+        <!-- <div class="slds-grid">
+            <div class="slds-text-heading_large">{label.B2B_Step_1_Header}</div>
+        </div> -->
+        <c-cmp-pay-step-header 
+            stepnumber="1" 
+            steptitle={label.B2B_Step_1_Header}>
+        </c-cmp-pay-step-header>
+        <div class="paymentStep_body">
+            <c-lwc_b2b_select-account
+                userdata={userdata}
+                headerlabel={headerLabel}
+                account={paymentdraft.sourceAccount}
+                checkedyes={checkedYES}
+                expensesaccount={paymentdraft.expensesAccount}
+                accountlist={accountlist}
+                headercard={label.B2B_Source_acc_info}
+                label={label.B2B_Source_account}
+                placeholder={label.B2B_Source_account}
+                steps={steps}
+                errormsg={errorMSG}
+                searchedstring={searchedString}
+                ismodified={isModified}
+                isediting={isediting}
+                canselectexpenses
+                enablebrowseaccount
+                searchedstringexpenses={searchedStringExpenses}
+                errormsgexpenses={errorMSGExpenses}
+                onaccountdata={handleAccountData}
+            > 
+            </c-lwc_b2b_select-account>
+            <template if:true={spinner}>
+                <lightning-spinner alternative-text="Loading" size="medium" ></lightning-spinner>
+            </template>
+            <template if:true={lastModifiedStepEqOne}><!--REVISAR ESCUCHADOR-->
+                <c-lwc_b2b_process-continue-button 
+                    onhandlecontinue={handleContinue}
+                >
+            </c-lwc_b2b_process-continue-button>
+            </template>
+            <c-lwc_b2b_toast 
+                data-id="errorToast" 
+                reload={reload}
+            >
+            </c-lwc_b2b_toast>
+        </div>
+    </div>
+</template>

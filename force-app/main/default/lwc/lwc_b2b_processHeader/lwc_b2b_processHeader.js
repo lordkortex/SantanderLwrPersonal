@@ -41,7 +41,7 @@ export default class Lwc_b2b_processHeader extends NavigationMixin(LightningElem
     @api paymentid;
     @api hasbackbutton;                                                         
     @api headerlabel = 'SANTANDER';
-    @api hasDiscardButton = false;
+    @api hasdiscardbutton = false;
     @track handleCancel;
     @track showCancelModal;
 
@@ -65,7 +65,7 @@ export default class Lwc_b2b_processHeader extends NavigationMixin(LightningElem
     }
 
     get hasDiscardButtonIsTrue(){
-        return this.hasDiscardButton === true && this.steps.totalSteps != 0;
+        return this.hasdiscardbutton === true && this.steps.totalSteps != 0;
     }
 
     get showCancelModalIsTrue(){

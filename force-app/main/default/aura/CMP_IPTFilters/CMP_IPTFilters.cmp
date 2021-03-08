@@ -16,7 +16,16 @@ History
     <aura:attribute name="filters" type="String" default=""/>
     <aura:attribute name="selectedAccounts" type="List"/>
     <aura:attribute name="selectedPaymentType" type="String" default="OUT" />
+    <aura:attribute name="selectedStatus" type="List"/>
     <aura:attribute name="count" type="Integer" default="0"/>
+    <aura:attribute name="fromDetail" type="Boolean" default="false" description="Check if comes from detail"/>
+    <aura:attribute name="amountFrom" type="String"/>
+    <aura:attribute name="amountTo" type="String"/>
+    <aura:attribute name="selectedCountry" type="String"/>
+    <aura:attribute name="valueDateFrom" type="String"/>
+    <aura:attribute name="valueDateTo" type="String"/>
+    <aura:attribute name="searchText" type="String"/>
+    <aura:attribute name="beneficiaryAccount" type="String" default="" />
     
     <aura:attribute name="settledFrom" type="String" default=""/>
     <aura:attribute name="settledTo" type="String" default=""/>
@@ -33,11 +42,11 @@ History
     <aura:handler name="updateFilter" event="c:EVT_updateFilter" action="{!c.updateFilterData}"/>
     <aura:handler name="updateFilterDropdown" event="c:EVT_updateFilter" action="{!c.updateFiltering}"/>
     <aura:attribute name="fromCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
-	<aura:attribute name="isOneTrade" type="Boolean" default="False" description="True if current user is a One Trade user, else, false"/>																																	  
+    <aura:attribute name="isOneTrade" type="Boolean" default="False" description="True if current user is a One Trade user, else, false"/>
     <aura:registerEvent name="getFilterParent" type="c:EVT_searchFilter" />
     
     <!--01/04/2020 - Account Payments Tracker-->
-    <c:CMP_IPTAdvancedFilters isOpen="{!v.isOpen}" inOutIndicator="{!v.selectedPaymentType}" accountFilter="{!v.accountFilter}" aura:id="advancedFilter" accountList="{!v.accountList}" currencyList="{!v.currencyList}" isAccountFilter="{!v.isAccountFilter}"/>
+    <c:CMP_IPTAdvancedFilters isOpen="{!v.isOpen}" inOutIndicator="{!v.selectedPaymentType}" accountFilter="{!v.accountFilter}" aura:id="advancedFilter" fromDetail="{!v.fromDetail}" accountList="{!v.accountList}" currencyList="{!v.currencyList}" isAccountFilter="{!v.isAccountFilter}" selectedAccount="{!v.selectedAccounts}" selectedCurrency="{!v.currency}" selectedStatus="{!v.selectedStatus}" settledFrom="{!v.amountFrom}" settledTo="{!v.amountTo}" selectedCountry="{!v.selectedCountry}" dateFrom="{!v.valueDateFrom}" dateTo="{!v.valueDateTo}" thatContains="{!v.searchText}" beneficiaryAccount="{!v.beneficiaryAccount}"/>
     
     <aura:if isTrue="{!v.ready}">
         
@@ -68,7 +77,7 @@ History
                             <c:CMP_FilterDropdown valuePlaceholder="{!$Label.c.currency}" bodyClass="currencyCombobox" values="{!v.currencyList}" selectedValue="{!v.currency}" valueSingle="{!$Label.c.singleChoice}"/>
                         </div>
                         <!-- </aura:if> -->
-                        <c:CMP_InputDropdown valuePlaceholder="{!$Label.c.amount}" settledFrom="{!v.settledFrom}" settledTo="{!v.settledTo}"/>
+                        <c:CMP_InputDropdown valuePlaceholder="{!$Label.c.amount}" settledFrom="{!v.amountFrom}" settledTo="{!v.amountTo}"/>
                         
                         <div class="text-link" onclick="{!c.showAdvancedFilters}">
                             <aura:if isTrue="{!v.count==0}">

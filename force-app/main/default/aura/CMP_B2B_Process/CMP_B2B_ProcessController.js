@@ -25,6 +25,8 @@
             return helper.handleAccountsToB2BOrigin(component, helper, value);
         })).then($A.getCallback(function (value) {
             return helper.initEditingProcess(component, helper);
+        })).then($A.getCallback(function (value) {
+            return helper.initReusingProcess(component, helper);
         })).catch($A.getCallback(function (error) {
             console.log(error);
             component.set('v.showErrorScreen', true);
@@ -102,7 +104,7 @@
                     return helper.getAccountsToB2BOrigin(component, helper, component.get('v.userData'), component.get('v.accountData'));
                 } else if (step == 2) {
                     var userData = component.get('v.userData');
-                    return helper.getAccountsToB2BDestination(component, helper, userData, userData.companyId);
+                    return helper.getAccountsToB2BDestination(component, helper, userData, component.get("v.dataSelectOrigin"));
                 }
             })).then($A.getCallback(function (value) {
                 if (step == 1) {

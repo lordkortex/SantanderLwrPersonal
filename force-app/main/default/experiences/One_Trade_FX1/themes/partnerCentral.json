@@ -34,7 +34,7 @@
       "IsDefaultHeaderPositionFixed" : true,
       "IsDefaultNotificationsHidden" : true,
       "IsSearchBarHidden" : false,
-      "fixedPageWidth" : 1224,
+      "fixedPageWidth" : 1200,
       "isPageWidthFixed" : true
     },
     "componentName" : "siteforce:prmBody",
@@ -143,13 +143,6 @@
       "regionName" : "customRegion",
       "type" : "region"
     }, {
-      "components" : [ {
-        "componentAttributes" : { },
-        "componentName" : "c:lwc_footer",
-        "id" : "88e2cc0f-3307-4d0c-9b04-60d1dd2585bb",
-        "renditionMap" : { },
-        "type" : "component"
-      } ],
       "id" : "a102cf3f-39d0-4613-88fe-b838bf1f032d",
       "regionName" : "footer",
       "type" : "region"

@@ -2,7 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 
 // Import styles
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 // Import labels
 import consolidationExchangeRates from '@salesforce/label/c.consolidationExchangeRates';

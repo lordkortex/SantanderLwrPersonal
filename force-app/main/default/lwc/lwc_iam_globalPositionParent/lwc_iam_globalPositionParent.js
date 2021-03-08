@@ -15,7 +15,12 @@ import getIsCashNexus from '@salesforce/apex/CNT_GlobalPositionController.getIsC
 import encryptData from '@salesforce/apex/CNT_GlobalPositionController.encryptData';
 import decryptData from '@salesforce/apex/CNT_GlobalPositionController.decryptData';
 
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+//Comunidad Cash Nexus
+import basePath from '@salesforce/community/basePath'; 
+import Error204 from '@salesforce/label/c.Error204';
+import basePathCashNexus from '@salesforce/label/c.basePathCashNexus';
+
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import {LightningElement, track, api } from 'lwc';
 export default class Lwc_iam_globalPositionParent extends LightningElement {
 
@@ -27,7 +32,10 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
         Corporate,
         GlobalPositionTItle,
         ERROR_NOT_RETRIEVED,
-        refreshBalanceCollout
+        refreshBalanceCollout,
+        basePath,
+        basePathCashNexus,
+        Error204
     };
 
     @track UserInfo;
@@ -72,8 +80,18 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
     @track showNoAccessError = false;
     @track userId;
     @track firstTime = false;
-
     @track isonetrade = true;
+
+    //Comunidad Cash Nexus
+    @track comunidadCashNexus = false;
+    @track lastupdateselected = true;
+    @track showError204 = false;
+    @track isonetradetrue = true;
+
+    get isComunidadCashNexus(){
+        if(this.label.basePath == this.label.basePathCashNexus) this.comunidadCashNexus = true;
+        return this.comunidadCashNexus;        
+    }
 
     get showTermsisFalse(){
         return this.showterms == false;
@@ -108,10 +126,48 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
             loadStyle(this, santanderStyle + '/style.css');
             this.loading = true;
             this.userId = uId;
-            this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'isOneTrade', controllermethod:'isOneTrade', actionparameters:{userId:this.userId}});
+            if(this.label.basePath == this.label.basePathCashNexus) this.comunidadCashNexus = true;
+            if(!this.comunidadCashNexus){
+                //No es comunidad Cash Nexus
+                this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'isOneTrade', controllermethod:'isOneTrade', actionparameters:{userId:this.userId}});
+            }
+            else{
+                //Si es comunidad Cash Nexus
+                var storage = window.localStorage.getItem(this.userId + '_' + 'tab');
+                let fireDoInit = false;
+                if(storage != null && storage != undefined){
+                    // Check whether the tab has changed due to the stored value. Only if it has changed, execute the handeDoInit flow
+                    if((this.lastupdateselected && storage == 'lastUpdate') || (this.lastupdateselected && storage == 'endOfDay')){
+                        fireDoInit = true;
+                    }
+                    if(storage == 'lastUpdate'){
+                        this.lastupdateselected = true;
+                    }else{
+                        this.lastupdateselected = false;
+                    }
+                } else {
+                    // If the user's cache is empty, the init function must be fired
+                    fireDoInit = true;
+                }
+                if(this.lastupdateselected){
+                    window.localStorage.setItem(this.userId + '_' + 'tab', 'lastUpdate');
+                }else{
+                    window.localStorage.setItem(this.userId + '_' + 'tab', 'endOfDay');
+                }        
+                
+                this.getIsCashNexus();
+                if(fireDoInit) this.handleDoInit();
+            }
             this.firstTime = true;
         }
     }
+
+    onlastupdateselected(event){
+        // para comunidades cash nexus cambiar de lastUpdate a end of day
+        this.lastupdateselected = event.detail;
+        this.handleDoInit();
+    }
+
 
     updateCurrencies(event){
         var newValue = event.getParam('value');
@@ -235,7 +291,10 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
                     if(nexus == true && terms == false){
                         this.showterms= true;
                     } 
-                    if(nexus == false && bic == true && terms == false && pl == true) {
+                    if(nexus == false && bic == true && terms == false && pl == true && !this.comunidadCashNexus) {
+                        this.showterms= true;
+                    }
+                    if(nexus == false && bic == true && terms == false && this.comunidadCashNexus) {
                         this.showterms= true;
                     }
             }).catch(error => {
@@ -271,12 +330,20 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
                     resolve(r);
                 }else { 
                     thisp.userId = uId;
-                    thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveIAMData',actionparameters:{isEndOfDay: false, globalId: thisp.userId}});
+                    if(thisp.comunidadCashNexus){
+                        thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveData',actionparameters:{isEndOfDay: !thisp.lastupdateselected,globalId: thisp.userId}});
+                    }else{
+                        thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveIAMData',actionparameters:{isEndOfDay: false, globalId: thisp.userId}});
+                    }
                 }
             })
             .catch(error => {
                 console.log('### lwc_iam_globalPositionParent ### decrypt() ::: Try Error: ' + error);
-                thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveIAMData',actionparameters:{isEndOfDay: false, globalId: thisp.userId}});
+                if(thisp.comunidadCashNexus){
+                    thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveData',actionparameters:{isEndOfDay: !thisp.lastupdateselected,globalId: thisp.userId}});
+                }else{
+                    thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveIAMData',actionparameters:{isEndOfDay: false, globalId: thisp.userId}});
+                }
                 //reject(result);
             });
         });
@@ -309,6 +376,13 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
         this.userId = uId;
         var storageBalance = window.localStorage.getItem(this.userId + '_' + 'balanceGP');
         var balanceTimestampGP = window.localStorage.getItem(this.userId + '_' + 'balanceTimestampGP');
+        var storageBalanceEOD = undefined;
+        var balanceEODTimestampGP = undefined;
+        if(this.comunidadCashNexus){
+            storageBalanceEOD = window.localStorage.getItem(this.userId + '_' + 'balanceEODGP');
+            balanceEODTimestampGP = window.localStorage.getItem(this.userId + '_' + 'balanceEODTimestampGP');        
+        }
+        
         var sessionCheck = window.sessionStorage.getItem(this.userId + '_' + 'loadingScreenCheck');
         console.log('sessionCheck: ' + sessionCheck);
         console.log('balanceTimestampGP: ' + balanceTimestampGP);
@@ -321,24 +395,57 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
             this.firstTimeLoading = true;
             window.sessionStorage.setItem(this.userId + '_' + 'loadingScreenCheck', true);
         }
-        //Check if its LU or EOD, if we have cache of them we decrypt it and if not we call the service.
-        if(storageBalance != 'null' && storageBalance != undefined && balanceTimestampGP != 'null' && balanceTimestampGP != undefined && (new Date() - new Date(Date.parse(balanceTimestampGP))) < parseInt(this.label.refreshBalanceCollout)*60000 ){
-            this.decryptInitialData(storageBalance);
-        }else{
-            this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveIAMData',actionparameters:{globalId: this.userId}});
+        
+        if(!this.comunidadCashNexus){
+            //Check if its LU or EOD, if we have cache of them we decrypt it and if not we call the service.
+            if(storageBalance != 'null' && storageBalance != undefined && balanceTimestampGP != 'null' && balanceTimestampGP != undefined && (new Date() - new Date(Date.parse(balanceTimestampGP))) < parseInt(this.label.refreshBalanceCollout)*60000 ){
+                this.decryptInitialData(storageBalance);
+            }else{
+                this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveIAMData',actionparameters:{globalId: this.userId}});
+            }
         }
+        else{
+            // Si es comunidad Cash Nexus
+            if(this.lastupdateselected){
+                if(storageBalance != 'null' && storageBalance != undefined && balanceTimestampGP != 'null' && balanceTimestampGP != undefined && (new Date() - new Date(Date.parse(balanceTimestampGP))) < parseInt(this.label.refreshBalanceCollout)*60000 ){
+                    this.decryptInitialData(storageBalance);
+                }else{
+                    this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveData',actionparameters:{isEndOfDay: !this.lastupdateselected,globalId: this.userId}});
+                }
+            }else{
+                if(storageBalanceEOD != 'null' && storageBalanceEOD != undefined && balanceEODTimestampGP != 'null' && balanceEODTimestampGP != undefined && (new Date() - new Date(Date.parse(balanceEODTimestampGP))) < parseInt(this.label.refreshBalanceCollout)*60000 ){
+                    this.decryptInitialData(storageBalanceEOD);
+                }else{
+                    this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveData',actionparameters:{isEndOfDay: !this.lastupdateselected,globalId: this.userId}});
+                }
+            }
+        }
+
     }
 
     encryptInitialData(data){
         try{
             var result="null";
+            var thisp = this;
             return new Promise(function (resolve, reject) {
                 encryptData({str : JSON.stringify(data.value)})
                 .then((value) => {
                     result = value;
                     if(result!='null' && result!=undefined && result!=null){
-                        window.localStorage.setItem( this.userId + '_' + 'balanceGP', result);
-                        window.localStorage.setItem( this.userId + '_' + 'balanceTimestampGP', new Date());
+                        
+                        if(thisp.comunidadCashNexus)
+                        {
+                            if(thisp.lastupdateselected){
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceGP', result);
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceTimestampGP', new Date());   
+                            }else{
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceEODGP', result);
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceEODTimestampGP', new Date());
+                            }
+                        }else{                        
+                            window.localStorage.setItem( thisp.userId + '_' + 'balanceGP', result);
+                            window.localStorage.setItem( thisp.userId + '_' + 'balanceTimestampGP', new Date());
+                        }
                     }
                     resolve(result);
                  })
@@ -385,7 +492,14 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
         this.lastinfohour = "";
         this.setData(response.value.userFirstName);
 
-        if(response != null){
+        if(response.is204Error){
+            //Si es comunidad Cash Nexus
+            this.showError204 = true;
+            this.loadingData = false;
+            this.dataisloaded = false;            
+            this.firstTimeLoading = false;
+            this.loadingUserInfo = false;
+        }else if(response != null){
             if(decrypt!=true){
                 this.encryptInitialData(response);
             }
@@ -407,17 +521,13 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
             window.localStorage.setItem(this.userId + "_hasPaymentsTrackerAccess",  response.value.canUserSeePaymentsTracker);
             window.localStorage.setItem(this.userId + "_hasGlobalPositionAccess",  response.value.canUserSeeGP);
 
-            // Set the this.tes if the user has access to Global Position
-            if(response.value.canUserSeeGP){
+            if(this.comunidadCashNexus){
+                //Si es comunidad Cash Nexus
                 this.avaiblebookbalance = response.value.avaibleBookBalance;
                 this.totalbookbalance = response.value.totalBookBalance;
-                // this.countryGroupResponse", response.accountsByCountry);
-                // this.corporateGroupResponse", response.accountsByCorporate);
                 this.currencylist = response.value.currenciesList;
-                // this.selectedCurrency", response.divisaPrincipalUsuario);
                 this.selectedcurrency = userCurrency;
                 this.maincurrency = response.value.divisaPrincipal;
-                //this.mainCurrencyUser", response.divisaPrincipalUsuario);
                 this.mainCurrencyUser = userCurrency;
                 this.currenciesexchange = response.value.cambioDivisas;
                 this.totalBookBalanceMapped = response.value.bookBalanceMapped;
@@ -429,23 +539,21 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
                 // Set the preferred user date and number
                 this.userpreferreddateformat = response.value.mapUserFormats.dateFormat != '' ? response.value.mapUserFormats.dateFormat : "dd/MM/yyyy";
                 this.userpreferrednumberformat = response.value.mapUserFormats.numberFormat != '' ? response.value.mapUserFormats.numberFormat : "###.###.###,##";
-                
                 if(response.value.headerLastModifiedDate != null){
                     this.headerlastmodifieddate = response.value.headerLastModifiedDate;
                     var aux = response.value.headerLastModifiedDate.split(" ");
-                // this.lastInfoDate", aux[0]+'T'+aux[1]+'.000Z');
                     this.lastinfodate = response.value.headerLastModifiedDateMain;
-                   // this.lastInfoHour = $A.localizationService.formatTime(response.headerLastModifiedDate, 'HH:mm'); 
-                }
-
+                    //this.lastinfohour = this.template.localizationService.formatTime(response.headerLastModifiedDate, 'HH:mm'); 
+                }                
                 //Check to update the currencies if its not the first time we open the Global Position Tab.
                 var storageBalance = window.localStorage.getItem(this.userId + '_' + 'balanceGP');
-                if(storageBalance != undefined){
+                var storageBalanceEOD = window.localStorage.getItem(this.userId + '_' + 'balanceEODGP');
+                if(storageBalance != undefined || storageBalanceEOD != undefined){
                     this.updateCurrenciesHelper();                
                 }
                 
                 this.dataisloaded = true;
-
+    
                 // Order country by country code
                 response.value.accountsByCountry.sort(function(a,b){
                     const countryA = a.countryCode;
@@ -473,14 +581,85 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
                 });
                 this.countrygroupresponse = response.value.accountsByCountry;
                 this.corporateGroupResponse = response.value.accountsByCorporate;
-            } else {
-                this.countrygroupresponse = {};
-                this.corporateGroupResponse = {};
-                this.avaiblebookbalance = 0.0;
-                this.totalbookbalance = 0.0;
-                this.totalBookBalanceMapped = {};
-                this.availableBookBalanceMapped = {};
-                this.showNoAccessError = true;
+                
+
+            }else{
+                // Si no es Comunidad Cash Nexus    
+                // Set the this.tes if the user has access to Global Position
+                if(response.value.canUserSeeGP){
+                    this.avaiblebookbalance = response.value.avaibleBookBalance;
+                    this.totalbookbalance = response.value.totalBookBalance;
+                    // this.countryGroupResponse", response.accountsByCountry);
+                    // this.corporateGroupResponse", response.accountsByCorporate);
+                    this.currencylist = response.value.currenciesList;
+                    // this.selectedCurrency", response.divisaPrincipalUsuario);
+                    this.selectedcurrency = userCurrency;
+                    this.maincurrency = response.value.divisaPrincipal;
+                    //this.mainCurrencyUser", response.divisaPrincipalUsuario);
+                    this.mainCurrencyUser = userCurrency;
+                    this.currenciesexchange = response.value.cambioDivisas;
+                    this.totalBookBalanceMapped = response.value.bookBalanceMapped;
+                    this.availableBookBalanceMapped = response.value.avaibleBookBalanceMapped;
+                    this.exchangerates = response.value.tiposDeCambio;
+                    this.erateslastmodifieddate = response.value.eRatesLastModifiedDate;
+                    this.erateslastmodifieddatemain = response.value.eRatesLastModifiedDateMain;
+                    this.exchangeratestoshow = response.value.tiposDeCambio[response.value.divisaPrincipal];
+                    // Set the preferred user date and number
+                    this.userpreferreddateformat = response.value.mapUserFormats.dateFormat != '' ? response.value.mapUserFormats.dateFormat : "dd/MM/yyyy";
+                    this.userpreferrednumberformat = response.value.mapUserFormats.numberFormat != '' ? response.value.mapUserFormats.numberFormat : "###.###.###,##";
+                    
+                    if(response.value.headerLastModifiedDate != null){
+                        this.headerlastmodifieddate = response.value.headerLastModifiedDate;
+                        var aux = response.value.headerLastModifiedDate.split(" ");
+                    // this.lastInfoDate", aux[0]+'T'+aux[1]+'.000Z');
+                        this.lastinfodate = response.value.headerLastModifiedDateMain;
+                    // this.lastInfoHour = $A.localizationService.formatTime(response.headerLastModifiedDate, 'HH:mm'); 
+                    }
+
+                    //Check to update the currencies if its not the first time we open the Global Position Tab.
+                    var storageBalance = window.localStorage.getItem(this.userId + '_' + 'balanceGP');
+                    if(storageBalance != undefined){
+                        this.updateCurrenciesHelper();                
+                    }
+                    
+                    this.dataisloaded = true;
+
+                    // Order country by country code
+                    response.value.accountsByCountry.sort(function(a,b){
+                        const countryA = a.countryCode;
+                        const countryB = b.countryCode;
+                        if(countryA < countryB){
+                            return -1;
+                        } else if(countryA > countryB){
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    });
+                    
+                    // Order corporate by name
+                    response.value.accountsByCorporate.sort(function(a,b){
+                        const corporateA = a.corporateName;
+                        const corporateB = b.corporateName;
+                        if(corporateA < corporateB){
+                            return -1;
+                        } else if(corporateA > corporateB){
+                            return 1;
+                        } else {
+                            return 0;
+                        }
+                    });
+                    this.countrygroupresponse = response.value.accountsByCountry;
+                    this.corporateGroupResponse = response.value.accountsByCorporate;
+                } else {
+                    this.countrygroupresponse = {};
+                    this.corporateGroupResponse = {};
+                    this.avaiblebookbalance = 0.0;
+                    this.totalbookbalance = 0.0;
+                    this.totalBookBalanceMapped = {};
+                    this.availableBookBalanceMapped = {};
+                    this.showNoAccessError = true;
+                }
             }
             this.loadingData = false;  
         }else{

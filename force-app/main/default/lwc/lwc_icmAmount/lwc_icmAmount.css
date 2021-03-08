@@ -1,0 +1,260 @@
+input:focus,
+ input:active {
+    box-shadow: none;
+    background-color: white;
+}
+
+ .icon-chevron:before {
+    color: #ec0000;
+    font-size: 24px
+}
+
+ .picklist {
+    margin-left: 25px;
+    position: relative;
+    width: 35%;
+}
+
+ .picklist .icon-chevronLeft {
+    background-color: white;
+    border-top: 1px solid rgb(212, 212, 212);
+    bottom: 0;
+    margin: 3px;
+    position: absolute;
+    right: 10px;
+    transform: rotate(-90deg);
+    top: 0;
+}
+
+ .picklist .icon-chevronLeft:before {
+    color: black;
+    font-size: 30px;
+    position: relative;
+    top: 9px;
+}
+
+   .picklist [data-id="times"] {
+    background-color: white;
+    border: 2px solid rgb(233, 234, 236);
+    color: rgb(107, 109, 112);
+    font-size: 16px;
+    height: 50px;
+    padding: 10px;
+    width: 100%;
+} 
+
+ .picklist [data-id="times"]:focus {
+    outline: none;
+} 
+
+ .row {
+    height: 50px;
+    margin-left: 25px;
+    margin-top: 30px;
+    position: relative;
+}
+
+ .row .chat.icon-chat,
+ .row .coins.icon-coins {
+    background-color: white;
+    border-left: 1px solid rgb(212, 212, 212);
+    bottom: 0;
+    margin: 10px;
+    padding: 5px 5px 5px 15px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+ .row:nth-of-type(1) {
+    width: 35%;
+}
+
+ .row:nth-of-type(2) {
+    width: 80%;
+}
+
+ .row:nth-of-type(3) input[type="radio"]:checked,
+ .row:nth-of-type(3) input[type="radio"]:not(:checked) {
+    display: inline-block;
+    height: 25px;
+    margin-right: 10px;
+    position: relative;
+    vertical-align: middle;
+    width: 25px;
+}
+
+ .row:nth-of-type(3) input[type="radio"]:checked:after,
+ .row:nth-of-type(3) input[type="radio"]:not(:checked):after {
+    background-color: #ec0000;
+    border-radius: 100%;
+    bottom: 0;
+    content: "";
+    height: 13px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 13px;
+}
+
+ .row:nth-of-type(3) input[type="radio"]:checked:after {
+    opacity: 1;
+}
+
+ .row:nth-of-type(3) input[type="radio"]:not(:checked):after {
+    opacity: 0;
+}
+
+ .row:nth-of-type(3) input[type="radio"]:checked:before,
+ .row:nth-of-type(3) input[type="radio"]:not(:checked):before {
+    background: white;
+    border: 1px solid #aaa;
+    border-radius: 0;
+    border-radius: 100%;
+    content: '';
+    height: 25px;
+    left: 0;
+    position: absolute;
+    width: 25px;
+}
+
+ .row:nth-of-type(3) input[type="radio"]:checked:before {
+    border: 2px solid #ec0000;
+}
+
+ .row:nth-of-type(3) input[type="radio"]:checked+.slds-checkbox__label .slds-form-element__label {
+    color: black;
+}
+
+ .row:nth-of-type(3) .slds-checkbox__label {
+    display: inline-block;
+    padding-right: 30px;
+    vertical-align: middle;
+}
+
+ .row:nth-of-type(3) .slds-checkbox__label .slds-form-element__label {
+    font-size: 14px;
+}
+
+ .row .slds-form-element {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+ .slds-button.slds-button_brand.redButton {
+    background-color: #ec0000;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ffffff;
+    display: inline-block;
+    font-size: 18px;
+    height: 48px;
+    margin-bottom: 30px;
+    padding: 0 15px 0px 30px;
+    position: absolute;
+    right: 0;
+    vertical-align: middle;
+}
+
+ .slds-button.slds-button_brand.redButton[disabled] {
+    background-color: #aaa;
+    border: solid 1px #aaa;
+}
+
+ .slds-button.slds-button_brand.redButton .icon-chevronLeft {
+    display: inline-block;
+    transform: rotate(180deg);
+    vertical-align: middle;
+}
+
+ .slds-button.slds-button_brand.redButton .icon-chevronLeft:before {
+    font-size: 30px;
+    color: white;
+}
+
+ .slds-button.slds-button_brand.textButton {
+    background-color: unset;
+    border: 0;
+    color: #ec0000;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 48px;
+    padding: 0;
+    padding-left: 30px;
+}
+
+ .slds-button.slds-button_brand.redButton:focus,
+ .slds-button.slds-button_brand.textButton:focus {
+    box-shadow: none;
+}
+
+ .slds-button.slds-button_brand.textButton .icon-chevronLeft {
+    left: 0;
+    position: absolute;
+}
+
+ .slds-button.slds-button_brand.textButton .icon-chevronLeft:before {
+    font-size: 30px;
+}
+
+.slds-box {
+    background-color: white;
+    height: 400px;
+    margin: 50px 100px 50px;
+    padding: 0;
+}
+
+.slds-box h1 {
+    border-bottom: 1px solid rgb(212, 212, 212);
+    font-family: "SantanderTextW05-Bold";
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: 30px;
+    padding: 25px;
+    text-transform: uppercase;
+}
+
+ .slds-form-element__control.slds-grow {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
+ .slds-form-element__control.slds-grow:focus {
+    outline: none;
+}
+
+ .slds-form-element__control.slds-grow input {
+    border: 2px solid rgb(233, 234, 236);
+    font-size: 16px;
+    height: 50px;
+    padding: 25px 10px 10px 10px;
+}
+
+ .slds-form-element__label.slds-no-flex {
+    font-family: SantanderTextW05-Light;
+    padding-left: 13px;
+    position: absolute;
+    z-index: 2;
+}
+
+ .slds-has-error .slds-input:focus,
+ .slds-has-error .slds-input:active {
+    box-shadow: none;
+}
+
+.slds-input {
+    /* border: 1px solid #deedf2; */
+    /* border-bottom: 1px solid #257fa4; */
+    border-radius: 4px;
+    /* background-color: #f6fafc; */
+    color: #444444;
+    cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+}

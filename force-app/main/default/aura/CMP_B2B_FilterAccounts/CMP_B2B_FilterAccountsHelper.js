@@ -119,7 +119,7 @@
                         // Filter by IBAN
                         let displayNumber = accountList[i].displayNumber;
                         if (!$A.util.isEmpty(displayNumber)) {
-                            
+                            displayNumber = displayNumber.toLowerCase();
                             if (displayNumber.includes(searchedString)) {
                                 hasString = true;
                             }

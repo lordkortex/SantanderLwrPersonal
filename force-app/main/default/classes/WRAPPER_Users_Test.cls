@@ -16,7 +16,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"Sales\",'+
 		'    \"role\": \"Sales Manager\",'+
 		'    \"state\": \"Enabled\",'+
-		'    \"type\": \"Functional\",'+
+		'    \"userType\": \"Functional\",'+
 		'    \"userId\": \"SAL - 4776184\",'+
 		'    \"userName\": \"Miguel Álvarez Aguilera \"'+
 		'  },'+
@@ -24,7 +24,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"Sales\",'+
 		'    \"role\": \"Sales Director\",'+
 		'    \"state\": \"Enabled\",'+
-		'    \"type\": \"Functional\",'+
+		'    \"userType\": \"Functional\",'+
 		'    \"userId\": \"SAL - 9518471\",'+
 		'    \"userName\": \"Maria Yolanda del Valle Redondo  \"'+
 		'  },'+
@@ -32,7 +32,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"Marketing\",'+
 		'    \"role\": \"\",'+
 		'    \"state\": \"Enabled\",'+
-		'    \"type\": \"Administrator\",'+
+		'    \"userType\": \"Administrator\",'+
 		'    \"userId\": \"MRK - 6076084\",'+
 		'    \"userName\": \"Trinidad Hernandez Arias \"'+
 		'  },'+
@@ -40,7 +40,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"\",'+
 		'    \"role\": \"\",'+
 		'    \"state\": \"Enabled\",'+
-		'    \"type\": \"Functional\",'+
+		'    \"userType\": \"Functional\",'+
 		'    \"userId\": \"NG - 6559471\",'+
 		'    \"userName\": \"Jan Hernandez Pena \"'+
 		'  },'+
@@ -48,7 +48,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"Service\",'+
 		'    \"role\": \"Service Representative\",'+
 		'    \"state\": \"Enabled\",'+
-		'    \"type\": \"Functional\",'+
+		'    \"userType\": \"Functional\",'+
 		'    \"userId\": \"SRV - 9873878\",'+
 		'    \"userName\": \"Lorena Ballesteros de Miguel \"'+
 		'  },'+
@@ -56,7 +56,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"B2B\",'+
 		'    \"role\": \"B2B Representative\",'+
 		'    \"state\": \"Enabled\",'+
-		'    \"type\": \"Functional\",'+
+		'    \"userType\": \"Functional\",'+
 		'    \"userId\": \"B2B - 2797327\",'+
 		'    \"userName\": \"Eloisa Gallardo Melero\"'+
 		'  },'+
@@ -64,7 +64,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"\",'+
 		'    \"role\": \"Customer\",'+
 		'    \"state\": \"Disabled\",'+
-		'    \"type\": \"Advisory\",'+
+		'    \"userType\": \"Advisory\",'+
 		'    \"userId\": \"CST - 3904297\",'+
 		'    \"userName\": \"Javier Marcos Hurtado \"'+
 		'  },'+
@@ -72,7 +72,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"\",'+
 		'    \"role\": \"\",'+
 		'    \"state\": \"Disabled\",'+
-		'    \"type\": \"Administrator\",'+
+		'    \"userType\": \"Administrator\",'+
 		'    \"userId\": \"ADM - 1885709\",'+
 		'    \"userName\": \"Luis David Latorre Castaño \"'+
 		'  },'+
@@ -80,7 +80,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"Sales\",'+
 		'    \"role\": \"Sales Manager\",'+
 		'    \"state\": \"Enabled\",'+
-		'    \"type\": \"Functional\",'+
+		'    \"userType\": \"Functional\",'+
 		'    \"userId\": \"SAL - 8394160\",'+
 		'    \"userName\": \"Miguel Álvarez Aguilera \"'+
 		'  },'+
@@ -88,7 +88,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"Sales\",'+
 		'    \"role\": \"Sales Director\",'+
 		'    \"state\": \"Enabled\",'+
-		'    \"type\": \"Functional\",'+
+		'    \"userType\": \"Functional\",'+
 		'    \"userId\": \"SAL - 5647552\",'+
 		'    \"userName\": \"Maria Yolanda del Valle Redondo  \"'+
 		'  },'+
@@ -96,7 +96,7 @@ public class WRAPPER_Users_Test {
 		'    \"groupName\": \"Marketing\",'+
 		'    \"role\": \"\",'+
 		'    \"state\": \"Enabled\",'+
-		'    \"type\": \"Administrator\",'+
+		'    \"userType\": \"Administrator\",'+
 		'    \"userId\": \"MRK - 7079110\",'+
 		'    \"userName\": \"Trinidad Hernandez Arias \"'+
 		'  }'+

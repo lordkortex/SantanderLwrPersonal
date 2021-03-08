@@ -123,23 +123,18 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
         if (isSingleTabSelected == true) {
             Promise.all([this.getURLParams()])
             .then( (value) => {
-                console.log('1. getURLParams ok');
                 return this.getCurrentUserData();
             }, this)
             .then( (value) => {
-                console.log('2. getCurrentUserData ok');
                 return this.getAccountData();
             }, this)    
             .then( (value) => {
-                console.log('3. getAccountData ok');
                 return this.getAccountsToList(this.currentUser); //GAA este método no existe en ningún sitio
             }, this)
             .then( (value) => {
-                console.log('4. getAccountsToList ok');
                 return this.handleAccountsToList(JSON.parse(JSON.stringify(value)));
             }, this)
             .then( (value) => {
-                console.log('5. handleAccountsToList ok');
                 return Promise.all([
                     this.getPaymentsStatuses(isSingleTabSelected),
                     this.getPaymentsInformation(isSingleTabSelected)
@@ -546,14 +541,8 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
                                     this.simpleCountryDropdownList = result.value.output.countryList;                                         
                                     this.initialSinglePaymentList = result.value.output.paymentsList;
                                     this.singlePaymentList = result.value.output.paymentsList;
-                                    console.log('Hasta aquí ok 2');
-
                                     this.template.querySelector('c-lwc_payments-landing-table').setPaymentList(result.value.output.paymentsList);                                        
                                     this.template.querySelector('c-lwc_payments-landing-table').doInit();                                        
-
-                                    //this.template.querySelector('c-lwc_payments-landing-table').setComponent(result.value.output.paymentsList);                                        
-                                    //this.template.querySelector('[data-id="paymentsLandingTable"]').setComponent(result.value.output.paymentsList);
-                                    console.log('Hasta aquí ok 3');
                                     this.isSingleDataLoaded = true;
                                     this.availableStatuses = result.value.output.availableStatuses;
                                     resolve('ok'); 
@@ -695,11 +684,37 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
     }
     
     showToast(title, body, noReload) {
-        this.template.querySelector('c-lwc_b2b_toast').openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload, true);
+        var myEvent = {
+            detail: {
+                action: false, 
+                static: false, 
+                notificationTitle: title,
+                bodyText: body, 
+                functionTypeText: 'Error', 
+                functionTypeClass: 'warning', 
+                functionTypeClassIcon: 'warning', 
+                noReload: noReload,
+                landing: true
+            }
+        }
+        this.template.querySelector('c-lwc_b2b_toast').openToast(myEvent);
     }
     
     showSuccessToast(title, body) {
-       this.template.querySelector('c-lwc_b2b_toast').openToast(false, false, title,  body, 'Success', 'success', 'success', true, true);
+        var myEvent = {
+            detail: {
+                action: false, 
+                static: false, 
+                notificationTitle: title,
+                bodyText: body, 
+                functionTypeText: 'Success', 
+                functionTypeClass: 'success', 
+                functionTypeClassIcon: 'success', 
+                noReload: true,
+                landing: true
+            }
+        }
+       this.template.querySelector('c-lwc_b2b_toast').openToast(myEvent);
     }    
     
     getDocumentId(fileFormat) {
@@ -1143,4 +1158,20 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
             console.log(JSON.stringify(error));
         }   
     }
+
+    onChangeSelectedPaymentStatusBox(event){
+        console.log('Nuevo estado seleccionado: ' + JSON.stringify(event.detail.selectedbox));
+        this.selectedPaymentStatusBox=event.detail.selectedbox;
+        this.template.querySelector('c-lwc_payments-landing-boxes').updatePaymentStatusBoxes();
+        this.template.querySelector('c-lwc_payments-landing-filters').changeSelectedStatusBox(this.selectedPaymentStatusBox);
+    }
+
+    onReloadAccounts(event){
+        this.reloadAccounts = true;
+    }
+
+    onopendowloadmodal(){
+        this.showDownloadModal = true;
+    }
+
 }

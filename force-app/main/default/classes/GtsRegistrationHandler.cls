@@ -42,13 +42,15 @@ global class GtsRegistrationHandler implements Auth.RegistrationHandler{
         Contact cId=new Contact();
         List<Contact> listContact = new List<Contact>();
         
-        listContact =[SELECT Id, FirstName, LastName,Email, CONTACT_TXT_BIC__c, CONTACT_Country__c,CONTACT_TXT_GlobalId__c,CONTACT_TXT_RelationshipType__c from Contact where CONTACT_TXT_GlobalId__c=:sub LIMIT 1];
+        listContact =[SELECT Id, FirstName, LastName,Email, CONTACT_TXT_BIC__c, CONTACT_Country__c,CONTACT_TXT_GlobalId__c,CONTACT_TXT_RelationshipType__c, CONTACT_TXT_LocalUid__c, CONTACT_TXT_Signer_email__c  from Contact where CONTACT_TXT_GlobalId__c=:sub LIMIT 1];
         if (listContact.size() > 0){   
             cId = listContact[0];     
             User nuevoUsr = new User();
             nuevoUsr.FirstName = cId.FirstName;
             nuevoUsr.LastName = cId.LastName;
             nuevoUsr.USER_TXT_GlobalId__c = cId.CONTACT_TXT_GlobalId__c;
+            nuevoUsr.USER_TXT_LocalUid__c = cId.CONTACT_TXT_LocalUid__c;
+            nuevoUsr.USER_TXT_Signer_email__c = cId.CONTACT_TXT_Signer_email__c;
             nuevoUsr.FederationIdentifier = cId.CONTACT_TXT_GlobalId__c;
             nuevoUsr.CommunityNickname = cId.CONTACT_TXT_GlobalId__c;
             String alias= cId.CONTACT_TXT_GlobalId__c;
@@ -71,6 +73,32 @@ global class GtsRegistrationHandler implements Auth.RegistrationHandler{
                 Profile p = [SELECT Id FROM profile WHERE name='Nexus User'];
                 nuevoUsr.profileId = p.Id;
                 nuevoUsr.USER_CHK_CashNexus__c = true;
+
+                //Handle URL Params
+                String urlParams = data.attributeMap.get('urlParams');
+                if(urlParams != null && urlParams != ''){
+                    if(urlParams.contains('profile=mrtracker')){
+                        cId.CONTACT_CHBOX_MrTracker__c = true;
+                    }else{
+                        cId.CONTACT_CHBOX_MrTracker__c = false;
+                    }
+
+                    if(urlParams.contains('language=')){
+                        try{
+                            Integer strLocation = urlParams.indexOf('language=');
+                            String language = urlParams.subString(strLocation+9,strLocation+11);
+                            if('pt'.equals(language)){
+                                language = urlParams.subString(strLocation+9,strLocation+14);
+                            }else if('en'.equals(language)){
+                                language = 'en_US';
+                            }
+                            nuevoUsr.USER_PCK_Language__c = language;
+                        }catch(Exception e){}
+                    }
+                }else{
+                    cId.CONTACT_CHBOX_MrTracker__c = false;
+                }
+                update cId;
             }else if (cId.CONTACT_TXT_RelationshipType__c == 'ADMIN'){
                 Profile p = [SELECT Id FROM profile WHERE name='Admin Nexus User'];
                 nuevoUsr.profileId = p.Id;
@@ -80,24 +108,61 @@ global class GtsRegistrationHandler implements Auth.RegistrationHandler{
                 nuevoUsr.profileId = p.Id;
             
                 // Call the payments tracker service to have the information pre-loaded, when the user logs into Tracker
-                ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(data.identifier,false));
+                ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(data.identifier));
             }
 
             return nuevoUsr;            
         } else {
+            /* OBD Development
+            //Create dummy contact and user for the Digital Onboarding.
+            Contact c = new Contact();
+            c.LastName = data.attributeMap.get('sub');
+            c.CONTACT_TXT_GlobalId__c = data.attributeMap.get('sub');
+            c.CONTACT_Country__c = data.attributeMap.get('country');
+            c.CONTACT_TXT_BIC__c = data.attributeMap.get('entity');
+            c.CONTACT_CHK_Digital_Onboarding_enabled__c = true;
+            c.AccountId = System.Label.Acc_DigitalOnboardingTemporaryCompany;
+            c.CONTACT_TXT_LocalUid__c = data.attributeMap.get('luid');
+            insert c;
+            
+            User u = new User();
+           	u.LastName = data.attributeMap.get('sub');
+            u.USER_TXT_GlobalId__c = data.attributeMap.get('sub');
+            u.USER_TXT_LocalUid__c = data.attributeMap.get('luid');
+            u.FederationIdentifier = data.attributeMap.get('sub');
+            u.CommunityNickname = data.attributeMap.get('sub');
+            u.ProfileId = [SELECT ID FROM Profile WHERE Name = 'Portal User'][0].id;
+            u.Email = 'globalid@gts.invalid.com';
+            u.Username = data.attributeMap.get('sub') + '@gtsinvalid.com';
+            u.USER_CHK_Digital_Onboarding_enabled__c = true;
+            u.USER_CHK_Digital_Onboarding_running__c = true;
+            u.USER_CHK_CashNexus__c = true;
+            u.ContactId  = c.Id;
+			
+			TokenInformation tokenInformation = new TokenInformation(data.attributeMap.get('country'), 'GTS', 'local', data.attributeMap.get('sub'), data.attributeMap.get('entity'), data.attributeMap.get('luid'), '');
+            Map<String,TokenInformation> mapTokenInformationOBD = new Map<String,TokenInformation>();
+            if(!Cache.Org.contains('mapTokenInformationOBD')) {
+                mapTokenInformationOBD.put(data.identifier, tokenInformation);
+            } else {
+                mapTokenInformationOBD = (Map<String,TokenInformation>)Cache.Org.get('mapTokenInformationOBD');
+                mapTokenInformationOBD.put(data.identifier, tokenInformation);
+            }
+            Cache.Org.put('mapTokenInformationOBD', TokenInformation, 60000);
+            return u;*/
             return null;
         }
     }
 
     global void updateUser(Id userId, Id portalId, Auth.UserData data){
-        /*System.debug('updateUser');
+        System.debug('updateUser');
         System.debug(data);
         System.debug(data.attributeMap);
         System.debug('entity: ' + data.attributeMap.get('entity'));
         System.debug('luid: ' + data.attributeMap.get('luid'));
         System.debug('sub: ' + data.attributeMap.get('sub'));
         System.debug('cmc: ' + data.attributeMap.get('cmc'));
-        System.debug('identifier: ' + data.identifier);*/
+        System.debug('identifier: ' + data.identifier);
+        System.debug('urlParams: '+data.attributeMap.get('urlParams'));
 
         
                 
@@ -106,8 +171,6 @@ global class GtsRegistrationHandler implements Auth.RegistrationHandler{
         //Map<String,String> entity = new Map<String,String>();
         // claims.put('entity',data.attributeMap.get('entity'));
         claims.put('local_uid',data.attributeMap.get('luid'));
-
-        //AD - 14/12/2020 local_realm fix
         claims.put('local_realm', '');
         
         //AM - 26/10/2020 - CMC MX
@@ -127,15 +190,34 @@ global class GtsRegistrationHandler implements Auth.RegistrationHandler{
             
         jwt.setValidityLength(86400);
         
-        //Fix One Trade PL
         List<User> userList = [SELECT Id, USER_CHK_CashNexus__c FROM User WHERE Id =: userId];
         if(!userList.isEmpty()){
+            //Fix One Trade PL
             if(!userList[0].USER_CHK_CashNexus__c){
 				if(data.attributeMap.get('country') != null && data.attributeMap.get('country') == 'PL'){
             		jwt.setAud('hybridapis-santander');
-            		claims.put('local_realm', 'ibiznes');
+                    claims.put('local_realm', 'ibiznes');
         		}                
             }
+            //MRTracker
+            else{
+                String urlParams = data.attributeMap.get('urlParams');
+                List<Contact> userContact = [SELECT Id, CONTACT_CHBOX_MrTracker__c FROM Contact WHERE CONTACT_User__c = :userList[0].Id LIMIT 1];
+                if(userContact.size()>0){
+                    Contact c = userContact[0];
+                    if(urlParams != null && urlParams != ''){
+                        if(urlParams.contains('profile=mrtracker')){
+                            c.CONTACT_CHBOX_MrTracker__c = true;
+                        }else{
+                            c.CONTACT_CHBOX_MrTracker__c = false;
+                        }
+                    }else{
+                        c.CONTACT_CHBOX_MrTracker__c = false;
+                    }
+                    update c;
+                }
+            }
+
         }
         
         jwt.setAdditionalClaims(claims);
@@ -170,12 +252,20 @@ global class GtsRegistrationHandler implements Auth.RegistrationHandler{
         List<User> userGlobalIdList = [SELECT Id, USER_TXT_GlobalId__c, USER_CHK_CashNexus__c FROM User WHERE Id =: userId];
         if(!userGlobalIdList.isEmpty()){
             if(!userGlobalIdList[0].USER_CHK_CashNexus__c)
-                ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(userGlobalIdList[0].USER_TXT_GlobalId__c,true));
+                ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(userGlobalIdList[0].USER_TXT_GlobalId__c));
             //ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(data.identifier));
             //ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(userId)); 
         }
 
-        //User u = new User(id=userId);
+        /*List<User> userList2 = [SELECT Id, name, ProfileId FROM User WHERE Id = '0050E000007Pl2JQAS'];
+        Profile p = [select id from profile where name='Mister Tracker'];
+        User u =new User();
+        u = userList2[0];
+        u.ProfileId = p.id;
+        update u;*/
+        // u.Id = userId;
+        // u.ProfileId = '00e1j000000h0swAAA';
+        // update(u);
         //TODO: Customize the username. Must be 80 characters or less.
         //u.username = data.username + '@myorg.com';
         //u.email = data.email;
@@ -187,6 +277,6 @@ global class GtsRegistrationHandler implements Auth.RegistrationHandler{
             //alias = alias.substring(0, 8);
         //}
         //u.alias = alias;
-        //update(u);
+           //update(u);
     }
 }

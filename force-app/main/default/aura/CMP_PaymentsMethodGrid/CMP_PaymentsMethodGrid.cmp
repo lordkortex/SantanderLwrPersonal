@@ -1,126 +1,138 @@
-<aura:component controller='CNT_PaymentsMethod' implements="forceCommunity:availableForAllPageTypes" access="global">
+<aura:component controller="CNT_PaymentsMethod" implements="forceCommunity:availableForAllPageTypes"  extends="c:CMP_PaymentsLoadUserAccounts" access="global">
     <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
-    
-    
-    <!-- DROPDOWN ATTRIBUTES -->
-    <aura:attribute access="public" type="List"    name="countryDropdownList"   default="[]"                    description="List of values to populate the dropdown" />
-    <aura:attribute access="public" type="String"  name="selectedCountry"       default=""                      description="Selected option from the dropdown" />
-    <aura:attribute access="public" type="String"  name="helpTextDropdown"      default="Show More"             description="Dropdown help text" /> 
-    <aura:attribute access="public" type="String"  name="bookToBookPage"        default='payments-b2b'/>
-    <aura:attribute access="public" type="String"  name="singlePage"            default='payments-single'/>
-    <aura:attribute access="public" type="Boolean"  name="showToast"                                            description="Indicates if the toast is shown." />
 
-    <lightning:navigation aura:id="navService"/>
+    <aura:attribute access="public" type="Map"     name="userData"            default="{}" />
+    <aura:attribute access="public" type="Map"     name="transferTypeParams"  default="{}" />
+    <aura:attribute access="public" type="List"    name="countryDropdownList" default="[]" description="List of values to populate the dropdown" />
+    <aura:attribute access="public" type="String"  name="selectedCountry"     default="" description="Selected option from the dropdown" />
+    <aura:attribute access="public" type="Boolean" name="showToast"           default="false" description="Indicates if the toast is shown." />
+    <aura:attribute access="public" type="Boolean" name="spinner"             default="false" />
+
+    <lightning:navigation aura:id="navService" />
     
-    <div class="paymentType-container">
-		<!--<div class="slds-text-heading_large slds-text-align_center">Select type of payment</div>-->
-        <!-- GRID -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="paymentType-container slds-is-relative">
         <div class="slds-grid slds-wrap paymentType-grid">
-            <!--CARD-->
             <div class="slds-col">
+                <!-- Añadir la clase card_disabled para mostrar la card deshabilitada -->
                 <article class="cardPayment slds-card">
+                    <!-- Esta etiqueta se mostrará cuando la card esté deshabilitada -->
+                    <div class="redLabel">
+                        <div class="">
+                            <span class="">Coming soon</span>
+                        </div>
+                    </div>
                     <div class="slds-card__header slds-grid">
                         <header class="slds-media slds-has-flexi-truncate">
                             <div class="slds-media__figure">
-                                <!-- single payment icon -->
                                 <span class="icon icon-transferPayment"></span>
                             </div>
                             <div class="slds-media__body">
-                                <!-- texto single payment -->
-                                <h2 class="slds-card__header-title">{!$Label.c.PAY_betweenMyAccounts}</h2><!--9814: delete slds-truncate-->
+                                <h2 class="slds-card__header-title">{!$Label.c.PAY_betweenMyAccounts}</h2> <!--9814: delete slds-truncate-->
                                 <!--<span class="card_subtitle slds-truncate">{!$Label.c.PAY_betweenMyAccounts}</span>--><!--9814: delete grid subtitle-->
                             </div>
                         </header>
                     </div>
                     <footer class="slds-card__footer">
                         <button class="slds-button primary" onclick="{!c.goToBooktoBook}">{!$Label.c.PAY_Type_Single}</button>
-                        <!-- <button class="slds-button primary" >Multiple</button>  -->
-                    </footer>                    
+                    </footer>
                 </article>
             </div>
-            
-            <!--CARD-->
             <div class="slds-col">
+                <!-- Añadir la clase card_disabled para mostrar la card deshabilitada -->
                 <article class="cardPayment multiple slds-card">
+                    <!-- Esta etiqueta se mostrará cuando la card esté deshabilitada -->
+                    <div class="redLabel">
+                        <div class="">
+                            <span class="">Coming soon</span>
+                        </div>
+                    </div>
                     <div class="slds-card__header slds-grid">
                         <header class="slds-media slds-has-flexi-truncate">
                             <div class="slds-media__figure">
-                                <!-- multiple payment icon: domestic transfer -->
                                 <span class="icon icon-transfer"></span>
                             </div>
                             <div class="slds-media__body">                                
-                                <!-- texto multiple payment domestic transfer -->
-                                <h2 class="slds-card__header-title">{!$Label.c.PAY_DomesticTransfer}</h2> <!--9814: delete slds-truncate-->
+                                <h2 class="slds-card__header-title">{!$Label.c.PAY_DomesticTransfer}</h2><!--9814: Delete slds-truncate-->
                                 <!--<span class="card_subtitle slds-truncate">{!$Label.c.PAY_toThirdParties}</span>--><!--9814: delete grid subtitle-->
                             </div>
                         </header>
                     </div>
                     <footer class="slds-card__footer">
-                        <button class="slds-button primary" onclick="{!c.goToSingle}">{!$Label.c.PAY_Type_Single}</button>
-                        <button class="slds-button primary" onclick="{!c.goToMultiple}">{!$Label.c.PAY_Type_Multiple}</button> 
-                    </footer>                    
+                        <button class="slds-button primary" onclick="{!c.goToSingleDomestic}">{!$Label.c.PAY_Type_Single}</button>
+                        <button class="slds-button primary" onclick="{!c.goToMultipleDomestic}">{!$Label.c.PAY_Type_Multiple}</button> 
+                    </footer>
                 </article>
             </div>
-
-            
-            <!--CARD-->
             <div class="slds-col">
+                <!-- Añadir la clase card_disabled para mostrar la card deshabilitada -->
                 <article class="cardPayment multiple international slds-card">
+                    <!-- Esta etiqueta se mostrará cuando la card esté deshabilitada -->
+                    <div class="redLabel">
+                        <div class="">
+                            <span class="">Coming soon</span>
+                        </div>
+                    </div>
                     <div class="slds-card__header slds-grid">
                         <header class="slds-media slds-has-flexi-truncate">
                             <div class="slds-media__figure">
-                                
-                                <!-- multiple payment icon: international transfer -->
                                 <span class="icon icon-international-transfer"></span>
-
                             </div>
                             <div class="slds-media__body">
-                                
-                                <!-- texto multiple payment internacional transfer -->
-                                <h2 class="slds-card__header-title">{!$Label.c.PAY_InternationalTransfer}</h2> <!--9814: delete slds-truncate-->
+                                <h2 class="slds-card__header-title">{!$Label.c.PAY_InternationalTransfer}</h2><!--9814: Delete slds-truncate-->
                                 <!--<span class="card_subtitle slds-truncate">{!$Label.c.PAY_toThirdParties}</span>--><!--9814: delete grid subtitle-->
-                                
                             </div>
                         </header>
                     </div>
                     <footer class="slds-card__footer">
-                        <button class="slds-button primary" onclick="{!c.goToSingle}">{!$Label.c.PAY_Type_Single}</button>
-                        <button class="slds-button primary" onclick="{!c.goToMultiple}">{!$Label.c.PAY_Type_Multiple}</button> 
-                    </footer>                    
+                        <button class="slds-button primary" onclick="{!c.goToSingleInternational}">{!$Label.c.PAY_Type_Single}</button>
+                        <button class="slds-button primary" onclick="{!c.goToMultipleInternational}">{!$Label.c.PAY_Type_Multiple}</button> 
+                    </footer>
                 </article>
             </div>
-            
-            
-            <!--CARD-->
             <div class="slds-col">
+                <!-- Añadir la clase card_disabled para mostrar la card deshabilitada -->
                 <article class="cardPayment otherPayment slds-card">
+                    <!-- Esta etiqueta se mostrará cuando la card esté deshabilitada -->
+                    <div class="redLabel">
+                        <div class="">
+                            <span class="">Coming soon</span>
+                        </div>
+                    </div>
                     <div class="slds-card__header slds-grid">
                         <header class="slds-media slds-has-flexi-truncate">
                             <div class="slds-media__figure">
-                                <!-- other payments icon -->
                                 <span class="icon icon-other-payments"></span>
                             </div>
                             <div class="slds-media__body">
-                                <!-- texto other payments -->
-                                <h2 class="slds-card__header-title">{!$Label.c.PAY_OtherPayments}</h2><!--9814: delete slds-truncate-->
+                                <h2 class="slds-card__header-title">{!$Label.c.PAY_OtherPayments}</h2> <!--9814: Quitat slds-truncate-->
                             </div>
                         </header>
                     </div>
                     <div class="slds-card__body">
-                    	<!-- DROPDOWN -->
                         <div class="dropdownContainer">
-                            <c:CMP_PAY_FilterDropdown values="{!v.countryDropdownList}" selectedValue="{!v.selectedCountry}" 
-                                                              helpTextDropdown="{!$Label.c.Show_More}" isSimpleDropdown="true" label="{!$Label.c.Country}" 
-                                                              isDisabled="false" valuesPlaceholder=""
-                                                              errorText="{!$Label.c.IncorrectInputFormat}"/>   
+                            <c:CMP_PAY_FilterDropdown
+                                values="{!v.countryDropdownList}"
+                                selectedValue="{!v.selectedCountry}"
+                                helpTextDropdown="{!$Label.c.Show_More}"
+                                isSimpleDropdown="true"
+                                label="{!$Label.c.Country}"
+                                isDisabled="false"
+                                valuesPlaceholder=""
+                                errorText="{!$Label.c.IncorrectInputFormat}" />   
                         </div>
                     </div>
                     <footer class="slds-card__footer">
-                    </footer>                    
+                    </footer>
                 </article>
             </div>
-            
         </div>
+        <aura:if isTrue="{!v.spinner eq true}">
+            <lightning:spinner alternativeText="Loading" size="medium" />
+        </aura:if>
+        
+        <c:CMP_B2B_Toast aura:id="errorToast" reload="{!v.reload}" />
+        
     </div>
-    
-    </aura:component>
+</aura:component>

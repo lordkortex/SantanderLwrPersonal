@@ -43,7 +43,7 @@
     
     
     <!-- <aura:if isTrue="{!not(or(empty(v.allData), v.allData == undefined))}"> -->
-    <template if:false={getcheckAllData}>    
+    <template if:false={alldata}>    
         <div class="slds-card__header slds-grid pagination">
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                 <div class="slds-media__body">
@@ -97,7 +97,7 @@
                     </template> -->
 
                     <!-- Nuevo -->
-                    <template for:each={iterationPageList} for:item='item'>
+                <!--    <template for:each={iterationPageList} for:item='item'>
                         <span key={item.value} class="span__align">
                             <template if:true={item.show}>
                                 <template if:true={item.showfirstpoints}>
@@ -114,8 +114,45 @@
                                 </template>
                             </template>
                         </span>
-                    </template>               
+                    </template>       -->        
                     <!-- FIN -->
+
+<!-- 10/02/2021-->
+                    <template if:true={pageListLengthGreaterThan}>
+                        <div class="number__gray">1</div>
+                        <template if:true={currentPageGreater2}>
+                            <div class="number__gray">...</div>
+                        </template>
+                    </template>
+
+                    <template for:each={iterationPageList} for:item='item'>
+                        <span key={item.value} class="span__align">
+                            <template if:true={item.iscurrerntpage}>
+                                <div class="number__gray selected">{item.value}</div>
+                            </template>
+                            <template if:false={item.iscurrerntpage}>
+                                <div class="number__gray">{item.value}</div>
+                            </template>
+                        </span>
+                    </template>
+
+                    <template if:true={getPage}>
+                        <template if:true={lastPage}>
+                            <div class="number__gray">...</div>
+                        </template>
+                        <div class="number__gray">{getpageListLength}</div>
+                    </template>    
+
+<!-- END 10/02/2021-->
+
+
+
+
+
+
+
+
+
                     
                     <!--<aura:if isTrue="{!and(v.currentPage!=v.pageList.length,or(v.pageList.length>v.currentPage+v.pagesToShow-1,v.currentPage==v.end))}"> 
                     <template if:true={getPage}>

@@ -1,0 +1,43 @@
+<template>
+    
+    <tr class="slds-hint-parent border" aria-selected={checked}>        
+
+        <!--CHECK DATA COLUMN-->
+        <td role="gridcell">
+            <input id={cmpdata.value.id} name="group" type="radio" value={checked} checked ={checked} onchange={buttonSelected} />   
+        </td>           
+        <!--CHECK ALIAS COLUMN-->
+        <td role="gridcell">
+            <div class="slds-truncate" title={alias}>{cmpdata.value.alias}</div>
+        </td>
+
+        <!--ACCOUNT NUMBER COLUMN-->
+        <td class="slds-truncate" role="gridcell">
+            <!--IMAGE-->
+            <span class="amountInteger">
+                <div style="width: 50%; height: 50%" >
+                    <img style="height: 24px; margin-right: 5px; width: 24px;" data-id="countryImage" class="flag" src={imgSource}/>  
+                    
+                    <!-- onerror={defaultImage} />  -->
+                    <lightning-formatted-number value={accountNumber} minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number>
+                        <div>{cmpdata.value.accountNumber}</div>
+                </div>
+            </span> 
+        </td>
+
+        <!--BALANCE COLUMN JUST IF STAGE NUMBER IS 1-->
+        <template if:true={stageNumberEq1}>
+            <td role="gridcell">
+                <div class="slds-truncate" title={balance}>{cmpdata.value.balance}</div>
+            </td> 
+        </template>
+
+        <!--CURRENCY COLUMN-->
+        <td role="gridcell">
+            <div class="slds-truncate" title={cmpdata.value.ObjectCurrency}>{cmpdata.value.ObjectCurrency}</div>
+        </td>
+    </tr>
+    
+    
+
+</template>

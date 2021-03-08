@@ -307,7 +307,7 @@ History
                         
                         if(String.isNotBlank(codPais)){
                         	myAccount.mandatoryPurpose = Global_Utilities.getCountryMandatoryPurpose(codPais);
-                    	} 
+                    	}
                         myAccount.alias = thisAccount.aliasCuentaPerfilado != null ? thisAccount.aliasCuentaPerfilado : '';
                         myAccount.aliasEntidad = thisAccount.aliasEntidad;                                    
                         myAccount.subsidiaryName = thisAccount.nombreCorporate;
@@ -568,13 +568,23 @@ History
                     myAccount.mandatoryPurpose = Global_Utilities.getCountryMandatoryPurpose(item.country);
                 }
                 
-                myAccount.subsidiaryName =  (iWhen == 'oneTrade' && item.parentCustomerName != null) ? item.parentCustomerName : item.customerName;
+                //myAccount.subsidiaryName =  (iWhen == 'oneTrade' && item.parentCustomerName != null) ? item.parentCustomerName : item.customerName;
+                myAccount.subsidiaryName =  item.customerName;
                 myAccount.internationalPaymentsAllowed = item.internationalPaymentsAllowed;//HHH
                 myAccount.idType = item.accountIdList.get(0).idType;
                 myAccount.aliasEntidad = item.aliasEntidad;
                 myAccount.status = item.status != null ? item.status : '';
                 myAccount.transactionsAllowed = item.transactionsAllowed != null ? item.transactionsAllowed : false;
                 myAccount.balanceAllowed = item.balanceAllowed != null ? item.balanceAllowed : false;
+                
+                if(item.companyIdsList != null){
+                    Map<String, String> auxCompanyIds = new  Map<String, String>();
+                    for(WRAPPER_Balance_LU.CompanyId idItem : item.companyIdsList){
+                        if(String.isNotBlank(idItem.id) && String.isNotBlank(idItem.idType))
+                        auxCompanyIds.put(idItem.idType, idItem.id);
+                    }
+                    myAccount.companyIdsList = auxCompanyIds;
+                }
                 
                 if(item.accountHolderAddress != null){
                     myAccount.address = new WRAPPER_AccountList.Address();
@@ -588,6 +598,8 @@ History
                         myAccount.address.country = item.accountHolderAddress.country;
                     }
                 }
+                
+                
                 
                 if(item.mainBalance != null){
                     if(item.mainBalance.currencyCode != '' && item.mainBalance.currencyCode != null){

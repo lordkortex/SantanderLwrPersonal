@@ -162,7 +162,7 @@
         }
     },
 
-    valueChanges: function (component) {
+    valueChanges: function (component, event, helper) {
         let disabled = component.get('v.disabled');
         if (disabled == true) {
             console.log('field disabled');

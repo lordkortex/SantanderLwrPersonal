@@ -1,0 +1,39 @@
+<template>
+    <div class="paymentBoxes">
+        <div class="slds-grid">
+            <div class="slds-form-element">
+
+                    <!-- EX BORRAR-->
+                    <div class="slds-col slds-button " onclick={selectPaymentStatus}>
+                        <span class="number">138</span>
+                        <div class="slds-truncate">
+                            <span class="text">Update last week</span>
+                        </div>
+                    </div>
+                        <div class="line"></div>    
+
+                    <!-- EX BORRAR-->
+                    <div class="slds-col slds-button " onclick={selectPaymentStatus}>
+                        <span class="number">23</span>
+                        <div class="slds-truncate">
+                            <span class="text">Pending</span>
+                        </div>
+                    </div>       
+         
+                <!-- <template for:each={paymentstatusboxes} for:item='item' for:index="index">
+                    <div key = {item.index}>
+                        <div class={item.class1} id={item.statusName} onclick={selectPaymentStatus}>
+                            <span class="number">{item.numberOfRecords}</span>
+                            <div class="slds-truncate">
+                                <span class="text">{item.parsedStatusDescription}</span>
+                            </div>
+                        </div>
+                        <template if:true={item.line}>
+                            <div class="line"></div>
+                        </template>        
+                    </div>             
+                </template> -->
+            </div>
+        </div>        
+    </div>
+</template>

@@ -1,0 +1,579 @@
+.container__log {
+    background-color: #eff6f9;
+    margin-bottom: 8px;
+    padding: 24px 64px;
+    width: 100%;
+}
+
+.container__log .slds-grid:nth-child(1) {
+    margin-bottom: 26px;
+}
+
+.container__log .slds-grid:nth-child(2) {
+    margin-bottom: 16px;
+}
+
+.container__log .slds-grid:last-child {
+    margin-bottom: 0;
+}
+
+.container__log .calendar .slds-grid {
+    margin-bottom: 0;
+}
+
+ .slds-form-element__label>label {
+    color: #444444;
+    font-size: 12px;
+}
+
+ .input_text .slds-form-element__label,
+ .dropdownOrder .slds-form-element__label {
+    margin-bottom: 0;
+    margin-right: 16px;
+    min-width: 128px;
+    padding: 0;
+    text-align: right;
+}
+
+ .calendar .slds-form-element__label {
+    bottom: 12px;
+    margin-bottom: 0;
+    margin-right: 16px;
+    min-width: 128px;
+    padding: 0;
+    position: relative;
+    text-align: right;
+}
+
+ .slds-grid .slds-col:nth-child(2) {
+    margin-left: 32px;
+}
+
+ .input_text .slds-form-element__control,
+ .dropdownOrder .slds-form-element__control {
+    min-width: 368px;
+}
+
+/*
+ .input_text .slds-form-element__control #text-input-id-1 {
+    width: 176px;
+}
+*/
+
+ .input_text .slds-input {
+    background-color: #fff;
+    border-radius: 4px 4px 0 0;
+    border-style: none;
+    border-width: 0;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    transition: none;
+    width: 100%;
+}
+
+ .input_text input::-webkit-input-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .input_text input::-moz-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .input_text input:-ms-input-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .input_text input:-moz-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .slds-form-element {
+    align-items: center;
+    display: flex;
+}
+
+ .button-order {
+    border: transparent;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    height: 36px;
+    width: 100%;
+}
+
+ .button-order .arrow {
+    border-left: 1px solid #d2f0f2;
+    bottom: 4px;
+    display: inline-block;
+    height: calc(100% - 8px);
+    position: absolute;
+    right: 0;
+    top: 4px;
+    width: 33px;
+}
+
+ .button-order .button-arrow {
+    font-size: 24px;
+    line-height: 28px;
+}
+
+ .button-order:focus {
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+ .button-order:hover {
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+ .button-selected {
+    font-size: 16px;
+}
+
+ .actionOn .slds-combobox .slds-dropdown {
+    border: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 3px 0 rgba(68, 68, 68, 0.24);
+    left: auto;
+    margin-top: 4px;
+    max-height: 176px;
+    min-width: 368px;
+    overflow-y: auto;
+    padding: 4px 0;
+    right: auto;
+    width: 100%;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+ .slds-icon {
+    margin-right: 8px;
+}
+
+ .label {
+    align-items: center;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    height: 36px;
+    margin-right: 16px;
+}
+
+ .nameOrder {
+    color: #444444;
+    font-size: 12px;
+}
+
+ .optionOrder {
+    align-items: center;
+    display: inline-flex;
+}
+
+ .orderSelected {
+    align-items: center;
+    border: 0;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    height: 24px;
+    padding: 0 33px 0 12px;
+    width: 100%;
+}
+
+ .paddingOption {
+    padding: 8px 10px 8px 8px;
+}
+
+ .selectedValue-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .selectedValue-filled {
+    color: #444444;
+    font-size: 12px;
+}
+
+ .calendar input {
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
+    border-image: initial;
+    border-radius: 4px 4px 0 0;
+    border-style: none;
+    border-width: 0;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    display: inline-block;
+    font-size: 12px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 1rem 0 .75rem;
+    transition: none;
+    width: 176px;
+}
+
+ .calendar input:focus {
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+ .calendar input::-webkit-input-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .calendar input::-moz-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .calendar input:-ms-input-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .calendar input:-moz-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .calendar .slds-button_icon-bare {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    height: 24px;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    width: 24px;
+}
+
+ .calendar .slds-button_icon-bare:before {
+    color: #ec0000;
+    content: "\e90b";
+    cursor: pointer;
+    font-size: 24px;
+}
+
+ .calendar .slds-button_icon-bare svg {
+    display: none;
+}
+
+ .calendar .slds-input__icon.slds-input__icon_right {
+    border-left: 1px solid #d2f0f2;
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    padding: 0 4px;
+    right: 0px;
+    top: 0;
+    width: 33px;
+}
+
+ .calendar.slds-form_compound .slds-form-element__row .slds-form-element+.slds-form-element {
+    padding-left: 16px;
+}
+
+ .textHelp {
+    color: #444444;
+    display: inline-block;
+    font-size: 12px;
+    height: 18px;
+    padding-left: 12px;
+}
+
+ .slds-datepicker {
+    padding: 16px 16px;
+}
+
+ .slds-datepicker .slds-button:focus {
+    box-shadow: none;
+}
+
+ .slds-datepicker .slds-button__icon {
+    fill: #ec0000;
+}
+
+ .slds-datepicker .slds-datepicker__filter.slds-grid {
+    padding: 0;
+}
+
+ .slds-datepicker .slds-datepicker__month thead tr {
+    text-transform: uppercase;
+}
+
+ .slds-datepicker .slds-datepicker__month thead th {
+    color: #444444;
+    font-size: 12px;
+}
+
+ .slds-datepicker .slds-day,
+ .slds-datepicker th,
+ h2,
+ .slds-select {
+    font-size: 12px;
+}
+
+ .slds-datepicker .slds-select {
+    font-family: SantanderTextW05-Regular;
+    height: 32px;
+}
+
+ .slds-datepicker .slds-select_container {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+}
+
+ .slds-datepicker .slds-select_container:after {
+    border: none;
+    bottom: 13px;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 15px;
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+
+ .slds-datepicker .slds-select_container:before {
+    border: none;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 4px;
+    top: 13px;
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+
+ .slds-datepicker .slds-text-link {
+    color: #ec0000;
+    font-family: SantanderTextW05-Bold;
+    font-size: 12px;
+}
+
+ .slds-datepicker td {
+    padding: 0;
+}
+
+ .slds-datepicker td.slds-is-selected>.slds-day {
+    background: #444444;
+}
+
+ .calendar .slds-form-element {
+    display: inline-block;
+}
+
+ .lastRow {
+    margin: 0;
+}
+
+ .colSecond {
+    padding: 0;
+}
+
+ .noMargin {
+    margin-bottom: 0;
+}
+
+ .lastPill {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+ .redButton {
+    background-color: #ec0000;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ffffff;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 32px;
+    width: 100px;
+}
+
+ .redButton:hover {
+    background-color: #cc0000;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ffffff;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 32px;
+    width: 100px;
+}
+
+ .redButton:focus {
+    box-shadow: 0 0 2px 1px #dadada;
+}
+.logTable.logTable{
+    background-color: #ececec;
+}
+
+.logTable .alignRight {
+    float: right;
+}
+
+.logTable .border {
+    border: 1px solid #ececec;
+}
+
+.logTable.logTable .button-orderLeft,
+.logTable .button-orderRight {
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.logTable .containerBookDate {
+    padding-left: 24px;
+}
+
+.logTable td span.slds-truncate:last-child{
+    line-height:34px;
+}
+
+.logTable tbody th:first-child, .logTable tbody td:first-child {
+    width: 12%;
+}
+
+.logTable tbody th:first-child, .logTable tbody td:nth-child(2) {
+    width: 12%;
+}
+
+.logTable tbody th:nth-child(3), .logTable tbody td:nth-child(3) {
+    width: 22%;
+}
+
+.logTable tbody td:last-child {
+    align-items: center;
+    width: auto;
+}
+
+.logTable .icon-copy {
+    cursor: pointer;
+    font-size: 23px;
+    padding-left: 10px;
+}
+
+.logTable .slds-th__action {
+    justify-content: flex-end;
+    width: 155px;
+}
+
+.logTable thead th {
+    padding-left: 24px;
+    width: auto;
+}
+
+.logTable td {
+    height: 34px;
+    padding: 0;
+}
+
+.logTable.slds-table--header-fixed_container {
+    margin-bottom: 64px;
+}
+
+.logTable.slds-table--header-fixed_container::before {
+    border: none;
+}
+
+.logTable .slds-scrollable_y{
+    max-height: 494px;
+}
+
+.logTable thead .slds-truncate span {
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    text-transform: initial;
+    letter-spacing: normal;
+    color: #444444;
+}
+
+.logTable thead .slds-truncate {
+    background-color: #ececec;
+    line-height: 30px;
+}
+
+.logTable tbody tr td {
+    height:32px;
+    padding:0;
+}
+
+
+.logTable tbody tr .slds-truncate {
+    display: inline;
+    font-size: 12px;
+    color: #444444;
+}
+
+.logTable tbody tr .slds-truncate.amountInteger {
+    font-family: "SantanderTextW05-Bold";
+}
+
+.logTable tbody tr .slds-truncate.amountDecimals {
+    font-family: "SantanderTextW05-Bold";
+    font-size: 10px;
+}
+
+/* width */
+.logTable div::-webkit-scrollbar {
+    width: 6px;
+}
+ 
+/* Track */
+.logTable div::-webkit-scrollbar-track {
+    /*box-shadow: inset 0 0 5px #dadada;*/
+    border-radius: 10px;
+}
+ 
+/* Track Piece*/
+.logTable div::-webkit-scrollbar-track-piece{
+    background:transparent;
+}
+ 
+/* Handle */
+.logTable div::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+.logTable .slds-table_striped tbody tr:nth-of-type(2n)>td,
+.logTable .slds-table_striped tbody tr:nth-of-type(2n)>th,
+.logTable .slds-table--striped tbody tr:nth-of-type(2n)>td,
+.logTable .slds-table--striped tbody tr:nth-of-type(2n)>th {
+    background-color: #f9fcfd;
+}

@@ -35,9 +35,6 @@
                 return helper.checkFCCDowJones(component, helper);
             })).then($A.getCallback(function (value) { 
                 return helper.getPaymentSignatureStructure(component, helper);
-           // })).then($A.getCallback(function (value) { 
-                return helper.updateStatus(component, helper, '002', '001');
-              //  return helper.updateStatus(component, helper, '001', '002');
             })).then($A.getCallback(function (value) {
                 return helper.completeStep(component, helper);
             })).catch($A.getCallback(function (value) {

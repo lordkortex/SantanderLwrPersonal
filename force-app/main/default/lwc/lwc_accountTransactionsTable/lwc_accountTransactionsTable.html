@@ -5,14 +5,15 @@
         <!-- Pagination -->
         <c-lwc_cn_pagination 
             data-id="pagination" 
-            alldata={transactionresults} 
+            alldata={transactionresultsNotNull} 
             maximumrecords={maximumrecords} 
             isiam={isiam}
             paymentsperpage={transactionsPerPage}
             namelisttodisplay={label.Account_Transactions} 
             pagelist={listofpages}
-            todisplay={transactionresults}
+            todisplay={transactionResultsLength}
             ongetpageevent={doBuildTablePage}
+            oncurrentpage={doBuildTablePage}
         > 
         </c-lwc_cn_pagination>
 
@@ -29,11 +30,11 @@
                                     {label.ExtractSearch_BookDate}
                                     <template if:true={sortBookDateEqualsDesc}>
                                         <!-- Descending order icon -->
-                                        <span class="button-orderRight icon-arrowDown" data-id="BookDate" onclick={sortBy}></span>
+                                        <span class="button-orderRight icon-arrowDown" data-id="BookDate" data-sort="desc" onclick={sortBy}></span>
                                     </template>
                                     <template if:false={sortBookDateEqualsDesc}>
                                         <!-- Ascending order icon -->
-                                        <span class="button-orderRight icon-arrowUp" data-id="BookDate" onclick={sortBy}></span>  
+                                        <span class="button-orderRight icon-arrowUp" data-id="BookDate" data-sort="asc" onclick={sortBy}></span>  
                                     </template>
                                 </div>
                             </th>
@@ -49,11 +50,11 @@
                                     {label.MovementHistory_Category}
                                     <template if:true={sortCategoryEqualsDesc}>
                                         <!-- Descending order icon -->
-                                        <span class="button-orderRight icon-arrowDown" data-id="Category" onclick={sortBy}></span>
+                                        <span class="button-orderRight icon-arrowDown" data-id="Category" data-sort="desc" onclick={sortBy}></span>
                                     </template>
                                     <template if:false={sortCategoryEqualsDesc}>
                                         <!-- Ascending order icon -->
-                                        <span class="button-orderRight icon-arrowUp" data-id="Category" onclick={sortBy}></span>  
+                                        <span class="button-orderRight icon-arrowUp" data-id="Category" data-sort="asc" onclick={sortBy}></span>  
                                     </template>
                                     
                                 </div>
@@ -69,10 +70,10 @@
                                 <span class="slds-assistive-text">{label.sortBy}</span>
                                 <div class="slds-truncate">
                                     <template if:true={sortAmountEqualsDesc}>
-                                        <span class="button-orderRight icon-arrowDown" data-id="amount" onclick={sortBy}></span>
+                                        <span class="button-orderRight icon-arrowDown" data-id="amount" data-sort="desc" onclick={sortBy}></span>
                                     </template>
                                     <template if:false={sortAmountEqualsDesc}>
-                                        <span class="button-orderRight icon-arrowUp" data-id="amount" onclick={sortBy}></span>  
+                                        <span class="button-orderRight icon-arrowUp" data-id="amount" data-sort="asc" onclick={sortBy}></span>  
                                     </template>
                                     
                                     {label.MovementHistory_Amount}
@@ -131,7 +132,7 @@
                                     <td class="slds-text-align_right" role="gridcell">
                                         <div class="slds-grid slds-grid_align-spread">
                                             <div class="slds-truncate slds-button">
-                                                <div class="icon icon-arrowRight_big" data-id={index} onclick={navigateToExtractDetail}>{label.Detail}</div>
+                                                <div class="icon icon-arrowRight_big" data-id={item.index} onclick={navigateToExtractDetail}>{label.Detail}</div>
                                             </div>
                                         </div>
                                         
@@ -161,11 +162,11 @@
                                     {label.ExtractSearch_BookDate}
                                     <template if:true={sortBookDateEqualsDesc}>
                                         <!-- Descending order icon -->
-                                        <span class="button-orderRight icon-arrowDown" data-id="BookDate" onclick={sortBy}></span>
+                                        <span class="button-orderRight icon-arrowDown" data-id="BookDate" data-sort="desc" onclick={sortBy}></span>
                                     </template>
                                     <template if:false={sortBookDateEqualsDesc}>
                                         <!-- Ascending order icon -->
-                                        <span class="button-orderRight icon-arrowUp" data-id="BookDate" onclick={sortBy}></span>  
+                                        <span class="button-orderRight icon-arrowUp" data-id="BookDate" data-sort="asc" onclick={sortBy}></span>  
                                     </template>
                                 </div>
                             </th>
@@ -178,11 +179,11 @@
                                     {label.MovementHistory_Category}
                                     <template if:true={sortCategoryEqualsDesc}>
                                         <!-- Descending order icon -->
-                                        <span class="button-orderRight icon-arrowDown" data-id="Category" onclick={sortBy}></span>
+                                        <span class="button-orderRight icon-arrowDown" data-id="Category" data-sort="desc" onclick={sortBy}></span>
                                     </template>
                                     <template if:false={sortCategoryEqualsDesc}>
                                         <!-- Ascending order icon -->
-                                        <span class="button-orderRight icon-arrowUp" data-id="Category" onclick={sortBy}></span>  
+                                        <span class="button-orderRight icon-arrowUp" data-id="Category" data-sort="asc" onclick={sortBy}></span>  
                                     </template>
                                 </div>
                             </th>
@@ -194,10 +195,10 @@
                                 <div class="slds-truncate" >
                                     {label.MovementHistory_Amount}
                                     <template if:true={sortAmountEqualsDesc}>
-                                        <span class="button-orderRight icon-arrowDown" data-id="amount" onclick={sortBy}></span>
+                                        <span class="button-orderRight icon-arrowDown" data-id="amount" data-sort="desc" onclick={sortBy}></span>
                                     </template>
                                     <template if:false={sortAmountEqualsDesc}>
-                                        <span class="button-orderRight icon-arrowUp" data-id="amount" onclick={sortBy}></span>  
+                                        <span class="button-orderRight icon-arrowUp" data-id="amount" data-sort="asc" onclick={sortBy}></span>  
                                     </template>
                                 </div>
                             </th>
@@ -259,7 +260,7 @@
                                 </td>
                                 
                                 <td class="slds-text-align_center" role="gridcell">
-                                    <div class="iconLinkContainer" data-id={index} onclick={navigateToExtractDetail}>
+                                    <div class="iconLinkContainer" data-id={item.index} onclick={navigateToExtractDetail}>
                                         <span class="text-link" >{label.Detail}</span>
                                         <span class="icon-arrowRight_big"></span>
                                     </div>

@@ -1,0 +1,386 @@
+.slds-progress__item.slds-is-completed .slds-progress__marker {
+    background: none !important;
+
+}
+
+ 
+ .slds-progress__item.slds-is-completed .slds-progress__marker {
+    background: none !important;
+    border: none !important;
+
+}
+
+ .bank{
+    align-items: center; 
+    color: #444444;
+    display: flex;
+    font-size: 14px;
+    height: 21px;
+    width: 280px; 
+}
+
+
+ .card {
+    margin-bottom: 4px !important;
+    width:100% !important;
+}
+
+ .containerFlag {
+    background-color: transparent !important;
+    width: 55px !important;
+}
+
+ .bank__disabled{
+    align-items: center;   
+    color: #a2a2a2;
+    display: flex;
+    font-size: 14px;
+    height: 21px;
+    width: 280px; 
+}
+
+ .card{
+    background-color: #ffffff;
+    border: 1px solid #ececec;
+    border-radius: 4px;
+    height: 56px;
+    margin: 0;
+    padding: 8px 24px 8px 16px; 
+}
+
+ .card__inProgress{
+    background-color: #f4fcfc;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px 0 rgba(218, 218, 218, 0.5), inset 0 -1px 0 0 #1bb3bc;
+    height: 56px;
+    width:100% !important;
+
+}
+
+
+ .card__onHold{
+    background-color: #fffdf5;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px 0 rgba(68, 68, 68, 0.16), inset 0 -1px 0 0 #ffcc33;
+   	height: 56px;
+    padding: 8px 24px 8px 16px;
+    width:100% !important;
+
+}
+
+ .card__rejected{
+    background-color: #fff2f2;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px 0 rgba(68, 68, 68, 0.16), inset 0 -1px 0 0 #cc0000;
+   	height: 56px;
+    padding: 8px 24px 8px 16px;
+    width:100% !important;
+
+}
+
+ .card__completed{
+    background-color: #f8fcf8;
+    border: none;
+    border-radius: 4px;
+    box-shadow: 1px 2px 3px 0 rgba(68, 68, 68, 0.16), inset 0 -1px 0 0 #63ba68;
+   	height: 56px;
+    padding: 8px 24px 8px 16px;
+    width:100% !important;
+
+}
+
+ .city{
+    align-items: center;
+    color: #a2a2a2;
+    display: flex;
+    height: 18px; 
+    font-size: 12px;
+    width: 280px; 
+}
+
+ .city__disabled{
+    align-items: center;
+    color: #c7c7c7;
+    display: flex;
+    height: 18px; 
+    font-size: 12px;
+    width: 280px;
+}
+
+ .colCountry {
+    align-items: flex-start;
+    display: flex;
+    flex: initial;
+    flex-direction: column;
+    height: 42px;
+    justify-content: flex-start;
+    margin-right: 170px;
+    width: 128px;
+}
+ .colDuration {
+    align-items: flex-start;
+    display: flex;
+    flex: initial;
+    flex-direction: column;
+    height: 42px;
+    justify-content: flex-start;
+    margin-right: 148px;
+    width: 130px;
+}
+
+ .colArrivalTime {
+    align-items: flex-start;
+    display: flex;
+    flex: initial;
+    flex-direction: column;
+    height: 42px;
+    justify-content: flex-start;
+    margin-right: 50px;
+    width: 104px;
+}
+ .colArrivalTimeFX {
+    align-items: flex-start;
+    display: flex;
+    flex: initial;
+    flex-direction: column;
+    height: 42px;
+    justify-content: flex-start;
+    margin-right: 50px;
+    width: 104px;
+}
+
+ .colDepartureTimeFX {
+    align-items: flex-start;
+    display: flex;
+    flex: initial;
+    flex-direction: column;
+    height: 42px;
+    justify-content: flex-start;
+    margin-right: 70px;
+    width: 112px;
+}
+ .colExchangeRateTitle {
+    flex: initial;
+    line-height: 20px;
+    margin-right: -24px;
+    width: 104px;
+    /* margin-left: 55px; */
+}
+
+ .colDurationFX {
+    align-items: flex-start;
+    display: flex;
+    flex: initial;
+    flex-direction: column;
+    height: 42px;
+    justify-content: flex-start;
+    margin-right: 177px;
+    width: 104px;
+}
+
+.colCountryFx {
+    align-items: flex-start;
+    display: flex;
+    flex: initial;
+    flex-direction: column;
+    height: 42px;
+    justify-content: flex-start;
+    margin-right: 32px;
+    width: 133px; 
+}
+ .colDepartureTime {
+    align-items: flex-start;
+    display: flex;
+    flex: initial;
+    flex-direction: column;
+    height: 42px;
+    justify-content: flex-start;
+    margin-right: 80px;
+    width: 104px;
+}
+
+ .slds-progress__marker {
+    border-radius: 50%;
+    border-width: 0 !important;
+    border-style: transparent;
+    background:none !important;
+}
+
+ .colDate{
+    align-items: center;
+    display: flex;
+    font-size: 12px;
+    height: 18px; 
+}
+
+ .colFee{
+    align-items: center;
+    display: flex;
+    font-size: 12px;
+    height: 18px;
+    justify-content: flex-end;
+    width: 80px;
+}
+
+ .colIdentity{
+    flex: initial;
+    margin-right: 64px;
+}
+
+ .colTime{
+    align-items: center;
+    display: flex;
+    font-size: 12px;
+    height: 18px;
+    justify-content: center;
+}
+
+ .containerFlag{
+    border: none;
+    box-shadow: none !important;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+ .date{
+    color: #444444;
+    width: 164px;
+}
+
+ .date__disabled{
+    color: #a2a2a2;
+    width: 164px;
+}
+
+ .decimalsFee{
+    font-size: 10px;
+}
+
+ .flag{
+    height: 40px;
+    margin: 0;
+    padding: 4px;
+    width: 40px;
+}
+
+ .flagActive{
+    display: flex;
+    height: 44px;
+    margin: 0;
+    width: 40px;
+}
+
+ .flagDisabled{
+    opacity: 0.5;
+}
+
+ .hidden{
+    display: none;
+}
+
+ .icon{
+    font-size: 24px;
+    margin-right: 4px;
+}
+
+ .separationCard{
+    padding-top: 16px;
+}
+
+ .slds-progress_vertical .slds-progress__item:before {
+    top:0 !important;
+    bottom:50% !important;
+}
+.slds-progress_vertical .slds-progress__item:after {
+    top: 63%  !important;
+    bottom: 0 !important;
+}
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__gray::before, 
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__gray::after,
+.slds-progress_vertical .slds-progress__item.slds-is-active.progress__gray::before{
+    background-color: transparent;
+    border: 1.3px solid #444444;
+    left: calc(1.75rem - 1px);
+   /* top:45px;*/
+}
+
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__blue::before, 
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__blue::after,
+.slds-progress_vertical .slds-progress__item.slds-is-active.progress__blue::before{
+    background-color: transparent;
+    border: 1.3px solid #1bb3bc;
+    left: calc(1.75rem - 1px);
+   /* top:45px;*/
+}
+
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__red::before, 
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__red::after,
+.slds-progress_vertical .slds-progress__item.slds-is-active.progress__red::before{
+    background-color: transparent;
+    border: 1.3px solid #cc0000;
+    left: calc(1.75rem - 1px);
+   /* top:45px;*/
+}
+
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__orange::before, 
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__orange::after,
+.slds-progress_vertical .slds-progress__item.slds-is-active.progress__orange::before{
+    background-color: transparent;
+    border: 1.3px solid #ffcc33;
+    left: calc(1.75rem - 1px);
+   /* top:45px;*/
+}
+
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__green::before, 
+.slds-progress_vertical .slds-progress__item.slds-is-completed.progress__green::after,
+.slds-progress_vertical .slds-progress__item.slds-is-active.progress__green::before{
+    background-color: transparent;
+    border: 1.3px solid #63ba68;
+    left: calc(1.75rem - 1px);
+   /* top:45px;*/
+}
+
+.slds-progress_vertical .slds-progress__item:before, 
+.slds-progress_vertical .slds-progress__item:after {
+    background-color: transparent;
+    background-size: 2px 10px;
+    background-repeat: repeat-y;
+    background-image: linear-gradient(#cccccc 60%, rgba(255, 255, 255, 0) 0%);
+    left: calc(1.75rem - 1px);
+    height: 40px;
+}
+
+
+
+.slds-progress_vertical .slds-progress__list .progress__gray:nth-child(2):before {
+    border: none;
+    height: 0px;
+}
+ .textFee{
+    margin-right: 4px;
+}
+
+ .text__gray{
+    color: #444444;
+}
+
+ .text__red{
+    color: #cc0000;
+}
+
+ .time{
+    color: #444444;
+    width: 104px;
+}
+
+.trackingPayment{
+    margin-top: 16px;
+}
+
+ .icon-check:before {
+
+    left: 21px !important;
+}

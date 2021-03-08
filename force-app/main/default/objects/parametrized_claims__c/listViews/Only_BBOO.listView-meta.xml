@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Only_BBOO</fullName>
+    <columns>NAME</columns>
+    <columns>PCK_Token_Country__c</columns>
+    <columns>PCK_Token_Platform__c</columns>
+    <columns>PCK_Token_User__c</columns>
+    <columns>TXT_sub__c</columns>
+    <columns>TXT_country__c</columns>
+    <columns>TXT_local_uid__c</columns>
+    <columns>TXT_aud__c</columns>
+    <columns>TXT_local_realm__c</columns>
+    <columns>TXT_realm__c</columns>
+    <columns>TXT_sec_mode__c</columns>
+    <filterScope>Everything</filterScope>
+    <filters>
+        <field>PCK_Token_Platform__c</field>
+        <operation>equals</operation>
+        <value>BBOO</value>
+    </filters>
+    <label>Only BBOO</label>
+    <language>en_US</language>
+</ListView>

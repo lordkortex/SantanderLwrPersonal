@@ -71,4 +71,21 @@ public class CNT_AccountsParent_Test {
         String data = CNT_AccountsParent.getCountryName('');
         Test.stopTest();
     }
+    
+     @IsTest
+    static void returnRandomSpanTest(){
+        Test.setMock(HttpCalloutMock.class, new CNT_AccountsParent_MockHttp());
+        Test.startTest();
+        CNT_AccountsParent.returnRandomSpan();
+        Test.stopTest();
+    }
+    
+     @IsTest
+    static void returnRandomSampleTest(){
+        Test.setMock(HttpCalloutMock.class, new CNT_AccountsParent_MockHttp());
+        Integer probability = 12;
+        Test.startTest();
+        CNT_AccountsParent.returnRandomSample(probability);
+        Test.stopTest();
+    }
 }

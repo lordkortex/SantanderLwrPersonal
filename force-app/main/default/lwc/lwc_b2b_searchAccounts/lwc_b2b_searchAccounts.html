@@ -1,0 +1,35 @@
+<template>
+    <template if:true={showModalEQTrue}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-modal="true" aria-describedby="searchAccountsModal">
+            <div class="slds-modal__container">
+                <c-lwc_b2b_process-header 
+                    steps={steps} 
+                    hasbackbutton 
+                    headerlabel={headerlabel}  
+                    onhandleback={handleBack} >
+                </c-lwc_b2b_process-header>
+                <div class="slds-modal__content" id="searchAccountsModal">
+                    <div class="slds-grid__content">
+                        <c-lwc_b2b_filter-accounts 
+                            numberformat={userdata.numberFormat} 
+                            filters={filters}  
+                            accountlist={accountlist} 
+                            accountsfiltered={accountsFiltered} 
+                            resetsearch={resetSearch}
+                            onaccountsfiltered={handleAccountsFiltered}>
+                        </c-lwc_b2b_filter-accounts>
+                        <c-lwc_b2b_grid-accounts 
+                            userdata={userdata} 
+                            filters={filters} 
+                            accountsfiltered={accountsFiltered} 
+                            resetsearch={resetSearch}
+                            onselectedcard={handleSelectedCard}
+                            onselectedaccount={handleSelectedAccount}>
+                        </c-lwc_b2b_grid-accounts>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

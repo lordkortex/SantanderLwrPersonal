@@ -71,6 +71,8 @@ public with sharing class CNT_GlobalPositionController {
         is403Error = false;
         //AB - 3/12/2020 - Error204
         is204Error = false;
+        //AB - 10/12/2020 - Error401
+        is401Error = false;
     }
 
     @AuraEnabled
@@ -97,9 +99,13 @@ public with sharing class CNT_GlobalPositionController {
     @AuraEnabled
     public Boolean canUserSeePaymentsTracker {get; set;}
     
- 	//AB - 3/12/2020 - Error204
+ 	//AB - 03/12/2020 - Error204
     @AuraEnabled
     public Boolean is204Error  {get;set;}
+
+ 	//AB - 10/12/2020 - Error401
+    @AuraEnabled
+    public Boolean is401Error  {get;set;}
     
     @AuraEnabled
     public Boolean is403Error  {get;set;}
@@ -112,7 +118,6 @@ public with sharing class CNT_GlobalPositionController {
     @AuraEnabled //(cacheable=true)
     public static CNT_GlobalPositionController retrieveData(Boolean isEndOfDay, String globalId)
     {
-        
         CNT_GlobalPositionController thisClass = new CNT_GlobalPositionController();
         thisClass.isOneTrade = false;
         
@@ -121,7 +126,7 @@ public with sharing class CNT_GlobalPositionController {
         currenciesLst.add('EUR');
         currenciesLst.add('USD');
         currenciesLst.add('GBP');
-        thisClass.divisaPrincipalUsuario = UserInfo.getDefaultCurrency();
+            thisClass.divisaPrincipalUsuario = UserInfo.getDefaultCurrency();
         thisClass.userFirstName = UserInfo.getFirstName();
         
         // Set the number and date format for the user
@@ -653,11 +658,15 @@ public with sharing class CNT_GlobalPositionController {
                 }
             	
                 if (String.isNotBlank(response)){
-                    //AB - 3/12/2020 - Error204
-                    if (response == '204'){
+                    //AB - 10/12/2020 - Error401
+                    if(response == '401'){
+                        thisClass.is401Error = true;   
+                        return thisClass;
+                    //AB - 3/12/2020 - Error204                 
+                    }else if(response == '204'){
                         thisClass.is204Error = true;   
                         return thisClass;
-                    }else{  
+                    }else{
                         balanceList = WRAPPER_Balance.parse(response);
                         setCurrenciesList(balanceList, thisClass);
                         groupAccounts(balanceList, thisClass);
@@ -704,7 +713,6 @@ public with sharing class CNT_GlobalPositionController {
                     thisClass.eRatesLastModifiedDate = String.valueOfGMT(DateTime_Utilities.stringToDateTimeStep(thisClass.eRatesLastModifiedDate, 0));
                 }
             }else{
-
                 configWs = CNT_ApiConfiguration__c.getValues('CNT_BalanceLastUpdate');
                 String response = Global_IntegrationWrapper.launchHTTP('', configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c);
                 if(Test.isRunningTest()){
@@ -1008,14 +1016,17 @@ public with sharing class CNT_GlobalPositionController {
                     '  ]'+
                     '}';
                 }
-                
                 //String response = doesntWorkLU();
                 if(String.isNotBlank(response)){
-                    //AB - 3/12/2020 - Error204
-                    if(response == '204'){
+                    //AB - 10/12/2020 - Error401
+                    if(response == '401'){
+                        thisClass.is401Error = true;   
+                        return thisClass;
+                    //AB - 3/12/2020 - Error204                 
+                    }else if(response == '204'){
                         thisClass.is204Error = true;   
                         return thisClass;
-                    }else{  
+                    }else{
                         responseSet = WRAPPER_Balance_LU.parse(response);
                         handleExchangeRatesLU(responseSet, thisClass);
                         groupAccountsLU(responseSet, thisClass);

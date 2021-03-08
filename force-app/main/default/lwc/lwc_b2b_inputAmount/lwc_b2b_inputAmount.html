@@ -1,0 +1,25 @@
+<template>
+    <div>
+        <div class={mainClass}>
+            <template if:true={isDisabledAndShowMiniLabelOrFormatedValue}>
+                <label id="amount-label" class="slds-form-element__label" for={inputid}>
+                    {label.B2B_Amount_Input_Placeholder}
+                </label>
+            </template>
+            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                <input type="text" id={inputid} value={formattedValue} placeholder={label.B2B_Amount_Input_Placeholder} class="slds-input" name="amount" onchange={handleChangeAmount} oninput={handleInputAmount} onfocus={handleFocusAmount} onblur={handleBlurAmount} disabled={disabled}/>
+                <div class="slds-box">
+                    <p>{accCurrency}</p>
+                </div>
+                <template if:true={existsErrorMSG}>
+                    <div class="errorText">
+                        {errorMSG_1}
+                        <template if:true={existsErrorMSG2}>
+                            <br/> {errorMSG_2}
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

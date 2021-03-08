@@ -1,0 +1,126 @@
+<template>
+    <div>
+        <div class="select-Account">
+            <template if:true={beneficiaryDetailsEqFalse}>
+                <template if:true={accountlistGeOne}>
+
+                    <c-lwc_b2b_select-less-six-accounts
+                        account={account}
+                        accountlist={accountlist}
+                        accountdata={accountData}
+                        beneficiarydetails={beneficiaryDetails}
+                        ismodified={isModified}
+                        userdata={userdata}
+                        onaccountdata={handleSelectedAccount}>
+                    </c-lwc_b2b_select-less-six-accounts>
+
+                    <!-- <div class={accountInfoClass}>
+                        <div class="slds-text-title">{Label.All_my_accounts}</div>
+                            <div class="slds-grid slds-wrap cardsAccount-grid">
+                                <template for:each={accountlist} for:item="item" >
+                                    <div key={item.index} class="slds-col"> 
+                                        <template if:true={isAccountEmpty}>
+                                                <c-lwc_b2b_card-account 
+                                                    data-id="shownCards" 
+                                                    accountdata={accountdata}
+                                                    userdata={userdata} 
+                                                    account={item}
+                                                    selected={item.displaySelected}
+                                                    beneficiarydetails={beneficiarydetails}
+                                                    lessthan6accounts={accountlistLeSix}
+                                                    onselectedaccount={handleSelectedAccount}
+                                                > 
+                                                </c-lwc_b2b_card-account>
+                                        </template>
+                                        <template if:false={isAccountEmpty}>
+                                            <c-lwc_b2b_card-account 
+                                                data-id="shownCards" 
+                                                accountdata={accountdata}
+                                                userdata={userdata} 
+                                                account={item}
+                                                beneficiarydetails={beneficiarydetails}
+                                                lessthan6accounts={accountlistLeSix}
+                                                onselectedaccount={handleSelectedAccount}
+                                            > 
+                                            </c-lwc_b2b_card-account>
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                    </div> -->
+                </template>
+            </template>
+            <template if:false={beneficiaryDetailsEqFalse}>
+                <c-lwc_b2b_select-individual-account 
+                    label={label} 
+                    errormsg={errormsg} 
+                    userdata={userdata}
+                    searchedstring={searchedstring} 
+                    isediting={isediting}
+                    account={account} 
+                    steps={steps}                    
+                    ismodified={ismodified} 
+                    accountdata={accountdata} 
+                    headerlabel={headerlabel}                     
+                    accountlist={accountlist} 
+                    beneficiarydetails={beneficiarydetails} 
+                    placeholder={placeholder}
+                    headercard={headercard}
+                    cancreatebeneficiaries={canCreateBeneficiaries}
+                    enablebrowseaccount={enableBrowseAccount}                    
+                    onselectedaccount={handleSelectedAccount}
+                >
+                </c-lwc_b2b_select-individual-account>                  
+                
+            </template>
+            <!-- <template if:false={beneficiarydetails}> -->
+                <!-- <template if:true={isCountryClOrPl}> -->
+            <template if:true={canSelectExpenses}>
+                <template if:true={enableExpensesSelect}>
+                    <div class="slds-text-heading_subtitle">{Label.B2B_Expenses_Question}</div>
+                    <fieldset class="slds-form-element radio">
+                        <div class="slds-form-element__control">
+                            <span class="slds-radio">
+                                <input type="radio" data-id="radioYES" id="radioYES" value="radioYES" name="default" checked={checkedyes} onchange={handleRadioYESChecked} />
+                                <label class="slds-radio__label" for="radioYES">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label">{Label.Yes}</span>
+                                </label>
+                            </span>
+                            <span class="slds-radio">
+                                <input type="radio" id="radioNO" value="radioNO" name="default" checked={notCheckedYES} onchange={handleRadioNOChecked}/>
+                                <label class="slds-radio__label" for="radioNO">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label">{Label.No}</span>
+                                </label>
+                            </span>
+                        </div>
+                    </fieldset>
+                    <template if:true={checkedyes}>
+                        <c-lwc_b2b_select-individual-account 
+                            label={Label.B2B_Expenses_Account}
+                            errormsg={errorMSGExpenses}
+                            searchedstring={searchedStringExpenses}
+                            isediting={isediting}
+                            account={expensesaccount}
+                            steps={steps}
+                            userdata={userdata}
+                            ismodified={ismodified}
+                            accountdata={accountdata}
+                            headerlabel={headerlabel}                            
+                            accountlist={accountlist}
+                            beneficiarydetails={beneficiarydetails}
+                            placeholder={Label.B2B_Expenses_Account}
+                            headercard={Label.B2B_Expenses_Account}
+                            enablebrowseaccount={enableBrowseAccount}
+                            onselectedaccount={handleSelectedAccount}
+                        >
+                        </c-lwc_b2b_select-individual-account>
+                        
+                           
+                    </template>
+                </template>
+            </template>
+        </div>
+    </div>
+</template>

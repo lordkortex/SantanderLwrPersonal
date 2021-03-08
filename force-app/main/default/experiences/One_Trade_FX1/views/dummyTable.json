@@ -1,0 +1,45 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "028399d2-4be8-4b42-b045-c35b5127a2fd",
+  "label" : "dummyTable",
+  "regions" : [ {
+    "id" : "66578222-957f-4292-b192-d42ce179bb93",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:dummyScreenTradeApis",
+      "id" : "cfb5c3db-f85b-46b7-ad64-ddf0488ca78d",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "8f7c8f13-7004-4887-8f08-c6dfa572ca69",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "e67237e1-6e2e-4b27-bae9-1a506648cf6a",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "dummyTable"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "79bc8224-eed3-4a46-9755-839a8f0731d1",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1866f53d-61ee-4459-89be-a8e969d4c064",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-dummytable"
+}

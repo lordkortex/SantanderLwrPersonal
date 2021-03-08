@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 03-04-2021
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * Modifications Log 
+ * Ver   Date         Author                               Modification
+ * 1.0   03-04-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+**/
 global class TokenService {
 
     global static Map<String, String> generateTokenByInstance (Boolean useCache, TokenInformation tokenInformation) {
@@ -54,6 +64,7 @@ global class TokenService {
             jwt.setValidityLength(86400);
             Auth.JWS signedToken = new Auth.JWS(jwt, System.Label.certificateName);
             serializedToken = signedToken.getCompactSerialization();
+            System.debug('TokenService_TokenAuth: ' +serializedToken );
             /* } else {
                 serializedToken = cacheToken;
             } */
@@ -62,6 +73,21 @@ global class TokenService {
             throw new CustomException(e.getMessage());
         }
         return new Map<String, String>{globalId => serializedToken};
+    }
+
+    global static String getTokenPlatform (String country) {
+        String res = null;
+        try {
+            TokenInformation tokenInformation = new TokenInformation(country, 'SANDIGITAL', 'platform');
+            System.debug(tokenInformation);
+            Map<String, String> tokenMap = TokenService.generateTokenByInstance(null, tokenInformation);
+            String globalId = new List<String>(tokenMap.keySet())[0];
+            res = tokenMap.get(globalId);
+        } catch (Exception e) {
+            System.debug('WS_B2B_ValidateAccount.getTokenPlatform: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            throw new AuraHandledException(e.getMessage()); 
+        }
+        return res;
     }
 
     /* global static String getTokenFromCache (User userData) {

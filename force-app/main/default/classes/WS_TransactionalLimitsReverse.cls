@@ -16,6 +16,8 @@ global class WS_TransactionalLimitsReverse {
     private OUTPUT result;
     private String baseEndpoint;
     private String baseMethod;
+    private String tokenPlatform;
+    private String tokenUser;
     
     public OUTPUT getResult () {
         return this.result; 
@@ -26,6 +28,8 @@ global class WS_TransactionalLimitsReverse {
         configWs = CNT_ApiConfiguration__c.getValues('WS_TransactionalLimitsReverse');
         this.baseEndpoint = configWs.CNT_Endpoint__c;
         this.baseMethod = configWs.CNT_HTTPMethod__c;
+        this.tokenPlatform = configWs.tokenPlatform__c;
+        this.tokenUser = configWs.tokenUser__c;
     }
     
     public OUTPUT execute( WRAPPER_PaymentDetail.OperationDetail paymentData){
@@ -219,6 +223,34 @@ global class WS_TransactionalLimitsReverse {
                 this.limitsDataEntryUpdate = limitsDataEntryUpdate;
             }
     }*/
+
+    public OUTPUT execute (String country, String codigoBic, String operationId, String serviceId, String transactionDate, TransactionContract transactionContract, TransactionAmount transactionAmount, TransactionAmount transactionAmountBaseCurrency, String originaltransactionDate, TransactionAmount originalTransactionAmount, TransactionAmount originTransactionAmountBaseCurrency) {
+        this.result = null;
+        WS_TransactionalLimitsReverse.INPUT input;
+        String inputJson = '';
+        try {
+            input = new  WS_TransactionalLimitsReverse.INPUT(operationId, serviceId, transactionDate, transactionContract, transactionAmount, transactionAmountBaseCurrency, originaltransactionDate, originalTransactionAmount, originTransactionAmountBaseCurrency);
+            System.debug('INPUT: ' + input);
+            inputJson = JSON.serialize(input, true);
+            System.debug('Input JSON: ' + inputJson);
+            Map<String,String> extraHeaderParameters = new Map<String,String> ();
+            extraHeaderParameters.put('Global-Payment-Id', operationId);
+            // Make the callout to the POST web service
+            TokenInformation tokenInformation = new TokenInformation(country, this.tokenPlatform, this.tokenUser, null, codigoBic);
+            String response = Global_IntegrationWrapper.launchHTTP(inputJson, this.baseEndpoint, this.baseMethod, extraHeaderParameters, null, null, 25000, tokenInformation);
+            System.debug('Result: ' + response);
+            if (String.isNotBlank(response)) {
+                WS_TransactionalLimitsReverse.OUTPUT output = (WS_TransactionalLimitsReverse.OUTPUT)JSON.deserialize(response, WS_TransactionalLimitsReverse.OUTPUT.class);
+                this.result = output;
+            } else {
+                this.result = null;
+            }
+        } catch (Exception e) {
+            System.debug('WS_TransactionalLimitsReverse.execute: ' + e.getMessage());
+            throw new CustomException(e.getMessage());
+        }
+    return this.result;
+    }
     
     global class INPUT {
         @AuraEnabled

@@ -62,8 +62,8 @@ public class WRAPPER_TransactionSearch {
 		@AuraEnabled public String customerAditionalInformation;
 		
 		//AM - 11/11/2020 - US7687: Campos MT940
+		@AuraEnabled public String ltcDescription;
 		@AuraEnabled public String customerTCode; //Local Code
-        @AuraEnabled public String ltcDescription;
 		@AuraEnabled public String customerTDescription;
 		@AuraEnabled public String ltcCode; //Local Code
 		@AuraEnabled public String transactionConsolidated;

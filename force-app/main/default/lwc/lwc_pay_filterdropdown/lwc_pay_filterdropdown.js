@@ -5,6 +5,7 @@ import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 import option from '@salesforce/label/c.option';
 import incorrectinputformat from '@salesforce/label/c.IncorrectInputFormat';
+import Show_More from '@salesforce/label/c.Show_More';
 
 export default class Lwc_pay_filterdropdown extends LightningElement {
 
@@ -16,16 +17,17 @@ label = {
     @api values; //"List of values to populate the dropdown" 
     @track valuesAux = [];
 
-    @api selectedvalue;													//description="Selected option from the dropdown" />
-    @api selectedvalues;  													//description="Selected option from the dropdown" />
-    @api selectedvaluestext;  												//description="Selected values String"/>
-    @api helptextdropdown;  	//default="{!$Label.c.Show_More}" 			description="Dropdown help text" /> 
-    @api issimpledropdown;  	//default="true" 								description="Flag to switch between simple and multiselect dropdown"/>
-    @api labelvar;  				//default="" 									description="Dropdown label"/>
-    @api isdisabled;  			//default="false" 							description="Attribute to indicate if the dropdown is disabled" />
-    @api valuesplaceholder; 	//default=""									description="Placeholder value when values are selected"/>
-    @api errortext;	           // default="{!$Label.c.IncorrectInputFormat}" 	description="Text to show when an error ocurred"/>
-    @api cleardropdown; //		//default="false" 							description="Flag to clear or not the dropdown"/>
+    @api selectedvalue; //Selected option from the dropdown
+    @api selectedvalues; //Selected option from the dropdown
+    @api selectedvaluestext; //Selected values String
+    @api helptextdropdown = this.label.Show_More; //Dropdown help text
+    @api issimpledropdown; //Default=true. Flag to switch between simple and multiselect dropdown
+    @api labelvar = ''; //Dropdown label
+    @api isdisabled = false; //Attribute to indicate if the dropdown is disabled
+    @api valuesplaceholder = ''; //Placeholder value when values are selected
+    @api errortext = this.label.IncorrectInputFormat; //Text to show when an error ocurred
+    @api cleardropdown; //Flag to clear or not the dropdown
+    @api deselectoption; //Default=true
 
     _cleardropdown;
     
@@ -70,17 +72,19 @@ label = {
     
     connectedCallback(){
         loadStyle(this, santanderStyle + '/style.css');
+        this.issimpledropdown = true;
+        this.deselectoption = true;
 
-        this.errortext = label.incorrectinputformat;
-
-        var valuesAux = JSON.parse(JSON.stringify(this.values));
-        Object.keys(valuesAux).forEach(key => {
-            valuesAux[key].class1 = item[key].label == this.selectedvalue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item';
-            valuesAux[key].value = item[key].value;
-            valuesAux[key].label = item[key].label;
-            valuesAux[key].valuecheckid = 'OPT_'+item[key].value;
-        });
-        this.values = valuesAux;
+        if(this.values){
+            var valuesAux = JSON.parse(JSON.stringify(this.values));
+            Object.keys(valuesAux).forEach(key => {
+                valuesAux[key].class1 = item[key].label == this.selectedvalue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item';
+                valuesAux[key].value = item[key].value;
+                valuesAux[key].label = item[key].label;
+                valuesAux[key].valuecheckid = 'OPT_'+item[key].value;
+            });
+            this.values = valuesAux;
+        }
     }
 
     @api
@@ -180,13 +184,14 @@ label = {
 
     handleSelection (items) {
         var isSimpleDropdown = this.issimpledropdown;
+        var deselectOption = this.deselectoption;
         if(isSimpleDropdown){
             var selected = items[0];
             var objArray = this.values;
             var obj = objArray.find(obj => obj.value == selected);
             var value = this.selectedvalue;
             if(value !=  null && value != undefined){
-                if(value == selected){
+                if(value == selected && deselectOption){
                     this.selectedvalue=''; 
                 }else{
                     this.selectedvalue = selected;

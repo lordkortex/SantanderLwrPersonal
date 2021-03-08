@@ -23,7 +23,7 @@ public with sharing class CNT_TransactionSearchController
             
             CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_Transactions_Search');
             String response = Global_IntegrationWrapper.launchHttp(requestBody,configWs.CNT_Endpoint__c,configWs.CNT_HTTPMethod__c);
-            
+            System.debug('ENTRA GETTRANSACTION');
             if(Test.isRunningTest()){
                 	response = '{'+
 		'  \"balances\": {'+
@@ -187,7 +187,7 @@ public with sharing class CNT_TransactionSearchController
 		'  }'+
 		'}';
             }
-           
+           System.debug('GETTRANSACTION RESPONSE ' + response);
             if (String.isNotBlank(response)){
                 WRAPPER_TransactionSearch listTransactions = WRAPPER_TransactionSearch.parse(response);
                 Map<String, Object> jsonInput = (Map<String, Object>)JSON.deserializeUntyped(requestBody);

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PAY_PCK_Reason__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Reason</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Pending of my authorization</fullName>
+                <default>true</default>
+                <label>Pending of my authorization</label>
+            </value>
+            <value>
+                <fullName>Pending authorization by others</fullName>
+                <default>false</default>
+                <label>Pending authorization by others</label>
+            </value>
+            <value>
+                <fullName>In review</fullName>
+                <default>false</default>
+                <label>In review</label>
+            </value>
+            <value>
+                <fullName>Scheduled next 7 days</fullName>
+                <default>false</default>
+                <label>Scheduled next 7 days</label>
+            </value>
+            <value>
+                <fullName>Completed last 7 days</fullName>
+                <default>false</default>
+                <label>Completed last 7 days</label>
+            </value>
+            <value>
+                <fullName>Rejected last 7 days</fullName>
+                <default>false</default>
+                <label>Rejected last 7 days</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

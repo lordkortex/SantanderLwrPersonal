@@ -3,7 +3,7 @@ import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import uId from '@salesforce/user/Id';
 
 // Import styles
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 export default class Lwc_globalExchangeRatesSingle extends LightningElement {
 	@api selectedcurrency;

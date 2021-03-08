@@ -36,9 +36,13 @@ export default class Lwc_inputDropdown extends LightningElement {
 
     settledfromChange(event) {
         this.settledfrom= event.target.value;
+        //24/02/2021
+        this.updatePlaceHolder();
     }
     settledtoChange(event) {
         this.settledto= event.target.value;
+        //24/02/2021
+        this.updatePlaceHolder();
     }
 
     clear() {

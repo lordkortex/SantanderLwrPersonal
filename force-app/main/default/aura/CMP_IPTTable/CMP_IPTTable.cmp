@@ -29,6 +29,8 @@ History
     <aura:attribute name="fromCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
     <aura:attribute name="isOneTrade" type="Boolean" default="False" description="True if current user is a One Trade user, else, false"/>
     <aura:attribute name="showSpinner" type="Boolean" default="true" description="Flag to show/hide the table spinner"/>
+    <aura:attribute name="fromDetail" type="Boolean" default="false" description="Check if comes from detail"/>
+    <aura:attribute name="fullAccountList" type="List"/>
 
     <!-- Row attributes -->
     <aura:attribute name="statusClass" type="String" default="icon-circle__red"/>

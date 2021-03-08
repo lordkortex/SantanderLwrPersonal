@@ -52,9 +52,12 @@ History
         try {
             String response='';
             
-            CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_Users_RetrieveUsers');
+            WRAPPER_Login login = CNT_LoginVisibilityManagerController.getUserLoginData(UserInfo.getUserId());
             
-            response = Global_IntegrationWrapper.launchHttp('',configWs.CNT_Endpoint__c,configWs.CNT_HTTPMethod__c);
+            CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_Users_RetrieveUsers');
+            String groupsEndpoint = configWs.CNT_Endpoint__c.replace('{}', String.valueOf(login.inicio.user.codigoCliente));
+            
+            response = Global_IntegrationWrapper.launchHttp('',groupsEndpoint,configWs.CNT_HTTPMethod__c);
             System.debug(response);
             if (Test.isRunningTest() ) {
                 response = '['+
@@ -150,6 +153,12 @@ History
             }
             if (String.isNotBlank(response)) {
                 listUsers = WRAPPER_Users.parse(response);
+                for(WRAPPER_Users singleUser : listUsers)
+                {
+                    singleUser.state = mapData(Schema.SObjectType.User_actions__mdt.fields.USR_PCK_UserStatus__c.picklistValues, singleUser.state);
+                    singleUser.type_Z = mapData(Schema.SObjectType.User_actions__mdt.fields.USR_PCK_UserType__c.picklistValues, singleUser.type_Z );
+                }
+            
                 
             } else {throw new customException(Label.getDataError);}
         } catch (Exception e) {
@@ -159,116 +168,8 @@ History
         return listUsers;
     }
     
-    /*------------------------------------------------------------
-Author:         Joaquin Vera
-Company:        Deloitte
-Description:    Wrapper class(temporal) for the users info
-History 
-<Date>          <Author>            <Change Description>
-15/01/2020		Joaquin Vera        Initial version
-------------------------------------------------------------*/   
-    public class CNT_UsersWrapper 
-    {
-        @AuraEnabled public String userId;
-        @AuraEnabled public String userName;
-        @AuraEnabled public String userSurname;
-        @AuraEnabled public String type_Z;
-        @AuraEnabled public String role;
-        @AuraEnabled public String groupName;
-        @AuraEnabled public String state;/*
-public CNT_UsersWrapper(String userName, String userSurname, String userId, String type, String role, String groupName, String state)
-{
-this.userName = userName;
-this.userSurname = userSurname;
-this.userId = userId;
-this.type_Z = type;
-this.role = role;
-this.groupName = groupName;
-this.state = state;
-}*/
-    }
-    /*------------------------------------------------------------
-Author:         Joaquin Vera
-Company:        Deloitte
-Description:    Generates dummy users data (800 data)
-History 
-<Date>          <Author>            <Change Description>
-15/01/2020		Joaquin Vera        Initial version
-------------------------------------------------------------
-@AuraEnabled  
-public static List<CNT_UsersWrapper> generateUsers() 
-{
-List<CNT_UsersController.CNT_UsersWrapper> lista = new List<CNT_UsersController.CNT_UsersWrapper>();
-for(Integer i = 1 ; i <= 100 ; i++)
-{
-//FIRST DATA
-lista.add(new CNT_UsersController.CNT_UsersWrapper( ('Miguel  '), 'Álvarez Aguilera',
-'SAL - ' +  String.valueOf(Global_Utilities.generateRandomNumber(7)),
-'Functional',
-'Sales Manager',
-'Sales',
-'Enabled'
-));
-//SECOND DATA
-lista.add(new CNT_UsersController.CNT_UsersWrapper( ('Maria Yolanda '), 'del Valle Redondo',
-'SAL - ' + String.valueOf(Global_Utilities.generateRandomNumber(7)),
-'Functional',
-'Sales Director',
-'Sales',
-'Enabled'
-));
-//THIRD DATA
-lista.add(new CNT_UsersController.CNT_UsersWrapper( ('Trinidad '), 'Hernandez Arias',
-'MRK - ' + String.valueOf(Global_Utilities.generateRandomNumber(7)),
-'Administrator',
-'',
-'Marketing',
-'Enabled'
-));
-//FORTH DATA
-lista.add(new CNT_UsersController.CNT_UsersWrapper( ('Jan '), 'Hernandez Pena',
-'NG - ' + String.valueOf(Global_Utilities.generateRandomNumber(7)),
-'Functional',
-'',
-'',
-'Enabled'
-));
-//FIFTH DATA
-lista.add(new CNT_UsersController.CNT_UsersWrapper( ('Lorena '), 'Ballesteros de Miguel',
-'SRV - ' + String.valueOf(Global_Utilities.generateRandomNumber(7)),
-'Functional',
-'Service Representative',
-'Service',
-'Enabled'
-));
-//SIXTH DATA
-lista.add(new CNT_UsersController.CNT_UsersWrapper( ('Eloisa '), 'Gallardo Melero',
-'B2B - ' + String.valueOf(Global_Utilities.generateRandomNumber(7)),
-'Functional',
-'B2B Representative',
-'B2B',
-'Enabled'
-));
-//SEVENTH DATA
-lista.add(new CNT_UsersController.CNT_UsersWrapper( ('Javier '), 'Marcos Hurtado',
-'CST - ' + String.valueOf(Global_Utilities.generateRandomNumber(7)),
-'Advisory',
-'Customer',
-'',
-'Disabled'
-));
-//EIGHTH DATA
-lista.add(new CNT_UsersController.CNT_UsersWrapper( ('Luis David '), 'Latorre Castaño ',
-'ADM - ' + String.valueOf(Global_Utilities.generateRandomNumber(7)),
-'Administrator',
-'',
-'',
-'Disabled'
-));
-}
-return lista;
-}*/
-    
+
+
     /*------------------------------------------------------------
 Author:         Joaquin Vera
 Company:        Deloitte
@@ -292,13 +193,11 @@ History
 ------------------------------------------------------------*/ 
     @AuraEnabled
     public static WRAPPER_USERINFO getUserInfo(String userId){
-        
-        
-        
+                
         String response='';
         //Configure the endpoint
         CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_Users_GetUserInfo');
-        String finalEndpoint = configWs.CNT_Endpoint__c.replace('[]', userId);
+        String finalEndpoint = configWs.CNT_Endpoint__c.replace('{}', userId);
         
         //Web service call
         System.debug('Comes here');
@@ -388,5 +287,29 @@ History
     @AuraEnabled
     public static String decryptData(String str){
         return Global_Utilities.decryptData(str);
+    }
+
+    public static String mapData(Schema.PicklistEntry[] dataList, String toSearch)
+    {
+        for(PicklistEntry data : dataList) 
+        {
+            if(data.value.equals(toSearch)) 
+            {
+                return data.label;
+            }
+        }
+        return '';
+    }
+
+    public static String mapValue(Schema.PicklistEntry[] dataList, String toSearch)
+    {
+        for(PicklistEntry data : dataList) 
+        {
+            if(data.label.equals(toSearch)) 
+            {
+                return data.value;
+            }
+        }
+        return '';
     }
 }

@@ -99,11 +99,12 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
             this.searchvalue = inputValue;
             try{
                 //getData(component, event, helper, inputValue);
-                var filter = "{\"searchData\": {\"latestPaymentsFlag\": \"NO\", \"inOutIndicator\": \"OUT\", \"_limit\":\"1000\",\"_offset\":\"0\",\"paymentId\":\"" + inputValue + "\"}}";   
+                //var filter = "{\"searchData\": {\"latestPaymentsFlag\": \"NO\", \"inOutIndicator\": \"OUT\", \"_limit\":\"1000\",\"_offset\":\"0\",\"paymentId\":\"" + inputValue + "\"}}";   
+                var filter = inputValue;
                 this.template.querySelector("c-lwc_service-component").onCallApex({
                     callercomponent: "lwc_ipt-header-search-uetr-public", 
-                    controllermethod: "getFilteredData", 
-                    actionparameters: {filters: filter}});
+                    controllermethod: "getUETR", 
+                    actionparameters: {uetr: filter}});
             } catch (e) {
                 console.log(e);
             }
@@ -141,8 +142,9 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
                 this.searchvalue = inputValue;
                 try{
                    // getData(inputValue);
-                    var filter = "{\"searchData\": {\"latestPaymentsFlag\": \"NO\", \"inOutIndicator\": \"OUT\", \"_limit\":\"1000\",\"_offset\":\"0\",\"paymentId\":\"" + inputValue + "\"}}";   
-                    this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent: "lwc_ipt-header-search-uetr-public", controllermethod: "getFilteredData", actionparameters: {filters: filter}});
+                   // var filter = "{\"searchData\": {\"latestPaymentsFlag\": \"NO\", \"inOutIndicator\": \"OUT\", \"_limit\":\"1000\",\"_offset\":\"0\",\"paymentId\":\"" + inputValue + "\"}}";   
+                    var filter = inputValue;
+                    this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent: "lwc_ipt-header-search-uetr-public", controllermethod: "getUETR", actionparameters: {uetr: filter}});
                 } catch (e) {
                     console.log(e);
                 }
@@ -171,7 +173,31 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
         this.issearched = false;
         console.log('Llega la respuesta:');
         console.log(response);
-        if(response != undefined && response != null && Array.isArray(response.paymentList) && response.paymentList.length){
+        
+        if(response == undefined || response == null || response.errors){
+            console.log("No encuentra");
+            this.isingested = false;
+            
+            var result = {};
+            //result.uetrCode = component.get("v.searchValue");
+            this.result = result;
+            this.issearched = true;
+
+            var detail = {noresults:true, issearched: true, result:this.result, isingested:false};
+            this.sendResultsEvent(detail);
+        }else{
+            var testResponse = JSON.parse(response);
+            testResponse.paymentId = this.searchvalue;
+            this.result = testResponse;
+            this.noresults = false;
+            this.isingested = true;
+            this.issearched = true;
+
+            var detail = {resultnotnull:true, noresults:false, issearched: true, result:this.result, searchvalue:this.searchvalue, isingested:true};
+            this.sendResultsEvent(detail);
+        }
+        
+        /*if(response != undefined && response != null && Array.isArray(response.paymentList) && response.paymentList.length){
             this.result = response.paymentList[0];
             this.noresults=false;
             this.isingested=true;
@@ -192,7 +218,7 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
 
             var detail = {noresults:true, issearched: true, result:this.result, isingested:false};
             this.sendResultsEvent(detail);
-        }
+        }*/
     }
 
     sendResultsEvent(detail){

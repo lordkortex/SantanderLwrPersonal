@@ -1,7 +1,7 @@
 import { LightningElement, track, api } from 'lwc';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 // Import styles
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 import close from '@salesforce/label/c.close';
 import AllFilters from '@salesforce/label/c.AllFilters';
@@ -191,9 +191,7 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
     
     
     @api applyisclicked = false;
-    
-    
-    
+       
     //TEMPORARY FILTER VALUES TO REVERT TO ON CLOSING THE MODAL WITHOUT APPLYING CHANGES-->
     @track appliedsourceaccount = {};//   "Source account filter that has been applied." />
     @track appliedformattedvaluefrom;//   "From amount filter that has been applied."/>
@@ -208,6 +206,11 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
     @track appliedclientrefrence = '';// 	"Client reference filter that has been applied." />    
     @track appliedselectedcountry = '';// 	"Country that has been applied as a filter." />
     @track applieddates = ['', ''];// "List containing the selected dates that have been applied" />
+
+    @track showMore = false;
+    @track isSimpleDropdown = false;
+    @track isDisabledDropdown = false;
+    @track isSimpleDropdownTrue = true;
 
     get getlookupClass(){
         //!(and(not(empty(v.errorMSG)), empty(v.account)) ? 'error' : '') + ' slds-form-element inputLookup__single'

@@ -5,7 +5,7 @@ public with sharing class CNT_StatementHistoryController {
     public CNT_StatementHistoryController(){}
 
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled (cacheable=true)
     public static CNT_GlobalPositionController retrieveInitialData(String userId)
     {
 
@@ -13,13 +13,14 @@ public with sharing class CNT_StatementHistoryController {
     }
 
 
-     @AuraEnabled(cacheable=true)
+     @AuraEnabled (cacheable=true)
      public static WRAPPER_StatementList searchExtracts(String accountCode, String dateFrom, String dateTo)
      {
         
             String response='';
             
             CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_GetMovementHistoryData');
+            
              String finalEndpoint = configWs.CNT_Endpoint__c.replace('{accountCode}', accountCode);
             
             finalEndpoint = finalEndpoint.replace('{dateTo}', dateTo);
@@ -67,18 +68,18 @@ public with sharing class CNT_StatementHistoryController {
 
      }
 
-    @AuraEnabled(cacheable=true)
+    @AuraEnabled (cacheable=true)
     public static WRAPPER_AccountTransactionSearch  searchMovements(String accountCode, String dateToSearch)
     {
         String response = '';
 
         CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_StatementMovementsSearch');
-
-         String finalEndpoint = configWs.CNT_Endpoint__c.replace('{codigoCuenta}', accountCode);
+        System.debug(configWs.CNT_Service_URI__c);
+         String finalEndpoint = configWs.CNT_Service_URI__c.replace('{codigoCuenta}', accountCode);
         
         finalEndpoint = finalEndpoint.replace('{dateSearch}', dateToSearch);
 
-        response = Global_IntegrationWrapper.launchHttp('',finalEndpoint,configWs.CNT_HTTPMethod__c);
+        response = Global_IntegrationWrapper.launchHttp('',configWs.CNT_Endpoint__c + finalEndpoint,configWs.CNT_HTTPMethod__c);
 
         if(response != null && response != '')
         {

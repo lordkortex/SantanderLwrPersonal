@@ -152,6 +152,13 @@
 			document.getElementById(buttonId).classList.toggle("buttonSelected");
 		}
 	},
+    
+    numberWithCommas : function(x){ 
+	 	var parts = x.toString().split(".");
+	 	parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	 	return parts.join(".");
+	 },
+    
 
 	/*
 	Author:         Guillermo Giral
@@ -169,6 +176,14 @@
 				if(filters[key].name == $A.get("$Label.c.amount") && idButton == "AmountFrom"){
 					component.set("v.showAmountError", false);
 					component.set("v.showFormatError", false);
+                    var x = event.currentTarget.value;
+                    
+                    var parts = x.toString().split(".");
+                    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    parts.join(".");
+                    var x = parts;
+                    var check = numberWithCommas(x);
+                    event.currentTarget.value = value.toString(x);
 
 					if(filters[key].selectedFilters == undefined){
 						filters[key].selectedFilters = {};

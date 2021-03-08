@@ -1,0 +1,45 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "945fe062-baf0-4c58-a14b-2e20e6c4705e",
+  "label" : "Trades",
+  "regions" : [ {
+    "id" : "9bc131bc-b4b4-4c94-a0a9-f5a8cc34c21f",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lwc_fx_tradesLandingParent",
+      "id" : "f4934012-7cfc-4eb8-bccd-2ddf65f9d815",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "247e2ecc-3aaf-442e-87a4-84191d76610e",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "d5922cb5-e0dc-4889-ba38-c720631d633b",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Trades"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "0682a9f5-cc67-460d-85a0-c23800630810",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "3f1f7fbc-cc04-4746-940b-f41ec99ae133",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-trades"
+}

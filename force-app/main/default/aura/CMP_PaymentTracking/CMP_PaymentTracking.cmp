@@ -1,5 +1,6 @@
-<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_IPTDetailParent">
-    
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome" access="global" controller="CNT_IPTDetailParent">
+ <!--<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_IPTDetailParent">-->
+   
     <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
     <aura:attribute name="status" type="String" default="N/A" description="The status of the payment" />
     <aura:attribute name="iCurrency" type="String" default="N/A" description="The currency of the payment"/>

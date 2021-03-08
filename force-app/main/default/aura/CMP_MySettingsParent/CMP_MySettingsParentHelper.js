@@ -18,7 +18,7 @@
             window.localStorage.setItem('isUserInformationUpdated', false);
         }*/
         component.find("Service").callApex2(component, helper, "c.getPicklistValues", {}, helper.setPicklistValues);
-        component.find("Service").callApex2(component, helper, "c.getUserSettings", {}, helper.retrieveUserInfo);
+        component.find("Service").callApex2(component, helper, "c.getUserSettings", {}, helper.getUserSettings);
         
     },
 

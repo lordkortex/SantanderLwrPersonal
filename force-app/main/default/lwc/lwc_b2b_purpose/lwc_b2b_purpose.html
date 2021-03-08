@@ -1,0 +1,44 @@
+<template>    
+    <div class={mainClass}>    
+        <template if:true={showPaymentPurpose}>
+            <label class="slds-form-element__label" for="text-input-id-1">{label.B2B_PaymentPurpose}</label>
+        </template>       
+        <div class="slds-combobox" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+            <div class="slds-dropdown-trigger_click">
+                <button class="slds-button button-order" aria-haspopup="true" title={helpTextDropdown} onclick={handleDropdownButton}>
+                    <template if:true={existSelectedValue}>
+                        <div class="slds-border_right orderSelected selectedValue-filled">{selectedvalue}</div>
+                    </template> 
+                    <template if:true={notExistSelectedValueNorShowDropdown}>
+                        <div class="slds-border_right orderSelected selectedValue-placeholder">{label.B2B_PaymentPurpose}</div>
+                    </template>
+                    <template if:true={notExistSelectedValueAndShowDropdown}>
+                        <div class="slds-border_right orderSelected selectedValue-placeholder">{label.selectAnOption}</div>
+                    </template>           
+                    <div class="slds-button__icon arrow" aria-hidden="true">
+                        <div class={dropdownClass}></div>
+                    </div>
+                    <span class="slds-assistive-text">{helpTextDropdown}</span>
+                </button>
+                <template if:true={existErrorMSG}>
+                    <div class="errorText">{errormsg}</div>
+                </template>
+            </div>
+            <template if:true={showdropdown}>
+                <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                    <ul class="slds-dropdown__list" role="menu" aria-label={helpTextDropdown}>
+                        <template for:each={values} for:item='item'>
+                          <!--  <li key={item.key} class={iteratorClass} role="presentation" id={item} onclick={handleClick}>
+                                <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                    <div class="slds-truncate optionOrder" title={item} >{item}</div>
+                                </a>
+                            </li>-->
+                            <c-lwc_b2b_purpose-child key={item} item={item} selectedvalue={selectedvalue} name={name} onhandledropdown={callEventDropdowns}></c-lwc_b2b_purpose-child>
+
+                        </template>
+                    </ul>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

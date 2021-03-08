@@ -32,6 +32,8 @@ History
     <aura:attribute name="dateErrorTo" type="String" default="dd/mm/yyyy"/>
     <aura:attribute name="datesValidity" type="Boolean" default="true"/>
     <aura:attribute name="count" type="Integer" default="0"/>
+    <aura:attribute name="fromDetail" type="Boolean" default="false" description="Check if comes from detail"/>
+    <aura:attribute name="isDetail" type="Boolean" default="false" description="Check if comes from detail"/>
     
     <aura:attribute name="inOutIndicator" type="String" />
 
@@ -104,7 +106,7 @@ History
                                     <div class="slds-col">
                                         <div class="slds-form-element slds-combobox__Rg">
                                             <label class="slds-form-element__label" for="combobox-id-49">{!v.inOutIndicator == 'OUT' ? $Label.c.originAccount : $Label.c.beneficiaryAccount}</label>
-                                            <c:CMP_NewDropdown aura:id="accountDropdown" isSimpleDropdown="false" valuePlaceholder="{!v.selectedAccountLabel}" values="{!v.accountListToDisplay}" selectedValues="{!v.selectedAccount}" isDisabled="true"/>
+                                            <c:CMP_NewDropdown aura:id="accountDropdown" isSimpleDropdown="false" valuePlaceholder="{!v.selectedAccountLabel}" values="{!v.accountListToDisplay}" selectedValues="{!v.selectedAccount}" isDisabled="false"/>
                                             
                                         </div>
                                     </div>
@@ -124,7 +126,7 @@ History
                                     <div class="slds-col">
                                         <div class="slds-form-element slds-combobox__Rg">
                                             <label class="slds-form-element__label" for="combobox-id-49">{!v.inOutIndicator == 'OUT' ? $Label.c.originAccount : $Label.c.beneficiaryAccount}</label>
-                                            <c:CMP_NewDropdown aura:id="accountDropdown" isSimpleDropdown="false" valuePlaceholder="{!v.selectedAccountLabel}" values="{!v.accountListToDisplay}" selectedValues="{!v.selectedAccount}" isDisabled="true"/>
+                                            <c:CMP_NewDropdown aura:id="accountDropdown" isSimpleDropdown="false" valuePlaceholder="{!v.selectedAccountLabel}" values="{!v.accountListToDisplay}" selectedValues="{!v.selectedAccount}" isDisabled="false"/>
                                             
                                         </div>
                                     </div>
@@ -181,7 +183,8 @@ History
                             </div>
                             <div class="slds-col">
                                     <div class="slds-form-element slds-combobox__Rg">
-                                        <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.beneficiaryCountry}</label>
+                                        <!-- AB - 26/11/2020 - OriginatorCountry -->
+                                        <label class="slds-form-element__label" for="textarea-id-01">{!v.inOutIndicator == 'IN' ? $Label.c.originCountry : $Label.c.beneficiaryCountry}</label>
                                         <c:CMP_NewDropdown aura:id="countryDropdown" isSimpleDropdown="true" values="{!v.countryList}" selectedValue="{!v.selectedCountry}"/>
                                     </div>
                             </div>
@@ -205,7 +208,7 @@ History
                                 <div class="slds-form-element input_text">
                                     <label class="slds-form-element__label" for="textarea-id-01">{!$Label.c.thatContains}</label>
                                     <div class="slds-form-element__control">
-                                        <ui:inputText placeholder="{!$Label.c.writeAWord}" maxlength="155" class="slds-input inputShadow inputLarge" aura:id="thatContains" value="{!v.thatContains}"/>                                                    
+                                        <ui:inputText placeholder="{!$Label.c.writeAWord}" maxlength="155" class="slds-input inputShadow inputLarge" aura:id="thatContains" value="{!v.thatContains}" />                                                    
                                         <!--<ui:inputText  placeholder="{!$Label.c.writeAWord}" maxlength="155" class="slds-textarea" aura:id="thatContains" value="{!v.thatContains}" updateOn="keyup"/>                                                 
                                         <textarea placeholder="{!$Label.c.writeAWord}" maxlength="34" class="slds-textarea" aura:id="thatContains" value="{!v.thatContains}" updateOn="keyup"></textarea>-->
                                         <!--<input type="text" name="thatContains" value="{! v.thatContains }" class="slds-input slds-textarea" placeholder="{!$Label.c.writeAWord}" />-->

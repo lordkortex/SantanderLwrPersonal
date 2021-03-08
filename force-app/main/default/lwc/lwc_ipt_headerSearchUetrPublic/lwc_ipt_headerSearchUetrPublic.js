@@ -171,7 +171,29 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
         this.issearched = false;
         console.log('Llega la respuesta:');
         console.log(response);
-        if(response != undefined && response != null && Array.isArray(response.paymentList) && response.paymentList.length){
+        
+        
+        if(response.includes("errors")){
+            console.log("No encuentra");
+            this.isingested = false;
+            
+            var result = {};
+            //result.uetrCode = component.get("v.searchValue");
+            this.result = result;
+            this.issearched = true;
+        }else{
+            var testResponse = JSON.parse(response);
+            testResponse.paymentId = this.searchvalue;
+            this.result = testResponse;
+            this.noresults = false;
+            this.isingested = true;
+            this.issearched = true;
+        }
+        
+        
+      
+        
+        /*if(response != undefined && response != null && Array.isArray(response.paymentList) && response.paymentList.length){
             this.result = response.paymentList[0];
             this.noresults=false;
             this.isingested=true;
@@ -192,7 +214,7 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
 
             var detail = {noresults:true, issearched: true, result:this.result, isingested:false};
             this.sendResultsEvent(detail);
-        }
+        }*/
     }
 
     sendResultsEvent(detail){

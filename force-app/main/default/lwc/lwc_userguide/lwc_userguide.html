@@ -1,0 +1,21 @@
+<template>
+    <!--<c:CMP_Title_Horizontal title="{!$Label.c.Userguide_Title}" subtitle="{!$Label.c.Userguide_Subtitle}"></c:CMP_Title_Horizontal>-->
+    <c-lwc_title_horizontal title={label.Userguide_Title} subtitle={label.Userguide_Subtitle}></c-lwc_title_horizontal>
+    <div class="slds-grid slds-wrap firstRow">
+        <div class="first">
+            <!--<c:CMP_CardSmall title="{!$Label.c.Userguide1}"/>-->
+            <c-lwc_card-small title={label.Userguide1}></c-lwc_card-small>
+        </div>
+        <div class="first">
+            <c-lwc_card-small title={label.Userguide2}></c-lwc_card-small>
+        </div>
+        <div >
+            <c-lwc_card-small title={label.Userguide3}></c-lwc_card-small>
+        </div>
+    </div>
+    <div class="slds-grid slds-wrap lastRow">
+        <div class="first">
+            <c-lwc_card-small title={label.Userguide4}></c-lwc_card-small>
+        </div>
+    </div>
+</template>

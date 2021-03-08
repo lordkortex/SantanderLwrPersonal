@@ -1,0 +1,107 @@
+<template>
+    
+    <c-lwc_back-front-create-pain002 
+        isopen={isOpen} 
+        entity={filters} 
+        oncreatepainevent={handleCreatePainEvent}
+    >
+    </c-lwc_back-front-create-pain002>
+
+    <c-lwc_back-front-remove-pain002 isdelete={isDelete} todelete={toDelete}></c-lwc_back-front-remove-pain002>
+    
+    <c-lwc_pagination 
+        data-id="pagination"
+        alldata={receivedList} 
+        paymentsperpage={paymentsPerPage} 
+        ongetpageevent={buildData}
+    >
+    </c-lwc_pagination>
+    
+    <!-- <c-lwc_ipt-pagination 
+        data-id="pagination"
+        alldata={receivedList} 
+        paymentsperpage={paymentsPerPage} 
+        comesfrompain
+        ongetpageevent={buildData}
+    >
+    </c-lwc_ipt-pagination> -->
+
+    <div style="position: relative !important;">
+            <lightning-spinner data-id="spinner" variant="brand" size="large" alternative-text={loadingLabel}></lightning-spinner>
+
+    <!-- TABLE -->  
+    <div class="slds-table--header-fixed_container">
+        <div class="slds-scrollable_y" >
+            <table class="slds-table slds-table_fixed-layout slds-table--header-fixed slds-table_resizable-cols slds-table_striped" aria-multiselectable="true" role="grid"> 
+                <!-- HEADER -->  
+                <thead >
+                    <th></th>
+                    <th class="slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_asc header colorHeader containerIconStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerStatus textHeader">
+                            <span class="slds-truncate">{label.Account}</span>
+                        </div>
+                    </th>
+                    <th class="slds-text-align_right header  " scope="col">
+                    </th>
+                    
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Close Date" aria-sort="none" scope="col">
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerInstructed textHeader">
+                            <span class="slds-truncate">{label.bic}</span>
+                        </div>
+                    </th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Close Date" aria-sort="none" scope="col">
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerInstructed textHeader">
+                            <span class="slds-truncate">{label.channel}</span>
+                        </div>
+                    </th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="slds-text-align_right header containerTracking" scope="col"></th>
+                    <th class="header colorHeader containerIconDetail" scope="col">
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerInstructed textHeader">
+                            <div class="button-search icon-add" onclick={openAddModal}></div>  
+                        </div>
+                    </th>
+                </thead>
+
+                <tbody class="fontBody" >
+                    <template if:true={jsonArrayNotEmpty}>
+
+                        <template for:each={jsonArrayFromStartToEnd} for:item="item">
+                            <c-lwc_back-fron-pain002-table-row 
+                                key={item.index}
+                                item={item} 
+                                itemposition={item.index} 
+                                isdelete={isDelete} 
+                                todelete=""
+                                ondeletepain={deletePain002}
+                            >
+                            </c-lwc_back-fron-pain002-table-row>
+                        </template>
+                    </template>
+
+                    <template if:false={jsonArrayNotEmpty}>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>{label.noData}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </template>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+</div>
+
+
+</template>

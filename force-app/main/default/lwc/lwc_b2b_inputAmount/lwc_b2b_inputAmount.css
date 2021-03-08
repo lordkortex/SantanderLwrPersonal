@@ -1,0 +1,117 @@
+/* INPUTS */
+
+ .slds-form-element.input {
+    margin-right:24px;
+    width: 392px;
+    min-height: 72px;
+}
+ .slds-form-element__control .slds-box {
+    border: 1px solid #cedee7;
+    border-radius: 2px;
+    bottom: 0;
+    height: 24px;
+    margin: 12px 16px;
+    padding: 0 8px;
+    right: 0;
+    top: 0;
+    min-width: 39px;
+    position: absolute;
+}
+ .slds-form-element__control .slds-box p{
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    line-height: 21px;
+    text-align: center;
+}
+ .slds-form-element__label {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    z-index: 2;
+}
+ .slds-form-element__label + .slds-form-element__control .slds-input {
+    padding: 19px 70px 5px 16px;
+}
+ .slds-input{
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+    padding: 0 70px 0 16px;
+    min-width: 392px;
+}
+ .slds-input:active,
+ .slds-input:focus {
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+ .slds-form-element__help {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 16px;
+    margin-top: 0;
+}
+/* ERROR INPUT */
+ .error .slds-form-element__help {
+    display: none;
+}
+ .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    display: none;
+}
+ .error .errorText {
+    display: block;
+}
+ .error .slds-form-element__label {
+    color: #cc0000;
+}
+ .error .slds-input{
+    border-bottom: 1px solid #cc0000;
+}
+ .error .slds-input:active,
+ .error .slds-input:focus{
+    box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+
+/* DISABLED INPUT */
+ .slds-input[disabled] {
+    background-color: #ffffff;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    color: #767676;
+}
+ .slds-input[disabled] + .slds-box {
+    cursor: not-allowed;
+}
+ .slds-input[disabled]:active, 
+ .slds-input[disabled]:focus {
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}
+
+ ::-webkit-input-placeholder { color: #767676; }
+ 
+ :-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+ ::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+ :-ms-input-placeholder { color: #767676; }
+
+ :focus::-webkit-input-placeholder{color:transparent;}

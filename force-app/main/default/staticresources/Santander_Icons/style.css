@@ -1,463 +1,1316 @@
 @font-face {
-  font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?waeozu');
-  src:  url('fonts/icomoon.eot?waeozu#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?waeozu') format('truetype'),
-    url('fonts/icomoon.woff?waeozu') format('woff'),
-    url('fonts/icomoon.svg?waeozu#icomoon') format('svg');
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
+    font-family: 'icomoon';
+    src:  url('fonts/icomoon.eot?waeozu');
+    src:  url('fonts/icomoon.eot?waeozu#iefix') format('embedded-opentype'),
+      url('fonts/icomoon.ttf?waeozu') format('truetype'),
+      url('fonts/icomoon.woff?waeozu') format('woff'),
+      url('fonts/icomoon.svg?waeozu#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+  }
+  
+  [class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-circle_check .path1:before {
+    content: "\e94f";
+    color: rgb(68, 68, 68);
+  }
+  .icon-circle_check .path2:before {
+    content: "\e950";
+    margin-left: -1em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-circle_exclamation .path1:before {
+    content: "\e951";
+    color: rgb(204, 0, 0);
+  }
+  .icon-circle_exclamation .path2:before {
+    content: "\e952";
+    margin-left: -1em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-circle_exclamation .path3:before {
+    content: "\e953";
+    margin-left: -1em;
+    color: rgb(255, 255, 255);
+  }
+  .icon-income-expenses:before {
+    content: "\e94e";
+    color: #ec0000;
+  }
+  .icon-reload:before {
+    content: "\e94d";
+    color: #ec0000;
+  }
+  .icon-international-transfer:before {
+    content: "\e94b";
+    color: #ec0000;
+  }
+  .icon-other-payments:before {
+    content: "\e94c";
+    color: #ec0000;
+  }
+  .icon-remove:before {
+    content: "\e94a";
+    color: #ec0000;
+  }
+  .icon-information:before {
+    content: "\e949";
+    color: #ec0000;
+  }
+  .icon-transferPayment:before {
+    content: "\e948";
+    color: #ec0000;
+  }
+  .icon-action:before {
+    content: "\e947";
+    color: #ec0000;
+  }
+  .icon-more:before {
+    content: "\e945";
+    color: #ec0000;
+  }
+  .icon-transfer:before {
+    content: "\e946";
+    color: #ec0000;
+  }
+  .icon-prueba:before {
+    content: "\e944";
+    color: #ec0000;
+  }
+  .icon-print:before {
+    content: "\e943";
+    color: #ec0000;
+  }
+  .icon-warning:before {
+    content: "\e942";
+    color: #ec0000;
+  }
+  .icon-details:before {
+    content: "\e941";
+    color: #ec0000;
+  }
+  .icon-success:before {
+    content: "\e940";
+    color: #ec0000;
+  }
+  .icon-close_big:before {
+    content: "\e93f";
+    color: #ec0000;
+  }
+  .icon-arrowDown:before {
+    content: "\e93d";
+    color: #ec0000;
+  }
+  .icon-arrowUp:before {
+    content: "\e93e";
+    color: #ec0000;
+  }
+  .icon-fx:before {
+    content: "\e93b";
+    color: #ec0000;
+  }
+  .icon-options__empty:before {
+    content: "\e93c";
+    color: #ec0000;
+  }
+  .icon-faq:before {
+    content: "\e928";
+    color: #ec0000;
+  }
+  .icon-filter:before {
+    content: "\e939";
+    color: #ec0000;
+  }
+  .icon-tracking:before {
+    content: "\e93a";
+    color: #ec0000;
+  }
+  .icon-doc103:before {
+    content: "\e937";
+    color: #ec0000;
+  }
+  .icon-docPDF:before {
+    content: "\e938";
+    color: #ec0000;
+  }
+  .icon-docXLS:before {
+    content: "\e918";
+    color: #ec0000;
+  }
+  .icon-time:before {
+    content: "\e92b";
+  }
+  .icon-time__gray:before {
+    content: "\e92c";
+    color: #b5b5b5;
+  }
+  .icon-timeError:before {
+    content: "\e92d";
+    color: #ec0000;
+  }
+  .icon-timeError__gray:before {
+    content: "\e92e";
+    color: #b5b5b5;
+  }
+  .icon-timeIn:before {
+    content: "\e92f";
+  }
+  .icon-timeIn__gray:before {
+    content: "\e930";
+    color: #b5b5b5;
+  }
+  .icon-timeOut:before {
+    content: "\e931";
+  }
+  .icon-timeOut__gray:before {
+    content: "\e932";
+    color: #b5b5b5;
+  }
+  .icon-document:before {
+    content: "\e933";
+    color: #ec0000;
+  }
+  .icon-settings:before {
+    content: "\e934";
+    color: #ec0000;
+  }
+  .icon-trackingSearch:before {
+    content: "\e935";
+    color: #ec0000;
+  }
+  .icon-trash:before {
+    content: "\e936";
+    color: #ec0000;
+  }
+  .icon-question:before {
+    content: "\e92a";
+    color: #ec0000;
+  }
+  .icon-add:before {
+    content: "\e900";
+    color: #ec0000;
+  }
+  .icon-alphabeticalOrderDown:before {
+    content: "\e901";
+    color: #ec0000;
+  }
+  .icon-alphabeticalOrderUp:before {
+    content: "\e902";
+    color: #ec0000;
+  }
+  .icon-arrowDown_big:before {
+    content: "\e903";
+    color: #ec0000;
+  }
+  .icon-arrowDown_small:before {
+    content: "\e904";
+    color: #ec0000;
+  }
+  .icon-arrowLeft_big:before {
+    content: "\e905";
+    color: #ec0000;
+  }
+  .icon-arrowLeft_small:before {
+    content: "\e906";
+    color: #ec0000;
+  }
+  .icon-arrowRight_big:before {
+    content: "\e907";
+    color: #ec0000;
+  }
+  .icon-arrowRight_small:before {
+    content: "\e908";
+    color: #ec0000;
+  }
+  .icon-arrowUp_big:before {
+    content: "\e909";
+    color: #ec0000;
+  }
+  .icon-arrowUp_small:before {
+    content: "\e90a";
+    color: #ec0000;
+  }
+  .icon-calendar:before {
+    content: "\e90b";
+    color: #ec0000;
+  }
+  .icon-caution:before {
+    content: "\e90c";
+    color: #ec0000;
+  }
+  .icon-check:before {
+    content: "\e90d";
+    color: #ec0000;
+  }
+  .icon-check_circle:before {
+    content: "\e90e";
+    color: #ec0000;
+  }
+  .icon-circle__blue:before {
+    content: "\e90f";
+    color: #1bb3bc;
+  }
+  .icon-circle__green:before {
+    content: "\e910";
+    color: #63ba68;
+  }
+  .icon-circle__orange:before {
+    content: "\e911";
+    color: #fc3;
+  }
+  .icon-circle__red:before {
+    content: "\e912";
+    color: #c00;
+  }
+  .icon-close:before {
+    content: "\e913";
+    color: #ec0000;
+  }
+  .icon-close_emptyCircle:before {
+    content: "\e914";
+    color: #ec0000;
+  }
+  .icon-close_filledCircle:before {
+    content: "\e915";
+    color: #ec0000;
+  }
+  .icon-collapse:before {
+    content: "\e916";
+    color: #ec0000;
+  }
+  .icon-copy:before {
+    content: "\e917";
+    color: #ec0000;
+  }
+  .icon-download:before {
+    content: "\e919";
+    color: #ec0000;
+  }
+  .icon-edit:before {
+    content: "\e91a";
+    color: #ec0000;
+  }
+  .icon-expand:before {
+    content: "\e91b";
+    color: #ec0000;
+  }
+  .icon-left:before {
+    content: "\e91c";
+    color: #ec0000;
+  }
+  .icon-mail:before {
+    content: "\e91d";
+    color: #ec0000;
+  }
+  .icon-options:before {
+    content: "\e91e";
+    color: #ec0000;
+  }
+  .icon-orderDown:before {
+    content: "\e91f";
+    color: #ec0000;
+  }
+  .icon-orderUp:before {
+    content: "\e920";
+    color: #ec0000;
+  }
+  .icon-phone:before {
+    content: "\e921";
+    color: #ec0000;
+  }
+  .icon-profile:before {
+    content: "\e922";
+    color: #ec0000;
+  }
+  .icon-prohibited:before {
+    content: "\e923";
+    color: #ec0000;
+  }
+  .icon-refresh:before {
+    content: "\e924";
+    color: #ec0000;
+  }
+  .icon-regeneratePassword:before {
+    content: "\e925";
+    color: #ec0000;
+  }
+  .icon-right:before {
+    content: "\e926";
+    color: #ec0000;
+  }
+  .icon-search:before {
+    content: "\e927";
+    color: #ec0000;
+  }
+  .icon-viewProfile:before {
+    content: "\e929";
+    color: #ec0000;
+  }
+  
+  #modal-heading-01-12 {
+    font-family: cursive!important;
+  }
+  .input_lwc input{
+      border: 1px solid #deedf2;
+    border-bottom-color: #257fa4;
+    border-radius: 4px;
+    background-color: #f6fafc;
+    color: #444;
+    cursor: pointer;
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+    width: 240px;
+  }
+  .lcheckbox_lwc .slds-form-element__label{
+    color: #444444;
+    display: inline;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    font-size: 16px!important;
+    line-height: 40px;
+    vertical-align: middle;
+  }
+  .lcheckbox_lwc .slds-checkbox_faux {  
+    display: none;
+  }
+  .lcheckbox_lwc .slds-checkbox{
+    margin-left: 4px;
+    text-align: left;
+    padding-left: 16px;
+  }
+  .lcheckbox_lwc .slds-checkbox:hover {
+    background-color: #e8f3f6;
+    border-radius: 4px;
+  }
+  .lcheckboxac_lwc .slds-checkbox_faux {
+    width: 24px;
+    height: 24px;
+    border-color: #767676;
+    border-radius: 4px;
+  }
+  .lcheckboxac_lwc .slds-checkbox {
+    width: 100%;
+    text-align: left;
+    border-radius: 4px;
+    border-color: #767676;
+    cursor: pointer;
+    height: 31px;
+    margin-left: 12px;
+    margin-right: 8px;
+    width: 27px;
+  }
+  .fromdropdown .slds-checkbox {
+    align-items: center;
+    display: flex;
+    height: 36px;
+    margin-bottom: 12px;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+  
+  .fromdropdown .slds-checkbox_faux {
+    border-radius: 4px;
+    color: #222222;
+    cursor: pointer;
+    height: 24px;
+    margin-left: 11px;
+    margin-right: 8px;
+    width: 24px;
+  }
+  
+  .fromdropdown .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    color: #444444;
+    display: inline;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    vertical-align: middle;
+  }
+  .date_lwc input {
+    background-color: #f6fafc;
+    border-color: #deedf2;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+    display: inline-block;
+    height: 48px;
+    line-height: 36px;
+    padding: 0 1rem 0 .75rem;
+    transition: none;
+    width: 172px;
+    color: #444444;
+    font-size: 16px;
+  }
+  
+  /* cn_Filters */
+  .slds-input {
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px;
+    background-color: #f6fafc;
+    color: #444444;
+    cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+  }
+  
+  .slds-row >.slds-col{
+    width:50%;
+    padding-right: 12px;
+  }
+  .slds-col:nth-child(even){
+      padding-right: 0px;
+  }
+  
+  .filterAccounts .slds-input {
+      border: 1px solid #deedf2;
+      border-bottom: 1px solid #257fa4;
+      border-radius: 4px;
+      background-color: #f6fafc;
+      color: #444444;
+      cursor: pointer;
+      font-family: "SantanderMicroText";
+      font-size: 16px;
+      height: 48px;
+      line-height: 24px;
+  }
+  
+  /* Filtros Avanzados */
+  
+  .calendar input:-ms-input-placeholder {
+      font-family: "SantanderMicroText";
+      color: #767676;
+      font-size: 16px;
+  }
+  .calendar input:-moz-placeholder {
+      font-family: "SantanderMicroText";
+      color: #767676;
+      font-size: 16px;
+  }
+  
+  .calendar .slds-button{
+      left: -16px;
+      bottom: 13px;
+  }
+  
+  .calendar .slds-align-middle .slds-button{
+      left: 0;
+      bottom: 0;
+  }
+  
+  .calendar .slds-button_icon-bare {
+      -moz-osx-font-smoothing: grayscale;
+      -webkit-font-smoothing: antialiased;
+      font-family: 'icomoon' !important;
+      font-style: normal;
+      font-variant: normal;
+      font-weight: normal;
+      height: 24px;
+      line-height: 1;
+      text-transform: none;
+      width: 24px;
+  }
+  
+  .calendar .slds-button_icon-bare:before {
+      color: #ec0000;
+      content: "\e90b";
+      cursor: pointer;
+      font-size: 24px;
+  }
+  .calendar .slds-button_icon-bare svg {
+      display: none;
+  }
+  .calendar .slds-input__icon.slds-input__icon_right {
+      bottom: 0;
+      height: 24px;
+      margin: auto;
+      padding: 12px 16px;
+      right: 0px;
+      top: 0;
+      width: 33px;
+  }
+  
+  
+  /*download nexus */
+
+  
+  .downloads_CNF{
+	width: 100%;
+}
+ .downloads_CNF .slds-row,
+ .downloads_CNF .radioButtons .slds-form-element__control {
+    display: flex;
 }
 
-[class^="icon-"], [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'icomoon' !important;
-  speak: never;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+ .downloads_CNF .slds-row{
+    margin-bottom: 36px;
 }
 
-.icon-circle_check .path1:before {
-  content: "\e94f";
-  color: rgb(68, 68, 68);
-}
-.icon-circle_check .path2:before {
-  content: "\e950";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.icon-circle_exclamation .path1:before {
-  content: "\e951";
-  color: rgb(204, 0, 0);
-}
-.icon-circle_exclamation .path2:before {
-  content: "\e952";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.icon-circle_exclamation .path3:before {
-  content: "\e953";
-  margin-left: -1em;
-  color: rgb(255, 255, 255);
-}
-.icon-income-expenses:before {
-  content: "\e94e";
-  color: #ec0000;
-}
-.icon-reload:before {
-  content: "\e94d";
-  color: #ec0000;
-}
-.icon-international-transfer:before {
-  content: "\e94b";
-  color: #ec0000;
-}
-.icon-other-payments:before {
-  content: "\e94c";
-  color: #ec0000;
-}
-.icon-remove:before {
-  content: "\e94a";
-  color: #ec0000;
-}
-.icon-information:before {
-  content: "\e949";
-  color: #ec0000;
-}
-.icon-transferPayment:before {
-  content: "\e948";
-  color: #ec0000;
-}
-.icon-action:before {
-  content: "\e947";
-  color: #ec0000;
-}
-.icon-more:before {
-  content: "\e945";
-  color: #ec0000;
-}
-.icon-transfer:before {
-  content: "\e946";
-  color: #ec0000;
-}
-.icon-prueba:before {
-  content: "\e944";
-  color: #ec0000;
-}
-.icon-print:before {
-  content: "\e943";
-  color: #ec0000;
-}
-.icon-warning:before {
-  content: "\e942";
-  color: #ec0000;
-}
-.icon-details:before {
-  content: "\e941";
-  color: #ec0000;
-}
-.icon-success:before {
-  content: "\e940";
-  color: #ec0000;
-}
-.icon-close_big:before {
-  content: "\e93f";
-  color: #ec0000;
-}
-.icon-arrowDown:before {
-  content: "\e93d";
-  color: #ec0000;
-}
-.icon-arrowUp:before {
-  content: "\e93e";
-  color: #ec0000;
-}
-.icon-fx:before {
-  content: "\e93b";
-  color: #ec0000;
-}
-.icon-options__empty:before {
-  content: "\e93c";
-  color: #ec0000;
-}
-.icon-faq:before {
-  content: "\e928";
-  color: #ec0000;
-}
-.icon-filter:before {
-  content: "\e939";
-  color: #ec0000;
-}
-.icon-tracking:before {
-  content: "\e93a";
-  color: #ec0000;
-}
-.icon-doc103:before {
-  content: "\e937";
-  color: #ec0000;
-}
-.icon-docPDF:before {
-  content: "\e938";
-  color: #ec0000;
-}
-.icon-docXLS:before {
-  content: "\e918";
-  color: #ec0000;
-}
-.icon-time:before {
-  content: "\e92b";
-}
-.icon-time__gray:before {
-  content: "\e92c";
-  color: #b5b5b5;
-}
-.icon-timeError:before {
-  content: "\e92d";
-  color: #ec0000;
-}
-.icon-timeError__gray:before {
-  content: "\e92e";
-  color: #b5b5b5;
-}
-.icon-timeIn:before {
-  content: "\e92f";
-}
-.icon-timeIn__gray:before {
-  content: "\e930";
-  color: #b5b5b5;
-}
-.icon-timeOut:before {
-  content: "\e931";
-}
-.icon-timeOut__gray:before {
-  content: "\e932";
-  color: #b5b5b5;
-}
-.icon-document:before {
-  content: "\e933";
-  color: #ec0000;
-}
-.icon-settings:before {
-  content: "\e934";
-  color: #ec0000;
-}
-.icon-trackingSearch:before {
-  content: "\e935";
-  color: #ec0000;
-}
-.icon-trash:before {
-  content: "\e936";
-  color: #ec0000;
-}
-.icon-question:before {
-  content: "\e92a";
-  color: #ec0000;
-}
-.icon-add:before {
-  content: "\e900";
-  color: #ec0000;
-}
-.icon-alphabeticalOrderDown:before {
-  content: "\e901";
-  color: #ec0000;
-}
-.icon-alphabeticalOrderUp:before {
-  content: "\e902";
-  color: #ec0000;
-}
-.icon-arrowDown_big:before {
-  content: "\e903";
-  color: #ec0000;
-}
-.icon-arrowDown_small:before {
-  content: "\e904";
-  color: #ec0000;
-}
-.icon-arrowLeft_big:before {
-  content: "\e905";
-  color: #ec0000;
-}
-.icon-arrowLeft_small:before {
-  content: "\e906";
-  color: #ec0000;
-}
-.icon-arrowRight_big:before {
-  content: "\e907";
-  color: #ec0000;
-}
-.icon-arrowRight_small:before {
-  content: "\e908";
-  color: #ec0000;
-}
-.icon-arrowUp_big:before {
-  content: "\e909";
-  color: #ec0000;
-}
-.icon-arrowUp_small:before {
-  content: "\e90a";
-  color: #ec0000;
-}
-.icon-calendar:before {
-  content: "\e90b";
-  color: #ec0000;
-}
-.icon-caution:before {
-  content: "\e90c";
-  color: #ec0000;
-}
-.icon-check:before {
-  content: "\e90d";
-  color: #ec0000;
-}
-.icon-check_circle:before {
-  content: "\e90e";
-  color: #ec0000;
-}
-.icon-circle__blue:before {
-  content: "\e90f";
-  color: #1bb3bc;
-}
-.icon-circle__green:before {
-  content: "\e910";
-  color: #63ba68;
-}
-.icon-circle__orange:before {
-  content: "\e911";
-  color: #fc3;
-}
-.icon-circle__red:before {
-  content: "\e912";
-  color: #c00;
-}
-.icon-close:before {
-  content: "\e913";
-  color: #ec0000;
-}
-.icon-close_emptyCircle:before {
-  content: "\e914";
-  color: #ec0000;
-}
-.icon-close_filledCircle:before {
-  content: "\e915";
-  color: #ec0000;
-}
-.icon-collapse:before {
-  content: "\e916";
-  color: #ec0000;
-}
-.icon-copy:before {
-  content: "\e917";
-  color: #ec0000;
-}
-.icon-download:before {
-  content: "\e919";
-  color: #ec0000;
-}
-.icon-edit:before {
-  content: "\e91a";
-  color: #ec0000;
-}
-.icon-expand:before {
-  content: "\e91b";
-  color: #ec0000;
-}
-.icon-left:before {
-  content: "\e91c";
-  color: #ec0000;
-}
-.icon-mail:before {
-  content: "\e91d";
-  color: #ec0000;
-}
-.icon-options:before {
-  content: "\e91e";
-  color: #ec0000;
-}
-.icon-orderDown:before {
-  content: "\e91f";
-  color: #ec0000;
-}
-.icon-orderUp:before {
-  content: "\e920";
-  color: #ec0000;
-}
-.icon-phone:before {
-  content: "\e921";
-  color: #ec0000;
-}
-.icon-profile:before {
-  content: "\e922";
-  color: #ec0000;
-}
-.icon-prohibited:before {
-  content: "\e923";
-  color: #ec0000;
-}
-.icon-refresh:before {
-  content: "\e924";
-  color: #ec0000;
-}
-.icon-regeneratePassword:before {
-  content: "\e925";
-  color: #ec0000;
-}
-.icon-right:before {
-  content: "\e926";
-  color: #ec0000;
-}
-.icon-search:before {
-  content: "\e927";
-  color: #ec0000;
-}
-.icon-viewProfile:before {
-  content: "\e929";
-  color: #ec0000;
+ .downloads_CNF .slds-row.radioButtons.fileDate{
+    margin-bottom: 12px;
 }
 
-#modal-heading-01-12 {
-  font-family: cursive!important;
+ .downloads_CNF .slds-row.typeOfFile{
+    margin-bottom: 0px;
+    height: 138px;
+
 }
-.input_lwc input{
+
+ .downloads_CNF .slds-form_compound .slds-form-element__row{
+    margin-bottom: 0;
+}
+
+ .downloads_CNF .fileDate .slds-radio,
+ .downloads_CNF .reportType .slds-radio{
+    margin-right: 36px;
+
+}
+ .downloads_CNF .reportType{
+	margin: 22px 0 0 0;
+}
+
+ .downloads_CNF .radioCalendarSingle .slds-radio .slds-radio__label{
+	margin-right: 26px;
+}
+
+
+/* RADIO BUTTONS */
+
+ .downloads_CNF .radioButtons .slds-form-element__control{
+    height: 48px;
+    align-items: center;
+}
+
+ .downloads_CNF .radioButtons:last-child .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_right:first-child{
+	margin-top: 14px;
+}
+
+  .slds-form-element.slds-dropdown-trigger.slds-dropdown-trigger_click.calendar.calendar--single > 
+.slds-form-element__control.slds-input-has-icon.slds-input-has-icon_right.inputSize{
+	margin-top: 14px;
+}
+/* .radioCalendarDoble  */
+
+ .downloads_CNF .radioButtons .slds-form-element__label{
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+	color: #444444;
+	padding: 0;
+}
+
+ .downloads_CNF .radioButtons .slds-form-element__legend,
+ .downloads_CNF .radioButtons .slds-form-element__label:first-child,
+ .downloads_CNF .slds-combobox__Rg .slds-form-element__label,
+ .downloads_CNF .account .slds-form-element__label  {
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 21px;
+	color: #444444;
+	padding: 0;
+	margin-bottom: 4px;
+}
+
+ .downloads_CNF .radioButtons .slds-form-element__label {
+    font-size: 16px;
+	line-height: 24px;
+	padding: 0;
+}
+ .downloads_CNF .slds-radio.fileDate{
+	width: 264px;
+}
+
+ .downloads_CNF .slds-radio [type=radio]+.slds-radio__label .slds-radio_faux {
+    background-color: #ffffff;
+    border: solid 1px #767676;
+    border-radius: 50%;
+    box-shadow: none;
+    color: #ececec;
+    cursor: pointer;
+    height: 24px;
+    margin-right: 8px;
+    position: relative;
+    vertical-align: middle;
+    width: 24px;
+}
+
+ .downloads_CNF .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio_faux:after {
+    background: #1bb3bc;
+    border-radius: 50%;
+    box-shadow: none;
+    content: '';
+    height: 10px;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    width: 10px;
+}
+ .downloads_CNF .slds-radio [type=radio]:checked+.slds-radio__label span:first-child {
+    border: solid 2px #1bb3bc;
+}
+
+
+/* DROPDOWN */
+/*comentamos
+  .account .slds-combobox.slds-dropdown-trigger {
+	width: 496px;
+}
+
+ .downloads_CNF .slds-combobox__Rg .button-order {
 	border: 1px solid #deedf2;
-  border-bottom-color: #257fa4;
-  border-radius: 4px;
-  background-color: #f6fafc;
-  color: #444;
-  cursor: pointer;
-  font-family: SantanderMicroText;
-  font-size: 16px;
-  height: 48px;
-  line-height: 24px;
-  width: 240px;
-}
-.lcheckbox_lwc .slds-form-element__label{
-  color: #444444;
-  display: inline;
-  font-family: "SantanderMicroText";
-  font-size: 16px;
-  font-size: 16px!important;
-  line-height: 40px;
-  vertical-align: middle;
-}
-.lcheckbox_lwc .slds-checkbox_faux {  
-  display: none;
-}
-.lcheckbox_lwc .slds-checkbox{
-  margin-left: 4px;
-  text-align: left;
-  padding-left: 16px;
-}
-.lcheckbox_lwc .slds-checkbox:hover {
-  background-color: #e8f3f6;
-  border-radius: 4px;
-}
-.lcheckboxac_lwc .slds-checkbox_faux {
-  width: 24px;
-  height: 24px;
-  border-color: #767676;
-  border-radius: 4px;
-}
-.lcheckboxac_lwc .slds-checkbox {
-  width: 100%;
-  text-align: left;
-  border-radius: 4px;
-  border-color: #767676;
-  cursor: pointer;
-  height: 31px;
-  margin-left: 12px;
-  margin-right: 8px;
-  width: 27px;
-}
-.fromdropdown .slds-checkbox {
-  align-items: center;
-  display: flex;
-  height: 36px;
-  margin-bottom: 12px;
-  margin-right: 5px;
-  margin-left: 5px;
+	background-color:#f6fafc;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	height: 48px;
+    width: 100%;
+    min-width: 184px;
 }
 
-.fromdropdown .slds-checkbox_faux {
-  border-radius: 4px;
-  color: #222222;
-  cursor: pointer;
-  height: 24px;
-  margin-left: 11px;
-  margin-right: 8px;
-  width: 24px;
+ .downloads_CNF .slds-combobox__Rg .button-order .button-arrow {
+	font-size: 24px;
 }
 
-.fromdropdown .slds-checkbox .slds-checkbox__label .slds-form-element__label {
-  color: #444444;
-  display: inline;
-  font-family: "SantanderMicroText";
-  font-size: 16px;
-  line-height: 24px;
-  vertical-align: middle;
-}
-.date_lwc input {
-  background-color: #f6fafc;
-  border-color: #deedf2;
-  border-width: 1px 1px 0 1px;
-  border-style: solid;
-  border-image: initial;
-  border-radius: 4px 4px 0 0;
-  box-shadow: inset 0 -1px 0 0 #257fa4;
-  display: inline-block;
-  height: 48px;
-  line-height: 36px;
-  padding: 0 1rem 0 .75rem;
-  transition: none;
-  width: 172px;
-  color: #444444;
-  font-size: 16px;
+ .downloads_CNF .slds-combobox__Rg  .button-order:focus {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
 }
 
+ .downloads_CNF .slds-combobox__Rg  .button-order:hover {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .slds-dropdown {
+	box-shadow: inset 0 -1px 0 0 #cedee7;
+	background-color: #f6fafc;
+	border-top: none;
+	border-right: 1px solid #deedf2;
+	border-left: 1px solid #deedf2;
+	border-bottom: 1px solid #257fa4;
+	border-radius: 0 0 4px 4px;
+	cursor: pointer;
+	left: auto;
+	margin: 0;
+	overflow: hidden;
+	max-width: 100%;
+	min-width: 184px;
+	padding: 6px 4px 0 4px;
+	right: auto;
+	top: 72px;
+	width: 100%;
+}*/
+
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list{
+	overflow-y: auto;
+	overflow-x: hidden;
+	max-height: 187px;
+}
+
+ .downloads_CNF .slds-combobox__Rg.country .slds-dropdown{
+	max-width: 184px;
+	min-width: 184px;
+}
+
+ .downloads_CNF .typeOfFile .slds-combobox__Rg .slds-dropdown{
+	max-width: 288px;
+	min-width: 288px;
+}
+
+
+ .downloads_CNF .slds-combobox__Rg  .slds-button__icon{
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .optionOrder {
+	align-items: center;
+	display: inline-flex;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .orderSelected {
+	align-items: center;
+	border: 0;
+	color: #444444;
+	display: flex;
+	font-size: 16px;
+	height: 24px;
+	padding: 0 0px 0 12px;
+	width: 100%;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .paddingOption {
+	height: 36px;
+	margin-bottom: 12px;
+	cursor: pointer;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .dropdownOrder .paddingOption:hover,
+ .downloads_CNF .slds-combobox__Rg .paddingOption:active,
+ .downloads_CNF .slds-combobox__Rg  .paddingOption:focus {
+	border-radius: 4px;
+	background-color:#deedf2;
+}
+
+ .downloads_CNF .slds-combobox__Rg .dropdownOrder .slds-dropdown__item > a {
+	padding:0 12px;
+	font-size: 16px;
+	font-family: SantanderMicroText;
+	color: #444444;
+	line-height: 24px;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .dropdownOrder .optionOrder .slds-form-element__label {
+	margin: 0 ;
+	font-family: SantanderMicroText;
+	font-size: 16px;
+	line-height: 24px;
+	color: #444444;
+}
+
+ .downloads_CNF .slds-combobox__Rg .selectedValue-placeholder {
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	color: #767676;
+}
+
+ .downloads_CNF .slds-combobox__Rg  .selectedValue-filled {
+	color: #444444;
+	font-size: 12px;
+}
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list::-webkit-scrollbar {
+	width: 6px;
+}
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+ .downloads_CNF .slds-combobox__Rg .slds-dropdown .slds-dropdown__list::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+} 
+
+ .downloads_CNF .country .slds-combobox{
+    width: 184px;
+    margin-right: 24px;
+}
+
+ .downloads_CNF .typeOfFile .slds-combobox{
+	width: 288px;
+	margin-right: 24px;
+} 
+
+
+/* DROPDOWN CHECKBOX .slds-combobox__check */
+
+/*comentamos
+ .downloads_CNF .slds-combobox__check .slds-popover.hide{
+	display: none;
+} 
+
+ .downloads_CNF .slds-combobox__check{
+    width: 496px;
+}
+
+ .downloads_CNF .slds-combobox__check .button-order {
+	background-color: #f6fafc;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	height: 48px;
+	width: 100%;
+}
+*/
+/*comentamos
+ .downloads_CNF .slds-combobox__check .button-order .button-arrow {
+	font-size: 24px;
+}
+ .downloads_CNF .slds-combobox__check .button-order:focus {
+	box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+ .downloads_CNF .slds-combobox__check .button-order:hover {
+	box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+*/
+/*comentmos
+ .downloads_CNF .slds-combobox__check .slds-popover{
+	position: absolute;
+	top: 48px;  
+    border-radius: 4px;
+	background-color: #f6fafc;
+	padding: 4px;
+	width: 100%;
+	z-index: 9000;
+	box-shadow: none;
+	border-top:none;
+	border-color: none ;
+	border-style: none;
+    border-width: 0;
+    border-right: 1px solid #deedf2;
+	border-left: 1px solid #deedf2;
+	border-bottom: 1px solid #257fa4;
+    border-image: initial;
+	cursor:pointer;
+}
+
+ .downloads_CNF .slds-combobox__check .slds-popover__body{
+    background-color: none;
+	padding:0;
+	width: 100%;
+	max-height: 184px;
+	overflow-y: scroll ;
+}
+
+ .downloads_CNF .slds-combobox__check .slds-checkbox__label .slds-form-element__label{
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+	margin-left: 8px ;
+	cursor: pointer;
+}
+
+ .downloads_CNF .slds-combobox__check .slds-checkbox:hover,
+ .downloads_CNF .slds-combobox__check .slds-checkbox:active,
+ .downloads_CNF .slds-combobox__check .slds-checkbox:focus {
+	border-radius: 4px;
+	background-color: #deedf2;
+	cursor: pointer;
+}
+
+ .downloads_CNF .slds-combobox__check .selectedValue-placeholder{
+    font-family: SantanderMicroText;
+	align-items: center;
+	border: 0;
+    color: #767676;
+	display: flex;
+	font-size: 16px;
+	height: 24px;
+	padding: 0 48px 0 12px;
+    width: 100%;
+    line-height: 24px;
+}
+
+ .downloads_CNF .slds-combobox__check .slds-button_icon-border-filled {
+    line-height: 1;
+	color: #767676;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+    transition: border 0.15s linear 0s;
+    border-color:#deedf2;
+}
+
+ .downloads_CNF .slds-combobox__check .slds-button__icon{
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+
+ .downloads_CNF .slds-combobox__check .optionOrder .slds-form-element {
+	margin: 0 8px 0 16px;
+}
+*/
+/* CHECK*/
+/*comentamos
+ .downloads_CNF .slds-checkbox_faux{
+	display: none;
+}
+
+ .downloads_CNF .slds-combobox__check section .slds-checkbox {
+	display: flex;
+	height: 36px;
+    align-items: center;
+	padding: 0 12px;
+	margin: 12px 0;
+	cursor: pointer;
+}
+
+ .downloads_CNF .slds-combobox__check section .slds-checkbox:first-of-type {
+	margin-top:2px;
+}
+
+ .downloads_CNF .slds-combobox__check  input[type="checkbox"]:checked,
+ .downloads_CNF .slds-combobox__check   input[type="checkbox"]:not(:checked) {
+    height: 24px;
+    position: relative;
+	width: 24px;
+	cursor: pointer;
+}
+
+ .downloads_CNF .slds-combobox__check input[type="checkbox"]:checked:after,
+ .downloads_CNF .slds-combobox__check input[type="checkbox"]:not(:checked):after {
+    bottom: 2px;
+    border-bottom: 2px solid #1bb3bc;;
+    border-left: 2px solid #1bb3bc;;
+    content: "";
+    height: 6px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    line-height: 24px;
+    transform: rotate(-45deg);
+	width: 9px;
+	cursor: pointer;
+}
+ .downloads_CNF .slds-combobox__check input[type="checkbox"]:checked:after {
+    opacity: 1;
+}
+
+ .downloads_CNF .slds-combobox__check input[type="checkbox"]:not(:checked):after {
+    opacity: 0;
+} 
+
+ .downloads_CNF .slds-combobox__check input[type="checkbox"]:checked:before,
+ .downloads_CNF .slds-combobox__check input[type="checkbox"]:not(:checked):before {
+    background: white;
+    border: 1px solid #767676;
+    border-radius: 4px;
+    content: '';
+    height: 24px;
+    left: 0;
+    position: absolute;
+	width: 24px;
+	cursor: pointer;
+}
+ .downloads_CNF .slds-combobox__check input[type="checkbox"]:checked:before {
+	border: 2px solid #1bb3bc;
+	cursor: pointer;
+} 
+
+ .downloads_CNF .slds-combobox__check .slds-popover__body::-webkit-scrollbar {
+	width: 6px;
+}
+ .downloads_CNF .slds-combobox__check .slds-popover__body::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+ .downloads_CNF .slds-combobox__check  .slds-popover__body::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+ .downloads_CNF .slds-combobox__check .slds-popover__body::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+} 
+
+*/
+
+
+/* CALENDAR */
+
+  .currencyDropdown_container {
+    margin-bottom: 0px;
+}
+
+ .downloads_CNF .radioCalendarSingle .calendar{
+	position: absolute;
+	margin-left: 0;
+}
+ .downloads_CNF .radioCalendarDoble .calendar{
+	position: absolute;
+	margin-left: 30px;
+
+}
+
+  .calendarSIC{
+	margin-top: 44px;
+}
+
+  .comboCalendars {
+	margin-top: 78px;
+}
+
+  .unicCalendar {
+	margin-top: 44px;
+}
+
+.unicCalendarDoble {
+	margin-top: 80px;
+}
+
+  .radioCalendarDoble .calendar:last-child{
+	left: 207px;
+}
+
+  .radioCalendarDoble .slds-form.slds-form_compound.calendar.calendar--double {
+	margin-left: 168px;
+	margin-bottom:32px;
+}
+
+  .radioCalendarDoble .slds-form.slds-form_compound.calendar.calendar--double > .slds-form-element.calendar:last-child {
+	margin-left: 24px;
+}
+
+ .downloads_CNF .calendar input {
+	background-color: #f6fafc;
+	border-color: #deedf2;
+	border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	display: inline-block;
+	height: 48px;
+	line-height: 36px;
+	padding: 0 1rem 0 .75rem;
+	transition: none;
+	width: 184px;
+	color: #444444;
+	font-size: 16px;
+}
+
+ .downloads_CNF .calendar input:focus {
+	box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+ .downloads_CNF .calendar input::-webkit-input-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+ .downloads_CNF .calendar input::-moz-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+ .downloads_CNF .calendar input:-ms-input-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+ .downloads_CNF .calendar input:-moz-placeholder {
+	font-family: "SantanderMicroText";
+	color: #767676;
+	font-size: 16px;
+}
+
+ .downloads_CNF .calendar .slds-button{
+	left: -16px;
+    bottom: 13px;
+}
+
+ .downloads_CNF .calendar .slds-align-middle .slds-button{
+	left: 0;
+    bottom: 0;
+}
+
+ .downloads_CNF .calendar .slds-button_icon-bare {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	height: 24px;
+	line-height: 1;
+	speak: none;
+	text-transform: none;
+	width: 24px;
+	padding-right: 16px;
+}
+ .downloads_CNF .calendar .slds-button_icon-bare:before {
+	color: #ec0000;
+	content: "\e90b";
+	cursor: pointer;
+	font-size: 24px;
+}
+ .downloads_CNF .calendar .slds-button_icon-bare svg {
+	display: none;
+}
+ .downloads_CNF .calendar .slds-input__icon.slds-input__icon_right {
+	bottom: 0;
+	height: 24px;
+	margin: auto;
+	padding: 12px 16px;
+	right: 0px;
+	top: 0;
+	width: 33px;
+}
+ .downloads_CNF .calendar.slds-form_compound .slds-form-element__row .slds-form-element+.slds-form-element {
+	padding-left: 24px;
+	margin:0;
+}
+ .downloads_CNF .calendar .slds-form-element__control.slds-input-has-icon.slds-input-has-icon_right.inputSize > .textHelp,
+  .slds-form-element.slds-dropdown-trigger.slds-dropdown-trigger_click.calendar.calendar--single > .textHelp{
+	display: none;
+}
+ .downloads_CNF .calendar .textHelp {
+	color: #444444;
+	display: inline-block;
+	font-size: 12px;
+	height: 18px;
+	padding-left: 12px;
+}
+ .downloads_CNF .calendar .slds-datepicker {
+	padding: 16px 16px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-button:focus {
+	box-shadow: none;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-button__icon {
+	fill: #ec0000;
+}
+ .downloads_CNF .slds-datepicker .slds-datepicker__filter.slds-grid {
+	padding: 0;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-datepicker__month {
+	position: relative;
+	right: 9px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-datepicker__month thead tr {
+	text-transform: uppercase;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-datepicker__month thead th {
+	color: #444444;
+	font-size: 12px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-day,
+ .downloads_CNF .calendar .slds-datepicker th,
+ .downloads_CNF .calendar h2,
+ .downloads_CNF .calendar .slds-select {
+	font-size: 12px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-select {
+	font-family: SantanderTextW05-Regular;
+	height: 32px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-select_container {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 1;
+	speak: none;
+	text-transform: none;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-select_container:after {
+	border: none;
+	bottom: 13px;
+	color: #ec0000;
+	content: "\e904";
+	font-size: 19px;
+	height: 8px;
+	right: 15px;
+	transform-origin: 50% 50%;
+	width: 8px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-select_container:before {
+	border: none;
+	color: #ec0000;
+	content: "\e904";
+	font-size: 19px;
+	height: 8px;
+	right: 4px;
+	top: 13px;
+	transform: rotate(180deg);
+	transform-origin: 50% 50%;
+	width: 8px;
+}
+ .downloads_CNF .calendar .slds-datepicker .slds-text-link {
+	color: #ec0000;
+	font-family: SantanderTextW05-Bold;
+	font-size: 12px;
+}
+ .downloads_CNF .calendar .slds-datepicker td {
+	padding: 0;
+}
+ .downloads_CNF .calendar .slds-datepicker td.slds-is-selected>.slds-day {
+	background: #444444;
+}
+
+ .downloads_CNF .radioCalendarDoble .slds-form_compound .slds-form-element__row .slds-form-element + .slds-form-element,
+ .downloads_CNF .radioCalendarDoble .slds-form--compound .slds-form-element__row .slds-form-element + .slds-form-element {
+    padding-left: 24px;
+}
+
+
+
+/* BUTTONS */
+/*comentamos
+ .downloads_CNF .pill-button{
+    display: flex;
+	justify-content: flex-end;
+	padding: 20px 0 0 0;
+}
+
+ .downloads_CNF .slds-button{
+    cursor: pointer;
+}
+
+ .downloads_CNF .whiteButton {
+    min-height: 40px;
+    border-radius: 100px;
+    color: #ec0000;
+    border: 1px solid #cc0000;
+    background-color: #ffffff;
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+	padding: 0 16px;
+	margin: 0;
+}
+
+ .downloads_CNF .whiteButton:hover {
+    border: 1px solid #ec0000;
+    background-color: #f6f6f6;
+}
+
+ .downloads_CNF .whiteButton:focus {
+    box-shadow: 2px 2px 4px 2px rgba(206,214,219,0.64);
+    color: #cc0000;
+}
+
+ .downloads_CNF .redButton {
+    min-height: 40px;
+    border-radius: 100px;
+    color: #ffffff;
+    background-color: #ec0000;
+    border: 1px solid #ec0000;
+    font-family: SantanderMicroText-Bd;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+	padding: 0 16px;
+	margin-left: 24px;
+}
+
+ .downloads_CNF .redButton:hover {
+    background-color: #cc0000;
+    border: 1px solid #cc0000;
+}
+
+ .downloads_CNF .redButton:focus {
+    box-shadow: 2px 2px 4px 2px rgba(206,214,219,0.64);
+}
+
+ .spinnerclass{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height: 500px;
+}*/

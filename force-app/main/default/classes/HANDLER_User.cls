@@ -18,8 +18,8 @@ public without sharing class HANDLER_User {
             System.debug(profiles);
             System.debug(u.profileId);
             System.debug(profiles.containsKey(u.profileId));
-            if (profiles.containsKey(u.profileId)){
-                if (contactsInList.containsKey(u.Id) && !u.isDummyBackOfficeUser__c){
+            if (profiles.containsKey(u.profileId) && !u.isDummyBackOfficeUser__c){
+                if (contactsInList.containsKey(u.Id)){
                     if (contactsInList.get(u.Id).ContactId != null){
                   c.Id = contactsInList.get(u.Id).ContactId;
                     c.CONTACT_User__c=u.Id;
@@ -64,16 +64,15 @@ public without sharing class HANDLER_User {
         List<User> usersWithParent = [SELECT Id, Username, USER_LUP_parentBackOfficeUser__c, USER_LUP_parentBackOfficeUser__r.Username  FROM User WHERE USER_LUP_parentBackOfficeUser__c != null];
         
         // Checks whether any of the parent users are already assigned
-        for(User parentUser : usersWithParent){
-            for(User dummyUser : usersToCheck){
-                if(parentUser.USER_LUP_parentBackOfficeUser__c == dummyUser.USER_LUP_parentBackOfficeUser__c){
-                    dummyUser.addError('Another dummy user is already assigned to the Parent User with username -> ' + parentUser.USER_LUP_parentBackOfficeUser__r.Username);
+        if(!usersToCheck.isEmpty()){
+            for(User parentUser : usersWithParent){
+                for(User dummyUser : usersToCheck){
+                    if(parentUser.USER_LUP_parentBackOfficeUser__c == dummyUser.USER_LUP_parentBackOfficeUser__c){
+                        System.debug('ERROR');
+                        dummyUser.addError('Another dummy user is already assigned to the Parent User with username -> ' + parentUser.USER_LUP_parentBackOfficeUser__r.Username);
+                    }
                 }
             }
         }
-    }
-    
-    @future
- 	public static void updateContact(List<Id> userId){    
     }
 }

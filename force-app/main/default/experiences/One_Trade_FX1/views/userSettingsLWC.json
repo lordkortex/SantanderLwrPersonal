@@ -1,0 +1,30 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "48c1a1a0-16e0-4d38-85e6-0b95ef0367c4",
+  "label" : "User Settings LWC",
+  "regions" : [ {
+    "id" : "440f55be-f540-41c3-8eb0-e3185588404b",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lwc_mySettingsParent",
+      "id" : "eb38dae1-5c97-4dbd-adc1-54a5032d39f1",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "c82ee8cf-b009-4b63-969a-e75f70940901",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "c7eca0c6-97f2-44d9-9c36-79e7bf53fd54",
+    "regionName" : "footer",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "usersettings"
+}

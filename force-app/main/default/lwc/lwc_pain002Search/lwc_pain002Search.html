@@ -1,0 +1,58 @@
+<template>
+
+    <!-- <aura:handler name="clearSearch" event="c:EVT_SearchPillsClear" action="{!c.clear}"/>
+    <aura:handler name="clearConcretePill" event="c:EVT_ClearConcretePill" action="{!c.removePill}"/> -->
+
+    <div class="slds-card__header slds-grid headerTable" >
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title titleTable errorText" data-id="searchAreaTitle">
+                    {label.fillCompanyId}
+                </div>
+            </div>
+            <div class="slds-media__body actions">
+                <template if:true={showtable}>
+                    <div class={dynamicClass} onclick={openSearch} data-id="searchIcon"></div> 
+                </template>
+                <template if:false={showtable}>
+                    <div class="button-search icon-search button-search-open"></div> 
+                </template>
+            </div>
+        </header>
+    </div>
+    <div class=" slds-grid mr_Tracker" data-id="searchArea">
+        <div class="slds-row">
+            <div class="slds-col account">
+            <div class="slds-form-element">
+                    <c-lwc_custom-lookup 
+                        data-id="x" 
+                        objectapiname="account"  
+                        iconname="standard:account" 
+                        label={label.company}
+                        selectedrecord={selectedLookUpRecord}
+                        onvalueselected={handleValueSelected}
+                    >
+                    </c-lwc_custom-lookup>
+                </div>
+            </div>
+            <div class="slds-col  status">
+                <div class="slds-col input_text">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__label">
+                            <label  for="form-element-01">{label.companyID}</label>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <lightning-input type="text" class={inputClass} data-id="alias" keyup={refreshPills} value={entityID} update-on="keyup"></lightning-input>                                
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <div class="slds-form containerSearch" role="list">
+            <div class="slds-form__row">
+                <button onclick={clear} class="slds-button slds-button_brand whiteButtonSmall">{label.clear}</button>
+                <button onclick={apply} class="slds-button slds-button_brand redButtonSmall">{label.apply}</button>            
+            </div>
+        </div>
+    </div> 
+</template>

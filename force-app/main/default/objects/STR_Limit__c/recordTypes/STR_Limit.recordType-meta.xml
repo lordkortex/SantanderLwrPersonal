@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RecordType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>STR_Limit</fullName>
+    <active>true</active>
+    <label>Limit</label>
+    <picklistValues>
+        <picklist>STR_PCK_ServiceId__c</picklist>
+        <values>
+            <fullName>add_international_payment_external</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>b2b</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+    <picklistValues>
+        <picklist>STR_PCK_Status__c</picklist>
+        <values>
+            <fullName>active</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>deactivated</fullName>
+            <default>false</default>
+        </values>
+    </picklistValues>
+</RecordType>

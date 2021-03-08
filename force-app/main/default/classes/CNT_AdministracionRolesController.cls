@@ -1,3 +1,12 @@
+/*----------------------------------------------------------------------------------
+Author:         Joaquín Vera Vallés
+Company:        Deloitte
+Description:    Controller of Roles components
+Test Class:     CNT_AdministracionRolesController_Test
+History
+<Date>			<Author>		<Description>
+15/01/2020		Joaquín Vera Vallés     Initial version
+----------------------------------------------------------------------------------*/
 public class CNT_AdministracionRolesController {
     
     @AuraEnabled
@@ -8,6 +17,26 @@ public class CNT_AdministracionRolesController {
     @AuraEnabled(cacheable=true)
     public static List<WRAPPER_RolesAdmin> getAdministracionRolesData(){
         return getRoles();
+    }
+
+    @AuraEnabled
+    public static boolean saveData ( List<CNT_AdministracionRolesController.CNT_AdministracionRolesWrapper> data)
+    {
+        WRAPPER_Login login = CNT_LoginVisibilityManagerController.getUserLoginData(UserInfo.getUserId());
+        WRAPPER_RolesSaving wrapperSaving = new WRAPPER_RolesSaving();
+        wrapperSaving.cdemgr = String.valueOf(login.inicio.user.codigoCliente);
+        wrapperSaving.alias_rol_list = new List<WRAPPER_RolesSaving.Alias_rol_list>();
+
+         for(CNT_AdministracionRolesController.CNT_AdministracionRolesWrapper dataSingle : data)
+         {
+             wrapperSaving.alias_rol_list.add(new WRAPPER_RolesSaving.Alias_rol_list(dataSingle.order, dataSingle.rolAlias));
+         }
+
+         CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_AdministracionRolesController_POST');
+         String response = Global_IntegrationWrapper.launchHttp(JSON.serialize(wrapperSaving), configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c);
+
+        return true;
+
     }
     
     public static List<CNT_AdministracionRolesController.CNT_AdministracionRolesWrapper> generateFalseData() {
@@ -67,9 +96,12 @@ History
 29/01/2020		Guillermo Giral             Initial version
 ----------------------------------------------------------------------------------*/
     public static List<WRAPPER_RolesAdmin> getRoles(){
-        try {            
+            WRAPPER_Login login = CNT_LoginVisibilityManagerController.getUserLoginData(UserInfo.getUserId());
+
             CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_GetRolesData');
-            String response = Global_IntegrationWrapper.launchHttp('', configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c);
+            String rolesEndpoint = configWs.CNT_Endpoint__c.replace('{}', String.valueOf(login.inicio.user.codigoCliente));
+            String response = Global_IntegrationWrapper.launchHttp('', rolesEndpoint, configWs.CNT_HTTPMethod__c);
+            
             
             if (Test.isRunningTest() ) {
                 
@@ -179,14 +211,9 @@ History
             if (String.isNotBlank(response)) {
                 List<WRAPPER_RolesAdmin> listRoles = WRAPPER_RolesAdmin.parse(response);
                 return listRoles;
-            } else {
-                //FALTA LA LABEL
-                throw new customException(Label.getDataError);
-            }
-        } catch (Exception e) {
-            System.debug('CNT_AdministracionRolesController.getRoles: ' + e.getMessage());
-            throw new customException(e.getMessage());
-        }
+            } 
+            
+            return null;
     }
     
     // WRAPPER FOR DUMMY DATA  
@@ -202,6 +229,7 @@ History
             this.rolName = rolName;
             this.rolAlias = rolAlias;    
         }
+        public CNT_AdministracionRolesWrapper(){}
     }
     
 }

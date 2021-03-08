@@ -3,6 +3,7 @@ import {LightningElement,api,track} from 'lwc';
 import { loadStyle } from 'lightning/platformResourceLoader';
 
 //Import styles
+//import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
 import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 //Import Apex methods
@@ -71,7 +72,7 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
 
     @api dates = []; //List containing the selected dates
     @track datesBis = []; //List containing the selected dates
-    @api showmodal; //Flag to close the modal
+    @api showmodal = false; //Flag to close the modal
     @track simple; //Default true. Flag to indicate whether the calendar is simple or compounded (From-To)
     placeholderFrom = this.label.from; //Calendar 'From' placeholder
     placeholderTo = this.label.to; //Calendar 'To' placeholder
@@ -91,95 +92,146 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
     @api todate;
     @track amountBis = [];
     @track applyDate = true;
+
+    @api fromamount;
+    @api toamount;
+    @api iscomunidadcashnexus;
+    @api clientref;
+    @api descrip;
  
+    get tamBook(){
+        var tam;
+        if(iscomunidadcashnexus){
+            tam = '50%';
+        }else{
+            tam = '90%';
+        }
+        return tam;
+    }
+
+    get filtersIteration(){
+        var listAux = JSON.parse(JSON.stringify(this.filters));
+        Object.keys(listAux).forEach( key => {
+            listAux[key].isCountryWithNooneChecked = listAux[key].name == this.label.Country && listAux[key].numberChecked == 0;
+            listAux[key].isCountryWithOneChecked = listAux[key].name == this.label.Country && listAux[key].numberChecked == 1;
+            listAux[key].isCountryWithGTOneChecked = listAux[key].name == this.label.Country && listAux[key].numberChecked > 1;
+            listAux[key].isBankWithNooneChecked = listAux[key].name == this.label.Bank && listAux[key].numberChecked == 0;
+            listAux[key].isBankWithOneChecked = listAux[key].name == this.label.Bank && listAux[key].numberChecked == 1;
+            listAux[key].isBankWithGTOneChecked = listAux[key].name == this.label.Bank && listAux[key].numberChecked > 1;
+            listAux[key].isAccountWithNooneChecked = listAux[key].name == this.label.Account && listAux[key].numberChecked == 0;
+            listAux[key].isAccountWithOneChecked = listAux[key].name == this.label.Account && listAux[key].numberChecked == 1;
+            listAux[key].isAccountWithGTOneChecked = listAux[key].name == this.label.Account && listAux[key].numberChecked > 1;
+            listAux[key].isCurrencyWithNooneChecked = listAux[key].name == this.label.Currency && listAux[key].numberChecked == 0;
+            listAux[key].isCurrencyWithOneChecked = listAux[key].name == this.label.Currency && listAux[key].numberChecked == 1;
+            listAux[key].isCurrencyWithGTOneChecked = listAux[key].name == this.label.Currency && listAux[key].numberChecked > 1;
+            listAux[key].isCategoryWithNooneChecked = listAux[key].name == this.label.Category && listAux[key].numberChecked == 0;
+            listAux[key].isCategoryWithOneChecked = listAux[key].name == this.label.Category && listAux[key].numberChecked == 1;
+            listAux[key].isCategoryWithGTOneChecked = listAux[key].name == this.label.Category && listAux[key].numberChecked > 1;
+            listAux[key].itemNameIsCountry = listAux[key].name == this.label.Country;
+            listAux[key].itemNameIsBank = listAux[key].name == this.label.Bank;
+            listAux[key].itemNameIsAccount = listAux[key].name == this.label.Account;
+            listAux[key].itemNameIsCurrency = listAux[key].name == this.label.Currency;
+            listAux[key].itemNameIsCategory = listAux[key].name == this.label.Category;
+            listAux[key].itemNameIsAmount = listAux[key].name == this.label.amount;
+            listAux[key].itemCheckedOptions = listAux[key].numberChecked + ' ' + this.label.options;
+            if(listAux[key].itemNameIsAmount && !listAux[key].selectedFilters){
+                listAux[key].selectedFilters = {"from" : '', "to" : ''};
+            }
+            // listAux[key].isNotEndOfDayNorInstantAccount = !this.endofday && !this.isinstantaccount;
+            // listAux[key].isAmountErrorAndNotFormatError = this.showAmountError && !this.showFormatError;
+        });
+
+        return listAux;
+    }
 
     get isNotAccTransactions(){
         return !this.isacctransactions;
     }
 
-    get isCountryWithNooneChecked(){
-        return this.item.name == this.label.Country && this.item.numberChecked == 0;
-    }
 
-    get isCountryWithOneChecked(){
-        return this.item.name == this.label.Country && this.item.numberChecked == 1;
-    }
+    // get isCountryWithNooneChecked(){
+    //     return this.item.name == this.label.Country && this.item.numberChecked == 0;
+    // }
 
-    get isCountryWithGTOneChecked(){
-        return this.item.name == this.label.Country && this.item.numberChecked > 1;
-    }
+    // get isCountryWithOneChecked(){
+    //     return this.item.name == this.label.Country && this.item.numberChecked == 1;
+    // }
 
-    get isBankWithNooneChecked(){
-        return this.item.name == this.label.Bank && this.item.numberChecked == 0;
-    }
+    // get isCountryWithGTOneChecked(){
+    //     return this.item.name == this.label.Country && this.item.numberChecked > 1;
+    // }
 
-    get isBankWithOneChecked(){
-        return this.item.name == this.label.Bank && this.item.numberChecked == 1;
-    }
+    // get isBankWithNooneChecked(){
+    //     return this.item.name == this.label.Bank && this.item.numberChecked == 0;
+    // }
 
-    get isBankWithGTOneChecked(){
-        return this.item.name == this.label.Bank && this.item.numberChecked > 1;
-    }
+    // get isBankWithOneChecked(){
+    //     return this.item.name == this.label.Bank && this.item.numberChecked == 1;
+    // }
 
-    get isAccountWithNooneChecked(){
-        return this.item.name == this.label.Account && this.item.numberChecked == 0;
-    }
+    // get isBankWithGTOneChecked(){
+    //     return this.item.name == this.label.Bank && this.item.numberChecked > 1;
+    // }
 
-    get isAccountWithOneChecked(){
-        return this.item.name == this.label.Account && this.item.numberChecked == 1;
-    }
+    // get isAccountWithNooneChecked(){
+    //     return this.item.name == this.label.Account && this.item.numberChecked == 0;
+    // }
 
-    get isAccountWithGTOneChecked(){
-        return this.item.name == this.label.Account && this.item.numberChecked > 1;
-    }
+    // get isAccountWithOneChecked(){
+    //     return this.item.name == this.label.Account && this.item.numberChecked == 1;
+    // }
 
-    get isCurrencyWithNooneChecked(){
-        return this.item.name == this.label.Currency && this.item.numberChecked == 0;
-    }
+    // get isAccountWithGTOneChecked(){
+    //     return this.item.name == this.label.Account && this.item.numberChecked > 1;
+    // }
 
-    get isCurrencyWithOneChecked(){
-        return this.item.name == this.label.Currency && this.item.numberChecked == 1;
-    }
+    // get isCurrencyWithNooneChecked(){
+    //     return this.item.name == this.label.Currency && this.item.numberChecked == 0;
+    // }
 
-    get isCurrencyWithGTOneChecked(){
-        return this.item.name == this.label.Currency && this.item.numberChecked > 1;
-    }
+    // get isCurrencyWithOneChecked(){
+    //     return this.item.name == this.label.Currency && this.item.numberChecked == 1;
+    // }
 
-    get isCategoryWithNooneChecked(){
-        return this.item.name == this.label.Category && this.item.numberChecked == 0;
-    }
+    // get isCurrencyWithGTOneChecked(){
+    //     return this.item.name == this.label.Currency && this.item.numberChecked > 1;
+    // }
 
-    get isCategoryWithOneChecked(){
-        return this.item.name == this.label.Category && this.item.numberChecked == 1;
-    }
+    // get isCategoryWithNooneChecked(){
+    //     return this.item.name == this.label.Category && this.item.numberChecked == 0;
+    // }
 
-    get isCategoryWithGTOneChecked(){
-        return this.item.name == this.label.Category && this.item.numberChecked > 1;
-    }
+    // get isCategoryWithOneChecked(){
+    //     return this.item.name == this.label.Category && this.item.numberChecked == 1;
+    // }
 
-    get itemNameIsCountry(){
-        return this.item.name == this.label.Country;
-    }
+    // get isCategoryWithGTOneChecked(){
+    //     return this.item.name == this.label.Category && this.item.numberChecked > 1;
+    // }
 
-    get itemNameIsBank(){
-        return this.item.name == this.label.Bank;
-    }
+    // get itemNameIsCountry(){
+    //     return this.item.name == this.label.Country;
+    // }
 
-    get itemNameIsAccount(){
-        return this.item.name == this.label.Account;
-    }
+    // get itemNameIsBank(){
+    //     return this.item.name == this.label.Bank;
+    // }
 
-    get itemNameIsCurrency(){
-        return this.item.name == this.label.Currency;
-    }
+    // get itemNameIsAccount(){
+    //     return this.item.name == this.label.Account;
+    // }
 
-    get itemNameIsCategory(){
-        return this.item.name == this.label.Category;
-    }
+    // get itemNameIsCurrency(){
+    //     return this.item.name == this.label.Currency;
+    // }
 
-    get itemNameIsAmount(){
-        return this.item.name == this.label.amount;
-    }
+    // get itemNameIsCategory(){
+    //     return this.item.name == this.label.Category;
+    // }
+
+    // get itemNameIsAmount(){
+    //     return this.item.name == this.label.amount;
+    // }
 
     get isNotEndOfDayNorInstantAccount(){
        return !this.endofday && !this.isinstantaccount;
@@ -208,20 +260,33 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
     }
 
     get amountZero(){
+
+        if(this.fromamount != null){
+            return this.fromamount;
+        }else if(this.amountBis){
+            return this.amountBis[0];
+        }else return null;
+        /*
         var ret = null;
         if(this.amountBis){
          ret = this.amountBis[0];
         }
-
         return ret;
+        */
     }
 
     get amountOne(){
+        if(this.toamount != null){
+            return this.toamount;
+        }else if(this.amountBis){
+            return this.amountBis[1];
+        }else return null;
+        /*
         var ret = null;
         if(this.amountBis){
          ret = this.amountBis[1];
         }
-        return ret;
+        return ret;*/
     }
 
     connectedCallback() {
@@ -262,13 +327,12 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
         this.showmodal = false;
         var filterName;
         var aux;
-        const evt = new CustomEvent('clearallfilters', {
+        const evt = new CustomEvent('closemodalfilters', {
             "filterName" : filterName,
             "selectedOptions" : aux,
             "source" : "clearAll"
           });
-        this.dispatchEvent(evt);
-        
+        this.dispatchEvent(evt);        
 
     }
 
@@ -299,10 +363,10 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
     }
 
     chekOptions(event) {
-        var optionId = event.currentTarget.id;
+        var optionId = event.currentTarget.dataset.id;
         var optionName = event.currentTarget.name;
         var checked = event.currentTarget.checked;
-        var filters = this.filters;
+        var filters = JSON.parse(JSON.stringify(this.filters));
         var selectedOptions = [];
         
         // Loop through the filters to find the checked / unchecked option and fire the selected options
@@ -320,9 +384,13 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
         this.filters = filters;
         try{
             const onoptionselection = new CustomEvent('onoptionselection', {
-                filterName : selectedFilter,
-                selectedOptions : selectedOptions
-            })
+                detail: {
+                    filterName : selectedFilter,
+                    selectedOptions : selectedOptions,
+                    filters: this.filters,
+                    name: "onOptionSelection"
+                }
+            });
             this.dispatchEvent(onoptionselection);
         } catch (e) {
             console.log(e);
@@ -339,29 +407,48 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
 		if(amountFrom != null || amountTo != null){
 			var filters = JSON.parse(JSON.stringify(this.filters));
 			for(var key in filters){
-				if(filters[key].name == this.label.amount && amountFrom.value != undefined){
+				if(filters[key].name == this.label.amount && amountFrom.value != undefined && amountFrom.value != ""){
 					this.showAmountError = false;
 					this.showFormatError = false;
 
                     this.amountBis[0] = amountFrom.value;
+                    this.fromamount =  amountFrom.value;
+
+                    if(filters[key].selectedFilters == undefined){
+                        filters[key].selectedFilters = {};
+                        filters[key].selectedFilters.from = amountFrom.value;
+                    }
+                    else {
+                        filters[key].selectedFilters.from = amountFrom.value;
+                    }
                     
                     if(this.amountBis[1] != undefined && parseInt(this.amountBis[0]) > parseInt(this.amountBis[1])){
                         this.showAmountError = true;
                     }
                     
                 } 
-                if(filters[key].name == this.label.amount && amountTo.value != undefined){
+                if(filters[key].name == this.label.amount && amountTo.value != undefined && amountTo.value != ""){
                     this.showAmountError = false;
 					this.showFormatError = false;
 
                     this.amountBis[1] = amountTo.value;
+                    this.toamount =  amountTo.value;
                     
+                    if(filters[key].selectedFilters == undefined){
+                        filters[key].selectedFilters = {};
+                        filters[key].selectedFilters.to = amountTo.value;
+                    }
+                    else {
+                        filters[key].selectedFilters.to = amountTo.value;
+                    }
+
                     if(this.amountBis[0] != undefined && parseInt(this.amountBis[0]) > parseInt(this.amountBis[1])){
                         this.showAmountError = true;
                     }
                 }
                 
 			}
+			this.filters = filters;
 			
 		}
         /*
@@ -491,6 +578,8 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
                 filters[key].selectedFilters = {"from" : '', "to" : ''};
                 this.showAmountError = false;
                 this.showFormatError = false;
+                this.fromamount = undefined;
+                this.toamount = undefined;
             } else if(filters[key].type == "dates"){
                 
                 //Remove error
@@ -510,6 +599,8 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
 
             }
         }
+        this.clientref = undefined;
+        this.descrip = undefined;
         this.filters = filters;
         
         // Clear advanced filters values
@@ -527,13 +618,17 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
 		
 		// Fire the event so the filters return to their initial status
         try{
-            const clearallfilters = new CustomEvent('clearallfilters');
+            const clearallfilters = new CustomEvent('clearallfilters', {
+                detail: {name: "clearAllFilters"}
+            });
             this.dispatchEvent(clearallfilters);
         }
         catch(e){
             console.log('### lwc_account_transactionsModalFormFilter ### clearAll() ::: Error: ' + e);
         }
         this.applySearch(event);
+        const evt = new CustomEvent('closemodalfilters');
+        this.dispatchEvent(evt);        
     }
   
     validateDate(event){
@@ -778,7 +873,7 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
     
     applySearch(event) {
         var cmpParams;
-        if(event && event.currentTarget && event.currentTarget.name == "clearBtn"){
+        if(event && event.currentTarget && event.currentTarget.id.includes("clearBtn")){
             cmpParams = {button: "clear"};
         }else{
             cmpParams = {button: "filter"};
@@ -836,15 +931,18 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
                     // Create the selected dates string
                     //component.set("v.displayedDates", "(" + selection.value.from + " - " + selection.value.to + ")");
                 } else if(filters[key].type == "text"){
-                    //if(filters[key].selectedFilters != undefined){
+                    if(this.fromamount != undefined && this.toamount != undefined){
                         var selection = {};
                         selection.value = {};
-                        selection.value.from = this.amountBis[0];//filters[key].selectedFilters.from;
-                        selection.value.to = this.amountBis[1];//filters[key].selectedFilters.to;
+                        selection.value.from = this.fromamount;//this.amountBis[0];//filters[key].selectedFilters.from;
+                        selection.value.to = this.toamount;//this.amountBis[1];//filters[key].selectedFilters.to;
                         selection.name = filters[key].name;
                         selection.type = "text";
-                        if(selection.value != undefined && (selection.value.from != "" || selection.value.to != "")){	
-                            selectedFilters.push(selection);	
+                        selectedFilters.push(selection);	
+                        if(filters[key].selectedFilters != undefined){
+                            filters[key].selectedFilters = {};
+                            filters[key].selectedFilters.from = this.fromamount;
+                            filters[key].selectedFilters.to = this.toamount;
                         }
                         
                         var displayedAmount = "";
@@ -858,7 +956,8 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
                         } else if(selection.value.to != undefined && selection.value.from != undefined){
                             displayedAmount = "(" + selection.value.from + " - " + selection.value.to + ")";
                         }
-                    //}
+                    }
+                    
                 }
                 // Set the display options flag to false, so the options section collapses
                 if(filters[key].type != "text" || (filters[key].type == "text" && isValidAmount)){
@@ -876,6 +975,16 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
             // Fire the event, if no filter is selected then all the data must be retrieved
             if(isValidAmount){
                 //cmpEvent.fire();
+                if(this.formFilters){
+                    var formFilters = this.formFilters;
+                    var options = Object.keys(formFilters);
+                    for(var key in options){
+                        var selection = {};
+                        selection.name = options[key];
+                        selection.value = formFilters[options[key]];
+                        selectedFilters.push(selection);
+                    }
+                }
                 console.log(flagEvent);
                 if(flagEvent==false){
                     cmpParams.selectedFilters = selectedFilters;
@@ -916,6 +1025,11 @@ export default class lwc_account_transactionsModalFormFilter extends LightningEl
                 }
             }
         }
+        if(this.showmodal){
+            const evt = new CustomEvent('closemodalfilters');
+            this.dispatchEvent(evt);     
+        }
+
         //this.firstTime = false;
         //this.setFilterAux(this.filtersAux);
         

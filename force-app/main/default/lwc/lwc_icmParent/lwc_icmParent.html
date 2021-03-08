@@ -1,0 +1,52 @@
+<template>
+    <!-- COMPONENT MARKUP -->
+    <div data-id="componentStyle">
+        <!-- TITLE BLOCK TODO - Pasar a label porque puede ser ICM o Instant funds transfer-->
+        <div class="slds-text-body_regular">Payment Process</div>
+
+        <!-- STAGE BAR BLOCK-->
+        <c-lwc_icm-progress-bar 
+            data-id="barraProgreso" 
+            currentstagenumber = {currentStageNumber}
+            originvalue={originValue} 
+            destinationvalue={destinationValue}
+            amount={Amount}
+            onstagenumberupdate={handleUpdateStage}>
+        </c-lwc_icm-progress-bar>        
+        <!--ORIGIN BLOCK-->
+        <template if:true={stageNumberEq1or2}>
+            <c-lwc_icm-origin-destination 
+                currentstagenumber={currentStageNumber} 
+                originvalue={originValue}  
+                destinationvalue={destinationValue}
+                onbackstep={previousStep}
+                onnextstep={nextStep}>
+            </c-lwc_icm-origin-destination>            
+        </template>
+        <!-- End of ORIGIN block-->
+        <!-- Start of amount block-->
+        <template if:true={stageNumberEq3}>
+            <c-lwc_icm-amount 
+                amount={amount} 
+                concept={concept}
+                destinationvalue={destinationValue}
+                onbackstep={previousStep}
+                onnextstep={nextStep}>>
+            </c-lwc_icm-amount>
+        </template>
+        <!-- End of amount block-->
+        <!-- Start of DETAILS block-->
+        <template if:true={stageNumberEq4}>
+            <c-lwc_icm-signature 
+                originaccount={originValue}
+                destinationaccount={destinationValue} 
+                amount={Amount}
+                concept={Concept} 
+                date={Date} 
+                onbackstep={previousStep}>
+            </c-lwc_icm-signature>
+        </template>
+        <!-- End of DETAILS block-->
+    
+    </div>
+</template>

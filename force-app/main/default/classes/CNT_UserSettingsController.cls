@@ -116,7 +116,6 @@ public with sharing class CNT_UserSettingsController
 
         try 
         {
-            System.debug(JSON.serialize(currentUser));
             update currentUser;
 
         } catch(DmlException e) 

@@ -5,7 +5,7 @@
     <!--CARD ROW 1-->
     <!--<div class="slds-card__header slds-grid contentAccount">-->
     <div if:true={showAccount}>
-        <div class="iElement container slds-hide slds-card__header slds-grid contentAccount">
+        <div class={showDetails}>
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                 <!-- COLUMNA 1 -->
                 <div class="slds-combobox_container">
@@ -132,50 +132,57 @@
                 </div>
                 
                 <!-- COLUMNA 6 -->
-                <div class="slds-card__header-title availableBalance">            
-                    <template if:true={noonetradeoronetradeandballsall}>
-                        <c-lwc_display-amount aura:id ="avaibleBalanceRow"
-                            amount={iaccount.amountAvailableBalance}
-                            decimalclass="decimals boldText" 
-                            wholeclass="integer boldText"
-                            numberformat={userpreferrednumberformat}>
-                        </c-lwc_display-amount>
-                    </template>
-                    <template if:false={noonetradeoronetradeandballsall}>
-                            <span class="integer boldText"></span>
-                            <span class="decimals boldText"></span> 
-                            <span></span>
-                    </template>
-                </div>            
-                
+                <div class="availableBalance">
+                    <div class="slds-card__header-title">            
+                        <template if:true={noonetradeoronetradeandballsall}>
+                            <span class="integer">
+                                <c-lwc_display-amount aura:id ="avaibleBalanceRow"
+                                    amount={iaccount.amountAvailableBalance}
+                                    wholeclass="availableInteger" 
+                                    decimalclass="availableDecimals"
+                                    numberformat={userpreferrednumberformat}>
+                                </c-lwc_display-amount>
+                            </span>
+                        </template>
+                        <template if:false={noonetradeoronetradeandballsall}>
+                                <span class="integer boldText"></span>
+                                <span class="decimals boldText"></span> 
+                                <span></span>
+                        </template>
+                    </div>            
+                </div>
                 <!-- COLUMNA 7 -->
-                <div class="slds-card__header-title bookBalance">             
-                    <template if:true={noonetradeoronetradeandballsall}>
-                        <c-lwc_display-amount aura:id ="bookBalanceRow"
-                            amount={iaccount.amountMainBalance}
-                            decimalclass="decimals boldText" 
-                            wholeclass="integer boldText"
-                            numberformat={userPreferredNumberFormat}>
-                        </c-lwc_display-amount>
-                    </template>
-                    <template if:false={noonetradeoronetradeandballsall}>
-                            <span class="integer boldText"></span>
-                            <span class="decimals boldText"></span> 
-                            <span></span>
-                    </template>                
+                <div class="bookBalance">
+                    <div class="slds-card__header-title">             
+                        <template if:true={noonetradeoronetradeandballsall}>
+                            <span class="integerDos">
+                                <c-lwc_display-amount aura:id ="bookBalanceRow"
+                                    amount={iaccount.amountMainBalance}
+                                    wholeclass="availableInteger" 
+                                    decimalclass="availableDecimals"
+                                    numberformat={userPreferredNumberFormat}>
+                                </c-lwc_display-amount>
+                            </span>
+                        </template>
+                        <template if:false={noonetradeoronetradeandballsall}>
+                                <span class="integer boldText"></span>
+                                <span class="decimals boldText"></span> 
+                                <span></span>
+                        </template>                
+                    </div>
                 </div>
                 
                 <!-- COLUMNA 8 -->
                 <div class="slds-media__figure iconContainer">
                     <!-- <div class="{!(v.isCashNexus == 'False' || v.iTabSelected == 'EndOfDayTab')? 'button-options icon-tracking slds-hide' : 'button-options icon-tracking slds-show'}" data-title="{label.tracking}" onclick="{!c.goToSwiftTracking}"></div> -->
-                    <template if:true={isonetrade}>
-                    <template if:true={swiftandint}>
+                    <!--<template if:true={isonetrade}>-->
+                        <template if:true={swiftandint}>
                             <div class="'button-options icon-tracking" data-title={label.tracking} onclick={goToSwiftTracking}></div>
                         </template>
                         <template if:true={swiftandtab}>
                             <div class="'button-options icon-tracking" data-title={label.tracking} onclick={goToSwiftTracking}></div>
                         </template>
-                    </template>
+                    <!--</template>-->
                 </div>
             </header>
         </div>

@@ -68,6 +68,10 @@ export default class lwc_iptDetailParent extends LightningElement{
     @track spinnerClass;
     @track iobj;
 
+    @track comesfromtrackerAux = true;
+    @api filters;
+    @api fullaccountlist;
+
     get isUetrSearchResultNullOrUndefined(){
         console.log(this.uetrsearchresult + '--------');
         return (this.uetrsearchresult == undefined || this.uetrsearchresult == null);
@@ -199,7 +203,7 @@ export default class lwc_iptDetailParent extends LightningElement{
                     UETRSearchResult.creditorAgent.agentCode                            === undefined ? 'Not found' : this.iobject.beneficiaryAccountBic = UETRSearchResult.creditorAgent.agentCode;
                     UETRSearchResult.paymentEventsArray[UETRSearchResult.paymentEventsArray.length-1].instructedAmount.tcurrency     === undefined ? 'Not found' : this.iobject.currencyAux = UETRSearchResult.paymentEventsArray[UETRSearchResult.paymentEventsArray.length-1].instructedAmount.tcurrency;                            
                     UETRSearchResult.paymentEventsArray[UETRSearchResult.paymentEventsArray.length-1].instructedAmount.amount        === undefined ? 'Not found' : this.iobject.amount = UETRSearchResult.paymentEventsArray[UETRSearchResult.paymentEventsArray.length-1].instructedAmount.amount;
-                    UETRSearchResult.initiationTime                  === undefined ? 'Not found' : this.iobject.valueDate, UETRSearchResult.initiationTime;
+                    UETRSearchResult.initiationTime                  === undefined ? 'Not found' : this.iobject.valueDate = UETRSearchResult.initiationTime;
                     UETRSearchResult.creditorAgent.agentLocation                         === undefined ? 'Not found' : this.iobject.beneficiaryCity = UETRSearchResult.creditorAgent.agentLocation;              
                     UETRSearchResult.creditorAgent.agentCountry                          === undefined ? 'Not found' : this.iobject.beneficiaryCountry = UETRSearchResult.creditorAgent.agentCountry;
                 }              
@@ -315,7 +319,15 @@ export default class lwc_iptDetailParent extends LightningElement{
                         }
                         if (sParameterName[0] === 'c__beneficiaryCountry') { 
                             sParameterName[1] === undefined ? 'Not found' : this.iobject.beneficiaryCountry = sParameterName[1];              
-                        }                        
+                        }  
+                        //24/02/2021
+                        if (sParameterName[0] === 'c__filters') { 
+                            sParameterName[1] === undefined ? this.filters = [] : this.filters = sParameterName[1];	
+                        }
+                        if (sParameterName[0] === 'c__allAccounts') { 
+                            sParameterName[1] === undefined ? this.fullaccountlist = [] : this.fullaccountlist = sParameterName[1];	
+                        } 
+                        //END 24/02/2021                     
                     }
 
                     if(this.iobject.originAccountBic != null && this.iobject.originAccountBic != undefined && this.iobject.originAccountBic !=''){

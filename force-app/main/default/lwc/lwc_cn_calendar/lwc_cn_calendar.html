@@ -1,0 +1,50 @@
+<template>
+    <template if:true={simple}> 
+        <!-- SIMPLE CALENDAR -->
+        <div>
+            <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click calendar calendar--single">
+                <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">  
+                    <lightning-input data-id="dateFrom" type="date" name="inputFrom" value={getDates} autocomplete="off" date-style="short" label={label.enterADate} onblur={handleBlurFrom} variant="label-hidden" placeholder={placeholdersingle}></lightning-input>
+                </div>
+                <span class="textHelp">{helpText}</span>
+            </div>
+        </div>
+    </template>
+    <template if:false={simple}> 
+        <!-- COMPOUND CALENDAR --> 
+        <div>
+            <div class={getCalendarClass}>
+                <fieldset class="slds-form-element calendar">
+                    <div class="slds-form-element__control ">
+                        <div class="slds-form-element__group">
+                            <div class="slds-form-element__row ">
+                                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                        <lightning-input data-id="dateFrom" onblur={handleBlurFrom} type="date" name="inputFrom" value={getDates} autocomplete="off" date-style="short" label={label.enterADate} variant="label-hidden" placeholder={placeholderfrom}></lightning-input>
+                                        <span class="textHelp">{helpText}</span>
+                                    </div>
+                                    <span class="textHelp"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                    <fieldset class={getCalendarClass2}>
+                    <div class="slds-form-element__control ">
+                        <div class="slds-form-element__group">
+                            <div class="slds-form-element__row ">
+                                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">  
+                                        <lightning-input data-id="dateTo" onblur={handleBlurTo} type="date" name="inputTo" value={getDates1} autocomplete="off" date-style="short" label={label.enterADate} variant="label-hidden" placeholder={placeholderto}></lightning-input>
+                                        <span class="textHelp">{helpText}</span>
+                                    </div>
+                                    <span class="textHelp"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+     </template>
+</template>

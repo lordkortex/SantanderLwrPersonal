@@ -1,0 +1,45 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "ea2a5076-040d-4a7f-835a-a6ac202443d6",
+  "label" : "Payments B2B",
+  "regions" : [ {
+    "id" : "c0170eac-35b5-4f3e-bc29-64926e923776",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lwc_b2b_process",
+      "id" : "6b7e294b-3be7-461e-b602-526c6e178c6a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "421c5dcb-8f66-40af-b63e-c8f6d1f2357c",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "506cc8ab-0de0-470f-a14d-24a41548d888",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Payments B2B"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "c5eaf024-9be7-494f-a8ee-867419db98a0",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "31e59409-746e-4a1d-aeb5-03d85e277ad4",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-payments-b2b"
+}

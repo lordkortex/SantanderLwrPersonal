@@ -12,10 +12,16 @@
             <div class="slds-col">
                 <div class="slds-text-heading_medium">
                     <div class="title">{!$Label.c.Payments}</div>
-                    <button class="slds-button primary button_icon" role="option" tabindex="0" aria-selected="true" onclick="{!c.openMethodModal}">
-                        {!$Label.c.NewPayment}
-                        <span class="icon icon-transfer"></span>
-                    </button>
+                    	<div class="buttons">
+                        <button class="slds-button primary button_icon" role="option" tabindex="0" aria-selected="true" onclick="{!c.openMethodModal}">
+                             {!$Label.c.NewPayment}
+                            <span class="icon icon-more"></span>
+                        </button>
+                        <button class="slds-button secondary button_icon" role="option" tabindex="0" aria-selected="true">
+                            Templates
+                            <span class="icon icon-copy"></span>
+                        </button>
+                    </div>
                 </div>
                 <div class="text_line"></div>
                 <div class="slds-text-heading_subtitle">

@@ -9,6 +9,7 @@ global with sharing class WS_ExchangeRate {
     private String requestType;
     private String priceType;
     private Integer timer;
+    private String requestPurpose;
 
     private Map<String, Object> result;
 
@@ -20,16 +21,24 @@ global with sharing class WS_ExchangeRate {
     global void setIntegrationType (String integrationType) {
         this.integrationType = integrationType;
     }
-
+    
     global WS_ExchangeRate (String payment_id, String integrationType, String requestType, String priceType, WRAPPER_B2B_Data.AccountData accountData) {
-        setParameters(payment_id, integrationType, requestType, priceType, accountData, 25000);
+        setParameters(payment_id, integrationType, requestType, priceType, accountData, 25000, null);
     }
-
+    
     global  WS_ExchangeRate (String payment_id, String integrationType, String requestType, String priceType, WRAPPER_B2B_Data.AccountData accountData, Integer timer) {
-        setParameters(payment_id, integrationType, requestType, priceType, accountData, timer);
+        setParameters(payment_id, integrationType, requestType, priceType, accountData, timer, null);
     }
+    
 
-    public void setParameters (String payment_id, String integrationType, String requestType, String priceType, WRAPPER_B2B_Data.AccountData accountData, Integer timer) {
+    global WS_ExchangeRate (String payment_id, String integrationType, String requestType, String priceType, WRAPPER_B2B_Data.AccountData accountData, Integer timer, String requestPurpose) {
+        setParameters(payment_id, integrationType, requestType, priceType, accountData, timer, requestPurpose);
+    }
+    
+    global void setParameters (String payment_id, String integrationType, String requestType, String priceType, WRAPPER_B2B_Data.AccountData accountData, Integer timer) {
+        setParameters(payment_id, integrationType, requestType, priceType, accountData, timer, null);
+    }
+   	public void setParameters (String payment_id, String integrationType, String requestType, String priceType, WRAPPER_B2B_Data.AccountData accountData, Integer timer, String requestPurpose) {
         CNT_ApiConfiguration__c configWs = new CNT_ApiConfiguration__c();
         configWs = CNT_ApiConfiguration__c.getValues('WS_ExchangeRate');
         this.endPoint = configWs.CNT_Endpoint__c;
@@ -42,6 +51,7 @@ global with sharing class WS_ExchangeRate {
         this.requestType = requestType;
         this.priceType = priceType;
         this.timer = timer;
+        this.requestPurpose = requestPurpose;
     }
 
     global Map<String, Object> execute (Decimal amountSend, Decimal amountReceive, String currencySend, String currencyReceiver, String sourceAlias, String sourceAliasEntidad, String customerId, String country, String codigoBIC) {
@@ -58,12 +68,15 @@ global with sharing class WS_ExchangeRate {
                     originAmount = String.valueOf(amountSend);
                     amountToConvert = amountSend;
                 }
+                
                 String destinationAmount;
-                if (amountReceive == null) {
-                    destinationAmount = null;
-                } else {
-                    destinationAmount = String.valueOf(amountReceive);
-                    amountToConvert = amountReceive;
+                if(originAmount == null){
+                    if (amountReceive == null) {
+                        destinationAmount = null;
+                    } else {
+                        destinationAmount = String.valueOf(amountReceive);
+                        amountToConvert = amountReceive;
+                    }
                 }
 
                 if (String.isBlank(currencySend) || String.isBlank(currencyReceiver)) {
@@ -105,7 +118,7 @@ global with sharing class WS_ExchangeRate {
                      WS_ExchangeRate.SmeBusinessCustomerId smeBusinessCustomerId = new WS_ExchangeRate.SmeBusinessCustomerId(sourceAliasEntidad, sourceAlias, documentID);
                 //}
                 WS_ExchangeRate.DataCountervalueFx dataCounterValue = new WS_ExchangeRate.DataCountervalueFx(this.requestType, discount, priceType, sellData, buyData, customerId, smeBusinessCustomerId); 
-                input = new WS_ExchangeRate.INPUT('Web', this.payment_id, dataCounterValue);
+                input = new WS_ExchangeRate.INPUT('Web', this.payment_id, this.requestPurpose, dataCounterValue);
             }
             this.inputWrapper = input;
             inputJson = JSON.serialize(input, true);
@@ -162,6 +175,7 @@ global with sharing class WS_ExchangeRate {
         Decimal exchangeRate = 0;
         Decimal convertedAmount = 0;
         String timeStamp = '';
+        String fxTimer = '';
         if (output != null) {
             exchangeRate = output.fxExchangeResponse.customerExchangeRate;
             String roundAmount = roundAmount(output.fxExchangeResponse.ccyCountervalue.ccyCountervalueAmount);
@@ -173,9 +187,18 @@ global with sharing class WS_ExchangeRate {
                 
             }
             timeStamp = now.hour() + ':' + minute;
+            
+            DateTime myDt = datetime.now();
+            fxTimer = myDT.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss');
         }
         result.put('exchangeRate', exchangeRate);
         result.put('convertedAmount', convertedAmount);
+        if(output.amountSend == null){
+        	result.put('amountObtained', 'send');
+        }else{
+        	result.put('amountObtained', 'received');
+        }
+        result.put('fxTimer', fxTimer);
         result.put('timestamp', timestamp);
         result.put('output', output);
         return result;
@@ -212,6 +235,7 @@ global with sharing class WS_ExchangeRate {
 
         global String accessChannel                  {get;set;}
         global String operationReference             {get;set;}
+        global String requestPurpose				 {get;set;}
         global DataCountervalueFx dataCountervalueFx {get;set;}
 
         global INPUT () {
@@ -221,6 +245,13 @@ global with sharing class WS_ExchangeRate {
         global INPUT (String accessChannel, String operationReference, DataCountervalueFx dataCountervalueFx) {
             this.accessChannel = accessChannel;
             this.operationReference = operationReference;
+            this.dataCountervalueFx = dataCountervalueFx;
+        }
+        
+        global INPUT (String accessChannel, String operationReference, String requestPurpose, DataCountervalueFx dataCountervalueFx) {
+            this.accessChannel = accessChannel;
+            this.operationReference = operationReference;
+            this.requestPurpose = requestPurpose;
             this.dataCountervalueFx = dataCountervalueFx;
         }
     }
@@ -246,7 +277,7 @@ global with sharing class WS_ExchangeRate {
 		global String priceType                            {get;set;}
 		global SellNominal sellNominal                     {get;set;}
 		global BuyNominal buyNominal                       {get;set;}
-		// global String valueDateRequested                   {get;set;}
+		//global String valueDateRequested                   {get;set;}
 		global String customerId                           {get;set;}
         global SmeBusinessCustomerId smeBusinessCustomerId {get;set;}
 

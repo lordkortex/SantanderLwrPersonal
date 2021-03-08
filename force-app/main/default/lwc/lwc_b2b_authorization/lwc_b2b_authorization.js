@@ -8,6 +8,10 @@ import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import { NavigationMixin } from 'lightning/navigation';
 import { helper  } from './lwc_b2b_authorizationHelper.js';
 
+//Import Class
+import getSessionId from '@salesforce/apex/CNT_B2B_Authorization.getSessionId';
+import getExchangeRate from '@salesforce/apex/CNT_B2B_Authorization.getExchangeRate';
+
 
 //Import Labels
 import Loading from '@salesforce/label/c.Loading';
@@ -45,6 +49,9 @@ import transferFee from '@salesforce/label/c.transferFee';
 import B2B_PaymentSummary3 from '@salesforce/label/c.B2B_PaymentSummary3';
 import AmountToAuth from '@salesforce/label/c.AmountToAuth';
 import CNF_mockeoFirmas from '@salesforce/label/c.CNF_mockeoFirmas';
+import OTPWrongCheckSMS from '@salesforce/label/c.OTPWrongCheckSMS';
+
+
 
 
 
@@ -88,6 +95,9 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     @track hasDiscardButton;
     @track steps;
     @track navigatorInfo;
+
+    @track validateOTP;
+    @track OTP;
     
 
     label = {
@@ -125,7 +135,8 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
         transferFee,
         B2B_PaymentSummary3,
         AmountToAuth,
-        CNF_mockeoFirmas
+        CNF_mockeoFirmas,
+        OTPWrongCheckSMS
     }
   
     /*
@@ -164,6 +175,13 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     19/06/2020      Bea Hill            Initial version
     */
     initComponent() {
+
+        this.debitAmountString = "";
+        this.feesString= "";
+        this.exchangeRateString= "";
+        this.paymentAmountString= "";
+        this.OTP= "";
+    
         this.paymentData  = [];
         this.accountData  = [];
         this.steps = [];
@@ -186,7 +204,7 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
                 this.cometdSubscriptions = [];
                 this.notifications = [];
             	helper.auxCometD(this.cometd,this.expiredFX,this.errorOTP,this.scaUid,
-                    this.errorSign,this.signLevel,this.cometdSubscriptions,this.localWindow);
+                    this.signLevel,this.cometdSubscriptions,this.localWindow,this.paymentId);
             }
             resolve('Ok');
         }, this)
@@ -206,17 +224,28 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
             return helper.getURLParams();
         })
         .then((value) => {
-            this.paymentData = value.paymentDetailAttribute;
-            //helper.beginAuthorize(component, event, helper);
+            //this.signLevel = {signatory : 'true',signed : 'false',lastSign : 'true'};
+            this.signLevel = value.signLevelAttribute;
+            this.paymentData = value.paymentDataAttribute;
+            this.paymentId = value.paymentIdAttribute;
+            this.source = value.sourceAttribute;
             let payment = this.paymentData ;
             let fees = (payment.fees === undefined && payment.fees === null  ? '0' : payment.fees);
             let amount = (payment.amountSend === undefined && payment.amountSend === null ? '0' : payment.amountSend);
             payment.totalAmount = parseFloat(amount) + parseFloat(fees);
             this.paymentData = payment;
-        }).catch( (error) =>  {
+        })
+        .then((value) => {
+            return this.reloadFX();
+        })
+        /*.then((value) => {
+            return this.handleConfirm();
+        })*/
+        .catch( (error) =>  {
             console.log(error);
             this.showToastMode(null, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
-        }).finally( () => {
+        })
+        .finally( () => {
             this.spinner = false;
         });
     }
@@ -241,23 +270,7 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     <Date>          <Author>            <Description>
     19/06/2020      Bea Hill            Initial version
     */
-    sendToLanding(event){
-        if (this.source != 'landing-payment-details') {
-            this.sendToLandingHelper(event,false);
-        } else {
-            window.history.back();
-        }
-    }
-
-    /*
-    Author:        	Bea Hill
-    Company:        Deloitte
-    Description:    Get user info, set mock data for demo, and get params from URL
-    History:
-    <Date>          <Author>            <Description>
-    19/06/2020      Bea Hill            Initial version
-    */
-    sendToLandingHelper (event,discard) {
+    sendToLanding (discard) {
         var url = 'c__signed=' + discard;
         this.goTo(this.onwardPage, url);
     }
@@ -271,7 +284,10 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     19/06/2020      Bea Hill            Initial version
     */
     sendOTP_Strategic(event){
-		helper.sendOTP_Strategic(
+        var waitingAuthorizationComponent  = this.template.querySelector("c-lwc_waiting-authorization");
+        waitingAuthorizationComponent.setSpinner(true);
+
+        helper.sendOTP_Strategic(
             this.paymentData,
             this.paymentId,
             this.debitAmountString,
@@ -279,30 +295,38 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
             this.exchangeRateString,
             this.paymentAmountString,
             this.label.CNF_mockeoFirmas,
-            this.validateOTP,
             this.OTP,
             this.signLevel,
-            this.OTPWrongCheckSMS)
+            this.label.OTPWrongCheckSMS,
+            this.navigatorInfo)
             .then((value) => {
                 this.errorSign = value.errorSignAttribute;
                 this.errorOTP = value.errorOTPAttribute;
                 this.spinnerVerificationCode = value.spinnerVerificationCodeAttribute;
-             }).catch((error) => {
+                this.sendToLanding(true);
+             })
+             .catch((error) => {
                  this.spinnerCountDown = false;
                  this.errorSign = error.errorSignAttribute;
                  this.errorOTP = error.errorOTPAttribute;
                  this.spinnerVerificationCode = error.spinnerVerificationCodeAttribute;
                  
+                 var isUserCashNexusOrMultiOneTrade =(this.userData  != undefined && this.userData.cashNexus  != undefined  && this.userData.multiOneTrade  != undefined ) 
+                 ? (this.userData.cashNexus  === false &&  this.userData.multiOneTrade === false) : true;
+
                  var waitingAuthorizationComponent  = this.template.querySelector("c-lwc_waiting-authorization");
                  waitingAuthorizationComponent.setError(this.isError());
-                 waitingAuthorizationComponent.setLocaluser(this.isUserCashNexusOrMultiOneTrade());
-                 
+                 waitingAuthorizationComponent.setLocaluser(isUserCashNexusOrMultiOneTrade);
 
                  this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
 
-                }).finally(() => {
+            })
+            .finally(() => {
                  this.spinnerCountDown = false;
-             });
+                 var waitingAuthorizationComponent  = this.template.querySelector("c-lwc_waiting-authorization");
+                 waitingAuthorizationComponent.setSpinner(false);
+
+            });
 
           
     }
@@ -322,39 +346,122 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     /*
     Author:        	Bea Hill
     Company:        Deloitte
-    Description:    Get user info, set mock data for demo, and get params from URL
+    Description:    Get payment details
     History:
     <Date>          <Author>            <Description>
-    19/06/2020      Bea Hill            Initial version
+    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    checkOTP(){
-		helper.checkOTP();
+    reloadFX(event){
+        return new Promise((resolve, reject) => {
+            this.reloadAction ='c.reloadFX';
+            this.reload = false;
+            this.scaUid = '';
+            this.errorSign = true;
+            this.spinnerCountDown = true;
+            resolve('ok');
+        }).then((value) => {
+            return this.reloadFXValue(false);
+        }).then( (value) => {
+            return this.reloadFXValue(true);
+        }).catch( (error) => {
+            console.log(error);
+            this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
+        }).finally( () => {
+            this.spinnerCountDown = false;
+        });
     }
+
 
     /*
     Author:        	Bea Hill
     Company:        Deloitte
-    Description:    Get user info, set mock data for demo, and get params from URL
+    Description:    Get payment details
     History:
     <Date>          <Author>            <Description>
-    19/06/2020      Bea Hill            Initial version
+    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    reloadFX(event) {
-        this.reloadAction = this.reloadFX;
-        this.scaUid = '';
-        this.reload = false;
-        this.errorSign = true;
-        this.spinnerCountDown = true;
-        helper.reloadFX(this.paymentData,this.paymentId,this.accountData)
-        .then((value) => {
-           this.spinnerCountDown = false;
-        }).catch( (error)  =>{
-            this.spinnerCountDown = false;
-            this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
-        }).finally(()  =>{
-            this.spinnerCountDown = false;
-        });
+    reloadFXValue (feesBoolean) {
+        return new Promise( (resolve, reject) => {
+            let payment = this.paymentData;
+            let paymentFees = ((payment.fees == undefined || payment.fees != undefined) ? '' : payment.fees);
+            let paymentCurrency = ((payment.paymentCurrency == undefined || payment.paymentCurrency != undefined)   ? '' : payment.paymentCurrency);
+            let feesCurrency = ((payment.feesCurrency == undefined || payment.feesCurrency != undefined)  ? '' : payment.feesCurrency);
+            if (feesBoolean == true && ((paymentFees === '' || feesCurrency === '' || (paymentFees === '' &&  (paymentCurrency === feesCurrency))))) {
+                resolve('ok');
+            }else if (feesBoolean == false && payment.sourceCurrency === payment.beneficiaryCurrency) {
+                resolve('ok');
+            } else {
+                getExchangeRate({
+                    paymentId: this.paymentId,
+                    accountData: this.accountData,
+                    payment: payment,
+                    feesBoolean : feesBoolean
+                })
+                .then((actionResult) => {
+                        let stateRV = actionResult;
+                        console.log(stateRV);
+                        console.log(payment.amountSend);
+                        if (stateRV.success) {
+                            if (feesBoolean === true){
+                                if (stateRV.value.convertedAmount != undefined && stateRV.value.convertedAmount != null) {
+                                    payment.fees = stateRV.value.convertedAmount;
+                                    if (payment.convertedAmount != null && payment.convertedAmount != undefined && payment.addFees == true) {
+                                        payment.totalAmount =  parseFloat(stateRV.value.convertedAmount) + parseFloat(payment.amountSend);
+                                    }
+                                }
+                                if (stateRV.value.output != undefined && stateRV.value.output != null) {
+                                    payment.FXFeesOutput = stateRV.value.output;
+                                    //payment.FXoutput = stateRV.value.output;
+                                } 
+                                this.paymentData =  payment;
+                                this.expiredFX = false;
+                                resolve('ok');     
+                            } else {
+                                if (stateRV.value.exchangeRate != null && stateRV.value.exchangeRate != undefined) {
+                                    payment.tradeAmount = stateRV.value.exchangeRate;
+                                    payment.operationNominalFxDetails.customerExchangeRate = stateRV.value.exchangeRate;
+                                } 
+                                if (stateRV.value.timestamp != undefined && stateRV.value.timestamp != null) {
+                                    payment.timestamp = stateRV.value.timestamp;
+                                }
+                                if (stateRV.value.fxTimer != undefined && stateRV.value.fxTimer != null) {
+                                    payment.FXDateTime = stateRV.value.fxTimer;
+                                }
+                                if (stateRV.value.convertedAmount != undefined && stateRV.value.convertedAmount != null) {
+                                    if(stateRV.value.amountObtained == 'send'){
+                                        payment.amountSend = stateRV.value.convertedAmount;
+                                    }
+                                    if(stateRV.value.amountObtained == 'received'){
+                                        payment.amountReceive = stateRV.value.convertedAmount;
+                                    }
+                                    payment.convertedAmount = stateRV.value.convertedAmount;
+
+                                    payment.amountOperative = stateRV.value.convertedAmount;
+                                    if ( paymentFees != ''  && payment.addFees === true) {
+                                        payment.totalAmount =  parseFloat(payment.amountSend) + parseFloat(paymentFees);
+                                    }
+                                    
+                                }
+                                if (stateRV.value.output != undefined && stateRV.value.output != null) {
+                                    //payment.FXFeesOutput = stateRV.value.output;
+                                    payment.FXoutput = stateRV.value.output;
+                                }    
+                                this.paymentData =  payment;
+                                this.expiredFX = false;
+                                resolve('ok');                            
+                            }
+                        } else {
+                            reject('ko');
+                        }
+                    
+                })
+                .catch( (error)  =>{
+                    reject('ko');
+                });
+            }
+        }, this);
     }
+
 
      /*
     Author:        	Bea Hill
@@ -366,35 +473,37 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     */
     handleConfirm(event) {
         this.spinner = true;
-
         this.reload = false;
-        this.reloadAction = this.sendOTP_Strategic;
+        this.reloadAction = 'this.sendOTP_Strategic';
         this.spinnerVerificationCode = true;
 
         helper.beginAuthorize(this.signLevel,this.paymentData,this.paymentId,
                             this.debitAmountString,this.feesString,this.exchangeRateString,
-                            this.paymentAmountString,this.label.CNF_mockeoFirmas,this.navigatorInfo)
+                            this.paymentAmountString,this.label.CNF_mockeoFirmas,
+                            this.OTP,this.label.OTPWrongCheckSMS,this.navigatorInfo)
         .then((value) => {
             this.localWindow = value.winAttribute;
             this.scaUid = value.scaUidAttribute;
             this.errorSign = value.errorSignAttribute; 
             this.errorOTP = value.errorOTPAttribute; 
             this.spinnerVerificationCode = value.spinnerVerificationCodeAttribute; 
-            
+               
             this.message = value.messageAttribute; 
             this.showOTP = value.showOTPAttribute; 
+
+            this.sendToLanding(true);
         }).catch((error) => {
-            this.errorSign = value.errorSignAttribute; 
-            this.errorOTP = value.errorOTPAttribute; 
-            this.spinnerVerificationCode = value.spinnerVerificationCodeAttribute; 
-            
-            this.message = value.messageAttribute; 
+            this.errorSign = error.errorSignAttribute === undefined ? true : error.errorSignAttribute ; 
+            this.errorOTP = error.errorOTPAttribute === undefined ? true : error.errorOTPAttribute ; 
+            this.spinnerVerificationCode = error.spinnerVerificationCode === undefined ? false : error.spinnerVerificationCode ;  
+            this.message = error.messageAttribute; 
 
             if(error.showOTPAttribute != undefined){
-                this.showOTP = value.showOTPAttribute;  
+                this.showOTP = error.showOTPAttribute;  
             }
             this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
         }).finally(() => {
+            this.spinnerVerificationCode = true;
             this.spinner = false;
         });
 	}
@@ -409,7 +518,7 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     */
     handleAuthorize() {
         this.reload = false;
-        this.reloadAction = this.handleAuthorize ;
+        this.reloadAction = 'this.handleAuthorize' ;
 		if (this.showOTP === true) {
             helper.checkOTP();
 		}
@@ -427,13 +536,151 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
         var cometd = new org.cometd.CometD();
         this.cometd = cometd;
         if (this.sessionId != null) {
-            helper.connectCometd();
+            this.connectCometd(this.cometd,this.sessionId,this.expiredFX,this.errorOTP,this.scaUid,
+                this.signLevel,this.cometdSubscriptions,this.localWindow,this.paymentId);
         }else{
-            helper.auxCometD(this.cometd,this.expiredFX,this.errorOTP,
-                this.scaUid,this.errorSign,this.signLevel,
-                this.cometdSubscriptions,this.localWindow);
+            this.auxCometD(this.cometd,this.expiredFX,this.errorOTP,this.scaUid,
+                this.signLevel,this.cometdSubscriptions,this.localWindow,this.paymentId);
         }
     }
+
+
+    /*
+    Author:        	Bea Hill
+    Company:        Deloitte
+    Description:    Get payment details
+    History:
+    <Date>          <Author>            <Description>
+    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
+    */
+   auxCometD (cometd,expiredFX,errorOTP,scaUid,signLevel,cometdSubscriptions,localWindow,paymentId){
+        window.addEventListener('unload',  (event)  => {
+            this.disconnectCometd(cometd,cometdSubscriptions);
+        });
+        getSessionId()
+        .then((response)  => {
+                //component.set('v.sessionId', response.getReturnValue());
+                if (cometd != null) {
+                    var sessionId = response;
+                    this.connectCometd(cometd,sessionId,expiredFX,errorOTP,scaUid,
+                                            signLevel,cometdSubscriptions,localWindow,paymentId);
+                }
+        })
+        .catch(errors => {
+            console.log('Error message: ' + errors);
+        });
+    }
+
+    /*
+    Author:        	Bea Hill
+    Company:        Deloitte
+    Description:    Get payment details
+    History:
+    <Date>          <Author>            <Description>
+    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
+    */
+    // METHODS TO CONNECT WITH THE WS_OTPVALIDATION SERVICE
+    connectCometd (cometd,sessionId,expiredFX,errorOTP,scaUid,
+                signLevel,cometdSubscriptions,localWindow,paymentId) {
+        return new Promise( (resolve, reject) => {
+            var cometdUrl = window.location.protocol + '//' + window.location.hostname + '/cometd/40.0/';
+            cometd.configure({
+                'url': cometdUrl,
+                'requestHeaders': {
+                    'Authorization': 'OAuth '+ sessionId
+                },
+                'appendMessageTypeToURL' : false
+            });
+            cometd.websocketEnabled = false;
+            console.log('Connecting to CometD: '+ cometdUrl);
+            cometd.handshake((handshakeReply) => {
+                if (handshakeReply.successful) {
+                    console.log('Connected to CometD.');
+                    var newSubscription = cometd.subscribe('/event/OTPValidation__e',  (platformEvent) => {
+                        if(expiredFX === false && errorOTP === false){
+                            if(platformEvent.data.payload.scaUid__c === scaUid){
+                                var win = localWindow;
+                                if(win != undefined && win != null){
+                                    win.close();
+                                }
+                                if (platformEvent.data.payload.status__c == 'KO' || platformEvent.data.payload.status__c == 'ko') {
+                                    this.errorSign =true;
+                                } else {
+                                    this.spinnerVerificationCode = true;
+                                        let signature = signLevel;
+                                        if (signature.lastSign == 'true') {
+                                            helper.signPayment(paymentId,true,scaUid)
+                                            .then((value) => {
+                                                return helper.handleExecutePayment(this.paymentId,this.paymentData);
+                                            })
+                                            .then((value) => {
+                                                return helper.deleteSignatureRecord(paymentId);
+                                            })
+                                            .then((value) => {
+                                                return helper.sendNotification(this.paymentData);
+                                            })
+                                            .then((value) => {
+                                                this.sendToLanding(true);
+                                            })
+                                            .catch( (error)  =>{
+                                                this.errorOTP = true;
+                                                this.errorSign = true;
+                                            })
+                                            .finally(() => {
+                                                this.spinnerVerificationCode = false;
+                                            });
+                                        } else {
+                                            helper.signPayment(paymentId,false,scaUid)
+                                            .then((value) => {
+                                                this.sendToLanding(true);
+                                            })
+                                            .catch( (error)  =>{
+                                                this.errorOTP = true;
+                                                this.errorSign = true;
+                                            })
+                                            .finally(() => {
+                                                this.spinnerVerificationCode = false;
+                                            });
+                                        }
+                                        
+                                }
+                            }
+                        }
+                    });
+                    if(cometdSubscriptions != undefined){
+                        var subscriptions = cometdSubscriptions;
+                        subscriptions.push(newSubscription);
+                        this.cometdSubscriptions = subscriptions;
+                    }
+                } else {
+                    console.error('Failed to connected to CometD.');
+                }
+            });
+        }, this);
+    }
+
+    /*
+    Author:        	Bea Hill
+    Company:        Deloitte
+    Description:    Get payment details
+    History:
+    <Date>          <Author>            <Description>
+    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
+    */
+    disconnectCometd(cometd,cometdSubscriptions){
+        cometd.batch( () => {
+            var subscriptions = cometdSubscriptions;
+            if(subscriptions != undefined){
+                subscriptions.forEach( (subscription) => {
+                    cometd.unsubscribe(subscription);
+                });
+            }
+        });
+        this.cometdSubscriptions = [];
+        cometd.disconnect();
+        console.log('CometD disconnected.');
+    }
+
 
         
      /*
@@ -471,7 +718,7 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     <Date>          <Author>            <Description>
     23/06/2020      Beatrice Hill       Adapted from CMP_AccountsCardRow
     */
-    goTo(event,page, url){
+    goTo(page, url){
         if(url != undefined && url != ''){
             helper.encrypt(url)
             .then((results) => {
@@ -488,13 +735,13 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
             })
             .catch((error) => {
                 console.log('Error doInit: ' + error);
-                this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
+                //this.showToastMode(event, this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
             })
             .finally(() => {
                 console.log('Operation Finally ');
             })
         }else{
-            this.results  = '';
+            var results  = '';
             this[NavigationMixin.Navigate]({
                     "type": "comm__namedPage",
                     "attributes": {
@@ -536,11 +783,11 @@ export default class Lwc_b2b_authorization extends  NavigationMixin(LightningEle
     }
 
     get isSignatoryAndLastSign(){
-        return this.signLevel.signatory === true &&  this.signLevel.lastSign === true;
+        return this.signLevel != undefined && this.signLevel.signatory === true &&  this.signLevel.lastSign === true;
     }
 
     get isSignatoryAndLastSignAndCurrenciesNotEquals(){
-        return (this.signLevel.signatory === true &&  this.signLevel.lastSign === true) 
+        return this.signLevel != undefined &&  (this.signLevel.signatory === true &&  this.signLevel.lastSign === true) 
                     && (this.paymentData.sourceCurrency != this.paymentData.beneficiaryCurrency);
     }
 

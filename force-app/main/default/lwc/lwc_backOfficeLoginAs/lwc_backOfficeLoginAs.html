@@ -1,0 +1,17 @@
+<template>
+    <c-lwc_service-component 
+        data-id="Service"
+        onsuccesscallback={handleService}>
+    </c-lwc_service-component>
+    <lightning-card title="Search for a user to login as" icon-name="standard:user">
+        <c-lwc_login-as-lookup    
+            objectname="User" 
+            fieldnames={fieldnames}
+            label="Search for a user to log in"
+            iconname="standard:user"
+            value={selectedUserId}
+            onselectedvalue={handleValue}>
+        </c-lwc_login-as-lookup>
+        <lightning-button variant="brand" label="Log in" title="Brand action" disabled={buttonDisabled} onclick={login}></lightning-button>
+    </lightning-card>
+</template>

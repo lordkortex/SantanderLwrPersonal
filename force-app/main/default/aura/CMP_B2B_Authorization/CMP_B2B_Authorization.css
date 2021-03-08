@@ -193,10 +193,9 @@
 
 .THIS .container_lastStep .slds-card__body .slds-card__header-title .line-title{
     border-radius: 0;
-    border-top: 1px solid #cedee7;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
     margin-top: 4px;
 }
-
 
 .THIS .container_lastStep .slds-card__body .slds-card__header-title span{
     font-family: "SantanderHeadlineW05-Rg";
@@ -219,34 +218,6 @@
 
 .THIS .container_lastStep .reference .slds-grid{
     margin-bottom: 24px;
-}
-
-/* CARD AUTORIZACIÓN */
-.THIS.container_lastStep .authorization_card{
-    margin-top: 24px;
-}
-/* CARD CONTACTO */
-.THIS .cardProcessExit{
-   	background-color: transparent;
-}
-
-/* ESTADO POR DEFECTO */
-.THIS.container_lastStep .authorization_card,
-.THIS.container_lastStep .contact,
-.THIS.container_lastStep > .slds-card .progress-ring_container {
-    display: none;
-}
-
-/* ESTADO CONFIRMADO */
-.THIS.container_lastStep.confirm .authorization_card,
-.THIS.container_lastStep.confirm .contact,
-.THIS.container_lastStep.confirm > .slds-card .progress-ring_container{
-    display: flex;
-    justify-content: center;
-}
-
-.THIS.container_lastStep.confirm .confirmation_buttons {
-    display: none;
 }
 
 
@@ -343,33 +314,19 @@
     color: #444444;  
 } 
 
-.THIS.container_lastStep .amount .col .text {
-   font-family: SantanderMicroText;
+.THIS .container_lastStep .amount .text {
+    font-family: SantanderMicroText;
     font-size: 16px;
     line-height: 24px;
     color: #444444;
 }
 
-.THIS.container_lastStep .amount .col .number {
+.THIS .container_lastStep .amount .number {
     font-family: SantanderMicroText;
     font-size: 14px;
     line-height: 21px;
     color: #444444;
 }
-
-.THIS.container_lastStep .amount .col.noResults div.text:nth-child(1),
-.THIS.container_lastStep .amount .col.noResults div.number:nth-child(1){
-    display: none;
-}
-.THIS.container_lastStep .amount .col div.text:nth-child(2),
-.THIS.container_lastStep .amount .col div.number:nth-child(2) {
-    display: none;
-}
-.THIS.container_lastStep .amount .col.noResults div.number:nth-child(2),
-.THIS.container_lastStep .amount .col.noResults div.text:nth-child(2) {
-    display: block;
-}
-
 
 /* FOOTER  */
 
@@ -379,16 +336,15 @@
 }
 
 .THIS .container_lastStep .slds-card__footer {
-     text-align: start;
+    text-align: start;
     margin-top: 0;
     padding: 16px 0 0 0;
-    border-top: 1px solid #cedee7;
+    border-top: 1px solid rgba(0, 0, 0, 0.15);
     font-family:SantanderHeadlineW05-Bold;
     font-size: 24px;
     line-height: 29px;
     color: #444444;
 }
-
 
 .THIS .container_lastStep .slds-card__footer .title-number span,
 .THIS .container_lastStep .slds-card__footer .title-text{
@@ -401,7 +357,7 @@
 
 .THIS .container_lastStep .slds-card__footer .title-number{
     font-size: 32px;
-    line-height: 38px;
+    line-height: 32px;
     text-align: end;
 }
 
@@ -425,10 +381,10 @@
 }
 
 /* BOTÓN */
-.THIS.container_lastStep .confirmation_buttons{
+.THIS .container_lastStep .slds-form-element{
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
 .THIS .container_lastStep .slds-button{
@@ -477,7 +433,7 @@
     border-radius: 4px;
     background-color: #ffffff;
     padding: 8px 16px 16px 16px;
-    box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08);
+    box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
 }
 
 .THIS .container_lastStep .tooltip_center__top .slds-nubbin_bottom::before,
@@ -490,7 +446,7 @@
     left: 184px;
     bottom: -12px;
     margin-left: 0;
-    box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08)!important;
+    box-shadow: 4px 3px 8px -4px rgba(206, 214, 219, 0.4)!important;
     z-index: -1;
     border-radius: 0 0 4px 0;
 }
@@ -679,12 +635,6 @@
     font-family: "SantanderMicroText";
     height:32px;
 }
-
-/* SCROLLBAR */
-.THIS ::-webkit-scrollbar { width: 6px;}
-.THIS ::-webkit-scrollbar-track { border-radius: 10px;}
-.THIS ::-webkit-scrollbar-track-piece { background: transparent;}
-.THIS ::-webkit-scrollbar-thumb { background: #dadada; border-radius: 10px;}
 
 /* .THIS .progress-ring_container__update .slds-button:hover, 
 .THIS .progress-ring_container__update .slds-button:focus, 

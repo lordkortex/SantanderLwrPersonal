@@ -1,0 +1,36 @@
+<template>
+    <!-- COMPONENT MARKUP -->
+    <div class="slds-text-heading_medium title">{title}</div>
+
+    <template if:true={isshowingtoast}>
+        <c-lwc_success-toast 
+            messagetext={toasttext} 
+            showtoast={isshowingtoast}>
+        </c-lwc_success-toast>
+    </template>
+
+    <div class="slds-card__header slds-grid container">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <template if:true={isNotNullSubtitle}>
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title text">
+                        {subtitle}
+                    </div>
+                </div>
+            </template>
+            <template if:true={displayAnyIcon}>
+                <div class="actions">
+                    <template if:true={displaydownloadicon}>
+                        <div id="downloadIcon" class="button-download icon-download" title="Download" onclick={onButtonClick}></div>     
+                    </template>
+                    <template if:true={displayaddicon}>
+                        <div id="addIcon" class="button-add icon-add" title="Add" onclick={onButtonClick}></div>  
+                    </template>  
+                    <template if:true={displaysearchicon}>
+                        <div id="searchIcon" class="button-search icon-search" title="Search" onclick={onButtonClick}></div>
+                    </template>
+                </div>
+            </template>
+        </header>
+    </div>
+</template>

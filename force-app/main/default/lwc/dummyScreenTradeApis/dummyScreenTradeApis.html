@@ -1,0 +1,164 @@
+<template>
+<!-- lwc_payments_landing_parent -->
+    <table class="slds-table" aria-multiselectable="true" role="grid">
+        <!-- HEADER -->
+        <thead>
+            <tr>
+                <th scope="col">
+                    <div class="slds-truncate slds-cell-fixed">Trade Id</div>
+                </th>
+                <th  aria-label="Name" scope="col">
+                    <div class="slds-truncate slds-cell-fixed" >Status</div>
+                </th>
+                <th scope="col">
+                      <div class="slds-truncate slds-cell-fixed" >Product</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate slds-cell-fixed">Date Created</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate slds-cell-fixed">Value Date</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate slds-cell-fixed">Dealt Amount
+                    </div>
+                </th>
+                <th  scope="col">
+                    <div class="slds-truncate slds-cell-fixed">Contra Amount</div>
+                </th>
+                <th   scope="col">
+                    <div class="slds-truncate slds-cell-fixed">Rate</div>
+                </th>
+                <th   scope="col">
+                    <div class="slds-truncate slds-cell-fixed">Target Account</div>
+                </th>
+            </tr>
+        </thead>
+
+        <!-- BODY -->
+        <tbody>
+            <!--NO DATA -->
+            <template for:each={tradesList} for:item='item' >
+                
+                    <tr key={item.tradeId} class="slds-hint-parent" aria-selected="false">
+                        <td   role="gridcell">{item.tradeId}
+                        </td>
+                        <td   role="gridcell">{item.tradeStatusStructure.status}
+                        </td>
+                        <td   role="gridcell">{item.product}
+                        </td>
+                        <td   role="gridcell">
+                      
+                            {item.dateCreated}
+                            
+                        </td>
+                        <td   role="gridcell">{item.dateSettlement}
+                        </td>
+                        <td   role="gridcell">
+                            <lightning-formatted-number value={item.dealtAmountStructure.amount}
+                             format-style="currency" currency-code={item.dealtAmountStructure.currency}
+                              currency-display-as="symbol"></lightning-formatted-number>{item.dealtAmountStructure.currency}-{item.dealtAmountStructure.side}
+                        </td>
+                        <td   role="gridcell">
+                            <lightning-formatted-number value={item.contraAmountStructure.amount}
+                             format-style="currency" currency-code={item.contraAmountStructure.currency}
+                              currency-display-as="symbol"></lightning-formatted-number>{item.contraAmountStructure.currency}-{item.contraAmountStructure.side}
+                        </td>
+                        <td   role="gridcell">{item.rate}
+                        </td>
+                        <td   role="gridcell">{item.targetAccountStructure.targetAccount}
+                        </td>
+                    </tr>
+            </template>
+        </tbody>
+    </table>
+
+   
+        <div class="contentPag">
+            <div class="slds-grid pagination">
+                <div class="slds-form-element infoPage">
+                    <!-- <template if:true={paymentsNumberGTvaluesZero}> -->
+                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" data-title-right={label.Show_More}>
+                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{selectedvalue}</div>
+                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                    </div>
+                                    <span class="slds-assistive-text">{label.Show_More}</span>
+                                </button>
+                            </div>
+                            <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
+                                <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                   <template for:each={values} for:item="item" for:index="index">
+                                       <div key={item.key}>
+                                            <c-lwc_b2b_select-pagination-dropdown 
+                                                paginationselection={selectedValue} 
+                                                item={item}>
+                                            </c-lwc_b2b_select-pagination-dropdown>
+                                        </div>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div> 
+                        <span class="slds-text-body_regular">{label.B2B_Items_displayed}</span>
+                    <!-- </template> -->
+                </div>
+                <div class="slds-grid navigationPage">   
+                    <div class="slds-text-body_regular">
+                        <!-- <template if:true={selectedValueLEpaymentsNumber}> -->
+                            {firstitem}&nbsp;{label.toMinus}
+                        <!-- </template> -->
+                         &nbsp;{finalitem}&nbsp;{label.of}<strong>{paymentsnumber}&nbsp;{label.B2B_Items}</strong>
+                    </div> 
+                    <!-- <template if:true={selectedValueLEpaymentsNumber}> -->
+                        <!-- <template if:true={isNotFirstPage}> -->
+                            <a class="button-page " data-title-left="Prev page" onclick={handlePreviousPage}><span class="icon-arrowLeft_big"></span> {label.B2B_PREV}</a> 
+                        <!-- </template> -->
+                        <template for:each={pagesNumbers} for:item="number" for:index="key">
+                            <div key={item.key}>
+                                <c-lwc_b2b_number-pagination 
+                                    number={number} 
+                                    currentpage={currentpage} >
+                                </c-lwc_b2b_number-pagination>
+                            </div>
+                        </template>
+                        <!-- <template if:true={isNotLastPage}> -->
+                            <a class="button-page" data-title-left="Next page" onclick={handleNextPage}>{label.B2B_NEXT} <span class="icon-arrowRight_big"></span></a> 
+                        <!-- </template> -->
+                    <!-- </template> -->
+                </div>
+            </div>
+        </div>
+
+
+<!-- Table:<br />
+<table class="slds-table slds-table_bordered slds-table_cell-buffer slds-var-m-bottom_large"> 
+    <thead>
+        <tr class="slds-text-title_caps">
+            <template for:each={columns} for:item="column">
+                <th key={column.label}><div class="slds-truncate">{column.label}</div></th>
+            </template>
+        </tr>
+    </thead>
+    <tbody>
+        <template for:each={tradesList} for:item="row" for:index="index">
+            <tr key={row.label}>
+                <template for:each={row.childs} for:item="field">
+                    <td key={field.label}>
+                        <template if:false={field.haveChilds}>
+                            {field.value}
+                        </template>
+                        <template if:true={field.haveChilds}>
+                            <template for:each={field.childs} for:item="subFields">
+                                {subFields.value} <br key={subFields.label}/>
+                            </template>
+                        </template>
+                    
+                    </td>
+                </template>
+               </tr>
+        </template>
+    </tbody>
+</table> -->
+</template>

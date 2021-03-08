@@ -1,0 +1,106 @@
+<template>
+    <c-lwc_b2b_toast data-id="errorToast"></c-lwc_b2b_toast>
+    <div class="paymentProcess-step4 slds-is-relative" id="step-4" tabindex="-1">
+		<div class="slds-text-heading_large">4. {label.CMP_B2B_PaymentInformation}</div>
+        <!--9814: Delete payment method card -->
+        <!--
+        <div class="slds-col card">
+            <div class="slds-text-heading_subtitle">{label.transferMethod}</div>
+            <article class="slds-card">
+                <span class="slds-badge">{label.Standard}</span>
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                      <div class="slds-media__body title">
+                        <h2 class="slds-card__header-title">
+                            <span>{label.BookTobook}</span>
+                        </h2>
+                          <span class="subtitle">{label.Immediate}</span>
+                      </div>
+                    </header>
+                </div>
+                <div class="line"></div>
+                <div class="slds-card__body">
+                    <div class="slds-card__header-title">
+                        <span>{label.CMP_B2B_PaymentInformation_TransferBetween}</span>
+                    </div>
+                    <template if:true={isNotEmptyConvertedTransaciontFee}>
+                        <span class="subtitle">{label.estimatedFee}&nbsp;
+                            <c-lwc_display-amount 
+                                amount={amountchangedata.convertedTransactionFee} 
+                                decimalclass="number" 
+                                wholeclass="number" 
+                                currency={amountchangedata.convertedTransactionFeeCurrency}
+                                numberformat={userdata.numberFormat}>
+                            </c-lwc_display-amount>
+                        </span>
+                        <template if:false={isNotEmptyConvertedTransaciontFee}>
+                            <template if:true={isNotEmptyTransaciontFee}>
+                                <span class="subtitle">{label.estimatedFee}&nbsp;
+                                    <c-lwc_display-amount 
+                                        amount={amountchangedata.transactionFee} 
+                                        decimalclass="number" 
+                                        wholeclass="number" 
+                                        currency={amountchangedata.transactionFeeCurrency} 
+                                        numberformat={userdata.numberFormat}>
+                                    </c-lwc_display-amount>
+                                </span>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+            </article>
+        </div>-->
+        <div class="slds-text-heading_subtitle">{label.paymentInformation}</div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col">
+                <c-lwc_b2b_reference 
+                    value={mydata.reference} 
+                    errormsg={errorRef} 
+                    steps={steps} 
+                    ismodified={isModified} 
+                    isediting={isediting}>
+                </c-lwc_b2b_reference>
+            </div>
+            <div class="slds-col">
+                <c-lwc_b2b_purpose data-id="dropdown" 
+                    name="purpose" 
+                    selectedvalue={mydata.purpose}
+                    errormsg={errorPurpose}
+                    showdropdown={showDropdown} 
+                    steps={steps}
+                    ismodified={isModified}
+                    isediting={isediting}
+                    onhandledropdown={handleDropdowns}>
+                </c-lwc_b2b_purpose>
+            </div> 
+        </div>    
+        <template if:true={isAccountDataFromChile}>
+            <div class="slds-col">
+                <c-lwc_b2b_comercial-code data-id="dropdown" 
+                    name="comercialCode" 
+                    selectedvalue={mydata.comercialCode} 
+                    steps={steps} 
+                    showdropdown={showDropdown} 
+                    ismodified={isModified} 
+                    isediting={isediting}>
+                </c-lwc_b2b_comercial-code>
+            </div>
+        </template>
+        <div class="slds-col">
+            <c-lwc_b2b_description 
+                value={mydata.description} 
+                steps={steps} 
+                ismodified={isModified} 
+                isediting={isediting}>
+            </c-lwc_b2b_description>
+        </div>    
+
+        <template if:true={spinner}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+        <template if:true={isStepNumberFour}>
+            <c-lwc_b2b_process-continue-button></c-lwc_b2b_process-continue-button>
+        </template>
+    </div>
+</template>

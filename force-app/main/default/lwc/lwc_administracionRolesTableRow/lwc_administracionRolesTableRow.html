@@ -1,0 +1,29 @@
+<template>
+        
+    <tr aria-selected="false" class="slds-hint-parent">
+        <td class="" role="gridcell">
+            <span class="slds-row-number slds-text-body_small slds-text-color_weak"></span>
+        </td>
+        <td class="" role="gridcell">
+            <span class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate" title="">{rowdata.rolName}</span>
+            </span>
+        </td>
+        <td class="input" role="gridcell">
+            <span class="slds-grid slds-grid_align-spread">
+                <input class="slds-input" type="text" id="text-input-id-1" value={rowdata.rolAlias} onblur={updateRowData}/>
+                <template if:true={existsRolAlias}>
+                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title={label.T_Delete} onclick={clearRolAlias}>
+                        <div class="slds-button__icon slds-button__icon_hint icon-close_filledCircle"></div>
+                    </button>
+                </template>
+            </span>
+        </td>
+        <td class="" role="gridcell">
+            <span class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate" title=""></span>
+            </span>
+        </td>
+    </tr>
+	
+</template>

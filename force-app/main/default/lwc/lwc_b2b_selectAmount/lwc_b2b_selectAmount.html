@@ -1,0 +1,161 @@
+<template>
+<!--
+    <aura:handler name="init"              action="{!c.initComponent}" value="{!this}" />
+    <aura:handler name="changeInputAmount" action="{!c.handleChange}"  event="c:EVT_B2B_InputAmount" />
+
+    <aura:method access="public" name="checkContinue" action="{!c.handleCheckContinue}">
+    <aura:method access="public" name="editingProcess" action="{!c.handleEditingProcess}">
+            
+    <aura:registerEvent name="completeStep" type="c:EVT_B2B_CompleteStep"/>
+-->
+    <div class={mainClass} id="step-3" tabindex="-1">
+		<div class="slds-text-heading_large">{label.B2B_Step_3_Header}</div>
+   
+		<div class="from">
+            <template if:true={isNotEqualCurrencyCodeofSourceAccountAndRecipientAccount}>
+                <template if:true={existSourceAccountDataAlias}>
+                    <div class="slds-text-heading_subtitle">{nameOfStepThreeFromAndAlias}</div>
+                    <template if:false={existSourceAccountDataAlias}>
+                        <div class="slds-text-heading_subtitle">{nameOfStepThreeFromAndNumber}</div>
+                    </template>
+                </template>
+            </template>
+            <div class="slds-grid">
+                <c-lwc_b2b_input-amount data-id="sourceAmountInput"
+                    numberformat={userdata.numberFormat}
+                    acccurrency={sourceaccountdata.currencyCodeAvailableBalance}
+                    value={mydata.amountSend}
+                    inputid="sourceAmountInput"
+                    errormsg={errormsg}
+                    handlechange={handleChangeSend}
+                    steps={steps}
+                    ismodified={ismodified}
+                    disablefrom={disablefrom}
+                    disableto={disableto}
+                    disabled={disablefrom}
+                    accountdata={accountdata}>
+                </c-lwc_b2b_input-amount>
+                
+                <template if:true={existAvailableBalacenOnSourceAccount}>
+                    <div class="slds-form-element box">
+                        <div class="slds-box availableBalance">
+                            <h2 class="slds-text-heading_small slds-truncate">{label.B2B_Available_Balance}</h2>
+                            <p class="slds-truncate">
+                                <c-lwc_display-amount data-id ="avaibleBalanceRow"
+                                    amount={sourceaccountdata.amountAvailableBalance}
+                                    decimalclass="slds-truncate"
+                                    wholeclass="slds-truncate"
+                                    currency={sourceaccountdata.currencyCodeAvailableBalance}
+                                    numberformat={userdata.numberFormat}>
+                                </c-lwc_display-amount>
+                            </p>
+                        </div>
+                        <div class="textBox">
+                            <div class="icon-time"></div>
+                            <span class="text">Updated at <span class="textBold">{timesourcebalance}</span></span>
+                        </div>
+                    </div>                    
+                </template>
+            </div>
+        </div>
+        <template if:true={isNotEqualCurrencyCodeofSourceAccountAndRecipientAccount}>          
+            <div>
+                <div class="icon-arrowDown"></div>
+                <template if:true={exchangeRateNotZero}>
+                    <template if:true={isCibFalseOrEmpty}>
+                        <div class="slds-box indicativeRate">
+                            <h2 class="slds-text-heading_small slds-truncate">
+                                <template if:true={mydata.fromOrigin}>
+                                    <span class="amount">
+                                        <c-lwc_display-amount
+                                            amount={mydata.exchangeRateToShow}
+                                            decimalclass="amount"
+                                            wholeclass="amount"
+                                            numberofdec="4"
+                                            wholedecimal = "true"
+                                            numberformat={userdata.numberFormat}> <!--{!' ' + v.sourceaccountdata.currencyCodeAvailableBalance + ' / ' + recipientaccountdata.currencyCodeAvailableBalance}</span>-->
+                                        </c-lwc_display-amount>
+                                        {label.EUR} / {label.GBP}
+                                    </span>
+                                    <template if:false={mydata.fromOrigin}>
+                                        <span class="amount">
+                                            <c-lwc_display-amount
+                                                amount={mydata.exchangeRateToShow}
+                                                decimalclass="amount"
+                                                wholeclass="amount"
+                                                numberofdec="4"
+                                                wholedecimal = "true"
+                                                numberformat={userdata.numberFormat}> <!-- {!' ' + recipientaccountdata.currencyCodeAvailableBalance + ' / ' + v.sourceaccountdata.currencyCodeAvailableBalance}</span>-->
+                                            </c-lwc_display-amount>
+                                            {label.EUR} / {label.GBP}
+                                        </span>
+                                    </template>
+                                </template>
+                            </h2>
+                            <p>
+                                {label.B2B_Step_3_Indicative_Rate}<span class="hour">{mydata.timestamp}</span> 
+                            </p>
+                        </div>
+                    </template>
+                </template>
+            </div>
+            <div class="to">
+                <template if:true={existSourceAccountDataAlias}>
+                    <div class="slds-text-heading_subtitle">{nameOfStepThreeToAndAlias}</div>
+                    <template if:false={existSourceAccountDataAlias}>>
+                        <div class="slds-text-heading_subtitle">{nameOfStepThreeToAndNumber}</div>
+                    </template>
+                </template>
+
+                <div class="slds-grid">
+                    <c-lwc_b2b_input-amount data-id="recipientAmountInput"
+                        numberformat={userdata.numberFormat}
+                        acccurrency={recipientaccountdata.currencyCodeAvailableBalance}
+                        value={mydata.amountReceive}
+                        inputid="recipientAmountInput"
+                        errormsg=""
+                        handlechange={handleChangeReceive}
+                        steps={steps}
+                        ismodified={ismodified}
+                        disablefrom={disablefrom}
+                        disableto={disableto}
+                        disabled={disableto}
+                        accountdata={accountdata}>
+                    </c-lwc_b2b_input-amount>
+                    
+                    <template if:true={existBalanceOnRecipientAccount}>
+                        <div class="slds-form-element box">
+                            <div class="slds-box availableBalance">
+                                <h2 class="slds-text-heading_small slds-truncate">{label.B2B_Available_Balance}</h2>
+                                <p class="slds-truncate">
+                                    <c-lwc_display-amount
+                                    data-id="avaibleBalanceRow"
+                                    amount={recipientaccountdata.amountAvailableBalance}
+                                    decimalclass="slds-truncate"
+                                    wholeclass="slds-truncate"
+                                    currency={recipientaccountdata.currencyCodeAvailableBalance}
+                                    numberformat={userdata.numberFormat}>
+                                    </c-lwc_display-amount>
+                                </p>
+                            </div>
+                            <div class="textBox">
+                                <div class="icon-time"></div>
+                                <span class="text">Updated at <span class="textBold">{timerecipientbalance}</span></span>                            
+                            </div>
+                        </div>                    
+                    </template>
+                </div>
+            </div>
+        </template>
+  
+        <template if:true={spinner}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+        <template if:true={isStepThreeLastStepModified}>
+            <c-lwc_b2b_process-continue-button></c-lwc_b2b_process-continue-button>
+        </template>
+
+        <c-lwc_b2b_toast data-id="errorToast"></c-lwc_b2b_toast>
+    </div>
+</template>

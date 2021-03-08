@@ -4,13 +4,14 @@ public class WS_B2B_Orchestation_Test {
     @TestSetup
     static void setup(){
         DataFactory.getCustomSettingCryptoKey(true);
-        DataFactory.createWsConfigurationSetting(true);
+        DataFactory.createWsConfigurationSetting(true); 
     }
     
     @isTest
     static void OrchestationConstructor_Test01(){
         
         Test.setMock(HttpCalloutMock.class, new WS_B2B_Orchestation_MockHttp.B2B_Orchestation());
+        Test.setMock(HttpCalloutMock.class, new CNT_PAY_PaymentOptions_MockHttp());
         
         //OrcErrors params
         WS_B2B_Orchestation.OrcErrors orcErrors = new WS_B2B_Orchestation.OrcErrors();
@@ -46,11 +47,11 @@ public class WS_B2B_Orchestation_Test {
         //FxValueDetailsFee params
         WS_B2B_Orchestation.FxValueDetailsFee fxValueDetailsFeeTest = new WS_B2B_Orchestation.FxValueDetailsFee();
         fxValueDetailsFeeTest.FxCommercialMargin = new WS_B2B_Orchestation.FxCommercialMargin();
-        fxValueDetailsFeeTest.fxContravalueId = 'fxContravalueIdTest';
+        fxValueDetailsFeeTest.fxContravalueId = 'test';
         fxValueDetailsFeeTest.fxCounterpaymentAmount = fxValueDetailsFeeTest.FxCommercialMargin;
         fxValueDetailsFeeTest.fxExchangeRate = 'fxExchangeRateTest';
-        fxValueDetailsFeeTest.fxExecutionDate = 'fxExecutionDateTest';
-        fxValueDetailsFeeTest.fxValueDate = 'fxValueDateTest';
+        fxValueDetailsFeeTest.fxExecutionDate = 'test';
+        fxValueDetailsFeeTest.fxValueDate = 'test';
         
         //IntermediateAgent params
         WS_B2B_Orchestation.IntermediateAgent interAgent = new WS_B2B_Orchestation.IntermediateAgent();
@@ -64,11 +65,11 @@ public class WS_B2B_Orchestation_Test {
         tiersTest.amountTier = 123.34;
         tiersTest.amountTierType = 'amountTierTypeTest';
         WS_B2B_Orchestation.FixedAmountPrice fixedAmountPriceTest = new WS_B2B_Orchestation.FixedAmountPrice();
-        fixedAmountPriceTest.amount = 'amountTest';
-        fixedAmountPriceTest.tcurrency = 'tcurrencyTest';
+        fixedAmountPriceTest.amount = '1000';
+        fixedAmountPriceTest.tcurrency = 'PLN';
         tiersTest.fixedAmountPrice = fixedAmountPriceTest;
         WS_B2B_Orchestation.FixedRatePrice fixedRatePriceTest = new WS_B2B_Orchestation.FixedRatePrice();
-        fixedRatePriceTest.tcurrency = 'tcurrencyTest';
+        fixedRatePriceTest.tcurrency = 'PLN';
         fixedRatePriceTest.maximumAmount = 123.45;
         fixedRatePriceTest.minimumAmount = 123;
         fixedRatePriceTest.rate = 10;
@@ -106,7 +107,7 @@ public class WS_B2B_Orchestation_Test {
                                                                     exchRate, exchRate, 
                                                                     pricesData, destinationAccount, 
                                                                     destinationAccount, 'paymentId', 'FXTimer', 
-                                                                    'description', 'clientReference');
+                                                                    'description', 'clientReference','productId','chargebearer','urgencyindicator');
         
         //executePayment v1
         orchestration.setPaymentId('paymentId');
@@ -118,7 +119,7 @@ public class WS_B2B_Orchestation_Test {
                                      destinationAccount, 
                                      'FXTimer', 
                                      'description',
-                                     'clientReference');
+                                     'clientReference','productId','chargebearer','urgencyindicator');
         Test.stopTest();
         
     }
@@ -127,7 +128,7 @@ public class WS_B2B_Orchestation_Test {
     static void OrchestationConstructor_Test02(){
         
         Test.setMock(HttpCalloutMock.class, new WS_B2B_Orchestation_MockHttp.B2B_Orchestation());
-        
+        Test.setMock(HttpCalloutMock.class, new CNT_PAY_PaymentOptions_MockHttp());
         //params
         String str = MockResponse.B2BData_PaymentAmount(); 
         WRAPPER_B2B_Data.PaymentAmount amountData = (WRAPPER_B2B_Data.PaymentAmount) JSON.deserialize(str, WRAPPER_B2B_Data.PaymentAmount.class);

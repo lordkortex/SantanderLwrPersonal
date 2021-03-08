@@ -45,6 +45,7 @@ global class WRAPPER_Balance_LU {
         global Object x_links {get;set;} // in json: _links
         global Object account {get;set;} 
         global List<AccountIdList> accountIdList {get;set;} 
+        global List<CompanyId> companyIdsList {get;set;} 
         global String alias {get;set;} 
         global String aliasGts {get;set;} 
         global AvailableBalance availableBalance {get;set;} 
@@ -98,6 +99,8 @@ global class WRAPPER_Balance_LU {
                             account = parser.readValueAs(Object.class);
                         } else if (text == 'accountIdList') {
                             accountIdList = arrayOfAccountIdList(parser);
+                        } else if (text == 'companyIdsList') {
+                            companyIdsList = arrayOfCompanyIdsList(parser);
                         } else if (text == 'alias') {
                             alias = parser.getText();
                         }else if (text == 'customerId') {
@@ -230,6 +233,32 @@ global class WRAPPER_Balance_LU {
                             idType = parser.getText();
                         } else {
                             System.debug(LoggingLevel.WARN, 'AccountIdList consuming unrecognized property: '+text);
+                            consumeObject(parser);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    global class CompanyId {
+        global String id {get;set;} 
+        global String idType {get;set;}
+        
+        global CompanyId(){
+            System.debug('WRAPPER_Balance_LU.CompanyId');
+        }
+        
+        global CompanyId(JSONParser parser) {
+            while (parser.nextToken() != System.JSONToken.END_OBJECT) {
+                if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
+                    String text = parser.getText();
+                    if (parser.nextToken() != System.JSONToken.VALUE_NULL) {
+                        if (text == 'id') {
+                            id = parser.getText();
+                        } else if (text == 'idType') {
+                            idType = parser.getText();
+                        } else {
+                            System.debug(LoggingLevel.WARN, 'CompanyIdsList consuming unrecognized property: '+text);
                             consumeObject(parser);
                         }
                     }
@@ -419,6 +448,14 @@ global class WRAPPER_Balance_LU {
         if (p.getCurrentToken() == null) p.nextToken();
         while (p.nextToken() != System.JSONToken.END_ARRAY) {
             res.add(new AccountIdList(p));
+        }
+        return res;
+    }
+    private static List<CompanyId> arrayOfCompanyIdsList(System.JSONParser p) {
+        List<CompanyId> res = new List<CompanyId>();
+        if (p.getCurrentToken() == null) p.nextToken();
+        while (p.nextToken() != System.JSONToken.END_ARRAY) {
+            res.add(new CompanyId(p));
         }
         return res;
     }

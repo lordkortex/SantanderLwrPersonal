@@ -1,0 +1,38 @@
+<template>
+    <!-- Apex CNT_UserSettingsAux -->
+        <c-lwc_service-component></c-lwc_service-component>
+    
+        <div class="c-container">
+    
+            <div class="slds-text-heading_small">Market Rates</div>
+            <lightning-layout multiple-rows="true">
+                <!-- ccypairs BLOCK -->
+                <template for:each={userinfo} for:item='item' for:index="index">
+                    <span key={item.index}>
+                        <lightning-layout-item size="4" padding="around-small" >
+                            <article class="slds-card">
+                                <div class="slds-form-element_readonly " id={item.order} onclick={editButtonClicked}>
+                                    <img class="sizeFlag" src={item.flag1} />
+                                    <img class="sizeFlag" src={item.flag2} /> {item.value}
+                                    <br/>
+                                        1 {item.currency1} = 1,41 {item.currency2}
+                                </div>
+                            </article>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="4" padding="around-small"></lightning-layout-item>
+                        <template if:true={item.isediting}>
+                            <c-lwc_widget_ccy_edit userpicklistvalues={userpicklistvalues} userinfoedit={item} onbuttoncancel={cancel}>
+                            </c-lwc_widget_ccy_edit>
+                        </template>  
+                    </span>             
+                </template>   
+            </lightning-layout>
+        </div>
+        <footer class="slds-card__footer">
+            <div class="slds-media__figure">
+                <!-- <img class="sizeFlag" src={imgSource}/>
+                <span class="slds-text-body_regular text-bold slds-truncate">c</span> -->
+            </div>
+        </footer>
+        
+</template>

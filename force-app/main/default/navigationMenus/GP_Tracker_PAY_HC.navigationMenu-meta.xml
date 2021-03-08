@@ -40,8 +40,15 @@
         <type>InternalLink</type>
     </navigationMenuItem>
     <navigationMenuItem>
-        <label>Help &amp; Contact us</label>
+        <label>Payment Detail</label>
         <position>4</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>/paymentlandingpaymentdetail</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Help &amp; Contact us</label>
+        <position>5</position>
         <publiclyAvailable>false</publiclyAvailable>
         <target>/help-and-contact-us</target>
         <type>InternalLink</type>

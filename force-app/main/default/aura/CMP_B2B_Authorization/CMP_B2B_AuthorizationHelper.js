@@ -150,11 +150,26 @@
                 if (actionResult.getState() == 'SUCCESS') {
                     var stateRV = actionResult.getReturnValue();
                     if (stateRV.success) {
-                        component.set('v.userData', stateRV.value.userData);
-                   		resolve('ok');    
-                    }else{
-                        reject('ko');
+                        if (!$A.util.isEmpty(stateRV.value.userId)) {
+                            userData.userId = stateRV.value.userId;
+                        } 
+                        if (!$A.util.isEmpty(stateRV.value.isNexus)) {
+                            userData.isNexus = stateRV.value.isNexus;
+                        } else {
+                            userData.isNexus = false; // Añadir un error PARCHE MINIGO
+                        }
+                        if (!$A.util.isEmpty(stateRV.value.numberFormat)) {
+                            userData.numberFormat = stateRV.value.numberFormat;
+                        }
+                        if (!$A.util.isEmpty(stateRV.value.globalId)) {
+                            userData.globalId = stateRV.value.globalId;
+                        } 
+                        if (!$A.util.isEmpty(stateRV.value.MobilePhone)) {
+                            userData.MobilePhone = stateRV.value.MobilePhone;
+                        } 
                     }
+                    component.set('v.userData', userData);
+                    resolve('ok');    
 
                 } else if (actionResult.getState() == 'ERROR') {
                     var errors = response.getError();
@@ -239,14 +254,14 @@
                         if ($A.util.isEmpty(orchestationOutput) || $A.util.isEmpty(orchestationOutput.level) || (!$A.util.isEmpty(orchestationOutput.level) && orchestationOutput.level != 'OK')) {
                             helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
                             //helper.updateStatus(component,event, helper,'101','001');
-                            // helper.updateStatus(component,event, helper,'999','003');
+                            helper.updateStatus(component,event, helper,'999','003');
                             reject('ko');
                         } else {
                             resolve('ok');
                         }
                     } else {
                         //helper.updateStatus(component,event, helper,'101','001');
-                        // helper.updateStatus(component,event, helper,'999','003');
+                        helper.updateStatus(component,event, helper,'999','003');
                         reject('ko');
                     }
                 } else if (actionResult.getState() == 'ERROR') {
@@ -258,7 +273,7 @@
                     }
 					helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true,'error');
                     //helper.updateStatus(component,event, helper,'101','001');
-                    // helper.updateStatus(component,event, helper,'999','003');
+                    helper.updateStatus(component,event, helper,'999','003');
 
                     reject('ko');
                 }
@@ -382,12 +397,7 @@
             if(paymentData.beneficiaryAccountHolder != undefined){
                 beneficiaryName = paymentData.beneficiaryAccountHolder;
             }
-			console.log("OUTSE");
-            console.log(component.get('v.navigatorInfo').latitude);
-            console.log(component.get('v.navigatorInfo').userAgent);
-            console.log("AQUI");
-            console.log(component.get('v.debitAmountString'));
-            console.log(component.get('v.paymentAmountString'));
+
             action.setParams({
                 'paymentId': component.get('v.paymentId'),
                 'beneficiaryName': beneficiaryName,
@@ -395,38 +405,26 @@
                 'debitAmount': component.get('v.debitAmountString'),
                 'fees': component.get('v.feesString'),
                 'exchangeRate': component.get('v.exchangeRateString'),
-                'paymentAmount': component.get('v.paymentAmountString'),
-                'paymentDetail': paymentData,
-                'service_id' : 'international_payment',
-                'navigatorInfo' : component.get('v.navigatorInfo')
-
+                'paymentAmount': component.get('v.paymentAmountString')
             });
             action.setCallback(this, function (actionResult) {
                 if (actionResult.getState() == 'SUCCESS') {
                     var returnValue = actionResult.getReturnValue();
                     console.log(returnValue);
                     if (!returnValue.success) {
-
                         //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.errorObtainingOTP'), true, 'error');
                     	component.set('v.errorSign', true);
                     	component.set('v.errorOTP', true);
                     	component.set('v.spinnerVerificationCode', false);
                         reject('ko');
                     } else {
-                        if(returnValue.value.initiateOTP.localSigningUrl == null ||returnValue.value.initiateOTP.localSigningUrl == undefined ){
-                            component.set("v.scaUid",returnValue.value.initiateOTP.scaUid );
-                        }else{
-                            component.set("v.scaUid",returnValue.value.initiateOTP.signId );
-                            var win = window.open(returnValue.value.initiateOTP.localSigningUrl, '_blank');
-                            component.set("v.localWindow", win);
-  							win.focus();
-                        }
+                        component.set("v.scaUid",returnValue.value.initiateOTP.scaUid );
                         component.set('v.errorSign', false);
                     	component.set('v.errorOTP', false);
                     	component.set('v.spinnerVerificationCode', false);
-            			if( $A.get('$Label.c.CNF_mockeoFirmas') == 'ok'){
-                        	helper.checkOTP(component, event, helper);
-            			}
+                        if( $A.get('$Label.c.CNF_mockeoFirmas') == 'ok'){
+                            helper.checkOTP(component, event, helper);
+                        }
                         resolve('ok');
                     }
                 } else if (actionResult.getState() == 'ERROR') {
@@ -612,8 +610,8 @@
     reloadFX: function (component, event,  helper) {
         new Promise($A.getCallback(function (resolve, reject) {
             component.set('v.reloadAction', component.get('c.reloadFX'));
-            component.set('v.reload', false);
             component.set("v.scaUid",'');
+            component.set('v.reload', false);
             component.set('v.errorSign', true);
             component.set('v.spinnerCountDown', true);
             resolve('ok');
@@ -666,6 +664,7 @@
                                 if (!$A.util.isEmpty(stateRV.value.output)) {
                                     payment.FXFeesOutput = stateRV.value.output;
                                 }          
+                                payment.feesFXDateTime = helper.getCurrentDateTime(component, event, helper);
                             } else {
                                 if (!$A.util.isEmpty(stateRV.value.exchangeRate)) {
                                     payment.tradeAmount = stateRV.value.exchangeRate;
@@ -673,9 +672,6 @@
                                 } 
                                 if (!$A.util.isEmpty(stateRV.value.timestamp)) {
                                     payment.timestamp = stateRV.value.timestamp;
-                                }
-                                if (!$A.util.isEmpty(stateRV.value.fxTimer)) {
-                                    payment.FXDateTime = stateRV.value.fxTimer;
                                 }
                                 if (!$A.util.isEmpty(stateRV.value.convertedAmount)) {
                                     if(stateRV.value.amountObtained == 'send'){
@@ -694,8 +690,8 @@
                                 }
                                 if (!$A.util.isEmpty(stateRV.value.output)) {
                                     payment.FXoutput = stateRV.value.output;
-                                    
                                 }                               
+                                payment.FXDateTime = helper.getCurrentDateTime(component, event, helper);
                             }
                             component.set('v.paymentData', payment);
                             component.set('v.expiredFX', false);
@@ -712,6 +708,34 @@
                 $A.enqueueAction(action);
             }
         }), this);
+    },
+
+    getCurrentDateTime: function (component, event, helper) {
+        var today = new Date();
+        var month = today.getMonth() + 1;
+        if (month < 10) {
+            month = '0' + month;
+        }
+        var day = today.getDate();
+        if (day < 10) {
+            day = '0' + day;
+        }
+        var date = today.getFullYear() + '-' + month + '-' + day;
+        var hours = today.getHours();
+        if (hours < 10) {
+            hours = '0' + hours;
+        }
+        var minutes = today.getMinutes();
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+        var seconds = today.getSeconds();
+        if (seconds < 10) {
+            seconds = '0' + seconds;
+        }
+        var time = hours + ':' + minutes + ':' + seconds;
+        var dateTime = date + 'T' + time;
+        return dateTime; 
     },
     
     deleteSignatureRecord: function (component, event, helper) {
@@ -828,10 +852,6 @@
                         
                         var scaUid = component.get("v.scaUid");
                         if(platformEvent.data.payload.scaUid__c == scaUid){
-                            var win = component.get("v.localWindow");
-                            if(!$A.util.isEmpty(win)){
-                                win.close();
-                            }
                             if (platformEvent.data.payload.status__c == 'KO' || platformEvent.data.payload.status__c == 'ko') {
                                 component.set("v.errorSign",true);
                             } else {
@@ -914,35 +934,5 @@
             });
             $A.enqueueAction(action);
         }), this);
-    },
-
-            
-    getNavigatorInfo: function (component, event,  helper) {
-        new Promise($A.getCallback(function (resolve, reject) {
-            let navigatorInfo = component.get("v.navigatorInfo");
-            navigatorInfo.userAgent = navigator.userAgent;
-
-            if(navigator.geolocation){
-                navigator.geolocation.getCurrentPosition(function(position){
-
-                navigatorInfo.latitude = position.coords.latitude;
-                navigatorInfo.longitude = position.coords.longitude;
-                    console.log(navigatorInfo.latitude);
-                    console.log(navigatorInfo.longitude);
-                    console.log(navigatorInfo.userAgent);
-                component.set("v.navigatorInfo", navigatorInfo);
-                resolve('ok');
-                }, function(){
-                    component.set("v.navigatorInfo", navigatorInfo);
-                    resolve('ok');                    
-                });
-            }else{
-                component.set("v.navigatorInfo", navigatorInfo);
-                resolve('ok');
-            }
-            
-        })).catch($A.getCallback(function (error) {
-            console.log(error);
-        }));
     }
 })

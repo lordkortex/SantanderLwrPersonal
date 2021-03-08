@@ -1,0 +1,66 @@
+<template>
+           
+    <!-- used to navigate to another page -->
+    <!-- <lightning-navigation data-id="navService"></lightning-navigation> -->
+    <c-lwc_service-component 
+        data-id="Service">
+    </c-lwc_service-component>
+
+    <!--Buttons stage 1-->
+    <template if:true={currentStageNumberEQ1}>
+        <div class="slds-form containerAdmin" role="list">
+            <div class="slds-form__row">
+                <div class="firstPillBig">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" onclick={navigateToDetailsComponent}>{Label.GroupNew_Return}</button>
+                </div>
+                <div class=" lastPillBig">
+                    <button class="slds-button slds-button_brand redButtonBig" onclick={nextStep}>{Label.GroupNew_Continue}</button>              
+                </div>
+            </div>
+        </div>
+    </template>
+    <!--Button stage 2-->
+    <template if:true={currentStageNumberEQ2}>
+        <div class="slds-form containerAdmin" role="list">
+            <div class="slds-form__row">
+                <div class="firstPillBig">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" onclick={backStep}>{Label.GroupNew_Return}</button>
+                </div>
+                <div class=" lastPillBig">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" onclick={navigateToDetailsComponent}>{Label.GroupNew_Cancel}</button>
+                    <button class="slds-button slds-button_brand whiteButtonBig2" onclick={goToSummaryPage}>{Label.GroupNew_SeeAllProfile}</button>
+                    <button class="slds-button slds-button_brand redButtonBig" onclick={nextStep2}>{Label.GroupNew_Continue}</button>              
+                </div>
+            </div>
+        </div>
+    </template>
+    <!--Button stage 3-->
+    <template if:true={currentStageNumberEQ3}>
+        <div class="slds-form containerAdmin" role="list">
+            <div class="slds-form__row">
+                <div class="firstPillBig">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" onclick={backStep2}>{Label.GroupNew_Return}</button>
+                </div>
+                <div class=" lastPillBig">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" onclick={navigateToDetailsComponent}>{Label.GroupNew_Cancel}</button>
+                    <button class="slds-button slds-button_brand redButtonBig" onclick={finishStepsButtons}>{Label.GroupNew_Continue}</button>              
+                </div>
+            </div>
+        </div>
+    </template>
+
+
+    <template if:true={currentStageNumberEQ0}>
+        <div class="slds-form containerAdmin" role="list">
+            <div class="slds-form__row">
+                <div class="firstPillBig">
+                    <button class="slds-button slds-button_brand whiteButtonBig1" onclick={cancelCreation}>{Label.GroupNew_Return}</button>
+                </div>
+                <div class=" lastPillBig">
+                    <button class="slds-button slds-button_brand redButtonBig" onclick={showSaveModal}>{Label.AdminRoles_Save}</button>              
+                </div>
+            </div>
+        </div>
+    </template>
+
+</template>

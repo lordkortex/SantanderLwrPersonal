@@ -7,12 +7,12 @@ History
 <Date>			<Author>		    <Description>
 13/07/2020		Guillermo Giral     Initial version
 ----------------------------------------------------------------------------------*/
-public class WRAPPER_PaymentsTracker {
-    public class Account {
-		@AuraEnabled public String accountId {get;set;} 
-		@AuraEnabled public String idType {get;set;} 
+global class WRAPPER_PaymentsTracker {
+    global class Account {
+		@AuraEnabled global String accountId {get;set;} 
+		@AuraEnabled global String idType {get;set;} 
 
-		public Account(JSONParser parser) {
+		global Account(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -31,11 +31,11 @@ public class WRAPPER_PaymentsTracker {
 		}
 	}
 	
-	public class OriginatorData {
-		@AuraEnabled public String originatorName {get;set;} 
-		@AuraEnabled public AccountIdList originatorAccount {get;set;} 
+	global class OriginatorData {
+		@AuraEnabled global String originatorName {get;set;} 
+		@AuraEnabled global AccountIdList originatorAccount {get;set;} 
 
-		public OriginatorData(JSONParser parser) {
+		global OriginatorData(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -54,42 +54,43 @@ public class WRAPPER_PaymentsTracker {
 		}
 	}
 	
-	public class AccountsDataList {
-		@AuraEnabled public Links_Z x_links {get;set;} // in json: _links
-		@AuraEnabled public Account account {get;set;} 
-		@AuraEnabled public List<AccountIdList> accountIdList {get;set;} 
-		@AuraEnabled public String alias {get;set;} 
-		@AuraEnabled public AvailableBalance availableBalance {get;set;} 
-		@AuraEnabled public Boolean balanceAllowed {get;set;} 
-		@AuraEnabled public String bankDescription {get;set;} 
-		@AuraEnabled public String bankId {get;set;} 
-		@AuraEnabled public AvailableBalance closedAvailableBalance {get;set;} 
-		@AuraEnabled public AvailableBalance closedBalance {get;set;} 
-		@AuraEnabled public String country {get;set;} 
-		@AuraEnabled public String customerId {get;set;} 
-		@AuraEnabled public String customerName {get;set;} 
-		@AuraEnabled public String description {get;set;} 
-		@AuraEnabled public String displayNumber {get;set;} 
-		@AuraEnabled public Flags flags {get;set;} 
-		@AuraEnabled public String hasSwiftPayment {get;set;} 
-		@AuraEnabled public String hasSwiftPayments {get;set;} 
-		@AuraEnabled public Boolean internationalPaymentsAllowed {get;set;} 
-		@AuraEnabled public String lastTransactionDate {get;set;} 
-		@AuraEnabled public String lastUpdateSwiftPayment {get;set;} 
-		@AuraEnabled public AvailableBalance mainBalance {get;set;} 
-		@AuraEnabled public AvailableBalance overdraftLimit {get;set;} 
-		@AuraEnabled public AvailableBalance overdraftUsed {get;set;} 
-		@AuraEnabled public Boolean pain002Active {get;set;} 
-		@AuraEnabled public String parentCustomerName {get;set;} 
-		@AuraEnabled public AvailableBalance pendingBalance {get;set;} 
-		@AuraEnabled public String status {get;set;} 
-		@AuraEnabled public Boolean transactionsAllowed {get;set;} 
-		@AuraEnabled public String type_Z {get;set;} // in json: type
-		@AuraEnabled public AvailableBalance withholdingBalance {get;set;} 
-        @AuraEnabled public Boolean canUserSeeGP {get;set;} 
-        @AuraEnabled public Boolean canUserSeePaymentsTracker {get;set;} 
-        
-		public AccountsDataList(JSONParser parser) {
+	global class AccountsDataList {
+		@AuraEnabled global Links_Z x_links {get;set;} // in json: _links
+		@AuraEnabled global Account account {get;set;} 
+		@AuraEnabled global List<AccountIdList> accountIdList {get;set;} 
+		@AuraEnabled global String alias {get;set;} 
+		@AuraEnabled global AvailableBalance availableBalance {get;set;} 
+		@AuraEnabled global Boolean balanceAllowed {get;set;} 
+		@AuraEnabled global String bankDescription {get;set;} 
+		@AuraEnabled global String bankId {get;set;} 
+		@AuraEnabled global AvailableBalance closedAvailableBalance {get;set;} 
+		@AuraEnabled global AvailableBalance closedBalance {get;set;} 
+		@AuraEnabled global String country {get;set;} 
+		@AuraEnabled global String customerId {get;set;} 
+		@AuraEnabled global String customerName {get;set;} 
+		@AuraEnabled global String description {get;set;} 
+		@AuraEnabled global String displayNumber {get;set;} 
+		@AuraEnabled global Flags flags {get;set;} 
+		@AuraEnabled global String hasSwiftPayment {get;set;} 
+		@AuraEnabled global String hasSwiftPayments {get;set;} 
+		@AuraEnabled global Boolean internationalPaymentsAllowed {get;set;} 
+		@AuraEnabled global String lastTransactionDate {get;set;} 
+		@AuraEnabled global String lastUpdateSwiftPayment {get;set;} 
+		@AuraEnabled global AvailableBalance mainBalance {get;set;} 
+		@AuraEnabled global AvailableBalance overdraftLimit {get;set;} 
+		@AuraEnabled global AvailableBalance overdraftUsed {get;set;} 
+		@AuraEnabled global Boolean pain002Active {get;set;} 
+		@AuraEnabled global String parentCustomerName {get;set;} 
+		@AuraEnabled global AvailableBalance pendingBalance {get;set;} 
+		@AuraEnabled global String status {get;set;} 
+		@AuraEnabled global Boolean transactionsAllowed {get;set;} 
+		@AuraEnabled global String type_Z {get;set;} // in json: type
+		@AuraEnabled global AvailableBalance withholdingBalance {get;set;} 
+		@AuraEnabled global Boolean canUserSeeGP {get;set;} 
+        @AuraEnabled global Boolean canUserSeePaymentsTracker {get;set;} 
+																		 
+		
+		global AccountsDataList(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -166,13 +167,13 @@ public class WRAPPER_PaymentsTracker {
 		}
     }   
     
-    public class CreditorAgent {
-		@AuraEnabled public String agentCode {get;set;} 
-		@AuraEnabled public String agentName {get;set;} 
-		@AuraEnabled public String agentCountry {get;set;} 
-		@AuraEnabled public String agentLocation {get;set;} 
+    global class CreditorAgent {
+		@AuraEnabled global String agentCode {get;set;} 
+		@AuraEnabled global String agentName {get;set;} 
+		@AuraEnabled global String agentCountry {get;set;} 
+		@AuraEnabled global String agentLocation {get;set;} 
 
-		public CreditorAgent(JSONParser parser) {
+		global CreditorAgent(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -195,11 +196,11 @@ public class WRAPPER_PaymentsTracker {
 		}
 	}
 	
-	public class TransactionStatus {
-		@AuraEnabled public String status {get;set;} 
-		@AuraEnabled public String reason {get;set;} 
+	global class TransactionStatus {
+		@AuraEnabled global String status {get;set;} 
+		@AuraEnabled global String reason {get;set;} 
 
-		public TransactionStatus(JSONParser parser) {
+		global TransactionStatus(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -216,15 +217,17 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+
+		global TransactionStatus() {}
 	}
 	
-	public class OriginatorAgent {
-		@AuraEnabled public String agentCode {get;set;} 
-		@AuraEnabled public String agentName {get;set;} 
-		@AuraEnabled public String agentCountry {get;set;} 
-		@AuraEnabled public String agentLocation {get;set;} 
+	global class OriginatorAgent {
+		@AuraEnabled global String agentCode {get;set;} 
+		@AuraEnabled global String agentName {get;set;} 
+		@AuraEnabled global String agentCountry {get;set;} 
+		@AuraEnabled global String agentLocation {get;set;} 
 
-		public OriginatorAgent(JSONParser parser) {
+		global OriginatorAgent(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -245,14 +248,15 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+		global OriginatorAgent() {}
 	}
 	
-	public class Flags {
-		@AuraEnabled public Boolean additionalProp1 {get;set;} 
-		@AuraEnabled public Boolean additionalProp2 {get;set;} 
-		@AuraEnabled public Boolean additionalProp3 {get;set;} 
+	global class Flags {
+		@AuraEnabled global Boolean additionalProp1 {get;set;} 
+		@AuraEnabled global Boolean additionalProp2 {get;set;} 
+		@AuraEnabled global Boolean additionalProp3 {get;set;} 
 
-		public Flags(JSONParser parser) {
+		global Flags(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -271,16 +275,17 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+		global Flags() {}
 	}
 	
-	public class PaymentAmount {
-		@AuraEnabled public Double amount {get;set;} 
-        @AuraEnabled public String currency_X {get;set;} 
-        @AuraEnabled public String paymentAmount_FormattedWholeNumber {get;set;} 
-        @AuraEnabled public String paymentAmount_FormattedDecimalPart {get;set;} 
-        @AuraEnabled public String paymentAmount_FormattedEntirePart {get;set;} 
+	global class PaymentAmount {
+		@AuraEnabled global Double amount {get;set;} 
+        @AuraEnabled global String currency_X {get;set;} 
+        @AuraEnabled global String paymentAmount_FormattedWholeNumber {get;set;} 
+        @AuraEnabled global String paymentAmount_FormattedDecimalPart {get;set;} 
+        @AuraEnabled global String paymentAmount_FormattedEntirePart {get;set;} 
 
-		public PaymentAmount(JSONParser parser) {
+		global PaymentAmount(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -297,13 +302,15 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+
+		global PaymentAmount() {}
 	}
 	
-	public class Links_Z {
-		@AuraEnabled public String accountDetailsLink {get;set;} 
-		@AuraEnabled public String transactionsListLink {get;set;} 
+	global class Links_Z {
+		@AuraEnabled global String accountDetailsLink {get;set;} 
+		@AuraEnabled global String transactionsListLink {get;set;} 
 
-		public Links_Z(JSONParser parser) {
+		global Links_Z(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -320,13 +327,14 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+		global Links_Z() {}
 	}
 	
-	@AuraEnabled public Links x_links {get;set;} // in json: _links
-	@AuraEnabled public List<AccountsDataList> accountsDataList {get;set;} 
-	@AuraEnabled public List<PaymentsList> paymentsList {get;set;} 
+	@AuraEnabled global Links x_links {get;set;} // in json: _links
+	@AuraEnabled global List<AccountsDataList> accountsDataList {get;set;} 
+	@AuraEnabled global List<PaymentsList> paymentsList {get;set;} 
 
-	public WRAPPER_PaymentsTracker(JSONParser parser) {
+	global WRAPPER_PaymentsTracker(JSONParser parser) {
 		while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 			if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 				String text = parser.getText();
@@ -346,12 +354,12 @@ public class WRAPPER_PaymentsTracker {
 		}
 	}
 	
-	public class AvailableBalance {
-		@AuraEnabled public Double amount {get;set;} 
-		@AuraEnabled public String currencyCode {get;set;} 
-		@AuraEnabled public String lastUpdate {get;set;} 
+	global class AvailableBalance {
+		@AuraEnabled global Double amount {get;set;} 
+		@AuraEnabled global String currencyCode {get;set;} 
+		@AuraEnabled global String lastUpdate {get;set;} 
 
-		public AvailableBalance(JSONParser parser) {
+		global AvailableBalance(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -370,13 +378,15 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+
+		global AvailableBalance() {}
 	}
     
-    public class AccountIdList {
-		@AuraEnabled public String accountId {get;set;} 
-		@AuraEnabled public String idType {get;set;} 
+    global class AccountIdList {
+		@AuraEnabled global String accountId {get;set;} 
+		@AuraEnabled global String idType {get;set;} 
 
-		public AccountIdList(JSONParser parser) {
+		global AccountIdList(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -393,14 +403,16 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
-	}
-	public class Links_Y {
-		@AuraEnabled public String paymentTrackerDetailsLink {get;set;} 
-		@AuraEnabled public String x_first {get;set;} // in json: _first
-		@AuraEnabled public String x_prev {get;set;} // in json: _prev
-		@AuraEnabled public String x_next {get;set;} // in json: _next
 
-		public Links_Y(JSONParser parser) {
+		global AccountIdList() {}
+	}
+	global class Links_Y {
+		@AuraEnabled global String paymentTrackerDetailsLink {get;set;} 
+		@AuraEnabled global String x_first {get;set;} // in json: _first
+		@AuraEnabled global String x_prev {get;set;} // in json: _prev
+		@AuraEnabled global String x_next {get;set;} // in json: _next
+
+		global Links_Y(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -421,22 +433,23 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+		global Links_Y() {}
     }
     
-    public class PaymentDetail {
-		@AuraEnabled public String paymentId {get;set;} 
-		@AuraEnabled public OriginatorAgent originatorAgent {get;set;} 
-		@AuraEnabled public TransactionStatus transactionStatus {get;set;} 
-		@AuraEnabled public String statusDate {get;set;} 
-		@AuraEnabled public CancellationStatus cancellationStatus {get;set;} 
-		@AuraEnabled public String issueDate {get;set;} 
-		@AuraEnabled public String valueDate {get;set;} 
-		@AuraEnabled public PaymentAmount paymentAmount {get;set;} 
-		@AuraEnabled public BeneficiaryData beneficiaryData {get;set;} 
-		@AuraEnabled public OriginatorData originatorData {get;set;} 
-		@AuraEnabled public Links_Y x_links {get;set;} // in json: _links
+    global class PaymentDetail {
+		@AuraEnabled global String paymentId {get;set;} 
+		@AuraEnabled global OriginatorAgent originatorAgent {get;set;} 
+		@AuraEnabled global TransactionStatus transactionStatus {get;set;} 
+		@AuraEnabled global String statusDate {get;set;} 
+		@AuraEnabled global CancellationStatus cancellationStatus {get;set;} 
+		@AuraEnabled global String issueDate {get;set;} 
+		@AuraEnabled global String valueDate {get;set;} 
+		@AuraEnabled global PaymentAmount paymentAmount {get;set;} 
+		@AuraEnabled global BeneficiaryData beneficiaryData {get;set;} 
+		@AuraEnabled global OriginatorData originatorData {get;set;} 
+		@AuraEnabled global Links_Y x_links {get;set;} // in json: _links
 
-		public PaymentDetail(JSONParser parser) {
+		global PaymentDetail(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -471,17 +484,18 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+		global PaymentDetail() {}
 	}
 	
-	public class Links {
-		@AuraEnabled public String x_first {get;set;} // in json: _first
-		@AuraEnabled public String x_last {get;set;} // in json: _last
-		@AuraEnabled public String x_next {get;set;} // in json: _next
-		@AuraEnabled public String x_prev {get;set;} // in json: _prev
-		@AuraEnabled public String accountDetailsLink {get;set;} 
-		@AuraEnabled public String transactionsListLink {get;set;} 
+	global class Links {
+		@AuraEnabled global String x_first {get;set;} // in json: _first
+		@AuraEnabled global String x_last {get;set;} // in json: _last
+		@AuraEnabled global String x_next {get;set;} // in json: _next
+		@AuraEnabled global String x_prev {get;set;} // in json: _prev
+		@AuraEnabled global String accountDetailsLink {get;set;} 
+		@AuraEnabled global String transactionsListLink {get;set;} 
 
-		public Links(JSONParser parser) {
+		global Links(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -506,12 +520,14 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+
+		global Links() {}
 	}
 	
-	public class CancellationStatus {
-		@AuraEnabled public String transactionCancellationStatus {get;set;} 
+	global class CancellationStatus {
+		@AuraEnabled global String transactionCancellationStatus {get;set;} 
 
-		public CancellationStatus(JSONParser parser) {
+		global CancellationStatus(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -526,14 +542,16 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+
+		global CancellationStatus() {}
 	}
 	
-	public class BeneficiaryData {
-		@AuraEnabled public String beneficiaryName {get;set;} 
-		@AuraEnabled public AccountIdList creditorCreditAccount {get;set;} 
-		@AuraEnabled public CreditorAgent creditorAgent {get;set;} 
+	global class BeneficiaryData {
+		@AuraEnabled global String beneficiaryName {get;set;} 
+		@AuraEnabled global AccountIdList creditorCreditAccount {get;set;} 
+		@AuraEnabled global CreditorAgent creditorAgent {get;set;} 
 
-		public BeneficiaryData(JSONParser parser) {
+		global BeneficiaryData(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -552,12 +570,13 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+		global BeneficiaryData() {}
 	}
 	
-	public class PaymentsList {
-		@AuraEnabled public PaymentDetail paymentDetail {get;set;} 
+	global class PaymentsList {
+		@AuraEnabled global PaymentDetail paymentDetail {get;set;} 
 
-		public PaymentsList(JSONParser parser) {
+		global PaymentsList(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
@@ -572,15 +591,17 @@ public class WRAPPER_PaymentsTracker {
 				}
 			}
 		}
+
+		global PaymentsList() {}
 	}
 	
 	
-	public static WRAPPER_PaymentsTracker parse(String json) {
+	global static WRAPPER_PaymentsTracker parse(String json) {
 		System.JSONParser parser = System.JSON.createParser(json);
 		return new WRAPPER_PaymentsTracker(parser);
 	}
 	
-	public static void consumeObject(System.JSONParser parser) {
+	global static void consumeObject(System.JSONParser parser) {
 		Integer depth = 0;
 		do {
 			System.JSONToken curr = parser.getCurrentToken();

@@ -1,0 +1,40 @@
+<template>
+           
+    <div onmouseleave={doOnblur} data-id="searchRes" class="slds-form-element slds-lookup slds-is-close" data-select="single">
+        <label class="slds-form-element__label" for="lookup-348">{label}</label>
+        <!--This part is for display search bar for lookup-->  
+        <div class="slds-form-element__control">
+            
+            <div class="slds-input-has-icon slds-input-has-icon--right">
+                <!-- This markup is for when an record is selected -->
+                <div data-id="lookup-pill" class="slds-pill-container slds-hide">
+                    <lightning-pill class="pillSize" label={selectedrecord.Name} name={selectedrecord.Name} onremove={clear}>
+                    </lightning-pill>
+                </div>
+
+                <div data-id="lookupField" class="slds-show">
+                    <lightning-icon class="slds-input__icon slds-show" icon-name="utility:search" size="x-small" alternative-text="search"></lightning-icon>
+                    <!--<span class="slds-icon_container  slds-combobox__input-entity-icon" title="record">
+                        <lightning:icon class="slds-icon slds-icon slds-icon_small slds-icon-text-default" iconName="{!v.IconName}" size="x-small" alternativeText="icon"/>
+                        <span class="slds-assistive-text"></span>
+                    </span>-->
+                    <lightning-input type="text" onclick={doOnfocus} update-on="keyup" keyup={keyPressController} class={inputClass} value={searchKeyWord} placeholder={Label.search}></lightning-input>
+                </div>   
+            </div>
+        </div>
+        <!--This part is for Display typehead lookup result List-->  
+        <ul class="lookup slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-lookup__menu slds" role="listbox">
+            <lightning-spinner class="slds-hide" variant="brand" size="small" data-id="mySpinner"></lightning-spinner>
+            <center>{message}</center> 
+            <template for:each={getListOfSearchRecords} for:item="singleRec">
+                <c-lwc_custom-lookup-result 
+                    key={singleRec.index} 
+                    orecord={singleRec} 
+                    iconname={iconname}
+                    onoselectedrecordevent={handleComponentEvent}
+                >
+                </c-lwc_custom-lookup-result>
+            </template>
+        </ul> 
+    </div> 
+</template>

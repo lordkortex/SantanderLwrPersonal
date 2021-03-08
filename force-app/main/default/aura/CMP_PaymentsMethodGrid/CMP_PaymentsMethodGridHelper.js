@@ -1,31 +1,84 @@
 ({
-    encrypt : function(component, data){  
-        var result="null";
-        var action = component.get("c.encryptData");
-        action.setParams({ str : data });
-        // Create a callback that is executed after 
-        // the server-side action returns
-        return new Promise(function (resolve, reject) {
-                action.setCallback(this, function(response) {
-                var state = response.getState();
-                if (state === "ERROR") {
-                        var errors = response.getError();
-                        if (errors) {
-                        if (errors[0] && errors[0].message) {
-                                console.log("Error message: " + 
-                                        errors[0].message);
-                                reject(response.getError()[0]);
-                        }
-                        } else {
-                        console.log("Unknown error");
-                        }
-                }else if (state === "SUCCESS") {
-                        result = response.getReturnValue();
+    checkTypeAvailable: function (component, helper) {
+        let transferTypeParams = component.get('v.transferTypeParams');
+        if ($A.util.isEmpty(transferTypeParams)) {
+            component.set('v.spinner', true);
+            let userData = component.get('v.userData');
+            let action = component.get('c.checkTypeAvailable');
+            action.setParam({
+                'userData': userData
+            });
+            action.setCallback(this, function (actionResult) {
+                let result = actionResult.getReturnValue();
+                console.log(result);
+                if (actionResult.getState() == 'SUCCESS') {
+                    if (result.success) {
+                        component.set('v.transferTypeParams', result.value);
+                    } else {
+                        console.log('checkTypeAvailable_KO');
+                    }
+                } else if (actionResult.getState() === 'INCOMPLETE') {
+                    console.log('checkTypeAvailable_KO');
+                } else if (actionResult.getState() == 'ERROR') {
+                    console.log('checkTypeAvailable_KO');
                 }
-                        resolve(result);
+                component.set('v.spinner', false);
+            });
+            $A.enqueueAction(action);
+        }
+    },
+
+    goToURL: function (component, helper, params, single) {
+        return new Promise($A.getCallback(function (resolve, reject) {
+            let navService = component.find('navService');
+            if (!$A.util.isEmpty(navService)) {
+                let page = 'payments-b2b';
+                if (single == false) {
+                    // TO-DO
+                }
+                navService.navigate({
+                    'type': 'comm__namedPage', 
+                    'attributes': {
+                        'pageName': page
+                    },
+                    'state': {
+                        'params': params
+                    }
                 });
-                $A.enqueueAction(action);
-        });
-      
+                resolve('goToURL_OK');
+            } else {
+                reject({
+                    'description': 'goToURL_KO'
+                });
+            }
+        }));
+     } ,
+
+     
+    handleAccountsToB2BOrigin: function (component, helper, value) {
+        return new Promise($A.getCallback(function (resolve, reject) {
+            if (!$A.util.isEmpty(value)) {
+                //component.set('v.accountListOrigin', value);
+                resolve('handleAccountsToB2BOrigin_OK');
+            } else {
+                reject({
+                    'title': $A.get('$Label.c.B2B_no_Origin_Accounts'),
+                    'noReload': true
+                });
+            }
+        }), this);
+    },
+    
+     showToast: function (component,event, helper, title, body, noReload, mode) {
+        var errorToast = component.find('errorToast');
+        if (!$A.util.isEmpty(errorToast)) {
+            if (mode == 'error') {
+                errorToast.openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload);
+            }
+            if (mode == 'success') {
+                errorToast.openToast(true, false, title,  body,  'Success', 'success', 'success', noReload);
+            }
+        }
     }
+
 })

@@ -17,7 +17,11 @@ global class AutocreatedRegHandler1579603571638 implements Auth.RegistrationHand
         System.debug('data.lastName='+data.lastName);
         System.debug('data.firstName='+data.firstName);
         
+         if(Test.isRunningTest()){
         return true;
+        }else{
+        return false;
+        }
     }
 
     global User createUser(Id portalId, Auth.UserData data){

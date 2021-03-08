@@ -1,0 +1,222 @@
+<template>
+    
+    
+    <c-lwc_service-component 
+        data-id= "Service"
+        onsuccesscallback={handleService}>
+    </c-lwc_service-component>
+
+        <!-- ###START OF COUNTRIES FILTER###-->
+    <template if:true={dataFilled}>
+        <div>
+            <template for:each={countryListFormatted} for:item="item" for:index="index" >
+                <button  id={item.index} class={item.class} onclick ={filterByCountry} title={item.country} key={item.index}> 
+                    <img  data-id="countryImage" class="flag" src={item.img}/>   
+                    {item.label}
+                </button>           
+            </template>
+            
+        </div> 
+    </template>   
+
+    <!-- TABLE -->
+
+    <table class="slds-table slds-table_resizable-cols slds-no-row-hover slds-table_bordered" aria-multiselectable="true" role="grid">  
+             
+        <!-- HEADER --> 
+
+        <thead class="textHeader">
+            <!-- <tr> -->
+                <!-- <th> -->
+                    <tr class="slds-card__header slds-grid headerTable">
+                        <th class="slds-media slds-media_center slds-has-flexi-truncate">               
+                            <div class="slds-media__body">
+                                <div class="slds-card__header-title titleTable">
+                                    <template if:true={currentStageNumberEq1}>
+                                        Origin account
+                                    </template>  
+                                    <template if:true={currentStageNumberEq2}>
+                                        Destination account
+                                    </template> 
+                                </div>
+                            </div>                
+                        </th>
+                    </tr>
+                <!-- </th> -->
+            <!-- </tr> -->
+            <tr class="slds-line-height_reset">
+                <th class="slds-text-align_right header containerIconCheck"> </th>
+                <th class="slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_asc header colorHeader containerStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="ALIAS">ALIAS</span>       
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-568" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Close Date" aria-sort="none" scope="col">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="ACCOUNT NUMBER">ACCOUNT NUMBER</span>  
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-569" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <template if:true={currentStageNumberEq1}>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Close Date" aria-sort="none" scope="col">
+                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="BALANCE">BALANCE</span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-570" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                </template>
+                <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Stage" aria-sort="none" scope="col">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="CURRENCY">CURRENCY</span>
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Stage column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-571" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <!-- <th class="header colorHeader containerIconDetail" scope="col">
+                    <div class="slds-truncate slds-assistive-text" title="Prueba">Prueba</div>
+                </th> -->
+            </tr>
+        </thead>
+
+        
+        <!-- BODY -->  
+        <tbody class="fontBody">
+
+            <!--IF STAGE NUMBER IS 1 IT WILL ITERATE ORIGIN DATA, IF IT IS 2, IT WILL ITERATE IN DESTINATION DATA-->
+            <template if:true={dataFilled}>
+                <template if:true={currentStageNumberEq1}>
+                    <template for:each={originDataList} for:item="item" for:index="index"> 
+                        <template if:true={item.iterationCheck}> 
+
+                            <tr class="slds-hint-parent border" aria-selected={checked} key={item.index}>        
+
+                                <!--CHECK DATA COLUMN-->
+                                <td role="gridcell">
+                                    <input data-id={item.value.id} name="group" type="radio" value={checked} checked={item.checked} onchange={buttonSelected} />   
+                                </td>           
+                                <!-- CHECK ALIAS COLUMN-->
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title={alias}>{item.value.alias}</div>
+                                </td>
+                        
+                                <!--ACCOUNT NUMBER COLUMN-->
+                                <td class="slds-truncate" role="gridcell">
+                                    <!--IMAGE-->
+                                    <span class="amountInteger">
+                                        <div style="width: 50%; height: 50%" >
+                                            <img style="height: 24px; margin-right: 5px; width: 24px;" data-id="countryImage" class="flag" src={item.imgSource}/>                                            
+                                            <!-- onerror={defaultImage} />  -->
+                                            <lightning-formatted-number value={accountNumber} minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number>
+                                            <div>{item.value.accountNumber}</div>
+                                        </div>
+                                    </span> 
+                                </td>
+                        
+                                <!--BALANCE COLUMN JUST IF STAGE NUMBER IS 1-->
+                                <template if:true={stageNumberEq1}>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={balance}>{item.value.balance}</div>
+                                    </td> 
+                                </template>
+                        
+                                <!--CURRENCY COLUMN-->
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title={item.value.ObjectCurrency}>{item.value.ObjectCurrency}</div>
+                                </td>
+                            </tr>
+                            
+<!--                             
+                            <c-lwc_icm-origin-destination-table-row 
+                                key={item.index}
+                                cmpdata={item}
+                                currentstagenumber={currentstagenumber}
+                                checked={item.checked}
+                                oncheckchanged={checkChanged}>
+                            </c-lwc_icm-origin-destination-table-row> -->
+                        </template>
+                    </template>                 
+                </template>
+            </template>
+            
+            <template if:true={dataFilled}>
+                <template if:true={currentStageNumberEq2}>
+                    <template for:each={destinationDataList} for:item="item" for:index="index"> 
+                        <template if:true={item.iterationCheck}>
+                            <tr class="slds-hint-parent border" aria-selected={checked} key={item.index}>        
+
+                                <!--CHECK DATA COLUMN-->
+                                <td role="gridcell">
+                                    <input data-id={item.value.id} name="group" type="radio" value={checked} checked ={item.checked} onchange={buttonSelected} />   
+                                </td>           
+                                <!--CHECK ALIAS COLUMN-->
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title={alias}>{item.value.alias}</div>
+                                </td>
+                        
+                                <!--ACCOUNT NUMBER COLUMN-->
+                                <td class="slds-truncate" role="gridcell">
+                                    <!--IMAGE-->
+                                    <span class="amountInteger">
+                                        <div style="width: 50%; height: 50%" >
+                                            <img style="height: 24px; margin-right: 5px; width: 24px;" data-id="countryImage" class="flag" src={item.imgSource}/>  
+                                            
+                                            <!-- onerror={defaultImage} />  -->
+                                            <lightning-formatted-number value={accountNumber} minimum-fraction-digits="2" maximum-fraction-digits="2"></lightning-formatted-number>
+                                                <div>{item.value.accountNumber}</div>
+                                        </div>
+                                    </span> 
+                                </td>
+                        
+                                <!--BALANCE COLUMN JUST IF STAGE NUMBER IS 1-->
+                                <template if:true={stageNumberEq1}>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={balance}>{item.value.balance}</div>
+                                    </td> 
+                                </template>
+                        
+                                <!--CURRENCY COLUMN-->
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title={item.value.ObjectCurrency}>{item.value.ObjectCurrency}</div>
+                                </td>
+                            </tr>
+
+<!-- 
+                            <c-lwc_icm-origin-destination-table-row 
+                                key={item.index}
+                                cmpdata={item}
+                                currentstagenumber={currentstagenumber}
+                                checked={item.checked}
+                                oncheckchanged={checkChanged}>
+                            </c-lwc_icm-origin-destination-table-row> -->
+                        </template>
+                    </template>   
+                </template>
+            </template>            
+        </tbody>
+    </table>  
+    <div>
+        <!-- <th> -->
+            <template if:true={currentStageNumberEq2}>
+                <button type="button" class="slds-button slds-button_brand textButton"  title="Go Back" onclick={previousStep}>Go Back
+                    <div class="icon-chevronLeft"></div>
+                </button>
+                <button type="button" class="slds-button slds-button_brand redButton" title="Choose amount" onclick={nextStep} disabled={buttonDisabled}>Choose amount
+                    <div class="icon-chevronLeft"></div>
+                </button>
+            </template>
+            <template if:true={currentStageNumberEq1}>
+                <button type="button" class="slds-button slds-button_brand redButton" title="Choose destination" onclick={nextStep} disabled={buttonDisabled}>Choose destination
+                    <div class="icon-chevronLeft"></div>
+                </button>
+            </template>
+        <!-- </th> -->
+    </div>  
+</template>

@@ -1,0 +1,49 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsTwoCol84Layout",
+  "id" : "d47bcc8a-fc5a-40b9-83c2-72494ce10908",
+  "label" : "tryCalendar2",
+  "regions" : [ {
+    "id" : "a34fdeb7-bf07-415b-8d00-5c22efd3be52",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "ef5d826c-1924-4dbf-9190-83d5b54ba3c6",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lwc_trycalendar",
+      "id" : "96e5ecac-5937-4f4d-93cf-e33985dd0961",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "80bf4760-c90e-4b93-8932-017e3642c5dc",
+    "regionName" : "sidebar",
+    "type" : "region"
+  }, {
+    "id" : "4e139351-7652-4b37-ada9-be50decc1a99",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "tryCalendar2"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "0a94a074-8145-4d20-8d00-390054639cbd",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "71859f6c-6794-49b2-815c-9ab73cf5a2f2",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-trycalendar2"
+}

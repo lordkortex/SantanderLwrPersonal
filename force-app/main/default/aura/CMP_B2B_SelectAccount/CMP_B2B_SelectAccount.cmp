@@ -25,7 +25,7 @@
     <aura:handler name="init"   action="{!c.initComponent}" value="{!this}" />
 
     <aura:handler name="selectedAccount" event="c:EVT_B2B_SelectedAccount" action="{!c.handleSelectedAccount}" />
-    <aura:handler name="change" action="{!c.controlIsModified}"   value="{!v.isEditing}" />
+    <!-- <aura:handler name="change" action="{!c.controlIsModified}"   value="{!v.isEditing}" /> -->
 
     <div>
         <div class="select-Account">

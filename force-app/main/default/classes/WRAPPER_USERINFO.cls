@@ -7,28 +7,30 @@ History
 <Date>			<Author>		    <Description>
 17/02/2020		Joaquin Vera    Initial version
 ----------------------------------------------------------------------------------*/
-public with sharing class WRAPPER_USERINFO {
+global with sharing class WRAPPER_USERINFO {
 
-	@AuraEnabled public String userId {get;set;} 
-	@AuraEnabled public String Name {get;set;} 
-	@AuraEnabled public String Surname {get;set;} 
-	@AuraEnabled public String Type_Z {get;set;} // in json: Type
-	@AuraEnabled public String State {get;set;} 
-	@AuraEnabled public String Language {get;set;} 
-	@AuraEnabled public String TimeZone {get;set;} 
-	@AuraEnabled public String NumberFormat {get;set;} 
-	@AuraEnabled public String dateFormat {get;set;} 
-	@AuraEnabled public String Email {get;set;} 
-	@AuraEnabled public String Phone {get;set;} 
-	@AuraEnabled public String Address {get;set;} 
-	@AuraEnabled public String MobileAppAccess {get;set;} 
-	@AuraEnabled public String HasCryptoCalculator {get;set;} 
-	@AuraEnabled public String CryptoCalculatorNumber {get;set;} 
-	@AuraEnabled public String VascoID {get;set;} 
-	@AuraEnabled public String TieneVasco {get;set;} 
-	@AuraEnabled public List<Corporates> corporates {get;set;} 
+	@AuraEnabled global String userId {get;set;} 
+	@AuraEnabled global String Name {get;set;} 
+	@AuraEnabled global String Surname {get;set;} 
+	@AuraEnabled global String Type_Z {get;set;} // in json: Type
+	@AuraEnabled global String State {get;set;} 
+	@AuraEnabled global String Language {get;set;} 
+	@AuraEnabled global String TimeZone {get;set;} 
+	@AuraEnabled global String NumberFormat {get;set;} 
+	@AuraEnabled global String dateFormat {get;set;} 
+	@AuraEnabled global String Email {get;set;} 
+	@AuraEnabled global String Phone {get;set;} 
+	@AuraEnabled global String Address {get;set;} 
+	@AuraEnabled global String MobileAppAccess {get;set;} 
+	@AuraEnabled global String HasCryptoCalculator {get;set;} 
+	@AuraEnabled global String CryptoCalculatorNumber {get;set;} 
+	@AuraEnabled global String VascoID {get;set;} 
+	@AuraEnabled global String TieneVasco {get;set;} 
+	@AuraEnabled global List<Corporates> corporates {get;set;} 
 
-	public WRAPPER_USERINFO(JSONParser parser) {
+	global WRAPPER_USERINFO() {}
+
+	global WRAPPER_USERINFO(JSONParser parser) {
 		while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 			if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 				String text = parser.getText();
@@ -78,18 +80,20 @@ public with sharing class WRAPPER_USERINFO {
 		}
 	}
 	
-	public class Corporates {
-		@AuraEnabled public Integer codigoCorporate {get;set;} 
-		@AuraEnabled public String nombreCorporate {get;set;} 
-		@AuraEnabled public String numDocumento {get;set;} 
+	global class Corporates {
+		@AuraEnabled global String codigoCorporate {get;set;} 
+		@AuraEnabled global String nombreCorporate {get;set;} 
+		@AuraEnabled global String numDocumento {get;set;} 
 
-		public Corporates(JSONParser parser) {
+		global Corporates() {}
+
+		global Corporates(JSONParser parser) {
 			while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 				if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 					String text = parser.getText();
 					if (parser.nextToken() != System.JSONToken.VALUE_NULL) {
 						if (text == 'codigoCorporate') {
-							codigoCorporate = parser.getIntegerValue();
+							codigoCorporate = parser.getText();
 						} else if (text == 'nombreCorporate') {
 							nombreCorporate = parser.getText();
 						} else if (text == 'numDocumento') {
@@ -105,12 +109,12 @@ public with sharing class WRAPPER_USERINFO {
 	}
 	
 	
-	public static WRAPPER_USERINFO parse(String json) {
+	global static WRAPPER_USERINFO parse(String json) {
 		System.JSONParser parser = System.JSON.createParser(json);
 		return new WRAPPER_USERINFO(parser);
 	}
 	
-	public static void consumeObject(System.JSONParser parser) {
+	global static void consumeObject(System.JSONParser parser) {
 		Integer depth = 0;
 		do {
 			System.JSONToken curr = parser.getCurrentToken();

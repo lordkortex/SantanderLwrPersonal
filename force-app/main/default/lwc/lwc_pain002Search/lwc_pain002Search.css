@@ -1,0 +1,380 @@
+.button-search{
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px;
+    height: 37px;
+}
+
+ .hidden{
+    display:none !important;
+}
+
+.hidden{
+    display:none !important;
+}
+ .errorText {
+	color:red !important;
+}
+
+ .button-download{
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px 8px 16px 8px;
+}
+
+ .account  .slds-form-element__control, 
+ .input_text .slds-form-element__control:last-child {
+	width: 368px;
+}
+
+ .number__black{
+	font:inherit;
+}
+.number__black{
+	font:inherit;
+}
+
+
+
+.containerSearch {
+	padding: 34px 64px 24px 64px;
+}
+
+ .containerSearch .slds-form__row {
+	justify-content: flex-end;
+	margin: 0;
+}
+
+ .inputSize{
+    width: 176px !important;
+    height: 36px;
+}
+
+ .inputShadow{
+    height: 36px;
+    border-radius: 4px;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    border: none;
+}
+
+
+ .slds-form_compound .slds-form-element__row .slds-form-element+.slds-form-element {
+    padding-left: 0px;
+    margin-left: 16px;
+    margin-top: 0;
+}
+
+ .input_text > .slds-form-element > .slds-form-element__group > .slds-form-element__control,
+ .status  .slds-form-element__control, 
+ .currency  .slds-form-element__control, 
+ .destination  .slds-form-element__control {
+	width: 176px;
+}
+
+ .input_text > .slds-form-element > .slds-form-element__group > 
+ .slds-form-element__control:last-child {
+	margin-left: 16px;
+}
+
+ .input_text:last-child {
+	display: flex;
+	justify-content: flex-end;
+}
+ .icon-deleteAll {
+	margin-right:7px;
+}
+ .input_text .slds-input {
+	background-color: #fff;
+	border-radius: 4px 4px 0 0;
+	border-style: none;
+	border-width: 0;
+	box-shadow: inset 0 -1px 0 0 #8dd9de;
+	color: #444444;
+	display: inline-block;
+	font-size: 12px;
+	height: 36px;
+	line-height: 36px;
+	transition: none;
+	width: 100%;
+}
+
+ .input_text .slds-input:focus {
+	box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+ .input_text input::-webkit-input-placeholder {
+	color: #a2a2a2;
+}
+
+ .input_text input::-moz-placeholder {
+	color: #a2a2a2;
+}
+
+ .input_text input:-ms-input-placeholder {
+	color: #a2a2a2;
+}
+
+ .input_text input:-moz-placeholder {
+	color: #a2a2a2;
+}
+
+.mr_Tracker {
+	background-color: #eff6f9;
+	display: block;
+	padding: 24px 64px 24px 64px;
+	margin-bottom:8px;
+}
+
+
+ .number__black{
+    font-family: inherit !important;
+}
+ .number__gray{
+    font-family: inherit !important;
+}
+ .amountInteger{
+    font-family: inherit !important;
+}
+ .amountDecimals{
+    font-family: inherit !important;
+}
+
+.mr_Tracker .slds-row {
+	margin-bottom: 26px;
+}
+
+
+.mr_Tracker .slds-row:nth-child(2) {
+	margin-bottom: 8px;
+}
+
+.mr_Tracker .slds-row:nth-child(4) {
+	margin-bottom: 32px;
+	width: 100%;
+}
+
+.mr_Tracker .slds-row:last-child {
+	margin-bottom: 0;
+}
+
+ .redButtonSmall {
+	background-color: #ec0000;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ffffff;
+	font-size: 14px;
+	height: 32px;
+	margin: 0;
+	width: 86px;
+}
+
+ .redButtonSmall:hover {
+	background-color: #cc0000;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ffffff;
+	font-size: 14px;
+	height: 32px;
+	margin: 0;
+	width: 86px;
+}
+
+ .redButtonSmall:focus {
+	box-shadow: 0 0 2px 1px #dadada;
+}
+
+ .slds-form-element__label {
+	color: #444444;
+	font-size: 12px;
+	height: 36px;
+	line-height: 36px;
+	margin-bottom: 0;
+	margin-left: 32px;
+	padding: 0 16px 0 0;
+	text-align: right;
+	width: 128px;
+}
+
+ .slds-form-element__label .slds-required {
+	color: #1bb3bc;
+}
+
+ .slds-form-element, 
+ .input_text .slds-form-element__group,
+.mr_Tracker .slds-row {
+	display: inline-flex;
+}
+
+ .slds-combobox .button-order {
+	border: transparent;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #8dd9de;
+	height: 36px;
+	width: 100%;
+}
+
+ .slds-combobox .button-order .arrow {
+	border-left: 1px solid #d2f0f2;
+	bottom: 4px;
+	display: inline-block;
+	height: calc(100% - 8px);
+	position: absolute;
+	right: 0;
+	top: 4px;
+	width: 33px;
+}
+
+ .slds-combobox .button-order .button-arrow {
+	font-size: 24px;
+	line-height: 28px;
+}
+
+ .slds-combobox .button-order:focus {
+	box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+ .slds-combobox .button-order:hover {
+	box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+ .slds-combobox .button-selected {
+	font-size: 16px;
+}
+
+ .slds-combobox .button-selected.icon-check:before {
+	color: #63ba68;
+}
+
+ .actions{
+    display: flex;
+    justify-content: flex-end;
+    text-align: right;
+}
+
+ .button-search-open{
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px;
+    height: 37px;
+    background-color: #eff6f9;
+}
+
+ .slds-combobox .slds-dropdown {
+	border: none;
+	border-radius: 0 0 4px 4px;
+	box-shadow: 0 2px 3px 0 rgba(68, 68, 68, 0.24);
+	cursor: pointer;
+	left: auto;
+	margin-top: 2px;
+	max-height: 192px;
+	max-width: 100%;
+	min-width: inherit;
+	overflow-y: auto;
+	padding: 4px 0 0 0;
+	right: auto;
+	top: 34px;
+	width: 100%;
+}
+
+ .slds-combobox .slds-icon {
+	margin-right: 8px;
+}
+
+ .slds-combobox .nameOrder {
+	color: #444444;
+	font-size: 12px;
+}
+
+ .slds-combobox .optionOrder {
+	align-items: center;
+	display: inline-flex;
+}
+
+ .slds-combobox .orderSelected {
+	align-items: center;
+	border: 0;
+	color: #444444;
+	display: flex;
+	font-size: 12px;
+	height: 24px;
+	padding: 0 48px 0 12px;
+	width: 100%;
+}
+
+ .slds-combobox .paddingOption {
+	height: 32px;
+	margin-top: 4px;
+	padding-left: 8px;
+}
+
+ .slds-combobox .paddingOption:hover {
+	background-color: #f6f6f6;
+}
+
+ .slds-combobox .selectedValue-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+
+ .slds-combobox .selectedValue-filled {
+	color: #444444;
+	font-size: 12px;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar {
+	width: 6px;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+ .slds-combobox .paddingOption:hover,
+ .slds-combobox .paddingOption:active,
+ .slds-combobox .paddingOption:focus {
+	background-color: #f6f6f6;
+}
+
+ .whiteButtonSmall {
+	background-color: #ffffff;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-size: 14px;
+	height: 32px;
+	margin-right: 16px;
+	width: 82px;
+}
+
+ .whiteButtonSmall:focus {
+	box-shadow: 0 0 2px 1px #dadada;
+}
+
+ .whiteButtonSmall:hover {
+	background-color: #f6f6f6;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-size: 14px;
+	height: 32px;
+	margin-right: 16px;
+	width: 82px;
+}
+
+.slds-card__header{
+	margin:0 0 ;
+	padding-right: 0px;
+}
+
+.pillsPadding {
+	width:100% !important;
+}

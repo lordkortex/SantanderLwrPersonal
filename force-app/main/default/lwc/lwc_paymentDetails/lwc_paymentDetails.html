@@ -1,0 +1,29 @@
+<template>
+    <template if:true={ready}>
+
+        <template if:true={showError} >
+            <c-lwc_cn_scope-notification 
+                notificationclass="slds-scoped-notification_error" 
+                notificationicon="icon-close_emptyCircle" 
+                title={Label.ERROR} 
+                notificationtitle={Label.ERROR} 
+                notificationbody={Label.ERROR_NOT_RETRIEVED}>
+            </c-lwc_cn_scope-notification>
+        </template> 
+
+        <c-lwc_payments-details-header 
+            iobject={iObject} 
+            totalelapsedtime={totalElapsedTime} 
+            showfee={showFee} 
+            comesfromuetrsearch={comesFromUETRSearch}>
+        </c-lwc_payments-details-header>
+
+
+        <template if:true={iObjectFilled}>
+             <c-lwc_ipt-detail-progress 
+                iobject={iObject} 
+                showfee={showFee}>                
+            </c-lwc_ipt-detail-progress>
+        </template>
+    </template>
+</template>

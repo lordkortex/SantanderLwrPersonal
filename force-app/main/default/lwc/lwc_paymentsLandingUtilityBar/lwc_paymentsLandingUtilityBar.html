@@ -1,0 +1,109 @@
+<template>
+
+    <c-lwc_b2b_redomodal 
+        payment={paymentDetails} 
+        showredo={showRedo} 
+        clientreference={paymentDetails.clientReference} 
+        action={action} fromutilitybar>
+    </c-lwc_b2b_redomodal>
+
+    <c-lwc_b2b_toast data-id="errorToast" 
+        reload={reload}>
+    </c-lwc_b2b_toast>
+
+    <template if:true={spinner}>
+        <lightning-spinner alternative-text={label.Loading} size="medium" ></lightning-spinner>
+    </template>
+    
+
+    <footer class="slds-utility-bar_container barContainer" aria-label="Utility Bar">
+        <h2 class="slds-assistive-text">{label.PAY_UtilityBar}</h2>
+            <ul class="slds-utility-bar">
+                <template if:true={getActionEdit}>
+                    <li class="slds-utility-bar__item" onclick={edit}>
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{label.editPayment}</span>
+                        </button>
+                    </li>
+                </template>
+                <template if:true={getActionDiscard}>
+                    <li class="slds-utility-bar__item" onclick={discard}>
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">  
+                            <span class="slds-utility-bar__text">{label.PAY_discardPayment}</span>
+                        </button>
+                    </li>
+                </template>
+                <template if:true={getActionReuse}>
+                    <li class="slds-utility-bar__item" onclick={reuse}>
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{label.PAY_reusePayment}</span>
+                        </button>
+                    </li>
+                </template>
+                <template if:true={getActionaddToTemplate}>
+                    <li class="slds-utility-bar__item" onclick={addToTemplate}>
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{label.PAY_addToTemplate}</span>
+                        </button>
+                    </li>  
+                </template>
+                <template if:true={getActionAuthorize}>
+                    <li class="slds-utility-bar__item" onclick={authorize}>
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{label.Authorize}</span>
+                        </button>
+                    </li>
+                </template>
+                <template if:true={getActionReject}>
+                    <li class="slds-utility-bar__item" onclick={reject}>
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{label.reject}</span>
+                        </button>
+                    </li>
+                </template>
+                <template if:true={getActionSendToReview}>
+                    <li class="slds-utility-bar__item" onclick={sendToReview}>
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false" >
+                            <span class="slds-utility-bar__text">{label.PAY_SendToReview}</span>
+                        </button>
+                    </li>
+                </template>
+                <template if:true={getActiontrySaveAgain}>
+                    <li class="slds-utility-bar__item" >
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false" >
+                            <span class="slds-utility-bar__text">{label.PAY_trySaveAgain}</span>
+                        </button>
+                    </li>
+                </template>
+                <template if:true={getActiongpiTracker}>
+                    <li class="slds-utility-bar__item">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false" >
+                            <span class="slds-utility-bar__text">{label.PAY_goToGpiTracker}</span>
+                        </button>
+                    </li>
+                </template>
+                <template if:true={getActiontryCancel}>
+                    <li class="slds-utility-bar__item" onclick={showCancelPaymentModal}>
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false" >
+                            <span class="slds-utility-bar__text">{label.cancel}</span>
+                        </button>
+                    </li>
+                </template>
+                <li class="slds-utility-bar__item" onclick={clearSelection}>
+                    <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                        <div class="link icon-close_big">
+                            <span class="slds-utility-bar__text slds-truncate">{label.PAY_ClearSelection}</span>
+                        </div> 
+                    </button>
+                </li>
+            </ul>
+	</footer>
+   
+    <template if:true={showCancelModal}>
+        <c-lwc_b2b_discard-payment 
+            fromutilitybar={fromUtilityBar} 
+            fromdetail={fromDetail}/>
+        </c-lwc_b2b_discard-payment>
+    </template>
+
+</template>

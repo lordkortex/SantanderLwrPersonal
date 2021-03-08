@@ -1,0 +1,15 @@
+<template>
+    <c-lwc_fx_trades-landing-header></c-lwc_fx_trades-landing-header>
+    <c-lwc_b2b_toast reload={reload}></c-lwc_b2b_toast>
+
+    <c-lwc_fx_trades-landing-boxes></c-lwc_fx_trades-landing-boxes>
+    <br/>
+
+    <c-lwc_fx_blottertable tradeslist={tradeslist}>
+    </c-lwc_fx_blottertable>
+
+    <lightning-button variant="brand" value="asdf" label="Test Call to Search Trades" title="Test Call to Search Trades" onclick={getTradesHandler}></lightning-button>
+
+    <c-lwc_container-table></c-lwc_container-table>
+
+</template>

@@ -1,0 +1,112 @@
+<template>
+    <template if:true={showDropdown}>
+        <div class="slds-form pillContainer" role="list">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col" role="listitem">
+                    <!-- Añadir la clase error para el estado de error-->
+                    <!-- <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin error">-->
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{Label.Corporate}</div>
+                        <div class="slds-form-element">
+                            <!-- DROPDOWN MARKUP -->
+                            <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                <c-lwc_dropdown 
+                                    issimpledropdown={issimpledropdown} 
+                                    valueplaceholder={Label.LogAdmin_SelectOne} 
+                                    values={corporateslistfront} 
+                                    selectedvalues={selectedValues}>
+                                </c-lwc_dropdown>
+                            </div>
+                        </div>
+                            <div class="slds-form-element button">
+                            <div class="slds-media__body lastPill">
+                                <div data-title={Label.add}><button class="slds-button slds-button_brand redButton" onclick={addValue}>{Label.add}</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </template>  
+
+    <!--TABLE-->
+    <div class="slds-table--header-fixed_container slds-table_edit_container slds-is-relative">
+        <div class="slds-scrollable_y">
+            <table aria-multiselectable="true" class="slds-table slds-table_edit slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped slds-table_fixed-layout" role="grid">
+                <!--HEADER-->
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" >{Label.CorporateName}</span>
+                            </div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                    </tr>
+                </thead>
+                
+                <!--BODY-->
+                <tbody>
+                    <template if:true={selectedCorporatesEq0}>
+                        <tr aria-selected="false" class="slds-hint-parent">
+                            <td class="noAvailable" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate" >{Label.GroupNew_NoData}</span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate"></span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate" ></span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate" ></span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread" >
+                                    <span class="slds-truncate" ></span>
+                                </span>
+                            </td>
+                        </tr>
+                    </template>
+
+                    <template for:each={selectedCorporates} for:item="item">
+                        <tr aria-selected="false" class="slds-hint-parent" key={item}>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate" >{item}</span>
+                                </span>
+                            </td>
+                            <td role="gridcell">
+                                <button id={item} class="slds-button slds-button_icon icon-trash" data-title-left={Label.T_Delete} onclick={deleteItem}></button>
+                            </td>
+                        </tr>
+                    </template>
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <template if:true={isShowingDelete}>
+        <c-lwc_delete-user-modal-box 
+            data-id="DeleteCorporateModal" 
+            isshowing={isShowingDelete}  
+            firsttext={corporateClicked}>
+        </c-lwc_delete-user-modal-box>
+    </template>
+    <!-- MODALS LIST -->
+    <!-- <c-lwc_DeleteUserModalBox isShowing="{!and(v.showModal, v.modalToShow == 'ConfirmCreation')}" firstText="{corporateClicked}"/> -->
+
+    <!-- <c-lwc_DeleteUserModalBox isShowing="{!and(v.showModal, v.modalToShow == 'DeleteCorporate')}" titleText="" firstText="" secondText=""/> -->
+
+</template>

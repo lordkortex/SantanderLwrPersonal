@@ -22,10 +22,9 @@
     <aura:attribute access="public" type="Boolean"     name="spinnerCountDown"        default="false" />
     <aura:attribute access="public" type="Map"         name="dataSelectAmount"        default="{}" />
     <aura:attribute access="public" type="Boolean"     name="errorSign"        default="false" />
-    <aura:attribute access="public" type="Map"         name="navigatorInfo"             default="{}"/>
 
-    <aura:handler name="change" action="{!v.reloadAction}"  value="{!v.reload}" />    
-    <aura:handler name="init"   action="{!c.initComponent}" value="{!this}" />
+
+    <aura:handler name="change" action="{!v.reloadAction}"  value="{!v.reload}" />    <aura:handler name="init"   action="{!c.initComponent}" value="{!this}" />
 
     <lightning:navigation aura:id="navService"/>
 
@@ -40,13 +39,10 @@
     <aura:attribute access="public" type="String"         name="paymentAmountString"        default="" />
     <aura:attribute access="public" type="String"         name="valueDateString"        default="" />
     <aura:attribute access="public" type="Boolean"     name="errorOTP"               default="false" />
-    <aura:attribute access="public" type="Object"         name="localWindow"             />
     
     <aura:handler name="change" action="{!c.handleConfirm}"  value="{!v.paymentAmountString}" />    
-    
 	<!-- FULL SCREEN MODAL -->
     <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
-
         <aura:if isTrue="{!v.spinner eq true}">
             <lightning:spinner alternativeText="{!$Label.c.Loading}" size="medium" />
         </aura:if>
@@ -55,8 +51,7 @@
             <div class="slds-modal__content" id="modal-content-id-1">
                 <div class="slds-grid__content">
                     <div class="container_lastStep">  
-                       <!-- {!$Browser.formFactor} -->
-                        <div class="slds-text-title">Please, verify the payment details before authorization.</div>
+                        <div class="slds-text-title">{!$Label.c.VerifyBeforeAuth}</div>
                         <article class="slds-card">
                             <header class="slds-card__header">
                                 <div class="slds-card__header-title">
@@ -154,21 +149,15 @@
                                         </div>
                                         <div class="slds-grid">
                                             <div class="col">
-                                                <aura:if isTrue="{! !empty(v.paymentData.subject)}">
-                                                        <div class="subtitle">{!$Label.c.PaymentReference}</div>
-                                                        <div class="text">{!v.paymentData.subject}</div>
-                                                        <aura:set attribute="else">
-                                                            <div class="subtitle">{!$Label.c.PaymentReference}</div>
-                                                            <div class="text"> - </div>
-                                                    	</aura:set>
-                                                </aura:if>
+                                                <div class="subtitle">{!$Label.c.PaymentReference}</div>
+                                                <div class="text">{!v.paymentData.subject}</div>
                                             </div>
                                             <div class="col">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <aura:if isTrue="{!!empty(v.paymentData.amount)}">
+                                <aura:if isTrue="{!v.paymentData.amount != undefined}">
                                     <div class="amount">
                                         <div class="slds-card__header-title">
                                             <aura:if isTrue="{!and(v.accountData.CIB == false,v.paymentData.sourceCurrency != v.paymentData.beneficiaryCurrency)}">
@@ -191,7 +180,7 @@
                                                         wholeClass="title"
                                                         currencyClass="title"
                                                         currency="{!v.paymentData.beneficiaryCurrency}" 
-                                                        numberFormat="{!v.userData.numberformat}" 
+                                                        numberFormat="{!v.userData.convertedCurrency}" 
                                                         outputString = "{!v.paymentAmountString}"/>
                                                     
                                                     <aura:set attribute="else">
@@ -201,7 +190,7 @@
                                                         wholeClass="title"
                                                         currencyClass="title"
                                                         currency="{!v.paymentData.beneficiaryCurrency}" 
-                                                        numberFormat="{!v.userData.numberformat}" 
+                                                        numberFormat="{!v.userData.convertedCurrency}" 
                                                         outputString = "{!v.paymentAmountString}"/>
                                                     </aura:set>
                                                     </aura:if>		
@@ -211,7 +200,7 @@
                                                     <div class="slds-grid">
                                                         <div class="col">
                                                             <div class="tooltip__content">
-                                    						<aura:if isTrue="{!and(v.signLevel.signatory eq 'true', v.signLevel.lastSign eq 'true')}">
+                                                                <aura:if isTrue="{!and(v.signLevel.signatory eq 'true', v.signLevel.lastSign eq 'true')}">
                                                                 <div class="text">{!$Label.c.exchangeRate}</div>
                                                                 <aura:set attribute="else">
                                                                 	<div class="text">{!$Label.c.indicativeExchangeRate}</div>
@@ -237,15 +226,8 @@
                                                             </div>
                                                         </div>
                                                         <div class="col">
-                                                            <aura:if isTrue="{! !empty(v.paymentData.operationNominalFxDetails.customerExchangeRate)}">
-                                                                <!--<c:CMP_displayAmount amount="1" decimalClass="number" wholeClass="number" currency="{!v.paymentData.sourceCurrency}" numberFormat="{!v.userData.numberFormat}" /> = <c:CMP_displayAmount amount="{!v.paymentData.operationNominalFxDetails.customerExchangeRate}" decimalClass="number" wholeClass="number" outputString = "{!v.exchangeRateString}" currency="{!v.paymentData.beneficiaryCurrency}" numberFormat="{!v.userData.numberFormat}" />-->
-                                                                <div class="text">
-                                                                    <c:CMP_displayAmount aura:id ="avaibleBalanceRow" amount="{!v.paymentData.operationNominalFxDetails.customerExchangeRate}" decimalClass="text" wholeClass="text" currency="{!$Label.c.EUR}" numberFormat="{!v.userData.numberFormat}"  outputString = "{!v.exchangeRateString}" /> / {!$Label.c.GBP}
-                                                                </div>
-                                                                <aura:set attribute="else">                                                    
-                                                                    <div class="text"> - </div>
-                                                                </aura:set>
-                                                            </aura:if>
+                                                            <!--<c:CMP_displayAmount amount="1" decimalClass="number" wholeClass="number" currency="{!v.paymentData.sourceCurrency}" numberFormat="{!v.userData.numberFormat}" /> = <c:CMP_displayAmount amount="{!v.paymentData.operationNominalFxDetails.customerExchangeRate}" decimalClass="number" wholeClass="number" outputString = "{!v.exchangeRateString}" currency="{!v.paymentData.beneficiaryCurrency}" numberFormat="{!v.userData.numberFormat}" />-->
+                                                        	<c:CMP_displayAmount amount="{!v.paymentData.operationNominalFxDetails.customerExchangeRate}" decimalClass="number" wholeClass="number" outputString = "{!v.exchangeRateString}" currency="{!$Label.c.EUR}" numberFormat="{!v.userData.numberFormat}" /> / {!$Label.c.GBP}
                                                         </div>
                                                     </div>
                                                     <div class="slds-grid">
@@ -255,19 +237,12 @@
                                                             </div>
                                                         </div>
                                                         <div class="col">
-                                                            <aura:if isTrue="{! !empty(v.paymentData.amountSend)}">
-                                                                <div class="number">
-                                                                    <c:CMP_displayAmount
-                                                                    amount="{!v.paymentData.amountSend}" 
-                                                                    decimalClass="number"
-                                                                    wholeClass="number"
-                                                                    currency="{!v.paymentData.sourceCurrency}"
-                                                                    numberFormat="{!v.userData.numberFormat}"/>
-                                                                </div>
-                                                                <aura:set attribute="else">
-                                                                    <div class="number"> - </div>
-                                                                </aura:set>
-                                                            </aura:if>
+                                                            <c:CMP_displayAmount
+                                                                amount="{!v.paymentData.amountSend}" 
+                                                                decimalClass="number"
+                                                                wholeClass="number"
+                                                                currency="{!v.paymentData.sourceCurrency}"
+                                                                numberFormat="{!v.userData.numberFormat}"/>
                                                         </div>
                                                     </div>
                                                 </aura:if>
@@ -295,20 +270,13 @@
                                                         </div>
                                                     </div>
                                                     <div class="col">
-                                                        <aura:if isTrue="{! !empty(v.paymentData.fees)}">
-                                                            <div class="number">
-                                                                <c:CMP_displayAmount
-                                                                amount="{!v.paymentData.fees}" 
-                                                                decimalClass="number"
-                                                                wholeClass="number"
-                                                                currency="{!v.paymentData.feesCurrency}"
-                                                                numberFormat="{!v.userData.numberFormat}" 
-                                                                outputString = "{!v.feesString}"/>
-                                                            </div>
-                                                            <aura:set attribute="else">
-                                                                <div class="number"> - </div>
-                                                            </aura:set>
-                                                        </aura:if>
+                                                        <c:CMP_displayAmount
+                                                            amount="{!v.paymentData.fees}" 
+                                                            decimalClass="number"
+                                                            wholeClass="number"
+                                                            currency="{!v.paymentData.feesCurrency}"
+                                                            numberFormat="{!v.userData.numberFormat}" 
+                                                            outputString = "{!v.feesString}"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -317,8 +285,8 @@
                                 </aura:if>
                             </div>
                             <footer class="{! 'slds-card__footer ' + (or(v.accountData.CIB eq true,v.paymentData.sourceCurrency eq v.paymentData.beneficiaryCurrency) ? 'noTopBorder' : '')}">
-                                <aura:if isTrue="{!!empty(v.paymentData.totalAmount)}"> 
-                                    <div class="slds-grid"> 
+                                <aura:if isTrue="{!v.paymentData.totalAmount != undefined}">
+                                    <div class="slds-grid">
                                         <div class="col">
                                             <div class="title-text">{!$Label.c.AmountToAuth}</div>
                                         </div>
@@ -343,7 +311,7 @@
                         </aura:if>-->
                         
                         <aura:if isTrue="{!v.expiredFX == false}">
-                        	<c:CMP_WaitingAuthorization expired="{!v.expiredFX}" localUser="{!and(v.userData.cashNexus == false, v.userData.multiOneTrade==false)}"  spinner="{!v.spinnerVerificationCode}" resendAction="{!c.sendOTP_Strategic}" error="{!or(v.errorSign,v.expiredFX)}" errorOTP = "{!v.errorOTP}"/>
+                        	<c:CMP_WaitingAuthorization expired="{!v.expiredFX}" spinner="{!v.spinnerVerificationCode}" resendAction="{!c.sendOTP_Strategic}" error="{!or(v.errorSign,v.expiredFX)}" errorOTP = "{!v.errorOTP}"/>
                         </aura:if>
                     </div>
                 </div>

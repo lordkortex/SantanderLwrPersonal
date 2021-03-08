@@ -7,10 +7,15 @@ export default class lwc_b2b_numberPagination extends LightningElement{
 
     handleSelectPagination(event) {
         var pagination =this.item;
-        this.paginationSelection = pagination;
+        this.paginationselection = pagination;
+
+        const dropdownValueEvent = new CustomEvent('dropdownvalue',{
+            detail : {pagination : pagination}
+        })
+        this.dispatchEvent(dropdownValueEvent);
     }
 
     get selectionClass(){
-        return this.item == this.paginationSelection ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item';
+        return this.item == this.paginationselection ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item';
     }
 }

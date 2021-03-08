@@ -1,0 +1,99 @@
+<template>
+    <template if:false={accountsfiltered}>
+        <div class="container_browseAccounts">
+           <!--<c-lwc_payments-landing-spinner-no-results 
+                title={Label.B2B_NoAccountsFound} 
+                subtitle={Label.PAY_checkFilters} 
+                resetsearch={resetSearch}>
+            </c-lwc_PaymentsLandingSpinnerNoResults>-->
+        </div>
+    </template>
+    <template if:true={accountsfiltered}>
+        <div class="container_browseAccounts">
+            
+        <template if:true={filtersNotZero}>
+            <div class="slds-text-body_regular">{Label.Displaying}
+                <strong>
+                    &nbsp;{accountsfiltered.length}&nbsp;{Label.PAY_payments}
+                </strong>
+                &nbsp;{Label.PAY_accordingTo}<strong>&nbsp;{Label.PAY_selectedFilters}</strong>
+            </div>
+        </template>
+        <template if:false={filtersNotZero}>
+            <div class="slds-text-heading_large">
+                {Label.B2B_Grid_Allmyaccounts}
+            </div>
+        </template>
+
+            <div class="slds-grid slds-wrap cardsAccount-grid">
+                <template for:each={paginationList} for:item="account" for:index="index">
+                    <div class="slds-col" key={account.index}>
+                        <c-lwc_b2b_card-account 
+                            userdata={userdata} 
+                            account={account} 
+                            selected={selected}
+                            beneficiarydetails={beneficiarydetails}
+                            onselectedcard={handleSelectedCard}
+                            onselectedaccount={handleSelectedAccount}>
+                         </c-lwc_b2b_card-account>
+                     </div>
+                </template>
+            </div>
+        </div>
+        <div>
+            <div class="slds-grid slds-gutters pagination">
+                <div class="slds-form-element infoPage">
+                    <template if:true={accountsNumberGTValues}>
+                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" data-title-right="Show More">
+                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{selectedValue}</div>
+                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                    </div>
+                                    <span class="slds-assistive-text">{Label.Show_More}</span>
+                                </button>
+                            </div>
+                            <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
+                                <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                    <template for:each={values} for:item="item">
+                                        <c-lwc_b2b_select-pagination-dropdown 
+                                            key={item}
+                                            paginationselection={selectedValue} 
+                                            item={item}
+                                            ondropdownvalue={changePagination}>
+                                        </c-lwc_b2b_select-pagination-dropdown>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div> 
+                        <span class="slds-text-body_regular">{Label.B2B_Items_displayed}</span>
+                    </template>
+                </div>
+                <div class="slds-grid navigationPage">   
+                    <div class="slds-text-body_regular">
+                        <template if:true={selectedValueLEAccounts}>
+                            {firstItemLabel}
+                        </template>
+                        {finalItemLabel}<strong>{accountsNumberLabel}</strong>
+                    </div> 
+                    <template if:true={selectedValueLEAccounts}>
+                        <template if:true={currentPageNotOne}>
+                            <a class="button-page " data-title-left="Prev page" onclick={handlePreviousPage}><span class="icon-arrowLeft_big"></span> {Label.B2B_PREV}</a> 
+                        </template>
+                        <template for:each={pagesNumbers} for:item="number">
+                            <c-lwc_b2b_number-pagination 
+                                key={number}
+                                number={number} 
+                                currentpage={currentPage}>
+                            </c-lwc_b2b_number-pagination>
+                        </template>
+                        <template if:true={currentPageNotLength}>
+                            <a class="button-page" data-title-left="Next page" onclick={handleNextPage}>{Label.B2B_NEXT} <span class="icon-arrowRight_big"></span></a> 
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>     
+</template>

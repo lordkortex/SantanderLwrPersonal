@@ -1,0 +1,59 @@
+<template>
+    <div class="slds-progress progressIndicator">
+        <ol class="slds-progress__list marginSteps">
+            <!--### START OF THE STEP 1 ###-->
+            <li data-id="LiStage1" class="slds-progress__item slds-is-active step">
+                <div data-id="LiStringStage1" class="textStep__active">1. Origin</div>
+                <button data-id="ButtonStage1" class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__active" onclick={onStepChanged}>
+                    <div class="button-check icon-check"></div>
+                    <span class="slds-assistive-text">Step 1</span>
+                </button>
+                <div class="label">{originvalueAlias}</div>
+            </li>
+            <!-- ### END OF THE STEP 1 BLOCK ###-->
+            <!--### START OF THE STEP 2 ###-->
+            <li data-id="LiStage2" class="slds-progress__item step">
+                <div data-id="LiStringStage2" class="textStep">2. Destination</div>
+                <button data-id="ButtonStage2" class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__disabled" onclick={onStepChanged}>
+                    <div class="button-check icon-check"></div>
+                    <span class="slds-assistive-text">Step 2</span>
+                </button>
+                <div class="label">{destinationvalueAlias}</div>
+            </li>
+            <!-- ### END OF THE STEP 2 BLOCK ###-->
+            <!--### START OF THE STEP 3 ###-->
+            <li data-id="LiStage3" class="slds-progress__item step">
+                <div data-id="LiStringStage3" class="textStep">3. Account</div>
+
+                <button data-id="ButtonStage3" class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__disabled" onclick={onStepChanged}>
+                <div class="button-check icon-check"></div>
+                <span class="slds-assistive-text">Step 3</span>
+                </button>
+                <template if:true={amountNotNull}>
+                    <div class="label">{amount}</div>
+                </template>
+                <template if:false={amountNotNull}>
+                    <div class="label"></div>
+                </template>
+                
+            </li>
+            <!-- ### END OF THE STEP 3 BLOCK ###-->
+            <!--### START OF THE STEP 4 ###-->
+            <li data-id="LiStage4" class="slds-progress__item step">
+                <div data-id="LiStringStage4" class="textStep">4. Signature</div>
+                  <button data-id="ButtonStage4" class="slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__disabled" onclick={onStepChanged}>
+                    <div class="button-check icon-check"></div>  
+                    <span class="slds-assistive-text">Step 4</span>
+                  </button>
+                <div class="label"></div>
+            </li>
+            <!-- ### END OF THE STEP 4 BLOCK ###-->
+        </ol>
+        <!--### START OF THE PROGRESS BAR INDICATOR ###-->
+        <div class="slds-progress-bar slds-progress-bar_x-small progressBar" aria-valuemin="0" aria-valuemax="99" aria-valuenow="0" role="progressbar">
+            <span data-id="ProgressBar" class="slds-progress-bar__value completed" style="width:16%">
+                <span class="slds-assistive-text"></span>
+            </span>
+        </div>
+    </div>      
+</template>

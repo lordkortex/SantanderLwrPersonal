@@ -1,6 +1,5 @@
 import {LightningElement, track, api } from 'lwc';
 import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
-//import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
 import {loadStyle, loadScript } from 'lightning/platformResourceLoader';
 import filterBy from '@salesforce/label/c.filterBy';
 import toAmountLowerThanFrom from '@salesforce/label/c.toAmountLowerThanFrom';
@@ -20,6 +19,8 @@ import Max from '@salesforce/label/c.Max';
 import Min from '@salesforce/label/c.Min';
 import bookDate from '@salesforce/label/c.bookDate';
 import TimePeriod from '@salesforce/label/c.TimePeriod';
+import Category from '@salesforce/label/c.Category';
+
 //import encryptData from '@salesforce/apex/Global_Utilities.encryptData';
 export default class Lwc_cn_filters extends LightningElement {
 
@@ -42,7 +43,8 @@ export default class Lwc_cn_filters extends LightningElement {
         Min,
         bookDate,
         Show_More,
-        TimePeriod
+        TimePeriod,
+        Category
     }; 
 
 
@@ -64,6 +66,10 @@ export default class Lwc_cn_filters extends LightningElement {
 
     @api heritagedfilters;
 
+    //pedro
+    @api fromamount;
+    @api toamount;
+
     @track filtersAux;
     @track displayedDates = 4;
     @track displayedAmount = 2;
@@ -77,7 +83,7 @@ export default class Lwc_cn_filters extends LightningElement {
     @track placeholderTo = this.label.to;
     @track displayDropdown = true;
     @track helpTextDropdown = this.label.Show_More;
-    @track dropdownPlaceholder = this.label.TimePeriod;
+    @track dropdownPlaceholder = this.label.selectOne;
     @track isDropdownDisabled = false;
     @track displayDropdown = true;
     @track iamC;
@@ -93,15 +99,7 @@ export default class Lwc_cn_filters extends LightningElement {
         } else if(this.dates){
             return this.dates[0];
         } else return null;            
-        /*
-        if(this.dates[0] != null) this.fromdate = this.dates[0];        
-        return this.fromdate;*/
-        /*
-        var ret = null;
-        if(this.dates){
-         ret = this.dates[0];
-        }
-        return ret;*/
+        
     }
 
     get datesOne(){
@@ -110,33 +108,36 @@ export default class Lwc_cn_filters extends LightningElement {
         }else if(this.dates){
             return this.dates[1];
         }else return null; 
-        /*
-        if(this.dates[1] != null) this.todate = this.dates[1];
-        return this.todate;
-        */
-        /*
-        var ret = null;
-        if(this.dates){
-         ret = this.dates[1];
-        }
-        return ret;*/
+        
     }
 
     get amountZero(){
+        if(this.fromamount != null){
+            return this.fromamount;
+        }else if(this.amountBis){
+            return this.amountBis[0];
+        }else return null;
+        /*
         var ret = null;
         if(this.amountBis){
          ret = this.amountBis[0];
         }
-
-        return ret;
+        return ret;*/
     }
 
     get amountOne(){
+        if(this.toamount != null){
+            return this.toamount;
+        }else if(this.amountBis){
+            return this.amountBis[1];
+        }else return null;
+        /*
         var ret = null;
         if(this.amountBis){
          ret = this.amountBis[1];
         }
         return ret;
+        */
     }
 
    /* get filters(){
@@ -271,6 +272,8 @@ export default class Lwc_cn_filters extends LightningElement {
 						this.showFormatError = false;
                         filters[key].selectedFilters = {"from" : '', "to" : ''};                        
                         this.amountBis = [];
+                        this.fromamount = undefined;
+						this.toamount = undefined;
 					} else if(filters[key].type == "dates"){
                         //Remove error
                     if(this.template.querySelector('[data-id="dateFromInput"]') != null && this.template.querySelector('[data-id="dateToInput"]') != null){
@@ -283,7 +286,7 @@ export default class Lwc_cn_filters extends LightningElement {
                         this.datesBis = [];
 						this.displayedDates = "";
 						this.fromdate = undefined;
-						this.todate = undefined;
+                        this.todate = undefined;
 						filters[key].data = [];
 					}
 
@@ -302,14 +305,23 @@ export default class Lwc_cn_filters extends LightningElement {
 						}
 					}
 				}
+                else if(filters[key].name == this.label.Category){
+                    for(var option in filters[key].data){
+                        filters[key].data[option].checked = false;
+                        filters[key].numberChecked = 0;
+                    }
+                }
 			}
+
             this.filtersAux = filters;
             var aux= [];
 			
             const evt = new CustomEvent('onoptionselection', {
-                "filterName" : filterName,
-                "selectedOptions" : aux,
-                "source" : "clearAll"
+                detail: {
+                    "filterName" : filterName,
+                    "selectedOptions" : aux,
+                    "source" : "clearAll"
+                }
               });
             this.dispatchEvent(evt);
             this.applyFilters(event);
@@ -362,6 +374,7 @@ export default class Lwc_cn_filters extends LightningElement {
 					this.showFormatError = false;
 
                     this.amountBis[0] = amountFrom.value;
+                    this.fromamount = amountFrom.value;
                     
                     if(this.amountBis[1] != undefined && parseInt(this.amountBis[0]) > parseInt(this.amountBis[1])){
                         this.showAmountError = true;
@@ -388,6 +401,7 @@ export default class Lwc_cn_filters extends LightningElement {
 					this.showFormatError = false;
 
                     this.amountBis[1] = amountTo.value;
+                    this.toamount = amountTo.value;
                     
                     if(this.amountBis[0] != undefined && parseInt(this.amountBis[0]) > parseInt(this.amountBis[1])){
                         this.showAmountError = true;
@@ -420,7 +434,7 @@ export default class Lwc_cn_filters extends LightningElement {
 	}
 
 	openModal() {
-        const compEvent = new CustomEvent('openmodal', {openModal : true});
+        const compEvent = new CustomEvent('openmodal', {detail: {openModal : true}});
         this.dispatchEvent(compEvent);
 		this.showModal = true;
     }
@@ -449,9 +463,12 @@ export default class Lwc_cn_filters extends LightningElement {
 		}
 		// Fire the option selection event so that the other dropdowns can be updated
 		this.filtersAux = filters;
-       const evt = new CustomEvent('optionselection', {
-            "filterName" : selectedFilter,
-			"selectedOptions" : selectedOptionAux
+        const evt = new CustomEvent('optionselection', {
+            detail: {
+                "filterName" : selectedFilter,
+                "selectedOptions" : selectedOptionAux,
+                "filters" : this.filtersAux
+            }
         });
         this.dispatchEvent(evt);
         this.setFilterAux(this.filtersAux);
@@ -707,9 +724,9 @@ export default class Lwc_cn_filters extends LightningElement {
                 } else if(filters[key].type == "text"){
                     //if(filters[key].selectedFilters != undefined){
                         var selection = {};
-                        selection.value = {};
-                        selection.value.from = this.amountBis[0];//filters[key].selectedFilters.from;
-                        selection.value.to = this.amountBis[1];//filters[key].selectedFilters.to;
+                        selection.value =   {};
+                        selection.value.from = this.fromamount;//this.amountBis[0];//filters[key].selectedFilters.from;
+                        selection.value.to = this.toamount;//this.amountBis[1];//filters[key].selectedFilters.to;
                         selection.name = filters[key].name;
                         selection.type = "text";
                         if(selection.value != undefined && (selection.value.from != "" || selection.value.to != "")){	

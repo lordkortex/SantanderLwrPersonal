@@ -1,5 +1,5 @@
 @isTest
-public class CNT_PaymentsPaymentDetail_Test { 
+public class CNT_PaymentsPaymentDetail_Test {
     
     @testSetUp
     static void setup(){
@@ -15,8 +15,7 @@ public class CNT_PaymentsPaymentDetail_Test {
         Test.setMock(HttpCalloutMock.class, new CNT_PaymentsPaymentDetail_MockHttp.BasicResponse());
         
         //createPayment params: payment
-        WRAPPER_PaymentDetail.OperationDetail payment = (WRAPPER_PaymentDetail.OperationDetail) JSON.deserialize(MockResponse.PaymentOptionsResult(), WRAPPER_PaymentDetail.OperationDetail.class);  
-
+        WRAPPER_PaymentDetail.OperationDetail payment = (WRAPPER_PaymentDetail.OperationDetail) JSON.deserialize(MockResponse.PaymentOptionsResult(), WRAPPER_PaymentDetail.OperationDetail.class);    
         
         //createPayment params: accountData
         String res = MockResponse.B2BData_AccountData();
@@ -26,11 +25,11 @@ public class CNT_PaymentsPaymentDetail_Test {
         Decimal amountDcml = 123.45;
         
         CNT_PaymentsPaymentDetail.getPaymentDetail(paymentId);
-        CNT_PaymentsPaymentDetail.getExchangeRate(false, paymentId, payment, accountData);
+        CNT_PaymentsPaymentDetail.getExchangeRate(true, paymentId, payment, accountData);
 		CNT_PaymentsPaymentDetail.getSignLevel(paymentId);
         CNT_PaymentsPaymentDetail.getAccountData();
         CNT_PaymentsPaymentDetail.getUserData();
-        CNT_PaymentsPaymentDetail.validateAccount(payment, amountDcml);
+        //CNT_PaymentsPaymentDetail.validateAccount(payment, amountDcml);
         
         //reverseLimits params
         res = MockResponse.PaymentDetail();
@@ -61,7 +60,11 @@ public class CNT_PaymentsPaymentDetail_Test {
         Test.setMock(HttpCalloutMock.class, new CNT_PaymentsPaymentDetail_MockHttp.BasicResponse());
         
         //createPayment params: payment
-        WRAPPER_PaymentDetail.OperationDetail payment = (WRAPPER_PaymentDetail.OperationDetail) JSON.deserialize(MockResponse.PaymentOptionsResult(), WRAPPER_PaymentDetail.OperationDetail.class);  
+        //
+        //PaymentOptionsResult
+        WRAPPER_PaymentDetail.OperationDetail payment = (WRAPPER_PaymentDetail.OperationDetail) JSON.deserialize(MockResponse.OperationDetail(), WRAPPER_PaymentDetail.OperationDetail.class);    
+       // WRAPPER_PaymentDetail.OperationDetail payment = (WRAPPER_PaymentDetail.OperationDetail) JSON.deserialize(json, WRAPPER_PaymentDetail.OperationDetail.class);     
+        
         //createPayment params: userData
         String mockUserData = MockResponse.wrapperUserData('OneTrade');
         WrapperUserData userData = (WrapperUserData) JSON.deserialize(mockUserData, WrapperUserData.class);
@@ -70,8 +73,23 @@ public class CNT_PaymentsPaymentDetail_Test {
         WRAPPER_B2B_Data.AccountData accountData = (WRAPPER_B2B_Data.AccountData) JSON.deserialize(res, WRAPPER_B2B_Data.AccountData.class);
         //MWB: Aun no puede testearse--> mapPaymentAccounts devuelve siempre null
         Test.startTest();
+        CNT_PaymentsPaymentDetail.mapPaymentAccounts (payment);
         //CNT_PaymentsPaymentDetail.createPayment(payment, userData, accountData);
         Test.stopTest();
+    }
+    
+    @isTest
+    static void validateAccount_Test(){
+        
+        //HttpCalloutMock
+        Test.setMock(HttpCalloutMock.class, new CNT_PaymentsPaymentDetail_MockHttp.BasicResponse());
+        Double amount = 123.45;
+        WRAPPER_PaymentDetail.OperationDetail payment = (WRAPPER_PaymentDetail.OperationDetail) JSON.deserialize(MockResponse.OperationDetail(), WRAPPER_PaymentDetail.OperationDetail.class);    
+        
+        Test.startTest();
+        //CNT_PaymentsPaymentDetail.validateAccount(payment, amount);
+        Test.stopTest();
+        
     }
     
     @isTest
@@ -93,5 +111,24 @@ public class CNT_PaymentsPaymentDetail_Test {
         Test.stopTest();
         
     }
+
+	@isTest
+    static void updatePaymentStatusReason_Test(){
+        
+        //HttpCalloutMock
+        Test.setMock(HttpCalloutMock.class, new CNT_PaymentsPaymentDetail_MockHttp.BasicResponse());
+        
+        //updatePaymentStatusReason params
+        String paymentId = '12345';
+        String status = '001';
+        String reason = '000';
+        
+        Test.startTest();
+        CNT_PaymentsPaymentDetail.updatePaymentStatusReason(paymentId, status, reason);
+
+        Test.stopTest();
+        
+    }    
+    
     
 }

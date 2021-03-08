@@ -1,0 +1,24 @@
+<template>
+    <c-lwc_service-component 
+        data-id= "Service">
+    </c-lwc_service-component>
+    
+    <div class="breadcrumbs">
+        <div class="slds-text-heading_medium title">
+            <template if:true={back}>
+                <span class="button-back icon-arrowLeft_big"  data-title={Label.T_Return} onclick={goBack}></span>
+            </template>
+            <span>{title}</span>
+        </div>
+        <div class="textBreadbrumbs">
+            <template for:each={navigation} for:item="item"><!-- for:index="index">-->
+                <div key={item}>
+                    <span>{item}</span>
+                    <template if:true={forEachCondition}>
+                        <span class="button-next icon-arrowRight_big"></span>
+                    </template>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

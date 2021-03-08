@@ -1,5 +1,5 @@
 .THIS {
-    position: absolute;
+   position: absolute;
     left: 0;
     width: 100%;
 }
@@ -26,10 +26,10 @@
     margin-bottom: 8px;
 }
 .THIS.title_container .slds-text-heading_medium .button_icon {
-    height: 40px;
-    margin-top: 6px;
-    position: absolute;
-    right: 0;
+	height: 40px;
+}
+.THIS.title_container .slds-text-heading_medium .secondary.button_icon {
+	margin-left: 24px;
 }
 .THIS.title_container .slds-text-heading_subtitle{
     font-family: "SantanderMicroText";

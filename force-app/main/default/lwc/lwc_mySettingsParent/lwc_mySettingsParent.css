@@ -1,0 +1,21 @@
+.slds-modal__content {
+    height : 300px;
+    
+}
+@media (min-width: 48em){
+.slds-modal__container {
+    margin: 0 auto;
+    width: 50%;
+    max-width: 60rem !important;
+    min-width: 20rem;
+}
+}
+.cCMP_Dropdown .slds-dropdown{
+    min-width: 344px;
+    width: 344px;
+}
+
+.button-container {
+    margin-top: 20px;
+    text-align: right;
+}

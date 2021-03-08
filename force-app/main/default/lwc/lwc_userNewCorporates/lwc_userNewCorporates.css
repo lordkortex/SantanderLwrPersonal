@@ -1,0 +1,363 @@
+.pillContainer {
+    background-color: #eff6f9;
+    border: 0;
+    padding: 16px 64px 18px 64px;
+    margin-bottom: 8px;
+}
+
+.pillContainer .calendar .slds-dropdown-trigger {
+    width: 176px;
+}
+
+.pillContainer .slds-button.redButton { 
+    border-radius: 24px;
+    font-family: SantanderTextW05-Bold;
+    height: 32px; 
+    width: 88px;
+}
+ 
+
+.pillContainer .slds-col:nth-child(2) .slds-form-element.slds-form-element_horizontal {
+    justify-content: start;
+}
+
+.pillContainer .slds-col:first-child .slds-form-element.slds-form-element_horizontal .slds-form-element {
+    margin-right: 16px;
+    min-width: 368px;
+}
+
+.pillContainer .slds-col:nth-child(2) .slds-form-element__control {
+    padding: 0;
+}
+
+.pillContainer .slds-form-element.button {
+    margin-top: 2px;
+    min-width: 88px!important;
+}
+
+.pillContainer .slds-form-element.slds-form-element_horizontal {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.pillContainer .textLabel {
+    color: #444444;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 100;
+    line-height: 36px;
+    margin-right: 16px; 
+    padding: 0;
+    text-align: right;
+    width: 128px;
+    min-width: 128px;
+    max-width: 128px;
+
+}
+
+.pillContainer .textLabel+.slds-form-element {
+    display: inline-block;
+}
+
+ .slds-button:focus {
+    box-shadow: 0 0 2px 1px #dadada;
+}
+
+ .calendar .slds-button:focus {
+    box-shadow: none;
+}
+
+ .slds-col.slds-align-bottom {
+    text-align: end;
+}
+
+ .slds-combobox .button-order {
+    border: transparent;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    height: 36px;
+    width: 100%;
+}
+
+ .slds-combobox .button-order:focus {
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+ .slds-combobox .button-order:hover {
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+ .slds-combobox .button-order .arrow {
+    border-left: 1px solid #d2f0f2;
+    bottom: 4px;
+    display: inline-block;
+    height: calc(100% - 8px);
+    position: absolute;
+    right: 0;
+    top: 4px;
+    width: 33px;
+}
+
+ .slds-combobox .button-order .button-arrow {
+    font-size: 24px;
+    line-height: 28px;
+}
+
+ .slds-combobox .button-selected {
+    font-size: 16px;
+}
+ .icon-check:before{
+	color: #63ba68;
+}
+ .slds-combobox .nameOrder {
+    color: #444444;
+    font-size: 12px;
+}
+
+ .slds-combobox .optionOrder {
+    align-items: center;
+    display: inline-flex;
+}
+
+ .slds-combobox .orderSelected {
+    align-items: center;
+    border: 0;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    height: 24px;
+    padding: 0 48px 0 12px;
+    width: 100%;
+}
+
+ .slds-combobox .paddingOption {
+    padding: 8px 10px 8px 8px;
+}
+ .slds-combobox .paddingOption:hover,
+ .slds-combobox .paddingOption:active,
+ .slds-combobox .paddingOption:focus{
+    background-color: #f6f6f6;
+}
+ .slds-combobox .selectedValue-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+ .slds-combobox .selectedValue-filled {
+    color: #444444;
+    font-size: 12px;
+}
+
+ .slds-combobox .slds-dropdown {
+    border: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 3px 0 rgba(68, 68, 68, 0.24);
+    left: auto;
+    margin-top: 4px;
+    max-height: 176px;
+    min-width: inherit;
+    min-width: 368px;
+    overflow-y: auto;
+    padding: 4px 0;
+    right: auto;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+ .slds-combobox .slds-dropdown::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+ .slds-combobox .slds-icon {
+    margin-right: 8px;
+}
+
+ .slds-datepicker {
+    padding: 16px 16px;
+}
+
+ .slds-datepicker .slds-button:focus {
+    box-shadow: none;
+}
+
+ .slds-datepicker .slds-button__icon {
+    fill: #ec0000;
+}
+
+ .slds-datepicker .slds-datepicker__filter.slds-grid {
+    padding: 0;
+}
+
+ .slds-datepicker .slds-datepicker__month thead tr {
+    text-transform: uppercase;
+}
+
+ .slds-datepicker .slds-datepicker__month thead th {
+    color: #444444;
+    font-size: 12px;
+}
+
+ .slds-datepicker .slds-day,
+ .slds-datepicker th,
+ h2,
+ .slds-select {
+    font-size: 12px;
+}
+
+ .slds-datepicker .slds-select {
+    font-family: SantanderTextW05-Regular;
+    height: 32px;
+}
+
+ .slds-datepicker .slds-select_container {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+}
+
+ .slds-datepicker .slds-select_container:after {
+    border: none;
+    bottom: 13px;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 15px;
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+
+ .slds-datepicker .slds-select_container:before {
+    border: none;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 4px;
+    top: 13px;
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+
+ .slds-datepicker .slds-text-link {
+    color: #ec0000;
+    font-family: SantanderTextW05-Bold;
+    font-size: 12px;
+}
+
+ .slds-datepicker td {
+    padding: 0;
+}
+
+ .slds-datepicker td.slds-is-selected>.slds-day {
+    background: #444444;
+}
+
+ .slds-form-element_horizontal:not(.slds-form-element_readonly){
+    margin-bottom: 0;
+}
+
+ .slds-select {
+    font-family: SantanderTextW05-Regular;
+    height: 32px;
+}
+
+ .slds-select:focus,
+ .slds-select:active {
+    border-color: rgb(212, 212, 212);
+    box-shadow: none;
+}
+
+
+ .icon-trash:before {
+    font-size: 24px;
+}
+
+ .slds-button:focus {
+    box-shadow: none;
+}
+
+ .slds-cell-fixed {
+    background-color: #ececec;
+}
+
+ .slds-table--header-fixed_container .slds-scrollable_y { 
+    mx-height:510px;}
+
+.slds-table--header-fixed_container {
+    background-color: #ececec;
+    max-height: 345px;
+    border: 1px solid #ececec;
+}
+
+.slds-table--header-fixed_container:before {
+    border: unset;
+}
+
+ .slds-table_striped tbody tr:nth-of-type(2n)>td {
+    background-color: #f9fcfd;
+}
+
+ thead .slds-truncate {
+    font-size: 14px;
+    color: #444444;
+    font-family: SantanderTextW05-Bold;
+    padding: 6px 24px;
+}
+
+ thead tr th:nth-child(2) .slds-truncate {
+    padding: 6px 16px;
+}
+
+ thead tr th:nth-child(2) {
+    padding: 0 24px;
+    width: 32px;
+}
+
+ tbody tr td {
+    height: 34px;
+    padding: 0 24px;
+}
+
+ tbody .slds-hint-parent {
+    border: 1px solid #ececec;
+    border-left: 0;
+}
+
+ tbody .slds-truncate {
+    font-size: 12px;
+    font-family: SantanderTextW05-Regular;
+    color: #444444;
+}
+
+ tbody tr td:nth-child(2) {
+    padding: 0 0 0 8px;
+}
+ .noAvailable {
+    padding-right: 0;
+}
+ .noAvailable .slds-truncate { 
+    color: #a2a2a2; 
+}
+
+ .error .button-order {
+    box-shadow: inset 0 -1px 0 0 #cc0000;
+}

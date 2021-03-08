@@ -6,7 +6,7 @@ import item from '@salesforce/label/c.item';
 import searchedBy from '@salesforce/label/c.searchedBy';
 export default class Lwc_iptTrackUetrParent extends LightningElement {
 
-    comesfromtracker = true;
+    @track comesfromtracker = false;
     @track issearched = false;
     searchValue;
     @track noresults = false;
@@ -42,7 +42,7 @@ export default class Lwc_iptTrackUetrParent extends LightningElement {
         if(sPageURLMain != "" && sPageURLMain.includes("params")){
            // component.find("Service").dataDecryption(component,helper, sPageURLMain, this.handleParams);
             this.template.querySelector("c-lwc_service-component").onCallApex({callerComponent: "lwc_ipt-track-uetr-parent", controllermethod: "sPageURLMain", actionparameters: this.handleParams});
-            this.comesFromTracker=true;	
+            this.comesfromtracker=true;	
             //this.showBackButton=false;
         } else {
             this.changeCommunityLanguage();
@@ -83,7 +83,7 @@ export default class Lwc_iptTrackUetrParent extends LightningElement {
                 switch(sParameterName[0]) {
                     case("c__comesFromTracker"):
                         sParameterName[1] === undefined ? 'Not found' : this.showBackButton =  true;
-                        this.comesFromTracker =  true;
+                        this.comesfromtracker =  true;
                         break;
                     case("c__uetr"):	
                         sParameterName[1] === undefined ? 'Not found' : this.searchValue = sParameterName[1];	

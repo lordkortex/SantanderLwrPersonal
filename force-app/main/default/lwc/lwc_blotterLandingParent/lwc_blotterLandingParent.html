@@ -1,0 +1,22 @@
+<template>
+
+    <c-lwc_b2b_toast reload={reload}></c-lwc_b2b_toast>
+
+    <button class="slds-button button_link" onclick={openDownloadModal}>{label.download}       
+        <span class="icon_left icon-download"></span>
+    </button> 
+    
+    <template if:true={showdownloadmodal}>
+        <c-lwc_payments-landing-download-modal 
+            showdownloadmodal={showdownloadmodal} 
+            isallselected={isallselected}
+            onapplydownload={handleDownload} 
+            onbuttoncancel={closeModal}
+            isotfxcommunity=true>
+        </c-lwc_payments-landing-download-modal>
+    </template>
+
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+</template>

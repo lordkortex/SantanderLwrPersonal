@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PAY_PCK_Status_Name__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Status Name</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>true</sorted>
+            <value>
+                <fullName>Authorized</fullName>
+                <default>true</default>
+                <label>Authorized</label>
+            </value>
+            <value>
+                <fullName>Canceled</fullName>
+                <default>false</default>
+                <label>Canceled</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Completed</label>
+            </value>
+            <value>
+                <fullName>Completed (refund not authorized)</fullName>
+                <default>false</default>
+                <label>Completed (refund not authorized)</label>
+            </value>
+            <value>
+                <fullName>Delayed</fullName>
+                <default>false</default>
+                <label>Delayed</label>
+            </value>
+            <value>
+                <fullName>Discarded</fullName>
+                <default>false</default>
+                <label>Discarded</label>
+            </value>
+            <value>
+                <fullName>Draft</fullName>
+                <default>false</default>
+                <label>Draft</label>
+            </value>
+            <value>
+                <fullName>In review</fullName>
+                <default>false</default>
+                <label>In review</label>
+            </value>
+            <value>
+                <fullName>Not authorized</fullName>
+                <default>false</default>
+                <label>Not authorized</label>
+            </value>
+            <value>
+                <fullName>On hold</fullName>
+                <default>false</default>
+                <label>On hold</label>
+            </value>
+            <value>
+                <fullName>Pending</fullName>
+                <default>false</default>
+                <label>Pending</label>
+            </value>
+            <value>
+                <fullName>Processed</fullName>
+                <default>false</default>
+                <label>Processed</label>
+            </value>
+            <value>
+                <fullName>Refund authorized leg 2</fullName>
+                <default>false</default>
+                <label>Refund authorized leg 2</label>
+            </value>
+            <value>
+                <fullName>Refund completed</fullName>
+                <default>false</default>
+                <label>Refund completed</label>
+            </value>
+            <value>
+                <fullName>Refund confirmed leg 2</fullName>
+                <default>false</default>
+                <label>Refund confirmed leg 2</label>
+            </value>
+            <value>
+                <fullName>Refunded leg 1</fullName>
+                <default>false</default>
+                <label>Refunded leg 1</label>
+            </value>
+            <value>
+                <fullName>Refunded leg 2</fullName>
+                <default>false</default>
+                <label>Refunded leg 2</label>
+            </value>
+            <value>
+                <fullName>Refund initiated</fullName>
+                <default>false</default>
+                <label>Refund initiated</label>
+            </value>
+            <value>
+                <fullName>Refund leg 1 authorized</fullName>
+                <default>false</default>
+                <label>Refund leg 1 authorized</label>
+            </value>
+            <value>
+                <fullName>Refund leg 2 requested</fullName>
+                <default>false</default>
+                <label>Refund leg 2 requested</label>
+            </value>
+            <value>
+                <fullName>Refund rejected leg 2</fullName>
+                <default>false</default>
+                <label>Refund rejected leg 2</label>
+            </value>
+            <value>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+                <label>Rejected</label>
+            </value>
+            <value>
+                <fullName>Released</fullName>
+                <default>false</default>
+                <label>Released</label>
+            </value>
+            <value>
+                <fullName>Scheduled</fullName>
+                <default>false</default>
+                <label>Scheduled</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

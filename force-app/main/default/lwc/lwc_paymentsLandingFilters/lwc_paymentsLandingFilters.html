@@ -1,0 +1,106 @@
+<template>
+    <c-lwc_b2b_toast data-id="toast"></c-lwc_b2b_toast>
+
+    <div class="searchFiltersAccounts">
+        <div class="slds-grid">
+            <div class="searchFilters">
+                <div class="slds-form-element search">
+                    <div class="slds-form-element__control slds-input-has-icon">
+                        
+                        <!-- El siguiente button de cerrar debe estar oculto hasta que se vaya a escribir en 
+                    el buscador -->
+                        <!-- El movimiento de la lupa y el placeholder está hecho mediante css -->
+                        <template if:true={searchedStringNotEmpty}>
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={clearInput}>
+                                <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true"></div>
+                                <span class="slds-assistive-text">{label.clear}</span>
+                            </button>
+                        </template>
+                        <!-- Cuando el input tenga un valor seleccionado se le tiene que añadir la clase filledInput -->
+                        <!--disabled="true"-->
+                        <input  type="search" id="text-input-id-1" placeholder={label.SearchPayments} class={searchedStringEmptyClass} name="search" value={searchedstring} onkeydown={setInputOnKeyDown} onblur={setInputOnBlur}/>
+                        
+                        <div class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true"></div>
+                        
+                    </div>
+                    <!-- Mensaje de error oculto por defecto -->
+            		<div class="errorText">Error! Incorrect user input format.</div>
+                </div>
+                
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{label.filterBy}</label>
+                    <div class="slds-form-element__control filters">  
+
+                        <c-lwc_b2b_filter-button-dropdown data-id="filter" 
+                            showdropdown={showdropdown} 
+                            label={label.status} 
+                            name="status" 
+                            filterlist={statusdropdownlist} 
+                            selectedfilters={selectedstatuses} 
+                            cleardropdown={resetSearch}>
+                        </c-lwc_b2b_filter-button-dropdown>
+
+                        <c-lwc_b2b_filter-button-dropdown data-id="filter" 
+                            showdropdown={showdropdown}
+                            label={label.currency} 
+                            name="currency" 
+                            filterlist={currencydropdownlist} 
+                            selectedfilters={selectedcurrencies} 
+                            cleardropdown={resetSearch} >
+                        </c-lwc_b2b_filter-button-dropdown>
+
+                        <!--PILL 3 COMBOBOX--> 
+                        <div class="slds-combobox_container">
+                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                <!-- Añadir la clase filterButton cuando el boton esté filtrado -->
+                                <button class={filterCounterGTzeroClass} onclick={openFilterModal}>{label.AllFilters}
+                                    <div class="numberSelected">
+                                        <span>{filtercounter}</span>
+                                    </div>
+                                    <div class="icon-more"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rightIcons">
+                <!--DOWNLOAD-->
+                <button class="slds-button button_link" onclick={openDownloadModal}>       
+                    <span class="icon_left icon-download"></span>{label.download}
+                </button> 
+                <!--PRINT-->
+                <button class="slds-button button_link" onclick={printScreen}>        
+                    <span class="icon_left icon-print"></span>{label.T_Print} 
+                </button> 
+            </div>   
+        </div>
+    </div>
+    <template if:true={showfiltermodal}> 
+        <c-lwc_payments-landing-filter-modal data-id="filterModal"
+            showfiltermodal={showfiltermodal} 
+            currentuser={currentUser} 
+            isloading={isLoading}                                          
+            clientreference={searchedstring}
+            currencydropdownlist={currencyDropdownList} 
+            selectedcurrencies={selectedCurrencies}
+            statusdropdownlist={statusDropdownList} 
+            selectedpaymentstatusbox={selectedPaymentStatusBox} 
+            selectedstatuses={selectedStatuses}
+            paymentmethoddropdownlist={paymentMethodDropdownList} 
+            selectedmethod={selectedMethod}
+            countrydropdownlist={countryDropdownList} 
+            selectedcountry={selectedCountry}
+            accountlist={accounts}
+            searchedsourceaccount={searchedSourceAccount}
+            account={selectedSourceAccount}
+            fromdecimal={fromDecimal} 
+            todecimal={toDecimal}
+            dates={dates}                                          
+            resetsearch={resetSearch}
+            filtercounter={filterCounter}
+            reloadaccounts={reloadAccounts}  
+            applyisclicked={applyIsClicked}>
+        </c-lwc_payments-landing-filter-modal>                                                                                      
+     </template>
+</template>

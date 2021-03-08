@@ -125,41 +125,39 @@ global class WS_B2B_ValidateAccount {
                 throw new CustomException('You need to inform the country.');
             }
             if (String.isBlank(codigoBic)) {
-                throw new CustomException('You need to inform the codigoBic.');
+                throw new CustomException('You need to inform the codigoBic.');       
             }
             if (validateBody == null) {
                 throw new CustomException('You need to inform the validateAccount conditions.');
             }
-            if (!Test.isRunningTest()) {
-                CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('B2B_AccountValidation');
-                String finalEndPoint = configWs.CNT_Endpoint__c;
-                finalEndPoint = finalEndpoint.replace('{account_id}', accountId);
-                finalEndPoint = finalEndpoint.replace('{accountIdType}', accountIdType);
-                TokenInformation tokenInformation = new TokenInformation(country, configWs.tokenPlatform__c, configWs.tokenUser__c, null, codigoBic, null, null, null, null);
-                String authenticationplatform = getTokenPlatform(country);
-                Map<String, String> extraHeaders = new Map<String, String>();
-                extraHeaders.put('authenticationplatform', authenticationplatform);
-                String res = Global_IntegrationWrapper.launchHTTP(JSON.serialize(validateBody, true), finalEndPoint, configWs.CNT_HTTPMethod__c, extraHeaders, null, null, 120000, tokenInformation);      
-                validateAccountOutput = (ValidateAccountOutput) System.JSON.deserialize(res, ValidateAccountOutput.class);
-            } else {
-                // FLOWERPOWER_PARCHE
-                validateAccountOutput = new ValidateAccountOutput();
-                validateAccountOutput.customerIdResult = new customerIdResult();
-                validateAccountOutput.customerIdResult.result = 'OK';
-                validateAccountOutput.customerIdResult.customerId = '2123';
-                validateAccountOutput.amountResult = new AmountResult();
-                validateAccountOutput.amountResult.result = 'OK';
-                validateAccountOutput.amountResult.amount = '12345.0';
-                validateAccountOutput.currencyCodeResult = new CurrencyCodeResult();
-                validateAccountOutput.currencyCodeResult.result = 'OK';
-                validateAccountOutput.currencyCodeResult.currencyCode = 'EUR';
-                validateAccountOutput.statusResult = new StatusResult();
-                validateAccountOutput.statusResult.result = 'OK';
-                validateAccountOutput.statusResult.status = 'Active';
-                validateAccountOutput.productTypeResult = new ProductTypeResult();
-                validateAccountOutput.productTypeResult.result = 'OK';
-                validateAccountOutput.productTypeResult.productType = 'accounts';
-            }
+            CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('B2B_AccountValidation');
+            String finalEndPoint = configWs.CNT_Endpoint__c;
+            finalEndPoint = finalEndpoint.replace('{account_id}', accountId);
+            finalEndPoint = finalEndpoint.replace('{accountIdType}', accountIdType);
+            TokenInformation tokenInformation = new TokenInformation(country, configWs.tokenPlatform__c, configWs.tokenUser__c, null, codigoBic, null, null, null, null);
+            String authenticationplatform = getTokenPlatform(country);
+            Map<String, String> extraHeaders = new Map<String, String>();
+            extraHeaders.put('authenticationplatform', authenticationplatform);
+            String res = Global_IntegrationWrapper.launchHTTP(JSON.serialize(validateBody, true), finalEndPoint, configWs.CNT_HTTPMethod__c, extraHeaders, null, null, 120000, tokenInformation);      
+            validateAccountOutput = (ValidateAccountOutput) System.JSON.deserialize(res, ValidateAccountOutput.class); 
+            // FLOWERPOWER_PARCHE_CPC
+            /*validateAccountOutput = new ValidateAccountOutput();
+            validateAccountOutput.customerIdResult = new customerIdResult();
+            validateAccountOutput.customerIdResult.result = 'OK';
+            validateAccountOutput.customerIdResult.customerId = '2123';
+            validateAccountOutput.amountResult = new AmountResult();
+            validateAccountOutput.amountResult.result = 'OK';
+            validateAccountOutput.amountResult.amount = '12345.0';
+            validateAccountOutput.currencyCodeResult = new CurrencyCodeResult();
+            validateAccountOutput.currencyCodeResult.result = 'OK';
+            validateAccountOutput.currencyCodeResult.currencyCode = 'EUR';
+            validateAccountOutput.statusResult = new StatusResult();
+            validateAccountOutput.statusResult.result = 'OK';
+            validateAccountOutput.statusResult.status = 'Active';
+            validateAccountOutput.productTypeResult = new ProductTypeResult();
+            validateAccountOutput.productTypeResult.result = 'OK';
+            validateAccountOutput.productTypeResult.productType = 'accounts';*/
+            // FLOWERPOWER_PARCHE_CPC
             if (validateAccountOutput != null) {
                 if (validateAccountOutput.errors != null && !validateAccountOutput.errors.isEmpty()) {
                     String descriptions = '';

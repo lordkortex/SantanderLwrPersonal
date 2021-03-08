@@ -3,24 +3,21 @@ public with sharing  class CNT_B2B_PaymentSummary {
     /*----------------------------------------------------------------------------------
     Author:         R. cervino
     Company:        Deloitte
-    Description:   	Release Payment
+    Description:    Release Payment
     History:
     <Date>          <Author>                <Description>
     30/07/2020      R. Cervino              Initial version
+    26/11/2020      Bea Hill                Adapted to pass through ServiceOrchestration
+
     ----------------------------------------------------------------------------------*/
     @AuraEnabled
-    public static ReturnValue executePayment (WRAPPER_B2B_Data.PaymentAmount amountData, WRAPPER_AccountList.AccountDetails sourceAccount, WRAPPER_AccountList.AccountDetails destinationAccount, String paymentId, String FXTimer, String description, String clientReference) {
-        ReturnValue response = null; 
+    public static ReturnValue executePayment (WRAPPER_B2B_Data.PaymentAmount amountData, WRAPPER_AccountList.AccountDetails sourceAccount, WRAPPER_AccountList.AccountDetails destinationAccount, String paymentId, String FXTimer, String description, String clientReference, String productId, String chargeBearer, String urgencyIndicator) {
+        ReturnValue response = null;  
         try {
-            WS_B2B_Orchestation orchestration = new WS_B2B_Orchestation();
-            orchestration.setPaymentId(paymentId);
-            orchestration.executePayment(amountData, amountData.exchangeRateServiceResponse, amountData.convertedTransactionFeeServiceResponse, amountData.transactionFeeServiceResponse, sourceAccount, destinationAccount, FXTimer, description, clientReference);
-            Map<String, Object> value = new Map<String, Object>();
-            value.put('OrchestationOutput', WS_B2B_Orchestation.OrchestationOutput);
-			response = new ReturnValue(true, value);
+            response = ServiceOrchestration.executePayment(amountData, sourceAccount, destinationAccount, paymentId, FXTimer, description, clientReference, productId, chargeBearer, urgencyIndicator);
         } catch (Exception e) {
             System.debug('CNT_B2B_PaymentSummary.executePayment: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
-			response = new ReturnValue(false, null, e.getMessage());
+            response = new ReturnValue(false, null, e.getMessage());
             throw new AuraHandledException('The following exception has occurred: ' + e.getMessage());
         }
         return response;
@@ -29,7 +26,7 @@ public with sharing  class CNT_B2B_PaymentSummary {
     /*----------------------------------------------------------------------------------
     Author:         R. cervino
     Company:        Deloitte
-    Description:   	Get sign status
+    Description:    Get sign status
     History:
     <Date>          <Author>            <Description>
     30/07/2020      R. Cervino          Initial version
@@ -42,7 +39,7 @@ public with sharing  class CNT_B2B_PaymentSummary {
     /*----------------------------------------------------------------------------------
     Author:         R. cervino
     Company:        Deloitte
-    Description:   	Authorize Payment
+    Description:    Authorize Payment
     History:
     <Date>          <Author>            <Description>
     30/07/2020      R. Cervino          Initial version
@@ -52,10 +49,10 @@ public with sharing  class CNT_B2B_PaymentSummary {
         ReturnValue response = null;
         try {
             CNT_B2B_SignatureUtilities.storeUserSign(paymentId, '', finalAuthorizer, scaUid);
-			response = new ReturnValue(true, 'ok');
+            response = new ReturnValue(true, 'ok');
         } catch (Exception e) {
             System.debug('CNT_B2B_PaymentSummary.authorizePayment: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
-			response =  new ReturnValue(false, null, e.getMessage());
+            response =  new ReturnValue(false, null, e.getMessage());
             throw new AuraHandledException('The following exception has occurred: ' + e.getMessage());
         }
         return response;
@@ -64,18 +61,18 @@ public with sharing  class CNT_B2B_PaymentSummary {
     /*----------------------------------------------------------------------------------
     Author:         R. cervino
     Company:        Deloitte
-    Description:   	Obtain OTP
+    Description:    Obtain OTP
     History:
     <Date>          <Author>            <Description>
     05/08/2020      R. Cervino          Initial version
-	07/10/2020      Shahad Naji         Adding sourceCountry and sourceBIC to generate token
+    07/10/2020      Shahad Naji         Adding sourceCountry and sourceBIC to generate token
     ----------------------------------------------------------------------------------*/
     @AuraEnabled
     public static ReturnValue getOTP (String paymentID, String sourceCountry, String sourceBIC) {
         ReturnValue response = null;
         try {
             Map<String, Object> value = new Map<String, Object>();
-			WS_B2B_OTP.getOTP(sourceCountry, sourceBIC);
+            WS_B2B_OTP.getOTP(sourceCountry, sourceBIC);
             value.put('initiateOTP', WS_B2B_OTP.initiateOTP);
             response = new ReturnValue(true, value);
             if (WS_B2B_OTP.initiateOTP.scaUid != '') {
@@ -93,7 +90,7 @@ public with sharing  class CNT_B2B_PaymentSummary {
     /*----------------------------------------------------------------------------------
     Author:         R. cervino
     Company:        Deloitte
-    Description:   	validate OTP
+    Description:    validate OTP
     History
     <Date>          <Author>            <Description>
     05/08/2020      R. Cervino          Initial version
@@ -104,12 +101,12 @@ public with sharing  class CNT_B2B_PaymentSummary {
         ReturnValue response = null;
         try {
             Map<String, Object> value = new Map<String, Object>();
-			WS_B2B_OTP.validateOTP(paymentId, metaData, sourceCountry, sourceBIC);
+            WS_B2B_OTP.validateOTP(paymentId, metaData, sourceCountry, sourceBIC);
             value.put('validateOTP', WS_B2B_OTP.validateOTP);
             response = new ReturnValue(true,value);
         } catch (Exception e) {
             System.debug('CNT_B2B_PaymentSummary.validateOTP: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
-			response = new ReturnValue(false, null, e.getMessage());
+            response = new ReturnValue(false, null, e.getMessage());
             throw new AuraHandledException('The following exception has occurred: ' + e.getMessage());
         }
         return response;
@@ -130,23 +127,53 @@ public with sharing  class CNT_B2B_PaymentSummary {
         String output = wsObject.updateStatus(status, reason);
         return output;
     }
-
+    /*----------------------------------------------------------------------------------
+    Author:         
+    Company:        Deloitte
+    Description:    Request countervalue in operating or consulting mode.
+    History:
+    <Date>          <Author>            <Description>
+          			           			Initial version
+	14/01/2021		Shahad Naji			Add requestPurpose that indicates if the callout is related to the nominal amount of a payment or to the fee applied to the payment
+    ----------------------------------------------------------------------------------*/    
     @AuraEnabled
     public static ReturnValue getExchangeRate (Boolean feesBoolean, String paymentId, WRAPPER_B2B_Data.PaymentAmount paymentData, WRAPPER_B2B_Data.AccountData accountData, WRAPPER_AccountList.AccountDetails sourceAccountData, WRAPPER_AccountList.AccountDetails recipientAccountData) {
         ReturnValue response = null;
         try {
             Map<String, Object> value = new Map<String, Object>();
             System.debug(paymentData);
-            Decimal sendAmount = paymentData.amountSend;
-            String callType = 'ONL';
-            String requestType = 'T';
-            if (feesBoolean == true && paymentData.transactionFee != null) {
+            // Decimal sendAmount = paymentData.amountSend;
+            Decimal sendAmount = null;
+            Decimal receiveAmount = null;
+            String callType = '';
+            String requestType = '';
+            String customerId = sourceAccountData.codigoCorporate;
+            String requestPurpose = '';
+            if (feesBoolean == false) {
+                if (paymentData.fromOrigin != null) {
+                    if (paymentData.fromOrigin == true) {
+                        sendAmount = paymentData.amountSend;
+                        if(sourceAccountData.companyIdsList != null &&  String.isNotBlank(sourceAccountData.companyIdsList.get('LOCAL'))){
+                            customerId = sourceAccountData.companyIdsList.get('LOCAL');
+                        }
+                    } else {
+                        receiveAmount = paymentData.amountReceive;
+                        if(recipientAccountData.companyIdsList != null &&  String.isNotBlank(recipientAccountData.companyIdsList.get('LOCAL'))){
+                            customerId = recipientAccountData.companyIdsList.get('LOCAL');
+                        }
+                    }
+                }
+                callType = 'ONL';
+                requestType = 'T';
+                requestPurpose = 'Nominal_request';
+            } else if (feesBoolean == true && paymentData.transactionFee != null) {
                 sendAmount =  paymentData.transactionFee;
                 callType =  'ONI'; 
                 requestType = 'I';
+                requestPurpose = 'Fee_request';
             }
-            WS_ExchangeRate exchangeRate = new WS_ExchangeRate(paymentId, 'b2b', requestType,  callType, accountData, 120000);
-            Map<String, Object> output = exchangeRate.execute(sendAmount, null, sourceAccountData.currencyCodeAvailableBalance, recipientAccountData.currencyCodeAvailableBalance, sourceAccountData.alias, sourceAccountData.aliasEntidad, sourceAccountData.codigoCorporate, sourceAccountData.country, sourceAccountData.codigoBic);
+            WS_ExchangeRate exchangeRate = new WS_ExchangeRate(paymentId, 'b2b', requestType,  callType, accountData, 120000, requestPurpose);
+            Map<String, Object> output = exchangeRate.execute(sendAmount, receiveAmount, sourceAccountData.currencyCodeAvailableBalance, recipientAccountData.currencyCodeAvailableBalance, sourceAccountData.alias, sourceAccountData.aliasEntidad, customerId, sourceAccountData.country, sourceAccountData.codigoBic);
             response = new ReturnValue(true, output);
         } catch (Exception e) {
             System.debug('CNT_B2B_PaymentSummary.getExchangeRate: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
@@ -158,7 +185,7 @@ public with sharing  class CNT_B2B_PaymentSummary {
        /*----------------------------------------------------------------------------------
     Author:         R. Cervino
     Company:        Deloitte
-    Description:   	Data encryption
+    Description:    Data encryption
     History:
     <Date>          <Author>            <Description>
     28/09/2020      R. Cervino          Initial version
@@ -213,7 +240,7 @@ public with sharing  class CNT_B2B_PaymentSummary {
     /*----------------------------------------------------------------------------------
     Author:         R. cervino
     Company:        Deloitte
-    Description:   	Delete signature
+    Description:    Delete signature
     History:
     <Date>          <Author>            <Description>
     15/09/2020      R. Cervino          Initial version
@@ -231,7 +258,7 @@ public with sharing  class CNT_B2B_PaymentSummary {
         return response;
     }
     
-     /*----------------------------------------------------------------------------------
+    /*----------------------------------------------------------------------------------
     Author:         Antonio Duarte
     Company:        Deloitte
     Description:    Send notification
@@ -242,9 +269,10 @@ public with sharing  class CNT_B2B_PaymentSummary {
 	----------------------------------------------------------------------------------*/
     @AuraEnabled
     public static void sendNotification (String paymentId, String notificationType) {
-		HANDLER_CustomNotification.sendPaymentNotification(PaymentId, notificationType);
-	}
-     
+        HANDLER_CustomNotification.sendNotification('Payment', PaymentId, notificationType);
+    }
+    
+    
     @AuraEnabled
     public static String getSessionId () {
       return UserInfo.getSessionId();
@@ -257,25 +285,11 @@ public with sharing  class CNT_B2B_PaymentSummary {
     History:
     <Date>          <Author>            <Description>
     05/08/2020      R. Cervino          Initial version
-	07/10/2020      Shahad Naji         Adding sourceCountry and sourceBIC to generate token
+    07/10/2020      Shahad Naji         Adding sourceCountry and sourceBIC to generate token
     ----------------------------------------------------------------------------------*/
     @AuraEnabled
-    public static ReturnValue getOTP_Strategic (String beneficiaryName, String beneficiaryAccount, String paymentId, String debitAmount, String fees, String exchangeRate, String paymentAmount) {
-        ReturnValue response = null;
-        try {
-            Map<String, Object> value = new Map<String, Object>();
-			WS_B2B_OTP_Strategic.getOTP(beneficiaryName, beneficiaryAccount, paymentId, debitAmount, fees, exchangeRate, paymentAmount);
-            value.put('initiateOTP', WS_B2B_OTP_Strategic.initiateOTP);
-            response = new ReturnValue(true, value);
-            if (WS_B2B_OTP_Strategic.initiateOTP.scaUid != '') {
-                WS_B2B_OTP_Strategic.storeOTPId(WS_B2B_OTP_Strategic.initiateOTP.scaUid, paymentId);
-            }
-        } catch (Exception e) {
-            System.debug('CNT_B2B_Authorization.getOTP: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
-			response =  new ReturnValue(false, null, e.getMessage());
-            throw new AuraHandledException('The following exception has occurred: ' + e.getMessage());
-        }
-        return response;
+    public static ReturnValue getOTP_Strategic (String paymentMethod, String beneficiaryName, String beneficiaryAccount, String paymentId, String debitAmount, String fees,  String exchangeRate, String paymentAmount , WRAPPER_B2B_Data.PaymentAmount amount, WRAPPER_AccountList.AccountDetails sourceAccount, WRAPPER_AccountList.AccountDetails destinationAccount, String subject, String serviceId, Map<String,String> navigatorInfo) {
+        return CNT_B2B_SignatureUtilities.getOTP_Strategic(paymentMethod, beneficiaryName, beneficiaryAccount, paymentId, debitAmount, fees, exchangeRate, paymentAmount, amount, sourceAccount, destinationAccount, subject, serviceId, navigatorInfo);
     }
 
 }

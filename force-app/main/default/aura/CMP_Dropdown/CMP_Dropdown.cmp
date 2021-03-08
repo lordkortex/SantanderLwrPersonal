@@ -168,7 +168,7 @@
                                         <span class="slds-assistive-text">{!v.helpText}</span>
                                     </button>
                                 </div>
-                                <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
+                                <!-- <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder"> -->
                                     <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpText}">
                                         <aura:iteration items="{!v.values}" var="item">
                                             <!--<li class="{!v.selectedValueMap[item_index].selected ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}" onclick="{!c.selectOption}">-->
@@ -184,7 +184,7 @@
                                             </li>
                                         </aura:iteration>  
                                     </ul>
-                                </div>
+                                <!-- </div> -->
                             </aura:set>
                         </aura:if>
                     </aura:set>

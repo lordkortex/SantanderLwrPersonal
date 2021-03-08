@@ -1,0 +1,21 @@
+<template>
+    <div>
+        <template if:true={stepsAndTotalNotZero}>
+            <div class="slds-progress-bar" 
+                aria-valuemin="0" 
+                aria-valuemax="100" 
+                aria-valuenow={valueNow} 
+                role="progressbar">
+                <span class="slds-progress-bar__value" data-id="variableWidth"> 
+                    <span class="slds-assistive-text">{Label.B2B_Progress} {stepDivideTotal} </span>
+                </span>
+            </div>
+        </template>
+        
+        <template if:true={totalEqualsZero}>
+            <div class="slds-progress-bar">
+                <span class="slds-progress-bar__value"></span>
+            </div>
+        </template>
+    </div>
+</template>

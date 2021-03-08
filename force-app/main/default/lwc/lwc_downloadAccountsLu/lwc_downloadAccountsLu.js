@@ -4,7 +4,7 @@ import { loadStyle,loadScript  } from 'lightning/platformResourceLoader';
 //import SheetJS from '@salesforce/resourceUrl/SheetJS';
 import SheetJSIntegra from '@salesforce/resourceUrl/SheetJSIntegra';
 
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 import Country from '@salesforce/label/c.Country';
 import currency from '@salesforce/label/c.currency';

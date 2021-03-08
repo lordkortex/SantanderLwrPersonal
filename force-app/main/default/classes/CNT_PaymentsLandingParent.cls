@@ -21,47 +21,7 @@ History
     
     @AuraEnabled
     public static ReturnValue getUserData () {
-        ReturnValue response = ServiceUserData.getControllerUserData ();
-        
-      /*  Map<String, Object> value = new Map<String, Object>();
-
-        try {
-            String userID = UserInfo.getUserId();
-
-            User user = Global_Utilities.getUserData(userID);
-            value.put('userId', userID);
-            value.put('globalId', user.USER_TXT_GlobalId__c);
-            value.put('numberFormat', user.USER_NumberFormat__c);
-            value.put('dateFormat', user.User_DateFormat__c);
-            value.put('firstName', user.FirstName);
-            
-            //value.put('lastName', user.lastName);
-            //value.put('alias', user.alias);
-            //value.put('email', user.email);
-			//value.put('mobilePhone', user.mobilePhone);
-			//value.put('cashNexus', user.cashNexus);
-			//value.put('country', user.country);
-			//value.put('bic', user.bic);
-			//value.put('contactId', user.contactId);
-			//value.put('contactName', user.contactName);
-			//value.put('multiOneTrade', user.multiOneTrade);
-			//value.put('accountId', user.accountId);
-			//value.put('cib', user.cib);
-			//value.put('documentType', user.documentType);
-			//value.put('documentNumber', user.documentNumber);
-			//value.put('companyId', user.companyId);
-			//value.put('companyBIC', user.companyBIC);       
-            
-            value.put('isNexus', user.USER_CHK_CashNexus__c);
-             
-
-            System.debug('DATA: '+value);
-
-            response = new ReturnValue(true, value);
-        } catch (Exception e) {
-            System.debug('CNT_PaymentsLandingParent.getUserData: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
-            response = new ReturnValue(false, null, e.getMessage());
-        }*/
+        ReturnValue response = ServiceUserData.getControllerUserData ();        
         return response;
     }
 
@@ -96,172 +56,32 @@ History
                 response = CNT_PaymentsLandingParent.getTestPaymentsStatuses(true, '');
                 value.put('output', response);
             }else{
-                List<WS_OperationsByStatus.AccountList> inputAccountList = new List<WS_OperationsByStatus.AccountList>();
-                List<WS_OperationsByStatus.StatusList> inputStatusList = new List<WS_OperationsByStatus.StatusList>();
-                
-                for(WRAPPER_AccountList.AccountDetails item : accountList){  
-                    if(item.idType == null || item.idType == ''){
-                        item.idType = 'BBA';
-                    }
-                    if((item.idType != null && item.idType != '') && (item.displayNumber != '' && item.displayNumber != null)){
-                        WS_OperationsByStatus.Account input_account = new WS_OperationsByStatus.Account();
-                        input_account.idType = item.idType;
-                        input_account.accountId = item.displayNumber;
-                        WS_OperationsByStatus.AccountList input_accountList = new WS_OperationsByStatus.AccountList(input_account);    
-                        inputAccountList.add(input_accountList);                      
-                    }
-                    
-                }
-                
-                //002 = Pending
-                WS_OperationsByStatus.StatusList inputStatus002 = new WS_OperationsByStatus.StatusList();
-                inputStatus002.status = '002';
-                inputStatusList.add(inputStatus002);
-                
-                //003 = In review
-                WS_OperationsByStatus.StatusList inputStatus003 = new WS_OperationsByStatus.StatusList();
-                inputStatus003.status = '003';
-                inputStatusList.add(inputStatus003);
-                
-                String dateString1 = Datetime.now().format('yyyy-MM-dd');
-                System.debug(dateString1);                
-                Datetime dt = Datetime.now() + 7;
-                String dateString2 =dt.format('yyyy-MM-dd');
-                System.debug(dateString2);                
-                //201 = Scheduled
-                WS_OperationsByStatus.StatusList inputStatus201 = new WS_OperationsByStatus.StatusList();
-                inputStatus201.status = '201';                
-                inputStatus201.valueDateFrom = String.valueOf(dateString1);
-                inputStatus201.valueDateTo = String.valueOf(dateString2);
-                inputStatusList.add(inputStatus201);
-                
-                dateString1 = Datetime.now().format('yyyy-MM-dd');
-                System.debug(dateString1);                
-                dt = Datetime.now() - 7; 
-                dateString2 =dt.format('yyyy-MM-dd');
-                System.debug('dateString2 for last week: '+dateString2); 
-                //103 = Completed
-                WS_OperationsByStatus.StatusList inputStatus103 = new WS_OperationsByStatus.StatusList();
-                inputStatus103.status = '103';               
-                inputStatus103.valueDateFrom = String.valueOf(dateString2); 
-                inputStatus103.valueDateTo = String.valueOf(dateString1); 
-                inputStatusList.add(inputStatus103);
-                
-                //999 = Rejected
-                WS_OperationsByStatus.StatusList inputStatus999 = new WS_OperationsByStatus.StatusList();
-                inputStatus999.status = '999';               
-                inputStatus999.valueDateFrom = String.valueOf(dateString2);
-                inputStatus999.valueDateTo = String.valueOf(dateString1);
-                inputStatusList.add(inputStatus999);
-                
-                           
-                
+                List<WS_OperationsList.StatusList> frontStatusList = CNT_Payments.wsGetStatusList(true, false);  
+                List<WS_OperationsByStatus.AccountList> inputAccountList = createInputAccountList(accountList);
+                List<WS_OperationsByStatus.StatusList> inputStatusList = createInputStatusList(frontStatusList);
                	WS_OperationsByStatus ws_OperationsByStatus = new WS_OperationsByStatus();
-               	WRAPPER_OperationsByStatus result =  ws_OperationsByStatus.execute( inputAccountList,  inputStatusList,  globalUserId);//
-                system.debug('status result: ' + result);
-               
-                List<WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus> paymentStatusesList = new WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus[6];
-                WRAPPER_PaymentsStatuses paymentStatuses = new WRAPPER_PaymentsStatuses();
-                Integer count = 0;
-                if(result != null){
-                    if(result.statusList != null){
-                        if(result.statusList.size() > 0){
-                            
-                            for(WRAPPER_OperationsByStatus.statusList item :  result.statusList){
-                                
-                                WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus paymentsStatus = new WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus();
-                                String customLabelValue = '';
-                                
-                                if(item.status == '002'){
-                                    if(item.pendingAuthorization == true){
-                                        customLabelValue = System.Label.PAY_Status_PendingOne;   
-                                        count += item.countOperation;
-                                    }else{
-                                        customLabelValue = System.Label.PAY_Status_PendingTwo;  
-                                        count += item.countOperation;
-                                    }                                 
-                                }                            
-                                if(item.status == '003'){
-                                    customLabelValue = System.Label.PAY_Status_InReviewOne;
-                                    count += item.countOperation;
-                                }                            
-                                if(item.status == '201'){
-                                    customLabelValue = System.Label.PAY_Status_ScheduledOne;
-                                    count += item.countOperation;
-                                }                             
-                                if(item.status == '103'){
-                                    customLabelValue = System.Label.PAY_Status_CompletedOne;
-                                    count += item.countOperation;
-                                }
-                                if(item.status == '999'){
-                                    customLabelValue = System.Label.PAY_Status_RejectedOne;
-                                    count += item.countOperation;
-                                }
-                                
-                                if(customLabelValue != null && customLabelValue != ''){
-                                    
-                                    Payment_Status__mdt ps =  getStatus(customLabelValue);
-                                    if(ps != null){
-                                        paymentsStatus.statusId = ps.PAY_TXT_StatusCode__c;       
-                                        paymentsStatus.statusCod = 'Cod'+ps.PAY_TXT_StatusCode__c;
-                                        paymentsStatus.statusName = ps.PAY_TXT_StatusCode__c;
-                                        paymentsStatus.parsedStatusName = ps.PAY_PCK_Status__c;
-                                        paymentsStatus.statusDescription = ps.PAY_PCK_Description__c;
-                                        paymentsStatus.numberOfRecords = item.countOperation != null ? item.countOperation : 0;
-                                        paymentsStatus.parsedStatusDescription = ps.PAY_PCK_Reason__c;
-                                        
-                                        
-                                        if(item.status == '002'){
-                                            if(item.pendingAuthorization == true){
-                                                paymentsStatus.statusName = 'true_'+ps.PAY_TXT_StatusCode__c;
-                                                paymentStatusesList.add(0,paymentsStatus);                         
-                                            }else{
-                                                //adding "aux_" to differentiate between the different types of pending payments 
-                                                paymentsStatus.statusName = 'false_'+ps.PAY_TXT_StatusCode__c;
-                                                paymentStatusesList.add(1,paymentsStatus);  
-                                            }                                 
-                                        }                            
-                                        if(item.status == '003'){
-                                            paymentStatusesList.add(2,paymentsStatus);
-                                        }                            
-                                        if(item.status == '201'){
-                                            paymentStatusesList.add(3,paymentsStatus);
-                                        }                             
-                                        if(item.status == '103'){
-                                            paymentStatusesList.add(4,paymentsStatus);
-                                        }
-                                        if(item.status == '999'){
-                                            paymentStatusesList.add(5,paymentsStatus);
-                                        } 
-                                    }
-                                }
-                            } 
-                            paymentStatuses.paymentStatusList = paymentStatusesList;
-                            paymentStatuses.totalNumberOfRecords = count;
-                        }
-                    }
-                  response = paymentStatuses;  
+                WRAPPER_OperationsByStatus result =  ws_OperationsByStatus.execute(inputAccountList, inputStatusList, globalUserId);
+                if(result != null) {
+                    List<WRAPPER_OperationsByStatus.StatusList> collatedResult = collateCounts(result.statusList); 
+                    Integer totalCount = getTotalCount(collatedResult);  
+                    List<WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus> paymentStatusesList = completeStatusListOutput(collatedResult);
+                    WRAPPER_PaymentsStatuses paymentStatuses = new WRAPPER_PaymentsStatuses();
+                    paymentStatuses.paymentStatusList = paymentStatusesList;
+                    paymentStatuses.totalNumberOfRecords = totalCount;
+                    response = paymentStatuses; 
                 }else{
                     response = CNT_PaymentsLandingParent.getTestPaymentsStatuses(true, '');
                 }
-
                 value.put('output', response);
-                
-                
             }
-            
-               rv = new ReturnValue(true, value);
+            rv = new ReturnValue(true, value);
         }catch(Exception e){
             System.debug('CNT_PaymentsLandingParent.getPaymentsStatuses: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
             rv = new ReturnValue(false, null, e.getMessage());
         }
-        
         return rv;
     }  
 
-
-
- 
 
         /*----------------------------------------------------------------------------------
 Author:         Shahad Naji 
@@ -283,16 +103,12 @@ History
         ReturnValue  rv = null;
         String getMockData = System.Label.GET_MOCK_DATA;
         try {
-            
             Map<String, Object> value = new Map<String, Object>();
             WRAPPER_PaymentList response = new WRAPPER_PaymentList();
-       
-          if(getMockData == 'True'){
-                
+            if (getMockData == 'True'){
                 response = CNT_Payments.getTestPaymentsInformation(true);
                 value.put('output', response);
-            }
-            else{
+            } else {
                if(sourceAccountList == null){
                     sourceAccountList = getUserAccounts(accountList);                 
                 }else if (sourceAccountList.size() == 0){
@@ -304,26 +120,21 @@ History
                     currencyList = null;
                 }
                 if(statusList.size() == 0){
-                    //statusList = null;
                     statusList = CNT_Payments.wsGetStatusList(true, false);
                 }
                 WS_OperationsList ws_operationsList = new WS_OperationsList();   
-               
                 WRAPPER_OperationsList output = ws_operationsList.execute(globalUserId, pendingAuthorization, latestOperationsFlag, sourceAccountList,destinationCountry, statusList, amountFrom, amountTo, currencyList, null, clientReference, valueDateFrom, valueDateTo, null, null, null, productId);
-               
                 if(output != null){
                     if(output.operationsList != null){
                         if(output.operationsList.size() > 0){
-                            
                             List<WRAPPER_OperationsList.OperationsList> auxiliarList = output.operationsList;
                             List<WRAPPER_PaymentList.WRAPPER_Payment> paymentsList = new List<WRAPPER_PaymentList.WRAPPER_Payment>();
-                            
                             Map <String, String> statusMap = CNT_Payments.getPaymentStatusMap();
                             for(WRAPPER_OperationsList.OperationsList item : auxiliarList){  
                                 WRAPPER_PaymentList.WRAPPER_Payment payment = new WRAPPER_PaymentList.WRAPPER_Payment();
                                 Boolean addPayment = true;
                                 if(item.operationDetail != null){
-                                     payment.paymentId = item.operationDetail.operationGlobalId != null ? item.operationDetail.operationGlobalId : '';
+                                    payment.paymentId = item.operationDetail.operationGlobalId != null ? item.operationDetail.operationGlobalId : '';
                                     payment.clientReference = item.operationDetail.clientReference != null ? item.operationDetail.clientReference : '';
                                     payment.userGlobalId = item.operationDetail.globalUserId != null ? item.operationDetail.globalUserId : '';
                                     if (item.operationDetail.operationAmount != null && item.operationDetail.operationAmount.amount != null && item.operationDetail.operationAmount.tcurrency != null) {
@@ -408,16 +219,13 @@ History
                                         payment.paymentReason = item.operationDetail.operationStatus.reason != null ? item.operationDetail.operationStatus.reason : '' ; 
                                     }
                                     if(addPayment){
-                                       paymentsList.add(payment);  
+                                        paymentsList.add(payment); 
                                     }
                                     
                                 }
-                                
-                                
-                                
                             }
                             response.paymentsList = paymentsList;
-                            
+
                         }else{
                             response.paymentsList = null;
                         }
@@ -531,12 +339,8 @@ History
                                     
                                     paymentsList.add(payment); 
                                 }
-                                
-                                
-                                
                             }
                             response.paymentsList = paymentsList;
-                            
                         }else{
                             response.paymentsList = null;
                         }
@@ -592,40 +396,33 @@ History
         ReturnValue  rv = null;
         String getMockData = System.Label.GET_MOCK_DATA;
         try {
-            
             Map<String, Object> value = new Map<String, Object>();
             WRAPPER_PaymentList response = new WRAPPER_PaymentList();
             
-            if(getMockData == 'True'){                
+            if (getMockData == 'True'){                
                 response = CNT_Payments.getTestPaymentsInformation(true);
                 value.put('output', response);
-            }else{
-          
-                
-               List<WS_OperationsList.SourceAccountList> sourceAccountList =  getUserAccounts(accountList);
-                                
+            } else {
+                List<WS_OperationsList.SourceAccountList> sourceAccountList =  getUserAccounts(accountList);                
                 WS_OperationsList ws_operationsList = new WS_OperationsList();
                 WRAPPER_OperationsList output = null;
                 List<WS_OperationsList.StatusList> wsStatusList = CNT_Payments.wsGetStatusList(true, false);  
-                if(sourceAccountList.size() > 0){
-                    //output = ws_operationsList.execute(true, sourceAccountList);
+                if (sourceAccountList.size() > 0){
                     output = ws_operationsList.execute(true, sourceAccountList, wsStatusList);
-                }  else{
-                   output = null; 
+                } else {
+                    output = null; 
                 }              
-                
-                if(output != null){                    
-                    if(output.operationsList != null){
-                        if(output.operationsList.size() > 0){
+                if (output != null){                    
+                    if (output.operationsList != null){
+                        if (output.operationsList.size() > 0){
                             List<WRAPPER_OperationsList.OperationsList> auxiliarList = output.operationsList;
                             List<WRAPPER_PaymentList.WRAPPER_Payment> paymentsList = new List<WRAPPER_PaymentList.WRAPPER_Payment>();
                             Map<String,String> statusMap = CNT_Payments.getPaymentStatusMap();
-                            
                             for(WRAPPER_OperationsList.OperationsList item : auxiliarList){  
                                 WRAPPER_PaymentList.WRAPPER_Payment payment = new WRAPPER_PaymentList.WRAPPER_Payment();
                                 Boolean addPayment = true;
                                 if(item.operationDetail != null){
-                                     payment.paymentId = item.operationDetail.operationGlobalId != null ? item.operationDetail.operationGlobalId : '';
+                                    payment.paymentId = item.operationDetail.operationGlobalId != null ? item.operationDetail.operationGlobalId : '';
                                     payment.clientReference = item.operationDetail.clientReference != null ? item.operationDetail.clientReference : '';
                                     payment.userGlobalId = item.operationDetail.globalUserId != null ? item.operationDetail.globalUserId : '';
                                     if (item.operationDetail.operationAmount != null && item.operationDetail.operationAmount.amount != null && item.operationDetail.operationAmount.tcurrency != null) {
@@ -711,21 +508,20 @@ History
                                     }
                                     if(addPayment){
                                         paymentsList.add(payment); 
-                                    }                                  
+                                    }
                                 }
                             }
-                            response.paymentsList = paymentsList;                            
-                        }else{
+                            response.paymentsList = paymentsList;
+                        } else {
                             response.paymentsList = null;
                         }
-                    }
+                    }           
                 }    
-
+                
                 List<WRAPPER_PaymentList.WRAPPER_Status> statusList = CNT_Payments.getStatusList();            
                 List<WRAPPER_PaymentList.WRAPPER_Currency> currencyList = CNT_Payments.getCurrencyList();                            
-                List<WRAPPER_PaymentList.WRAPPER_PaymentType> paymentTypeList = CNT_Payments.getPaymentTypeList();                
+                List<WRAPPER_PaymentList.WRAPPER_PaymentType> paymentTypeList = CNT_Payments.getPaymentTypeList();
                 List<WRAPPER_PaymentList.WRAPPER_Country> countryList = CNT_Payments.getCountryList();
-
                 response.statusList = statusList;
                 response.currencyList = currencyList;
                 response.paymentTypeList = paymentTypeList;
@@ -1011,9 +807,351 @@ History
 
     }
     
-     @AuraEnabled
+    @AuraEnabled
     public static String decryptData(String str){
         return Global_Utilities.decryptData(str);
+        
+    }  
+    @AuraEnabled
+    public static String encryptData(String str){
+        return Global_Utilities.encryptData(str);
+    }
 
-    }    
+     /*----------------------------------------------------------------------------------
+    Author:         Bea Hill 
+    Company:        Deloitte
+    Description:    Prepare list of accounts for statusHeader input
+    History
+    <Date>          <Author>       <Description>
+    14/01/2021      Bea Hill       Initial version
+    ----------------------------------------------------------------------------------*/     
+    @AuraEnabled
+    public static List<WS_OperationsByStatus.AccountList> createInputAccountList(List<WRAPPER_AccountList.AccountDetails> accountList) {
+        List<WS_OperationsByStatus.AccountList> inputAccountList = new List<WS_OperationsByStatus.AccountList>();
+        try {
+            if(!accountList.isEmpty()) {
+                for(WRAPPER_AccountList.AccountDetails item : accountList){  
+                    if(item.idType == null || item.idType == ''){
+                        item.idType = 'BBA';
+                    }
+                    if((item.idType != null && item.idType != '') && (item.displayNumber != '' && item.displayNumber != null)){
+                        WS_OperationsByStatus.Account input_account = new WS_OperationsByStatus.Account();
+                        input_account.idType = item.idType;
+                        input_account.accountId = item.displayNumber;
+                        WS_OperationsByStatus.AccountList input_accountList = new WS_OperationsByStatus.AccountList(input_account);    
+                        inputAccountList.add(input_accountList);                      
+                    } 
+                }
+            }
+        } catch (Exception e) {
+            System.debug('CNT_PaymentsLandingParent.createInputAccountList: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+        }  
+        return inputAccountList;
+    }
+
+    /*----------------------------------------------------------------------------------
+    Author:         Bea Hill 
+    Company:        Deloitte
+    Description:    Prepare list of statuses, reasons and date filters for statusHeader input
+    History
+    <Date>          <Author>       <Description>
+    14/01/2021      Bea Hill       Initial version
+    ----------------------------------------------------------------------------------*/     
+    @AuraEnabled
+    public static List<WS_OperationsByStatus.StatusList> createInputStatusList(List<WS_OperationsList.StatusList> frontStatusList) {
+        List<WS_OperationsByStatus.StatusList> inputStatusList = new List<WS_OperationsByStatus.StatusList>();  
+        try {
+            if(!frontStatusList.isEmpty()) {
+                String today = Datetime.now().format('yyyy-MM-dd');
+                Datetime dtNext = Datetime.now() + 7;
+                String nextWeek =dtNext.format('yyyy-MM-dd');
+                Datetime dtLast = Datetime.now() - 7; 
+                String lastWeek = dtLast.format('yyyy-MM-dd');
+                String noDate = null;
+
+                //002 = Pending
+                List<WS_OperationsByStatus.StatusList> statuses002 = getStatusReasonPairs('002', noDate, noDate, frontStatusList);
+                inputStatusList.addAll(statuses002);
+                // WS_OperationsByStatus.StatusList inputStatus002 = new WS_OperationsByStatus.StatusList();
+                // inputStatus002.status = '002';
+                // inputStatusList.add(inputStatus002);
+
+                
+                //003 = In review
+                List<WS_OperationsByStatus.StatusList> statuses003 = getStatusReasonPairs('003', noDate, noDate, frontStatusList);
+                inputStatusList.addAll(statuses003);  
+                // WS_OperationsByStatus.StatusList inputStatus003 = new WS_OperationsByStatus.StatusList();
+                // inputStatus003.status = '003';
+                // inputStatusList.add(inputStatus003);
+                
+                // String dateString1 = Datetime.now().format('yyyy-MM-dd');
+                // Datetime dt = Datetime.now() + 7;
+                // String dateString2 =dt.format('yyyy-MM-dd');
+
+                //201 = Scheduled
+                List<WS_OperationsByStatus.StatusList> statuses201 = getStatusReasonPairs('201', today, nextWeek, frontStatusList);  
+                inputStatusList.addAll(statuses201);
+                // WS_OperationsByStatus.StatusList inputStatus201 = new WS_OperationsByStatus.StatusList();
+                // inputStatus201.status = '201';                
+                // inputStatus201.valueDateFrom = String.valueOf(dateString1);
+                // inputStatus201.valueDateTo = String.valueOf(dateString2);
+                // inputStatusList.add(inputStatus201);
+                
+                // dateString1 = Datetime.now().format('yyyy-MM-dd');
+                // dt = Datetime.now() - 7; 
+                // dateString2 =dt.format('yyyy-MM-dd');
+
+                //103 = Completed
+                List<WS_OperationsByStatus.StatusList> statuses103 = getStatusReasonPairs('103', lastWeek, today, frontStatusList);  
+                inputStatusList.addAll(statuses103);
+                // WS_OperationsByStatus.StatusList inputStatus103 = new WS_OperationsByStatus.StatusList();
+                // inputStatus103.status = '103';               
+                // inputStatus103.valueDateFrom = String.valueOf(dateString2); 
+                // inputStatus103.valueDateTo = String.valueOf(dateString1); 
+                // inputStatusList.add(inputStatus103);
+                
+                //999 = Rejected
+                List<WS_OperationsByStatus.StatusList> statuses999 = getStatusReasonPairs('999', lastWeek, today, frontStatusList);  
+                inputStatusList.addAll(statuses999);
+                // for (WS_OperationsList.StatusList statusReason : frontStatusList) {
+                //     if(statusReason.status == '999' && String.isNotBlank(statusReason.reason)) {
+                //         WS_OperationsByStatus.StatusList inputStatus999 = new WS_OperationsByStatus.StatusList();
+                //         inputStatus999.status = '999';    
+                //         inputStatus999.reason = statusReason.reason;            
+                //         inputStatus999.valueDateFrom = String.valueOf(dateString2);
+                //         inputStatus999.valueDateTo = String.valueOf(dateString1);
+                //         inputStatusList.add(inputStatus999);
+                //     }
+                // }      
+            }
+        } catch (Exception e) {
+            System.debug('CNT_PaymentsLandingParent.createInputStatusList: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+        }  
+        return inputStatusList;
+    }
+
+
+     /*----------------------------------------------------------------------------------
+    Author:         Bea Hill 
+    Company:        Deloitte
+    Description:    Sum the status-reason counts for each status
+    History
+    <Date>          <Author>       <Description>
+    14/01/2021      Bea Hill       Initial version
+    ----------------------------------------------------------------------------------*/     
+    // @AuraEnabled
+    // public static List<WRAPPER_OperationsByStatus.StatusList> collateCounts(List<WRAPPER_OperationsByStatus.StatusList> separateCountList, List<String> statusesToCollate) {
+    //     List<WRAPPER_OperationsByStatus.StatusList> collatedCountList = new List<WS_OperationsByStatus.StatusList>();  
+    //     List<String> auxStatusList = [];  
+    //     try {
+    //         if(!separateCountList.isEmpty()) {
+    //             for (WRAPPER_OperationsByStatus.StatusList inputItem : separateCountList) {
+    //                 if (isNotBlank(inputItem.status)) {
+    //                     if (statusesToCollate.contains(inputItem.status)) {
+    //                         WRAPPER_OperationsByStatus.StatusList outputItem = new WRAPPER_OperationsByStatus.StatusList();
+    //                         if (!auxStatusList.contains(inputItem.status)) {
+    //                             auxStatusList.add(inputItem.status);
+    //                             outputItem.status = inputItem.status;
+    //                             outputItem.countOperation = (inputItem.countOperation != null ? inputItem.countOperation : 0);
+    //                             outputItem.pendingAuthorization = inputItem.pendingAuthorization;
+    //                         } else {
+    //                             for (WRAPPER_OperationsByStatus.StatusList outputItem : collatedCountList) {
+    //                                 if (outputItem.status == inputItem.status) {
+    //                                     outputItem.countOperation += (inputItem.countOperation != null ? inputItem.countOperation : 0);
+    //                                 }
+    //                             } 
+    //                         }
+    //                         collatedCountList.add(outputItem);
+    //                     } else {
+    //                         collatedCountList.add(inputItem);
+    //                     }
+                        
+    //                 } 
+    //             }
+    //         }
+    //     } catch (Exception e) {
+    //         System.debug('CNT_PaymentsLandingParent.collateCounts: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+    //     }  
+    //     return collatedCountList;
+    // }
+
+/*----------------------------------------------------------------------------------
+Author:         Bea Hill 
+Company:        Deloitte
+Description:    Get the total of the countOperation
+History
+<Date>          <Author>       <Description>
+14/01/2021      Bea Hill       Initial version
+----------------------------------------------------------------------------------*/     
+    @AuraEnabled
+    public static Integer getTotalCount(List<WRAPPER_OperationsByStatus.StatusList> statusCountList) {
+        Integer totalCount = 0;
+        try {
+            if(!statusCountList.isEmpty()) {
+                for (WRAPPER_OperationsByStatus.StatusList statusCount : statusCountList) {
+                    totalCount += (statusCount.countOperation != null ? statusCount.countOperation : 0);
+                }
+            }
+        } catch (Exception e) {
+            System.debug('CNT_PaymentsLandingParent.getTotalCount: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+        }  
+        return totalCount;
+    }
+
+    /*----------------------------------------------------------------------------------
+    Author:         Bea Hill 
+    Company:        Deloitte
+    Description:    Complete the status list output
+    History
+    <Date>          <Author>       <Description>
+    14/01/2021      Bea Hill       Initial version
+    ----------------------------------------------------------------------------------*/     
+    @AuraEnabled
+    public static List<WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus> completeStatusListOutput(List<WRAPPER_OperationsByStatus.StatusList> statusList) {
+        List<WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus> paymentStatusesList = new WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus[6];
+        try {
+            if(!statusList.isEmpty()) {
+                for(WRAPPER_OperationsByStatus.StatusList item :  statusList){           
+                    WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus paymentsStatus = new WRAPPER_PaymentsStatuses.WRAPPER_PaymentsStatus();
+                    String customLabelValue = '';
+                    if(item.status == '002'){
+                        if(item.pendingAuthorization == true){
+                            customLabelValue = System.Label.PAY_Status_PendingOne;   
+                        }else{
+                            customLabelValue = System.Label.PAY_Status_PendingTwo;  
+                        }                                 
+                    }                            
+                    if(item.status == '003'){
+                        customLabelValue = System.Label.PAY_Status_InReviewOne;
+                    }                            
+                    if(item.status == '201'){
+                        customLabelValue = System.Label.PAY_Status_ScheduledOne;
+                    }                             
+                    if(item.status == '103'){
+                        customLabelValue = System.Label.PAY_Status_CompletedOne;
+                    }
+                    if(item.status == '999'){
+                        customLabelValue = System.Label.PAY_Status_RejectedOne;
+                    }
+                    if(customLabelValue != null && customLabelValue != ''){
+                        Payment_Status__mdt ps =  getStatus(customLabelValue);
+                        if(ps != null){
+                            paymentsStatus.statusId = ps.PAY_TXT_StatusCode__c;       
+                            paymentsStatus.statusCod = 'Cod'+ps.PAY_TXT_StatusCode__c;
+                            paymentsStatus.statusName = ps.PAY_TXT_StatusCode__c;
+                            paymentsStatus.parsedStatusName = ps.PAY_PCK_Status__c;
+                            paymentsStatus.statusDescription = ps.PAY_PCK_Description__c;
+                            paymentsStatus.numberOfRecords = item.countOperation != null ? item.countOperation : 0;
+                            paymentsStatus.parsedStatusDescription = ps.PAY_PCK_Reason__c;
+
+                            if(item.status == '002'){
+                                if(item.pendingAuthorization == true){
+                                    paymentsStatus.statusName = 'true_'+ps.PAY_TXT_StatusCode__c;
+                                    paymentStatusesList.add(0,paymentsStatus);                         
+                                }else{
+                                    //adding "aux_" to differentiate between the different types of pending payments 
+                                    paymentsStatus.statusName = 'false_'+ps.PAY_TXT_StatusCode__c;
+                                    paymentStatusesList.add(1,paymentsStatus);  
+                                }                                 
+                            }                            
+                            if(item.status == '003'){
+                                paymentStatusesList.add(2,paymentsStatus);
+                            }                            
+                            if(item.status == '201'){
+                                paymentStatusesList.add(3,paymentsStatus);
+                            }                             
+                            if(item.status == '103'){
+                                paymentStatusesList.add(4,paymentsStatus);
+                            }
+                            if(item.status == '999'){
+                                paymentStatusesList.add(5,paymentsStatus);
+                            } 
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.debug('CNT_PaymentsLandingParent.completeStatusListOutput: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+        }  
+        return paymentStatusesList;
+    }
+        
+    /*----------------------------------------------------------------------------------
+    Author:         Bea Hill 
+    Company:        Deloitte
+    Description:    Sum the status-reason counts for each status, keeping those with pendingAuthorization separate
+    History
+    <Date>          <Author>       <Description>
+    14/01/2021      Bea Hill       Initial version
+    ----------------------------------------------------------------------------------*/     
+    @AuraEnabled
+    public static List<WRAPPER_OperationsByStatus.StatusList> collateCounts(List<WRAPPER_OperationsByStatus.StatusList> separateCountList) {
+        List<WRAPPER_OperationsByStatus.StatusList> collatedCountList = new List<WRAPPER_OperationsByStatus.StatusList>();  
+        List<String> auxStatusList = new List<String>(); 
+        try {
+            if(!separateCountList.isEmpty()) {
+                for (WRAPPER_OperationsByStatus.StatusList inputItem : separateCountList) {
+                    if (String.isNotBlank(inputItem.status)) {
+                        String statusToCheck = '';
+                        if(inputItem.pendingAuthorization != null) {
+                            if(inputItem.pendingAuthorization == true) {
+                                statusToCheck = inputItem.status + 'T';
+                            } else {
+                                statusToCheck = inputItem.status + 'F';
+                            }
+                        } else {
+                            statusToCheck = inputItem.status;
+                        }
+                        if (auxStatusList.size() == 0 || !auxStatusList.contains(statusToCheck)) {
+                            WRAPPER_OperationsByStatus.StatusList outputItem = new WRAPPER_OperationsByStatus.StatusList();
+                            auxStatusList.add(statusToCheck);
+                            outputItem.status = inputItem.status;
+                            outputItem.countOperation = (inputItem.countOperation != null ? inputItem.countOperation : 0);
+                            outputItem.pendingAuthorization = inputItem.pendingAuthorization;
+                            collatedCountList.add(outputItem);
+                        } else {
+                            for (WRAPPER_OperationsByStatus.StatusList existingItem : collatedCountList) {
+                                if (existingItem.status == inputItem.status) {
+                                    existingItem.countOperation += (inputItem.countOperation != null ? inputItem.countOperation : 0);
+                                }
+                            } 
+                        }
+                    } 
+                }
+            }
+        } catch (Exception e) {
+            System.debug('CNT_PaymentsLandingParent.collateCounts: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+        }  
+        return collatedCountList;
+    }
+
+    /*----------------------------------------------------------------------------------
+    Author:         Bea Hill 
+    Company:        Deloitte
+    Description:    Given a status code and date filters, return a list of the individual separated status-reason pairs that are visible in front and the date filters.
+    History
+    <Date>          <Author>       <Description>
+    18/01/2021      Bea Hill       Initial version
+    ----------------------------------------------------------------------------------*/     
+    @AuraEnabled
+    public static List<WS_OperationsByStatus.StatusList> getStatusReasonPairs(String status, String valueDateFrom, String valueDateTo, List<WS_OperationsList.StatusList> frontStatusList) {
+        List<WS_OperationsByStatus.StatusList> statusReasonList = new List<WS_OperationsByStatus.StatusList>();  
+        try {
+            if(String.isNotBlank(status)) {
+                for (WS_OperationsList.StatusList statusReason : frontStatusList) {
+                    if(statusReason.status == status && String.isNotBlank(statusReason.reason)) {
+                        WS_OperationsByStatus.StatusList statusReasonItem = new WS_OperationsByStatus.StatusList();
+                        statusReasonItem.status = status;    
+                        statusReasonItem.reason = statusReason.reason;            
+                        statusReasonItem.valueDateFrom = valueDateFrom;
+                        statusReasonItem.valueDateTo = valueDateTo;
+                        statusReasonList.add(statusReasonItem);
+                    }
+                }     
+            }
+        } catch (Exception e) {
+            System.debug('CNT_PaymentsLandingParent.getStatusReasonPairs: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+        }  
+        return statusReasonList;
+    }
 }

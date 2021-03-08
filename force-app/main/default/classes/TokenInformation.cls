@@ -439,11 +439,6 @@ global class TokenInformation {
     } 
 
     global parametrized_claims__c getDefaultClaims (String tokenCountry, String tokenPlatform, String tokenUser, Boolean secondLap) {
-        system.debug('HOLALAEX');
-		system.debug(tokenCountry);
-		system.debug(tokenPlatform);
-		system.debug(secondLap);
-		system.debug(tokenUser);
         parametrized_claims__c res = null;
         try {
             if (String.isBlank(tokenCountry)) {

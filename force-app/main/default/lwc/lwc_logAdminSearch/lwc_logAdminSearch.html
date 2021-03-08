@@ -1,0 +1,124 @@
+<template>
+    <c-lwc_service-component onsuccesscallback={successcallback}></c-lwc_service-component>
+  
+    <!-- COMPONENT MARKUP -->
+    <template if:false={displaydata}>
+        <!-- SEARCH BOX -->
+        <div class="container__log">
+            <div class="slds-grid">
+                <div class="slds-col slds-no-flex">
+                    <div class="slds-form-element input_text">
+                        <div class="slds-form-element__label">
+                            <label>{label.LogAdmin_UserId}</label>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" id="text-input-id-1" data-id="userId" placeholder="" required=""/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-no-flex">
+                    <div class="slds-form-element input_text">
+                        <div class="slds-form-element__label">
+                            <label>{label.LogAdmin_Text}</label>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" id="text-input-id-2" data-id="keyWords" placeholder={label.LogAdmin_TextPlaceholder} required=""/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-no-flex">
+                    <div class="slds-form-element  dropdownOrder actionOn">
+                        <div class="slds-form-element__label">
+                            <label  for="text-input-id-3">{label.LogAdmin_ActionOn}</label>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <!-- DROPDOWN MARKUP -->
+                            <c-lwc_cn_dropdown data-id="typeLogDropdown" 
+                                issimpledropdown={isSimpleDropdown}
+                                valueplaceholder={label.LogAdmin_SelectOne}
+                                values={typeLogs} 
+                                selectedvalue={selectedLog}>
+                            </c-lwc_cn_dropdown>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-no-flex">
+                    <div class="slds-form-element calendar">
+                        <div class="slds-form-element__label">
+                            <label  for="text-input-id-4">{label.LogAdmin_Date}</label>
+                        </div>
+                        
+                        <div class="slds-form-element">
+                            <!-- DOUBLE CALENDAR -->
+                            <c-lwc_calendar data-id="calendarBetweenDates" 
+                                simple={simple} 
+                                placeholderfrom={label.from} 
+                                placeholderto={label.to} 
+                                dates={dates}> 
+                            </c-lwc_calendar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <div class="slds-form-element noMargin">
+                        <div class="slds-media__body lastPill">
+                            <button class="slds-button slds-button_brand redButton" title="Apply" onclick={searchLogs}>{label.LogAdmin_Search}</button>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={displaydata}>
+        <!-- PAGINATION -->
+        <c-lwc_cn_pagination data-id="pagination"
+            alldata={tableData} 
+            paymentsperpage={logsPerPage}>
+        </c-lwc_cn_pagination>
+        <!-- RESULTS TABLE -->
+        <div class="slds-table--header-fixed_container logTable">
+            <div class="slds-scrollable_y">
+                <table class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped" aria-multiselectable="true" role="grid">
+                    <!-- COLUMNS -->
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th aria-sort="ascending" scope="col" class="">
+                                <div class="slds-truncate slds-cell-fixed">
+                                    <span class="slds-truncate " title="">{label.LogAdmin_Date}</span>
+                                </div>
+                            </th>
+                            <th aria-sort="ascending" scope="col" class="">
+                                <div class="slds-truncate slds-cell-fixed">
+                                    <span class="slds-truncate " title="">{label.LogAdmin_UserId}</span>
+                                </div>
+                            </th>
+                            <th aria-sort="ascending" scope="col" class="">
+                                <div class="slds-truncate slds-cell-fixed">
+                                    <span class="slds-truncate " title="">{label.LogAdmin_Name}</span>
+                                </div>
+                            </th>
+                            <th aria-sort="ascending" scope="col" class="">
+                                <div class="slds-truncate slds-cell-fixed">
+                                    <span class="slds-truncate " title="">{label.LogAdmin_Action}</span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- ROWS -->
+                    <tbody>
+                        <template for:each={tableData} start={start} end={end} for:item='item' for:index='index'> 
+                            <div key={item.key}>
+                                <c-lwc_log-admin-search-row rowdata={item}></c-lwc_log-admin-search-row>
+                            </div>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
+</template>

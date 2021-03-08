@@ -1,0 +1,59 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute access="public"  type="String"  name="searchString"                           description="Search information placed in the account search input." />
+    <aura:attribute access="public"  type="String"  name="accHolder"       	                      description="Account holder name input by user" />
+    <aura:attribute access="public"  type="Map"  	name="account"       	                      description="Beneficiary account data" />
+    <aura:attribute access="public"  type="List"    name="countryList"                            description="List of countries" />
+    <aura:attribute access="public"  type="String"  name="selectedCountry"        default=""      description="Country value from account IBAN code." />
+    <aura:attribute access="public"  type="Boolean" name="disableCountryDropdown" default="false" />
+    <aura:attribute access="private" type="Boolean" name="showMiniLabel"          default="false" description="Control to show mini label." />
+    <aura:attribute access="private" type="String"  name="accHolderError"         default=""      description="Show error message for account holder field." />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_1-of-2">
+            <c:CMP_PAY_FilterDropdown
+                aura:id="countryDropdown"
+                values="{!v.countryList}"
+                selectedValue="{!v.selectedCountry}"
+                helpTextDropdown="{!$Label.c.Show_More}"
+                isSimpleDropdown="true"
+                label="{!$Label.c.Country}"
+                isDisabled="{!v.disableCountryDropdown}"
+                valuesPlaceholder=""
+                errorText="{!$Label.c.IncorrectInputFormat}" />
+        </div>
+        <div class="slds-col slds-size_1-of-2">		
+            <div class="textInput_simple">
+                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                <div class="{!'slds-form-element input' + (not(empty(v.accHolderError)) ? ' error' : '')}"> 
+                    <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                    <aura:if isTrue="{!or(v.showMiniLabel eq true, not(empty(v.accHolder)))}">
+                        <label class="slds-form-element__label" for="account-holder-input">{!$Label.c.Account_Holder}</label> 	
+                    </aura:if>
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                        <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                        <input type="text" id="account-holder-input" placeholder="{!$Label.c.Account_Holder}" value="{!v.accHolder}" class="slds-input" onfocus="{!c.handleFocus}" onblur="{!c.handleBlur}" oninput="{!c.handleInput}" name="User input text"/> 
+                        <!-- Icono que aparecerá cuando este disabled -->
+                        <div class="slds-button__icon disabled" aria-hidden="true">
+                            <div class="button icon-prohibited"></div>
+                        </div>
+                        <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                        <aura:if isTrue="{!not(empty(v.accHolder))}">
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick="{!c.handleClearInput}">
+                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                <span class="slds-assistive-text">{!$Label.c.B2B_Clear_text_input}</span>
+                            </button>
+                        </aura:if>
+                        <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                        <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                        <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                        <div class="errorText">{!v.accHolderError}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

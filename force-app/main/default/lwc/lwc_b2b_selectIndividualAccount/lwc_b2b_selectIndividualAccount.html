@@ -1,0 +1,96 @@
+<template>
+    <!-- <ltng:require scripts="/resource/tostadas" /> -->
+    
+    <div class="slds-grid">  
+        <div class={ErrorMsgClass}>
+            <template if:true={isShowMiniLabel}>
+                <label class="slds-form-element__label" for="SelectAccount">{label}</label>
+            </template>
+            <div class={comboboxClass} aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                    <input id={inputId} type="text" class="slds-input slds-combobox__input slds-combobox__input-value" aria-autocomplete="none" aria-controls="SelectAccountListBox" autocomplete="nope" role="textbox" placeholder={placeholder} value={inputValue} readonly={isAccountEmpty} oninput={handleInputSearch} onfocus={handleFocusSearch} onblur={handleBlurSearch} />
+                    <template if:true={isAccountOrSearchedStringEmpty}>
+                        <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={handleClearInput}>
+                            <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                            <span class="slds-assistive-text">{Label.B2B_Clear_text_input}</span>
+                        </button>
+                    </template>
+                    <template if:true={isSearchedStrAccErrorEmpty}>
+                        <div class="slds-form-element__help">{Label.B2B_Alias_AccNo_Iban}</div>
+                    </template>
+                    <template if:true={isErrorMsg}>
+                        <div class="slds-form-element__help errorText">{errormsg}</div>
+                    </template>
+                </div>
+                <div id="SelectAccountListBox" class="slds-dropdown slds-dropdown_length-6 slds-dropdown_fluid" role="listbox">
+                    <div class="scrollable">
+                        <div aria-selected="true" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">
+                            <span class="slds-media__body">
+                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">                                                                      
+                                        <template if:true={lastBeneficiariesMessageNotEmpty}>
+                                            {lastBeneficiariesMessage}
+                                        </template>
+                                        <template if:false={lastBeneficiariesMessageNotEmpty}>
+                                            <template if:true={registeredMarker}>
+                                                {accountsRegisteredLabel}<mark><q>{searchedString}</q></mark>
+                                            </template>    
+                                            <template if:false={registeredMarker}>
+                                                    {suggestionsLabel}<mark><q>{searchedString}</q></mark>{accountSuggestionsLabel}{accountSuggestionsLabel2}
+                                            </template>
+                                        </template>
+                                </span>
+                            </span>
+                        </div>
+                        <template for:each={accountSuggestions} for:item="acc" for:index="index">
+                            <c-lwc_b2b_account-suggestion 
+                                key={acc.index}
+                                account={acc} 
+                                showmore
+                                onselected={handleClickSuggestion} 
+                            >
+                            </c-lwc_b2b_account-suggestion> 
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <template if:true={enableBrowseAccount}>
+        <template if:false={isAccountEmpty}>
+            <div class="slds-grid align-button contentButtons"> 
+                <template if:true={beneficiaryDetails}>
+                    <button class="slds-button secondary button_small" onclick={handleSearchAccounts}>{Label.BrowseAccounts}</button>
+                </template>
+                <template if:false={beneficiaryDetails}>
+                    <button class="slds-button secondary button_small" onclick={handleSearchAccounts}>{Label.B2B_Browse_accounts}</button>
+                </template> 
+             </div>
+        </template>
+    </template>
+    <template if:true={isAccountEmpty}>
+        <div class="accountInformation">
+            <div class="slds-text-title">{headercard}</div>
+            <c-lwc_b2b_card-account 
+                userdata={userdata}
+                accountdata={accountdata}
+                account={account}
+                selected
+                beneficiarydetails={beneficiaryDetails}
+                onselectedaccount={handleSelectedAccount}
+            >
+            </c-lwc_b2b_card-account>
+        </div>
+    </template>
+
+     <c-lwc_b2b_search-accounts 
+        data-id="searchAccounts" 
+        userdata={userdata}
+        headerlabel={headerlabel}
+        accountlist={accountlist}
+        steps={steps} 
+        isforexpenses={isForExpenses}
+        onselectedaccount={handleSelectedAccount}
+    >
+    </c-lwc_b2b_search-accounts> 
+
+</template>

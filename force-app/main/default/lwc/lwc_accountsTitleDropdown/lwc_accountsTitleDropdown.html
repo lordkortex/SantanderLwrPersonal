@@ -60,9 +60,9 @@
                     </c-lwc_display-date>
                 </div> 
             </template>
-        <div class="text_line"></div>
+            <div class="text_line"></div>
         </div>
-        <template if:true={iscashnexus}>
+        <template if:true={mostrarCashNexus}>
             <div class="slds-col">
                 <div class="slds-pill_container ">
                     <button class={class1} role="option" tabindex="0" aria-selected="true" data-title={label.LastUpdate} onclick={LastUpdateTab}>
@@ -79,7 +79,7 @@
             <div class="slds-form-element slds-combobox__Rg">    
                 <!-- DROPDOWN MARKUP -->
                 <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
-                <template if:true={isSelectedTime}>                     
+                <template if:true={isSelectedTime}>        
                     <c-lwc_cn_dropdown 
                         data-id="currenciesDropdown"               
                         issimpledropdown="true" 
@@ -90,7 +90,7 @@
                         ondropdownvalueselected={selectCurrencyDropDown}>
                     </c-lwc_cn_dropdown>
                 </template> 
-                <template if:false={isSelectedTime}>                   
+                <template if:false={isSelectedTime}>      
                     <c-lwc_cn_dropdown 
                         data-id="currenciesDropdown"               
                         issimpledropdown="true" 

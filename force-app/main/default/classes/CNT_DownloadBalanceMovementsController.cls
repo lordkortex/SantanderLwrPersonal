@@ -480,55 +480,5 @@ public class CNT_DownloadBalanceMovementsController {
         {
         }
     }
-    
-    @AuraEnabled
-    public static CNT_DownloadBalanceMovementsWrapper getBalanceMovementsData(){
-    
-        return generateMockData();
-    }
-
-    public static CNT_DownloadBalanceMovementsWrapper generateMockData() {
-        
-        List<String> fileFormats = new List<String>{'MT941','MT942','CAMT0052'};
-        List<String> accounts = new List<String>{
-                                                  'AR - ARS - 28505909 40090418135201',
-                                                    'AR - BRL - 30990258 62718906543309',
-                                                    'AR - EUR - 19807644 50038763450021',
-                                                    'AR - EUR - 02790265 21089904583200',
-                                                    'AR - EUR - 04423457 30045698221003',    
-                                                    'AR - ARS - 28505909 40038291792326',
-                                                    'AR - ARS - 28213142 67287450206251',
-                                                    'AR - ARS - 38592701 40038321392326',
-                                                    'AR - ARS - 28506029 25109273029712',
-                                                    'AR - ARS - 22351243 13125213545212'
-                                                 };
-    Map<String, String> countries = new Map<String, String>();
-        countries.put('España','ES');
-        countries.put('Brasil','BR');
-        countries.put('Argentina','AR');
-        countries.put('China','CN');
-        countries.put('Mexico','MX');
-        countries.put('Canada','CA');
-        countries.put('Francia','FR');
-            
-        CNT_DownloadBalanceMovementsWrapper data = new CNT_DownloadBalanceMovementsWrapper(countries, accounts, fileFormats);
-
-        //return JSON.serialize(data);
-        return data;
-
-    }
-
-    //WRAPPER OF MOVEMENT HISTORY DATA
-    public class CNT_DownloadBalanceMovementsWrapper {
-        @AuraEnabled public Map<String,String> countries                {get;set;}
-        @AuraEnabled public List<String> accounts                  {get;set;}
-        @AuraEnabled public List<String> fileFormats              {get;set;}
-
-        public CNT_DownloadBalanceMovementsWrapper(Map<String,String> countries,List<String> accounts,List<String> fileFormats){
-            this.countries = countries;
-            this.accounts = accounts;
-            this.fileFormats = fileFormats;
-        }
-    }
 
 }

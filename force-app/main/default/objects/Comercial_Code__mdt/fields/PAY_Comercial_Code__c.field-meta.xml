@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PAY_Comercial_Code__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>Comercial Code</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>20000 - Servicios de Comunicación, Construcción y Transporte</fullName>
+                <default>true</default>
+                <label>20000 - Servicios de Comunicación, Construcción y Transporte</label>
+            </value>
+            <value>
+                <fullName>20002 - Servicios de Informática</fullName>
+                <default>false</default>
+                <label>20002 - Servicios de Informática</label>
+            </value>
+            <value>
+                <fullName>20005 - Servicios Empresariales, Profesionales, Honorarios y Técnicos varios</fullName>
+                <default>false</default>
+                <label>20005 - Servicios Empresariales, Profesionales, Honorarios y Técnicos varios</label>
+            </value>
+            <value>
+                <fullName>20007 - Servicios Personales, Culturales y Recreativos</fullName>
+                <default>false</default>
+                <label>20007 - Servicios Personales, Culturales y Recreativos</label>
+            </value>
+            <value>
+                <fullName>20008 - Servicios de Información</fullName>
+                <default>false</default>
+                <label>20008 - Servicios de Información</label>
+            </value>
+            <value>
+                <fullName>20024 - Jubilaciones, Montepíos, Ayudas Familiares, Herencias y Otras Donaciones</fullName>
+                <default>false</default>
+                <label>20024 - Jubilaciones, Montepíos, Ayudas Familiares, Herencias y Otras Donaciones</label>
+            </value>
+            <value>
+                <fullName>20028 - Representaciones Diplomáticas, Misiones y otras Oficinas de Representación en el exterior</fullName>
+                <default>false</default>
+                <label>20028 - Representaciones Diplomáticas, Misiones y otras Oficinas de Representación en el exterior</label>
+            </value>
+            <value>
+                <fullName>20040 - Arrendamiento de Equipo de Transporte y Maquinaria</fullName>
+                <default>false</default>
+                <label>20040 - Arrendamiento de Equipo de Transporte y Maquinaria</label>
+            </value>
+            <value>
+                <fullName>20070 - Egresos por Turismo</fullName>
+                <default>false</default>
+                <label>20070 - Egresos por Turismo</label>
+            </value>
+            <value>
+                <fullName>20075 - Egresos por Depósitos en moneda extranjera constituidos en Chile</fullName>
+                <default>false</default>
+                <label>20075 - Egresos por Depósitos en moneda extranjera constituidos en Chile</label>
+            </value>
+            <value>
+                <fullName>20080 - Egresos no contempladas en otros Códigos de Operaciones de Cambios</fullName>
+                <default>false</default>
+                <label>20080 - Egresos no contempladas en otros Códigos de Operaciones de Cambios</label>
+            </value>
+            <value>
+                <fullName>20090 - Egresos para futuras Transferencias o para pagos directos en el exterior</fullName>
+                <default>false</default>
+                <label>20090 - Egresos para futuras Transferencias o para pagos directos en el exterior</label>
+            </value>
+            <value>
+                <fullName>20500 - Coberturas de importaciones</fullName>
+                <default>false</default>
+                <label>20500 - Coberturas de importaciones</label>
+            </value>
+            <value>
+                <fullName>20700 - Primas de Seguros, Reaseguros, y otros egresos asociados</fullName>
+                <default>false</default>
+                <label>20700 - Primas de Seguros, Reaseguros, y otros egresos asociados</label>
+            </value>
+            <value>
+                <fullName>20750 - Indemnizaciones por/sin Contratos de Seguros</fullName>
+                <default>false</default>
+                <label>20750 - Indemnizaciones por/sin Contratos de Seguros</label>
+            </value>
+            <value>
+                <fullName>20830 - Regalías, Derechos de Autor y de Licencia por uso de marcas y patentes</fullName>
+                <default>false</default>
+                <label>20830 - Regalías, Derechos de Autor y de Licencia por uso de marcas y patentes</label>
+            </value>
+            <value>
+                <fullName>10080 - Ingresos no contempladas en otros Códigos de Operaciones de Cambios</fullName>
+                <default>false</default>
+                <label>10080 - Ingresos no contempladas en otros Códigos de Operaciones de Cambios</label>
+            </value>
+            <value>
+                <fullName>10096 - Ingresos de Entidades del M.C.F. por remesas o depósitos de documentos en moneda extranjera</fullName>
+                <default>false</default>
+                <label>10096 - Ingresos de Entidades del M.C.F. por remesas o depósitos de documentos en moneda extranjera</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

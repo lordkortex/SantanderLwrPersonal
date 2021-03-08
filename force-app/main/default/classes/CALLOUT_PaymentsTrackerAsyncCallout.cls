@@ -10,7 +10,6 @@ History
 public class CALLOUT_PaymentsTrackerAsyncCallout implements Queueable, Database.AllowsCallouts {
 
     public final String globalId;
-    public final Boolean useCacheToken;
 
     /*----------------------------------------------------------------------------------
     Author:         Guillermo Giral
@@ -22,19 +21,15 @@ public class CALLOUT_PaymentsTrackerAsyncCallout implements Queueable, Database.
     ----------------------------------------------------------------------------------*/
     public void execute(QueueableContext context) {
 
-        CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_PaymentsTracker');
-        List<User> loggedUser = [SELECT Id, Username, USER_TXT_GlobalId__c  FROM User WHERE USER_TXT_GlobalId__c =: globalId];
+        CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_BalanceLastUpdate');
+        List<User> loggedUser = [SELECT Id, Username FROM User WHERE USER_TXT_GlobalId__c =: globalId];
         System.debug('Logged user: ' + loggedUser);
-        
         if(!loggedUser.isEmpty()){
-            String response = Global_IntegrationWrapper.launchHTTP('', configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c, null, loggedUser[0].Id, useCacheToken);
-            //String response = Global_IntegrationWrapper.launchHTTP('', configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c, null, loggedUser[0].Id, false);
-            //String response = Global_IntegrationWrapper.launchHTTP('', configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c, null, userId, false);
+            String response = Global_IntegrationWrapper.launchHTTP('', configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c, null, loggedUser[0].Id, false);
         }
     }
 
-    public CALLOUT_PaymentsTrackerAsyncCallout(String input, Boolean useCache){
+    public CALLOUT_PaymentsTrackerAsyncCallout(String input){
         globalId = input;
-        useCacheToken = useCache;
     }
 }

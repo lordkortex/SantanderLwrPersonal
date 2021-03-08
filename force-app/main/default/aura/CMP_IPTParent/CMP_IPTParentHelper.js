@@ -92,7 +92,10 @@
                 // If the user has access to see Payments Tracker
                 if(resJSON[0].canUserSeePaymentsTracker){
                     for(var i in resJSON){
-                        accounts.push({'account':resJSON[i].accountIdList[0].accountId,'bic':resJSON[i].bankId,'id_type':resJSON[i].accountIdList[0].idType,'alias':resJSON[i].alias});
+                        if(resJSON[i].hasSwiftPayments != "false") {
+                            accounts.push({'account':resJSON[i].accountIdList[0].accountId,'bic':resJSON[i].bankId,'id_type':resJSON[i].accountIdList[0].idType,'alias':resJSON[i].alias});
+                        }
+                        
                     }
                     component.set("v.accountList",accounts);
                     component.set("v.ready",true);
@@ -201,12 +204,13 @@
                         if(key == "MX"){
                             component.set("v.isMX", iReturn[key]);
                         }
-                        if(key == "PT"){
+                       if(key == "PT"){
                             component.set("v.isPT", iReturn[key]);
                         }
                         if(key == "Other"){
                             component.set("v.isOther", iReturn[key]);
                         }
+                        
                     }
                     
                     var gb = component.get("v.isGB");
@@ -219,7 +223,6 @@
                     
                     if(gb == true) {
                         component.set("v.country", "GB");
-                        component.set("v.agreedTerms", true);
                     } else if(es == true) {
                         component.set("v.country", "ES");
                         component.set("v.agreedTerms", true);
@@ -230,7 +233,8 @@
                     } else if(mx == true) {
                         component.set("v.country", "MX");
                     } else if(pt == true) {
-                        component.set("v.country", "PT");
+                        component.set("v.country", "PT"); 
+                        component.set("v.agreedTerms", true);                   
                     } else if(other == true) {
                         component.set("v.country", "Other");
                         component.set("v.agreedTerms", true);
@@ -398,9 +402,15 @@
                                 sParameterName[1] == "true" ? component.set("v.showAccountPayment" , true) : component.set("v.showAccountPayment" , false);
                             }else if (sParameterName[0] === 'c__isOneTrade') {
                                 sParameterName[1] == "true" ? component.set("v.isOneTrade" , true) : component.set("v.isOneTrade" , false);
+                            } else if (sParameterName[0] === 'c__filters') {
+                                sParameterName[1] === undefined ? 'Not found' : component.set("v.filters", sParameterName[1]);
+							} else if (sParameterName[0] === 'c__fromDetail') {
+                                sParameterName[1] == "true" ? component.set("v.fromDetail" , true) : component.set("v.fromDetail" , false);
+                            } else if (sParameterName[0] === 'c__allAccounts') { 
+                                sParameterName[1] === undefined ? 'Not found' : component.set("v.fullAccountList",sParameterName[1]);	
                             }
                         }
-                        component.set('v.fromCashNexus', true);                    
+                        //component.set('v.fromCashNexus', true);                   
     
                         component.set('v.accountObj', iAccount);     
                         if(component.get('v.accountObj').iSource == 'fromAccount'){
@@ -430,8 +440,23 @@
                                                 };
                                 component.set("v.loading", false); 
                                 component.set("v.filters", JSON.stringify(filters));
-                            } 
-                        } 
+                            }
+                        }
+                        
+                        if(component.get("v.fromDetail") == true) {
+                            
+                            var parsedAccounts = JSON.parse(component.get("v.fullAccountList"));
+
+                            component.set("v.accountList", parsedAccounts);
+
+                            console.log(component.get("v.accountList"));
+                            console.log(component.get("v.errorAccount"));
+
+                            component.set("v.loading", false);
+                            
+                            //for
+                        }
+                        
                     } else {
                         component.set("v.showAccountPayment", false);
                     }                                  

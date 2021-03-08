@@ -65,10 +65,6 @@ public class CNT_backOfficeLoginAsController_Test {
                                        TimeZoneSidKey='America/Los_Angeles', UserName='targerusergts@acme.com',
                                        ContactId = targetContact.Id, isActive = false, USER_CHK_CashNexus__c = true);
             insert targetUser;
-            contacts.get(0).CONTACT_User__c = dummyUser.Id;
-            contacts.get(1).CONTACT_User__c = targetUser.Id;
-            System.debug(contacts);
-            update contacts;
         }
     }
     

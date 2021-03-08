@@ -83,7 +83,7 @@
                     } else if(amountEnteredFrom.localeCompare('recipient') == 0) {
                         data.amountSend = converted;
                     }
-                }  
+                }
                 component.set('v.data', data);
                 // helper.checkBalance(component, helper); // FLOWERPOWER_PARCHE_CPC: SE HACE LA COMPROBACION DEL VALIDATEACCOUNTS.
                 component.set('v.spinner', false);
@@ -130,7 +130,6 @@
                         if (!$A.util.isEmpty(stateRV.value.output)) {
                             paymentData.exchangeRateServiceResponse = stateRV.value.output;
                         }      
-                		// component.set("v.disabledContinue", false);
                         component.set('v.data', paymentData);
                         resolve('OK');
                     } else {

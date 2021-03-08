@@ -1,0 +1,19 @@
+<template>
+    <div class={mainClass}>
+        <template if:true={showMinilabelOrNotEmptyValue}>
+            <label class="slds-form-element__label" for="reference-input">{label.B2B_Reference}</label>
+        </template>        
+        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+            <input autocomplete="off" type="text" id="reference-input" placeholder={label.B2B_Reference} class="slds-input" name="User input text" value={value} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>           
+            <template if:true={isNotEmptyValue}>
+                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={handleClear}>
+                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                    <span class="slds-assistive-text">{label.clearTheTextArea}</span>
+                </button>
+            </template>            
+            <template if:true={isNotEmptyErrorMessage}>
+                <div class="errorText">{errorMSG}</div>
+            </template>                       
+        </div>
+    </div>
+</template>

@@ -1,0 +1,71 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:dynamicLayout",
+  "id" : "e050a974-2564-4f5a-b695-f6cd254f6ff3",
+  "label" : "tAuraCalendar",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "background" : "background: rgba(0,0,0,0)",
+        "backgroundOverlay" : "rgba(0,0,0,0.5)",
+        "contentAreaWidth" : 100,
+        "sectionConfig" : {
+          "UUID" : "47d038c9-908c-4fbf-a102-4f2914a68fd5",
+          "columns" : [ {
+            "UUID" : "27a6e415-157b-4966-8771-81746afe3f8c",
+            "columnKey" : "1",
+            "columnName" : "Column 1",
+            "columnWidth" : "12",
+            "seedComponents" : [ ]
+          } ]
+        },
+        "sectionHeight" : 300
+      },
+      "componentName" : "forceCommunity:section",
+      "id" : "47d038c9-908c-4fbf-a102-4f2914a68fd5",
+      "regions" : [ {
+        "components" : [ {
+          "componentAttributes" : {
+            "showCreateNewCalendar" : false,
+            "showOtherCalendars" : false,
+            "showSidebar" : true
+          },
+          "componentName" : "forceCommunity:calendar",
+          "id" : "1a5659dd-3710-4522-8f0f-221a106edf7b",
+          "renderPriority" : "NEUTRAL",
+          "renditionMap" : { },
+          "type" : "component"
+        } ],
+        "id" : "27a6e415-157b-4966-8771-81746afe3f8c",
+        "regionLabel" : "Column 1",
+        "regionName" : "1",
+        "renditionMap" : { },
+        "type" : "region"
+      } ],
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "68c137c6-731a-4e3b-a73c-063d615d4d1e",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "tAuraCalendar"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "945aa64b-802f-46bc-b0d9-9e9dca0276f0",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "5dfd9434-b7a9-4526-a661-2e3a9524b40e",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-tauracalendar"
+}

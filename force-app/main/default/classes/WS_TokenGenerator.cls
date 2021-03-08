@@ -36,6 +36,17 @@ global with sharing class WS_TokenGenerator {
             jwt.setIss(System.Label.jwtIss);
             Map<String, String> claims = new Map<String, String>();
             claims.put('payment_id', paymentId);
+            
+            if(String.isNotBlank(country)){
+                List<Country__mdt> countryNameList = [SELECT COU_PCK_signatureHeader__c FROM Country__mdt WHERE COU_PCK_ISO_Code2__c =: country LIMIT 1];
+                if(!countryNameList.isEmpty()){
+                    if(countryNameList[0].COU_PCK_signatureHeader__c == true){
+                        claims.put('globalsignaturestatus', CNT_B2B_SignatureUtilities.getSignatoriesStatus(paymentId));
+                    }
+                }
+            } 
+            
+            
             claims.put('hd', bodyString);
             claims.put('nonce', paymentId);
             claims.put('alg', 'SHA256');

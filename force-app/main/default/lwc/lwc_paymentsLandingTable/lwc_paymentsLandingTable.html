@@ -18,11 +18,11 @@
                     </strong>
                     {label.PAY_accordingTo}<strong>{label.PAY_selectedFilters}</strong>
                 </div>
-                <template if:false={isSearchedString}>
-                    <div class="slds-text-body_regular">{label.Displaying}
-                        <strong>{label.PAY_last}&nbsp;{paymentList.length}&nbsp;{label.PAY_payments}</strong>
-                    </div>
-                </template>
+            </template>
+            <template if:false={isSearchedString}>
+                <div class="slds-text-body_regular">{label.Displaying}
+                    <strong>{label.PAY_last}&nbsp;{paymentList.length}&nbsp;{label.PAY_payments}</strong>
+                </div>
             </template>
         </template>
     </div> 

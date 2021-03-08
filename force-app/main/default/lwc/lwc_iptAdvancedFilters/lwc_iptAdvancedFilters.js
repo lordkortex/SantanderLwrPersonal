@@ -100,6 +100,11 @@ export default class Lwc_iptAdvancedFilters extends LightningElement {
     @track classSettleTo = 'slds-input inputShadow lwc_input';
     @track mensajeError = 'textHelp';
     noAccountSelected = true;
+
+    //24/02/2021
+    @api fromdetail = false; //DE DND VIENEN ????
+    @api isdetail = false;
+
     getCurrency (){
         try {
             getCurrencies().then((result) => {
@@ -276,11 +281,19 @@ export default class Lwc_iptAdvancedFilters extends LightningElement {
             var count = 0;
             //Set the pills array and the filters String
             if(settledfrom != null && settledfrom != "" && (settledto == null || settledto == "")){
+                //24/02/2021
+                //component.set("v.settledTo", "");
+                this.settledto = "";
+
                 filter+= '"amountFrom":"' + settledfrom + '",';
                 filter+= '"amountTo":"999999999999999999",';
                 count+= 1;
             }
             if(settledto != null && settledto != "" && (settledfrom == null || settledfrom == "")){
+                //24/02/2021
+                //component.set("v.settledFrom", "");
+                this.settledfrom = "";
+
                 filter+= '"amountTo":"' + settledto + '",';
                 filter+= '"amountFrom":"0",';
                 count+= 1;
@@ -352,6 +365,7 @@ export default class Lwc_iptAdvancedFilters extends LightningElement {
                 count+=1;
 
             }
+            //24/02/2021
             if(account != null && account != ""  && account != this.label.singleChoice){
                if(this.inoutindicator == "OUT") {
                     filter+= '"originatorAccountList":[';
@@ -371,12 +385,69 @@ export default class Lwc_iptAdvancedFilters extends LightningElement {
                 filter+= this.accountfilter + ",";
                 this.noAccountSelected  = true;
             }
+        
 
+            // AB - 27-11-2020 - OriginatorCountry
             if(country != null && country != ""  && country != this.label.singleChoice){
-                filter+= '"country":"' + country.substring(0,2) + '",';
-                count+= 1;
+                if(this.inoutindicator == "OUT"){
+                    filter+= '"country":"' + country.substring(0,2) + '",';
+                    count+= 1;
+                }else{
+                    filter+='"originatorCountry":"'+country.substring(0,2)+'",';    
+                    count+=1;
+                }
 
             }
+            // 24/02/2021
+        /*    if(selectedstatus!=null && selectedstatus!=undefined && selectedstatus.length!=0){
+
+                if(this.fromdetail  == this.isdetail) {
+                    filter+='"paymentStatusList":[';
+                    for (var i in selectedstatus){
+                        var data=this.findStatus(selectedstatus[i]);
+                        if(selectedstatus[i] == this.label.payment_statusThree || selectedstatus[i] == this.label.payment_statusFour || selectedstatus[i] == this.label.payment_statusTwo){
+                            for(var j in data){
+                                filter+='{"status":"'+data[j].status+'","reason":"'+data[j].reason+'"},';
+                            }
+    
+                        }else{
+                            filter+='{"status":"'+data.status+'","reason":"'+data.reason+'"},';
+                        }
+                    }
+                } else {
+                    filter+='"paymentStatusList":'
+                    filter+=JSON.stringify(selectedstatus);
+                    var stringList = JSON.stringify(selectedstatus);
+                    var newList = [];
+                        
+                    if(stringList.includes('{"status":"ACSC","reason":""},{"status":"ACCC","reason":""}') == true){
+                        newList.push(this.label.payment_statusTwo); 
+                    }
+                    //Rejected
+                    if(stringList.includes('{"status":"RJCT","reason":""}') == true){
+                        newList.push(this.label.payment_statusOne);
+                    }
+                    //On hold
+                    if(stringList.includes('{"status":"ACSP","reason":"G002"},{"status":"ACSP","reason":"G003"},{"status":"ACSP","reason":"G004"}') == true){
+                        newList.push(this.label.payment_statusFour);
+                    }
+                    //In progress
+                    if(stringList.includes('{"status":"ACSP","reason":"G000"},{"status":"ACSP","reason":"G001"}') == true){
+                        newList.push(this.label.payment_statusThree);
+                    }
+                    
+                    this.isdetail = true;
+                    this.selectedstatus = newList;
+                }
+                
+                filter=filter.slice(0,-1)+"],";
+                count+=1;
+
+            }
+*/
+
+
+            //OLD NUESTRO
             if(selectedstatus != null && selectedstatus != undefined && selectedstatus.length != 0){      
                 filter+= '"paymentStatusList":[';
                 for (var i in selectedstatus){
@@ -394,6 +465,45 @@ export default class Lwc_iptAdvancedFilters extends LightningElement {
 
             }
 
+            
+            //24/02/2021 NO FUNCIONA EL FILTRADO
+     /*       if(JSON.stringify(account)!=null && JSON.stringify(account)!=""  && JSON.stringify(account)!=this.label.singleChoice && account.length > 0){
+                if(this.inoutindicator == "OUT") {
+                    filter+='"originatorAccountList":[';
+
+                } else {
+                    filter+='"beneficiaryAccountList":[';
+                }
+                for (var i in account){
+                    var accountName=account[i].split('-')[0];
+                    var data=this.findAccountAgent(accountName);
+                    filter+='{"bankId":"'+data.bic+'","account":{"idType":"'+data.idType+'","accountId":"'+accountName+'"}},';
+                }
+                filter=filter.slice(0,-1)+"],";
+                count+=1;
+            } else {
+                if(this.inoutindicator == "OUT") {
+                    filter+='"originatorAccountList":[';
+                } else {
+                    filter+='"beneficiaryAccountList":[';
+                }
+
+                var allAccounts = this.accountList;
+                for (var i in allAccounts) {
+                    filter+='{"bankId":"'+allAccounts[i].bic+'","account":{"idType":"'+allAccounts[i].id_type+'","accountId":"'+allAccounts[i].account+'"}}';
+                }
+                filter = filter.replaceAll('}{', '},{');
+                filter+='],';
+
+                if (this.inoutindicator == "OUT" && (!filter.includes("amountFrom") && !filter.includes("amountTo") && !filter.includes("valueDateFrom") && !filter.includes("valueDateTo") && !filter.includes("searchText") && !filter.includes("currency") && !filter.includes("beneficiaryCountry") && !filter.includes("paymentStatusList") && !filter.includes("beneficiaryAccountList"))) {
+                    filter = filter.replace("NO", "YES");
+                }
+                if (this.inoutindicator == "IN" && (!filter.includes("amountFrom") && !filter.includes("amountTo") && !filter.includes("valueDateFrom") && !filter.includes("valueDateTo") && !filter.includes("searchText") && !filter.includes("currency") && !filter.includes("originatorCountry") && !filter.includes("paymentStatusList") && !filter.includes("originatorAccountList"))) {
+                    filter = filter.replace("NO", "YES");
+                }
+
+            } 
+*/
             this.count = count;
             filter= filter.slice(0,-1) + "}}";
             if(filter != ""){

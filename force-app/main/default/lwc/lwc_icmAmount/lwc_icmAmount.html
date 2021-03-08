@@ -1,0 +1,66 @@
+<template>
+    <!-- TABLE -->
+    <div class="slds-box">
+       
+        <h1>Complete details below</h1>
+
+        <div class = "row">
+            
+                <!--<input id="getAmount" type="Currency" name="amount"  placeholder="Amount" 
+                value="{Amount}"  
+                onblur="{changeToCurrency2}" 
+                style="width: 300px;"/> -->
+
+            <lightning-input data-id="transferAmount" label = "Amount" placeholder="Insert the amount to transfer" value={amount} onblur={changeToCurrency}></lightning-input>
+
+            <!-- <div class="coins icon-coins" style="font-size: 24px;"></div> -->
+
+        </div>
+
+
+        <div class = "row">
+            <lightning-input data-id="conceptInput" label="Concept" type = "text" placeholder="Insert the transaction concept" value={concept} onblur={changeConcept}></lightning-input>
+            <!-- <div class="chat icon-chat" style="font-size: 24px;"></div>        -->
+        </div>
+            
+        <div class = "row">
+            <template for:each={optionsList} for:item="item" for:index="index">
+                <div key={item.index} style="float: left;">
+                    <input type="radio" name="options" id={item.value} value={item.value} checked={item.checked} onchange={handleChange}/>
+                    <label class="slds-checkbox__label" for="checkbox-unique-id-72">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-form-element__label">{item.label}</span>
+                    </label>
+                </div>
+            </template> 
+        </div>
+
+        <template if:true={selectedObjectEqOption2}>
+            <div class="picklist">
+                <select  data-id="times">
+                    <option value="Monthly">Monthly</option>
+                    <option value="Quarterly">Quarterly</option>
+                    <option value="Annual">Annual</option>
+                </select>
+                <div class="icon-chevronLeft"></div>
+            </div>
+        </template>
+
+    </div>
+
+    <div>
+       <!-- <th> -->
+            <!--lightning:button  label="Back" title="Back" onclick="{previousStep}"/-->
+            <!--lightning:button  label="next" title="next" onclick="{nextStep}"/-->
+            <button type="button" class="slds-button slds-button_brand textButton" title="Go Back" onclick={previousStep}>Go Back
+              <div class="icon-chevronLeft"></div>
+           </button>
+           
+            <button type="button" class="slds-button slds-button_brand redButton" title="Signature" onclick={nextStep} disabled={buttonDisabled}>Signature
+              <div class="icon-chevronLeft"></div>
+           </button>  
+           
+        <!-- </th> -->
+    </div>
+
+</template>

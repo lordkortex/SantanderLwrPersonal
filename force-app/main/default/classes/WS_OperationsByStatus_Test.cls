@@ -25,10 +25,11 @@ public class WS_OperationsByStatus_Test {
        insert configWs; 
        WS_OperationsByStatus.StatusList StatusList = new WS_OperationsByStatus.StatusList();
        StatusList.status = 'OK';
+       StatusList.reason = 'OK';
        StatusList.valueDateFrom = '10/10/2020';
        StatusList.valueDateTo = '10/10/2020';
         
-       WS_OperationsByStatus.StatusList StatusList_sub = new WS_OperationsByStatus.StatusList('OK','10/10/2020','10/10/2020');
+       WS_OperationsByStatus.StatusList StatusList_sub = new WS_OperationsByStatus.StatusList('OK','OK','10/10/2020','10/10/2020');
         
        WS_OperationsByStatus.Account Account = new WS_OperationsByStatus.Account();
        Account.idType = 'Test';

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WebLink xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Discard</fullName>
+    <availability>online</availability>
+    <displayType>button</displayType>
+    <encodingKey>UTF-8</encodingKey>
+    <linkType>url</linkType>
+    <masterLabel>Discard</masterLabel>
+    <openType>replace</openType>
+    <protected>false</protected>
+    <url>/lightning/cmp/c__CMP_CompanyOptionsParent?c__companyId={!STR_Company__c.Id}&amp;c__discard=&apos;true&apos;</url>
+</WebLink>

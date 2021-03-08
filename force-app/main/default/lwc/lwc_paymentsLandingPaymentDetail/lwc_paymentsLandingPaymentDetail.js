@@ -801,16 +801,17 @@ export default class Lwc_paymentsLandingPaymentDetail extends NavigationMixin(Li
 
 
     enableActions(){
-        this.actions.edit= true;
-        this.actions.discard= true;
-        this.actions.reuse= true;
-        this.actions.addToTemplate= false;
+        this.actions.edit= false;
+        this.actions.discard= false;
+        this.actions.reuse= false;
         this.actions.authorize= true;
-        this.actions.reject= true;
-        this.actions.sendToReview= true;
+        this.actions.reject= false;
+        this.actions.sendToReview= false;
+        this.actions.cancel= false;
+
+        this.actions.addToTemplate= false;
         this.actions.trySaveAgain= false;
         this.actions.gpiTracker= false;
-        this.actions.cancel= true;
     }
 
     get isPaymentRejected(){

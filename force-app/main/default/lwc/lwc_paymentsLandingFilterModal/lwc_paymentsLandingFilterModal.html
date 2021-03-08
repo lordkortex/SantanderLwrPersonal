@@ -2,7 +2,13 @@
 
     <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
         <template if:true={showToast}>
-                <c-lwc_b2b_toast showtoast={showToast} bodytext={toastText} notificationtitle={toastTitle} functiontypetext={toastType} reload={reloadAccounts}></c-lwc_b2b_toast>
+                <c-lwc_b2b_toast 
+                    showtoast={showToast} 
+                    bodytext={toastText} 
+                    notificationtitle={toastTitle} 
+                    functiontypetext={toastType} 
+                    reload={reloadAccounts}>
+                </c-lwc_b2b_toast>
         </template>
         
         <div class="slds-modal__container">  
@@ -78,9 +84,13 @@
                                         </span>
                                     </div>
                                     <ul class="slds-listbox slds-listbox_vertical" role="presentation">
-                                       <!-- <template for:each={accountsuggestions}  for:item='item' for:index='index'>
-                                            <li role="presentation" key={item} class="slds-listbox__item ">
-                                                <c-lwc_b2b_account-suggestion account={item} onclick={handleClickSuggestion} showmore="false" ></c-lwc_b2b_account-suggestion>
+                                        <template for:each={accountsuggestions}  for:item='item' for:index='index'>
+                                            <li role="presentation" key={item.key} class="slds-listbox__item ">
+                                                <c-lwc_b2b_account-suggestion 
+                                                    account={item} 
+                                                    onclick={handleClickSuggestion} 
+                                                    showmore=showmore >
+                                                </c-lwc_b2b_account-suggestion>
                                             </li>
                                         </template>    -->  
                                         
@@ -163,11 +173,17 @@
                             <div class="slds-col">
                                 <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
                                 <div class="slds-form-element">
-                                 <!--   <c-lwc_pay_filter-dropdown data-id="currencyDropdownModal" values={currencydropdownlist} selectedvalues={selectedcurrencies} 
-                                        helptextdropdown={label.Show_More} issimpledropdown="false" label={label.currency} 
-                                        isdisabled="false" valuesplaceholder="" cleardropdown={clearcurrencydropdown}
+                                    <c-lwc_pay_filterdropdown data-id="currencyDropdownModal" 
+                                        values={currencydropdownlist} 
+                                        selectedvalues={selectedcurrencies} 
+                                        helptextdropdown={label.Show_More} 
+                                        issimpledropdown={isSimpleDropdown}
+                                        label={label.currency} 
+                                        isdisabled={isDisabledDropdown} 
+                                        valuesplaceholder="" 
+                                        cleardropdown={clearcurrencydropdown}
                                         errortext={label.IncorrectInputFormat}>
-                                    </c-lwc_pay_filter-dropdown>-->
+                                    </c-lwc_pay_filterdropdown>
                                 </div>  
                             </div>
                             <div class="slds-col"></div>    <!--added to align the currency field hover functionality-->                            
@@ -179,19 +195,31 @@
                         <div class="slds-row">
                             <div class="slds-col">
                                 {selectedstatuses}
-                             <!--   <c-lwc_pay_filter-dropdown data-id="statusDropdownModal" values={statusdropdownlist} selectedvalues={selectedstatuses} 
-                                    helptextdropdown={label.Show_More} issimpledropdown="false" label={label.status} 
-                                    isdisabled="false" valuesplaceholder="" cleardropdown={clearStatusDropdown}
+                                <c-lwc_pay_filterdropdown data-id="statusDropdownModal" 
+                                    values={statusdropdownlist} 
+                                    selectedvalues={selectedstatuses} 
+                                    helptextdropdown={label.Show_More} 
+                                    issimpledropdown={isSimpleDropdown}
+                                    label={label.status} 
+                                    isdisabled={isDisabledDropdown}  
+                                    valuesplaceholder="" 
+                                    cleardropdown={clearStatusDropdown}
                                     errortext={label.IncorrectInputFormat}>
-                                </c-lwc_pay_filter-dropdown>-->
+                                </c-lwc_pay_filterdropdown>
                             </div>
                             <div class="slds-col">
                                 <div class="">                                           
-                                <!--    <c-lwc_pay_filter-dropdown data-id="methodDropdownModal" values={paymentmethoddropdownlist} selectedvalue={selectedmethod} 
-                                        helptextdropdown={label.Show_More} issimpledropdown="true" label={label.PAY_PaymentType} 
-                                        isdisabled="false" valuesplaceholder="" cleardropdown={clearMethodDropdown}
+                                    <c-lwc_pay_filterdropdown data-id="methodDropdownModal" 
+                                        values={paymentmethoddropdownlist} 
+                                        selectedvalue={selectedmethod} 
+                                        helptextdropdown={label.Show_More} 
+                                        issimpledropdown={isSimpleDropdownTrue} 
+                                        label={label.PAY_PaymentType} 
+                                        isdisabled={isDisabledDropdown} 
+                                        valuesplaceholder="" 
+                                        cleardropdown={clearMethodDropdown}
                                         errortext={label.IncorrectInputFormat}>                          
-                                    </c-lwc_pay_filter-dropdown>-->
+                                    </c-lwc_pay_filterdropdown>
                                 </div>
                             </div>
                         </div>
@@ -231,11 +259,17 @@
                                 </div>
                             </div>
                             <div class="slds-col">
-                            <!--    <c-lwc_pay_filter-dropdown data-id="countryDropdownModal" values={countrydropdownlist} selectedvalue={selectedcountry} 
-                                    helptextdropdown={label.Show_More} issimpledropdown="true" label={label.destinationCountry} 
-                                    isdisabled="false" valuesplaceholder="" cleardropdown={clearCountryDropdown}
-                                    errorText={label.IncorrectInputFormat}>
-                                </c-lwc_pay_filter-dropdown>-->
+                                <c-lwc_pay_filterdropdown data-id="countryDropdownModal" 
+                                    values={countrydropdownlist} 
+                                    selectedvalue={selectedcountry} 
+                                    helptextdropdown={label.Show_More} 
+                                    issimpledropdown={isSimpleDropdownTrue} 
+                                    label={label.destinationCountry} 
+                                    isdisabled={isDisabledDropdown}  
+                                    valuesplaceholder="" 
+                                    cleardropdown={clearCountryDropdown}
+                                    errortext={label.IncorrectInputFormat}>
+                                </c-lwc_pay_filterdropdown>
                             </div>
                             
                         </div>

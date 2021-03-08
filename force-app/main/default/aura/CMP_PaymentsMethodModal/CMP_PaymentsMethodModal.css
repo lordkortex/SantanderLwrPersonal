@@ -1,15 +1,16 @@
-/* MODAL CONTAINER*/
 .THIS.modalPaymentMethod {
     background: rgba(68,68,68,0.7);
     overflow-y: auto;
 }
-.THIS.modalPaymentMethod .slds-modal__container{
+
+.THIS.modalPaymentMethod .slds-modal__container {
     max-width: 936px;
     min-width: 936px;
     padding: 120px 0;
     height: max-content;
 }
-.THIS.modalPaymentMethod .modal-content{
+
+.THIS.modalPaymentMethod .modal-content {
     display: flex;
     flex-direction: column;
     position: relative;
@@ -19,7 +20,8 @@
     background-color: #f6fafc;
     border-radius: 4px; 
 }
-.THIS.modalPaymentMethod .slds-modal__close{
+
+.THIS.modalPaymentMethod .slds-modal__close {
     position: absolute;
     right: 24px;
     top: 24px;
@@ -27,24 +29,26 @@
     width: 24px;
     height: 24px;
 }
-.THIS.modalPaymentMethod .slds-modal__close .icon-close_big{
+
+.THIS.modalPaymentMethod .slds-modal__close .icon-close_big {
     font-size:24px
 }
-.THIS.modalPaymentMethod .modal-content .slds-modal__content{ 
+
+.THIS.modalPaymentMethod .modal-content .slds-modal__content { 
     background-color: #f6fafc;
     padding: 0 64px 40px 64px;
-    overflow-y: hidden; /*parche para quitar scroll hasta implementar nuevos estilod de modal */ 
+    overflow: visible;
 }
 
-/* MODAL HEADER */
-.THIS.modalPaymentMethod .slds-modal__header{ 
+.THIS.modalPaymentMethod .slds-modal__header { 
     box-shadow: none;
     border: none; 
     text-align: left;
     padding:40px 64px;
     background-color: #f6fafc;
 }
-.THIS.modalPaymentMethod .slds-modal__header .slds-modal__title{
+
+.THIS.modalPaymentMethod .slds-modal__header .slds-modal__title {
     font-family:"SantanderHeadlineW05-Rg";
     font-size: 28px; 
     line-height: 1.21; 
@@ -57,7 +61,8 @@
     -webkit-box-orient: vertical;
     margin-bottom: 8px;
 }
-.THIS.modalPaymentMethod .modal-content .slds-modal__header:after{
+
+.THIS.modalPaymentMethod .modal-content .slds-modal__header:after {
     font-size: 24px;
     position:absolute;
     content:"";
@@ -68,16 +73,17 @@
     left: 64px;
 }
 
-/* MODAL FOOTER */
-.THIS.modalPaymentMethod .modal-content .slds-modal__footer{
+.THIS.modalPaymentMethod .modal-content .slds-modal__footer {
     box-shadow: none;
     border: none; 
     padding:40px 64px 40px;
 }
-.THIS.modalPaymentMethod .modal-content .modal-footer-buttons{
+
+.THIS.modalPaymentMethod .modal-content .modal-footer-buttons {
     display:flex;
 }
-.THIS.modalPaymentMethod .modal-content .modal-footer-buttons .slds-button{
+
+.THIS.modalPaymentMethod .modal-content .modal-footer-buttons .slds-button {
     margin-right:24px;
         margin-left: 0;
 }
@@ -86,127 +92,3 @@
 .THIS .slds-notify_container.toast_static { 
     margin-top: 0px;
 }
-
-/* TOAST */
-/* .THIS .slds-notify_container {
-    padding: 108px 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-}
-
-.THIS .slds-notify_toast {
-    width: 600px;
-    min-height: 80px;
-    margin: 0;
-    padding: 16px;
-    border-radius: 4px;
-    box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
-}
-
-.THIS .slds-notify__content{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-}
-
-.THIS .slds-notify__content .slds-text-heading_small{
-    font-family: SantanderMicroText-Bd;
-    font-size: 16px; 
-    line-height: 1.5; 
-    color: #444444;
-    margin:0;
-}
-.THIS .slds-notify__content .notifyText { 
-    font-family: SantanderMicroText;
-    font-size: 16px; 
-    line-height: 1.5; 
-    color: #444444; 
-}
-
-.THIS .slds-notify__content .action{ 
-    font-family: SantanderMicroText-Bd;
-    font-size: 14px;
-    line-height: 1.43;
-}
-
-/* ICONS TOAST */
-/*.THIS .slds-notify__close { 
-    height: 24px; 
-    right:16px;
-    top: 16px;
-    width: 24px;
-}
-.THIS .slds-notify__close .slds-button.slds-button_icon {
-    display: flex;
-    text-decoration: none;
-}
-.THIS .slds-notify__close .slds-button.slds-button_icon:before {
-    font-size: 24px;
-}
-.THIS .button-selected{
-    margin-right:8px;
-    pointer-events: none; 
-}
-.THIS .button-selected:before{
-    font-size: 24px;
-}
-.THIS .slds-notify__content .slds-button.slds-button_icon:before { 
-    font-size: 24px;
-    margin-right: 8px;
-} */
-
-/* INFO TOAST */
-/* .THIS .slds-theme_info { 
-    border: solid 1px #257fa4 ; 
-    background-color: #f5f9fb;  
-}
-
-.THIS .slds-theme_info .icon-information:before { 
-    color: #257fa4 ;  
-}
-
-.THIS .slds-theme_info .icon-close_big:before,
-.THIS .slds-theme_info .slds-notify__content button,
-.THIS .slds-theme_info .slds-notify__content .slds-button.slds-button_icon:before{ 
-    color: #257fa4;
-} */
-
-/* INFO STATIC TOAST */
-/* .THIS .slds-notify_container.toast_static {
-    padding: 0;
-    display: block;
-    height: auto;
-    position: static;
-}
-
-.THIS .toast_static .slds-theme_info { 
-    width: 100%;
-    box-shadow: none;
-}
-
-.THIS .toast_static .slds-theme_info .icon-close_big:before { 
-    visibility: hidden; 
-} */
-
-/* MOSTRAR ACTION TOAST */
-/* .THIS .slds-theme_info .slds-notify__content button,
-.THIS .slds-theme_success .slds-notify__content button,
-.THIS .slds-theme_warning .slds-notify__content button,
-.THIS .slds-theme_error .slds-notify__content button{ 
-    display: none; 
-}
-
-.THIS .slds-theme_info.action .slds-notify__content button,
-.THIS .slds-theme_success.action .slds-notify__content button,
-.THIS .slds-theme_warning.action .slds-notify__content button,
-.THIS .slds-theme_error.action .slds-notify__content button{ 
-    display: flex;
-    align-self: flex-end;
-    margin-top: 2px;
-    align-items: center;
-    border: none;
-} */

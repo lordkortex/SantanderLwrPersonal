@@ -1,0 +1,96 @@
+<template>  
+    <!-- CARD AUTHORIZATION -->
+    <!-- añadir la clase card_s o card_m según el tamaño de la card o añadir la clase card_modal si la card se ubica dentro de una modal -->
+    <!-- añadir la clase card_tooltip para mostrar el icono del tooltip -->
+	<article class="cardAuthorization card_s card_tooltip slds-card">
+
+        <!-- CARD HEADER -->
+        <div class="slds-card__header slds-grid">
+ 			<header class="slds-media slds-has-flexi-truncate">
+				<div class="slds-media__body">
+                 	<h2 class="slds-card__header-title slds-truncate">{cardTitle}</h2>
+                    <span class="card_subtitle">{cardSubtitle1}: <span class="text-bold">{numberOfPayments}</span> </span>
+                    
+					<template if:true={totalamount}>
+						<span class="card_subtitle">{cardSubtitle2}: 
+							<span class="text-bold">
+								<c-lwc_display-amount
+									amount={totalamount} 
+									numberformat={userdata.numberFormat}>
+								</c-lwc_display-amount>
+							</span>
+					</span>
+					</template>
+
+              	</div>
+                <!-- Card tootlip -->
+              	<div class="slds-media__figure">
+                    <div class="tooltip__content">
+                    	<div class="tooltip tooltip_center__bottom">
+                            <button class="slds-button slds-button_icon" aria-describedby="help" aria-disabled="true">
+                                <span class="slds-button__icon icon icon-information"></span>
+                                <span class="slds-assistive-text">{label.help}</span>
+                            </button>
+                            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom"  role="tooltip" id="help">
+                                <div class="slds-popover__body">
+                                    <div class="title">
+                                        {label.exchangeRate}
+                                    </div>
+                                    <div class="line"></div>
+                                    <div class="text">
+                                        {label.HelpAuthorizationCard}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+              	</div>
+			</header>
+        </div>
+        
+		<!-- DIVISION LINE -->        
+        <div class="card-line"></div>
+        
+        <!-- CARD BODY -->
+        <div class="slds-card__body"> <!-- añadir la clase error junto a la clase slds-card__body cuando el código introducido sea incorrecto o cuando el codigo sea expirado añadir la clase expired-code -->
+			<p class="slds-text-body_regular">{label.enterOTP}&nbsp;{userdata.MobilePhone}</p>
+            <button class="slds-button button_link" onclick={resendaction}>{label.SMSNotReceived}</button> 
+            
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                  	<input type="text" id="1"  maxlength="1" placeholder="" class="slds-input slds-text-align_center" oninput={checkNumber}/>
+                   	<input type="text" id="2" maxlength="1" placeholder="" class="slds-input slds-text-align_center" oninput={checkNumber}/>
+                   	<input type="text" id="3" maxlength="1" placeholder="" class="slds-input slds-text-align_center" oninput={checkNumber}/>
+                </div>
+                <div class="slds-form-element__control">
+                    <input type="text" id="4" maxlength="1" placeholder="" class="slds-input slds-text-align_center" oninput={checkNumber}/>
+                    <input type="text" id="5" maxlength="1" placeholder="" class="slds-input slds-text-align_center" oninput={checkNumber}/>
+                    <input type="text" id="6" maxlength="1" placeholder="" class="slds-input slds-text-align_center" oninput={checkNumber}/>
+                </div>
+            </div>
+
+            <template if:true={errormessage}>
+                <div class="error-text">{errormessage}</div>
+            </template>
+        </div>
+        
+        <!-- CARD FOOTER -->
+        <template if:true={isErrorEqOPTExpired}>
+		   <footer class="slds-card__footer"> 
+				<button class="slds-button primary button_small button_full" onclick={resendaction}>{label.newCode}</button>
+			</footer>
+		</template>
+		
+		<template if:false={isErrorEqOPTExpired}>
+			<footer class="slds-card__footer">
+				<button class="slds-button primary button_small button_full" onclick={authorizeaction} disabled={disabledconfirm}>{authorize}</button>
+				<button class="slds-button secondary button_small button_full" onclick={backaction}>{back}</button>
+			</footer>
+		</template>
+		
+        <template if:true={spinner}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+    </article>
+
+</template>

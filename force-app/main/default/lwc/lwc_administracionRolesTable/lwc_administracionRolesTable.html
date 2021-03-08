@@ -1,0 +1,43 @@
+<template>
+    <c-lwc_service-component onsuccesscallback={successcallback}></c-lwc_service-component>
+   <div class="slds-table--header-fixed_container slds-is-relative">
+        <div class="slds-scrollable_y">
+            <table aria-multiselectable="true" class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped slds-table_fixed-layout" role="grid">
+
+                <!--HEADER-->
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th aria-label="Order" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="Order">{label.AdminRoles_Order}</span>
+                            </div>
+                        </th>
+                        <th aria-label="Rol name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="Rol name">{label.AdminRoles_RolName}</span>
+                            </div>
+                        </th>
+                        <th aria-label="Rol alias" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="Rol alias">{label.AdminRoles_RolAlias}</span>
+                            </div>
+                        </th>
+                        <th aria-sort="none" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title=""></span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>                   
+                    <template for:each={tabledata} for:item='item'>
+                        <div key={item.key}>
+                            <c-lwc_administracion-roles-table-row rowdata={item}></c-lwc_administracion-roles-table-row>
+                        </div>
+                    </template>      
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

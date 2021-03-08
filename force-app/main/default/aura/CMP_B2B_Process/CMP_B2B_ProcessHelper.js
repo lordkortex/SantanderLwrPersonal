@@ -133,7 +133,7 @@
             let focusStep = component.get('v.steps.lastModifiedStep');
             if (focusStep == 1) {
                 component.set('v.spinner', true);
-                helper.getAccountsToB2BDestination(component, helper, component.get('v.userData'))
+                helper.getAccountsToB2BDestination(component, helper, component.get('v.userData'), component.get("v.dataSelectOrigin"))
                 .then($A.getCallback(function (value) {
                     return helper.handleAccountsToB2BDestination(component, helper, value);
                 })).then($A.getCallback(function (value) {
@@ -185,111 +185,66 @@
         return newList;
     },
 
-    getURLParams: function (component, helper) {
-        try {
-            var sPageURLMain = decodeURIComponent(window.location.search.substring(1));
-            var sURLVariablesMain = sPageURLMain.split('&')[0].split('=');
-            var sParameterName;
-            var sPageURL;
-            if (sURLVariablesMain[0] == 'params') {
-                if (sURLVariablesMain[1] != '' && sURLVariablesMain[1] != undefined && sURLVariablesMain[1] != null) {
-                    helper.decrypt(component, sURLVariablesMain[1]).then($A.getCallback(function (results) {
-                        sURLVariablesMain[1] === undefined ? 'Not found' : sPageURL = results;
-                        var sURLVariables = sPageURL.split('&');
-                        var paymentId = '';
-                        var source = '';
-                        var paymentDetails = {};
-                        for (var i = 0; i < sURLVariables.length; i++) {
-                            sParameterName = sURLVariables[i].split('=');
-                            if (sParameterName[0] === 'c__paymentId') {
-                                sParameterName[1] === undefined ? 'Not found' : paymentId = sParameterName[1]; component.set('v.paymentId', sParameterName[1]);
-                            }
-                            if (sParameterName[0] === 'c__source') {
-                                sParameterName[1] === undefined ? 'Not found' : source = sParameterName[1];
-                            }
-                            if (sParameterName[0] === 'c__paymentDetails') {
-                                sParameterName[1] === undefined ? 'Not found' : paymentDetails = JSON.parse(sParameterName[1]);
-                                component.set('v.paymentDetails', paymentDetails);
-                            }
-                        }
-                        if (paymentId != null && paymentId != '') {
-                            if (source != null && source != '') {
-                                if (source == 'landing-payment-details') {
-                                    component.set('v.isEditing', true);
-                                    if (!$A.util.isEmpty(paymentDetails)) {
-                                        var dataSelectAmount = component.get('v.dataSelectAmount');
-                                        dataSelectAmount.amountSend = paymentDetails.amount;
-                                        dataSelectAmount.transactionFee = paymentDetails.fees;
-                                        if (!$A.util.isEmpty(paymentDetails.operationNominalFxDetails)) {
-                                            if (!$A.util.isEmpty(paymentDetails.operationNominalFxDetails.ccyCountervalue)) {
-                                                if (!$A.util.isEmpty(paymentDetails.operationNominalFxDetails.ccyCountervalue.ccyCountervalueAmount)) {
-                                                    dataSelectAmount.amountReceive = paymentDetails.operationNominalFxDetails.ccyCountervalue.ccyCountervalueAmount;
-                                                } else {
-                                                    dataSelectAmount.amountReceive = null;
-                                                }
-                                            } else {
-                                               dataSelectAmount.amountReceive = null; 
-                                            }
-                                        } else {
-                                            dataSelectAmount.amountReceive = null;
-                                        }
-                                        var dataPaymentInformation = component.get('v.dataPaymentInformation');
-                                        dataPaymentInformation.reference = paymentDetails.clientReference;
-                                        dataPaymentInformation.purpose = paymentDetails.purpose;
-                                        dataPaymentInformation.description = paymentDetails.paymentReference;
-                                        dataPaymentInformation.paymentReason = paymentDetails.paymentReason;
-                                        dataPaymentInformation.paymentStatus = paymentDetails.paymentStatus;
-                                        var originList = component.get('v.accountListOrigin');
-                                        console.log(originList);
-                                        console.log(originList.length);
-                                        let exitOrigin = false;
-                                        let i = 0;
-                                        while (exitOrigin == false && i < originList.length) {
-                                            console.log(originList[i]);
-                                            if (originList[i].displayNumber == paymentDetails.sourceAccount.trim()) {
-                                                console.log('ok');
-                                                console.log(originList[i]);
-                                                component.set('v.dataSelectOrigin', originList[i]);
-                                                exitOrigin = true;
-                                            }
-                                            i++;
-                                        }
-                                        var destinationList = component.get('v.accountListDestination');
-                                        let exitDestination = false;
-                                        let j = 0;
-                                        while (exitDestination == false && j < destinationList.length) {
-                                            if (destinationList[j].displayNumber == paymentDetails.beneficiaryAccount.trim()) {
-                                                component.set('v.dataSelectDestination', destinationList[j]);
-                                                exitDestination = true;
-                                            }
-                                            j++;
-                                        }
-                                        component.set('v.dataSelectAmount', dataSelectAmount);
-                                        component.set('v.dataPaymentInformation', dataPaymentInformation);
-                                        var steps = component.get('v.steps');
-                                        if (!$A.util.isEmpty(steps)) {
-                                            steps.shownStep = 4;
-                                            steps.focusStep = 1;
-                                            steps.lastModifiedStep = 4;
-                                            steps.totalSteps = 5;
-                                            component.set('v.steps', steps);
-                                        }
+        getURLParams: function (component, helper) {
+            return new Promise($A.getCallback(function (resolve, reject) {
+                component.set('v.paymentId', '');
+                component.set('v.paymentDetails', {});
+                let sPageURLMain = decodeURIComponent(window.location.search.substring(1));
+                let sURLVariablesMain = sPageURLMain.split('&')[0].split('=');
+                if (sURLVariablesMain[0] == 'params' && !$A.util.isEmpty(sURLVariablesMain[1])) {
+                    helper.decrypt(component, sURLVariablesMain[1])
+                    .then($A.getCallback(function (results) {
+                        let paymentId = '';
+                        let paymentDetails = {};
+                        let reuse = false;
+                        if (!$A.util.isEmpty(results)) {
+                            let sURLVariables = results.split('&');
+                            for (var i = 0; i < sURLVariables.length; i++) {
+                                let sParameterName = sURLVariables[i].split('=');
+                                if (sParameterName[0] === 'c__paymentId') {
+                                    paymentId = sParameterName[1];
+                                    component.set('v.paymentId', paymentId);
+                                }
+                                if (sParameterName[0] === 'c__paymentDetails') {
+                                    if (!$A.util.isEmpty(sParameterName[1])) {
+                                        paymentDetails = JSON.parse(sParameterName[1]);
+                                        component.set('v.paymentDetails', paymentDetails);
+                                    }
+                                }
+                                if (sParameterName[0] === 'c__reuse') {
+                                    if (!$A.util.isEmpty(sParameterName[1])) {
+                                        reuse = JSON.parse(sParameterName[1]);
+                                        component.set('v.isReuse', reuse);
                                     }
                                 }
                             }
                         }
+                        resolve('getURLParams_OK');
+                    })).catch($A.getCallback(function (error) {
+                        reject({
+                            'title': $A.get('$Label.c.B2B_Error_Problem_Loading'),
+                            'body': $A.get('$Label.c.B2B_Error_Check_Connection'),
+                            'noReload': false
+                        });
                     }));
                 } else {
-                    component.set('v.steps.shownStep', 1);
+                    resolve('getURLParams_OK');
                 }
-            } else {
-                component.set('v.steps.shownStep', 1);
+            }));
+        },
+            
+    initReusingProcess: function (component, helper) {
+        		return new Promise($A.getCallback(function (resolve, reject) {
+           		 let reuse = component.get('v.isReuse');
+            let paymentDetails = component.get('v.paymentDetails');
+            if (reuse && !$A.util.isEmpty(paymentDetails)) {
+                component.set('v.isEditingProcess', true);
+                component.set('v.isEditing', true);   
+                helper.loadingEditingProcess(component, helper);
             }
-        } catch (e) {
-            console.log(e);
-        }
+            resolve('initReusingProcess');
+        }));
     },
-    
     
     initEditingProcess: function (component, helper) {
         return new Promise($A.getCallback(function (resolve, reject) {

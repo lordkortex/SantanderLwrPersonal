@@ -34,11 +34,13 @@
                 <c-lwc_payments-landing-boxes 
                     paymentstatusboxes={singlePaymentStatusBoxes} 
                     selectedpaymentstatusbox={selectedPaymentStatusBox} 
-                    resetsearch={resetSearch}>
+                    resetsearch={resetSearch}
+                    onchangeselectedpaymentstatusbox={onChangeSelectedPaymentStatusBox}
+                    onreloadaccounts={reloadAccounts}>
                 </c-lwc_payments-landing-boxes>
             </div>
             <div>
-                <template if:true={isSingleDataLoaded}>
+                
                     <c-lwc_payments-landing-filters data-id="paymentsLandingFilters" 
                         showdownloadmodal={showDownloadModal} 
                         showfiltermodal={showFilterModal} 
@@ -58,10 +60,12 @@
                         isheaderoptionselected={isHeaderOptionSelected} 
                         pendingofmyauthorization={pendingOfMyAuthorization}
                         reloadaccounts={reloadAccounts}
+                        onreloadaccounts={onReloadAccounts}
                         numberofpayments={singlePaymentList.length}
-                        availablestatuses={availableStatuses}>
+                        availablestatuses={availableStatuses}
+                        onopendowloadmodal={onopendowloadmodal}>
                     </c-lwc_payments-landing-filters>
-                </template>
+                
             </div>
 
             <!-- TABLE -->

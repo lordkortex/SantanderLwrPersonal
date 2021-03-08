@@ -88,7 +88,7 @@ public with sharing class CNT_PaymentsLandingUtilityBar {
             sourceAccountData.currencyCodeAvailableBalance = payment.sourceCurrency;
             sourceAccountData.alias = payment.sourceAccountHolder;
             sourceAccountData.aliasEntidad = payment.sourceBank;
-            sourceAccountData.codigoCorporate = '';
+            sourceAccountData.codigoCorporate = payment.sourceData.customerId;
             sourceAccountData.country = payment.sourceCountry;
             sourceAccountData.codigoBic = payment.sourceSwiftCode;
             WRAPPER_AccountList.AccountDetails recipientAccountData =  new WRAPPER_AccountList.AccountDetails();
@@ -102,17 +102,15 @@ public with sharing class CNT_PaymentsLandingUtilityBar {
             }
             String callType = 'ONL';
             String requestType = 'T';
+            String requestPurpose = 'Nominal_request';
             if (feesBoolean == true && payment.fees != null) {
                 sendAmount =  Decimal.valueOf(payment.fees);
                 receiveAmount = null;
                 callType =  'ONI';
                 requestType = 'I';
+                requestPurpose = 'Fee_request';
             }
-            
-            System.debug('ALE');
-            system.debug( sourceAccountData.country);
-            system.debug(payment);
-            WS_ExchangeRate exchangeRate = new WS_ExchangeRate(paymentId, 'b2b', requestType, callType, accountData, 120000);            
+            WS_ExchangeRate exchangeRate = new WS_ExchangeRate(paymentId, 'b2b', requestType, callType, accountData, 120000, requestPurpose);            
             Map<String, Object> output = exchangeRate.execute(sendAmount, receiveAmount, sourceAccountData.currencyCodeAvailableBalance, recipientAccountData.currencyCodeAvailableBalance, sourceAccountData.alias, sourceAccountData.aliasEntidad, sourceAccountData.codigoCorporate,sourceAccountData.country, sourceAccountData.codigoBic);
             response = new ReturnValue(true, output);
         } catch (Exception e) {
@@ -170,10 +168,17 @@ public with sharing class CNT_PaymentsLandingUtilityBar {
     History:
     <Date>          <Author>            <Description>
     16/09/2020      Adrian Munio        Initial version
-    ----------------------------------------------------------------------------------*/
+	26/11/2020		Shahad Naji			Invoke ServiceCustomerTransactionalLimits.reverseLimits function
+----------------------------------------------------------------------------------*/
     @AuraEnabled
-    public static ReturnValue reverseLimits (String operationId, String serviceId, WRAPPER_PaymentDetail.OperationDetail paymentData) {
-        ReturnValue response = CNT_B2B_REDOModal.reverseLimits(operationId, serviceId, paymentData);
+    public static ReturnValue reverseLimits (WRAPPER_PaymentDetail.OperationDetail paymentData) {
+        ReturnValue response = null;
+        try{
+            response = ControllerCustomerTransactionalLimits.reverseLimits(paymentData);
+        }catch (Exception e) {
+            System.debug('CNT_PaymentsLandingUtilityBar.reverseLimits: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            response = new ReturnValue(false, null, e.getMessage());
+        }
         return response;
     }
 }

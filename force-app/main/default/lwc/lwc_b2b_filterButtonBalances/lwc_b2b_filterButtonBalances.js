@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 // Import styles
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 
 import B2B_Balance from '@salesforce/label/c.B2B_Balance';
@@ -36,8 +36,8 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
     @track locale;
     @track decimalSeparator;
     @track thousandsSeparator;
-    @track formattedValueFrom;
-    @track formattedValueTo;
+    @track formattedValueFrom = "";
+    @track formattedValueTo = "";
     @track userInputFrom;
     @track userInputTo;
     @track errorMSG = this.Label.toAmountLowerThanFrom;
@@ -72,7 +72,7 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
     get inputTwoEqTrue(){
         return this.showToMiniLabel == true || this.userInputTo;
     }
-    get showdropdownEqualsTrue(){
+    get showDropdownEqualsTrue(){
         return this.showdropdown == true;
     }
     get inputClass(){
@@ -130,11 +130,11 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
         let thousandsSeparator = this.thousandsSeparator;
         let decimalSeparator = this.decimalSeparator;
         let inputValue = event.target.value;
-        let inputId = event.target.id;
+        let inputId = event.target.dataset.id;
         let validUserInput = '';
         if (inputValue) {
             if (inputId) {
-                if (event.target.id == 'from' && validUserInput != undefined) {
+                if (inputId == 'from' && validUserInput != undefined) {
                     validUserInput = this.userInputFrom;
                 } else {
                     validUserInput = this.userInputTo;
@@ -145,7 +145,7 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
 
                 if (isInputValid == true && inputValue.length < 18) {
                     validUserInput = inputValue;
-                    if (event.target.id == 'from' && validUserInput != undefined) {
+                    if (inputId == 'from' && validUserInput != undefined) {
                         this.userInputFrom = validUserInput;
                     } else {
                         this.userInputTo = validUserInput;
@@ -153,7 +153,8 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
 
                 }
 
-                let input = document.getElementById(inputId);
+                let element = '[data-id="' + inputId + '"]';
+                let input = this.template.querySelector(element);
                 if (input != null && input != undefined) {
                     input.value = validUserInput;
                 }
@@ -164,20 +165,20 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
             let valueWithoutThousand = validUserInput.replace(thousandsRegExp, '');
             let valueWithDecimal = valueWithoutThousand.replace(decimalSeparator, '.');
 
-            if (event.target.id == 'from' && parseFloat(valueWithDecimal) != undefined && Number.isNaN(parseFloat(valueWithDecimal)) == false) {
+            if (inputId == 'from' && parseFloat(valueWithDecimal) != undefined && Number.isNaN(parseFloat(valueWithDecimal)) == false) {
                 this.minimumbalance = parseFloat(valueWithDecimal);
             } else {
                 this.maximumbalance = parseFloat(valueWithDecimal);
             }
 
 
-            if (event.target.id == 'from') {
+            if (inputId == 'from') {
                 this.formattedValueFrom = validUserInput;
             } else {
                 this.formattedValueTo = validUserInput;
             }
         } else {
-            if (event.target.id == 'from') {
+            if (inputId == 'from') {
                 this.minimumbalance = '';
                 this.formattedValueFrom = '';
                 this.userInputFrom = '';
@@ -194,7 +195,7 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
 
     handleFocusAmount(event) {
         let value = '';
-        let inputId = event.target.id;
+        let inputId = event.target.dataset.id;
         if (inputId) {
             if (inputId == 'from') {
                 if (this.userInputFrom != undefined && this.userInputFrom != null && this.userInputFrom != '') {
@@ -207,7 +208,10 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
                 }
                 this.showToMiniLabel = true;
             }
-            let input = document.getElementById(inputId);
+
+            let element = '[data-id="' + inputId + '"]';
+            let input = this.template.querySelector(element);
+            
             if (input != null && input != undefined) {
                 input.value = value
             }
@@ -216,7 +220,7 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
 
     handleBlurAmount(event) {
         let formattedValue = '';
-        let inputId = event.target.id;
+        let inputId = event.target.dataset.id;
         console.log(inputId);
 
         if (inputId == 'from') {
@@ -234,7 +238,8 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
         }
 
         if (inputId) {
-            let input = document.getElementById(inputId);
+            let element = '[data-id="' + inputId + '"]';
+            let input = this.template.querySelector(element);
             if (input != null && input != undefined) {
                 input.value = formattedValue;
             }
@@ -245,7 +250,7 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
         console.log("chage");
         let inputId = '';
         let value = '';
-        inputId = event.target.id;
+        inputId = event.target.dataset.id;
         value = event.target.value;
         console.log(inputId);
         console.log(value);
@@ -259,19 +264,18 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
         if (value) {
 
             if (inputId) {
-                
 
                 let locale = this.locale;
                 var formatValue = '';
-                formatValue = Intl.numberformat(locale).format(value);
+                formatValue = Intl.NumberFormat(locale).format(value);
                 if (inputId == 'from') {
                     this.formattedValueFrom = formatValue;
                 } else {
                     this.formattedValueTo = formatValue;
                 }
 
-
-                let input = document.getElementById(inputId);
+                let element = '[data-id="' + inputId + '"]';
+                let input = this.template.querySelector(element);
                 console.log(formatValue);
                 console.log(this.formattedValueFrom);
                 if (input != null && input != undefined) {
@@ -328,7 +332,7 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
 
     callEventSave(action) {
         const saveFilters = new CustomEvent('savefilters', {
-            detail: { showdropdown: this.showdropdown,
+            detail: { showDropdown: this.showdropdown,
                     name: this.name,
                     action: action},
         });
@@ -342,17 +346,17 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
         if (this.minimumbalance != '' && this.minimumbalance != null && this.maximumbalance != '' && this.maximumbalance != null) {
             if (this.minimumbalance > this.maximumbalance) {
                 this.errorAmounts = true;
-                this.template.querySelector('from').classList.add('error');
-                this.template.querySelector('to').classList.remove('error');
+                this.template.querySelector('[data-id="from"]').classList.add('error');
+                this.template.querySelector('[data-id="to"]').classList.remove('error');
             } else {
                 this.errorAmounts = false;
-                this.template.querySelector('from').classList.remove('error');
-                this.template.querySelector('to').classList.remove('error');
+                this.template.querySelector('[data-id="from"]').classList.remove('error');
+                this.template.querySelector('[data-id="to"]').classList.remove('error');
             }
         } else {
             this.errorAmounts = false;
-            this.template.querySelector('from').classList.remove('error');
-            this.template.querySelector('to').classList.remove('error');
+            this.template.querySelector('[data-id="from"]').classList.remove('error');
+            this.template.querySelector('[data-id="to"]').classList.remove('error');
         }
     }
 

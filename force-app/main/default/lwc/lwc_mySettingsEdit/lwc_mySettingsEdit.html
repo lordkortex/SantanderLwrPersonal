@@ -1,0 +1,106 @@
+<template>
+
+    <c-lwc_service-component data-id="service"></c-lwc_service-component>
+
+    <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+          <header class="slds-modal__header">
+            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={Label.close}>
+              <span class="slds-assistive-text">{Label.close}</span>
+            </button>
+            
+            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{Label.MySettings_EditUserInfo}</h2>
+        
+          </header>
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+            <lightning-layout multiple-rows="true">
+
+                <!-- User Language Block -->
+                <lightning-layout-item size="6" padding="around-small">
+                    <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{Label.language}</div>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element">
+                          <c-lwc_cn_dropdown data-id="LanguageDropdown" issimpledropdown="true" valueplaceholder={Label.LogAdmin_SelectOne} 
+                          values={userpicklistvalues.languagesListLabel} selectedvalue={userinfoedit.Language}
+                          ondropdownvalueselected={selectLenguageDropdown} ></c-lwc_cn_dropdown>
+                      </div>
+                    </div>
+                </lightning-layout-item>
+                
+                <!-- User Time Zone Block -->
+                <lightning-layout-item size="6" padding="around-small">
+                    <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{Label.timeZone}</div>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element">
+                        <c-lwc_cn_dropdown data-id="TimeZoneDropdown" issimpledropdown="true" valueplaceholder={Label.LogAdmin_SelectOne}  
+                          values={userpicklistvalues.TimeZoneListLabel} selectedvalue={userinfoedit.TimeZone}  ondropdownvalueselected={selectTimeZoneDropdown} ></c-lwc_cn_dropdown>
+                      </div>
+                    </div>
+                </lightning-layout-item>
+
+                <!-- User date format Block -->
+                <lightning-layout-item size="6" padding="around-small">
+                    <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{Label.dateFormat}</div>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element">
+                        <c-lwc_cn_dropdown data-id="LocaleeDropdown" issimpledropdown="true" valueplaceholder={Label.LogAdmin_SelectOne}  
+                        values={userpicklistvalues.datesListLabel} selectedvalue={userinfoedit.DateFormat} ondropdownvalueselected={selectDateFormatDropdown} ></c-lwc_cn_dropdown>
+                      </div>
+                    </div>
+                </lightning-layout-item>
+    
+                <!-- User number format Block -->
+                <lightning-layout-item size="6" padding="around-small">
+                    <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{Label.numberFormat}</div>
+                    <div class="slds-form-element__control">
+                      <div class="slds-form-element">
+                          <c-lwc_cn_dropdown data-id="LocaleDropdown" issimpledropdown="true" valueplaceholder={Label.LogAdmin_SelectOne}  
+                          values={userpicklistvalues.numbersListLabel} selectedvalue={userinfoedit.NumberFormat} ondropdownvalueselected={selectNumberFormatDropdown} ></c-lwc_cn_dropdown>
+                      </div>
+                    </div>
+                </lightning-layout-item>
+
+                <!-- User Currency Pair 1 
+                <lightning-layout-item size="6" padding="around-small">
+                  <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{Label.currency} Pair 1</div>
+                  <div class="slds-form-element__control">
+                    <div class="slds-form-element">
+                      <c-lwc_cn_dropdown data-id="CurrencyDropdown" issimpledropdown="true" valueplaceholder={Label.LogAdmin_SelectOne}  
+                      values={userpicklistvalues.CurrenciesPairListLabel} selectedvalue={userinfoedit.ccyPairs1} ondropdownvalueselected={selectCcyPairs1Dropdown} ></c-lwc_cn_dropdown>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+
+                User Currency Pair 2 
+                <lightning-layout-item size="6" padding="around-small">
+                  <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{Label.currency} Pair 2</div>
+                  <div class="slds-form-element__control">
+                    <div class="slds-form-element">
+                      <c-lwc_cn_dropdown data-id="CurrencyDropdown" issimpledropdown="true" valueplaceholder={Label.LogAdmin_SelectOne}  
+                      values={userpicklistvalues.CurrenciesPairListLabel} selectedvalue={userinfoedit.ccyPairs2} ondropdownvalueselected={selectCcyPairs2Dropdown} ></c-lwc_cn_dropdown>
+                    </div>
+                  </div>
+                </lightning-layout-item>
+
+               User Currency Pair 3 
+              <lightning-layout-item size="6" padding="around-small">
+                <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{Label.currency} Pair 3</div>
+                <div class="slds-form-element__control">
+                  <div class="slds-form-element">
+                    <c-lwc_cn_dropdown data-id="CurrencyDropdown" issimpledropdown="true" valueplaceholder={Label.LogAdmin_SelectOne}  
+                    values={userpicklistvalues.CurrenciesPairListLabel} selectedvalue={userinfoedit.ccyPairs3} ondropdownvalueselected={selectCcyPairs3Dropdown} ></c-lwc_cn_dropdown>
+                  </div>
+                </div>
+              </lightning-layout-item>
+              -->
+            </lightning-layout>
+          </div>
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick={cancelEditClicked}>{Label.AdminRoles_Cancel}</button>
+            <button class="slds-button slds-button_brand" onclick={saveEditClicked}>{Label.AdminRoles_Save}</button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+
+</template>

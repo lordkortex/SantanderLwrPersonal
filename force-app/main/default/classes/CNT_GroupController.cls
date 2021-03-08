@@ -32,8 +32,8 @@ History
 <Date>          <Author>             <Change Description>
 29/01/2020		Guillermo Giral      Initial version
 ------------------------------------------------------------*/     
-    @AuraEnabled
-    public static List<WRAPPER_GroupAdmin> getData()
+    @AuraEnabled (cacheable = true)
+    public static WRAPPER_GroupAdmin getData(String userId)
     {
         return getGroups();
     }
@@ -60,50 +60,87 @@ History
 <Date>			<Author>		            <Description>
 29/01/2020		Guillermo Giral             Initial version
 ----------------------------------------------------------------------------------*/
-    public static List<WRAPPER_GroupAdmin> getGroups()
+    public static WRAPPER_GroupAdmin getGroups()
     {
-        try 
-        {            
-            //CNT_GetGroups
-            
-            CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_GetGroups');
-            String response = Global_IntegrationWrapper.launchHTTP('', configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c);
-            
-            if (Test.isRunningTest() ) {
-                response ='['+
-                    '  {'+
-                    '    \"name\": \"Grupo 1\"'+
-                    '  },'+
-                    '  {'+
-                    '    \"name\": \"Grupo 2\"'+
-                    '  },'+
-                    '  {'+
-                    '    \"name\": \"Grupo 3\"'+
-                    '  },'+
-                    '  {'+
-                    '    \"name\": \"Grupo 4\"'+
-                    '  },'+
-                    '  {'+
-                    '    \"name\": \"Grupo 5\"'+
-                    '  }'+
-                    ']';
-            } 
-            
-            
-            if (String.isNotBlank(response)) 
-            {
-                List<WRAPPER_GroupAdmin> listGroups = WRAPPER_GroupAdmin.parse(response);
-                return listGroups;
-            } else
-            {
-                throw new customException(Label.getDataError);
-            }
-        } catch (Exception e) 
+        
+        WRAPPER_Login login = CNT_LoginVisibilityManagerController.getUserLoginData(UserInfo.getUserId());
+        CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_GetGroups');
+        //String groupsEndpoint = configWs.CNT_Endpoint__c.replace('{}', String.valueOf(login.inicio.user.codigoCliente));
+        String groupsEndpoint = configWs.CNT_Endpoint__c.replace('{}', '7');
+        
+        String response = Global_IntegrationWrapper.launchHTTP('', groupsEndpoint, configWs.CNT_HTTPMethod__c);
+        
+        if (Test.isRunningTest() ) {
+            response ='['+
+                '  {'+
+                '    \"name\": \"Grupo 1\"'+
+                '  },'+
+                '  {'+
+                '    \"name\": \"Grupo 2\"'+
+                '  },'+
+                '  {'+
+                '    \"name\": \"Grupo 3\"'+
+                '  },'+
+                '  {'+
+                '    \"name\": \"Grupo 4\"'+
+                '  },'+
+                '  {'+
+                '    \"name\": \"Grupo 5\"'+
+                '  }'+
+                ']';
+        } 
+        
+        
+        if (String.isNotBlank(response)) 
         {
-            System.debug('CNT_GroupController.getGroups: ' + e.getMessage());
-            throw new customException(e.getMessage());
+            WRAPPER_GroupAdmin listGroups = WRAPPER_GroupAdmin.parse(response);
+            System.debug('Respuesta: ' + JSON.serialize(listGroups));
+            return listGroups;
         }
+        return null;
+        
     }
+    
+    @AuraEnabled
+    public static boolean saveData (String groupName)
+    {
+        WRAPPER_Login login = CNT_LoginVisibilityManagerController.getUserLoginData(UserInfo.getUserId());
+        Wrapper_SavingGroup savingGroup = new Wrapper_SavingGroup();
+        savingGroup.empGroupCod = String.valueOf(login.inicio.user.codigoCliente);
+        savingGroup.environment = 'S';
+        savingGroup.groupName = groupName;
+        savingGroup.state = 'H';
+        CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_PostGroups');
+        String response = Global_IntegrationWrapper.launchHttp(JSON.serialize(savingGroup), configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c);
+        
+        return true;
+    }
+    
+    @AuraEnabled
+    public static boolean saveProfile (String groupAuth, String groupId, List<String> profiledService)
+    {
+        //WRAPPER_Login login = CNT_LoginVisibilityManagerController.getUserLoginData(UserInfo.getUserId());
+        Wrapper_SavingProfile savingProfile = new Wrapper_SavingProfile();
+        savingProfile.group_cod = groupId;
+        savingProfile.inter_ind = groupAuth;
+        savingProfile.service_list = profiledService;
+        CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_PutGroups');
+        String response = Global_IntegrationWrapper.launchHttp(JSON.serialize(savingProfile), configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c);
+        
+        return true;
+    }
+    
+    /*public static boolean updateGroup (String groupName, String groupId, String groupAuth)
+    {
+        Wrapper_UpdateGroup updateGroup = new Wrapper_UpdateGroup();
+        updateGroup.empGroupCod = String.valueOf(login.inicio.user.codigoCliente);
+        updateGroup.environment = 'S';
+        updateGroup.groupName = groupName;
+        CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('CNT_PostGroups');
+        String response = Global_IntegrationWrapper.launchHttp(JSON.serialize(savingGroup), configWs.CNT_Endpoint__c, configWs.CNT_HTTPMethod__c);
+        
+        return true;
+    }*/
     
     /*------------------------------------------------------------
 Author:         Joaquin Vera
@@ -150,6 +187,40 @@ History
         public CNT_GroupWrapper(String name)
         {
             this.name = name;
+        }
+    }
+    
+    public class Wrapper_SavingGroup
+    {
+        @AuraEnabled public String empGroupCod;
+        @AuraEnabled public String environment;
+        @AuraEnabled public String groupName;
+        @AuraEnabled public String state;
+        
+        public Wrapper_SavingGroup()
+        {
+        }
+    }
+
+	public class Wrapper_SavingProfile
+    {
+        @AuraEnabled public String group_cod;
+        @AuraEnabled public String inter_ind;
+        @AuraEnabled public List<String> service_list;
+        
+        public Wrapper_SavingProfile()
+        {
+        }
+    }    
+    
+    public class Wrapper_UpdateGroup
+    {
+        @AuraEnabled public String groupName;
+        @AuraEnabled public String groupId;
+        @AuraEnabled public String groupAuth;
+        
+        public Wrapper_UpdateGroup()
+        {
         }
     }    
     

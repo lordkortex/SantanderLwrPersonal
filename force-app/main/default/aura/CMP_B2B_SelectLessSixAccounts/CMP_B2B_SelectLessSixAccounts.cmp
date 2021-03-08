@@ -1,0 +1,31 @@
+<aura:component>
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <ltng:require scripts="/resource/tostadas" />
+
+    <aura:attribute access="public" type="Map"     name="account"                            description="Selected account" />
+    <aura:attribute access="public" type="List"    name="accountList"        default="[]"    description="List of accounts" />
+    <aura:attribute access="public" type="Map"     name="accountData"                        description="Account data." />
+    <aura:attribute access="public" type="Boolean" name="beneficiaryDetails" default="false" description="Show beneficiary details." />
+    <aura:attribute access="public" type="Boolean" name="isModified"                         description="Indicates if the input data has been modified." />
+    <aura:attribute access="public" type="Map"     name="userData"                           description="User data." />
+
+    <aura:handler name="selectedAccount" event="c:EVT_B2B_SelectedAccount" action="{!c.handleSelectedAccount}" />
+
+    <div>
+        <div class="accountInformation sixAccounts">
+            <div class="slds-text-title">{!$Label.c.All_my_accounts}</div>
+                <div class="slds-grid slds-wrap cardsAccount-grid">
+                <aura:iteration items="{!v.accountList}" var="item">
+                    <div class="slds-col">
+                        <aura:if isTrue="{!not(empty(v.account))}">
+                                <c:CMP_B2B_Card_Account aura:id="shownCards" accountData="{!v.accountData}" userData="{!v.userData}" account="{!item}" selected="{!item.displayNumber == v.account.displayNumber ? true : false}" beneficiaryDetails="{!v.beneficiaryDetails}" lessThan6Accounts="{!v.accountList.length le 6}" />
+                            <aura:set attribute="else">
+                                <c:CMP_B2B_Card_Account aura:id="shownCards" accountData="{!v.accountData}" userData="{!v.userData}" account="{!item}" selected="false" beneficiaryDetails="{!v.beneficiaryDetails}" lessThan6Accounts="{!v.accountList.length le 6}" />
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+    </div>
+</aura:component>

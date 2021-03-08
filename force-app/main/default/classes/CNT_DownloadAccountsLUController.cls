@@ -118,6 +118,10 @@ public with sharing class CNT_DownloadAccountsLUController {
         String userNumberFormat = Global_Utilities.getUserNumberFormat(UserInfo.getUserId());
 
         Map<String, Decimal> currencyList = getCurrenciesList(tiposDeCambio);
+															
+		 
+														 
+		 
         //Iterating the parent grouping
         for (String key : parentGrouping.keySet()) 
         {

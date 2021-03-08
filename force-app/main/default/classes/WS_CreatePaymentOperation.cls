@@ -40,11 +40,30 @@ global with sharing class WS_CreatePaymentOperation {
         this.accountData = accountData;
     }
 
+    global WS_CreatePaymentOperation (WrapperUserData userData) {
+        if (userData == null) {
+            throw new CustomException('You must need to inform the user data.');
+        }
+        CNT_ApiConfiguration__c configWs = new CNT_ApiConfiguration__c();
+        configWs = CNT_ApiConfiguration__c.getValues('WS_CreatePaymentOperation');
+        this.baseEndpoint = configWs.CNT_Endpoint__c;
+        this.baseMethod = configWs.CNT_HTTPMethod__c;
+        this.tokenPlatform = configWs.tokenPlatform__c;
+        this.tokenUser = configWs.tokenUser__c;
+        this.userData = userData;
+    }
+
     global String execute(WRAPPER_AccountList.AccountDetails sourceAccountData, WRAPPER_AccountList.AccountDetails recipientAccountData) {
         return execute(sourceAccountData, recipientAccountData, null);
     }
 
     global String execute(WRAPPER_AccountList.AccountDetails sourceAccountData, WRAPPER_AccountList.AccountDetails recipientAccountData, WRAPPER_AccountList.AccountDetails sourceFeeAccountData) {
+        String productId = null;
+        String serviceId = null;
+        return execute(sourceAccountData, recipientAccountData, sourceFeeAccountData, productId, serviceId);
+    }
+
+    global String execute(WRAPPER_AccountList.AccountDetails sourceAccountData, WRAPPER_AccountList.AccountDetails recipientAccountData, WRAPPER_AccountList.AccountDetails sourceFeeAccountData, String productId, String serviceId) {
         this.result = ''; 
         String inputJson = '';  
         WS_CreatePaymentOperation.INPUT input;
@@ -60,7 +79,7 @@ global with sharing class WS_CreatePaymentOperation {
                 String today = myDT.formatGMT('yyyy-MM-dd\'T\'HH:mm:ss.SSS\'Z\'');               
                 WS_CreatePaymentOperation.OperationGlobalStatus operationGlobalStatus = new WS_CreatePaymentOperation.OperationGlobalStatus('001', '000', today);
                 WS_CreatePaymentOperation.Account sourceAccount = new WS_CreatePaymentOperation.Account(sourceAccountData.idType, sourceAccountData.displayNumber, sourceAccountData.currencyCodeAvailableBalance);
-                WS_CreatePaymentOperation.Agent sourceAgent = new WS_CreatePaymentOperation.Agent(sourceAccountData.codigoBic, sourceAccountData.bankName, sourceAccountData.countryName);
+                WS_CreatePaymentOperation.Agent sourceAgent = new WS_CreatePaymentOperation.Agent(sourceAccountData.codigoBic, sourceAccountData.bankName, sourceAccountData.country);
                 WS_CreatePaymentOperation.Address sourceAddress = null;
                 if (sourceAccountData.address != null) {
                     sourceAddress = new WS_CreatePaymentOperation.Address(sourceAccountData.address.streetName, sourceAccountData.address.townName, sourceAccountData.address.country);
@@ -69,7 +88,7 @@ global with sharing class WS_CreatePaymentOperation {
                 }
                 WS_CreatePaymentOperation.SourceData sourceData = new WS_CreatePaymentOperation.SourceData(sourceAccountData.subsidiaryName, sourceAccount, sourceAgent, sourceAddress, sourceAccountData.country, sourceAccountData.customerId);
                 WS_CreatePaymentOperation.Account destinationAccount = new WS_CreatePaymentOperation.Account(recipientAccountData.idType, recipientAccountData.displayNumber, recipientAccountData.currencyCodeAvailableBalance);
-                WS_CreatePaymentOperation.Agent destinationAgent = new WS_CreatePaymentOperation.Agent(recipientAccountData.codigoBic, recipientAccountData.bankName, recipientAccountData.countryName);
+                WS_CreatePaymentOperation.Agent destinationAgent = new WS_CreatePaymentOperation.Agent(recipientAccountData.codigoBic, recipientAccountData.bankName, recipientAccountData.country);
                 WS_CreatePaymentOperation.Address destinationAddress = null;
                 if (recipientAccountData.address != null) {
                     destinationAddress = new WS_CreatePaymentOperation.Address(recipientAccountData.address.streetName, recipientAccountData.address.townName, recipientAccountData.address.country);
@@ -89,8 +108,17 @@ global with sharing class WS_CreatePaymentOperation {
                     }
                     sourceFeeData = new WS_CreatePaymentOperation.SourceData(sourceFeeAccountData.subsidiaryName, sourceFeeAccount, sourceFeeAgent, sourceFeeAddress,  sourceFeeAccountData.country, sourceFeeAccountData.customerId);    
                 }
-                
-                WS_CreatePaymentOperation.CreateData createData = new WS_CreatePaymentOperation.CreateData(userData.globalId, sourceAccountData.codigoCorporate, 'gts', 'Order', 'book_to_book', 'add_international_payment_internal', operationGlobalStatus, sourceData, destinationData, sourceFeeData);
+                // String productId = '';
+                // String serviceId ='';
+                // if (String.isNotBlank(transferType)) {
+                //     if (transferType == 'instant_transfer') { // FLOWERPOWER_PARCHE_BH
+                //         productId = 'book_to_book';
+                //         serviceId = 'add_international_payment_internal';
+                //     } else {
+                //         //TO-DO
+                //     }
+                // }
+                WS_CreatePaymentOperation.CreateData createData = new WS_CreatePaymentOperation.CreateData(userData.globalId, sourceAccountData.codigoCorporate, 'gts', 'Order', productId, serviceId, operationGlobalStatus, sourceData, destinationData, sourceFeeData);
 
                 input = new WS_CreatePaymentOperation.INPUT(createData);
             }
@@ -100,11 +128,11 @@ global with sharing class WS_CreatePaymentOperation {
             String result = Global_IntegrationWrapper.launchHTTP(inputJson, this.baseEndpoint, this.baseMethod);
             if (String.isNotBlank(result)) {
                 WS_CreatePaymentOperation.OUTPUT output = (WS_CreatePaymentOperation.OUTPUT) JSON.deserialize(result, WS_CreatePaymentOperation.OUTPUT.class);
-                this.result = output.operationId;
+                this.result = output.operationId;               
                 WRAPPER_PaymentSF paymentSF = new WRAPPER_PaymentSF();
                 paymentSF.paymentId = output.operationId;
                 String JSONpaymentSF = JSON.serialize(paymentSF);
-                HANDLER_Payment.createPayment(JSONpaymentSF);                
+                HANDLER_Payment.createPayment(JSONpaymentSF);
             } else {
                 throw new CustomException('Error when creating the payment identifier.');
             }

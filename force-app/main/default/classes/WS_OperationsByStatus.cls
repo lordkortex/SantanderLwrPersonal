@@ -126,11 +126,15 @@ global with sharing class WS_OperationsByStatus {
         @AuraEnabled
 		global String valueDateFrom {get;set;} 
         @AuraEnabled
-        global String valueDateTo {get;set;} 
+        global String valueDateTo {get;set;}
+        @AuraEnabled
+        global String reason {get;set;}
         
         global StatusList(){}
-        global StatusList(String status, String valueDateFrom, String valueDateTo){
+        
+        global StatusList(String status, String reason, String valueDateFrom, String valueDateTo){
             this.status = status;
+            this.reason = reason;
             this.valueDateFrom = valueDateFrom;
             this.valueDateTo = valueDateTo;
         }

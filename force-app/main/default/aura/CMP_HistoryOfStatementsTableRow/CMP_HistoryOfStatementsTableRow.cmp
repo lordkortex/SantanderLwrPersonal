@@ -1,0 +1,49 @@
+<aura:component>
+    <aura:attribute name="data" type="Object" description="Each value of this attribute represents a single statement" />
+
+    <!-- USER ATTRIBUTES -->
+    <aura:attribute name="userDateFormat" type="String" description="contains the running user Date format" />
+    <aura:attribute name="userNumberFormat" type="String" description="contains the running user number format" />
+    <aura:attribute name="divisaPrincipal" type="String" description="Contains the selected currency from the user" />
+    <aura:attribute name="accountCurrency"  type="String" description="contains the account searched currency" />
+
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+
+<tr class="slds-hint-parent" aria-selected="false">
+    <td role="gridcell">
+        <div class="slds-grid slds-grid_align-spread" data-title="">
+            <c:CMP_displayDate userDateFormat="{!v.userDateFormat}" date="{!v.data.bookDate}" dateClass="slds-truncate text" />
+        </div>
+    </td>
+    
+    <td role="gridcell">
+        <div class="slds-grid slds-grid_align-spread" data-title-right="">
+            <c:CMP_displayDate userDateFormat="{!v.userDateFormat}" date="{!v.data.valueDate}" dateClass="slds-truncate text" />
+        </div>
+    </td>
+    <td class="slds-text-align_right" role="gridcell">
+        <div class="slds-grid slds-grid_align-spread" data-title-right="">
+            <div class="slds-truncate" >
+                <c:CMP_displayAmount userFormat="{!v.userNumberFormat}" amount="{!v.data.valueBalance}" wholeClass="text " decimalClass="text " currencyClass="text " currency="{!v.accountCurrency}"/>
+            </div>
+        </div>
+    </td>
+    
+    <td class="slds-text-align_right" role="gridcell">
+        <div class="slds-grid slds-grid_align-spread" data-title-right="">
+            <div class="slds-truncate">
+                <c:CMP_displayAmount userFormat="{!v.userNumberFormat}" amount="{!v.data.bookBalance}" wholeClass="text amountInteger " decimalClass="text amountDecimals " currencyClass="text amountDecimals " currency="{!v.accountCurrency}"/>
+            </div>
+        </div>
+    </td>
+    <td class="slds-text-align_right" role="gridcell">
+        <div class="slds-grid slds-grid_align-spread" onclick="{!c.navigateToMovements}">
+            <div class="slds-truncate slds-button">
+                <div class="detail icon-arrowRight_big">{!$Label.c.viewStatement}</div>
+            </div>
+        </div>
+    </td>
+    
+</tr>
+</aura:component>

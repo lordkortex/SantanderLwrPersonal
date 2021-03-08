@@ -101,7 +101,6 @@ History
         String respuesta = Global_IntegrationWrapper.launchHTTP('',finalEndPoint , configWs.CNT_HTTPMethod__c);
         System.debug('respuesta ' + respuesta);
         if(Test.isRunningTest()){
-            respuesta='[{"bookDate":"01/08/2019","bookBalance":"10000","currencyTable":"EUR","availableDate":"01/08/2019","availableBalance":"1888342.39"}]';
         }
             return(List<CNT_MovementHistoryDataWrapper>) JSON.deserialize(respuesta,List<CNT_MovementHistoryDataWrapper>.class);
         

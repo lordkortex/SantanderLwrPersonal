@@ -1,104 +1,75 @@
-/*----------------------------------------------------------------------------------
+/*
 Author:         A. Borraz
 Company:        Deloitte
-History
-<Date>			<Author>		<Description>
-23/11/2020		A. Borraz     Initial version
-----------------------------------------------------------------------------------*/
+History:
+<Date>          <Author>		<Description>
+23/11/2020      A. Borraz       Initial version
+04/02/2021      Candido         Refactored of method 'updateAmountInformation'
+*/
 @isTest
 public class WS_TrackingPaymentOperation_Test {
-	
-    @TestSetup  
-    static void setup(){
-        DataFactory.createWsConfigurationSetting(true);
-		main();
-    }
-   
-    @isTest
-    static void main(){
-       CNT_ApiConfiguration__c configWs = new CNT_ApiConfiguration__c(Name = 'WS_TrackingPaymentOperation',
-                                                                       CNT_Endpoint__c = 'https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/operation_tracking/operation/{paymentId}',
-                                                                       CNT_HTTPMethod__c = 'POST',
-                                                                       CNT_Service__c = 'Mulesoft');
-       insert configWs;
-       Test.setMock(HttpCalloutMock.class, new WS_TrackingPaymentOperation_MockHttp());
-       Test.startTest();
-       WS_TrackingPaymentOperation ws_Tracking = new WS_TrackingPaymentOperation('Test');
-       WrapperUserData userData = new WrapperUserData();
-       userData.globalId = 'Test';
 
-        WS_TransferFees.CurrencyList CurrencyList = new WS_TransferFees.CurrencyList(); 
-        CurrencyList.tcurrency = 'EUR';
-        CurrencyList.currencyName = 'EUR';
-        CurrencyList.conceptsList = null;
-        
-        List<WS_TransferFees.CurrencyList> curLst = new List<WS_TransferFees.CurrencyList>();
-        
-        curLst.add(CurrencyList);
-        
-        WS_TransferFees.OUTPUT outputTest = new WS_TransferFees.OUTPUT();
-        outputTest.status = 'Test';
-        outputTest.transactionFee = 'Test';
-        outputTest.transactionFeeCurrency = 'EUR';
-        outputTest.productName = 'Test';
-        outputTest.OperacionGastosCompartidos = false;
-        outputTest.currencyList = curLst;
-        
-        WS_ExchangeRate.CcyCountervalue CcyCountervalue = new WS_ExchangeRate.CcyCountervalue(); 
-        CcyCountervalue.ccyCountervalueAmount = '1.38';
-        CcyCountervalue.ccyCountervalueCurrency = 'EUR';
-        
-        WS_ExchangeRate.FxExchangeResponse FxExchangeResponse = new WS_ExchangeRate.FxExchangeResponse(); 
-        FxExchangeResponse.fxCountervalueId = 'Test';
-        FxExchangeResponse.ccyCountervalue = CcyCountervalue;
-        FxExchangeResponse.valueDateEfx = 'Test';
-        FxExchangeResponse.customerExchangeRate = 10.00;
-        
-        WS_ExchangeRate.OUTPUT outputExchange = new WS_ExchangeRate.OUTPUT(); 
-        outputExchange.amountReceive = '140.00';
-        outputExchange.amountSend = '140.00';
-        outputExchange.timestamp = 'Test';
-        outputExchange.priceType = 'EUR';
-        outputExchange.fxExchangeResponse = FxExchangeResponse;
-        
-		WRAPPER_B2B_Data.PaymentAmount paymentAmount = new WRAPPER_B2B_Data.PaymentAmount();        
-        paymentAmount.fromOrigin = false;
-        paymentAmount.amountSend = 140.00;
-        paymentAmount.amountReceive = 140.00;
-        paymentAmount.exchangeRate = 1.00;
-        paymentAmount.timestamp = 'Test';
-        paymentAmount.transactionFee = 100.00;
-        paymentAmount.transactionFeeCurrency = 'EUR';
-        paymentAmount.convertedTransactionFee = 100.00;
-        paymentAmount.convertedTransactionFeeCurrency = 'EUR';
-        paymentAmount.transactionFeeServiceResponse = outputTest;
-        paymentAmount.convertedTransactionFeeServiceResponse = outputExchange;
-        paymentAmount.exchangeRateServiceResponse = outputExchange;
-       
-        
-        WRAPPER_AccountList.AccountDetails AccountData = new WRAPPER_AccountList.AccountDetails();
-        AccountData.currencyCodeAvailableBalance ='EUR';
-        
-        ws_Tracking.execute('003', 'Test', 'Test', 'EUR', null, 'Test');
-	 	ws_Tracking.execute('003', 'Test', 'EUR', null, 'Test');
-        ws_Tracking.updateStatus('OK', 'Test', userData);
-		ws_Tracking.updateStatus('OK', 'Test');
-        ws_Tracking.updateInformation('Test', 'Test', 'Test', 'Test', 'Test', 'Test');
-		
-        try{
-            ws_Tracking.updateAmountInformation(paymentAmount,AccountData);
-        }catch(Exception e){
-             system.debug(e);
-        }
-         try{
-            ws_Tracking.updateAmountInformation(paymentAmount, AccountData, AccountData, 'source');
-        }catch(Exception e){
-             system.debug(e);
-        }
-		//ws_Tracking.updateAdditionalData('997', '001', userData, 'Test', 'Test');
-        //ws_Tracking.updateAdditionalData('003', '001', userData, 'Test', 'Test');
-        ws_Tracking.getResult();
-		Test.stopTest();
+    @TestSetup
+    static void setup () {
+        DataFactory.createWsConfigurationSetting(true);
+        main();
     }
-	
+
+    @isTest
+    static void main () {
+        CNT_ApiConfiguration__c configWs = new CNT_ApiConfiguration__c(
+            Name = 'WS_TrackingPaymentOperation',
+            CNT_Endpoint__c = 'https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/operation_tracking/operation/{paymentId}',
+            CNT_HTTPMethod__c = 'POST',
+            CNT_Service__c = 'Mulesoft'
+        );
+        insert configWs;
+        Test.setMock(HttpCalloutMock.class, new WS_TrackingPaymentOperation_MockHttp());
+        Test.startTest();
+        WS_TrackingPaymentOperation ws_Tracking = new WS_TrackingPaymentOperation('Test');
+        WrapperUserData userData = new WrapperUserData();
+        userData.globalId = 'Test';
+        ws_Tracking.execute('003', 'Test', 'Test', 'EUR', null, 'Test');
+        ws_Tracking.execute('003', 'Test', 'EUR', null, 'Test');
+        ws_Tracking.updateStatus('OK', 'Test', userData);
+        ws_Tracking.updateStatus('OK', 'Test');
+        ws_Tracking.updateInformation('Test', 'Test', 'Test', 'Test', 'Test', 'Test');
+        try {
+            String originAmount = 'source';
+            Decimal convertedAmount = 9.2;
+            String sourceCurrency = 'EUR';
+            Decimal sourceAmount = 5.1;
+            String destinationCurrency = 'GBP';
+            Decimal destinationAmount = 15.1;
+            ws_Tracking.updateAmountInformation(originAmount, convertedAmount, sourceCurrency, sourceAmount, destinationCurrency, destinationAmount);
+            originAmount = 'recipient';
+            ws_Tracking.updateAmountInformation(originAmount, convertedAmount, sourceCurrency, sourceAmount, destinationCurrency, destinationAmount);
+            destinationCurrency = 'GBP';
+            ws_Tracking.updateAmountInformation(originAmount, convertedAmount, sourceCurrency, sourceAmount, destinationCurrency, destinationAmount);
+        } catch (Exception e) {
+             system.debug(e);
+        }
+        try {
+            WS_TransferFees.OUTPUT transactionFeeServiceResponse = new WS_TransferFees.OUTPUT();
+            transactionFeeServiceResponse.status = 'Test';
+            transactionFeeServiceResponse.transactionFee = 'Test';
+            transactionFeeServiceResponse.transactionFeeCurrency = 'EUR';
+            transactionFeeServiceResponse.productName = 'Test';
+            transactionFeeServiceResponse.priceLocator = 'Test';
+            transactionFeeServiceResponse.OperacionGastosCompartidos = false;
+            Decimal transactionFee = 15.2;
+            String transactionFeeCurrency = 'EUR';
+            ws_Tracking.updateFeesInformation(transactionFeeServiceResponse, transactionFee, transactionFeeCurrency);
+        } catch (Exception e) {
+             system.debug(e);
+        }
+        ws_Tracking.updateAdditionalData('997', '001', userData, 'Test', 'Test');
+        ws_Tracking.updateAdditionalData('003', '001', userData, 'Test', 'Test');
+        String str = MockResponse.AccountList_AccountDetails('ES', 'EUR');
+        WRAPPER_AccountList.AccountDetails testAccount = (WRAPPER_AccountList.AccountDetails) JSON.deserialize(str, WRAPPER_AccountList.AccountDetails.class);
+        ws_Tracking.updateAccountsInformation(testAccount, testAccount, testAccount);
+        ws_Tracking.getResult();
+        Test.stopTest();
+    }
+
 }

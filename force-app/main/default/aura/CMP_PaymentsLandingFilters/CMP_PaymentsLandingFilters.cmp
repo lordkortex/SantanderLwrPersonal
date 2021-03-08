@@ -71,6 +71,8 @@
                         <div class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true"></div>
                         
                     </div>
+                    <!-- Mensaje de error oculto por defecto -->
+            		<div class="errorText">Error! Incorrect user input format.</div>
                 </div>
                 
                 <div class="slds-form-element">
@@ -103,12 +105,12 @@
             <div class="rightIcons">
                 
                 <!--DOWNLOAD-->
-                <button class="slds-button button_link" onclick="{!c.openDownloadModal}">{!$Label.c.download}       
-                    <span class="icon_left icon-download"></span>
+                <button class="slds-button button_link" onclick="{!c.openDownloadModal}">       
+                    <span class="icon_left icon-download"></span>{!$Label.c.download}
                 </button> 
                 <!--PRINT-->
-                <button class="slds-button button_link" onclick="{!c.printScreen}">{!$Label.c.T_Print}         
-                    <span class="icon_left icon-print"></span>
+                <button class="slds-button button_link" onclick="{!c.printScreen}">         
+                    <span class="icon_left icon-print"></span>{!$Label.c.T_Print}
                 </button> 
                 
             </div>   

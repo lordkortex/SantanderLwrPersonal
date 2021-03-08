@@ -1,0 +1,116 @@
+<template>
+    
+    
+    <c-lwc_service-component 
+        data-id="Service"
+        onsuccesscallback={handleService}>
+    </c-lwc_service-component>
+   
+    <div class="slds-card__header slds-grid headerTable">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title titleTable">{Label.nexusAccountConverter}</div>
+            </div>
+        </header>
+    </div>
+    <div class="slds-grid mr_Tracker" data-id="searchArea">
+
+        <!-- HEADER WITH ERROR/SUCCESS MESSAGE -->
+        <div class="slds-card__header slds-grid headerTable">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-hide errorText" data-id="errorText">{message}</div>
+                    <div class="slds-hide successText" data-id="successText">{message}</div>
+                </div>
+            </header>
+        </div>
+
+        <!-- ID CASH NEXUS -->
+        <div class="slds-row">
+            <div class="slds-col input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <abbr class="requireText" title="Required field">* </abbr>
+                        <label  for="form-element-01">{Label.cashNexus}&nbsp;{Label.Id}</label>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input type="text" class="slds-input inputShadow inputLarge" value={cashNexusIdValue} data-id="cashNexusIdField" maxlength="35"/>
+                        <div class="slds-hide errorText" data-id="requiredText1">{Label.accountConverterRequiredId}</div>
+                    </div>
+                    
+                </div>
+            </div>
+        
+            <!-- BIC -->
+            <div class="slds-col input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <abbr class="requireText" title="Required field">* </abbr>
+                        <label  for="form-element-02">{Label.bic}</label>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input type="text" class="slds-input inputShadow inputLarge" value={bicValue} data-id="bicField" maxlength="8"/>                                                    
+                        <div class="slds-hide errorText" data-id="requiredText2">{Label.accountConverterRequiredBic}</div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- ID BANCA LOCAL -->
+        <div class="slds-row">
+            <div class="slds-col input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <label  for="form-element-03">{Label.Local}&nbsp;{Label.Id}</label>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <input type="text" class="slds-input inputShadow inputLarge" value={localIdValue} data-id="localIdField" maxlength="35"/>                                                 
+                    </div>
+                    
+                </div>
+            </div>
+
+            <!-- DIVISA -->
+            <div class="slds-col input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <label  for="form-element-04">{Label.currency}</label>
+                    </div>
+                    <!--<div class="slds-form-element__control">
+                        <input type="text" class="slds-input inputShadow inputLarge" value="{currencyValue}" id="currencyField"/>
+                    </div>-->
+                    <div class="slds-form-element__control paddingInput">
+                        <div class="slds-combobox_container inputSize">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                   <div class="slds-combobox_container">
+                                        <c-lwc_cn_dropdown 
+                                            data-id="currencyField" 
+                                            issimpledropdown={issimpledropdown} 
+                                            values={currencyList} 
+                                            selectedvalue={currencyValue}
+                                            valueplaceholder={valueplaceholder}
+                                            ondropdownvalueselected={handleValueSelected}>
+                                        </c-lwc_cn_dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="slds-form containerSearch" role="list">
+            <div class="slds-form__row">
+                <button onclick={clearButton}  data-id = "clearB"  style="display: block;" class="slds-button slds-button_brand whiteButtonSmall">  {Label.clear} </button>
+                <button onclick={searchButton} data-id = "searchB" style="display: block;" class="slds-button slds-button_brand redButtonSmall">    {Label.search}</button>
+                <button onclick={createButton} data-id = "createB" style="display: none;"  class="slds-button slds-button_brand redButtonSmall">    {Label.Create}</button>
+                <button onclick={updateButton} data-id = "updateB" style="display: none;"  class="slds-button slds-button_brand redButtonSmall">    {Label.Update}</button>
+                <button onclick={deleteButton} data-id = "deleteB" style="display: none;"  class="slds-button slds-button_brand redButtonSmall">    {Label.delete2}</button>
+            </div>
+        </div>
+    </div>
+</template>

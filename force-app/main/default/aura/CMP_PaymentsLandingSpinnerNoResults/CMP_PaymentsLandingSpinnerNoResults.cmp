@@ -6,7 +6,9 @@
     <aura:attribute 	access="public" 	type="String" 	name="subtitle" 	    default="" 	        description="Subtitle" />
     <aura:attribute 	access="public" 	type="Boolean" 	name="resetSearch" 	    default="false" 	description="Reset search when the button is clicked." />
     <aura:attribute 	access="public" 	type="Boolean" 	name="backgroundImage" 	default="false" 	description="Sets background image in the CSS." />
-    <aura:attribute     access="public"     type="Boolean"  name="showResetButton"  default="true"     description="Show reset button"/>
+    <aura:attribute     access="public"     type="Boolean"  name="showResetButton"  default="true"     	description="Show reset button"/>
+    <aura:attribute     access="public"     type="Boolean"  name="landing"  		default="false"     description="Show reset button"/>
+    <aura:registerEvent name="reloadAccounts" type="c:EVT_B2B_ReloadGetData" />
 
     <div class="{!(v.backgroundImage == true ? 'table-background':'no-background')}">
         <div class="spinnerNoResults">

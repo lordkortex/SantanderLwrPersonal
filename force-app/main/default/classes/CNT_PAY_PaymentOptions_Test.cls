@@ -4,7 +4,6 @@ public class CNT_PAY_PaymentOptions_Test {
     @TestSetup
     static void setup(){
         DataFactory.createWsConfigurationSetting(true);
-        DataFactory.createClaims();
     }
     
     @isTest

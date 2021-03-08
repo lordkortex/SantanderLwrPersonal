@@ -1,0 +1,155 @@
+<template>
+
+    <!-- <aura:attribute access="private" type="List"    name="accountListDestination" default="[]"                          description="List of available destinationaccounts" />
+    <aura:attribute access="private" type="List"    name="accountListOrigin"      default="[]"                          description="List of available origin accounts." />
+    <aura:attribute access="private" type="String"  name="headerLabel"            default="{!$Label.c.instantTransfer}" description="Header label" />
+    <aura:attribute access="public"  type="Map"     name="dataPaymentInformation" default="{}"                          description="Data of other information step." />
+    <aura:attribute access="public"  type="Map"     name="dataSelectOrigin"       default="{}"                          description="Data of origin account step." />
+    <aura:attribute access="public"  type="Map"     name="dataSelectDestination"  default="{}"                          description="Data of destiny account step." />
+    <aura:attribute access="public"  type="Map"     name="dataSelectAmount"       default="{}"                          description="Data of amount step." />
+    <aura:attribute access="private" type="Map"     name="steps"                  default="{}"                          description="Data of the steps." />
+    <aura:attribute access="private" type="Boolean" name="spinner"                default="true" />
+    <aura:attribute access="public"  type="List"    name="paymentData"            default="[]" />
+    <aura:attribute access="public"  type="Map"     name="userData"               default="{}"                          description="User data." />
+    <aura:attribute access="private" type="Map"     name="accountData"            default="{}"                          description="Account data." />
+    <aura:attribute access="public"  type="Map"     name="signLevel"              default="{}" />
+    <aura:attribute access="private" type="String"  name="lastCode"                                                     description="Last used companyId." />
+    
+    <aura:attribute access="public"  type="String"  name="paymentId"              default=""                            description="ID of the current payment." />
+    <aura:attribute access="public"  type="Boolean" name="reload"                 default="false"                       description="Indicates if the conection with the service should be retried." />
+    <aura:attribute access="public"  type="Boolean" name="isEditing"              default="false"                       description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+ 	<aura:attribute access="public"  type="Map"     name="expensesAccount"        default="{}"                          description="Selected expenses account." />
+    <aura:attribute access="public"  type="Boolean" name="showErrorScreen"        default="false"                       description="Show error screen if service failure on loading step 1." /> -->
+
+<!--      
+    <aura:handler name="init"           action="{!c.initComponent}"                value="{!this}" />
+    <aura:handler name="completeStep"   action="{!c.handleCompleteStep}"           event="c:EVT_B2B_CompleteStep" />
+    <aura:handler name="reloadAccounts" action="{!c.handleReloadRetrieveAccounts}" event="c:EVT_B2B_ReloadGetData" /> -->
+
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="headerModal" aria-modal="true" aria-describedby="contentModal">
+        <template if:true={spinner}>
+            <lightning-spinner alternative-text={label.Loading} size="medium" ></lightning-spinner>
+        </template>
+
+        <div class="slds-modal__container process">
+            <c-lwc_b2b_process-header 
+                steps={steps}
+                hasbackbutton={focusStepGtOne}
+                headerlabel={headerLabel}
+                onhandleback={handleBack}
+                paymentid={paymentDraft.paymentId} 
+                spinner={spinner}
+                hasdiscardbutton
+            > 
+            </c-lwc_b2b_process-header>
+            <!-- <div data-id="topFind" tabindex="-1"> -->
+            <div class="slds-modal__content" data-id="contentModal">
+                <div class="slds-is-relative">
+                    <div class="slds-grid__content">
+                        <template if:true={showErrorScreen}> <!-- REVISAR ESCUCHADOR-->
+                            <!-- <c-lwc_modal-system-error 
+                                ongotolanding={goToLanding}
+                                ongotohelp={goToHelp}
+                            >
+                            </c-lwc_modal-system-error> -->
+                        </template>
+                        <template if:false={showErrorScreen}>
+                            <template if:true={focusStepGeFour}><!-- REVISAR ESCUCHADOR-->
+                                <!-- <c-lwc_b2b_payment-summary
+                                    data-id="paymentSummary"
+                                    userdata={userData}                                        
+                                    signlevel={signLevel}
+                                    paymentdraft={paymentDraft}
+                                    transfertype={transferType} 
+                                    onhandleback={handleBack}
+                                    oncompletestep={handleCompleteStep}
+                                >
+                                </c-lwc_b2b_payment-summary> -->
+
+                            </template>
+                            <template if:true={focusStepLeThree}>
+                                <template if:true={shownStepGeOne}><!-- REVISAR ESCUCHADOR handlecontinue-->
+                                    <!-- <div class="first-step"> -->
+                                    <c-lwc_b2b_select-origin 
+                                            data-id="selectOrigin" 
+                                            steps={steps}                                            
+                                            userdata={userData}
+                                            accountlist={accountListOrigin}                                            
+                                            reload={reload} 
+                                            isediting={isEditing}                                            
+                                            paymentdraft={paymentDraft}
+                                            headerlabel={headerLabel}
+                                            oncompletestep={handleCompleteStep}
+                                            onhandlecontinue={handleContinue}
+                                            onaccountdata={handleAccountData}>
+                                        </c-lwc_b2b_select-origin>
+                                    <!-- </div> -->
+                                </template>
+                                <template if:true={shownStepGeTwo}>
+                                    <!-- <div class="separation-line"></div>REVISAR ESCUCHADOR handlecontinue -->
+                                    <c-lwc_b2b_select-destination 
+                                        data-id="selectDestination"                                         
+                                        userdata={userData}
+                                        accountlist={accountListDestination}                                       
+                                        paymentdraft={paymentDraft}
+                                        transfertype={transferType}                                    
+                                        headerlabel={headerLabel}                                       
+                                        steps={steps}
+                                        reload={reload}
+                                        isediting={isEditing}                                         
+                                        onhandlecontinue={handleContinue}
+                                        onaccountdata={handleAccountData}
+                                    > 
+                                    </c-lwc_b2b_select-destination>                                   
+
+                                </template>
+                                <template if:true={shownStepGeThree}>
+                                    <!-- <div class="separation-line"></div>REVISAR ESCUCHADOR handlecontinue -->
+                                    <c-lwc_b2b_select-amount 
+                                        data-id="selectAmount"                                         
+                                        userdata={userData}
+                                        steps={steps} 
+                                        paymentdraft={paymentDraft}
+                                        transfertype={transferType}
+                                        signlevel={signLevel}
+                                        handlecontinue={handleContinue}
+                                        paymentid={paymentId}
+                                        isediting={isEditing}
+                                    >
+                                    </c-lwc_b2b_select-amount>
+                                    
+                      
+                                </template>
+                                <template if:true={shownStepGeFour}>
+                                    <div class="separation-line"></div><!-- REVISAR ESCUCHADOR handlecontinue-->
+                                    <!-- <c-lwc_b2b_payment-information 
+                                        data-id="paymentInformation" 
+                                        userdata={userData}                                        
+                                        steps={steps}
+                                        paymentdraft={paymentDraft}
+                                        transfertype={transferType}
+                                        handlecontinue={handleContinue}
+                                        isediting={isEditing}                                        
+                                        signlevel={signLevel}
+                                    > 
+                                    </c-lwc_b2b_payment-information>                      -->
+
+                                </template>
+                                <div class="no-border" data-id="endPage" tabindex="-1"> </div>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <c-lwc_b2b_toast
+            data-id="errorToast" 
+            reload={reload}
+        >
+        </c-lwc_b2b_toast> -->
+        
+        <!-- <div data-id="bottomFind" tabindex="-1"/> -->
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

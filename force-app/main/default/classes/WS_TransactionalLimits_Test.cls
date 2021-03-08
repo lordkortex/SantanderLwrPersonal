@@ -98,7 +98,7 @@ public class WS_TransactionalLimits_Test {
         }catch(Exception e){
             
         }
-        //WS_TransactionalLimitsTest.getMapData(output);
+        WS_TransactionalLimitsTest.getMapData(output);
         WS_TransactionalLimitsTest.getDate();
         
 

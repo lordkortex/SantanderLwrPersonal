@@ -1,7 +1,7 @@
 global with sharing class ServiceFCCDowJones {
 
     global static final String RECORD_TYPE = 'P,E';
-	global static final String SEARCH_TYPE = 'near';
+	global static final String SEARCH_TYPE = 'broad';
     global static final String HITS_FROM = '0';
     global static final String HITS_TO = '1';
     global static final String FILTER_SL = 'ANY';

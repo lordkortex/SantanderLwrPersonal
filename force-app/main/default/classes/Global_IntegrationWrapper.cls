@@ -78,6 +78,10 @@ public with sharing class Global_IntegrationWrapper {
     public static String launchHTTP (String jsonParametros, String urlEndPoint, String method, Map<String, String> extraHeaderParameters, String userId, Boolean useCache, Integer timer, TokenInformation tokenInformation) {
         String respuesta = '';
         try {
+            system.debug('ale');
+            system.debug(urlEndPoint);
+            system.debug(jsonParametros);
+            
             HttpRequest req = getRequest (jsonParametros, urlEndPoint, method, useCache, userId, timer, extraHeaderParameters, tokenInformation);
             Http h = new Http();
             System.debug('HTTP_CALL REQ: ' + req);
@@ -162,9 +166,11 @@ public with sharing class Global_IntegrationWrapper {
             }
             String globalId = new List<String>(globalIdToAccessTokenMap.keySet())[0];
             String accessToken = globalIdToAccessTokenMap.get(globalId);
+            
+            
             req = setHttpHeaders(req, method, jsonParametros, userId, globalId, accessToken, extraHeaderParameters);
         } catch (Exception e) {
-            throw new CustomException('Error durante la ejecución del servicio: ' + e.getMessage());
+            throw new CustomException('GetRequest. Error durante la ejecución del servicio: ' + e.getMessage() +' line '+e.getLineNumber());
         }
         return req;
     }
@@ -226,8 +232,7 @@ public with sharing class Global_IntegrationWrapper {
                     if(listUser[0].USER_TXT_LocalUid__c != null){
                         claims.put('local_uid', listUser[0].USER_TXT_LocalUid__c);
                     }else{
-                    	//claims.put('local_uid', '34502702');
-                    	claims.put('local_uid', '');
+                    	claims.put('local_uid', '34502702');
                     }
                     jwt.setAud('hybridapis-santander');
                     claims.put('local_realm', 'ibiznes');
@@ -290,15 +295,13 @@ public with sharing class Global_IntegrationWrapper {
             }
             if (extraHeaderParameters != null) {
                 Set<String> extraHeaderParametersKeys = extraHeaderParameters.keySet();
-			
                 for (String key : extraHeaderParametersKeys) {
                     if(String.isNotBlank(extraHeaderParameters.get(key))){
                         req.setHeader(key, extraHeaderParameters.get(key));
                     }
                 }
             }
-		 
-            if (method.equals('POST') || method.equals('PUT')) {
+            if (method.equals('POST') || method.equals('PUT') || method.equals('PATCH')) {
                 req.setHeader('Content-Type', 'application/json');
                 req.setBody(jsonParametros);
             }

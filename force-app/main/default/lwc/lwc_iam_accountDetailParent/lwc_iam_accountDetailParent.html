@@ -13,14 +13,15 @@
             <c-lwc_cn_title-subtitle 
                 title={label.Accounts}
                 subtitle={label.accountDetail}
-                fire-navigation-event
+                comesfromtracker={comesfromtracker}
+                fire-navigation-event="true"
                 onnavigateback={navigateback}
             >
             </c-lwc_cn_title-subtitle>
             <c-lwc_cn_title-subtitle-totals 
                 accountdetails={accountDetails}
                 source={source}
-                lastupdate
+                lastupdate={lastUpdate}
                 showtotals
                 accounttocopy={accountDetails.accountNumber}
             >

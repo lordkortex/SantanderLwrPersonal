@@ -123,4 +123,3 @@ export default class Lwc_countDown extends LightningElement {
         }
     }
 }
- 

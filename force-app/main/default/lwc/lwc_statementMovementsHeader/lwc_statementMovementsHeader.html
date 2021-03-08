@@ -1,0 +1,33 @@
+<template>
+    
+    <div class="cardTitleDetail">
+        <!-- TITLE -->
+        <div class="slds-card__header slds-grid containerInformation">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title separation">
+                        <div class="title">{getAccountName}</div>
+                        <div class="slds-card__header-title col-amount">
+                            <span class="space">{label.TotalBookBalance}</span>
+                            <div class="">
+                                    <span class="number">{closeringbalance_formatted}</span><span class="currency"><!--{!v.closeringBalanceDecimals_Formatted}--> &nbsp; {getAccountCurrency}</span>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title separation">
+                        <div class="bankAccount"> {getSubsidiaryName}&nbsp; -&nbsp; {getAccountNumber} </div>
+                        <div class="slds-card__header-title col-amount">
+                            <span class="space">{label.TotalAvailableBalance}</span>
+                            <div class="">
+                                    <span class="number_small">{openingbalance_formatted} <!--{!v.openingBalanceDecimals_Formatted}--> &nbsp; {getAccountCurrency} </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="extract">{label.StatementOf} &nbsp; <c-lwc_display-date date={extractdate}></c-lwc_display-date> </div>
+                </div>
+            </div>
+        </div>
+        <div class="text_line"></div>
+    </div>
+</template>

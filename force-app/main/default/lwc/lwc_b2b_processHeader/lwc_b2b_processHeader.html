@@ -58,7 +58,9 @@
         </header>
     </div>
     <template if:true={showCancelModalIsTrue}>
-       <c-lwc_b2b_discard-payment>
+       <c-lwc_b2b_discard-payment
+           oncancelpayment={handleCancelPayment}
+           >
         </c-lwc_b2b_discard-payment>
     </template>
     <!-- ******** ACTUALIZACION DESPLIEGE 25-02-2021 INICIO ******** -->

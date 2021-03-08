@@ -4,7 +4,7 @@ import Corporate from '@salesforce/label/c.Corporate'
 import TotalBookBalance from '@salesforce/label/c.TotalBookBalance'
 import TotalAvailableBalance from '@salesforce/label/c.TotalAvailableBalance'
 import ViewAllAccounts from '@salesforce/label/c.ViewAllAccounts'
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import { LightningElement,api,track} from 'lwc';
 import { loadStyle, loadScript} from 'lightning/platformResourceLoader';
 

@@ -331,4 +331,15 @@ History
         Test.stopTest();
     }
     
+    @isTest
+    static void sendEmail_Test(){
+        Id UserId = UserInfo.getUserId();
+        List<Id> userList = new List<Id>();
+        userList.add(UserId);
+        Map<String, String> replacements = new Map<String, String>();
+        replacements.put('[CaseNumber]', '12345678');      
+        Global_Utilities.sendEmailWithoutTemplate('Test [CaseNumber]', 'Test [CaseNumber]', null, userList, null, null, replacements, replacements);
+        
+    }
+    
 }

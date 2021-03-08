@@ -1,0 +1,878 @@
+/* MODAL CONTAINER */
+.THIS.modal-container__secondStep {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 64px;
+    /*margin-top: 56px;*/
+    width: 808px;
+}
+
+/*.THIS.modal-container__secondStep .slds-text-heading_large{
+    font-size: 28px;
+    line-height: 34px;
+    font-family: "SantanderHeadlineW05-Rg";
+    color: #444444;
+    margin-bottom: 32px;
+}*/
+
+.THIS.modal-container__secondStep .slds-text-title{
+    font-size: 18px;
+    line-height: 1.5;
+    font-family: "SantanderMicroText-Bd";
+    color: #444444;
+    margin-bottom: 16px;
+}
+
+.THIS.modal-container__secondStep .row{
+    display: flex;
+	margin-bottom: 0px;
+    width: 100%;
+}
+
+.THIS.modal-container__secondStep .row:nth-child(3){
+    justify-content: flex-end;
+}
+.THIS .slds-grid.slds-wrap {
+    width: 100%;
+    justify-content: space-between;
+}
+/* INPUT LOOKUP SIMPLE */
+.THIS .inputLookup__simple {
+	width: 808px;
+    min-height:72px;
+} 
+
+.THIS .inputLookup__simple .slds-combobox {
+	display: inline-block;
+    width: 100%;
+}
+.THIS .inputLookup__simple .slds-button {
+	bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+}
+.THIS .inputLookup__simple .slds-button.button_link {
+	width: auto;
+    right: 0;
+}
+.THIS .inputLookup__simple .slds-button__icon {
+    height: 24px;
+    margin: 0;
+    padding: 2px;
+    width: 24px;
+}
+
+.THIS .inputLookup__simple .icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;
+}
+.THIS .inputLookup__simple .slds-combobox__form-element {
+	height:48px;
+}
+.THIS .inputLookup__simple .slds-combobox__input:active,
+.THIS .inputLookup__simple .slds-combobox__input:focus {
+    border-color: none;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+.THIS .inputLookup__simple .slds-form-element__help {
+    color: #767676;
+	font-family: "SantanderMicroText";
+  	font-size: 14px;
+  	line-height: 20px;
+    margin-left: 16px;
+  	margin-top: 0;
+}
+.THIS .inputLookup__simple .slds-form-element__label {
+    color: #767676;
+	font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+  	position: absolute;
+    top: 6px;	
+    z-index: 2;
+}
+.THIS .inputLookup__simple .slds-form-element__label + .slds-combobox .slds-combobox__form-element .slds-input {
+	padding: 19px 44px 5px 16px;
+}
+.THIS .inputLookup__simple .slds-input{
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    padding: 0 44px 0 16px; 
+    background-color: #ffffff;
+}
+
+.THIS ::-webkit-input-placeholder { 
+    color: #767676;
+}
+.THIS :-moz-placeholder { 
+    color: #767676;
+}
+.THIS ::-moz-placeholder { 
+    color: #767676;
+}
+.THIS :-ms-input-placeholder { 
+   color: #767676;
+}
+.THIS :focus::-webkit-input-placeholder{
+    color:transparent;
+}
+
+/* DROPDOWN */
+.THIS .inputLookup__simple .slds-dropdown {
+	border: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 404px;
+    top: 48px;
+    z-index: 4;
+    box-shadow: 2px 2px 6px 2px rgba(0,0,0, 0.08);
+    background-color: #ffffff;
+}
+
+.THIS .inputLookup__simple .slds-dropdown .scrollable{
+    overflow-y: auto;
+    margin-top: 8px;
+    max-height: calc(444px - 8px);
+}
+
+.THIS .inputLookup__simple .slds-dropdown .slds-listbox__option:hover {
+	cursor: auto;
+}
+.THIS .inputLookup__simple .slds-listbox li:hover {
+	box-shadow: 2px 2px 6px 2px rgba(0,0,0, 0.08);
+    transform: translate(0px, 0px);
+}
+
+.THIS .inputLookup__simple div.slds-media.slds-listbox__option.slds-listbox__option_entity.slds-listbox__option_term.slds-has-focus{
+    background-color: white;
+}
+
+.THIS .inputLookup__simple .slds-listbox .slds-listbox__item{
+    border-radius:0;
+}
+
+.THIS .inputLookup__simple .slds-listbox .slds-listbox__item:last-child {
+    border-radius: 0 0 4px 4px;
+}
+
+.THIS .inputLookup__simple .slds-listbox .slds-listbox__item:nth-child(odd) {
+    background-color: white;
+}
+
+.THIS .inputLookup__simple .slds-listbox .slds-listbox__item:nth-child(even) {
+    background-color: #f9fcfd;
+}
+.THIS .inputLookup__simple .slds-listbox_vertical .slds-listbox__option:hover {
+	background-color: unset;
+    cursor: pointer;
+}
+
+.THIS .inputLookup__simple .slds-dropdown div > .slds-media {
+    align-items: center;
+    border-bottom: 1px solid #cedee7;
+	max-height: calc(53px - 8px);
+    padding: 16px;
+    padding-top: 8px;
+}
+
+.THIS .inputLookup__simple .slds-dropdown .slds-listbox .slds-media {
+    align-items: initial;
+	height: 56px;
+    padding: 16px;
+    border-bottom: 1px solid #cedee7;
+}
+
+.THIS .inputLookup__simple .slds-media .slds-listbox__option-text {
+    color: #444444;
+	font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+}
+.THIS .inputLookup__simple .slds-media .slds-listbox__option-text.bold {
+	font-family: "SantanderMicroText-Bd";
+}
+.THIS .inputLookup__simple .slds-media .slds-listbox__option-text mark{
+	font-family: "SantanderMicroText-Bd";
+    margin: 0 4px;
+}
+.THIS .inputLookup__simple .slds-media .slds-listbox__option-text_entity{
+    margin-bottom: 0px;
+}
+
+/* NEW BENEFICIARY */
+.THIS .inputLookup__simple .slds-dropdown .slds-media .slds-button,
+.THIS .inputLookup__simple .slds-dropdown .slds-media > .slds-media__body .slds-listbox__option-text_entity:last-child{
+	display: none;
+}
+
+.THIS .inputLookup__simple .slds-dropdown .slds-media.newBeneficiary .slds-button{
+    display: inline-block;
+}
+.THIS .inputLookup__simple .slds-dropdown .slds-media.newBeneficiary .slds-media__body .slds-listbox__option-text_entity:last-child{
+	display: block;
+}
+
+.THIS .inputLookup__simple .slds-dropdown .slds-media.newBeneficiary .slds-media__body .slds-listbox__option-text_entity:first-child{
+	display: none;
+}
+
+.THIS .inputLookup__simple .slds-dropdown .slds-media.newBeneficiary + .slds-listbox {
+	display: none;
+}
+
+/* ERROR INPUT */
+.THIS .inputLookup__simple.error .slds-form-element__help {
+	display: none;
+}
+.THIS .inputLookup__simple .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    display: none;
+}
+.THIS .inputLookup__simple.error .errorText {
+	display: block;
+}
+.THIS .inputLookup__simple.error .slds-form-element__label {
+	color: #cc0000;
+}
+.THIS .inputLookup__simple.error .slds-input{
+    border-bottom: 1px solid #cc0000;
+    box-shadow: none;
+}
+.THIS .inputLookup__simple.error .slds-input:active,
+.THIS .inputLookup__simple.error .slds-input:focus {
+    box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+.THIS .inputLookup__simple.error .errorText {
+    display: block;
+}
+
+/* DISABLED*/
+.THIS .inputLookup__simple .slds-button__icon.disabled {
+	display: none;
+}
+.THIS .inputLookup__simple .slds-button__icon.disabled {
+	margin: 14px 18px;
+    width: 20px;
+    height: 20px;
+}
+
+.THIS .inputLookup__simple .slds-input[disabled] + .slds-button__icon.disabled{
+	display: block;
+
+}
+
+.THIS .inputLookup__simple .slds-input[disabled] + .slds-button__icon.disabled{
+	bottom: 0;
+    height: 20px;
+    margin: 0;
+    right: 18px;
+    top: 14px;
+    width: 20px;
+    position: absolute;
+    padding: 0;
+}
+.THIS .inputLookup__simple .slds-input[disabled] + .slds-button__icon.disabled + .slds-button{
+	display: none;
+}
+.THIS .inputLookup__simple .slds-button__icon.disabled .icon-prohibited {
+	font-size: 20px;
+    cursor: not-allowed;
+}
+.THIS .inputLookup__simple .slds-button__icon.disabled .icon-prohibited:before {
+	color: #767676;
+}
+.THIS .inputLookup__simple .slds-input[disabled]{
+	background-color: #ececec!important;
+    border: solid 1px #cccccc!important;
+    cursor: not-allowed;
+    box-shadow: none!important;
+    color: #767676!important;
+}
+.THIS .inputLookup__simple .slds-input[disabled]:active, 
+.THIS .inputLookup__simple .slds-input[disabled]:focus{
+    box-shadow: none!important;
+}
+/*.THIS .button-order[disabled] .selectedValue-filled {
+	color: #767676;
+}*/
+
+/* SCROLLBAR */
+.THIS .slds-dropdown .scrollable::-webkit-scrollbar {
+	width: 6px;
+}
+.THIS .slds-dropdown .scrollable::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.THIS .slds-dropdown .scrollable::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.THIS .slds-dropdown .scrollable::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+/* DROPDOWN */
+.THIS .dropdown {
+    min-height: 72px;
+}
+.THIS .dropdown .slds-form-element__label {
+    color: #767676;
+    font-family: SantanderMicroText;
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    pointer-events: none;
+    top: 6px;
+    z-index: 2;
+}
+
+.THIS .dropdown .button-order {
+    display: flex;
+	border: 1px solid #deedf2;
+	background-color:#ffffff;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	height: 48px;
+	width: 100%;
+	min-width:184px;	
+}
+
+.THIS .dropdown .button-order .button-arrow {
+	font-size: 24px;
+}
+
+.THIS .dropdown .button-order:focus {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.THIS .slds-combobox .button-order:hover {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+.THIS .slds-combobox:hover .slds-button__icon .icon-arrowDown_small {
+	display: none;
+} 
+.THIS .slds-combobox .slds-button__icon .icon-arrowUp_small {
+	display: none;
+}
+.THIS .slds-combobox:hover .slds-button__icon .icon-arrowUp_small {
+	display: block;
+} 
+
+.THIS .dropdown .slds-dropdown {
+	box-shadow: inset 0 -1px 0 0 #cedee7;
+	background-color: #ffffff;
+	border-top: none;
+	border-right: 1px solid #deedf2;
+	border-left: 1px solid #deedf2;
+	border-bottom: 1px solid #257fa4;
+	border-radius: 0 0 4px 4px;
+	cursor: pointer;
+	left: auto;
+	margin: 0;
+	max-width: 100%;
+    min-width: inherit;
+    overflow: hidden;
+	padding: 0;
+	right: auto;
+	top: 48px;
+    width: 100%;
+    z-index: 3;
+}
+
+.THIS .dropdown .slds-dropdown ul {
+   overflow-y: auto;
+   max-height: 192px;
+   margin: 6px 0 6px 5px;
+}
+
+.THIS .dropdown .slds-button__icon{
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+
+.THIS .dropdown .optionOrder {
+	align-items: center;
+	display: inline-flex;
+    line-height: 24px;
+}
+
+
+.THIS .dropdown .dropdownOrder .slds-dropdown__item > a:hover,
+.THIS .dropdown .dropdownOrder .slds-dropdown__item > a:active,
+.THIS .dropdown .dropdownOrder .slds-dropdown__item > a:focus{
+    border-radius: 4px;
+	background-color:#e5f1f5;
+    margin-right: 5px;
+}
+
+.THIS .dropdown .dropdownOrder .slds-dropdown__item > a {
+	padding:0 12px;
+	font-size: 16px;
+	font-family: "SantanderMicroText";
+	color: #444444;
+    height: 36px;
+    line-height: 36px;
+    width:100%;
+}
+.THIS .dropdown .dropdownOrder .slds-dropdown__item {
+	height:48px;
+    display: flex;
+    align-items: center;
+}
+.THIS .dropdown .dropdownOrder .slds-dropdown__item:first-child {
+	margin-top:0;
+}
+.THIS .dropdown .dropdownOrder .slds-dropdown__item:last-child {
+	margin-bottom:0;
+}
+
+.THIS .dropdown .dropdownOrder .optionOrder .slds-form-element__label {
+	margin: 0 ;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	color: #444444;
+}
+.THIS .dropdown .slds-border_right {
+	font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    align-items: center;
+    border: 0;
+    display: flex;
+ 	padding-left: 16px;
+    width: 100%;
+}
+.THIS .dropdown .slds-border_right.selectedValue-placeholder {
+    color: #767676;
+}
+.THIS .dropdown .selectedValue-filled {
+	color: #444444;
+    display: block;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.THIS .dropdown .slds-form-element__label + .slds-combobox .slds-dropdown-trigger_click .button-order .slds-border_right {
+    padding: 19px 0px 5px 16px;
+}
+
+/* SCROLLBAR */
+.THIS ::-webkit-scrollbar {
+	width: 6px;
+}
+.THIS ::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.THIS ::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.THIS ::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+.THIS .slds-form-element__help {
+    color: #767676;
+	font-family: "SantanderMicroText";
+  	font-size: 14px;
+  	line-height: 20px;
+    margin-left: 16px;
+  	margin-top: 0;
+}
+
+
+/* ERROR */
+.THIS .error .slds-form-element__help {
+	display: none;
+}
+.THIS .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    display: none;
+}
+.THIS .error .errorText {
+	display: block;
+}
+.THIS .error .slds-form-element__label {
+	color: #cc0000;
+}
+.THIS .error .slds-input{
+	border-bottom: 1px solid #cc0000;
+}
+.THIS .error .slds-input:active,
+.THIS .error .slds-input:focus{
+	box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+.THIS .error .slds-combobox .button-order {
+    border-bottom: 1px solid #cc0000;
+    box-shadow: none;
+}
+.THIS .error .slds-combobox .button-order:active,
+.THIS .error .slds-combobox .button-order:focus,
+.THIS .error .slds-combobox .button-order:hover{
+	box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+
+
+/* DISABLED*/
+.THIS .dropdown .slds-button__icon.disabled{
+	display: none;
+}
+.THIS .dropdown .slds-button__icon.disabled {
+	margin: 14px 18px;
+    width: 20px;
+    height: 20px;
+}
+.THIS .dropdown .button-order[disabled]:hover .slds-button__icon.disabled{
+	display: block;
+
+}
+
+.THIS .dropdown .button-order[disabled]:hover .slds-button__icon.disabled + .slds-button__icon.arrow{
+	display: none;
+}
+
+.THIS .dropdown .button-order[disabled] .slds-button__icon.disabled + .slds-button__icon.arrow .button-arrow.icon-arrowDown_small:before {
+    color: #767676;
+}
+
+.THIS .dropdown .slds-button__icon.disabled .icon-prohibited {
+	font-size: 20px;
+}
+.THIS .dropdown .slds-button__icon.disabled .icon-prohibited:before {
+	color: #767676;
+}
+
+.THIS .dropdown .button-order[disabled] {
+	background-color: #ececec!important;
+    border: solid 1px #cccccc!important;
+    box-shadow: none!important;
+    color: #767676!important;
+}
+
+.THIS .dropdown .button-order[disabled]:hover,
+.THIS .dropdown .button-order[disabled]:active, 
+.THIS .dropdown .button-order[disabled]:focus {
+    box-shadow: none!important;
+}
+.THIS .dropdown .button-order[disabled] .selectedValue-filled {
+	color: #767676;
+}
+.THIS ::-webkit-input-placeholder { color: #767676; }
+ 
+.THIS :-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+.THIS ::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+.THIS :-ms-input-placeholder { color: #767676; }
+
+.THIS :focus::-webkit-input-placeholder{color:transparent;}
+
+
+.THIS .textInput_simple{
+    width: 403px;
+}
+
+
+/* INPUT */
+.THIS .textInput_simple .slds-form-element.input {
+	min-height: 72px;
+}
+.THIS .textInput_simple .slds-form-element__label {
+    color: #767676;
+	font-family: SantanderMicroText;
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.THIS .textInput_simple .slds-form-element .slds-input__icon {
+	bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+}
+
+.THIS .textInput_simple .slds-form-element .slds-button__icon.icon-close_filledCircle {
+    height: 24px;
+    margin: 0;
+    padding: 2px;
+    width: 24px;
+}
+.THIS .textInput_simple .slds-button_icon.slds-input__icon.slds-input__icon_right {
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+}
+.THIS .textInput_simple .slds-form-element .icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;
+}
+
+.THIS .textInput_simple .input .slds-form-element__label + .slds-form-element__control .slds-input {
+	padding: 19px 56px 5px 16px;
+}
+
+.THIS .textInput_simple .slds-form-element__control  {
+	height:48px;
+}
+
+.THIS .textInput_simple .slds-input{
+	border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+    padding: 0 16px 0 16px;
+    min-width: 100%;
+    background-color: #ffffff;
+}
+
+.THIS .textInput_simple .slds-form-element__help {
+    color: #767676;
+	font-family: "SantanderMicroText";
+  	font-size: 14px;
+  	line-height: 20px;
+    margin-left: 16px;
+  	margin-top: 0;
+}
+
+.THIS ::-webkit-input-placeholder { color: #767676;}
+ 
+.THIS :-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+.THIS ::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+.THIS :-ms-input-placeholder { color: #767676; }
+
+.THIS :focus::-webkit-input-placeholder{color:transparent;}
+
+.THIS .textInput_simple .slds-input:focus, 
+.THIS .textInput_simple .slds-input:active {
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+
+/* ERROR */
+.THIS .textInput_simple .error .slds-form-element__help {
+	display: none;
+}
+.THIS .textInput_simple .slds-form-element .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    display: none;
+}
+.THIS .textInput_simple .slds-form-element.error .errorText {
+	display: block;
+}
+
+.THIS .inputIconProfile .error .errorText {
+    display: block;
+}
+
+.THIS .textInput_simple .error .slds-form-element__label{
+	color: #cc0000;
+}
+
+.THIS .textInput_simple .error .slds-form-element__control .slds-input {
+	border-bottom: 1px solid #cc0000;
+    box-shadow: none;
+}
+.THIS .textInput_simple .error .slds-form-element__control .slds-input:active,
+.THIS .textInput_simple .error .slds-form-element__control .slds-input:focus {
+	box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+
+/* DISABLED*/
+.THIS .textInput_simple .slds-button__icon.disabled{
+	display: none;
+}
+.THIS .textInput_simple .slds-button__icon.disabled {
+	margin: 14px 18px;
+    width: 20px;
+    height: 20px;
+}
+.THIS .textInput_simple .slds-input[disabled]:hover + .slds-button__icon.disabled,
+.THIS .textInput_simple .slds-input[disabled] + .slds-button__icon.disabled:hover{
+	display: block;
+}
+
+.THIS .textInput_simple .slds-input[disabled] + .slds-button__icon.disabled{
+	bottom: 0;
+    height: 20px;
+    margin: 0;
+    right: 18px;
+    top: 14px;
+    width: 20px;
+    position: absolute;
+    padding: 0;
+}
+.THIS .textInput_simple .slds-input[disabled] + .slds-button__icon.disabled + .slds-button{
+	display: none;
+}
+.THIS .textInput_simple .slds-button__icon.disabled .icon-prohibited {
+	font-size: 20px;
+    cursor: default;
+}
+.THIS .textInput_simple .slds-button__icon.disabled .icon-prohibited:before {
+	color: #767676;
+}
+.THIS .textInput_simple .slds-input[disabled]{
+	background-color: #ececec!important;
+    border: solid 1px #cccccc!important;
+    cursor: auto;
+    box-shadow: none!important;
+    color: #767676!important;
+}
+.THIS .textInput_simple .slds-input[disabled]:active, 
+.THIS .textInput_simple .slds-input[disabled]:focus{ 
+    box-shadow: none!important;
+}
+
+/* FOOTER */
+.THIS .slds-modal__footer {
+    border-top: none;
+    width: 808px;
+    box-shadow: none;
+    padding: 0;
+    background-color: inherit;
+    margin: 0;
+    margin-top: 16px;
+    display: flex;
+}
+
+/* SEPARATION LINE */
+/*.THIS.separation-line{
+    width: 100%;
+    height: 1px;
+    background-color: #cedee7;
+}*/
+
+/* STEPPER */
+.THIS.stepper{
+    width: 100%;
+    margin-top: 52px;
+    margin-bottom: 32px;
+}
+
+/* STEPPER HEADING */
+.THIS .stepper_heading {
+    width: 100%;
+    min-height: 40px;
+    margin-bottom: 12px;
+}
+
+.THIS .stepper_heading .line{
+    height: 1px;
+    background-color: #cedee7;
+    margin-top: 20px;
+}
+
+.THIS .stepper_heading .slds-col:first-child{
+    max-width: calc((( 100vw - 808px) / 2) - 24px);
+}
+            
+.THIS .stepper_heading .slds-col:nth-child(2){
+    max-width: fit-content;
+}
+
+.THIS .stepper_heading .step{
+    align-items: flex-start;
+    padding-right: 24px;
+    padding-left: 24px;
+}
+
+.THIS .stepper_heading .step .step_number{
+    width: 32px;
+    height: 32px;
+    background-color: #444444;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    margin-top: 4px;
+    margin-bottom: 4px;            
+    margin-right: 12px;
+}
+            
+.THIS .step_number > span{
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 24px;
+    line-height: 28px;
+    color: #ffffff;
+}
+            
+.THIS .stepper_heading .step .step_title{
+    max-width: 764px;
+    min-height: 40px;
+	display: flex;
+    align-items: flex-start;
+}
+
+.THIS .step_title > span {
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    line-height: 34px;
+    color: #444444;
+}
+        
+
+/* STEPPER SUBTITLE */
+.THIS .stepper_subtitle {
+    width: 808px;
+    margin: 0 auto;         
+}
+
+.THIS .step_subtitle {
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 20px;
+    line-height: 1.4;
+    color: #444444;
+}

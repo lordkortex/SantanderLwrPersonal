@@ -1185,7 +1185,7 @@ History
             if(idList != null && idList.size() > 0) {
                 System.debug('idList: ' + idList);
                 
-                List<User> userList = [SELECT USER_TXT_GlobalId__c, Name FROM User WHERE USER_TXT_GlobalId__c IN :idList];
+                List<User> userList = CNT_UserData.getUsersDataGlobal(idList); 
                 if (userList != null) {
                     System.debug('userList: ' + userList);
                     for(User user : userList) {

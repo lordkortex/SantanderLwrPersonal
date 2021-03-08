@@ -40,7 +40,7 @@ public class CNT_customLookupController_Test {
         acc.Type = 'Prospect';
         insert acc;
         
-        List<CNT_customLookupController.RecordsData> result = CNT_customLookupController.fetchRecords('Account', new List<String>{'Name', 'Type'}, 'Test', '', '');
+        List<CNT_customLookupController.RecordsData> result = CNT_customLookupController.fetchRecords('Account', new List<String>{'Name', 'Phone', 'Type'}, 'Test', '', '');
         System.assertEquals(result.size(), 1);
     }
     

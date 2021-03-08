@@ -1,0 +1,172 @@
+.THIS .amount{
+    height: 23px;
+    line-height: 1;
+ }
+ 
+ .bank{
+     color: #444444;
+     font-size: 16px;
+     height: 23px;
+ }
+ 
+ .slds-card__header-title {
+     display: block;
+ }
+ .slds-card__header-title.transaction { 
+     align-items: flex-end;
+     margin-bottom: 4px;
+ } 
+ .slds-card__header-title.fees{
+     justify-content: space-between;
+ }
+ 
+ .slds-card__header-title.space{
+     font-size: 14px;
+     margin-right: 24px;
+     line-height: 1.6;
+     font-family: "SantanderMicroText";
+ }
+ .slds-card__header-title.spaceFee{
+     font-size: 14px;
+     margin-right: 50px;
+     line-height: 1.6;
+     font-family: "SantanderMicroText";
+ }
+ 
+ .body{
+     color: #444444;
+ }
+ 
+.card{
+     background-color: #ffffff;
+     border: solid 1px #ececec;
+     border-radius: 4px;
+     padding: 13px 0 16px 0;
+ }
+ 
+ .circle{
+     font-size: 32px;
+     margin-right: 8px;  
+ }
+ 
+ .col1{
+     width: 62px;
+ }
+ 
+ .col2{
+     width: 133px !important;
+ }
+ 
+ .col3{
+     width:171px;
+ }
+ 
+ .col4{
+     width:81px; 
+ }
+ 
+ .col5{
+     width: 192px;
+ }
+ 
+ .col6{
+     width: 160px;
+ }
+ 
+ .col7{
+     width: 76px;
+ }
+ 
+ .col8{
+     padding: 0 !important;
+     text-align: right;
+     width: 42px;  
+ }
+ 
+ .containerDetail{
+     margin: 0;
+     padding: 12px 24px 0 48px;
+ }
+ 
+ .containerInformation{
+     margin: 0;
+     padding: 0 24px 0 8px;
+ }
+ 
+ .contentTable{
+     font-size: 12px; 
+ }
+ 
+ .currency{
+    font-size: 10px;
+ }
+ 
+ .date{
+     color: #a2a2a2;
+     font-size: 12px; 
+ }
+ 
+ .decimals{
+     font-family:"SantanderTextW05-Bold";
+     font-size: 16px;   
+ }
+ 
+ .fees{
+    color: #cc0000;
+     font-size: 12px;
+     height: 20px;
+     line-height: 1.5; 
+ }
+ 
+ .hidden{
+     display: none
+ }
+ 
+ .integer{
+     font-family:"SantanderHeadlineW05-Bold";
+     font-size: 20px; 
+ }
+ 
+ .last{
+     padding: 0 !important;
+     width: 42px;
+ }
+ 
+ .payment{
+     text-align: right;
+ }
+ 
+ .row{
+     height: 18px;
+ }
+ 
+ .slds-table_cell-buffer tr > th:first-child, 
+ .slds-table_cell-buffer tr > td:first-child, 
+ .slds-table--cell-buffer tr > th:first-child, 
+ .slds-table--cell-buffer tr > td:first-child {
+     padding: 0 32px 0 0;
+ }
+ 
+ .slds-table thead th,
+ .slds-table td {
+     padding: 0 32px 0 0;
+ }
+ 
+ .space{
+    margin-right: 4px;
+ }
+ 
+ .status{
+     color: #1bb3bc;
+     font-size: 14px; 
+     margin-right: 8px;
+ }
+ 
+ .text{
+     color: #a2a2a2;
+     font-weight: normal;
+ }
+ 
+ .tracking{
+     height: 20px; 
+ }

@@ -2,7 +2,7 @@ import { LightningElement } from 'lwc';
 
 //Style
 import { loadStyle } from 'lightning/platformResourceLoader';
-import style from '@salesforce/resourceUrl/Santander_Icons';
+import style from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import Images from '@salesforce/resourceUrl/Images';
 
 

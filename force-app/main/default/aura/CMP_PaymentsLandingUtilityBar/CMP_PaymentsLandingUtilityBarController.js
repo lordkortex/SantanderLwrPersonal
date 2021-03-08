@@ -6,14 +6,23 @@
     History:
     <Date>          <Author>            <Description>
     27/07/2020      Bea Hill            Initial version
+    26/11/2020		Shahad Naji			Invoke setReverseLimitsProductId helper method
     */
     doInit: function (component, event, helper) {
-        helper.getAccountData(component, event, helper)
+        /*  helper.getAccountData(component, event, helper)
         .then($A.getCallback(function (value) {
             helper.getUserData(component, event, helper);
         })).catch($A.getCallback(function (error) {
             console.log('Error doInit: ' + error);
-        }));
+        }));*/
+        
+        
+        Promise.all([
+            helper.getAccountData(component, event, helper),
+            helper.getUserData(component, event, helper)
+        ]).catch(function (error) {
+            console.log('Error doInit: ' + error);
+        }).finally($A.getCallback(function () {})); 
     },
 
     showSubmenu: function (component, event, helper) {
@@ -40,26 +49,11 @@
 
     edit: function (component, event, helper) {
         component.set('v.spinner', true);
-        var promise_aux = new Promise(function(resolve){
-            resolve('OK');
-        });
-        helper.getPaymentDetails(component, event, helper)
-        .then($A.getCallback(function (value) { 
+        
+        helper.getPaymentDetails(component, event, helper).then($A.getCallback(function (value) { 
+            return helper.reverseLimits(component, event, helper);  
+        })).then($A.getCallback(function (value) { 
             return helper.updateStatusEditPayment(component, event, helper);
-        })).then($A.getCallback(function (value) {
-            let paymentObj = component.get('v.paymentDetails');
-            if(!$A.util.isEmpty(paymentObj)){
-                let paymentId = paymentObj.productId;
-                if(!$A.util.isEmpty(paymentId)){
-                    if(paymentId == 'international_instant_payment'){
-                        return helper.reverseLimits(component, event, helper); 
-                    }else{
-                        return promise_aux;
-                    }                    
-                }
-               
-            }
-        	
         })).then($A.getCallback(function (value) { 
             return helper.goToEditPayment(component, event, helper);
         })).catch($A.getCallback(function (error) {
@@ -68,51 +62,17 @@
             component.set('v.spinner', false);
         }));
         
-        /*helper.getPaymentDetails(component, event, helper)
-        .then($A.getCallback(function (value) { 
-            return helper.goToEditPayment(component, event, helper)
-        })).catch($A.getCallback(function (error) {
-            console.log('Error edit: ' + error);
-        })).finally($A.getCallback(function() {
-            component.set('v.spinner', false);
-        }));*/
+      
     },
 
-    /*
-    Author:         Adrian Munio
-    Company:        Deloitte
-    Description:    method to discard a payment, calling the payment details, reverse limits and then changing the status and reason.
-    History:
-    <Date>          <Author>            <Description>
-    18/09/2020      Adrian Munio        Initial version
-    */
-    discard: function (component, event, helper) {
-        //PARCHE_FLOWERPOWER_SNJ
-        component.set('v.spinner', true);
-        helper.getPaymentDetails(component, event, helper)
-        .then($A.getCallback(function (value) { 
-            return helper.reverseLimits(component, event, helper);
-        })).then($A.getCallback(function (value) { 
-            return helper.handleDiscardPayment(component, event, helper);
-        })).catch($A.getCallback(function (error) {
-            console.log('Error discard: ' + error);
-        })).finally($A.getCallback(function() {
-            component.set('v.spinner', false);
-        }));
-    },
+   
 
     reuse: function (component, event, helper) {
-        /*TO-DO
-        component.set('v.spinner', true);
-        helper.getPaymentDetails(component, event, helper)  
-        .then($A.getCallback(function (value) { 
-            return helper.goToReusePayment(component, event, helper);               
-        }), this).catch(function (error) {
-            console.log('error');
-        }).finally($A.getCallback(function() {
-            component.set('v.spinner', false);
+        helper.getPaymentDetails(component, event, helper).then($A.getCallback(function (value) { 
+
+            helper.goToReusePayment(component, event, helper);
+            
         }));
-        */
     },
 
     addToTemplate: function (component, event, helper) {
@@ -152,13 +112,13 @@
                         payment.convertedAmount = paymentDraft.convertedAmountDRAFT;
                     	payment.amountOperative = paymentDraft.amountOperativeDRAFT;
 	                    payment.FXoutput = paymentDraft.FXoutputDRAFT;
-                    	payment.FXDateTime = paymentDraft.FXDateTimeDRAFT;
+                        payment.FXDateTime = paymentDraft.FXDateTimeDRAFT;
                         if (!$A.util.isEmpty(paymentDraft.amountSendDRAFT)) {
                             payment.amountSend = paymentDraft.amountSendDRAFT;
                         }
                         if (!$A.util.isEmpty(paymentDraft.amountReceiveDRAFT)) {
                             payment.amountReceive = paymentDraft.amountReceiveDRAFT;
-                    	}
+                        }
                     }
                     
                     var total = 0;
@@ -212,6 +172,8 @@
     History:
     <Date>          <Author>            <Description>
     15/09/2020      Shahad Naji         Initial version
+    26/11/2020		Shahad Naji			Removes transaction from transactional counters for accumulated limits according to 
+    									the productId of the selected payment 
     */
     reject: function (component, event, helper) {
         component.set('v.action', 'Reject');
@@ -238,6 +200,7 @@
         component.set('v.spinner', true);
         helper.getPaymentDetails(component, event, helper)  
         .then($A.getCallback(function (value) { 
+            component.set('v.action','sendToReview');
             return helper.showREDOModal(component, event, helper);
         })).catch($A.getCallback(function (error) {
             console.log('Error sendToReview: ' + error);
@@ -254,10 +217,33 @@
     <Date>          <Author>            <Description>
     09/11/2020      Antonio Matachana       Initial version
     */
-    showCancelPaymentModal: function (component, event, helper) {
-        component.set('v.fromUtilityBar', true);
-        component.set('v.fromDetail', false);
-        component.set('v.showCancelModal', true);
+    /*	
+    showCancelPaymentModal: function (component, event, helper) {	
+        component.set('v.fromUtilityBar', true);	
+        component.set('v.fromDetail', false);	
+        component.set('v.showCancelModal', true);	
+    },	
+    */	
+   showCancelPaymentModal : function (component, event, helper) {	
+        component.set('v.showCancelModal', true);	
+        return Promise.resolve('OK'); 	
+    	
+    },	
+    handleCancel : function (component, event, helper) {	
+        let variable= 'cancel';	
+        component.set('v.showCancelModal', false);	
+        return helper.cancel(component, event, helper)	
+        .then($A.getCallback(function (value) {	
+             helper.sendToLanding(component, event, helper, variable, true);	
+        })).catch(function (error) {	
+            console.log(error);	
+        }).finally($A.getCallback(function () {	
+            console.log('OK');	
+            component.set('v.spinner', false);	
+        }));	
+    },	
+    handleCloseCancel : function (component, event, helper) {	
+        component.set('v.showCancelModal', false);
     },
 
     /*
@@ -267,20 +253,25 @@
     History:
     <Date>          <Author>                <Description>
     09/11/2020      Antonio Matachana       Initial version
+    26/11/2020		Shahad Naji				Get payment details
+    26/11/2020		Shahad Naji				Removes transaction from transactional counters for accumulated limits according to 
+    										the productId of the selected payment
     */
     handleCancelSelectedPayment: function (component, event, helper) {
         component.set('v.showCancelModal', false);
         var cancel = event.getParam('cancelSelectedPayment');
-        if (cancel) {
+        if (cancel) {            
             component.set('v.spinner', true);
-            helper.reverseLimits(component, event, helper).then($A.getCallback(function (value) {
+            helper.getPaymentDetails(component, event, helper).then($A.getCallback(function (value) { 
+                return helper.reverseLimits(component, event, helper);                
+            })).then($A.getCallback(function (value) { 
                 return helper.cancelSelectedPayment(component, helper);
             })).catch($A.getCallback(function (error) {
                 console.log('Error handleCancelSelectedPayment: ' + error);
             })).finally($A.getCallback(function() {
                 component.set('v.spinner', false);
                 $A.get('e.force:refreshView').fire();
-            }));
+            }));            
         }
     },
 
@@ -298,6 +289,76 @@
     var url =  "c__currentUser="+JSON.stringify(component.get("v.currentUser")) +"&c__paymentID="+paymentID;
     var page = 'landing-payment-details';
     helper.goTo(component, event, page, url);
-  }
+  },
+
+  
+  /*
+	Author:        	Julian Hoyos
+    Company:        
+	Description:    Methods to handle Save for later actions.
+    History:
+    <Date>          <Author>            	<Description>   
+    29/12/2020		Shahad Naji				Initial version
+    */
+    handleShowSaveForLaterModal : function (component, event, helper) {
+        component.set('v.showSaveForLaterModal', true);
+    },
+    handleSaveForLater : function (component, event, helper) {
+       let variable = 'save';
+        component.set('v.showSaveForLaterModal', false);
+        helper.saveForLater(component, event, helper)
+        .then($A.getCallback(function (value) {
+            helper.sendToLanding(component, event, helper, variable);
+       })).catch(function (error) {
+           console.log(error);
+       }).finally($A.getCallback(function () {
+           console.log('OK');
+           component.set('v.spinner', false);
+       }));
+    },
+    handleCloseSaveForLater : function (component, event, helper) {
+        component.set('v.showSaveForLaterModal', false);
+    },
+
+    handleshowDiscardModal : function (component, event, helper) {
+        var formatDate =  component.get('v.currentUser.dateFormat');
+        helper.getPaymentDetails(component, event, helper)
+        .then($A.getCallback(function (value) { 
+            helper.formatUserDate(component, formatDate)
+        })).then($A.getCallback(function (value) { 
+                component.set('v.showDiscardModal', true);
+                 return Promise.resolve('OK'); 
+        })).then($A.getCallback(function (value) { 
+            component.set('v.showDiscardModal', true);
+        })).catch($A.getCallback(function (error) {
+            console.log('Error reject: ' + error);
+        })).finally($A.getCallback(function() {
+           // component.set('v.paymentDetails.draftDate', fecha);
+        })); 
+    
+    },
+    handleDiscard : function (component, event, helper) {
+        let variable= 'discard';
+        component.set('v.showDiscardModal', false);
+        return helper.discard(component, event, helper)
+        .then($A.getCallback(function (value) {
+            helper.sendToLanding(component, event, helper, variable, true);
+        })).catch(function (error) {
+            console.log(error);
+        }).finally($A.getCallback(function () {
+            console.log('OK');
+            component.set('v.spinner', false);
+        }));
+    },
+    handleCloseDiscard : function (component, event, helper) {
+        component.set('v.showDiscardModal', false);
+    },
+    sendToLanding: function (component, event, helper) {
+        if (component.get('v.source') != 'landing-payment-details') {
+            helper.sendToLanding(component,event, helper,false);
+        } else {
+            window.history.back();
+        }
+    },
 
 })

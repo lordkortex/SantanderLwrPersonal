@@ -1,0 +1,237 @@
+.alignRight{
+    float: right;
+}
+
+ .amountDecimals{
+    font-size: 10px;
+}
+
+
+ .border{
+    border: 1px solid #ececec;
+}
+
+ .button-orderLeft{
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+ .button-search{
+    cursor: pointer;
+    font-size: 24px;
+    padding: 4px;
+    height: 33px;
+    margin-left:21px;
+}
+
+
+ .number__black{
+    font-family: inherit !important;
+}
+ .number__gray{
+    font-family: inherit !important;
+}
+ .amountInteger{
+    font-family: inherit !important;
+}
+ .amountDecimals{
+    font-family: inherit !important;
+}
+
+ .button-orderRight{
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+ .button-page{
+    cursor: pointer;
+    font-size: 12px;
+}
+
+ .button-tracking{
+    margin-left: 4px;
+    font-size: 16px;
+}
+
+ .circle{
+    font-size: 24px;
+}
+
+ .colorHeader{
+    color: #444444;
+    /*height:1px;*/
+}
+
+ .backgroundHeader{
+    background-color: #ececec;
+    display: flex;
+    align-items: center;
+}
+
+ .containerIconDetail{
+    width: 72px;
+}
+
+ .containerIconStatus{
+    width: 180px;
+}
+
+ .containerStatus{
+    width: 70px;
+    /*padding-left: 8px;*/
+}
+
+ .containerInstructed{
+    width:153px;
+}
+ .containerValueDate{
+    width: 139px;
+}
+
+ .containerBenefName{
+    width:192px;
+}
+ .containerBenefBIC{
+    width:140px;
+}
+ .containerSettleAmount{
+    width:150px;
+   justify-content:flex-end;
+}
+
+ .fontBody{
+    color: #444444;
+    font-size: 12px;
+    margin-top:-30px
+}
+
+
+ .payment{
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+}
+
+ .shadow:hover,  .shadow:focus{
+    background-color: #ececec;
+    box-shadow: none !important;
+}
+
+ .shadow:focus:hover{
+    background-color: red;
+    box-shadow: none !important; 
+}
+
+
+/*No coge estas clases ?????*/
+ .slds-table_striped tbody tr:nth-of-type(2n) > td, 
+ .slds-table_striped tbody tr:nth-of-type(2n) > th, 
+ .slds-table--striped tbody tr:nth-of-type(2n) > td, 
+ .slds-table--striped tbody tr:nth-of-type(2n) > th {
+    background-color: #f9fcfd !important;
+}
+
+ .slds-table_striped tbody tr:nth-of-type(2n) > td:hover,
+ .slds-table_striped tbody tr:nth-of-type(2n) > th:hover{
+    background-color: #f9fcfd !important;
+}
+
+ .slds-table:not(.slds-no-row-hover) tbody tr:hover > td,
+ .slds-table:not(.slds-no-row-hover) tbody tr:hover > th{
+    background-color: #ffffff !important;
+}
+
+ .slds-table:not(.slds-no-row-hover) tbody tr:nth-of-type(2n):hover > td,
+ .slds-table:not(.slds-no-row-hover) tbody tr:nth-of-type(2n):hover > th{
+    background-color: #f9fcfd !important;
+}
+ .slds-table--header-fixed_container::before {
+    content: "";
+    display: block;
+    position: relative;
+    width: 100%;
+    border-bottom: 0px solid rgb(212, 212, 212);
+}
+ .status{
+    width: 57px;
+}
+
+ td{
+    height: 34px;
+    padding: 0;
+}
+ th{
+    padding:0;
+}
+
+ .textHeader {
+    font-size: 14px;
+    
+    /*height: 20px;*/
+}
+
+ .textTracking{
+    color: #ec0000;
+}
+
+
+
+/*
+* PRUEBAS PARA TOOLTIPS
+* 
+ * 
+ .tooltip span{
+    display:none;
+}
+ .tooltip:hover {
+    cursor: help;
+    position: relative;
+}
+
+ .tooltip:hover span{
+     border: #c0c0c0 1px dotted;
+    padding: 5px 20px 5px 5px;
+    display: block;
+    z-index: 100;
+    background: url(../images/status-info.png) #f0f0f0 no-repeat 100% 5%;
+    left: 0px;
+    margin: 10px;
+    width: 250px;
+    position: absolute;
+    top: 10px;
+    text-decoration: none;
+}
+*/
+/*  SCROLLBAR PARA DROPDOWN PARA CHROME */
+
+
+ .slds-table--header-fixed_container {
+    height: 363px;
+    position: relative;
+    padding-top: 2rem;
+    background-color: #ececec;
+}
+
+
+/* width */
+ div::-webkit-scrollbar {
+    width: 6px;
+}
+
+/* Track */
+ div::-webkit-scrollbar-track {
+    /*box-shadow: inset 0 0 5px #dadada;*/
+    border-radius: 10px;
+}
+/*Track-piece*/
+ div::-webkit-scrollbar-track-piece{
+    background:transparent;
+}
+
+/* Handle */
+ div::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}

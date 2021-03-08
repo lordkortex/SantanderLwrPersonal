@@ -71,7 +71,17 @@
   line-height: 21px;
 }
  .contentAccount .availableBalance .slds-card__header-title {
-  color: #767676;
+  /*aqui*/
+  color: #767676;  
+  font-size:18px;
+  /*font-family:"SantanderMicroText";*/
+  line-height: 21px;
+}
+.contentAccount .bookBalance .slds-card__header-title {
+  /*aqui*/
+  font-size:18px;
+  line-height: 21px;
+ 
 }
 
  .contentAccount .slds-card__header-title.boldText{
@@ -124,6 +134,14 @@
   box-sizing: border-box;
   color: #767676;
 }
+.integerDos{
+  font-size: 18px;
+  line-height: 27px;
+  font-family: "SantanderMicroText-Bd";
+  box-sizing: border-box;
+  color: #444444;
+}
+
  .moreOptions{
   align-items: center;
   background-color: #ec0000;
@@ -150,7 +168,7 @@
 }
  .slds-card__header-title.availableBalance { 
   color: #767676; 
-}
+  }
 
 .contextualMenu {
   border: 1px solid #deedf2;

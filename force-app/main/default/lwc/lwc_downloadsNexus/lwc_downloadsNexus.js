@@ -90,7 +90,7 @@ export default class Lwc_downloadsNexus extends LightningElement {
 
     //COMPONENT ATTRIBUTES
     @track dates = [];                                                     //description="List containing the selected dates"/>
-    @track singleDate;                                                     //description="List containing the selected date"/>
+    @track singleDate = [];                                                     //description="List containing the selected date"/>
     @track simple = true;                                                  //description="Flag to indicate whether the calendar is simple or compounded (From-To)"/>
     @track helpText = "dd/mm/yyyy";                                        //description="Calendar help text"/>
     @track placeholderSingle = "Select a date";                            //description="Date placeholder for single calendar"/>
@@ -173,16 +173,10 @@ export default class Lwc_downloadsNexus extends LightningElement {
     }
 
     get isFileDataPdf(){
-        console.log('***********isFileDataPdf');
-        console.log('this.fileFormat '+this.fileFormat);
-        console.log('this.label.pdfStatement '+this.label.pdfStatement);
         return (this.fileFormat == this.label.pdfStatement);
     }
 
     get isfileDatestatementBetween(){
-        console.log('***********isfileDatestatementBetween');
-        console.log('this.fileDate '+this.fileDate);
-        console.log('statementBetween');
         return (this.fileDate == 'statementBetween');
     }
 
@@ -202,10 +196,13 @@ export default class Lwc_downloadsNexus extends LightningElement {
             loadStyle(this, santanderStyle + '/style.css');
             console.log('Inicio downloads Nexus');
             this.doInit();
+            this.template.querySelectorAll('c-lwc_cn_dropdown').forEach(element => {
+                element.doInit();
+            });
         }
-        this.template.querySelectorAll('c-lwc_cn_dropdown').forEach(element => {
-            element.doInit();
-        });
+        // this.template.querySelectorAll('c-lwc_cn_dropdown').forEach(element => {
+        //     element.doInit();
+        // });
         
     }
 
@@ -331,12 +328,19 @@ export default class Lwc_downloadsNexus extends LightningElement {
             console.log('strinfyrespoonse===>'+JSON.stringify(response));
             // component.find("service").saveToCache('balanceEODGP', response);
             //setData = response.responseAcc;
+            if (typeof response == 'string') {
+                response_Aux = response;
+                setData = JSON.parse(response).responseAcc;
+            }
+            else if(typeof response == 'object'){
+                response_Aux = JSON.stringify(response);
+                setData = response.responseAcc;
+            } 
+
             this.template.querySelector("c-lwc_service-component").saveToCache(
                 {key: 'balanceEODGP', 
                 //data: JSON.stringify(response)});
-                data: response});
-            setData = response.responseAcc;
-            console.log('setData '+setData);
+                data: response_Aux});
         }
         console.log('5');
 
@@ -378,14 +382,14 @@ export default class Lwc_downloadsNexus extends LightningElement {
 		this.accountsListString = accounts;
 		this.accounts = setData.accountList;
 		this.countries = setData.countryList;
-		this.loadingUserInfo = false;
+		//this.loadingUserInfo = false;
 		this.keepAccList = accounts;
         console.log('this.accountCountryList=  '+this.accountCountryList);
         console.log('this.accounts=  '+this.accounts);
         console.log('this.countries=  '+this.countries);
         console.log('this.ListString=  '+this.accountsListString);
         }
-        
+        this.loadingUserInfo = false;
 	}
 
     selectedCountry (){
@@ -478,15 +482,21 @@ export default class Lwc_downloadsNexus extends LightningElement {
         this.dates = [];
         this.singleDate = [];
         this.fileFormat= this.label.pdfBalances;
-        //var dropdownAccnts = component.find("dropdownAccounts");
-        var dropdownAccnts = this.template.querySelector('[data-id]="dropdownAccounts"]');
-        dropdownAccnts = Array.isArray(dropdownAccnts) ? dropdownAccnts[0].updateSelection(this.selectedAccounts) : dropdownAccnts.updateSelection(this.selectedAccounts);
-        //var dropdownCountry = component.find("dropdownCountries");
-        var dropdownAccnts = this.template.querySelector('[data-id]="dropdownCountries"]');
-        dropdownCountry = Array.isArray(dropdownCountry) ? dropdownCountry[0].updateSelection(this._selectedcountries) : dropdownCountry.updateSelection(this._selectedcountries);
         
+        if(this.template.querySelector('c-lwc_cn_calendar')){
+            this.template.querySelector('c-lwc_cn_calendar').clearData();
+        }
+
+        // var dropdownAccnts = this.template.querySelector('[data-id="dropdownAccounts"]');
+        // dropdownAccnts = Array.isArray(dropdownAccnts) ? dropdownAccnts[0].updateSelection(this.selectedAccounts) : dropdownAccnts.updateSelection(this.selectedAccounts);
+        this.template.querySelector('[data-id="dropdownAccounts"]').clearData();
+        //var dropdownCountry = component.find("dropdownCountries");
+        // var dropdownCountry = this.template.querySelector('[data-id="dropdownCountries"]');
+        // dropdownCountry = Array.isArray(dropdownCountry) ? dropdownCountry[0].updateSelection(this._selectedcountries) : dropdownCountry.updateSelection(this._selectedcountries);
+        this.template.querySelector('[data-id="dropdownCountries"]').clearData();
         //component.set("v.accountsListString", component.get("v.keepAccList"));
         this.accountsListString = this.keepAccList;
+        
     }
 
     download (){
@@ -573,7 +583,11 @@ export default class Lwc_downloadsNexus extends LightningElement {
 		var filePerDay = this.isFileForDay;
 		var auxList = [];
 		var selectedAccounts = this.selectedAccounts;
-		var dates = this.dates;
+        var dates = [];
+        if(this.template.querySelector('c-lwc_cn_calendar')){
+            dates = this.template.querySelector('c-lwc_cn_calendar').dates;
+        }
+		// var dates = this.dates;
 		var singleDate = this.singleDate;
 		var extractType = this.extractType;
 		var balanceFileFormat = '';
@@ -628,32 +642,34 @@ export default class Lwc_downloadsNexus extends LightningElement {
 
 		var paramsPost = {};
 		
-		if(dates.length != 0) {	
+		// if(dates.length != 0) {	
+        if(dates.length > 1) {	
 			paramsPost = {
 				"accounts" : accList,
 				"fileDate" : this.fileDate,
-				"dateFrom" : dates[0],
-				"dateTo" : dates[1],
+				"dateFrom" : (dates[0] == "") ? undefined : dates[0],
+				"dateTo" : (dates[1] == "") ? undefined : dates[1],
 				"extractType" : extractType,
 			};
 		} else {
 			paramsPost = {
 				"accounts" : accList,
 				"fileDate" : this.fileDate,
-				"dateFrom" : singleDate[0],
-				"dateTo" : singleDate[0],
+				"dateFrom" : (dates[0] == "") ? undefined : dates[0],
+				"dateTo" : (dates[0] == "") ? undefined : dates[0],
 				"extractType" : extractType,
 			};
-		}
+		}        
 
 		var params = {};
 
-		if(dates.length != 0) {
+		//(if(dates.length != 0) {
+        if(dates.length > 1) {	
 			params = {
 				"fileDate" : this.fileDate,
 				"accountCodeList" : auxList,
-				"dateFrom" : dates[0],
-				"dateTo" : dates[1],
+				"dateFrom" : (dates[0] == "") ? undefined : dates[0],
+				"dateTo" : (dates[1] == "") ? undefined : dates[1],
 				"fileType" : balanceFileFormat,
 				"indGroup" : filePerDay
 			};
@@ -661,8 +677,8 @@ export default class Lwc_downloadsNexus extends LightningElement {
 			params = {
 				"fileDate" : this.fileDate,
 				"accountCodeList" : auxList,
-				"dateFrom" : singleDate[0],
-				"dateTo" : singleDate[0],
+				"dateFrom" : (dates[0] == "") ? undefined : dates[0],
+				"dateTo" : (dates[0] == "") ? undefined : dates[0],
 				"fileType" : balanceFileFormat,
 			};
 		}
@@ -762,109 +778,93 @@ export default class Lwc_downloadsNexus extends LightningElement {
 		 	}
 
             if (action === 'getTransactions') {
-                getTransactions(params)
-                .then(result => {
-                    console.log('OK');
-                    resolve(result);
-                })
-                .catch(error => {
-                    console.log('KO '+error);
-                    var errors = error;
-                    if (errors) {
-                        if (errors[0] && errors[0].message) {
-                            console.log("Error message: " + 
-                                        errors[0].message);
-                            reject(errors);
+                return new Promise((resolve, reject) => {
+                    getTransactions(params)
+                    .then(result => {
+                        console.log('OK');
+                        resolve(result);
+                    })
+                    .catch(error => {
+                        console.log('KO '+error);
+                        var errors = error;
+                        if (errors) {
+                            if (errors[0] && errors[0].message) {
+                                console.log("Error message: " + 
+                                            errors[0].message);
+                                reject(errors);
+                            }
+                        } else {
+                            console.log("Unknown error");
                         }
-                    } else {
-                        console.log("Unknown error");
-                    }
+                    });
                 });
             }
             else if (action === 'getExtracts') {
-                getExtracts(params)
-                .then(result => {
-                    console.log('OK');
-                    resolve(result);
-                })
-                .catch(error => {
-                    console.log('KO '+error);
-                    var errors = error;
-                    if (errors) {
-                        if (errors[0] && errors[0].message) {
-                            console.log("Error message: " + 
+                return new Promise((resolve, reject) => {
+                    getExtracts(params)
+                    .then(result => {
+                        console.log('OK');
+                        resolve(result);
+                    })
+                    .catch(error => {
+                        console.log('KO '+error);
+                        var errors = error;
+                        if (errors) {
+                            if (errors[0] && errors[0].message) {
+                                console.log("Error message: " + 
                                         errors[0].message);
-                            reject(errors);
+                                reject(errors);
+                            }
+                        } else {
+                            console.log("Unknown error");
                         }
-                    } else {
-                        console.log("Unknown error");
-                    }
+                    });
                 });
             }
             else if (action === 'getBalances') {
-                getBalances(params)
-                .then(result => {
-                    console.log('OK');
-                    resolve(result);
-                })
-                .catch(error => {
-                    console.log('KO '+error);
-                    var errors = error;
-                    if (errors) {
-                        if (errors[0] && errors[0].message) {
-                            console.log("Error message: " + 
-                                        errors[0].message);
-                            reject(errors);
+                return new Promise((resolve, reject) => {
+                    getBalances(params)
+                    .then(result => {
+                       console.log('OK');
+                        resolve(result);
+                    })
+                    .catch(error => {
+                        console.log('KO '+error);
+                        var errors = error;
+                        if (errors) {
+                            if (errors[0] && errors[0].message) {
+                                console.log("Error message: " + 
+                                            errors[0].message);
+                                reject(errors);
+                            }
+                        } else {
+                            console.log("Unknown error");
                         }
-                    } else {
-                        console.log("Unknown error");
-                    }
+                    });
                 });
             }
             else if (action === 'downloadFich') {
-                downloadFich(params)
-                .then(result => {
-                    console.log('OK');
-                    resolve(result);
-            })
-                .catch(error => {
-                    console.log('KO '+error);
-                    var errors = error;
-                    if (errors) {
-                        if (errors[0] && errors[0].message) {
-                            console.log("Error message: " + 
-                                        errors[0].message);
-                            reject(errors);
+                return new Promise((resolve, reject) => {
+                    downloadFich(params)
+                    .then(result => {
+                        console.log('OK');
+                        resolve(result);
+                    })
+                    .catch(error => {
+                        console.log('KO '+error);
+                        var errors = error;
+                        if (errors) {
+                            if (errors[0] && errors[0].message) {
+                                console.log("Error message: " + 
+                                            errors[0].message);
+                                reject(errors);
+                            }
+                        } else {
+                            console.log("Unknown error");
                         }
-                    } else {
-                        console.log("Unknown error");
-                    }
+                    });
                 });
             }
-
-            //  //Send the payment ID
-            //  action.setParams(params);
-            //  return new Promise(function (resolve, reject) {
-            //      action.setCallback(this, function(response) {
-            //          var state = response.getState();
-            //         if (state === "ERROR") {					   
-			// 			var errors = response.getError();
-            //             if (errors) {
-            //                 if (errors[0] && errors[0].message) {
-            //                     console.log("Error message: " + 
-            //                                 errors[0].message);
-            //                     reject(errors);
-            //                 }
-            //             } else {
-            //                 console.log("Unknown error");
-            //             }
-            //         }else if (state === "SUCCESS") {						
-            //             resolve(response.getReturnValue());
-            //         }
-            //     });
-            //     $A.enqueueAction(action);
-            // });
-
         } catch (e) {
             console.log(e);
         }

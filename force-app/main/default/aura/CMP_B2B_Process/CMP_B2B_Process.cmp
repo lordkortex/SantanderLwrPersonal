@@ -23,7 +23,7 @@
     <aura:attribute access="public"  type="Boolean" name="isEditing"              default="false"                       description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
  	<aura:attribute access="public"  type="Map"     name="expensesAccount"        default="{}"                          description="Selected expenses account." />
     <aura:attribute access="public"  type="Boolean" name="showErrorScreen"        default="false"                       description="Show error screen if service failure on loading step 1." />
-
+	<aura:attribute access="private" type="Boolean" name="isReuse"                default="false" />
      
     <aura:handler name="init"           action="{!c.initComponent}"                value="{!this}" />
     <aura:handler name="completeStep"   action="{!c.handleCompleteStep}"           event="c:EVT_B2B_CompleteStep" />

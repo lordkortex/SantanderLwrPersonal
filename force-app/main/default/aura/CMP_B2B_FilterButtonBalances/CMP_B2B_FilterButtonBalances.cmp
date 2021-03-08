@@ -79,7 +79,7 @@
                                 </div> 
                             </div>
                         </fieldset>
-                    </div>  
+                    </div>
                     <footer class="slds-popover__footer">
                         <button class="slds-button slds-button_brand primary button_small" onclick="{!c.handlerApplyFilters}">{!$Label.c.apply}</button>
                         <button class="slds-button slds-button_neutral secondary button_small" onclick="{!c.handlerClearFilters}">{!$Label.c.clearAll}</button>

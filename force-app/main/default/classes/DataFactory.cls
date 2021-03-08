@@ -235,6 +235,14 @@ History
         wsSetting.CNT_Service__c = 'mulesoft';
 
         listCustomSettings.add(wsSetting);
+            
+        wsSetting = new CNT_ApiConfiguration__c();
+        wsSetting.Name = 'OTPIniciateLocal_Strategic';
+        wsSetting.CNT_Endpoint__c = 'https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/execution/signatures';
+        wsSetting.CNT_HTTPMethod__c = 'POST';
+        wsSetting.CNT_Service__c = 'mulesoft';
+
+        listCustomSettings.add(wsSetting);
 
         wsSetting = new CNT_ApiConfiguration__c();
         wsSetting.Name = 'CNT_GetLoginInfo';
@@ -271,7 +279,13 @@ History
         listCustomSettings.add(wsSetting);
          
          
+ 		wsSetting = new CNT_ApiConfiguration__c();
+        wsSetting.Name = 'B2B_SignatureStructure_Local';
+        wsSetting.CNT_Endpoint__c = 'https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/structure/signatures?operation_id=00000001&service_id={service_id}&amount={amount}&currency={currency}';
+        wsSetting.CNT_HTTPMethod__c = 'GET';
+        wsSetting.CNT_Service__c = 'mulesoft';
 
+        listCustomSettings.add(wsSetting);
         wsSetting = new CNT_ApiConfiguration__c();
         wsSetting.Name = 'CNT_GetRolesData';
         wsSetting.CNT_Endpoint__c = 'https://e-onetrade-cert.de-c1.cloudhub.io/api/v1/nx/admin/roles';
@@ -490,6 +504,7 @@ History
          wsSetting.CNT_HTTPMethod__c = 'POST';
          wsSetting.CNT_Service__c = 'mulesoft';
          wsSetting.tokenPlatform__c = 'GTS';
+         wsSetting.tokenUser__c = 'local';
          wsSetting.CNT_Service__c = 'local';
          listCustomSettings.add(wsSetting);
          
@@ -518,6 +533,20 @@ History
          wsSetting.CNT_HTTPMethod__c = 'GET';
          wsSetting.CNT_Service__c = 'mulesoft';
          listCustomSettings.add(wsSetting); 
+         
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = 'WS_GetMeAccountDetails';
+         wsSetting.CNT_Endpoint__c ='https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/me/accounts/{account_id}?account_id_type={accountIdType}';
+         wsSetting.CNT_HTTPMethod__c = 'GET';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting); 
+         
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = 'WS_DominantCurrency';
+         wsSetting.CNT_Endpoint__c ='https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/currencies/dominant';
+         wsSetting.CNT_HTTPMethod__c = 'POST';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting);
          
          // 10/11/2020 - Adding WS_CreatePaymentOperation
          wsSetting = new CNT_ApiConfiguration__c();
@@ -582,6 +611,30 @@ History
          wsSetting.CNT_HTTPMethod__c = 'POST';
          wsSetting.CNT_Service__c = 'mulesoft';
          listCustomSettings.add(wsSetting);  
+         
+          //WS_TransactionalLimitsReverse
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = 'WS_TransactionalLimitsReverse';
+         wsSetting.CNT_Endpoint__c ='https://WS_TransactionalLimitsReverse';
+         wsSetting.CNT_HTTPMethod__c = 'POST';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting);
+         
+         //WS_TransactionalLimitsValidation
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = 'WS_TransactionalLimitsValidation';
+         wsSetting.CNT_Endpoint__c ='https://WS_TransactionalLimitsValidation';
+         wsSetting.CNT_HTTPMethod__c = 'POST';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting);
+         
+         //WS_Fraud
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = 'WS_Fraud';
+         wsSetting.CNT_Endpoint__c ='https://WS_Fraud';
+         wsSetting.CNT_HTTPMethod__c = 'POST';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting);        
          
          //WS_CancelBuySell
          wsSetting = new CNT_ApiConfiguration__c();
@@ -668,6 +721,55 @@ History
          wsSetting.CNT_Service__c = 'mulesoft';
          listCustomSettings.add(wsSetting);
          
+         //WS_VAMGetList
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = 'WS_VAMGetList';
+         wsSetting.CNT_Endpoint__c ='https://WS_VAMGetList';
+         wsSetting.CNT_HTTPMethod__c = 'GET';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting);
+         
+         //WS_VAMGetAccount
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = 'WS_VAMGetAccount';
+         wsSetting.CNT_Endpoint__c ='https://WS_VAMGetAccount';
+         wsSetting.CNT_HTTPMethod__c = 'GET';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting);
+         
+         //WS_STR_SignatureRulesGET
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = 'WS_STR_SignatureRulesGET';
+         wsSetting.CNT_Endpoint__c ='https://WS_STR_SignatureRulesGET';
+         wsSetting.CNT_HTTPMethod__c = 'GET';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting);
+         
+         //WS_STR_SignatureGroupsGET
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = 'WS_STR_SignatureGroupsGET';
+         wsSetting.CNT_Endpoint__c ='https://WS_STR_SignatureGroupsGET';
+         wsSetting.CNT_HTTPMethod__c = 'GET';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting);
+         
+          // 15/12/2020 - Adding WS_TransactionalLimits
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = '	WS_TransferBeneficiariesPost';
+         wsSetting.CNT_Endpoint__c ='https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/beneficiaries/transfer';
+         wsSetting.CNT_HTTPMethod__c = 'POST';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting); 
+         
+		// 15/12/2020 - Adding WS_TransfersBeneficiaries
+         wsSetting = new CNT_ApiConfiguration__c();
+         wsSetting.Name = '	WS_TransferBeneficiariesGet';
+         wsSetting.CNT_Endpoint__c ='https://api.sandbox.mulesoft.onetrade.santander.com/onetrade/cert/api/v1/beneficiaries/transfer';
+         wsSetting.CNT_HTTPMethod__c = 'GET';
+         wsSetting.CNT_Service__c = 'mulesoft';
+         listCustomSettings.add(wsSetting); 
+
+         
         if(insertSettings && Schema.sObjectType.CNT_ApiConfiguration__c.isCreateable()){
             insert listCustomSettings;
         }
@@ -734,7 +836,7 @@ History
                 Name = 'ordfilter2', B2B_TXT_Country_ISO_Code__c = 'ES', B2B_TXT_Country_Name__c  ='Spain', B2B_TXT_Currencies__c  = 'EUR',  B2B_CHK_Active__c = true);
 
         //NOT YET IMPLEMENTED ON INT AND PRE
-       /* Local_Banking_Filters__c localBankingFilter = new Local_Banking_Filters__c (
+        /*Local_Banking_Filters__c localBankingFilter = new Local_Banking_Filters__c (
             Name = 'ordFilter3', LB_CHK_Active__c = true, LB_TXT_Country_ISO_Code__c = 'ES', LB_TXT_Country_Name__c = 'Spain', LB_TXT_Currencies__c = 'EUR'
         );*/
                     
@@ -849,10 +951,40 @@ History
         return user;
     }
     
-	public static Payment__c createPayment(){
+    public static Payment__c createPayment(){
         Payment__c payment = new Payment__c (
         	PAY_TXT_PaymentId__c = 'paymentId', PAY_TXT_ClientReference__c = 'clientReference');
         insert payment;    
         return payment;
+    }
+    
+    public static void createCustomTexts(){
+        List<CustomText__c> listCustomTexts = new List<CustomText__c>();
+         CustomText__c customText = new CustomText__c();
+         customText.Name = 'en_PaymentPending';
+         customText.Text__c ='test';
+         listCustomTexts.add(customText); 
+        
+         customText = new CustomText__c();
+         customText.Name = 'en_PaymentRejected';
+         customText.Text__c ='test';
+         listCustomTexts.add(customText); 
+        
+         customText = new CustomText__c();
+         customText.Name = 'en_PaymentReview';
+         customText.Text__c ='test';
+         listCustomTexts.add(customText); 
+        
+         customText = new CustomText__c();
+         customText.Name = 'en_PaymentCompleted';
+         customText.Text__c ='test';
+         listCustomTexts.add(customText); 
+        
+         customText = new CustomText__c();
+         customText.Name = 'en_PaymentTitle';
+         customText.Text__c ='test';
+         listCustomTexts.add(customText); 
+        
+        database.insert(listCustomTexts, true);
     }
 }

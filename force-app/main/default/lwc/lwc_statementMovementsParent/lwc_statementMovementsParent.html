@@ -1,0 +1,33 @@
+<template>
+    <!-- <c-lwc_service-component data-aid="Service" onsuccesscallback={handleSuccessCallback}></c-lwc_service-component> -->
+    <!-- Spinner -->
+    <template if:true={loading}>
+        <div class="spinnerclass">
+            <lightning-spinner data-id="spinner" variant="brand" size="large" title={getTitleSpiner} alternative-text={getTitleSpiner}></lightning-spinner>
+        </div>
+    </template>
+
+    <template if:false={loading}>
+        <c-lwc_cn_title-subtitle title={label.History_of_statements} 
+                                 subtitle={label.Statement}
+                                 comesfromtracker={comesfromtracker}>
+        </c-lwc_cn_title-subtitle>
+        
+        <c-lwc_statement-movements-header accountinfo={accountinfo} 
+                closeringbalance_formatted={closeringBalance_Formatted}
+                closeringbalancedecimals_formatted={closeringBalanceDecimals_Formatted}
+                openingbalance_formatted={openingBalance_Formatted}
+                openingbalancedecimals_formatted={openingBalanceDecimals_Formatted}
+                extractdate={extractDate}
+                userinfo={userInfo}>
+        </c-lwc_statement-movements-header>
+                                    
+
+        <!-- TABLE BLOCK -->
+        <c-lwc_statement-movements-table 
+                totalmovements={totalmovements} 
+                accountinfo={accountinfo} 
+                movementslist={movementslist}>
+        </c-lwc_statement-movements-table>
+    </template>
+</template>

@@ -17,6 +17,8 @@ global class WS_TransactionalLimitsUpdate {
     private OUTPUT result;
     private String baseEndpoint;
     private String baseMethod;
+    private String tokenPlatform;
+    private String tokenUser;
     
     public OUTPUT getResult () {
         return this.result;
@@ -28,6 +30,8 @@ global class WS_TransactionalLimitsUpdate {
         configWs = CNT_ApiConfiguration__c.getValues('WS_TransactionalLimitsUpdate');
         this.baseEndpoint = configWs.CNT_Endpoint__c;
         this.baseMethod = configWs.CNT_HTTPMethod__c;
+        this.tokenPlatform = configWs.tokenPlatform__c;
+        this.tokenUser = configWs.tokenUser__c;
     }
     
                /*----------------------------------------------------------------------------------
@@ -93,6 +97,76 @@ global class WS_TransactionalLimitsUpdate {
         }
         return this.result;
     }
+
+     /*
+    Author:         Candido Parejo
+    Company:        Deloitte
+    Description:    API method to update limits
+    History:
+    <Date>          <Author>                <Description>
+    14/09/2020      Shahad Naji             Initial version
+    01/02/2021      Candido Parejo          Change the way to receive data to transfer
+    */
+    public OUTPUT execute (WRAPPER_PAY_PaymentDraft paymentDraft) {
+        this.result = null;
+        String inputJson = '';
+        String auxIdType = '';
+        String auxDisplayNumber = '';
+        String auxAmountSend = null;
+        String auxCurrencyCodeAvailableBalance = '';
+        String country = null;
+        String codigoBic = null;
+        try {
+            if (paymentDraft != null) {
+                if (paymentDraft.amountSend != null) {
+                    auxAmountSend = paymentDraft.amountSend != null ? String.valueOf(paymentDraft.amountSend) : null;
+                }
+                if (paymentDraft.sourceAccount != null) {
+                    auxIdType = String.isNotBlank(paymentDraft.sourceAccount.idType) ? paymentDraft.sourceAccount.idType : 'BBA';
+                    auxDisplayNumber = String.isNotBlank(paymentDraft.sourceAccount.displayNumber) ? paymentDraft.sourceAccount.displayNumber : '';
+                    auxCurrencyCodeAvailableBalance = String.isNotBlank(paymentDraft.sourceAccount.currencyCodeAvailableBalance) ? paymentDraft.sourceAccount.currencyCodeAvailableBalance : '';
+                    country = String.isNotBlank(paymentDraft.sourceAccount.country) ?  paymentDraft.sourceAccount.country : '';
+                    codigoBic = String.isNotBlank(paymentDraft.sourceAccount.codigoBic) ?  paymentDraft.sourceAccount.codigoBic : '';
+                }
+            }
+            String transactionDate = String.valueOf(Date.today());
+            WS_TransactionalLimitsUpdate.TransactionContract transactionContract = new WS_TransactionalLimitsUpdate.TransactionContract (auxIdType, auxDisplayNumber);
+            WS_TransactionalLimitsUpdate.TransactionAmount transactionAmount = new WS_TransactionalLimitsUpdate.TransactionAmount(auxAmountSend, auxCurrencyCodeAvailableBalance);
+            String baseAmountAux = paymentDraft.baseAmount != null ? String.valueOf(paymentDraft.baseAmount) : null;
+            WS_TransactionalLimitsUpdate.TransactionAmount transactionAmountBaseCurrency = new WS_TransactionalLimitsUpdate.TransactionAmount(baseAmountAux, paymentDraft.baseCurrency);
+            this.result = this.execute(country, codigoBic, paymentDraft.paymentId, paymentDraft.serviceId, transactionDate, transactionContract, transactionAmount, transactionAmountBaseCurrency, null, null, null);
+        } catch (Exception e) {
+            System.debug('WS_TransactionalLimitsUpdate.execute: ' + e.getMessage());
+            throw new CustomException(e.getMessage());
+        }
+        return this.result;
+    }
+
+    public OUTPUT execute (String country, String codigoBic, String operationId, String serviceId, String transactionDate, TransactionContract transactionContract, TransactionAmount transactionAmount, TransactionAmount transactionAmountBaseCurrency, String originaltransactionDate, TransactionAmount originalTransactionAmount, TransactionAmount originTransactionAmountBaseCurrency) {
+        this.result = null;
+        WS_TransactionalLimitsUpdate.INPUT input;
+        String inputJson = '';
+        try {
+            input = new WS_TransactionalLimitsUpdate.INPUT(operationId, serviceId, transactionDate, transactionContract, transactionAmount, transactionAmountBaseCurrency, originaltransactionDate, originalTransactionAmount, originTransactionAmountBaseCurrency);
+            inputJson = JSON.serialize(input, true);
+            Map<String, String> extraHeaderParameters = new Map<String, String>();
+            extraHeaderParameters.put('Global-Payment-Id', operationId);
+            TokenInformation tokenInformation = new TokenInformation(country, this.tokenPlatform, this.tokenUser, null, codigoBic);
+            String response = Global_IntegrationWrapper.launchHTTP(inputJson, this.baseEndpoint, this.baseMethod, extraHeaderParameters);
+            if (String.isNotBlank(response)) {
+                WS_TransactionalLimitsUpdate.LimitsResponseUpdate limitsResponseUpdate = (WS_TransactionalLimitsUpdate.LimitsResponseUpdate) JSON.deserialize(response, WS_TransactionalLimitsUpdate.LimitsResponseUpdate.class);
+                WS_TransactionalLimitsUpdate.OUTPUT output = new WS_TransactionalLimitsUpdate.OUTPUT(limitsResponseUpdate);                    
+                this.result = output;
+            } else {
+                this.result = null;
+            }
+        } catch (Exception e) {
+            System.debug('WS_TransactionalLimitsUpdate.execute: ' + e.getMessage());
+            throw new CustomException(e.getMessage());
+        }
+        return this.result;
+    }
+
     
             /*----------------------------------------------------------------------------------
     Author:         Shahad Naji

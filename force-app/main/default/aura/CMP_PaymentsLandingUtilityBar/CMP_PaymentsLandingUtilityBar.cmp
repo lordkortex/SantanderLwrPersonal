@@ -13,10 +13,18 @@
     <aura:attribute access="public" type="String"   name="action"                 default="" />
     <aura:attribute access="public" type="Boolean"  name="spinner"                default="false" />
     <aura:attribute access="public" type="Boolean"  name="showCancelModal"        default='false' description="Indicates if the cancel payment modal is show."/>
+    <aura:attribute access="public" type="Boolean"  name="showSaveForLaterModal"        default='false' description="Indicates if the Save For Later modal is show."/>
+    <aura:attribute access="public" type="Boolean"  name="showDiscardModal"        default='false' description="Indicates if the discard payment modal is show."/>
     <aura:attribute access="public" type="Boolean"  name="fromUtilityBar" 		default="false"/>
     <aura:attribute access="public" type="Boolean"  name="fromDetail" 			default="false"/>
     <aura:attribute access="public" type="String"   name="onwardPage"              default="landing-payments" />
+    <aura:attribute access="public" type="String"   name="discardDescription"      default="description of discard popup" />
+    <aura:attribute access="public" type="String"   name="discardTittle"              default="description of discard popup" />
+    <aura:attribute access="public" type="Boolean"  name="convertToUserTimezone"  default="true"/>
 
+
+    
+    
     <lightning:navigation aura:id="navService" />
     <c:CMP_ServiceComponent aura:id= "service" />
 
@@ -46,7 +54,7 @@
                     </li>
                 </aura:if>
                 <aura:if isTrue="{!v.actions.discard == true}">
-                    <li class="slds-utility-bar__item" onclick="{!c.discard}">
+                    <li class="slds-utility-bar__item" onclick="{!c.handleshowDiscardModal}">
                         <button class="slds-button slds-utility-bar__action" aria-pressed="false">  
                             <span class="slds-utility-bar__text">{!$Label.c.PAY_discardPayment}</span>
                         </button>
@@ -108,6 +116,13 @@
                         </button>
                     </li>
                 </aura:if>
+                <aura:if isTrue="{!v.actions.saveforlater == true}">
+                    <li class="slds-utility-bar__item" onclick="{!c.handleShowSaveForLaterModal}">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{!$Label.c.PAY_SaveForLater}</span>
+                        </button>
+                    </li>
+                </aura:if>
                 <li class="slds-utility-bar__item" onclick="{!c.clearSelection}">
                     <button class="slds-button slds-utility-bar__action" aria-pressed="false">
                         <div class="link icon-close_big">
@@ -118,6 +133,17 @@
             </ul>
 	</footer>
     <aura:if isTrue="{!v.showCancelModal eq true}">
-        <c:CMP_B2B_DiscardPayment fromUtilityBar="{!v.fromUtilityBar}" fromDetail="{!v.fromDetail}"/>
+        <c:cmpPayModalRemove onsaveAction="{!c.handleCancel}" oncloseAction="{!c.handleCloseCancel}"  headingMsg="{!$Label.c.B2B_CancelPayment}" contentMsg=""  primaryBtn="{!$Label.c.B2B_CancelPayment_YES}" secondaryBtn="{!$Label.c.B2B_CancelPayment_NO}"/>	
     </aura:if>
+    <aura:if isTrue="{!v.showSaveForLaterModal eq true}">
+        <c:cmpPayModalRemove onsaveAction="{!c.handleSaveForLater}" oncloseAction="{!c.handleCloseSaveForLater}" headingMsg="{!$Label.c.B2B_SaveLaterQuestion}" contentMsg="{!$Label.c.B2B_SaveLaterDescription}" primaryBtn="{!$Label.c.PAY_SaveForLater}" secondaryBtn="{!$Label.c.cancel}"/>
+    </aura:if>
+    <aura:if isTrue="{!v.showDiscardModal eq true}">
+        <c:cmpPayModalRemove onsaveAction="{!c.handleDiscard}" oncloseAction="{!c.handleCloseDiscard}" headingMsg="{!$Label.c.PAY_discardPayment + ' ' +v.paymentDetails.clientReference+ ' ' + $Label.c.Int}" contentMsg="{!$Label.c.PAY_DiscardDate1 + ' ' + v.paymentDetails.draftDate + ' ' + $Label.c.PAY_DiscardDate2}" primaryBtn="{!$Label.c.Pay_YesDiscard}" secondaryBtn="{!$Label.c.No}"/>
+    </aura:if>
+
+<c:CMP_B2B_Toast aura:id="errorToast" reload="{!v.reload}" /> 
+
+    
+   <!-- <c:CMP_displayDate aura:id='displayDate' userDateFormat="{!v.userData.dateFormat}" dateClass="" date="{!v.paymentDetails.draftDate}"/> -->
 </aura:component>

@@ -126,7 +126,7 @@
             var iOptionsId = whichKey + "_cardParent"; 
             var elementSelect = document.getElementById(iOptionsId);
             var rowsSe= elementSelect.getElementsByClassName('contentAccount'); 
-            rowsSe.forEach(function(element) {             
+            Array.from(rowsSe).forEach(function(element) {             
                 element.classList.toggle("slds-show");
                 element.classList.toggle("slds-hide"); 
             });     

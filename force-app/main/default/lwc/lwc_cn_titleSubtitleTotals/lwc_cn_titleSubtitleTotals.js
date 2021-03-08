@@ -39,9 +39,12 @@ export default class Lwc_cn_titleSubtitleTotals extends LightningElement {
         loadStyle(this, santanderStyle + '/style.css');
     }
 
+    
     get getDateValue(){
-        return this.label.Accounts_Updated + ' ' + this.accountDetails.dateValue;
+        if(this.accountDetails) return this.Label.Accounts_Updated + ' ' + this.accountDetails.dateValue;
+        else return this.Label.Accounts_Updated + ' ' + 'N/A';
     }
+
     get isAccountAliasNotUndefined(){
         return this.accountdetails.accountAlias != 'undefined';
     }

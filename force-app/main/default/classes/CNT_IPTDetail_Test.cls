@@ -61,7 +61,7 @@ public class CNT_IPTDetail_Test {
 
         DataFactory.createAccount();
         Account acc = [SELECT Id, ACC_PCK_Segment__c FROM Account LIMIT 1];
-        acc.ACC_PCK_Segment__c = '07- CIB';
+        acc.ACC_PCK_Segment__c = '07 - CIB';
         update acc;
 
         Contact c = new Contact(
@@ -73,7 +73,7 @@ public class CNT_IPTDetail_Test {
         BICSegmentRelation__c cs = new BICSegmentRelation__c(
             Name= 'test', 
             BIC__c= 'test', 
-            segment__c = '07- CIB', 
+            segment__c = '07 - CIB', 
             showFeeValue__c = '1');
         insert cs;
 

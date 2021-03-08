@@ -33,7 +33,7 @@ public class CNT_LogAdminSearchController_Test {
         Map<String, String> filters = new Map<String, String>();
         System.runAs(u){
             Test.startTest();
-      		List<WRAPPER_LogAdminSearch> listaWrapper = CNT_LogAdminSearchController.getLogs();
+      		List<WRAPPER_LogAdminSearch> listaWrapper = CNT_LogAdminSearchController.getLogs(filters);
             Test.stopTest();
         }
     }

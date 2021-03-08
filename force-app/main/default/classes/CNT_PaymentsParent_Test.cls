@@ -35,7 +35,7 @@ public class CNT_PaymentsParent_Test {
         Decimal amountFrom = 123.45; 
         Decimal amountTo = 123.45; 
         List<WS_OperationsList.CurrencyList> currencyList = new List<WS_OperationsList.CurrencyList>();
-        String paymentMethod = 'book_to_book';
+        String paymentMethod = 'Book_to_Book';
         String clientReference = 'clientReference'; 
         String valueDateFrom = 'valueDateFrom'; 
         String valueDateTo = 'valueDateTo';
@@ -84,7 +84,7 @@ public class CNT_PaymentsParent_Test {
         currencyLst.tcurrency = 'tcurrency';
         currencyList.add(currencyLst);
         
-        String paymentMethod = 'book_to_book';
+        String paymentMethod = 'Book_to_Book';
         String clientReference = 'clientReference'; 
         String valueDateFrom = 'valueDateFrom'; 
         String valueDateTo = 'valueDateTo';

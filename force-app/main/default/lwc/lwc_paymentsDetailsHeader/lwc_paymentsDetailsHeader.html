@@ -1,0 +1,226 @@
+<template>
+    
+    <div class="slds-card card">
+        <!-- INFORMATION -->
+         <div class="slds-card__header slds-grid containerInformation">
+            
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class={statusclass}></div>  
+                
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title titleWidth">{statusLabel}&nbsp;{iobject.currentBank}</div>
+                    <div class="slds-card__header-title tracking">
+                        <span class="date">{Label.statusUpdate}:&nbsp;{iobject.lastUpdate}</span>
+                    </div>
+                </div>
+                <template if:true={comesfromuetrsearch}>
+                    <div class="slds-media__body">
+                        <div class="text" >
+                            <div class="slds-truncate">{Label.uert}</div>
+                        </div>
+                        <div class="slds-truncate">{iobject.uetr}</div>
+                    </div>
+                </template>
+
+                <div class="slds-media__body payment">
+                        
+                    <template if:true={iobject.hasForeignExchange}>
+
+                        <div class="slds-card__header-title transaction">
+                            <span class="space">{Label.creditedAmount}</span>
+                            <c-lwc_display-amount 
+                                amount={iobject.confirmedAmount.amount} 
+                                decimalclass="slds-truncate currency" 
+                                wholeclass="slds-truncate number" 
+                                currency={iobject.confirmedAmount.tcurrency}>
+                            </c-lwc_display-amount>
+                        </div>
+
+                        <div class="slds-card__header-title transaction">
+                            <span class="space">{Label.orderAmount}</span>
+                            <c-lwc_display-amount 
+                                amount={iobject.instructedAmount.amount} 
+                                decimalclass="slds-truncate currency" 
+                                wholeclass="slds-truncate number" 
+                                currency={iobject.instructedAmount.tcurrency}>
+                            </c-lwc_display-amount>
+                        </div>
+                    </template>
+                    <template if:false={iobject.hasForeignExchange}>
+                        <div class="slds-card__header-title transaction">
+                            <template if:true={comesfromuetrsearch}>
+                                <c-lwc_display-amount 
+                                    amount={iobject.instructedAmount.amount} 
+                                    decimalclass="decimals"
+                                    wholeclass="integer"
+                                    currency={iobject.instructedAmount.tcurrency}>
+                                </c-lwc_display-amount>
+                            </template> 
+                            <template if:false={comesfromuetrsearch}>
+                                <c-lwc_display-amount 
+                                    amount={iobject.amount} 
+                                    decimalclass="decimals" 
+                                    wholeclass="integer" 
+                                    currency={iobject.currencyAux}>
+                                </c-lwc_display-amount>
+                            </template>                            
+                        </div>
+                    </template>                    
+
+
+                    <template if:true={forEachCondition}>
+                        <div class="slds-card__header-title fees">                     
+                            <span class="space">{Label.Fees}</span>
+                            <template for:each={feesList} for:item="item" for:index="index">
+                                <div key={item.index}>
+                                    <template if:true={item.checked}>
+                                        &nbsp;<span>/</span>&nbsp; 
+                                        <c-lwc_display-amount 
+                                            amount={item.secondItem} 
+                                            decimalclass="numberFee" 
+                                            wholeclass="numberFee" 
+                                            currency={item.firstItem}>
+                                        </c-lwc_display-amount>
+                                    </template>
+                                    <template if:false={item.checked}>
+                                        <c-lwc_display-amount 
+                                            amount={item.secondItem} 
+                                            decimalclass="currency" 
+                                            wholeclass="" 
+                                            currency={item.firstItem}>
+                                        </c-lwc_display-amount>
+                                    </template>  
+                                </div>                                                              
+                            </template>
+                        </div>
+
+                    </template>
+                </div>
+            </div>
+        </div>
+        
+        <!-- DETAILS -->
+        <div class="containerDetail">
+            <table class="slds-table slds-table_cell-buffer slds-no-row-hover contentTable">
+                <thead>
+                    <tr class="slds-line-height_reset row">
+                        
+                        <template if:true={condition1}>
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col1">{Label.valueDate}</div>
+                            </th>
+                        </template>
+
+                        <template if:true={condition2}>
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col2">{Label.totalElapsedTime}</div>
+                            </th>
+                        </template>
+
+                        <template if:true={comesfromuetrsearch}>
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col3">{Label.uert}</div>
+                            </th>
+                        </template>
+
+                        <template if:true={condition3}>
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col3">{Label.orderingAccount}</div>
+                            </th>
+                        </template>
+
+                        <template if:true={condition4}>
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col4">{Label.orderingBIC}</div>
+                            </th>
+                        </template>
+
+                        <template if:true={condition5}>
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col5">{Label.beneficiaryAccount}</div>
+                            </th>
+                        </template>
+
+                        <template if:true={condition6}>
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col6">{Label.beneficiaryBank}</div>
+                            </th>
+                        </template>
+
+                        <template if:true={condition7}>
+                            <th class="text" scope="col">
+                                <div class="slds-truncate col7">{Label.beneficiaryBIC}</div>
+                            </th>
+                        </template>
+
+                        <template if:true={condition8}>
+                            <th class="text last" scope="col">
+                                <div class="slds-truncate col8" >{Label.charges}</div>
+                            </th>                                      
+                        </template>
+
+                    </tr>
+                </thead>
+
+                <tbody class="body">
+                    <tr class="slds-hint-parent row">
+
+                        <template if:true={condition1}>
+                            <th data-label="Value Date" scope="row">
+                                <div class="slds-truncate col1">{iobject.valueDate}</div>
+                            </th>
+                        </template>
+
+                        <template if:true={condition2}>
+                            <td data-label="Total Elapsed Time">
+                                <div class="slds-truncate col2">{totalElapsedTime}</div>
+                            </td>
+                        </template>
+
+                        <template if:true={comesfromuetrsearch}>
+                            <td data-label="UETR">
+                                <div class="slds-truncate">{iobject.uetr}</div>
+                            </td>
+                        </template>
+
+                        <template if:true={condition3}>
+                            <td data-label="Ordering Account">
+                                <div class="slds-truncate col3">{iobject.originAccountNumber}</div>
+                            </td>
+                        </template>
+
+                        <template if:true={condition4}>
+                            <td data-label="Ordering BIC">
+                                <div class="slds-truncate col4">{iobject.originAccountBic}</div>
+                            </td>
+                        </template>
+
+                        <template if:true={condition5}>
+                            <td data-label="Beneficiary Account">
+                                <div class="slds-truncate col5"> {iobject.beneficiaryAccountNumber}</div>
+                            </td>
+                        </template>
+
+                        <template if:true={condition6}>
+                            <td data-label="Beneficiary Bank">
+                                <div class="slds-truncate col6">{iobject.beneficiaryAccountBank}</div>
+                            </td>
+                        </template>
+
+                        <template if:true={condition7}>
+                            <td data-label="Beneficiary BIC">
+                                <div class="slds-truncate col7">{iobject.beneficiaryAccountBic}</div>
+                            </td>
+                        </template>
+
+                        <template if:true={condition8}>
+                            <td class="last" data-label="Charges">
+                                <div class="slds-truncate col8">{iobject.charges}</div>
+                            </td>
+                        </template>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</template>

@@ -9,11 +9,10 @@ public with sharing class CNT_B2B_PaymentInformation {
     07/2020         Cerviño             Initial version
     ----------------------------------------------------------------------------------*/
     @AuraEnabled
-    public static ReturnValue getSignatureStructure (Boolean isNexus, String paymentID, String service_id, String tcurrency, String customerId, String channel, String amount) {
+    public static ReturnValue getSignatureStructure ( String paymentID, String service_id, String channel, WRAPPER_B2B_Data.PaymentAmount amount, WRAPPER_AccountList.AccountDetails sourceAccount, WRAPPER_AccountList.AccountDetails destinationAccount, String subject, Map<String, String> navigatorInfo) {
         ReturnValue response = null;
         try {
-            System.debug('SENDING 1:' + isNexus + ', ' + paymentID + ', ' + service_id + ', ' + tcurrency + ', ' + customerId + ', ' + channel + ', ' + amount);
-            CNT_B2B_SignatureUtilities.getSignatureStructureNexus(isNexus, paymentID, service_id, tcurrency, customerId, channel,  amount);
+            CNT_B2B_SignatureUtilities.getSignatureStructure(paymentID, service_id, channel, amount,  sourceAccount, destinationAccount, subject, navigatorInfo);
             response = new ReturnValue(true, 'ok');
             System.debug('RESPONSE: '+response);
         } catch (Exception e) {
@@ -34,13 +33,14 @@ public with sharing class CNT_B2B_PaymentInformation {
     07/08/2020      Bea Hill                Adapted for Step 4 of B2B process
     12/08/2020      Bea Hill                Removed the status and reason parameters
     07/09/2020      Bea Hill                Add chargeBearer = "OUR"
+	15/01/2021		Shahad Naji				Add baseAmount and baseCurrency
     ------------------------------------------------------------------------------*/
     @AuraEnabled
-    public static ReturnValue updatePaymentInformation (String paymentId, String clientReference, String purpose, String description, String chargeBearer, String paymentMethod, String commercialCode) {
+    public static ReturnValue updatePaymentInformation (String paymentId, String clientReference, String purpose, String description, String chargeBearer, String paymentMethod, String commercialCode, Double baseAmount, String baseCurrency) {
         ReturnValue response = null;
         try {
         	WS_TrackingPaymentOperation wsObject = new WS_TrackingPaymentOperation(paymentId);
-        	wsObject.updateInformation(clientReference, purpose, description, chargeBearer, paymentMethod, commercialCode);
+        	wsObject.updateInformation(clientReference, purpose, description, chargeBearer, paymentMethod, commercialCode, null,baseAmount, baseCurrency);
             response = new ReturnValue(true);
         } catch (Exception e) {
             System.debug('CNT_B2B_PaymentInformation.updatePaymentInformation: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
@@ -83,32 +83,53 @@ public with sharing class CNT_B2B_PaymentInformation {
         return output;
     }
     
-        /*----------------------------------------------------------------------------------
+    /*----------------------------------------------------------------------------------
     Author:         Shahad Naji
     Company:        Deloitte
-    Description:    Makes the callout to validate the operation limit 
-					(based on getLimit function of CMP_B2B_Selectamount)
+    Description:    Makes a call to an external WS to validate and/or update if a transaction can be processed on behalf of a customer according to their transactional limits.
     History:
     <Date>          <Author>            <Description>
     10/12/2020      Shahad Naji         Initial version
-    ----------------------------------------------------------------------------------*/
+----------------------------------------------------------------------------------*/    
     @AuraEnabled
-    public static ReturnValue getLimits (String paymentId, WRAPPER_B2B_Data.PaymentAmount paymentData, WrapperUserData userData, WRAPPER_B2B_Data.AccountData accountData, WRAPPER_AccountList.AccountDetails sourceAccountData, WRAPPER_AccountList.AccountDetails recipientAccountData) {
+    public static ReturnValue getLimits(String productId, String serviceId, String paymentId, WRAPPER_B2B_Data.PaymentAmount paymentData, WrapperUserData userData, WRAPPER_AccountList.AccountDetails sourceAccountData, WRAPPER_AccountList.AccountDetails recipientAccountData) {
+        
         ReturnValue response = null;
         try {
-            Decimal baseAmount = null;
-            String baseCurrency = Global_Utilities.getCountryCurrency(sourceAccountData.country);
-            if (sourceAccountData.currencyCodeAvailableBalance == baseCurrency || String.isBlank(baseCurrency)) {
-                baseCurrency = sourceAccountData.currencyCodeAvailableBalance;
-                baseAmount = paymentData.amountSend;
-            } else {         
-                baseAmount = UtilitiesCurrency.convertCurrency(sourceAccountData.currencyCodeAvailableBalance, baseCurrency, paymentData.amountSend);
+            //FLOWERPOWER_PARCHE_SNJ: delete next line code when a IIP can be created
+            // productId = 'book_to_book';
+            String bookToBook_label = System.Label.CNF_payment_productId_001;
+            String internationalInstantPayment = System.Label.CNF_payment_productId_002;
+            if(productId.equalsIgnoreCase(bookToBook_label)){
+                response = ControllerCustomerTransactionalLimits.validateLimits(productId, serviceId, paymentId, userData, paymentData, sourceAccountData, recipientAccountData);
+            }else if(productId.equalsIgnoreCase(internationalInstantPayment)){
+                response = ControllerCustomerTransactionalLimits.updateLimits(productId, paymentId, serviceId, paymentData, sourceAccountData);
+            }else{
+                throw new CustomException('ERROR: Invalid data');
             }
-            WS_TransactionalLimits transactionalLimits = new WS_TransactionalLimits('b2b', paymentId, userData, accountData);
-            Map<String, Object> output = transactionalLimits.execute(paymentData, sourceAccountData, recipientAccountData, baseAmount, baseCurrency);
-            response = new ReturnValue(true, output);
+            
         } catch (Exception e) {
-            System.debug('CNT_B2B_PaymentInformation.getLimits: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            System.debug('CNT_B2B_SelectAmount.getLimits: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            response = new ReturnValue(false, null, e.getMessage());
+        }
+        return response;
+    }
+   
+      /*----------------------------------------------------------------------------------
+    Author:         Shahad Naji
+    Company:        Deloitte
+    Description:    Makes a call to simulate or validate Fraud in a transaction
+    History:
+    <Date>          <Author>            <Description>
+    30/12/2020      Shahad Naji         Initial version
+----------------------------------------------------------------------------------*/
+    @AuraEnabled
+    public static ReturnValue postFraud(WrapperUserData userData, Map<String, String> stepData, Map<String, String> navigatorInfo, String paymentId, String productId, String serviceId, WRAPPER_AccountList.AccountDetails sourceAccount, WRAPPER_AccountList.AccountDetails destinationAccount,  WRAPPER_B2B_Data.PaymentAmount amountData, String amountEnteredFrom){
+        ReturnValue response = null;
+        try {            
+            response = ControllerFraud.postFraud(userData, stepData, navigatorInfo, paymentId, productId, serviceId, sourceAccount, destinationAccount, amountData, amountEnteredFrom);         
+        } catch (Exception e) {
+            System.debug('CNT_B2B_SelectAmount.postFraud: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
             response = new ReturnValue(false, null, e.getMessage());
         }
         return response;

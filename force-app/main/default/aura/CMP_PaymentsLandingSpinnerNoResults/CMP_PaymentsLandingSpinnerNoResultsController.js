@@ -9,7 +9,13 @@
 	17/06/2020		Bea Hill   		    Adapted from B2B Spinner
     */
 	handleClick : function(component, event, helper) {
-		component.set('v.resetSearch', true);
+        component.set('v.resetSearch', true);
+        var reloadAccounts = component.getEvent('reloadAccounts');
+        reloadAccounts.setParams({
+            'reload': true,
+            "landing" : true
+        });
+        reloadAccounts.fire();
     }
     
 })

@@ -1,25 +1,17 @@
 <template>
-    <!-- <aura:component controller='CNT_PaymentsMethod' implements="forceCommunity:availableForAllPageTypes" access="global">
-    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" /> -->
-    
-    
-    <!-- DROPDOWN ATTRIBUTES -->
-    <!-- <aura:attribute access="public" type="List"    name="countryDropdownList"   default="[]"                    description="List of values to populate the dropdown" />
-    <aura:attribute access="public" type="String"  name="selectedCountry"       default=""                      description="Selected option from the dropdown" />
-    <aura:attribute access="public" type="String"  name="helpTextDropdown"      default="Show More"             description="Dropdown help text" /> 
-    <aura:attribute access="public" type="String"  name="bookToBookPage"        default='payments-b2b'/>
-    <aura:attribute access="public" type="String"  name="singlePage"            default='payments-single'/>
-    <aura:attribute access="public" type="Boolean"  name="showToast"                                            description="Indicates if the toast is shown." /> -->
-
-    <!-- <lightning:navigation aura:id="navService"/> -->
-    
-    <div class="paymentType-container">
+    <div class="paymentType-container slds-is-relative">
 		<!--<div class="slds-text-heading_large slds-text-align_center">Select type of payment</div>-->
         <!-- GRID -->
         <div class="slds-grid slds-wrap paymentType-grid">
             <!--CARD-->
             <div class="slds-col">
                 <article class="cardPayment slds-card">
+                    <!-- Esta etiqueta se mostrará cuando la card esté deshabilitada -->
+                    <div class="redLabel">
+                        <div class="">
+                            <span class="">Coming soon</span>
+                        </div>
+                    </div>
                     <div class="slds-card__header slds-grid">
                         <header class="slds-media slds-has-flexi-truncate">
                             <div class="slds-media__figure">
@@ -28,8 +20,7 @@
                             </div>
                             <div class="slds-media__body">
                                 <!-- texto single payment -->
-                                <h2 class="slds-card__header-title slds-truncate">{label.instantTransfer}</h2>
-                                <span class="card_subtitle slds-truncate">{label.PAY_betweenMyAccounts}</span>
+                                <h2 class="slds-card__header-title">{label.PAY_betweenMyAccounts}</h2>
                             </div>
                         </header>
                     </div>
@@ -41,7 +32,14 @@
             
             <!--CARD-->
             <div class="slds-col">
+                <!-- Añadir la clase card_disabled para mostrar la card deshabilitada -->
                 <article class="cardPayment multiple slds-card">
+                    <!-- Esta etiqueta se mostrará cuando la card esté deshabilitada -->
+                    <div class="redLabel">
+                        <div class="">
+                            <span class="">Coming soon</span>
+                        </div>
+                    </div>
                     <div class="slds-card__header slds-grid">
                         <header class="slds-media slds-has-flexi-truncate">
                             <div class="slds-media__figure">
@@ -50,14 +48,13 @@
                             </div>
                             <div class="slds-media__body">                                
                                 <!-- texto multiple payment domestic transfer -->
-                                <h2 class="slds-card__header-title slds-truncate">{label.PAY_DomesticTransfer}</h2>
-                                <span class="card_subtitle slds-truncate">{label.PAY_toThirdParties}</span>
+                                <h2 class="slds-card__header-title">{label.PAY_DomesticTransfer}</h2>
                             </div>
                         </header>
                     </div>
                     <footer class="slds-card__footer">
-                        <button class="slds-button primary" onclick={goToSingle}>{label.PAY_Type_Single}</button>
-                        <button class="slds-button primary" onclick={goToMultiple}>{label.PAY_Type_Multiple}</button> 
+                        <button class="slds-button primary" onclick={goToSingleDomestic}>{label.PAY_Type_Single}</button>
+                        <button class="slds-button primary" onclick={goToMultipleDomestic}>{label.PAY_Type_Multiple}</button> 
                     </footer>                    
                 </article>
             </div>
@@ -65,27 +62,30 @@
             
             <!--CARD-->
             <div class="slds-col">
+                <!-- Añadir la clase card_disabled para mostrar la card deshabilitada -->
                 <article class="cardPayment multiple international slds-card">
+                    <!-- Esta etiqueta se mostrará cuando la card esté deshabilitada -->
+                    <div class="redLabel">
+                        <div class="">
+                            <span class="">Coming soon</span>
+                        </div>
+                    </div>
                     <div class="slds-card__header slds-grid">
                         <header class="slds-media slds-has-flexi-truncate">
                             <div class="slds-media__figure">
-                                
                                 <!-- multiple payment icon: international transfer -->
                                 <span class="icon icon-international-transfer"></span>
-
                             </div>
                             <div class="slds-media__body">
                                 
                                 <!-- texto multiple payment internacional transfer -->
-                                <h2 class="slds-card__header-title slds-truncate">{label.PAY_InternationalTransfer}</h2>
-                                <span class="card_subtitle slds-truncate">{label.PAY_toThirdParties}</span>
-                                
+                                <h2 class="slds-card__header-title">{label.PAY_InternationalTransfer}</h2>
                             </div>
                         </header>
                     </div>
                     <footer class="slds-card__footer">
-                        <button class="slds-button primary" onclick={goToSingle}>{label.PAY_Type_Single}</button>
-                        <button class="slds-button primary" onclick={goToMultiple}>{label.PAY_Type_Multiple}</button> 
+                        <button class="slds-button primary" onclick={goToSingleInternational}>{label.PAY_Type_Single}</button>
+                        <button class="slds-button primary" onclick={goToMultipleInternational}>{label.PAY_Type_Multiple}</button> 
                     </footer>                    
                 </article>
             </div>
@@ -93,7 +93,14 @@
             
             <!--CARD-->
             <div class="slds-col">
+                <!-- Añadir la clase card_disabled para mostrar la card deshabilitada -->
                 <article class="cardPayment otherPayment slds-card">
+                    <!-- Esta etiqueta se mostrará cuando la card esté deshabilitada -->
+                    <div class="redLabel">
+                        <div class="">
+                            <span class="">Coming soon</span>
+                        </div>
+                    </div>
                     <div class="slds-card__header slds-grid">
                         <header class="slds-media slds-has-flexi-truncate">
                             <div class="slds-media__figure">
@@ -102,26 +109,23 @@
                             </div>
                             <div class="slds-media__body">
                                 <!-- texto other payments -->
-                                <h2 class="slds-card__header-title slds-truncate">{label.PAY_OtherPayments}</h2>
+                                <h2 class="slds-card__header-title">{label.PAY_OtherPayments}</h2>
                             </div>
                         </header>
                     </div>
                     <div class="slds-card__body">
                     	<!-- DROPDOWN -->
                         <div class="dropdownContainer">
-                            <!-- <c:CMP_PAY_FilterDropdown values="{!v.countryDropdownList}" selectedValue="{!v.selectedCountry}" 
-                                                              helpTextDropdown="{!$Label.c.Show_More}" isSimpleDropdown="true" label="{!$Label.c.Country}" 
-                                                              isDisabled="false" valuesPlaceholder=""
-                                                              errorText="{!$Label.c.IncorrectInputFormat}"/> -->
-                            <!-- <c-lwc_pay_filter_Dropdwn values={countryDropdownList} 
-                                selectedValue={selectedCountry} 
-                                helpTextDropdown={label.Show_More}
-                                isSimpleDropdown=true 
-                                label={label.Country} 
-                                isDisabled=false
-                                valuesPlaceholder = ""
-                                errorText={label.IncorrectInputFormat}>
-                            </c-lwc_pay_filter_Dropdwn>                                                                  -->
+                            <c-lwc_pay_filterdropdown 
+                                values={countrydropdownlist} 
+                                selectedvalue={selectedCountry} 
+                                helptextdropdown={label.Show_More}
+                                issimpledropdown={issimpledropdown} 
+                                labelvar={label.Country} 
+                                isdisabled={isdisabled}
+                                valuesplaceholder = ""
+                                errortext={label.IncorrectInputFormat}>
+                            </c-lwc_pay_filterdropdown>                                                                 
                         </div>
                     </div>
                     <footer class="slds-card__footer">
@@ -129,5 +133,11 @@
                 </article>
             </div>
         </div>
+
+        <template if:true={spinner}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+        
+        <c-lwc_b2b_toast data-id="errorToast" reload={reload}></c-lwc_b2b_toast>
     </div>
 </template>

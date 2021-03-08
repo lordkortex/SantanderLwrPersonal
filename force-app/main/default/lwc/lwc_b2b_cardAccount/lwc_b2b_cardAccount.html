@@ -1,0 +1,109 @@
+<template>
+    <div>
+        <div class={contentAccountClass}>
+            <article class={articleClass} onclick={selectCard}>
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-has-flexi-truncate">
+                        <div class="slds-media__body slds-grid">
+                            <h2 class="slds-card__header-title slds-truncate">{account.displayNumber}</h2>
+                            <div class="slds-text-heading_small slds-truncate">{account.alias}</div>
+                        </div>
+                        <template if:true={selected}>
+                            <div class="slds-media__figure">
+                                <span class="icon icon-check_circle"></span>
+                            </div>
+                        </template>
+                    </header>
+                </div>
+                <div class="slds-card__body">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-grid slds-has-flexi-truncate">
+                            <p class="slds-truncate slds-text-body_regular">{account.subsidiaryName}</p>
+                        </div>
+                        <div class="slds-col slds-grid slds-has-flexi-truncate">
+                            <template if:true={amountAvailableBalanceNotEmpty}>
+                                <p class="slds-truncate slds-text-body_regular">{label.B2B_Available_Balance}</p>
+                            </template>
+                        </div>
+                    </div>                    
+                    <div class="slds-grid">
+                        <div class="slds-col slds-grid slds-has-flexi-truncate">              
+                                <p class="slds-truncate slds-text-body_regular text-red">{account.bankName}</p>
+                        </div>                                                                                                          
+                        <div class="slds-col slds-grid slds-has-flexi-truncate">
+                            <template if:true={amountAvailableBalanceNotEmpty}>
+                                <span class="slds-truncate slds-text-body_regular text-bold">
+                                    <c-lwc_display-amount 
+                                        data-id="availableBalance"
+                                        amount={account.amountAvailableBalance} 
+                                        wholeclass="" 
+                                        decimalclass="" 
+                                        currency={account.currencyCodeAvailableBalance} 
+                                        numberformat={userdata.numberFormat}>
+                                    </c-lwc_display-amount>    
+                                </span>
+                            </template>
+                        </div>
+                    </div>    
+                </div>
+                <footer class="slds-card__footer">
+                    <div class="slds-media__figure">
+                        <img class="sizeFlag" src={imgSource}/>
+                        <span class="slds-text-body_regular text-bold slds-truncate">{account.countryName}</span>
+                    </div>
+                    <!-- <template if:true={amountAvailableBalanceNotEmpty}> ******** ACTUALIZACION DESPLIEGE 25-02-2021 INICIO ******** --> 
+                        <div class="slds-box">
+                            <p class="slds-text-body_small">{account.currencyCodeAvailableBalance}</p>
+                        </div>
+                    <!-- </template> ******** ACTUALIZACION DESPLIEGE 25-02-2021 FIN ******** -->
+                </footer>
+            </article>
+            <template if:true={beneficiarydetails}>
+                <div class="info_account">
+                    <h5 class="slds-truncate">{label.Recipient_details}</h5>
+                    <div class="slds-grid two-col">
+                        <div class="slds-col">
+                            <div class="slds-truncate slds-text-body_small">{label.Account_Holder}</div>
+                            <div class="slds-truncate slds-text-body_regular">{account.subsidiaryName}</div>
+                        </div>
+                        <div class="slds-col">
+                            <template if:true={accountCountryIsCL}>
+                                <template if:true={accountTypeNotEmpty}>
+                                    <div class="slds-truncate slds-text-body_small">{label.Account_Type}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{account.type}</div>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="slds-grid two-col">
+                        <div class="slds-col">
+                            <!-- ******** ACTUALIZACION DESPLIEGE 25-02-2021 INICIO ********
+                                <template if:true={accountCountryNotCLGB}>
+                                <template if:true={accountBankNameNotEmpty}>
+                                    <div class="slds-truncate slds-text-body_small">{label.B2B_Recipient_bank}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{account.bankName}</div>
+                                </template>
+                            </template> 
+                                ******** ACTUALIZACION DESPLIEGE 25-02-2021 FIN ********-->
+                            <template if:true={accountCountryIsCL}>
+                                <template if:true={accountDataDocNumber}>
+                                    <div class="slds-truncate slds-text-body_small">{label.RUT}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{accountdata.documentNumber}</div>
+                                </template>
+                            </template>
+                        </div>
+                        <div class="slds-col">
+                            <template if:true={accountCountryNotCLGB}>
+                                <template if:true={codigoBicNotEmpty}>
+                                    <div class="slds-truncate slds-text-body_small">{label.B2B_Swift_code}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{account.codigoBic}</div>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+    
+</template>

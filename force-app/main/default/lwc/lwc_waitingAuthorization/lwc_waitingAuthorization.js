@@ -60,6 +60,10 @@ export default class Lwc_waitingAuthorization extends NavigationMixin(LightningE
     @api setLocaluser(value){
         this.localuser = value;
     }
+    
+    @api setSpinner(value){
+        this.spinner = value;
+    } 
 
     get cardClass(){
         return 'cardAuthorization ' + (this.error ? ' errorClass ' : '') + 'card_s slds-card card_buttons';

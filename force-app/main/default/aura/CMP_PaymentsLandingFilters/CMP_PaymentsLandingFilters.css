@@ -8,6 +8,10 @@
     margin-bottom: 24px;
     justify-content: space-between;
 }
+.THIS.searchFiltersAccounts .slds-grid .searchFilters{
+    display: flex;
+    /*align-items: flex-end;*/
+}
 .THIS.searchFiltersAccounts .searchFilters > .slds-form-element {
     display: inline-block;
 }
@@ -62,6 +66,7 @@
 .THIS.searchFiltersAccounts .slds-form-element.search {
     margin-right: 24px;
     width: 392px;
+    padding-top: 5px;
 }
 .THIS.searchFiltersAccounts .slds-input:focus,
 .THIS.searchFiltersAccounts .slds-input:active {
@@ -226,7 +231,7 @@
 .THIS.searchFiltersAccounts .slds-popover__body {
     padding: 8px 0px 8px 20px;
 }
-.THIS.searchFiltersAccounts .slds-popover__body .slds-form-element__control{
+.THIS.searchFiltersAccounts .slds-popover__body .slds-form-element__control {
     overflow-y: auto;
     overflow-x: hidden;
     max-height: 253px;
@@ -303,11 +308,31 @@
     border-radius: 10px;
 }
 /* ICONOS */
-.THIS.searchFiltersAccounts .rightIcons{
+/*.THIS.searchFiltersAccounts .rightIcons{
     display: flex;
     align-items: flex-end;
     margin-bottom: 12px;
+}*/
+.THIS.searchFiltersAccounts .rightIcons{
+    padding-top: calc(24px + 5px);
 }
 .THIS.searchFiltersAccounts .rightIcons .slds-button + .slds-button {
     margin-left: 24px;
+}
+/* SEARCH ERROR */
+.THIS .search .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 1.5;
+    margin: 0px;
+    margin-left: 16px;
+    display: none;
+}
+.THIS .search.error .errorText {
+	display: block;
+}
+
+.THIS .search.error .slds-form-element__control .slds-input {
+	border: solid 1px #cc0000;
 }

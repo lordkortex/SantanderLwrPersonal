@@ -1,0 +1,45 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "20a9ef8e-d5e0-4776-aa11-e0dd297bd07d",
+  "label" : "Landing payments AURA",
+  "regions" : [ {
+    "id" : "b8d2c20a-3b14-45bf-83d0-b985d7d28a32",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:CMP_PaymentsLandingParent",
+      "id" : "d1e4bd5e-b92d-4eb5-b7e3-4ff9f7c62a70",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "1f455b8f-2917-42dc-8019-db31884c31d3",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "eddd324d-3542-4f02-a1d7-9e4071330c50",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Landing payments AURA"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "7ccb1497-a505-44d3-a693-f733f119f247",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "6df04c03-4cef-484e-83a9-607469b258b6",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-landing-payments-aura"
+}

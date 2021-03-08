@@ -54,41 +54,6 @@ global with sharing class WS_B2B_OTP_Strategic {
         }        
     }
     
-    /* global class IdentityInitiateScaRequest{
-global IdentifierType userIdentification;
-global String embeddedSystem;
-global Object payload;
-global String configurationUid;
-
-global IdentityInitiateScaRequest(String beneficiaryName, String beneficiaryAccount, String paymentId, String debitAmount, String fees, String exchangeRate, String paymentAmount, String valueDate){
-this.userIdentification = new IdentifierType();
-this.embeddedSystem = 'OTP';    
-String payload = '{"{0Label}":"{0}","{1Label}":"{1}","{2Label}":"{2}","{3Label}":"{3}","{4Label}":"{4}","{5Label}":"{5}","{6Label}":"{6}","{7Label}":"{7}"}';
-payload = payload.replace('{0}', beneficiaryName);
-payload = payload.replace('{1}', beneficiaryAccount);
-payload = payload.replace('{2}', paymentId);
-payload = payload.replace('{3}', debitAmount);
-payload = payload.replace('{4}', fees);
-payload = payload.replace('{5}', exchangeRate);
-payload = payload.replace('{6}', paymentAmount);
-payload = payload.replace('{7}', valueDate);
-
-payload = payload.replace('{0Label}', System.Label.beneficiaryName);
-payload = payload.replace('{1Label}', System.Label.beneficiaryAccount);
-payload = payload.replace('{2Label}', System.Label.Payment_ID);
-payload = payload.replace('{3Label}', System.Label.debitAmount);
-payload = payload.replace('{4Label}', System.Label.Fees);
-payload = payload.replace('{5Label}', System.Label.exchangeRate);
-payload = payload.replace('{6Label}', System.Label.paymentAmount);
-payload = payload.replace('{7Label}', System.Label.MovementHistory_ValueDate);
-
-this.payload = JSON.deserializeUntyped(payload);
-
-this.configurationUid = System.Label.configUid; 
-}            
-}*/
-    
-    
     //Initiate Body
     global class InputInitiateOTP {
         
@@ -207,7 +172,6 @@ this.configurationUid = System.Label.configUid;
                     update user;   
                 }
             }
-            
             
         } catch (Exception e) {
             System.debug('initiateOTP: ' + e.getMessage() + ', in line: ' + e.getLineNumber());

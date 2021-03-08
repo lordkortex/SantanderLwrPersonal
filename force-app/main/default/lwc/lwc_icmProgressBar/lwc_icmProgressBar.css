@@ -1,0 +1,88 @@
+.button.button__active{
+    background: #FFFFFF;
+    border: 5px solid #1bb3bc;
+    box-shadow: none;
+    height: 22px;
+    width: 22px;
+}
+
+ .button.button__completed{
+    background: #1BB3BC;
+    border-color: #1BB3BC;
+    box-shadow: none;
+    height: 22px;
+    width: 22px;
+}
+
+ .button.button__disabled{
+    background: #FFFFFF;
+    border: 5px solid #d4d4d4;
+    box-shadow: none;
+    height: 22px;
+    width: 22px;
+}
+
+ .button-check{
+    cursor: pointer;
+    font-size: 12px;
+}
+
+ .completed{
+    background-color: #1BB3BC;
+}
+
+ .icon-check:before{
+    color: white;
+}
+
+ .label{
+    color: #1BB3BC;
+    font-size: 12px;
+    height: 18px;
+    margin-top: 7px;
+}
+
+ .marginSteps{
+    margin: 0 60px;
+}
+
+ .progressBar{
+    background-color: #FFFFFF;
+    height: 3px;
+    margin-top: 1px;
+}
+
+.progressIndicator{
+    margin: 20px 0;
+    max-width: 100%;
+}
+
+ .step{
+    display: inline;
+    text-align: center;
+    width: 100%;
+}
+
+
+ .slds-progress__item.slds-is-active .slds-progress__marker:focus{
+    box-shadow: none;
+}
+
+ .slds-progress__item.slds-is-active .slds-progress__marker:hover{
+    border-color: #1BB3BC;
+}
+
+ .textStep{
+    color: #a8a8a8;
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-transform: uppercase; 
+}
+
+ .textStep__active{
+    color: #333333;
+    font-family:"SantanderTextW05-Bold";
+    font-size: 12px;
+    margin-bottom: 12px;
+    text-transform: uppercase;   
+}

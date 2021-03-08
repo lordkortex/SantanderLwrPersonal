@@ -3,7 +3,7 @@ public class CNT_Footer {
     public static Map<String, boolean> getIsCashNexus(){
         Map<String, boolean> userData = new Map <String, boolean>();
         
-               try{
+        try{
             Id userId = UserInfo.getUserId();
             User isCashNexus = [SELECT Id, USER_CHK_CashNexus__c, USER_CHK_TermsConditions__c, USER_TXT_BIC__c, LanguageLocaleKey FROM User WHERE Id =: userId LIMIT 1];
 

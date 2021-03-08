@@ -22,6 +22,8 @@ History
     <aura:attribute name="showError" type="Boolean" default="false"/>
     <aura:attribute name="fakeError" type="Boolean" default="false"/>
     <aura:attribute name="segment" type="String" default=""/>
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:attribute name="fullAccountList" type="List"/>
 
     <aura:attribute name="UETRSearchResult" type="Object"/>
     <aura:attribute name="comesFromUETRSearch" type="boolean" default="false" description="Indicates if comes from the UETR search page"/>
@@ -48,7 +50,7 @@ History
     <div><lightning:spinner aura:id="spinnerCreate" variant="brand" size="large"  alternativeText="{!$Label.c.Loading+ '...'}"/></div>
     
     <aura:if isTrue="{!or(v.UETRSearchResult == undefined, v.UETRSearchResult == null)}">
-        <c:CMP_CN_Title_Subtitle title="{!$Label.c.T_InternationalPaymentsTracker}" subtitle="{!$Label.c.trackingDetails}"/>
+        <c:CMP_CN_Title_Subtitle title="{!$Label.c.T_InternationalPaymentsTracker}" subtitle="{!$Label.c.trackingDetails}" comesFromTracker="true" filters="{!v.filters}" fullAccountList="{!v.fullAccountList}"/>
     </aura:if>
 
     <aura:if isTrue="{!v.ready}">

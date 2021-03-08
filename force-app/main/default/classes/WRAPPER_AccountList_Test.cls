@@ -23,15 +23,25 @@ public class WRAPPER_AccountList_Test {
         List<WRAPPER_AccountList.LastestTransaction> auc = new List<WRAPPER_AccountList.LastestTransaction>();
         auc.add(wcTest);
         
+        WRAPPER_AccountList.Address wsTestAddress = new WRAPPER_AccountList.Address();
+        wsTestAddress.country= 'test';
+        wsTestAddress.streetName= 'test';
+        wsTestAddress.townName= 'test';
+        
         WRAPPER_AccountList.AccountDetails wcTestACCList = new WRAPPER_AccountList.AccountDetails();
         
 		wcTestACCList.accountId='test';
+		wcTestACCList.mandatoryPurpose=true;     
 		wcTestACCList.displayNumber='test';
+        wcTestACCList.parentCustomerName='test';
 		wcTestACCList.alias='test';
 		wcTestACCList.type='test';
 		wcTestACCList.description='test';
 		wcTestACCList.status='test';
-		wcTestACCList.status='test';
+		wcTestACCList.customerId='test';
+        wcTestACCList.country = 'test';
+        wcTestACCList.favorite = true;
+        wcTestACCList.address= wsTestAddress;
 		wcTestACCList.lastTransaction='test';
 		wcTestACCList.amountMainBalance=10.0;
 		wcTestACCList.currencyCodeMainBalance='test';
@@ -39,6 +49,7 @@ public class WRAPPER_AccountList_Test {
 		wcTestACCList.amountAvailableBalance=10.0;
 		wcTestACCList.currencyCodeAvailableBalance='test';
 		wcTestACCList.lastUpdateAvailableBalance='test';
+        wcTestACCList.lastUpdateAvailableBalanceMain='test';
 		wcTestACCList.amountWithholdingBalance=10.0;
 		wcTestACCList.currencyCodeWithholdingBalance='test';
 		wcTestACCList.lastudpateWithholdingBalance='test';
@@ -64,7 +75,12 @@ public class WRAPPER_AccountList_Test {
 		wcTestACCList.idType='test';
 		wcTestACCList.codigoEmisora='test';
 		wcTestACCList.codigoBic='test';
-    
+        wcTestACCList.aliasCuentaPerfilado= 'test';
+        wcTestACCList.balanceAllowed=true;
+        wcTestACCList.transactionsAllowed=true;
+        wcTestACCList.companyIdsList=null;
+        wcTestACCList.dataProvider='test';
+        wcTestACCList.associatedAccountList=null;
     
     WRAPPER_AccountList.TipoDeCambio wcTestTipoCambio = new WRAPPER_AccountList.TipoDeCambio();
     wcTestTipoCambio.claError='test';
@@ -73,6 +89,7 @@ public class WRAPPER_AccountList_Test {
     wcTestTipoCambio.tipError='test';
     wcTestTipoCambio.importeDecimal=1.0;
     wcTestTipoCambio.importe=1.0;
+    wcTestTipoCambio.nombreDivisa='test';
 
     }
 }

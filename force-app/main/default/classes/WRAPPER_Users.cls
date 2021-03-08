@@ -7,16 +7,16 @@ History
 <Date>			<Author>		    <Description>
 29/01/2020		Guillermo Giral     Initial version
 ----------------------------------------------------------------------------------*/
-public with sharing class WRAPPER_Users {
-    @AuraEnabled public String groupName {get;set;} 
-	@AuraEnabled public String role {get;set;} 
-	@AuraEnabled public String state {get;set;} 
-	@AuraEnabled public String type_Z {get;set;}
-	@AuraEnabled public String userId {get;set;} 
-	@AuraEnabled public String userName {get;set;} 
-	@AuraEnabled public String userSurname {get;set;} 
+global with sharing class WRAPPER_Users {
+    @AuraEnabled global String groupName {get;set;} 
+	@AuraEnabled global String role {get;set;} 
+	@AuraEnabled global String state {get;set;} 
+	@AuraEnabled global String type_Z {get;set;}
+	@AuraEnabled global String userId {get;set;} 
+	@AuraEnabled global String userName {get;set;} 
+	@AuraEnabled global String userSurname {get;set;} 
 
-	public WRAPPER_Users(JSONParser parser) {
+	global WRAPPER_Users(JSONParser parser) {
 		while (parser.nextToken() != System.JSONToken.END_OBJECT) {
 			if (parser.getCurrentToken() == System.JSONToken.FIELD_NAME) {
 				String text = parser.getText();
@@ -27,7 +27,7 @@ public with sharing class WRAPPER_Users {
 						role = parser.getText();
 					} else if (text == 'state') {
 						state = parser.getText();
-					} else if (text == 'type') {
+					} else if (text == 'userType') {
 						type_Z = parser.getText();
 					} else if (text == 'userId') {
 						userId = parser.getText();
@@ -45,12 +45,12 @@ public with sharing class WRAPPER_Users {
 	}
 	
 	
-	public static List<WRAPPER_Users> parse(String json) {
+	global static List<WRAPPER_Users> parse(String json) {
 		System.JSONParser parser = System.JSON.createParser(json);
 		return arrayOfJSON2Apex(parser);
 	}
 	
-	public static void consumeObject(System.JSONParser parser) {
+	global static void consumeObject(System.JSONParser parser) {
 		Integer depth = 0;
 		do {
 			System.JSONToken curr = parser.getCurrentToken();

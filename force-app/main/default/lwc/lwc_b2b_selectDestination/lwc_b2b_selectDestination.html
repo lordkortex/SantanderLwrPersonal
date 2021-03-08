@@ -1,0 +1,34 @@
+<template>
+
+    <div class={shownStepClass} data-id="step-2" tabindex="-1">
+        <div class="slds-grid">
+            <div class="slds-text-heading_large">{Label.B2B_Step_2_Header}</div>
+        </div>
+        <c-lwc_b2b_select-account
+            userdata={userdata} 
+            accountdata={accountdata} 
+            headerlabel={headerLabel} 
+            account={cmpdata} 
+            accountlist={accountlist} 
+            beneficiarydetails="true" 
+            headercard={Label.B2B_Recipient_information} 
+            label={Label.B2B_Recipient_account} 
+            placeholder={Label.B2B_Recipient_account} 
+            steps={steps} 
+            errormsg={errorMSG} 
+            searchedstring={searchedString} 
+            ismodified={isModified} 
+            isediting={isediting} 
+            onaccountdata={handleAccountData}>
+        </c-lwc_b2b_select-account>
+        <template if:true={spinner}>
+            <lightning-spinner alternative-text="Loading" size="medium" ></lightning-spinner>
+        </template>        
+        <template if:true={stepsEqTwo}>
+           <c-lwc_b2b_process-continue-button 
+                onhandlecontinue={handleContinue}>
+            </c-lwc_b2b_process-continue-button >
+        </template>
+        <c-lwc_b2b_toast data-id="errorToast" ></c-lwc_b2b_toast>
+    </div>
+</template>

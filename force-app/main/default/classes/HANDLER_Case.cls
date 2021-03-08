@@ -4,7 +4,8 @@ public without sharing class HANDLER_Case {
         List<Task> taskList = new List<Task>();
       
         for (Case objCase: newCaseList) {
-            if (objCase.Status == 'CAU1'){
+            //AMR Desarrollo Customer Service SGTGLTRSE-4781 13/01/2021
+            if (objCase.Status == 'CAU1' || objCase.Status == 'Closed Solved'){
                 if(objCase.OwnerId != oldCaseList[0].OwnerId){              
                         Task newTask = new Task();
                         newTask.OwnerId = objCase.OwnerId;
@@ -22,11 +23,50 @@ public without sharing class HANDLER_Case {
         insert taskList;
     }
     
+    //AMR Desarrollo Customer Service SGTGLTRSE-4781 13/01/2021
+    public static void caseReopen(Map<Id,Case> oldCaseMap, List<Case> newCaseList){
+        Id RTCId 		  = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('CaseRecordType').getRecordTypeId();
+        List<CaseMilestone> cmUpdateLst = new List<CaseMilestone>();
+        List<CaseMilestone> csmList = new List<CaseMilestone>();
+        Set<Id> setIdCases = new Set<Id>();
+        
+        for(Case c : newCaseList){
+            setIdCases.add(c.Id);   
+            if(oldCaseMap.get(c.Id).Status != c.Status && oldCaseMap.get(c.Id).Status == 'Closed Cancelled' && c.status == 'Reopen' && c.RecordTypeId == RTCId){
+                Profile userProfile = [SELECT Id, Name from Profile where Id =: UserInfo.getProfileId()];
+                if(c.CASE_Resolutor__c != null && c.EntitlementId != null){
+                    if(userProfile.Name == 'Support' || userProfile.Name == 'Local Support'){
+                         c.OwnerId = c.CASE_Resolutor__c;
+                    }              
+                }                             
+            } 
+        }    
+        
+        csmList = [SELECT Id , CaseId, CASE.Status,  CASE.IsClosed, CASE.IsStopped,  CASE.CaseNumber,  StartDate, CompletionDate,
+                                     IsViolated, IsCompleted, TimeRemainingInMins, TimeSinceTargetInMins, ActualElapsedTimeInMins, ElapsedTimeInMins, StoppedTimeInMins
+                                     FROM CaseMilestone
+                                     WHERE CaseId IN :setIdCases];
+        if(csmList.size()>0){    	  
+            for(CaseMilestone csm: csmList){
+                csm.CompletionDate = null;
+                cmUpdateLst.add(csm);
+            }
+        }
+        
+        try{
+            if(cmUpdateLst.size()>0){
+                update cmUpdateLst;
+            }         
+        } catch(DmlException e){
+            System.debug('The following exception has occurred: ' + e.getMessage());
+        }
+    }
+    
     public static void AssignRecordType(List<Case> newCaseList){
         
         Id RTCId 		  = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('CaseRecordType').getRecordTypeId();
-		//Id RTPPId         = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('PaymentParentCase').getRecordTypeId();
-        //Id RTPCId         = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('PaymentChildCase').getRecordTypeId();
+		Id RTPPId         = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('PaymentParentCase').getRecordTypeId();
+        Id RTPCId         = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('PaymentChildCase').getRecordTypeId();
         Id RTComplianceId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('Compliance').getRecordTypeId();
                
         for (Case StandardCase: newCaseList){
@@ -34,7 +74,7 @@ public without sharing class HANDLER_Case {
                 if(StandardCase.CASE_PCK_Record_Type__c == 'Case RecordType'){
                     StandardCase.RecordTypeId = RTCId;
                 }
-                /*else if(StandardCase.CASE_PCK_Record_Type__c == 'Payment Parent Case'){                   
+                else if(StandardCase.CASE_PCK_Record_Type__c == 'Payment Parent Case'){                   
                     StandardCase.RecordTypeId = RTPPId;            
                     if(StandardCase.CASE_PCK_Sourcesystem__c == 'Mulesoft'){
                         String country = StandardCase.CASE_PCK_OrderingCountry__c;
@@ -59,7 +99,7 @@ public without sharing class HANDLER_Case {
                             }
                         }
                     }
-                }*/
+                }
                 else if (standardCase.CASE_PCK_Record_Type__c == 'Compliance'){
                     standardCase.RecordTypeId = RTComplianceId;
                 }
@@ -70,32 +110,56 @@ public without sharing class HANDLER_Case {
     public static void updateOwnerAfter(List<Case> oldCaseList, List<Case> newCaseList){
         
         Id RTCId 		  = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('CaseRecordType').getRecordTypeId();
-		//Id RTPPId         = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('PaymentParentCase').getRecordTypeId();
-        //Id RTPCId         = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('PaymentChildCase').getRecordTypeId();
+		Id RTPPId         = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('PaymentParentCase').getRecordTypeId();
+        Id RTPCId         = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('PaymentChildCase').getRecordTypeId();
         Id RTComplianceId = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('Compliance').getRecordTypeId(); 
+        
+        //AMR Desarrollo Customer Service SGTGLTRSE-4781 13/01/2021
+        Set<Id> setOwnerIDs = new Set<Id>();
+        for(Case c: newCaseList){
+            if(c.OwnerId != null){
+                setOwnerIDs.add(c.OwnerId);
+            }
+        }      
+        Map<Id, User> ownerMap = new Map<Id, User>([ Select Id, ProfileId, Profile.Name From User where Id IN: setOwnerIDs ]);
         
         for (Case objCase: newCaseList) {
             if(objCase.RecordTypeId == RTCId){
                 if(objCase.Status == 'In progress'){
-                    if(oldCaseList[0].Status == 'CAU1'){
+                    //AMR Desarrollo Customer Service SGTGLTRSE-4781 13/01/2021
+                    if(oldCaseList[0].Status == 'CAU1' || oldCaseList[0].Status == 'Closed Solved'){
                         objCase.OwnerId = objCase.CASE_Resolutor__c;                  
                         system.debug('>>> despues: '+ objCase.OwnerId);
                     }
                 }else if(objCase.Status == 'CAU1'){
-                    if(oldCaseList[0].Status == 'In progress'){
-                        objCase.OwnerId = objCase.CASE_CAU1__c;
+                    //AMR Desarrollo Customer Service SGTGLTRSE-4781 13/01/2021
+                    if(oldCaseList[0].Status == 'In progress' || oldCaseList[0].Status == 'IT'){
+                        if(objCase.CASE_CAU1__c != null){
+                            objCase.OwnerId = objCase.CASE_CAU1__c;
+                        } 
                         system.debug('>>> pasar el caso de CAU2 a CAU1:');
                     }else if(oldCaseList[0].Status == 'CAU1'){
-                        system.debug('>>> actualizar onwer en CAU1');
-                        objCase.CASE_CAU1__c = objCase.OwnerId;
+                       //AMR Desarrollo Customer Service SGTGLTRSE-4781 13/01/2021
+                        if(objCase.OwnerId != null && ownerMap.containsKey( objCase.OwnerId ) && ownerMap.get( objCase.OwnerId ).Profile.Name == 'Local Support'){
+                            system.debug('>>> actualizar onwer en CAU1');
+                        	objCase.CASE_CAU1__c = objCase.OwnerId;
+                        }
                         /*contact cnt = [SELECT Id FROM contact WHERE CONTACT_User__c =: objCase.OwnerId LIMIT 1];
                         if(cnt != null){
                             objCase.ContactId = cnt.Id;
                         }*/
                     }
-                }
+                //AMR Desarrollo Customer Service 17/02/2021
+            	}else if(objCase.Status == 'Closed Solved' && objCase.CASE_CAU1__c != null && oldCaseList[0].Status != objCase.Status){
+                	objCase.OwnerId = objCase.CASE_CAU1__c;
+                }else if(objCase.Status == 'In Progress' && objCase.CASE_Resolutor__c != null && oldCaseList[0].Status != objCase.Status &&  oldCaseList[0].Status == 'Reopen'){
+                    objCase.OwnerId = objCase.CASE_Resolutor__c;
+                }else if(objCase.Status == 'New' && objCase.CASE_CAU1__c == null){
+                    objCase.Status = 'In Progress';
+                }    
+                
             }
-            /*else if(objCase.RecordTypeId == RTPPId || objCase.RecordTypeId == RTPCId){
+            else if(objCase.RecordTypeId == RTPPId || objCase.RecordTypeId == RTPCId){
                 if(objCase.Status == 'In progress'){
                     objCase.CASE_Analyst__c = objCase.OwnerId;
                 }
@@ -142,12 +206,13 @@ public without sharing class HANDLER_Case {
                         }
                     }
                 }              
-            }*/
+            }
         }
     }
     
-    /*public static void updateResolutor(Map<Id,Case> oldCaseMap, List<Case> newCaseList){
-        
+    public static void updateResolutor(Map<Id,Case> oldCaseMap, List<Case> newCaseList){
+        //AMR Desarrollo Customer Service 21/01/2021
+        RecordType RTC = [Select Name, id, SobjectType from RecordType where Name = 'Case RecordType' and SobjectType  = 'Case' LIMIT 1];
         RecordType RTPP = [Select Name, id, SobjectType from RecordType where Name = 'Payment Parent Case' and SobjectType  = 'Case' LIMIT 1];
         RecordType RTPC = [Select Name, id, SobjectType from RecordType where Name = 'Payment Child Case' and SobjectType  = 'Case' LIMIT 1];
         
@@ -162,8 +227,14 @@ public without sharing class HANDLER_Case {
 					
                 }
             }
+            //AMR Desarrollo Customer Service 21/01/2021
+            else if(objCase.RecordTypeId == RTC.Id){
+                if(oldCaseMap.get(objCase.Id).Status != objCase.Status &&  objCase.Status == 'Closed Solved' && objCase.CASE_CAU1__c == null){
+                    objCase.CASE_Resolutor__c = objCase.OwnerId;
+                } 
+            }
         }
-    }*/
+    }
     
         /*----------------------------------------------------------------------------------
 Author:         Shahad Naji 
@@ -173,7 +244,7 @@ History
 <Date>          <Author>             <Description>
 15/07/2020      Shahad Naji        Initial version
 ----------------------------------------------------------------------------------*/    
-    /*public static void createChildCase(Map<Id,Case> oldCaseMap, List<Case> newCaseList){
+    public static void createChildCase(Map<Id,Case> oldCaseMap, List<Case> newCaseList){
         RecordType RTPP = [Select Name, id, SobjectType from RecordType where Name = 'Payment Parent Case' and SobjectType  = 'Case' LIMIT 1];
         RecordType RTPC = [Select Name, id, SobjectType from RecordType where Name = 'Payment Child Case' and SobjectType  = 'Case' LIMIT 1];
         
@@ -210,7 +281,7 @@ History
             }
             
         }
-    }*/
+    }
    
     public static void shareObject(List<Case> newCaseList){
         
@@ -292,7 +363,8 @@ History
                     user u = [SELECT Id, Profile.name FROM user WHERE Id =: c.OwnerId LIMIT 1];
                     if(u != null){
                         //if(u.Profile.name == 'Intranet GTS Support Partner' || u.Profile.name == 'System Administrator'){
-                        if(u.Profile.name == 'Local Support' || u.Profile.name == 'Intranet GTS Support Partner'){
+                        //AMR Desarrollo Customer Service SGTGLTRSE-4781 13/01/2021
+                        if((u.Profile.name == 'Local Support' || u.Profile.name == 'Intranet GTS Support Partner') && c.OwnerId != null){
                             c.CASE_CAU1__c = c.OwnerId;
                         }
                     }
@@ -304,7 +376,8 @@ History
      public static void stopMilestone(List<Case> newCaseList){
         if(!newCaseList.isEmpty()){
             for(Case c: newCaseList){
-                if(c.Status == 'CAU1' || c.Status == 'IT'){
+                //AMR Desarrollo Customer Service SGTGLTRSE-4781 13/01/2021
+                if(c.Status == 'CAU1' || c.Status == 'IT' || c.Status == 'Closed Solved' || c.Status == 'Closed Cancelled'){
                     c.IsStopped = true;
                 } 
                 else if(c.Status != 'CAU1' && c.Status != 'IT'){
@@ -315,7 +388,7 @@ History
     }
     
     //SNJ - 28/07/2020 - Comentar la siguiente linea antes de subir a PROD - Funcionalidad PAGO duplicado
-    /*public static void closePaymentCase(List<Case> oldCaseList, List<Case> newCaseList){
+    public static void closePaymentCase(List<Case> oldCaseList, List<Case> newCaseList){
         if(!newCaseList.isEmpty()){
             for(Case c: newCaseList){
                 if(c.ParentId != null){
@@ -342,7 +415,7 @@ History
                 }
             }
         }
-    }*/
+    }
   
     
     public static CaseShare manualShare(Id recordId, Id userOrGroupId, string caseAccessLevel){
@@ -450,8 +523,9 @@ History
         	if(!DowJonesQueueEmailList.isEmpty()){
             	for(Id caseId : complianceCasesMap.KeySet()){
 					Map<String, String> replacements = new Map<String, String>();
-        			replacements.put('{CaseNumber}', complianceCasesMap.get(caseId)?.CaseNumber);                    
-            		Global_Utilities.sendEmailWithoutTemplate(Subject, Body, 'FC Ops GTS', DowJonesQueueEmailList, null, null, null, replacements);
+        			replacements.put('{CaseNumber}', complianceCasesMap.get(caseId)?.CaseNumber); 
+                    replacements.put('{url}', URL.getSalesforceBaseUrl().toExternalForm() + '/' + caseId);
+            		Global_Utilities.sendEmailWithoutTemplate(Subject, Body, 'FC Ops PagoNxt Trade', DowJonesQueueEmailList, null, null, null, replacements);
             	}
 			}
         } catch (Exception e) {
@@ -466,6 +540,15 @@ History
             if(objCase.RecordTypeId == RTComplianceId){     	
             	objCase.ownerId = groupId; 
             }
+        }
+    }
+    
+    public static void cau2CaseCreation(List<Case> newCaseList){
+    	Id RTCId 		  = Schema.SObjectType.Case.getRecordTypeInfosByDeveloperName().get('CaseRecordType').getRecordTypeId();
+        for (Case objCase: newCaseList) {
+            if(objCase.RecordTypeId == RTCId && objCase.CASE_CAU1__c == null && objCase.Status == 'New'){
+                objCase.Status = 'In Progress';
+            }        
         }
     }
     

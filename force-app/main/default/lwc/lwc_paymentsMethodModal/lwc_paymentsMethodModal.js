@@ -22,19 +22,21 @@ export default class Lwc_paymentsMethodModal extends LightningElement {
         PAY_IntInstantTransfers
     };
 
-    //@api userData = {};
-    //@track transferTypeParams = {};
-    @api showmethodmodal = false;        //Controls whether the Payment Methods modal is open or not
-    _showmethodmodal;
+    @api userdata = {};
+    @track transferTypeParams = {};
+    @api _showmethodmodal = false;        //Controls whether the Payment Methods modal is open or not
+    //_showmethodmodal;
     countrydropdownlist;
-    @track _countrydropdownlist;       //List of countries received ?????? Quitar tras pruebas
+    @api _countrydropdownlist;       //List of countries received ?????? Quitar tras pruebas
     @track countryDropdownListSorted = [];  //List of countries that are displayed in the dropdown"
     @track toastTitle = this.label.PAY_workingOnNewService;
     @track toastText  = this.label.PAY_availableNearFuture;
     @track toastType  = 'Information';     //Controls the style in toast component
     @api showtoast  = false;             //Indicates if the toast is shown.
-    @track noReload   = false;             //Controls whether the toast has a reload button and icon.
+    @track noReload   = true;             //Controls whether the toast has a reload button and icon.        
 
+    @track falseValue = false;
+    @track trueValue = true;
 
     get showmethodmodal(){
         return this._showmethodmodal;
@@ -43,6 +45,16 @@ export default class Lwc_paymentsMethodModal extends LightningElement {
     set showmethodmodal(showmethodmodal){
         if (showmethodmodal){
             this._showmethodmodal = this.showmethodmodal;
+        }
+    }
+
+    get showtoast(){
+        return this._showtoast;
+    }
+
+    set showtoast(showtoast){
+        if (showtoast){
+            this._showtoast = this.showtoast;
         }
     }
 
@@ -61,10 +73,13 @@ export default class Lwc_paymentsMethodModal extends LightningElement {
         loadStyle(this, santanderStyle + '/style.css');
         this.noReload = true;
         //Quitar tras probar
-        //this.countrydropdownlist = [
-        //    {"countryName": "España"},
-        //    {"countryName": "Andorra"}];
-        //this._showmethodmodal = true;
+        // this.countrydropdownlist = [
+        //      {"countryName": "España"},
+        //     {"countryName": "Andorra"}];
+        // this._showmethodmodal = true;
+        // this._showtoast = true;
+        // this.toastTitle = 'Pruebas';
+        // this.toastType = 'Error';
         //***** 
         this.doInit();
     }
@@ -73,28 +88,39 @@ export default class Lwc_paymentsMethodModal extends LightningElement {
         this.setDropdownList();
     }
 
-
     closeMethodModal () {
-        this.closeModal();
+        //this.template.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';
+        this._showmethodmodal = false;
+        const showmodalevent = new CustomEvent('closemodal');
+        this.dispatchEvent(showmodalevent);  
     }
+
+    /*
+    openWebsite() {
+        var urlEvent = new CustomEvent('openwebsite', {
+            url: 'https://www.google.com'
+        });
+        this.dispatchEvent(urlEvent);
+    }
+    */
 
     setDropdownList () {
         let rCountryList = this._countrydropdownlist;
         let countryList = [];
         let countryListAux = [];
 
-        for (let i = 0; i < rCountryList.length; i++){
-            let country = rCountryList[i].countryName;
-            //if (!$A.util.isEmpty(country)) {
-            //if (!country.isEmpty() && country != undefined) {
-            if (country.length != 0 && country != undefined) {
-                if (!countryListAux.includes(country)) {
-                    countryListAux.push(country);
-                    
-                    countryList.push({
-                        'label' : rCountryList[i].parsedCountryName,
-                        'value' : 'chk_' + country
-                    });
+        if(rCountryList){
+            for (let i = 0; i < rCountryList.length; i++){
+                let country = rCountryList[i].countryName;
+                if (country) {
+                    if (!countryListAux.includes(country)) {
+                        countryListAux.push(country);
+                        
+                        countryList.push({
+                            'label' : rCountryList[i].parsedCountryName,
+                            'value' : 'chk_' + country
+                        });
+                    }
                 }
             }
         }
@@ -109,14 +135,4 @@ export default class Lwc_paymentsMethodModal extends LightningElement {
         return sort;
     }
 
-    closeModal () {
-        //page name body class: comm-page-custom-landing-payments
-        //document.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';
-        //this.template.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';
-        this._showmethodmodal = false;
-        
-        //!!!!!!!!!!Faltaria integrarlo en el padre para realizar el cierre y revisar los estilos !!!!!!!!
-        const showmodalevent = new CustomEvent('closemodal');
-        this.dispatchEvent(showmodalevent);   
-    }
 }

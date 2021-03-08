@@ -16,8 +16,8 @@ import getCurrentUserTimezoneOffSetInMiliseconds from '@salesforce/apex/CNT_Stat
 
 export default class lwc_displayAmount extends LightningElement{
     @api arescriptsloaded = 'arescriptsloaded';
-    @api fromgpi = 'fromgpi';
-    @api numberformat = 'numberformat';
+    @api fromgpi = false;//'fromgpi';
+    @api numberformat //= 'numberformat';
     @api numberofdec = 'numberofdec';
     @api wholedecimal = false;
     @api userformat = 'userformat';

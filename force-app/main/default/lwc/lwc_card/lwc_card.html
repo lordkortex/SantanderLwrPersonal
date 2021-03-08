@@ -1,0 +1,20 @@
+<template>  
+    <article class="slds-card slds-size_1-of-3">
+        <div class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-card__body slds-card__body_inner">
+                <div class="slds-media__figure">
+                    <span class="icon-copy icon" data-title={label.T_Copy}></span>
+                </div>
+                <div class="slds-media__body">
+                    <div class="title">{title}</div>
+                    <template for:each={subtitle} for:item='item' for:index='index'>
+                        <div key={item} class="subtitle">{item}</div>
+                    </template>
+                </div>
+            </div>
+            <div class="downDoc">
+                <span class="icon-download icon" data-title={label.T_Download}></span>
+            </div>
+        </div>
+    </article>
+</template>

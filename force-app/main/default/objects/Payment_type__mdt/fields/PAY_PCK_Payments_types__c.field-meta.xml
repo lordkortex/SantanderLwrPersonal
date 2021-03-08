@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PAY_PCK_Payments_types__c</fullName>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>PAY_PCK_Payments types</label>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Book_to_Book</fullName>
+                <default>true</default>
+                <label>Book_to_Book</label>
+            </value>
+            <value>
+                <fullName>International_Instant_Payment</fullName>
+                <default>false</default>
+                <label>International_Instant_Payment</label>
+            </value>
+            <value>
+                <fullName>Do_and_Follow</fullName>
+                <default>false</default>
+                <label>Do_and_Follow</label>
+            </value>
+            <value>
+                <fullName>International_Transfers</fullName>
+                <default>false</default>
+                <label>International_Transfers</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

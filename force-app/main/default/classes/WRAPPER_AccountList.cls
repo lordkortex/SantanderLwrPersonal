@@ -22,6 +22,8 @@ global with sharing class WRAPPER_AccountList {
 		global String country {get;set;}
 		global Address () {}  
 	}
+    
+
      
     global with sharing class LastestTransaction {
         @AuraEnabled
@@ -68,6 +70,8 @@ global with sharing class WRAPPER_AccountList {
         global String	customerId	{get;set;}
         @AuraEnabled
         global String	country	{get;set;}
+        @AuraEnabled
+        global Boolean	favorite	{get;set;}
         @AuraEnabled
         global Address	address	{get;set;}
         @AuraEnabled
@@ -146,6 +150,9 @@ global with sharing class WRAPPER_AccountList {
         global Boolean balanceAllowed {get;set;} 
         @AuraEnabled 
         global Boolean transactionsAllowed {get;set;}
+        //Map idType and ID
+        @AuraEnabled 
+        global Map<String,String> companyIdsList {get;set;}
 
         //AM - 28-09-2020 - Ebury Accounts
         @AuraEnabled global String dataProvider {get;set;}
@@ -171,7 +178,7 @@ global with sharing class WRAPPER_AccountList {
        
     }
     
-    @AuraEnabled 
+    @AuraEnabled
     global static List<AccountDetails>	accountsList	{get;set;}
 
     @AuraEnabled

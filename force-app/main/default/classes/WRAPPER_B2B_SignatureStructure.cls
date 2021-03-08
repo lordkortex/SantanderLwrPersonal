@@ -1,6 +1,10 @@
 global class WRAPPER_B2B_SignatureStructure {
+    
+    global WRAPPER_B2B_SignatureStructure(){
+        System.debug('WRAPPER_B2B_SignatureStructure');
+    }
 
-	global StructureListResponse structureListResponse;
+	global StructureListResponse StructureListResponse;
 	global String paymentID;
 
 	global class StructureListResponse {
@@ -12,7 +16,7 @@ global class WRAPPER_B2B_SignatureStructure {
 
 	global class UserList {
 		global String userId;
-        
+		global String localUserId;
         global UserList(){
             System.debug('WRAPPER_B2B_SignatureStructure.UserList');
         }

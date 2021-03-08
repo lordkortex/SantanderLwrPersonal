@@ -62,6 +62,7 @@ export default class Lwc_calendar extends NavigationMixin(LightningElement) {
     @track historyclass;
     @track showAccount = true;
     @track updatedHour;
+    @track showDetails = 'iElement container slds-hide slds-card__header slds-grid contentAccount';
 
     
     eburyImage = imagesPack + '/ebury.svg';
@@ -85,9 +86,10 @@ export default class Lwc_calendar extends NavigationMixin(LightningElement) {
         }
 
         // DA - 06/11/2020 - Permisos
+        this.showAccountBalanceAllowed = true;
         if(this.isonetrade){
             if(!account.balanceAllowed) {
-                this.showAccount = false;
+                this.showAccountBalanceAllowed = false;
             }
         }
         this.idoptionsparent = this.ikey + this.iparentid + '_options';
@@ -158,8 +160,8 @@ export default class Lwc_calendar extends NavigationMixin(LightningElement) {
         +"&c__sourcePage="+this.sourcePage
         +"&c__comesFrom=accountList"
         +"&c__iRegister="+JSON.stringify(this.iRegister)
-        +"&c__firstAccountCountryList="+JSON.stringify(this.firstAccountCountryList)
-        +"&c__firstTAccountCountryList="+JSON.stringify(this.firstTAccountCountryList)
+        +"&c__firstAccountCountryList="+JSON.stringify(this.firstaccountcountrylist)
+        +"&c__firstTAccountCountryList="+JSON.stringify(this.firsttaccountcountrylist)
         +"&c__accountGrouping="+this.iSortSelected
         +"&c__consolidationCurrency="+this.iCurrency
         +"&c__accountStatus="+this.iaccount.status;
@@ -256,8 +258,8 @@ export default class Lwc_calendar extends NavigationMixin(LightningElement) {
         +"&c__codigoBic="+this.iaccount.codigoBic
         +"&c__comesFrom=accountList"
         +"&c__iRegister="+JSON.stringify(this.iRegister)
-        +"&c__firstAccountCountryList="+JSON.stringify(this.firstAccountCountryList)
-        +"&c__firstTAccountCountryList="+JSON.stringify(this.firstTAccountCountryList)
+        +"&c__firstAccountCountryList="+JSON.stringify(this.firstaccountcountrylist)
+        +"&c__firstTAccountCountryList="+JSON.stringify(this.firsttaccountcountrylist)
         +"&c__accountGrouping="+this.iSortSelected
         +"&c__consolidationCurrency="+this.iCurrency
         +"&c__aliasEntidad="+this.iaccount.aliasEntidad;
@@ -289,64 +291,20 @@ export default class Lwc_calendar extends NavigationMixin(LightningElement) {
 
     @api
     doExpand(){
-        //this.showHideAll();
-        var element = this.template.querySelector(".iElement");       
-
-        //iComponent.forEach(function(element) {             
-        if(element.classList.contains("slds-hide") && element.classList.contains("container")){
-            element.classList.remove("slds-hide");
-            element.classList.add("slds-show");
-        }          
-        if(element.classList.contains("icon") && element.classList.contains("expand") && element.classList.contains("slds-show")){
-            element.classList.remove("slds-show");
-            element.classList.add("slds-hide"); 
+        if(this.showAccountBalanceAllowed){
+            this.showAccount = true;
+            this.showDetails = 'iElement container slds-card__header slds-grid contentAccount';
         }
-        if(element.classList.contains("icon") && element.classList.contains("collapse") && element.classList.contains("slds-hide")){                
-            element.classList.remove("slds-hide");
-            element.classList.add("slds-show"); 
-        }
-        //});
-
     }
 
     @api
     doCollapse(){
-        //this.showHideAll();        
-        var element = this.template.querySelector(".iElement");
-
-        // iComponent.forEach(function(element) {           
-        if (element.classList.contains("slds-show") && element.classList.contains("container")){                       
-            element.classList.remove("slds-show");
-            element.classList.add("slds-hide");
-        }
-        if(element.classList.contains("icon") && element.classList.contains("expand") && element.classList.contains("slds-hide")){
-            element.classList.add("slds-show");
-            element.classList.remove("slds-hide"); 
-        }
-        if(element.classList.contains("icon") && element.classList.contains("collapse") && element.classList.contains("slds-show")){               
-            element.classList.add("slds-hide");
-            element.classList.remove("slds-show"); 
-        }        
-        // });
-        
+        this.showAccount = false;
+        this.showDetails = 'iElement container slds-hide slds-card__header slds-grid contentAccount';
     }
 
     collapse (){
-        var iExpand = this.template.querySelector('[id=thisExpand]');
-        if(iExpand!=null){
-        
-            if(iExpand.classList.contains("slds-hide")){
-                iExpand.classList.add("slds-show");
-                iExpand.classList.remove("slds-hide");
-            }
-            
-            var iCollapse = this.template.querySelector('[id=thisCollapse]');
-            if(iCollapse.classList.contains("slds-show")){
-                iCollapse.classList.remove("slds-show");
-                iCollapse.classList.add("slds-hide");
-            }
-        }
-        
+        this.showDetails = 'iElement container slds-hide slds-card__header slds-grid contentAccount';
     }
 
 

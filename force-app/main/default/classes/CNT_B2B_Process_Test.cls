@@ -1,6 +1,7 @@
 @isTest
 public class CNT_B2B_Process_Test {
 
+    
     @testSetUp
     static void setup(){
         DataFactory.getCustomSettingCryptoKey(true);
@@ -14,7 +15,7 @@ public class CNT_B2B_Process_Test {
         CNT_B2B_Process.getAccountData();
         Test.stopTest();
     }
-
+    
     @isTest
     static void getUserData_Test(){
         Test.startTest();
@@ -41,6 +42,17 @@ public class CNT_B2B_Process_Test {
         Test.stopTest();
     }
     
+    @isTest
+    static void reverseLimits_Test(){
+         String str = MockResponse.B2BData_PaymentAmount(); 
+        WRAPPER_B2B_Data.PaymentAmount amountData = (WRAPPER_B2B_Data.PaymentAmount) JSON.deserialize(str, WRAPPER_B2B_Data.PaymentAmount.class);
+        str = MockResponse.AccountList_AccountDetails('ES', 'EUR'); 
+        WRAPPER_AccountList.AccountDetails sourceAccountData = (WRAPPER_AccountList.AccountDetails) JSON.deserialize(str, WRAPPER_AccountList.AccountDetails.class);
+        Test.startTest();
+        CNT_B2B_Process.reverseLimits('productId','serviceId', 'paymentId',  amountData, sourceAccountData);
+        Test.stopTest();
+    }
+    
     /*
     @isTest
     static void filterOriginAccounts_Test(){
@@ -62,6 +74,5 @@ public class CNT_B2B_Process_Test {
         test.stopTest();
     }
 */
-
     
 }

@@ -101,16 +101,13 @@
                 count+=1;
 
             }
-            if(account!=null && account!=""  && account!=$A.get("$Label.c.singleChoice")){
-               if(component.get("v.inOutIndicator") == "OUT")
-            {
-                filter+='"originatorAccountList":[';
+            if(JSON.stringify(account)!=null && JSON.stringify(account)!=""  && JSON.stringify(account)!=$A.get("$Label.c.singleChoice") && account.length > 0){
+                if(component.get("v.inOutIndicator") == "OUT") {
+                    filter+='"originatorAccountList":[';
 
-            }
-            else
-            {
-                 filter+='"beneficiaryAccountList":[';
-            }
+                } else {
+                    filter+='"beneficiaryAccountList":[';
+                }
                 for (var i in account){
                     var accountName=account[i].split('-')[0];
                     var data=helper.findAccountAgent(component, event, helper, accountName);
@@ -118,33 +115,82 @@
                 }
                 filter=filter.slice(0,-1)+"],";
                 count+=1;
-            }else{
-                filter+=component.get("v.accountFilter")+",";
-            }
+            } else {
+                if(component.get("v.inOutIndicator") == "OUT") {
+                    filter+='"originatorAccountList":[';
 
-            if(country!=null && country!=""  && country!=$A.get("$Label.c.singleChoice")){
-                filter+='"country":"'+country.substring(0,2)+'",';
-                count+=1;
-
-            }
-            if(selectedStatus!=null && selectedStatus!=undefined && selectedStatus.length!=0){      
-                filter+='"paymentStatusList":[';
-                for (var i in selectedStatus){
-                    var data=helper.findStatus(component, event, helper, selectedStatus[i]);
-                    if(selectedStatus[i]==$A.get("$Label.c.payment_statusThree") || selectedStatus[i]==$A.get("$Label.c.payment_statusFour") || selectedStatus[i]==$A.get("$Label.c.payment_statusTwo")){
-                        for(var j in data){
-                            filter+='{"status":"'+data[j].status+'","reason":"'+data[j].reason+'"},';
-                        }
-
-                    }else{
-                        filter+='{"status":"'+data.status+'","reason":"'+data.reason+'"},';
-                    }
+                } else {
+                    filter+='"beneficiaryAccountList":[';
                 }
+                var allAccounts = component.get("v.accountList");
+                for (var i in allAccounts) {
+                    filter+='{"bankId":"'+allAccounts[i].bic+'","account":{"idType":"'+allAccounts[i].id_type+'","accountId":"'+allAccounts[i].account+'"}}';
+                }
+                filter = filter.replaceAll('}{', '},{');
+                filter+='],';
+            }
+			// AB - 27-11-2020 - OriginatorCountry
+            if(country!=null && country!=""  && country!=$A.get("$Label.c.singleChoice")){
+                 if(component.get("v.inOutIndicator") == "OUT"){
+                	filter+='"beneficiaryCountry":"'+country.substring(0,2)+'",';
+                    count+=1;
+                 }else{
+                    filter+='"originatorCountry":"'+country.substring(0,2)+'",';    
+                    count+=1;
+                 }
+            }
+            if(selectedStatus!=null && selectedStatus!=undefined && selectedStatus.length!=0){
+
+                if(component.get("v.fromDetail") == component.get("v.isDetail")) {
+                    filter+='"paymentStatusList":[';
+                    for (var i in selectedStatus){
+                        var data=helper.findStatus(component, event, helper, selectedStatus[i]);
+                        if(selectedStatus[i]==$A.get("$Label.c.payment_statusThree") || selectedStatus[i]==$A.get("$Label.c.payment_statusFour") || selectedStatus[i]==$A.get("$Label.c.payment_statusTwo")){
+                            for(var j in data){
+                                filter+='{"status":"'+data[j].status+'","reason":"'+data[j].reason+'"},';
+                            }
+    
+                        }else{
+                            filter+='{"status":"'+data.status+'","reason":"'+data.reason+'"},';
+                        }
+                    }
+                } else {
+                    filter+='"paymentStatusList":'
+                    filter+=JSON.stringify(selectedStatus);
+                    var stringList = JSON.stringify(selectedStatus);
+                    var newList = [];
+                        
+                    if(stringList.includes('{"status":"ACSC","reason":""},{"status":"ACCC","reason":""}') == true){
+                        newList.push($A.get("$Label.c.payment_statusTwo")); 
+                    }
+                    //Rejected
+                    if(stringList.includes('{"status":"RJCT","reason":""}') == true){
+                        newList.push($A.get("$Label.c.payment_statusOne"));
+                    }
+                    //On hold
+                    if(stringList.includes('{"status":"ACSP","reason":"G002"},{"status":"ACSP","reason":"G003"},{"status":"ACSP","reason":"G004"}') == true){
+                        newList.push($A.get("$Label.c.payment_statusFour"));
+                    }
+                    //In progress
+                    if(stringList.includes('{"status":"ACSP","reason":"G000"},{"status":"ACSP","reason":"G001"}') == true){
+                        newList.push($A.get("$Label.c.payment_statusThree"));
+                    }
+                    
+                    component.set("v.isDetail", true);
+                    component.set("v.selectedStatus", newList);
+                }
+                
                 filter=filter.slice(0,-1)+"],";
                 count+=1;
 
             }
-
+			
+            /*var incoming;
+            if(component.get("v.inOutIndicator") == "IN") {
+                incoming = filter.replace("originatorAccountList", "beneficiaryAccountList");
+                filter = incoming;
+            }*/
+            
             component.set("v.count",count);
             filter=filter.slice(0,-1)+"}}";
             if(filter!=""){
@@ -263,11 +309,9 @@
             component.set("v.beneficiaryAccount","");
             component.set("v.settledFrom","");
             component.set("v.settledTo","");
-           //AB - 19/11/2020 - INC793
-           // component.set("v.dateFrom",$A.get("$Label.c.from"));
-           // component.set("v.dateTo",$A.get("$Label.c.to"));
-            component.set("v.dateFrom","");
-            component.set("v.dateTo","");
+            //AB - 13/11/2020 - INC793
+            //component.set("v.dateFrom","");
+            //component.set("v.dateTo","");
 
             helper.validateDate(component, event, helper);
 
@@ -368,6 +412,8 @@
     21/01/2020		R. Alexander Cervino     Initial version*/
 
     apply : function(component, event, helper){
+        component.set("v.isDetail", false);
+        component.set("v.fromDetail", false);
         helper.changeTo(component, event, helper);
         helper.changeFrom(component, event, helper);
         helper.changeAccount(component, event, helper);

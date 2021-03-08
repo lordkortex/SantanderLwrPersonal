@@ -1,6 +1,6 @@
 import { LightningElement, track } from 'lwc';
 import { loadStyle, loadScript} from 'lightning/platformResourceLoader';
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 import imagesPack from '@salesforce/resourceUrl/Images';
 
@@ -18,7 +18,9 @@ import bic from '@salesforce/label/c.bic';
 import aliasAccount from '@salesforce/label/c.aliasAccount';
 import T_Modify from '@salesforce/label/c.T_Modify';
 import successAliasAccount from '@salesforce/label/c.successAliasAccount';
+import successAliasBank from '@salesforce/label/c.successAliasBank';
 import errorAliasAccount from '@salesforce/label/c.errorAliasAccount';
+import errorAliasBank from '@salesforce/label/c.errorAliasBank';
 import Ebury from '@salesforce/label/c.Ebury';
 import Account_Identifier from '@salesforce/label/c.Account_Identifier';
 import Account from '@salesforce/label/c.Account';
@@ -30,6 +32,13 @@ import AccountNumberType from '@salesforce/label/c.AccountNumberType';
 
 import Id from '@salesforce/user/Id';
 import decryptData from '@salesforce/apex/CNT_TransactionSearchController.decryptData';
+
+//Cash Nexus
+import basePath from '@salesforce/community/basePath'; 
+import basePathCashNexus from '@salesforce/label/c.basePathCashNexus';
+import uId from '@salesforce/user/Id';
+import updateAliasAccount from '@salesforce/apex/CNT_AccountDetails.updateAliasAccount';
+import getPersonalSettings from '@salesforce/apex/CNT_AccountDetails.getPersonalSettings';
 
 export default class Lwc_iam_accountDetailParent extends LightningElement {
 
@@ -57,7 +66,11 @@ export default class Lwc_iam_accountDetailParent extends LightningElement {
         AccountName,
         BankIdType,
         AccountAddress,
-        AccountNumberType
+        AccountNumberType,
+        basePath,
+        basePathCashNexus,
+        errorAliasBank,
+        successAliasBank
     }
 
     @track accountDetails;
@@ -75,6 +88,11 @@ export default class Lwc_iam_accountDetailParent extends LightningElement {
 
     @track firstTime = false;
 
+    //Comunidad Cash Nexus
+    @track lastUpdate = true;
+    @track comunidadCashNexus = false;
+    comesfromtracker = false;
+
     eburyImage = imagesPack + '/ebury.svg';
 
     get loadingTitle(){
@@ -89,13 +107,34 @@ export default class Lwc_iam_accountDetailParent extends LightningElement {
         return this.accountDetails.country == this.label.Ebury && this.accountDetails.associatedAccountList;
     }
 
+    get isComunidadCashNexus(){
+        if(this.label.basePath == this.label.basePathCashNexus) this.comunidadCashNexus = true;
+        return this.comunidadCashNexus;        
+    }
+
     renderedCallback(){
         loadStyle(this, santanderStyle + '/style.css');
         if(!this.firstTime){
+            if(this.label.basePath == this.label.basePathCashNexus){
+                this.comunidadCashNexus = true;
+                this.getPersonalSettingsInfo();
+            }
             this.getURLParams();
             this.firstTime= true;
         }
     }
+
+    getPersonalSettingsInfo(){
+        var result = '';
+        getPersonalSettings()
+        .then(value => {
+            result = value;
+            this.personalSettings = result.personalsettings;                
+        }).catch((error) => {
+            console.log('getPersonalSettings iam_accountDetailParent: '+ error);
+        });
+    }
+
 
     getURLParams(){
         /*
@@ -149,6 +188,9 @@ export default class Lwc_iam_accountDetailParent extends LightningElement {
             
             if (sParameterName[0] === 'c__source') { 
                 sParameterName[1] === undefined ? 'Not found' : this.source = sParameterName[1];
+            }
+            if (sParameterName[0] === 'c__lastUpdate') { 
+                sParameterName[1] === undefined ? 'Not found' : this.lastUpdate = sParameterName[1];
             }
             if (sParameterName[0] === 'c__subsidiaryName') { 
                 sParameterName[1] === undefined ? 'Not found' : accountDetails.accountName = sParameterName[1];
@@ -301,7 +343,7 @@ export default class Lwc_iam_accountDetailParent extends LightningElement {
             var url = "c__source="+aux+"&c__subsidiaryName="+accountDetails.accountName+"&c__accountNumber="+accountDetails.accountNumber
                         +"&c__bank="+accountDetails.bank+"&c__mainAmount="+accountDetails.bookBalance+"&c__availableAmount="+accountDetails.availableBalance
                         +"&c__currentCurrency="+accountDetails.accountCurrency+"&c__alias="+accountDetails.accountAlias
-                        +"&c__lastUpdate=true"+"&c__idType="+accountDetails.idType+"&c__country="+accountDetails.country+"&c__aliasBank="+accountDetails.bankAlias
+                        +"&c__lastUpdate="+this.lastUpdate+"&c__idType="+accountDetails.idType+"&c__country="+accountDetails.country+"&c__aliasBank="+accountDetails.bankAlias
                         +"&c__bic="+accountDetails.bic+"&c__filters="+JSON.stringify(accountDetails.filters)+"&c__accountCode="+accountDetails.codigoCuenta+"&c__codigoBic="+accountDetails.codigoBic
                         //DA - 18/11/2020 - Account Detail Back Button
             			+"&c__codigoEmisora="+accountDetails.codigoEmisora+"&c__aliasEntidad="+accountDetails.aliasEntidad+"&c__codigoCuenta="+accountDetails.codigoCuenta+"&c__bookDate="+accountDetails.bookDate+"&c__valueDate="+accountDetails.valueDate
@@ -336,7 +378,7 @@ export default class Lwc_iam_accountDetailParent extends LightningElement {
                 "&c__bank="+accountDetails.bank+
                 "&c__mainAmount="+accountDetails.bookBalance+
                 "&c__availableAmount="+accountDetails.availableBalance+
-                "&c__lastUpdate=true"+
+                "&c__lastUpdate="+this.lastUpdate+
                 "&c__country="+accountDetails.country+
                 "&c__aliasBank="+accountDetails.bankAlias+
                 "&c__filters="+this.filters;
@@ -363,13 +405,13 @@ export default class Lwc_iam_accountDetailParent extends LightningElement {
         var sourceId = event.currentTarget.id.split('-')[0];
         switch(sourceId){
             case "saveAliasAccount":              
-                this.updateAccountAlias(this.template.querySelector('[data-id="aliasAccountInput"]').value);
+                this.updateAccountAlias(this.template.querySelector('[data-id="aliasAccountInput"]').value,sourceId);
                 break;
             case "closeAliasAccount":
                 this.editingAliasAccount = false;
                 break;
             case "saveAliasBank":
-                this.updateBankAlias(sourceId, this.template.querySelector('[data-id="aliasBankInput"]').value);
+                this.updateBankAlias(sourceId, this.template.querySelector('[data-id="aliasBankInput"]').value,sourceId);
                 break;
             case "closeAliasBank":
                 this.editingAliasBank = false;
@@ -377,35 +419,92 @@ export default class Lwc_iam_accountDetailParent extends LightningElement {
         }
     }
 
-    updateAccountAlias(aliasAccount){
-        let accountDetails = this.accountDetails;
-        let bankId = accountDetails.codigoBic;
-        let idType = accountDetails.idType;
-        let accountId = accountDetails.accountNumber;
-        let aliasGts = aliasAccount;
+    updateAccountAlias(aliasAccount,sourceId){
+        if(!this.comunidadCashNexus){
 
-        // Create the request body
-        let requestBody = {
-            "aliasData" : {
-                "bankId" : bankId,
-                "account" : {
-                    "idType" : idType,
-                    "accountId" : accountId
-                },
-                "aliasGTS" : aliasGts
+            let accountDetails = this.accountDetails;
+            let bankId = accountDetails.codigoBic;
+            let idType = accountDetails.idType;
+            let accountId = accountDetails.accountNumber;
+            let aliasGts = aliasAccount;
+
+            // Create the request body
+            let requestBody = {
+                "aliasData" : {
+                    "bankId" : bankId,
+                    "account" : {
+                        "idType" : idType,
+                        "accountId" : accountId
+                    },
+                    "aliasGTS" : aliasGts
+                }
+            };
+
+            // Call the server-side action and make the callout to the update alias service
+            let params = {
+                "actionParameters" : JSON.stringify(requestBody),
+                "newAlias" : aliasGts
             }
-        };
+            this.template.querySelector("c-lwc_service-component").onCallApex({
+                callercomponent: 'on-call-apex',
+                controllermethod: 'updateOneTradeAlias',
+                actionparameters: params
+            });
+        }else{
+            try{
+                var userId = uId;
+                this.isLoading = true;
+                var codigoCuenta = this.accountDetails.codigoCuenta;
+                var nombreUsuario = this.personalSettings.nombreUsuario;
+                if((codigoCuenta != null && codigoCuenta != undefined && codigoCuenta != '')
+                    && (nombreUsuario != null && nombreUsuario != undefined && nombreUsuario != '')){
+            
+                    var params = {};
+                    params.uid = '';//component.get("v.personalSettings.UIDModificacion");
+                    params.cod_subproducto = '26';
+                    params.nombre_cdemgr =  this.personalSettings.nombreUsuario.trim();
+                    params.lista_alias_cuenta_perfilada = [];
+                    var alias_cuenta_perfilada_aux = {};
+                    alias_cuenta_perfilada_aux.codigo_cuenta = codigoCuenta;
+                    alias_cuenta_perfilada_aux.alias_cuenta_perfilada_desc = aliasAccount;
+            
+                    var alias_cuenta_perfilada = {
+                        alias_cuenta_perfilada : alias_cuenta_perfilada_aux
+                    };
+                    
+                    params.lista_alias_cuenta_perfilada.push(alias_cuenta_perfilada);
+                    
+                    var result = '';
+                    updateAliasAccount({"actionParameters" : JSON.stringify(params)})
+                    .then(value => {
+                        result = value;
+                        this.accountDetails.accountAlias = aliasAccount;
+                        this.editingAliasAccount = false;
+                        this.isLoading = false;
+                        window.localStorage.removeItem(userId + '_' + 'balanceGP'); 
+                        window.localStorage.removeItem(userId + '_' + 'balanceTimestampGP');
+                        window.localStorage.removeItem(userId + '_' + 'balanceEODGP'); 
+                        window.localStorage.removeItem(userId + '_' + 'balanceEODTimestampGP'); 
+                        this.updateSuccessfullNotification(sourceId);                    
+                    }).catch((error) => {
+                        console.log('decrypt iam_accountDetailParent: '+error); // TestError
+                        this.isLoading = false;
+                        this.updateErrorNotification(sourceId);
+                    });
+                }else{
+                    console.log("Unknown error");
+                    this.editingAliasAccount = false;
+                    this.isLoading = false;
+                    this.updateErrorNotification(sourceId);
+                } 
+            }catch(e){
+                console.log("IAM_AccountDetailParent Cash Nexus / updateAccountAlias : " + e);
+                this.editingAliasAccount = false;
+                    this.isLoading = false;
+                    this.updateErrorNotification(sourceId);
+            }
 
-        // Call the server-side action and make the callout to the update alias service
-        let params = {
-            "actionParameters" : JSON.stringify(requestBody),
-            "newAlias" : aliasGts
         }
-        this.template.querySelector("c-lwc_service-component").onCallApex({
-            callercomponent: 'on-call-apex',
-            controllermethod: 'updateOneTradeAlias',
-            actionparameters: params
-          });
     }
 
     setUpdatedAlias(response){
@@ -424,17 +523,45 @@ export default class Lwc_iam_accountDetailParent extends LightningElement {
         this.isLoading = false;     
     }
 
-    updateSuccessfullNotification(){
-        var msg = this.label.successAliasAccount;
-        this.msgToast = msg;
-        this.typeToast = "success";
-        this.showToast = true;    
+    updateSuccessfullNotification(sourceId){
+        if(!this.comunidadCashNexus){
+            var msg = this.label.successAliasAccount;
+            this.msgToast = msg;
+            this.typeToast = "success";
+            this.showToast = true;    
+        }else{
+            if(sourceId == 'saveAliasAccount'){
+                var msg = this.label.successAliasAccount;
+                this.msgToast = msg;
+                this.typeToast = "success";
+                this.showToast = true;
+            }else if(sourceId == 'saveAliasBank'){
+                var msg = this.label.successAliasBank;
+                this.msgToast = msg;
+                this.typeToast = "success";
+                this.showToast = true;
+            }
+        }
     }
 
-    updateErrorNotification(){
-        var msg = this.label.errorAliasAccount;
-        this.msgToast = msg;
-        this.typeToast = "error";
-        this.showToast = true;
+    updateErrorNotification(sourceId){
+        if(!this.comunidadCashNexus){
+            var msg = this.label.errorAliasAccount;
+            this.msgToast = msg;
+            this.typeToast = "error";
+            this.showToast = true;
+        }else{
+            if(sourceId == 'saveAliasAccount'){
+                var msg = this.label.errorAliasAccount;
+                this.msgToast = msg;
+                this.typeToast = "error";
+                this.showToast = true;
+            }else if(sourceId == 'saveAliasBank'){
+                var msg = this.label.errorAliasBank;
+                this.msgToast = msg;
+                this.typeToast = "error";
+                this.showToast = true;
+            }
+        }
     }
 }

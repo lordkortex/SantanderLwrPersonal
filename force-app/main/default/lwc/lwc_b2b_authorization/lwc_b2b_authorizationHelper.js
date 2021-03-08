@@ -1,19 +1,15 @@
-
+import getAccountData from '@salesforce/apex/CNT_B2B_Process.getAccountData';
 import getPaymentDetail from '@salesforce/apex/CNT_B2B_Authorization.getPaymentDetail';
 import getUserData from '@salesforce/apex/CNT_B2B_Authorization.getUserData';
 import decryptData from '@salesforce/apex/CNT_B2B_Authorization.decryptData';
-import executePayment from '@salesforce/apex/CNT_B2B_Authorization.decryptData';
+import executePayment from '@salesforce/apex/CNT_B2B_Authorization.executePayment';
 import authorizePayment from '@salesforce/apex/CNT_B2B_Authorization.authorizePayment';
 import getOTP from '@salesforce/apex/CNT_B2B_Authorization.getOTP';
 import getOTP_Strategic from '@salesforce/apex/CNT_B2B_Authorization.getOTP_Strategic';
-import getExchangeRate from '@salesforce/apex/CNT_B2B_Authorization.getExchangeRate';
 import removeSignature from '@salesforce/apex/CNT_B2B_Authorization.removeSignature';
 import encryptData from '@salesforce/apex/CNT_B2B_Authorization.encryptData';
-import getSessionId from '@salesforce/apex/CNT_B2B_Authorization.getSessionId';
 import sendNotification from '@salesforce/apex/CNT_B2B_Authorization.sendNotification';
-import getAccountData from '@salesforce/apex/CNT_B2B_Authorization.getAccountData';
-
-import OTPWrongCheckSMS from '@salesforce/label/c.OTPWrongCheckSMS';
+import validateOTP from '@salesforce/apex/CNT_B2B_Authorization.validateOTP';
 
 
 export const helper = {
@@ -72,34 +68,47 @@ export const helper = {
                                 var sURLVariables = sPageURL.split('&');
                                 var paymentId = '';
                                 var source = '';
+                                var signLevel = [];
                                 var paymentDetails = {};
                                 for (var i = 0; i < sURLVariables.length; i++) {
                                     sParameterName = sURLVariables[i].split('=');
                                     if (sParameterName[0] === 'c__paymentId') { 
-                                        sParameterName[1] === undefined ? 'Not found' : paymentId = this.paymentId = sParameterName[1];
+                                        sParameterName[1] === undefined ? 'Not found' : paymentId = sParameterName[1];
                                     }
                                     if (sParameterName[0] === 'c__source') {
-                                        sParameterName[1] === undefined ? 'Not found' : source = this.source = sParameterName[1];
+                                        sParameterName[1] === undefined ? 'Not found' : source  = sParameterName[1];
                                     }
                                     if (sParameterName[0] === 'c__paymentDetails') {
                                         console.log(sParameterName[1]);
                                         sParameterName[1] === undefined ? 'Not found' : paymentDetails = JSON.parse(sParameterName[1]);
                                     }
                                     if (sParameterName[0] === 'c__signatoryDetails') {
-                                        sParameterName[1] === undefined ? 'Not found' : this.signLevel = JSON.parse(sParameterName[1]);
+                                        sParameterName[1] === undefined ? 'Not found' : signLevel = JSON.parse(sParameterName[1]);
                                     }
                                 }
                                 if (paymentDetails === undefined || paymentDetails === null) {
                                     this.getPaymentData(paymentId)
                                     .then((returnValue) => {
-                                        resolve({ paymentDetailAttribute: returnValue, messageAttribute: 'ok' });
+                                        resolve({ 
+                                            paymentIdAttribute: paymentId , 
+                                            sourceAttribute: source , 
+                                            paymentDataAttribute: returnValue, 
+                                            signLevelAttribute : signLevel,
+                                            messageAttribute: 'ok' 
+                                        });
                                     });
                                 } else {
                                     /*paymentDetails.sourceCurrency='GBP';
                                     paymentDetails.FXDateTime = null;
                                     paymentDetails.FXoutput = null;
                                     paymentDetails.FXFeesOutput = null;*/
-                                    resolve({ paymentDetailAttribute: paymentDetails, messageAttribute: 'ok' });
+                                    resolve({ 
+                                        paymentIdAttribute: paymentId , 
+                                        sourceAttribute: source , 
+                                        paymentDataAttribute: paymentDetails, 
+                                        signLevelAttribute : signLevel,
+                                        messageAttribute: 'ok' 
+                                    });
                                     
                                 }
                             });
@@ -226,13 +235,13 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */
-    handleExecutePayment(){
+    handleExecutePayment(paymentId,paymentData){
             return new Promise((resolve, reject) => {
-                var paymentId = this.paymentId;
-                var paymentData = this.paymentData;
-                let FXTimer = (paymentData.FXDateTime != undefined && paymentData.FXDateTime != null) ? null : paymentData.FXDateTime;
-                let FXData = (paymentData.FXoutput != undefined && paymentData.FXoutput != null) ? null : paymentData.FXoutput;
-                let feesData = (paymentData.FXFeesOutput != undefined && paymentData.FXFeesOutput != null) ? null : paymentData.FXFeesOutput;
+
+                let FXTimer = (paymentData.FXDateTime != undefined && paymentData.FXDateTime != null) ? paymentData.FXDateTime : null ;
+                let FXData = (paymentData.FXoutput != undefined && paymentData.FXoutput != null) ? paymentData.FXoutput : null;
+                let feesData = (paymentData.FXFeesOutput != undefined && paymentData.FXFeesOutput != null) ? paymentData.FXFeesOutput : null ;
+                
                 executePayment({ 
                     paymentId: paymentId,
                     paymentDetail: paymentData,
@@ -246,25 +255,19 @@ export const helper = {
                             var orchestationOutput = returnValue.value.OrchestationOutput;
                             if ((orchestationOutput != undefined && orchestationOutput != null) || 
                                 (orchestationOutput.level != undefined && orchestationOutput.level != null && orchestationOutput.level != 'OK')) {
-                                //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
-                                //helper.updateStatus(component,event, helper,'101','001');
-                                //helper.updateStatus(component,event, helper,'999','003');
                                 reject('ko');
                             } else {
                                 resolve('ok');
                             }
                         } else {
-                            //helper.updateStatus(component,event, helper,'101','001');
-                            //helper.updateStatus(component,event, helper,'999','003');
                             reject('ko');
                         }
                 })
                 .catch(errors => {
                     console.log('Error message: ' + errors);
-                    //helper.updateStatus(component,event, helper,'101','001');
-                    //helper.updateStatus(component,event, helper,'999','003');
                     reject('ko');
                 });
+
             }, this);
     },
     
@@ -278,16 +281,16 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      R. Cervino          Initial version
     */
-    signPayment: function (paymentId,finalAuthorizer,scaUid) {
-            return new Promise( (resolve, reject) => {
-                authorizePayment({
+    signPayment (paymentId,finalAuthorizer,scaUid) {
+       
+        return new Promise( (resolve, reject) => {
+            authorizePayment({
                     paymentId: paymentId, 
                     finalAuthorizer:finalAuthorizer, 
                     scaUid:scaUid})
                 .then((actionResult) => {
                         var returnValue = actionResult;
                         if (!returnValue.success) {
-                            //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
                             reject('problem authorizing the payment');
                         }
                         resolve('ok');
@@ -295,10 +298,9 @@ export const helper = {
                 .catch(errors => {
                     console.log('Error message: ' + errors);
                     console.log('problem authorizing the payment');
-                    //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
                     reject('ko');
                 });
-            }, this);
+        }, this);
     },
 
     
@@ -361,10 +363,9 @@ export const helper = {
     */
     sendOTP_Strategic(paymentData,paymentId,debitAmountString,
                     feesString,exchangeRateString,paymentAmountString,
-                    labelCNF_mockeoFirmas,validateOTP,OTP,signLevel,OTPWrongCheckSMS,navigatorInfo) {
+                    labelCNF_mockeoFirmas,OTP,signLevel,OTPWrongCheckSMS,navigatorInfo) {
 
             var win;
-
             return new Promise((resolve, reject) => {
                 //component.set('v.reload', false);
                 //component.set('v.reloadAction', component.get('c.sendOTP_Strategic'));
@@ -401,20 +402,36 @@ export const helper = {
                             }else{
                                 scaUidVar = returnValue.value.initiateOTP.signId;
                                 win = window.open(returnValue.value.initiateOTP.localSigningUrl, '_blank');
-                                //component.set("v.localWindow", win);
                                 win.focus();
                             }
                            
                             if( labelCNF_mockeoFirmas === 'ok'){
-                                this.checkOTP(validateOTP,paymentData,paymentId,OTP,signLevel,OTPWrongCheckSMS);
+                                this.checkOTP(paymentData,paymentId,OTP,signLevel,OTPWrongCheckSMS,scaUidVar)
+                                .then((actionResult) => {
+                                    resolve({ 
+                                        winAttribute : win, 
+                                        scaUidAttribute : scaUidVar, 
+                                        errorSignAttribute: false, 
+                                        errorOTPAttribute: false,
+                                        spinnerVerificationCodeAttribute: false, 
+                                        messageAttribute: 'ok' });
+                                })
+                                .catch((error) => {
+                                    reject({ 
+                                        errorSignAttribute: true, 
+                                        errorOTPAttribute: true,
+                                        spinnerVerificationCodeAttribute: false, 
+                                        messageAttribute: 'ko' });
+                                });
+                            }else{
+                                resolve({ 
+                                    winAttribute : win, 
+                                    scaUidAttribute : scaUidVar, 
+                                    errorSignAttribute: false, 
+                                    errorOTPAttribute: false,
+                                    spinnerVerificationCodeAttribute: false, 
+                                    messageAttribute: 'ok' });
                             }
-                            resolve({ 
-                                winAttribute : win, 
-                                scaUidAttribute : scaUidVar, 
-                                errorSignAttribute: false, 
-                                errorOTPAttribute: false,
-                                spinnerVerificationCodeAttribute: false, 
-                                messageAttribute: 'ok' });
 
                         }
                 })
@@ -438,7 +455,7 @@ export const helper = {
     <Date>          <Author>            <Description>
     30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
     */        
-    checkOTP(validateOTP,paymentData,paymentId,OTP,signLevel,OTPWrongCheckSMS) {
+    checkOTP(paymentData,paymentId,OTP,signLevel,OTPWrongCheckSMS,scaUid) {
         return new Promise((resolve, reject) => {
             //component.set('v.spinnerVerificationCode', true);
             var sourceCountry = '';
@@ -452,7 +469,6 @@ export const helper = {
                     sourceBIC = payment.sourceSwiftCode;
                 }
             }
-
             validateOTP({  
                 paymentId : paymentId,
                 metaData: OTP,
@@ -460,43 +476,53 @@ export const helper = {
                 sourceBIC: sourceBIC
             })
             .then((actionResult) => {
-                    var returnValue = actionResult;
-                    console.log(returnValue);
-                    if (!returnValue.success) {
-                        resolve({ OTPErrorMessageAttribute : '' })
-                        //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), false,'error');
-                    } else {
-                        if (returnValue.value.validateOTP.validateResult != 'ko' && returnValue.value.validateOTP.validateResult != 'KO') {
-                            let signature = signLevel;
-                            if (signature.lastSign ==='true') {
-                                this.signPayment(true)
+                var returnValue = actionResult;
+                console.log(returnValue);
+                if (!returnValue.success) {
+                    reject({ errorSignAttribute: true ,OTPErrorMessageAttribute : OTPWrongCheckSMS })
+                } else {
+                    if (returnValue.value.validateOTP.validateResult != 'ko' && returnValue.value.validateOTP.validateResult != 'KO') {
+                        let signature = signLevel;
+                        if (signature.lastSign ==='true') {
+                                this.signPayment(paymentId,true,scaUid)
                                 .then((value) => {
-                                    return this.handleExecutePayment();
-                                }).then((value)  => {
-                                    return this.deleteSignatureRecord();
-                                }).then((value)  => {
-                                    return this.sendNotification();
-                                }).then((value)  => {
-                                    this.sendToLanding( true);
-                                }).catch(function (error) {
+                                    return this.handleExecutePayment(paymentId,paymentData);
+                                })
+                                .then((value)  => {
+                                    return this.deleteSignatureRecord(paymentId);
+                                })
+                                .then((value)  => {
+                                    return this.sendNotification(paymentData);
+                                })
+                                .then((value)  => {
+                                    resolve({ errorSignAttribute: false ,OTPErrorMessageAttribute : '' })
+                                    //this.sendToLanding(true);
+                                })
+                                .catch((error) => {
                                     console.log(error);
-                                }).finally( (value)  => {
-                                    //component.set('v.spinnerVerificationCode', false);
+                                    reject({ errorSignAttribute: true , OTPErrorMessageAttribute : OTPWrongCheckSMS});
+                                })
+                                .finally( (value)  => {
+                                    console.log('End process');
                                 });
-                            } else {
-                                this.signPayment(false)
+                        } else {
+                                this.signPayment(paymentId,false,scaUid)
                                 .then((value) => {
-                                    this.sendToLanding(true);
-                                }).catch( (error) =>{
+                                    resolve({ errorSignAttribute: false ,OTPErrorMessageAttribute : '' })
+                                    //this.sendToLanding(true);
+                                })
+                                .catch( (error) =>{
                                     console.log(error);
+                                    reject({ errorSignAttribute: true });
+                                })
+                                .finally( (value)  => {
+                                    console.log('End process');
                                 });
-                            }
-                            resolve({ OTPErrorMessageAttribute : '' })
-                        }else{
-                            resolve({ OTPErrorMessageAttribute : OTPWrongCheckSMS })
                         }
+                    }else{
+                        reject({ errorSignAttribute: true , OTPErrorMessageAttribute : OTPWrongCheckSMS })
                     }
-                
+                }
             })
             .catch(errors => {
                 console.log('Error message: ' + errors);
@@ -515,15 +541,17 @@ export const helper = {
         30/07/2020      R. Cervino          Initial version
         07/08/2020      Bea Hill            Separate functions to control status update
     */
-    beginAuthorize(signLevel,paymentData,paymentId,debitAmountString,feesString,exchangeRateString,paymentAmountString,labelCNF_mockeoFirmas){
+    beginAuthorize(signLevel,paymentData,paymentId,debitAmountString,
+            feesString,exchangeRateString,paymentAmountString,labelCNF_mockeoFirmas,
+            OTP,labelOTPWrongCheckSMS,navigatorInfo){
         return new Promise((resolve, reject) => {
                 let signature = signLevel;
                 console.log(signature);
-                if (signature.signatory === 'true' && signature.signed === 'false') {
+                if (signature != undefined  && signature != null && signature.signatory === 'true' && signature.signed === 'false') {
                     if (signature.lastSign === 'true') {
-                        this.sendOTP_Strategic(paymentData,paymentId,debitAmountString,
+                       this.sendOTP_Strategic(paymentData,paymentId,debitAmountString,
                             feesString,exchangeRateString,paymentAmountString,labelCNF_mockeoFirmas,
-                            validateOTP,OTP,signLevel,OTPWrongCheckSMS,navigatorInfo)
+                            OTP,signLevel,labelOTPWrongCheckSMS,navigatorInfo)
                         .then((value) => {
                             resolve({ 
                                 winAttribute : value.winAttribute,
@@ -537,17 +565,17 @@ export const helper = {
                         }).catch((error) => {
                             console.log(error);
                             reject({ 
-                                errorSignAttribute: value.errorSignAttribute, 
-                                errorOTPAttribute: value.errorOTPAttribute,
-                                spinnerVerificationCodeAttribute: value.spinnerVerificationCodeAttribute, 
-                                messageAttribute: value.messageAttribute 
+                                errorSignAttribute: error.errorSignAttribute, 
+                                errorOTPAttribute: error.errorOTPAttribute,
+                                spinnerVerificationCodeAttribute: error.spinnerVerificationCodeAttribute, 
+                                messageAttribute: error.messageAttribute 
                             });
                         }).finally(() => {
                         });
                     } else {
-                        this.sendOTP_Strategic(paymentData,paymentId,debitAmountString,feesString,exchangeRateString,
-                                                paymentAmountString,labelCNF_mockeoFirmas,
-                                                validateOTP,OTP,signLevel,OTPWrongCheckSMS,navigatorInfo)
+                        this.sendOTP_Strategic(paymentData,paymentId,debitAmountString,
+                                        feesString,exchangeRateString,paymentAmountString,labelCNF_mockeoFirmas,
+                                        OTP,signLevel,labelOTPWrongCheckSMS,navigatorInfo)
                         .then((value) => {
                             resolve({ 
                                 winAttribute : value.winAttribute,
@@ -558,22 +586,33 @@ export const helper = {
                                 messageAttribute: value.messageAttribute ,
                                 showOTPAttribute: true 
                             });
-                        })
+                        })  
                         .catch((error) => {
                             console.log(error);
                             reject({
-                                    scaUidAttribute : value.scaUidAttribute,
-                                    errorSignAttribute: value.errorSignAttribute, 
-                                    errorOTPAttribute: value.errorOTPAttribute,
-                                    spinnerVerificationCodeAttribute: value.spinnerVerificationCodeAttribute, 
-                                    messageAttribute: value.messageAttribute ,
+                                    scaUidAttribute : error.scaUidAttribute,
+                                    errorSignAttribute: error.errorSignAttribute, 
+                                    errorOTPAttribute: error.errorOTPAttribute,
+                                    spinnerVerificationCodeAttribute: error.spinnerVerificationCodeAttribute, 
+                                    messageAttribute: error.messageAttribute ,
                                     showOTPAttribute: true 
                                     });
                         })
                         .finally(() => {
                         });
                     }
-                } 
+                } else{
+                    reject({ 
+                        winAttribute : undefined,
+                        scaUidAttribute : undefined,
+                        errorSignAttribute: true, 
+                        errorOTPAttribute: true,
+                        spinnerVerificationCodeAttribute:false, 
+                        messageAttribute: 'ko' ,
+                        showOTPAttribute: true 
+                    });
+
+                }
             }, this);  
     },
     
@@ -615,122 +654,7 @@ export const helper = {
             }, this);   
         },
 
-    /*
-    Author:        	Bea Hill
-    Company:        Deloitte
-    Description:    Get payment details
-    History:
-    <Date>          <Author>            <Description>
-    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
-    */
-    reloadFX(paymentData,paymentId,accountData){
-            new Promise( (resolve, reject) => {
-                resolve('ok');
-            }).then((value) => {
-                return this.reloadFXValue(false,paymentData,paymentId,accountData);
-            }).then((value) => {
-                return this.reloadFXValue(true,paymentData,paymentId,accountData);
-            }).catch( (error)  =>{
-                console.log(error);
-            })
-    },
-    
-    
-    /*
-    Author:        	Bea Hill
-    Company:        Deloitte
-    Description:    Get payment details
-    History:
-    <Date>          <Author>            <Description>
-    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
-    */
-    reloadFXValue: function (feesBoolean,paymentData,paymentId,accountData) {
-            return new Promise( (resolve, reject) => {
-                let payment = paymentData;
-                let paymentFees = ((payment.fees == undefined || payment.fees != undefined) ? '' : payment.fees);
-                let paymentCurrency = ((payment.paymentCurrency == undefined || payment.paymentCurrency != undefined)   ? '' : payment.paymentCurrency);
-                let feesCurrency = ((payment.feesCurrency == undefined || payment.feesCurrency != undefined)  ? '' : payment.feesCurrency);
-                if (feesBoolean == true && ((paymentFees === '' || feesCurrency === '' || (paymentFees === '' &&  (paymentCurrency === feesCurrency))))) {
-                    resolve('ok');
-                }else if (feesBoolean == false && payment.sourceCurrency === payment.beneficiaryCurrency) {
-                    resolve('ok');
-                } else {
-                    let paymentId = paymentId;
-                    let accountData = accountData;
-                    getExchangeRate({
-                        paymentId: paymentId,
-                        accountData: accountData,
-                        payment: payment,
-                        feesBoolean : feesBoolean
-                    })
-                    .then(this, function (actionResult) {
-                            let stateRV = actionResult;
-                            console.log(stateRV);
-                            console.log(payment.amountSend);
-                            if (stateRV.success) {
-                                if (feesBoolean === true){
-                                    if (stateRV.value.convertedAmount != undefined && stateRV.value.convertedAmount != null) {
-                                        payment.fees = stateRV.value.convertedAmount;
-                                        if (payment.convertedAmount != null && payment.convertedAmount != undefined && payment.addFees == true) {
-                                            payment.totalAmount =  parseFloat(stateRV.value.convertedAmount) + parseFloat(payment.amountSend);
-                                        }
-                                    }
-                                    if (stateRV.value.output != undefined && stateRV.value.output != null) {
-                                        payment.FXFeesOutput = stateRV.value.output;
-                                    }          
-                                } else {
-                                    if (stateRV.value.exchangeRate != null && stateRV.value.exchangeRate != undefined) {
-                                        payment.tradeAmount = stateRV.value.exchangeRate;
-                                        payment.operationNominalFxDetails.customerExchangeRate = stateRV.value.exchangeRate;
-                                    } 
-                                    if (stateRV.value.timestamp != undefined && stateRV.value.timestamp != null) {
-                                        payment.timestamp = stateRV.value.timestamp;
-                                    }
-                                    if (stateRV.value.fxTimer != undefined && stateRV.value.fxTimer != null) {
-                                        payment.FXDateTime = stateRV.value.fxTimer;
-                                    }
-                                    if (stateRV.value.convertedAmount != undefined && stateRV.value.convertedAmount != null) {
-                                        if(stateRV.value.amountObtained == 'send'){
-                                            payment.amountSend = stateRV.value.convertedAmount;
-                                        }
-                                        if(stateRV.value.amountObtained == 'received'){
-                                            payment.amountReceive = stateRV.value.convertedAmount;
-                                        }
-                                        payment.convertedAmount = stateRV.value.convertedAmount;
-    
-                                        payment.amountOperative = stateRV.value.convertedAmount;
-                                        if ( paymentFees != ''  && payment.addFees === true) {
-                                            payment.totalAmount =  parseFloat(payment.amountSend) + parseFloat(paymentFees);
-                                        }
-                                        
-                                    }
-                                    if (stateRV.value.output != undefined && stateRV.value.output != null) {
-                                        payment.FXoutput = stateRV.value.output;
-                                    }                               
-                                }
-                                resolve({
-                                        paymentDataAttribte : paymentData,
-                                        expiredFX : false,
-                                        messageAttribte : 'ok',
-                                });
-                            } else {
-                                reject('ko');
-                                //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), component.get('v.showOTP'), 'error');
-                            }
-                        
-                    })
-                    .catch( (error)  =>{
-                        reject('ko');
-                        //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), component.get('v.showOTP'), 'error');
-                    })
-                    .finally(() => {
-                        console.log(error);
-                    });
-                   
-                }
-            }, this);
-        },
-    
+      
     /*
     Author:        	Bea Hill
     Company:        Deloitte
@@ -793,9 +717,6 @@ export const helper = {
                 .catch( (error)  =>{
                     //helper.showToast(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), component.get('v.showOTP'), 'error');
                     reject('ko');
-                })
-                .finally(() => {
-                    console.log(error);
                 });
                 
             }, this);
@@ -838,142 +759,6 @@ export const helper = {
         }
     },
 
-   
-    /*
-    Author:        	Bea Hill
-    Company:        Deloitte
-    Description:    Get payment details
-    History:
-    <Date>          <Author>            <Description>
-    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
-    */
-    auxCometD (cometd,expiredFX,errorOTP,scaUid,errorSign,signLevel,cometdSubscriptions,localWindow){
-            //component.set('v.cometdSubscriptions', []);
-            //component.set('v.notifications', []);
-            // Disconnect CometD when leaving page
-            window.addEventListener('unload', function (event) {
-                this.disconnectCometd(cometd,cometdSubscriptions);
-            });
-            // Retrieve session id
-            getSessionId()
-            .then((response)  => {
-                    //component.set('v.sessionId', response.getReturnValue());
-                    if (cometd != null) {
-                        var sessionId = response;
-                        this.connectCometd(cometd,sessionId,expiredFX,errorOTP,scaUid,
-                                                errorSign,signLevel,cometdSubscriptions,localWindow);
-                    }
-            })
-            .catch(errors => {
-                console.log('Error message: ' + errors);
-            });
-    },
-    
-    /*
-    Author:        	Bea Hill
-    Company:        Deloitte
-    Description:    Get payment details
-    History:
-    <Date>          <Author>            <Description>
-    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
-    */
-    // METHODS TO CONNECT WITH THE WS_OTPVALIDATION SERVICE
-    connectCometd (cometd,sessionId,expiredFX,errorOTP,scaUid,
-                    errorSign,signLevel,cometdSubscriptions,localWindow) {
-        return new Promise( (resolve, reject) => {
-            //var helper = this;
-            // Configure CometD
-            var cometdUrl = window.location.protocol + '//' + window.location.hostname + '/cometd/40.0/';
-            cometd.configure({
-                'url': cometdUrl,
-                'requestHeaders': {
-                    'Authorization': 'OAuth '+ sessionId
-                },
-                'appendMessageTypeToURL' : false
-            });
-            cometd.websocketEnabled = false;
-            // Establish CometD connection
-            console.log('Connecting to CometD: '+ cometdUrl);
-            cometd.handshake((handshakeReply) => {
-                if (handshakeReply.successful) {
-                    console.log('Connected to CometD.');
-                    // Subscribe to platform event
-                    var newSubscription = cometd.subscribe('/event/OTPValidation__e', function (platformEvent) {
-                        if(expiredFX === false && errorOTP === false){
-                            if(platformEvent.data.payload.scaUid__c === scaUid){
-                                var win = localWindow;
-                                if(win != undefined && win != null){
-                                    win.close();
-                                }
-                                if (platformEvent.data.payload.status__c == 'KO' || platformEvent.data.payload.status__c == 'ko') {
-                                   this.errorSign =true;
-                                } else {
-                                    this.spinnerVerificationCode = true;
-                                        let signature = signLevel;
-                                        if (signature.lastSign == 'true') {
-                                            this.signPayment(true).then((value) => {
-                                                return this.handleExecutePayment();
-                                            }).then((value) => {
-                                                return this.deleteSignatureRecord();
-                                            }).then((value) => {
-                                                return this.sendNotification();
-                                            }).then((value) => {
-                                                this.sendToLanding( true);
-                                            }).catch( (error)  =>{
-                                                this.errorOTP = true;
-                                                this.errorSign = true;
-                                            }).finally(() => {
-                                                this.spinnerVerificationCode = false;
-                                            });
-                                        } else {
-                                            this.signPayment(false).then((value) => {
-                                                this.sendToLanding(true);
-                                            }).catch( (error)  =>{
-                                                this.errorOTP = true;
-                                                this.errorSign = true;
-                                            }).finally(() => {
-                                                this.spinnerVerificationCode = false;
-                                            });
-                                        }
-                                        
-                                }
-                            }
-                        }
-                    });
-                    // Save subscription for later
-                    if(cometdSubscriptions != undefined){
-                        var subscriptions = cometdSubscriptions;
-                        subscriptions.push(newSubscription);
-                        this.cometdSubscriptions = subscriptions;
-                    }
-                } else {
-                    console.error('Failed to connected to CometD.');
-                }
-            });
-        }, this);
-    },
-        
-     /*
-    Author:        	Bea Hill
-    Company:        Deloitte
-    Description:    Get payment details
-    History:
-    <Date>          <Author>            <Description>
-    30/07/2020      Bea Hill            Initial version - adapted from CMP_PaymentsLandingParentHelper getCurrentAccounts
-    */
-    disconnectCometd(cometd,cometdSubscriptions){
-            // Unsuscribe all CometD subscriptions
-            cometd.batch(function () {
-              var subscriptions = cometdSubscriptions;
-              subscriptions.forEach(function (subscription) {
-                cometd.unsubscribe(subscription);
-              });
-            });
-            this.cometdSubscriptions = [];
-            // Disconnect CometD
-            cometd.disconnect();
-            console.log('CometD disconnected.');
-    },
         
     /*
     Author:        	Bea Hill
@@ -999,7 +784,7 @@ export const helper = {
     },
 
 
-    getNavigatorInfo: function (navigatorInfoInput) {
+    getNavigatorInfo(navigatorInfoInput) {
         return  new Promise((resolve, reject) => {
             let navigatorInfo = navigatorInfoInput;
             if(navigatorInfo != undefined && navigator != undefined){

@@ -1,0 +1,127 @@
+.slds-backdrop {
+	background-color: #444444;
+	opacity: 0.52;
+}
+
+.modal_list .slds-backdrop {
+	background-color: #444444;
+}
+.modal_list .button-page {
+	cursor: pointer;
+}
+.modal_list  .icon-close {
+	color: white;
+	font-size: 24px;
+	margin-right: 24px;
+}
+
+.icon-close:before {
+	color: #ffffff;
+} 
+.modal_list .slds-button:focus {
+	-webkit-box-shadow: none;
+	border: none;
+	border-color: inherit;
+	box-shadow: none;
+	outline: none;
+}
+.modal_list .slds-button:active {
+	border: none;
+}
+.modal_list .slds-modal__header {
+	border-bottom: 1px solid #dadada;
+	padding: 16px 0;
+}
+.slds-modal__container {
+	top: -152px;
+	max-width: 584px;
+	min-width: 584px;
+}
+.modal_list .slds-modal__footer {
+	border-top: 1px solid #dadada;
+	padding: 16px 24px 16px 0;
+}
+.modal_list .slds-modal__content {
+	min-height: 193px;
+}
+.modal_list .slds-modal__title {
+	color: #444444;
+	font-family: "SantanderHeadlineW05-Rg";
+	font-size: 20px;
+	line-height: normal;
+}
+.modal_list .slds-p-around_medium {
+	padding: 16px 24px 0 24px;
+}
+.modal_list .icon-circle__blue::before {
+	color: #444444;
+	font-size: 24px;
+	margin-right: 8px;
+}
+.text-list, .icon-circle__blue {
+	display: inline-block;
+}
+.modal_list .slds-modal__content > ul > li {
+	align-content: center;
+	color: #444444;
+	display: flex;
+	font-size: 14px;
+	line-height: 1.5;
+	margin-bottom: 8px;
+}
+.modal_list .slds-media__body {
+	color: #444444;
+	display: flex;
+	justify-content: flex-end;
+}
+.modal_list .slds-modal__footer .slds-button + .slds-button {
+	margin-left: 0;
+}
+.modal_list .redButton {
+	background-color: #ec0000;
+	border: solid 1px #ec0000;
+	transition: all 0.2s ease-in-out;
+	border-radius: 24px;
+	color: #ffffff;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	padding: 0 32px;
+}
+.modal_list .redButton:hover {
+	background-color: #cc0000;
+	border: 1px solid #cc0000;
+	color: #ffffff;
+}
+
+.modal_list .redButton:focus {
+	box-shadow: 2px 2px 4px 2px rgba(206,214,219,0.64);
+	border: 1px solid #cc0000;
+	color: #ffffff;
+	background-color: #cc0000;
+}
+
+.modal_list .whiteButton {
+	background-color: #ffffff;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	margin-right: 16px;
+	padding: 0 32px;
+	transition: all 0.2s ease-in-out;
+}
+.modal_list .whiteButton:hover {
+	background-color: #f6f6f6;
+	border: 1px solid #cc0000;
+	color: #cc0000;
+}
+
+.modal_list .whiteButton:focus {
+	box-shadow: 2px 2px 4px 2px rgba(206,214,219,0.64);
+	background-color: #f6f6f6;
+	border: 1px solid #cc0000;
+	color: #cc0000;
+}

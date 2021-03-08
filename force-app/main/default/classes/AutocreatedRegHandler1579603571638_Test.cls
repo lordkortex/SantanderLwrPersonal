@@ -11,6 +11,7 @@ History
 public class AutocreatedRegHandler1579603571638_Test {
     @isTest
     public static  void testCreateAndUpdateUser() {
+        
         user userAdmin =DataFactory.getRunningUser(true);
         System.runAs(userAdmin){
             

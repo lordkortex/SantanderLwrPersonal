@@ -11,7 +11,7 @@
         try {
 
             var accountList=component.get("v.accountList");
-            if(accountList.length>0){
+            if(accountList.length>0 && component.get("v.fromDetail") == false){
                 var filter='{"searchData":{';
                 var filterAccount='"originatorAccountList":[';
                 var accountsToDisplay=[];
@@ -36,6 +36,95 @@
                 var cmpEvent = component.getEvent("getFilterParent"); 
                 cmpEvent.setParams({filters: filter});
                 cmpEvent.fire(); 
+            } else if (accountList.length>0 && component.get("v.fromDetail") == true) {
+
+                var allAccounts = component.get("v.accountList");
+                var filters = JSON.parse(component.get("v.filters"));
+                var filterAccounts = filters.searchData.originatorAccountList;
+                var newAccounts = [];
+                var selectedAccounts = [];
+                var count = 1;
+
+                if(filters.searchData.inOutIndicator == "IN") {
+                    filterAccounts = filters.searchData.beneficiaryAccountList;
+                    component.set("v.selectedPaymentType", 'IN');
+                }
+
+                for(var i = 0; i < allAccounts.length; i++) {
+                    newAccounts.push(allAccounts[i].account);
+
+                    for(var j = 0; j < filterAccounts.length; j++){
+                        if(filterAccounts[j].account.accountId == allAccounts[i].account) {
+                            selectedAccounts.push(filterAccounts[j].account.accountId);
+                        }
+                    }
+                }
+
+                if((filters.searchData).hasOwnProperty('currency')) {
+                    var currency = filters.searchData.currency;
+                    component.set("v.currency", currency);
+                    count += 1;
+                }
+                if((filters.searchData).hasOwnProperty('paymentStatusList')) {
+                    var status = filters.searchData.paymentStatusList;
+                    component.set("v.selectedStatus", status);
+                    count += 1;
+                }
+                if((filters.searchData).hasOwnProperty('amountFrom')) {
+                    var amountFrom = filters.searchData.amountFrom;
+                    component.set("v.amountFrom", amountFrom);
+                    count += 1;
+                }
+                if((filters.searchData).hasOwnProperty('amountTo')) {
+                    var amountTo = filters.searchData.amountTo;
+                    component.set("v.amountTo", amountTo);
+                }
+                if((filters.searchData).hasOwnProperty('beneficiaryCountry')) {
+                    var beneficiaryCountry = filters.searchData.beneficiaryCountry;
+                    component.set("v.selectedCountry", beneficiaryCountry);
+                    count += 1;
+                }
+                if((filters.searchData).hasOwnProperty('originatorCountry')) {
+                    var originatorCountry = filters.searchData.originatorCountry;
+                    component.set("v.selectedCountry", originatorCountry);
+                    count += 1;
+                }
+                if((filters.searchData).hasOwnProperty('valueDateFrom')) {
+                    var valueDateFrom = filters.searchData.valueDateFrom;
+                    component.set("v.valueDateFrom", valueDateFrom);
+                    count += 1;
+                }
+                if((filters.searchData).hasOwnProperty('valueDateTo')) {
+                    var valueDateTo = filters.searchData.valueDateTo;
+                    component.set("v.valueDateTo", valueDateTo);
+                }
+                if((filters.searchData).hasOwnProperty('searchtext')) {
+                    var searchtext = filters.searchData.searchtext;
+                    component.set("v.searchtext", searchtext);
+                    count += 1;
+                }
+
+                if(filters.searchData.inOutIndicator == "OUT") {
+                    if((filters.searchData).hasOwnProperty('beneficiaryAccountList')) {
+                        var beneficiaryAccount = filters.searchData.beneficiaryAccountList[0].account.accountId;
+                        component.set("v.beneficiaryAccount", beneficiaryAccount);
+                        count += 1;
+                    }
+                } else {
+                    if((filters.searchData).hasOwnProperty('originatorAccountList')) {
+                        var beneficiaryAccount = filters.searchData.originatorAccountList[0].account.accountId;
+                        component.set("v.beneficiaryAccount", beneficiaryAccount);
+                        count += 1;
+                    }
+                }
+
+                component.set("v.count", count);
+                component.set("v.accountListToDisplay",newAccounts);
+                component.set("v.selectedAccounts",selectedAccounts);
+                component.set("v.ready",true);
+                var cmpEvent = component.getEvent("getFilterParent"); 
+                cmpEvent.setParams({filters: component.get("v.filters")});
+                cmpEvent.fire();
             }
             
 
@@ -59,15 +148,16 @@
             this.retrieveList(component, event, helper).then(function(results){
                 if(results!=null && results!='' && results!=undefined){
                     var domain=$A.get('$Label.c.domain');
-					
-					if(component.get("v.isOneTrade")==false){										 
-						if(component.get("v.fromCashNexus")==true){
-							domain=$A.get('$Label.c.domainCashNexus');
-						}
-						if(component.get("v.backfront")==true){
-							domain=$A.get('$Label.c.domainBackfront');
-						}
-					}
+                    
+                    if(component.get("v.isOneTrade")==false){
+                        if(component.get("v.fromCashNexus")==true){
+                            domain=$A.get('$Label.c.domainCashNexus');
+                        }
+                        if(component.get("v.backfront")==true){
+                            domain=$A.get('$Label.c.domainBackfront');
+                        }
+                    }
+
                     window.location.href = domain+'/sfc/servlet.shepherd/document/download/'+results+'?operationContext=S1';
 
                     setTimeout(function(){

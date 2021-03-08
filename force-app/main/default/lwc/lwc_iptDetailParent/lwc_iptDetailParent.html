@@ -9,7 +9,10 @@
     <template if:true={isUetrSearchResultNullOrUndefined}>
         <c-lwc_cn_title-subtitle 
             title={label.T_InternationalPaymentsTracker} 
-            subtitle={label.trackingDetails}>
+            subtitle={label.trackingDetails}
+            comesfromtracker={comesfromtrackerAux} 
+            filters={filters}
+            fullaccountlist={fullAccountList}>
         </c-lwc_cn_title-subtitle>
     </template>
 

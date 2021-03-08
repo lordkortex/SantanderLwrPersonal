@@ -1,0 +1,15 @@
+/* GRID */
+.THIS .sixAccounts .cardsAccount-grid .slds-col {
+    margin-bottom: 24px;
+    margin-right: 24px;
+    flex: none;
+}
+
+.THIS .sixAccounts .cardsAccount-grid .slds-col:nth-child(2n) {
+    margin-right: 0;
+}
+
+.THIS .sixAccounts .cardsAccount-grid .slds-col:last-child,
+.THIS .sixAccounts .cardsAccount-grid .slds-col:nth-last-child(2) {
+    margin-bottom: 0;
+}

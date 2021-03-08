@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root  or https://opensource.org/licenses/BSD-3-Clause
  */
 public class AppConstants {
-    /*
+    /*.
 
     public static final String QUALIFIED_API_NAME_ATTRIBUTE = 'QualifiedApiName';
     public static final String FULL_NAME_ATTRIBUTE = 'FullName';

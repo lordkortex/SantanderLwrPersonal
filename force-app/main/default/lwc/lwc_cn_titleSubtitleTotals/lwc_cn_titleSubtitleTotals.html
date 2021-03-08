@@ -83,46 +83,56 @@
         
         <!-- Right column -->
         <div if:true={showtotals}>
-            <div class="slds-col account">
-                <!-- Column 1: Text-->
-                <div class="bookBalance" data-aura-rendered-by="63:2;a">
-                    
-                    <!-- Row 1: Book Balance -->
-                    <div class="slds-card__header-title textSubtitle firstRow">
-                        <span>{Label.TotalBookBalance}</span>
-                    </div>
-                    
-                    <!-- Row 2: Total Available Balance -->
-                    <div class="slds-card__header-title textSubtitle">
-                        <span>{Label.TotalAvailableBalance}</span>
-                    </div>
-                </div>
-                
-                <!-- Column 2: Numbers -->
-                <div class="bookBalanceNumber">
-                    <!-- Row 1 -->
-                    <div class="slds-card__header-title numberTitle firstRow">
-                        <c-lwc_display-amount 
-                            data-id="bookBalance" 
-                            amount={accountdetails.bookBalance}
-                            decimalclass="numberTitle bookDecimals" 
-                            wholeclass="numberTitle bookInteger" 
-                            currency={accountdetails.accountCurrency}>
-                        </c-lwc_display-amount> 
-                    </div>
-                    <!-- Row 2 -->
-                    <div class="slds-card__header-title numberSubtitle">
+            
+            <table>
+                <!--<div class="slds-col account">-->
+                <th>
+                    <!-- Column 1: Text-->
+                    <div class="bookBalance" data-aura-rendered-by="63:2;a">
+                                                        
+                        <!-- Row 1: Book Balance -->
+                        <div class="slds-card__header-title textSubtitle firstRow">
+                            <span>{Label.TotalBookBalance}</span>
+                        </div>
                         
-                        <c-lwc_display-amount 
-                            data-id="valueBalance" 
-                            amount={accountdetails.availableBalance} 
-                            decimalclass="bookDecimals" 
-                            wholeclass="bookInteger" 
-                            currency={accountdetails.accountCurrency}>
-                        </c-lwc_display-amount>
+                        <!-- Row 2: Total Available Balance -->
+                        <div class="slds-card__header-title textSubtitle">
+                            <span>{Label.TotalAvailableBalance}</span>
+                        </div>
                     </div>
-                </div>
-            </div>   
+                </th>
+                <th>
+                    <!-- Column 2: Numbers -->
+                    <div class="bookBalanceNumber">
+                        <!-- Row 1 -->
+                        <div class="slds-card__header-title numberTitle firstRow">
+                            
+                                <c-lwc_display-amount 
+                                    data-id="bookBalance" 
+                                    amount={accountdetails.bookBalance}
+                                    decimalclass="numberTitle bookDecimals" 
+                                    wholeclass="numberTitle bookInteger" 
+                                    currency={accountdetails.accountCurrency}>
+                                </c-lwc_display-amount> 
+                        
+                        </div>
+                        <!-- Row 2 -->
+                        <div class="slds-card__header-title numberSubtitle">
+                            
+                            <c-lwc_display-amount 
+                                data-id="valueBalance" 
+                                amount={accountdetails.availableBalance} 
+                                decimalclass="bookDecimals" 
+                                wholeclass="bookInteger" 
+                                currency={accountdetails.accountCurrency}>
+                            </c-lwc_display-amount>
+                            
+                        </div>
+                        
+                    </div>
+                </th>    
+                <!--</div>  -->
+            </table> 
         </div>   
     </div>    
 </template>

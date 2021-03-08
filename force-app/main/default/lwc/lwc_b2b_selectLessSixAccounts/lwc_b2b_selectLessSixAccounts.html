@@ -1,0 +1,38 @@
+<template>
+    <div>
+        <div class="accountInformation sixAccounts">
+            <div class="slds-text-title">{label.All_my_accounts}</div>
+            <div class="slds-grid slds-wrap cardsAccount-grid">
+                <template for:each={accountlist} for:item='item'>
+                    <div key={item.index} class="slds-col">
+                        <template if:true={isAccountEmpty}>
+                                <c-lwc_b2b_card-account 
+                                    data-id="shownCards" 
+                                    accountdata={accountdata}
+                                    userdata={userdata}
+                                    account={item}
+                                    selected={item.displaySelected}
+                                    beneficiarydetails={beneficiarydetails} 
+                                    lessthan6accounts={areAccountsLESix}
+                                    onselectedaccount={handleSelectedAccount}>
+                                </c-lwc_b2b_card-account>
+
+                        </template>
+                        <template if:false={isAccountEmpty}>
+                            <c-lwc_b2b_card-account 
+                                data-id="shownCards" 
+                                accountdata={accountdata} 
+                                userdata={userdata} 
+                                account={item} 
+                                selected={falseValue} 
+                                beneficiarydetails={beneficiarydetails} 
+                                lessthan6accounts={areAccountsLESix}
+                                onselectedaccount={handleSelectedAccount}>
+                            </c-lwc_b2b_card-account>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

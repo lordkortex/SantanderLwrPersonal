@@ -1,0 +1,104 @@
+<template>
+    <tr aria-selected="false" id={trId} > 
+        <!-- <tr class={isCheckedClass} aria-selected="false" id={trId} >  -->
+        <!-- CHECKBOX TYPE 
+        <td role="gridcell" class="infoCheck checkboxContainer">
+            <div class="slds-checkbox" >
+                <input type="checkbox" value={item} name="options" id={item.paymentId} onclick={handleSelectedRow} data-id="checkbox"/>
+                <label class="slds-checkbox__label" for={item.paymentId}>
+                    <span class="slds-checkbox_faux"></span> 
+                </label>
+            </div> 
+        </td>  -->
+        <!-- STANDARD TYPE -->
+        <template if:true={typeStandard}>
+            <td role="gridcell" class="rowSpace rowMaxSpace" onclick={handleClickRow}>
+                <!-- <div class="slds-grid slds-grid_align-spread"  > -->
+                <div class="slds-text-align_center">
+                    <span class="slds-truncate">{item.value}</span>
+                </div>
+            </td>
+        </template>
+        <!-- AMOUNT TYPE -->
+        <template if:true={typeAmount}>
+            <td role="gridcell" class="rowSpace rowMaxSpace" onclick={handleClickRow}>
+                <!-- <div class="slds-grid flexCol"> -->
+                <div class="slds-text-align_center">
+                    <strong>
+                        <c-lwc_display-amount data-id ="avaibleBalanceRow"
+                            amount={item.value} 
+                            decimalclass="" 
+                            wholeclass=""
+                            numberformat={currentuser.numberFormat}>
+                        </c-lwc_display-amount>
+                        <span>{item.currency}</span>
+                    </strong>
+                    </br>
+                </div>
+                <div class="alignRight"> {item.side}</div>
+            </td>
+        </template>
+        <!-- STATUS TYPE -->
+        <template if:true={typeStatus}>
+            <td role="gridcell" class="rowSpace rowMaxSpace" onclick={handleClickRow}>
+                <!-- <div class="slds-grid slds-grid_align-spread"  title={item.value} > -->
+                <div class="slds-text-align_center" title={item.value} >
+                    <!-- paymentStatus: {!item.paymentStatus} -->
+                    <template if:true={itemPaymentStatus001}>
+                        <span class="slds-badge badgeDraft" title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus002}>
+                        <span class="slds-badge badgePending"  title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus003}>
+                        <span class="slds-badge badgeReview" title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus997}>
+                        <span class="slds-truncate slds-badge badgeNotAuthorized"  title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus101}>
+                        <span class="slds-badge badgeAuthorized" title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus201}>
+                        <span class="slds-badge badgeScheduled" title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus998}>
+                        <span class="slds-badge badgeCanceled" title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus202}>
+                        <span class="slds-badge badgeReleased" title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus999}>
+                        <span class="slds-badge badgeRejected" title={item.value}>{item.value}</span>
+                    </template>
+                    <!-- <aura:if isTrue="{!item.paymentStatus == ''}">
+                        <span class="slds-badge badgeInProgress" title="{!item.value}">{!item.value}</span>
+                    </aura:if> -->
+                    <template if:true={itemPaymentStatus102}>
+                        <span class="slds-badge badgeProcessed" title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus801}>
+                        <span class="slds-badge badgeDelayed" title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus800}>
+                        <span class="slds-badge badgeHold" title={item.value}>{item.value}</span>
+                    </template>
+                    <template if:true={itemPaymentStatus103}>
+                        <span class="slds-badge badgeCompleted" title={item.value}>{item.value}</span>
+                    </template>
+                    
+                </div>
+            </td>
+        </template>
+        <!-- DATE TYPE -->
+        <template if:true={typeDate}>
+            <td role="gridcell" class="rowSpace rowMaxSpace" onclick={handleClickRow}>
+                <div class="slds-text-align_center">
+                    <span class="slds-truncate"> 
+                        <c-lwc_display-date userdateformat={currentuser.dateFormat} dateclass="" date={item.value}></c-lwc_display-date>
+                    </span>
+                </div>
+            </td>
+        </template>
+    </tr> 
+</template>

@@ -307,8 +307,7 @@ public class DateTime_Utilities {
         return result;
     }
     
-    
-          /*----------------------------------------------------------------------------------
+        /*----------------------------------------------------------------------------------
     Author:         Shahad Naji
     Company:        Deloitte
     Description:   
@@ -359,4 +358,5 @@ public class DateTime_Utilities {
         }
         return myDateTime;
     }
+    
 }

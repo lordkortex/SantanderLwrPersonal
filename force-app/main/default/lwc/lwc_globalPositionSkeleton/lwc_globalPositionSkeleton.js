@@ -6,7 +6,7 @@ import GPSkeleton_balancesAccounts from '@salesforce/label/c.GPSkeleton_balances
 import GPSkeleton_trackPayments from '@salesforce/label/c.GPSkeleton_trackPayments';
 import GPSkeleton_trackPayments2 from '@salesforce/label/c.GPSkeleton_trackPayments2';
 import GPSkeleton_balancesAccounts2 from '@salesforce/label/c.GPSkeleton_balancesAccounts2';
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import Images from '@salesforce/resourceUrl/Images';
 
 

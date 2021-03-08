@@ -478,7 +478,8 @@ public with sharing class CNT_MRTrackerSearch {
             
             //If the user country is Portugal and comes from SSO with and uetr cached we will redirect him to Search uetr screen.
             if(currentUser != null && !currentUser.isEmpty() && currentUser[0].USER_country__c == 'PT'){
-                //Cache.Session.put('searchUETR', '5c957950-12cc-41eb-b06e-f9fdc18b5591'); //Test Line
+                //Cache.Session.put('searchUETR', '0724d372-9102-41ea-957c-051758e95ed4'); //Test Line
+                //Cache.Session.put('searchUETR', '40983582-8f94-41ea-957c-f2fbe3467cc2'); //Test Line
                 String uetr;
                 if(Cache.Session.contains('searchUETR')){
                     uetr = (String) Cache.Session.get('searchUETR');

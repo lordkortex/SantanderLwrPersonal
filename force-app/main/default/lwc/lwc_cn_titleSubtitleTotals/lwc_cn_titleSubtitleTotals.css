@@ -103,18 +103,18 @@
     display: inline-flex;
 	font-family: "SantanderMicroText";
 	font-size: 14px;
-	line-height: 24px;
+	line-height: 21px;
     letter-spacing: normal;
-	margin-bottom: 2px;
+	
 }
 
 .titleAccount .title .slds-text-body_regular{
-    color: #767676;
+    color: #000000;
 	font-family: "SantanderMicroText";
-	font-size: 14px;
-	line-height: 20px;
+	font-size: 12px;
     letter-spacing: normal;
 }
+
 
  .slds-button.primary.button_icon {
 	height: 40px;
@@ -133,7 +133,9 @@
     padding: 8px 24px;
 }
 
-
+.titleAccount .slds-col .title {
+    display: block;
+}
 
 
  .slds-button.primary:hover {
@@ -178,4 +180,22 @@
         font-size: 14px; 
         line-height: 1.5;
     }
+
+    table {
+        width: 45%;
+    }
+
+    .bookInteger{
+        font-size: 19px; 
+         line-height: 1.4;
+    }
+    .bookDecimal{
+        font-size: 14px; 
+        line-height: 1.5;
+    }
+    
+}
+
+.slds-card__header-title {
+    font-weight: normal;
 }

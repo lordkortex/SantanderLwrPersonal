@@ -111,6 +111,7 @@
     07/10/2020		Joaquin Vera     Initial version*/
     updatePaymentsType : function ( component,event,helper)
     {
+        component.set("v.fromDatail", false);
         var originalFilter = JSON.parse(component.get("v.filters"));
         
         var newFilters = {searchData : {}};
@@ -118,9 +119,23 @@
         {
             var auxOriginator = originalFilter.searchData.originatorAccountList;
             var auxBeneficiary = originalFilter.searchData.beneficiaryAccountList;
+            
             originalFilter.searchData.originatorAccountList = auxBeneficiary;
             originalFilter.searchData.beneficiaryAccountList = auxOriginator;
             
+            
+            // AB - 27-11-2020 - OriginatorCountry
+            if(originalFilter.searchData.beneficiaryCountry != undefined && originalFilter.searchData.beneficiaryCountry != null){
+            	var auxBeneficiaryCountry = originalFilter.searchData.beneficiaryCountry;
+                originalFilter.searchData.originatorCountry = auxBeneficiaryCountry;
+                delete originalFilter.searchData.beneficiaryCountry;
+            }else
+            if(originalFilter.searchData.originatorCountry != undefined && originalFilter.searchData.originatorCountry != null){
+            	var auxOriginatorCountry = originalFilter.searchData.originatorCountry;
+                originalFilter.searchData.beneficiaryCountry = auxOriginatorCountry;
+                delete originalFilter.searchData.originatorCountry;
+            }
+                
             if(event.currentTarget.id == "inPayments")
             {
                 component.set("v.selectedPaymentType", "IN");

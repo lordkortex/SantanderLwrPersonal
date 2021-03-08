@@ -1,63 +1,72 @@
 <template>
     <div class="searchFiltersAccounts">
         <div class="slds-grid">
-            <div class="slds-form-element search">
-                <div class="slds-form-element__control slds-input-has-icon">
-                    <template if:true={searchedString}>
-                        <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="Clear" onclick={handleClearInput}>
-                            <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true" ></div>
-                            <span class="slds-assistive-text">{Label.clear}</span>
-                        </button>
-                    </template>
-                    <!-- Cuando el input tenga un valor seleccionado se le tiene que añadir la clase filledInput -->
-                    <input type="search"
-                    placeholder={Label.search} 
-                    class={inputClass}
-                    name="search" 
-                    value={searchedString} 
-                    oninput={handleInputSearch} 
-                    /><!--onclick="handleSearchInputClicked"-->
-                    <div class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true" ></div>
+            <div class="searchFilters">
+                <!-- Añadir la clase "error" en el siguiente div para mostrar el mensaje errorText -->
+                <div class="slds-form-element search">
+                    <div class="slds-form-element__control slds-input-has-icon">
+                        <template if:true={searchedString}>
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="Clear" onclick={handleClearInput}>
+                                <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true" ></div>
+                                <span class="slds-assistive-text">{Label.clear}</span>
+                            </button>
+                        </template>
+                        <!-- Cuando el input tenga un valor seleccionado se le tiene que añadir la clase filledInput -->
+                        <input type="search"
+                        placeholder={Label.search} 
+                        class={inputClass}
+                        name="search" 
+                        value={searchedString} 
+                        oninput={handleInputSearch} 
+                        /><!--onclick="handleSearchInputClicked"-->
+                        <div class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true" ></div>
+                    </div>
                 </div>
+                <!-- Mensaje de error oculto por defecto -->
+            <div class="errorText">Error! Incorrect user input format.</div>
             </div>
             <div class="slds-form-element">
                 <label class="slds-form-element__label">{Label.filterBy}</label>
                 <div class="slds-form-element__control filters">
                     <!--PILL 1 COMBOBOX--> 
-                   <!-- <c-lwc_b2b_filter-button-dropdown 
-                    data-id="filter" 
-                    showdropdown="false" 
-                    label={Label.B2B_Country}    
-                    name="country"    
-                    filterlist={countries}  
-                    selectedfilters={countriesSelected} 
-                    cleardropdown={resetSearch}></c-lwc_b2b_filter-button-dropdown>-->
-                    <!--PILL 2 COMBOBOX 
+                   <c-lwc_b2b_filter-button-dropdown 
+                        data-id="filter"
+                        label={Label.B2B_Country}    
+                        name="country"    
+                        filterlist={countries}  
+                        selectedfilters={countriesSelected} 
+                        cleardropdown={resetSearch}
+                        onsavefilters={handleFilter}>
+                </c-lwc_b2b_filter-button-dropdown>
+                    <!--PILL 2 COMBOBOX -->
                     <c-lwc_b2b_filter-button-dropdown 
-                    data-id="filter" 
-                    showdropdown="false" 
-                    label={Label.B2B_Corporates} 
-                    name="corporates" 
-                    filterlist={corporates} 
-                    selectedfilters={corporatesSelected} 
-                    cleardropdown={resetSearch}></c-lwc_b2b_filter-button-dropdown>-->
-                    <!--PILL 3 COMBOBOX 
+                        data-id="filter" 
+                        label={Label.B2B_Corporates} 
+                        name="corporates" 
+                        filterlist={corporates} 
+                        selectedfilters={corporatesSelected} 
+                        cleardropdown={resetSearch}
+                        onsavefilters={handleFilter}>
+                    </c-lwc_b2b_filter-button-dropdown>-->
+                    <!--PILL 3 COMBOBOX -->
                     <c-lwc_b2b_filter-button-dropdown 
-                    data-id="filter" 
-                    showdropdown="false" 
-                    label={Label.B2B_Currency}   
-                    name="currency"   
-                    filterlist={currencies} 
-                    selectedfilters={currenciesSelected} 
-                    cleardropdown={resetSearch}></c-lwc_b2b_filter-button-dropdown>-->
-                    <!--PILL 4 COMBOBOX 
+                        data-id="filter" 
+                        label={Label.B2B_Currency}   
+                        name="currency"   
+                        filterlist={currencies} 
+                        selectedfilters={currenciesSelected} 
+                        cleardropdown={resetSearch}
+                        onsavefilters={handleFilter}>
+                    </c-lwc_b2b_filter-button-dropdown>
+                    <!--PILL 4 COMBOBOX -->
                     <c-lwc_b2b_filter-button-balances 
-                    data-id="filter" 
-                    numberformat={numberFormat} 
-                    showdropdown="false" 
-                    minimumbalance={minimumBalance} 
-                    maximumbalance={maximumBalance} 
-                    clearbalances={resetSearch}></c-lwc_b2b_filter-button-balances>-->
+                        data-id="filter" 
+                        numberformat={numberFormat} 
+                        minimumbalance={minimumBalance} 
+                        maximumbalance={maximumBalance} 
+                        clearbalances={resetSearch}
+                        onsavefilters={handleFilter}
+                    ></c-lwc_b2b_filter-button-balances>
                 </div>
             </div>
         </div>

@@ -1,0 +1,299 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" type="Map"     name="paymentData"      default="{}"       description="Data of the payment." />
+    <aura:attribute access="public" type="Map"     name="userData"               default="{}"                              description="User data." />
+    <aura:attribute access="public" type="Map"      name="signLevel"              default="{}"/>
+    <aura:attribute access="public" type="Map"     name="accountData"            default="{}"                              description="Account data." />
+    <aura:attribute access="public" type="Boolean"     name="spinner"            default="true"                  />
+    <aura:handler name="change"                                      action="{!c.changeSpinner}"   value="{!v.paymentData}" />
+
+    <div class="container_lastStep">  
+        <div class="slds-text-title">{!$Label.c.VerifyBeforeAuth}</div>
+        <article class="slds-card">
+                <header class="slds-card__header">
+                    <div class="slds-card__header-title">
+                        <span>{!$Label.c.UserGroupProfileSummary}</span>
+                    </div>
+                </header>
+                <div class="slds-card__body">
+                    <!-- Duplicar, cuando sea necesario: Casos de Payment information  -->
+                    <div class="source"> 
+                        <div class="slds-card__header-title">
+                            <span>{!$Label.c.sourceandRecepientAccounts}</span>
+                            <div class="line-title"></div>
+                        </div>
+                        <div class="slds-card__body">
+                            <div class="slds-grid">
+                                <div class="col title">{!$Label.c.from}</div>
+                                <div class="col title">{!$Label.c.to}</div>
+                            </div>
+                            <div class="slds-grid">
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.orderingHolder}</div>
+                                    <div class="text">{!v.paymentData.sourceAccountHolder}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.Beneficiary}</div>
+                                    <div class="text">{!v.paymentData.beneficiaryAccountHolder}</div>
+                                </div>
+                            </div>
+                            <div class="slds-grid">
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.orderingBank}</div>
+                                    <div class="text">{!v.paymentData.sourceBank}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.beneficiaryBank}</div>
+                                    <div class="text">{!v.paymentData.beneficiaryBank}</div>
+                                </div>
+                            </div>
+
+
+                            <div class="slds-grid">
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.orderingAccount}</div>
+                                    <div class="text">{!v.paymentData.sourceAccount}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.beneficiaryAccount}</div>
+                                    <div class="text">{!v.paymentData.beneficiaryAccount}</div>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid">
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.Country}</div>
+                                    <div class="text">{!v.paymentData.parsedSourceCountry}</div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.Country}</div>
+                                    <div class="text">{!v.paymentData.parsedDestinationCountry}</div>
+                                </div>
+
+                            </div>
+                            <div class="slds-grid">
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.Corporate}</div>
+                                    <div class="text">{!v.paymentData.sourceAlias}</div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.taxIdDocPassport}</div>
+                                    <div class="text">{!v.paymentData.beneficiarySwiftCode}</div>
+                                </div>
+
+                            </div>
+             
+                        </div>
+                    </div>
+
+                    <div class="source"> 
+                        <div class="slds-card__header-title">
+                            <span>{!$Label.c.paymentInformation}</span>
+                            <div class="line-title"></div>
+                        </div>
+                        <div class="slds-card__body">
+
+                            <div class="slds-grid">
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.PAY_ProcessDate}</div>
+                                    <div class="text">{!v.paymentData.valueDate}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.transferMethod}</div>
+                                    <div class="text">{!v.paymentData.parsedPaymentMethod}</div>
+                                </div>
+                            </div>
+                            <div class="slds-grid">
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.ClientReference}</div>
+                                    <div class="text">{!v.paymentData.clientReference}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.PaymentID}</div>
+                                    <div class="text">{!v.paymentData.paymentId}</div>
+                                </div>
+                            </div>
+
+
+                            <div class="slds-grid">
+                                <div class="col">
+                                    <div class="subtitle">{!$Label.c.PaymentReference}</div>
+                                    <div class="text">{!v.paymentData.paymentReference}</div>
+                                </div>
+                                <div class="col">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comentar si no es necesario: Reference -->
+                    <!-- <div class="reference">
+                        <div class="slds-card__header-title">
+                            <span>Reference</span>
+                            <div class="line-title"></div>
+                        </div>
+                        <div class="slds-card__body">
+                            <span class="subtitle">Cash flow management</span>
+                        </div>
+                    </div> -->
+                    <aura:if isTrue="{!v.paymentData.amount !=undefined}">
+
+                        <div class="amount">
+                            <div class="slds-card__header-title">
+                                <aura:if isTrue="{!v.accountData.CIB==true}">
+                                    <span>{!$Label.c.amountAndFees}</span>
+                                    <div class="line-title"></div>
+
+                                <aura:set attribute="else">
+                                    <span>{!$Label.c.amount}</span>
+                                    <div class="line-title"></div>
+
+                                </aura:set>
+                                </aura:if>
+                            </div>
+                            <aura:if isTrue="{!v.accountData.CIB==true}">
+                                <div class="slds-card__body">
+                                    <div class="slds-grid">
+                                        <div class="col title">{!$Label.c.amount}</div>
+                                        <c:CMP_displayAmount
+                                                    amount="{!v.paymentData.amount}"
+                                                    decimalClass='title' wholeClass='title' currencyClass='title'
+                                                    currency="{!v.paymentData.sourceCurrency}" 
+                                                    numberFormat="{!v.userData.numberFormat}"/>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <div class="col">
+                                            <div class="tooltip__content">
+                                                <div class="text">{!$Label.c.exchangeRate}</div>
+                                                <div class="tooltip tooltip_center__top">
+                                                    <button class="slds-button slds-button_icon" aria-describedby="help" aria-disabled="true" >
+                                                        <span class="slds-button__icon icon icon-information"></span>
+                                                        <span class="slds-assistive-text">{!$Label.c.help}</span>
+                                                    </button>
+                                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom" style="" role="tooltip" id="help">
+                                                        <div class="slds-popover__body">
+                                                            <div class="title">
+                                                                {!$Label.c.exchangeRate}
+                                                            </div>
+                                                            <div class="line"></div>
+                                                            <div class="text">
+                                                                {!$Label.c.B2B_PaymentSummaryValue}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <!--<c:CMP_displayAmount amount="1"  decimalClass='number' wholeClass='number' currency="{!v.paymentData.sourceCurrency}" numberFormat="{!v.userData.numberFormat}"/> = <c:CMP_displayAmount  amount="{!v.paymentData.tradeAmount}"  decimalClass='number' wholeClass='number' currency="{!v.paymentData.beneficiaryCurrency}" numberFormat="{!v.userData.numberFormat}"/>  
+                                            -->
+                                            <c:CMP_displayAmount amount="1"  decimalClass='number' wholeClass='number' currency="{!v.paymentData.sourceCurrency}" numberFormat="{!v.userData.numberFormat}"/> = <c:CMP_displayAmount  amount="0.5"  decimalClass='number' wholeClass='number' currency="{!v.paymentData.beneficiaryCurrency}" numberFormat="{!v.userData.numberFormat}"/>  
+
+                                        
+                                            </div>
+                                    </div>
+
+                                    <div class="slds-grid">
+                                        <div class="col">
+                                            <div class="text">{!$Label.c.amountIn}&nbsp;<span>{!v.paymentData.beneficiaryCurrency}</span></div>
+                                        </div>
+                                        <div class="col">
+                                           <!-- <c:CMP_displayAmount
+                                                    amount="{!v.paymentData.beneficiaryAmount}" 
+                                                    decimalClass='number'
+                                                    wholeClass='number'
+                                                    currency="{!v.paymentData.beneficiaryCurrency}"
+                                                    numberFormat="{!v.userData.numberFormat}"/>-->
+                                                    <c:CMP_displayAmount
+                                                    amount="400" 
+                                                    decimalClass='number'
+                                                    wholeClass='number'
+                                                    currency="{!v.paymentData.beneficiaryCurrency}"
+                                                    numberFormat="{!v.userData.numberFormat}"/>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="slds-grid">
+                                        <div class="col">
+                                            <div class="tooltip__content">
+                                                <div class="text">{!$Label.c.transferFee}</div>
+                                                <div class="tooltip tooltip_center__top">
+                                                    <button class="slds-button slds-button_icon" aria-describedby="help" aria-disabled="true">
+                                                        <span class="slds-button__icon icon icon-information"></span>
+                                                        <span class="slds-assistive-text">{!$Label.c.help}</span>
+                                                    </button>
+                                                    <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom" style="" role="tooltip" id="help">
+                                                        <div class="slds-popover__body">
+                                                            <div class="title">
+                                                                {!$Label.c.transferFee}
+                                                            </div>
+                                                            <div class="line"></div>
+                                                            <div class="text">
+                                                                {!$Label.c.B2B_PaymentSummary3}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                           <!-- <c:CMP_displayAmount
+                                                    amount="{!v.paymentData.fees}" 
+                                                    decimalClass='number'
+                                                    wholeClass='number'
+                                                    currency="{!v.paymentData.paymentCurrency}"
+                                                    numberFormat="{!v.userData.numberFormat}"/>-->
+                                                <c:CMP_displayAmount
+                                                    amount="10" 
+                                                    decimalClass='number'
+                                                    wholeClass='number'
+                                                    currency="{!v.paymentData.paymentCurrency}"
+                                                    numberFormat="{!v.userData.numberFormat}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aura:if>  
+                        </div>
+                        </aura:if>
+                    </div>
+                    <footer class="{! 'slds-card__footer ' + (v.accountData.CIB eq false ? 'noTopBorder' : '')}">
+                        
+                        <aura:if isTrue="{!v.paymentData.amount !=undefined}">
+
+                            <div class="slds-grid">
+                                <div class="col">
+                                    <div class="title-text">{!$Label.c.AmountToAuth}</div>
+                                </div>
+                                <div class="col finalNumber">
+                                    <c:CMP_displayAmount
+                                                amount="{!v.paymentData.amount}" 
+                                                decimalClass='title-number'
+                                                wholeClass='title-number'
+                                                currency="{!v.paymentData.paymentCurrency}"
+                                                numberFormat="{!v.userData.numberFormat}"/>
+
+                                    <!-- Descomentar si aplica  -->
+                                    <!-- <div class="textInfo">Exculding transfer fees</div>  -->
+                                    <!-- Ends Descomentar si aplica  -->
+                                </div>
+                            </div>
+                        </aura:if>
+
+                        <aura:if isTrue="{!and(v.signLevel.signatory eq 'true', v.signLevel.lastSign eq 'true')}">
+                            <c:CMP_CountDown  minutes='5'/>
+                        </aura:if>
+
+                    </footer>
+                                    
+        </article>
+    <!-- Botones, descomentar si es necesario -->
+        <!-- <div class="slds-form-element">
+            <button class="slds-button primary button_full">Confirm payment</button>        
+            <button class="slds-button secondary button_full">Edit payment</button>        
+        </div> -->
+    </div>  
+</aura:component>

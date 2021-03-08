@@ -16,6 +16,8 @@ History
     <aura:attribute name="errorAccount" default="false" type="Boolean"/>
     <aura:attribute name="filters" type="String" default=""/>
     <aura:attribute name="loading" type="Boolean" default="true" description="Flag to show/hide the table spinner"/>
+    <aura:attribute name="fromDetail" type="Boolean" default="false" description="Check if comes from detail"/>
+    <aura:attribute name="fullAccountList" type="String" default=""/>
     
     <!--WelcomePack-->
     <aura:attribute name="showWelcome" default="false" type="Boolean" description="Show welcome pack"/>
@@ -95,13 +97,13 @@ History
                             <!--First filters-->
                             <aura:if isTrue="{!v.showAccountPayment == True}">
                                 <!--01/04/2020 - Account Payments Tracker-->
-                                <c:CMP_IPTFilters isOneTrade="{!v.isOneTrade}" fromCashNexus="{!v.fromCashNexus}" currencyList="{!v.currencyList}" accountList="{!v.accountList}" filters="{!v.filters}" isOpen="{!v.isOpen}" isAccountFilter="{!v.showAccountPayment}"/>
+                                <c:CMP_IPTFilters isOneTrade="{!v.isOneTrade}" fromCashNexus="{!v.fromCashNexus}" currencyList="{!v.currencyList}" accountList="{!v.accountList}" filters="{!v.filters}" isOpen="{!v.isOpen}" isAccountFilter="{!v.showAccountPayment}" fromDetail="{!v.fromDetail}"/>
                                 <aura:set attribute="else">
                                     <c:CMP_IPTFilters isOneTrade="{!v.isOneTrade}" fromCashNexus="{!v.fromCashNexus}" currencyList="{!v.currencyList}" accountList="{!v.accountList}" filters="{!v.filters}" isOpen="{!v.isOpen}"/>
                                 </aura:set>
                             </aura:if>
                             <!--Table-->
-                            <c:CMP_IPTTable aura:id="paymentsTable" isOneTrade="{!v.isOneTrade}" filters="{!v.filters}" fromCashNexus="{!v.fromCashNexus}"/>
+                            <c:CMP_IPTTable aura:id="paymentsTable" isOneTrade="{!v.isOneTrade}" filters="{!v.filters}" fromCashNexus="{!v.fromCashNexus}" fromDetail="{!v.fromDetail}" fullAccountList="{!v.accountList}"/>
                         </aura:if>
                           
                         <aura:set attribute="else">

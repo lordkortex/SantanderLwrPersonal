@@ -1,0 +1,44 @@
+<template>
+    <c-lwc_title title={label.Training_Title}></c-lwc_title>
+    
+    <div class="slds-grid slds-wrap firstRow">
+        <div class="first">
+            <template if:true={paymentsListNE}>
+                <!--<c:CMP_Card title="{!$Label.c.Payments}" subtitle="{!v.paymentsList}"/>-->
+                <c-lwc_card title={label.Payments} subtitle={paymentslist}></c-lwc_card>
+            </template>
+        </div>
+        <div class="first">
+            <template if:true={beneficiaryListNE}>
+                <!--<c:CMP_Card title="{!$Label.c.Beneficiary}" subtitle="{!v.beneficiaryList}"/>-->
+                <c-lwc_card title={label.Beneficiary} subtitle={beneficiarylist}></c-lwc_card>
+            </template>
+        </div>
+        <div >
+            <template if:true={usersListNE}>
+                <!--<c:CMP_Card title="{!$Label.c.Users}" subtitle="{!v.usersList}"/>-->
+                <c-lwc_card title={label.Users} subtitle={userslist}></c-lwc_card>
+            </template>
+        </div>
+    </div>
+    <div class="slds-grid slds-wrap lastRow">
+        <div class="first">
+            <template if:true={rolesListNE}>
+                <!--<c:CMP_Card title="{!$Label.c.Roles}" subtitle="{!v.rolesList}"/>-->
+                <c-lwc_card title={label.Roles} subtitle={roleslist}></c-lwc_card>
+            </template>
+        </div>
+        <div class="first">
+            <template if:true={groupsListNE}>
+                <!--<c:CMP_Card title="{!$Label.c.Groups}" subtitle="{!v.groupsList}"/>-->
+                <c-lwc_card title={label.Groups} subtitle={groupslist}></c-lwc_card>
+            </template>
+        </div>
+        <div>
+            <template if:true={authorisationsListNE}>
+                <!--<c:CMP_Card title="{!$Label.c.AuthorisationPolicies}" subtitle="{!v.authorisationsList}"/>-->
+                <c-lwc_card title={label.AuthorisationPolicies} subtitle={authorisationslist}></c-lwc_card>
+            </template>
+        </div>
+    </div>
+</template>

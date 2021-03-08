@@ -1,0 +1,45 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "dc65ea67-33ad-4364-ae3c-525684c42ad1",
+  "label" : "Foreign Exchange",
+  "regions" : [ {
+    "id" : "90b88369-c60e-4ede-8d6e-47629680ea95",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lwc_fx_dashboardParent",
+      "id" : "7660c6fe-026c-4250-8538-5ca9bae7bad8",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "b4a0101d-8fbe-48fd-895a-f6f02d70206d",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "27257595-999d-4f63-a917-af7d8b9cd4be",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "description" : "",
+        "metaTags" : "",
+        "title" : "Foreign Exchange"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "64f147a0-b07b-4cd2-8a2f-e985ef3687d6",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "bddb9d38-7ca9-4610-913e-62c937d8d85e",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-foreign-exchange"
+}

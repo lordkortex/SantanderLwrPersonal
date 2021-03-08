@@ -125,7 +125,7 @@
          +'&c__beneficiaryAccount='+item.paymentDetail.beneficiaryData.creditorCreditAccount.accountId+'&c__beneficiaryName='+item.paymentDetail.beneficiaryData.beneficiaryName+'&c__beneficiaryBank='+item.paymentDetail.beneficiaryData.creditorAgent.agentName
          +'&c__beneficiaryBIC='+item.paymentDetail.beneficiaryData.creditorAgent.agentCode+'&c__amount='+item.paymentDetail.paymentAmount.amount
          +'&c__currency='+item.paymentDetail.paymentAmount.currency_X+'&c__beneficiaryCity='+item.paymentDetail.beneficiaryData.creditorAgent.agentLocation
-         +'&c__beneficiaryCountry='+item.paymentDetail.beneficiaryData.creditorAgent.agentCountry+'&c__Filters='+component.get("v.filters");
+         +'&c__beneficiaryCountry='+item.paymentDetail.beneficiaryData.creditorAgent.agentCountry+'&c__filters='+component.get("v.filters")+'&c__allAccounts='+JSON.stringify(component.get("v.fullAccountList"));
          helper.goTo(component, event,"payment-details", url);
     },
 
@@ -169,6 +169,10 @@
                 component.set("v.statusLabel",$A.get("$Label.c.payment_statusFour"));
                 component.set("v.statusClass","icon-circle__orange");
             }
+        }
+
+        if (component.get("v.fromDetail") == true) {
+            helper.getData(component, event, helper);
         }
 
         //helper.getDateTime(component, event, helper);

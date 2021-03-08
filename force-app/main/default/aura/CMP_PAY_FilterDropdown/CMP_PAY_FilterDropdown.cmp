@@ -13,6 +13,7 @@
     <aura:attribute access="public" 	type="String" 	name="valuesPlaceholder" 	default=""									description="Placeholder value when values are selected"/>
     <aura:attribute access="public"		type="String" 	name="errorText" 	 		default="{!$Label.c.IncorrectInputFormat}" 	description="Text to show when an error ocurred"/>
     <aura:attribute access="public"		type="Boolean" 	name="clearDropdown" 		default="false" 							description="Flag to clear or not the dropdown"/>
+    <aura:attribute access="public"		type="Boolean" 	name="deselectOption" 		default="true" 								description="Deselect currently selected option on click"/>
     
     
     
@@ -67,19 +68,21 @@
                 </div>
                 
                 <!-- Cuando el button esté disabled el dropdown se oculta -->
-                <div class="slds-dropdown slds-dropdown_left dropdownOrder">
-                    <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
-                        
-                        <aura:iteration items="{!v.values}" var="item">
+                <aura:if isTrue="{!not(v.isDisabled)}">
+                    <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                        <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
                             
-                            <li class="{!item.label == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item.value}" onclick="{!c.selectOption}">
-                                <a role="menuitemcheckbox" tabindex="0" aria-checked="true" >
-                                    <div class="slds-truncate optionOrder">{!item.label}</div>
-                                </a>
-                            </li>
-                        </aura:iteration>
-                    </ul>
-                </div>                
+                            <aura:iteration items="{!v.values}" var="item">
+                                
+                                <li class="{!item.label == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item.value}" onclick="{!c.selectOption}">
+                                    <a role="menuitemcheckbox" tabindex="0" aria-checked="true" >
+                                        <div class="slds-truncate optionOrder">{!item.label}</div>
+                                    </a>
+                                </li>
+                            </aura:iteration>
+                        </ul>
+                    </div>
+                </aura:if>                
             </div>            
         </div>
         

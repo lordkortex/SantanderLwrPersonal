@@ -18,23 +18,29 @@
                 var state = response.getState();
                 if (state === "SUCCESS") {
                     var iReturn = response.getReturnValue();
-                    component.set("v.iObject", iReturn);                    
-                    var lgt = iReturn.stepList.length;
-                    var i = 0;
-                    var ok = false;
-                    if(iReturn.status != 'ACCC'){
-                        while(i < lgt && !ok){
-                            if(iReturn.stepList[i].departureDate == ""){
-                                ok = true;
-                                component.set("v.iObject.currentBank", iReturn.stepList[i].bank);
+                    if(iReturn != null && iReturn != undefined && Object.keys(iReturn).length != 0){ //Añadido de PRE
+                       component.set("v.iObject", iReturn);                    
+                        var lgt = iReturn.stepList.length;
+                        var i = 0;
+                        var ok = false;
+                        if(iReturn.status != 'ACCC'){
+                            while(i < lgt && !ok){
+                                if(iReturn.stepList[i].departureDate == ""){
+                                    ok = true;
+                                    component.set("v.iObject.currentBank", iReturn.stepList[i].bank);
+                                }
+                                i++;
                             }
-                            i++;
+                            
                         }
-                        
+                        else{
+                            component.set("v.currentBank", iReturn.stepList[lgt-1].bank);
+                        } 
                     }
-                    else{
-                        component.set("v.currentBank", iReturn.stepList[lgt-1].bank);
+                    else { // Añadido de PRE
+                        component.set("v.iObject", {});
                     }
+                    
 
                 }
                 else{

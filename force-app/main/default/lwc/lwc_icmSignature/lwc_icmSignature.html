@@ -1,0 +1,99 @@
+<template>
+    <c-lwc_service-component 
+        data-id= "Service" 
+        onsuccesscallback={handleService}>
+    </c-lwc_service-component>
+ 
+    <div class="slds-box">
+        <div class="slds-box">
+            <table class="slds-table slds-table_fixed-layout slds-no-row-hover slds-table_resizable-cols" aria-multiselectable="true" role="grid">
+                <tbody>
+                    <tr class="slds-hint-parent border" aria-selected="false">
+                        <td role="gridcell">
+                            <div class="slds-truncate" title="PAYMENT DETAILS">PAYMENT DETAILS</div>
+
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Origin account">Origin Account</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-media__figure icon">
+                                <img data-id="countryImage" class="flag" src={imgSourceOrigin} />
+                            </div>
+                            <div class="slds-truncate" title={originaccount}>{originaccount.value.alias}</div>
+                            <div class="text"> {originaccount.value.accountNumber}</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Destination Account">Destination account</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-media__figure icon">
+                                <img data-id="countryImage" class="flag" src={imgSourceDestination}  />
+                            </div>
+                            <div class="slds-truncate" title={destinationaccount}>{destinationaccount.value.alias} </div>
+                            <div class="text"> {destinationaccount.value.accountNumber}</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Amount">Amount</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate number" title={amount}>{amount}</div>
+                        </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Commission">Commission</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate number" title={Commission}>{Commission}</div>
+                                <div class="slds-truncate">{originaccount.value.ObjectCurrency }</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Charge">Charge</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate number" title={Charge}>{Charge}</div>
+                            <div class="slds-truncate">{originaccount.value.ObjectCurrency }</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Concept">Concept</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate" title={concept}>{concept}</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Date">Date</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate" title={date}>{date}</div>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="slds-button slds-button_brand textButton" title="Go Back" onclick={previousStep}>Go Back</button>
+        <div class="icon-chevronLeft"></div>      
+        <button type="button" class="slds-button slds-button_brand redButton"  title="Send" onclick={sendToMuleSoft}> Send</button>
+
+    </div>
+</template>

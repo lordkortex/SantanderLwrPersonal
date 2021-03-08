@@ -105,7 +105,7 @@ export default class Lwc_cn_dropdown extends LightningElement {
     }
 
     @api doInit (){
-        if (this._values.length > 0 && this.issimpledropdown != undefined ) {
+        if (this.issimpledropdown != undefined && this._values && this._values.length > 0) {
             let baseClass = (this.issimpledropdown ? 'slds-dropdown__item' : 'button-selected icon-check');
             if (!this.issimpledropdown && this.selectallvalues != null && this._values != null){
                 var valuesall = JSON.parse(JSON.stringify(this._values));
@@ -199,11 +199,13 @@ export default class Lwc_cn_dropdown extends LightningElement {
                         selectedValuesList.splice(selectedValuesList.indexOf(this.selectallvalues),1);
                     }
                     selectedValues = selectedValuesList;
+                     
                 } else {
                     element = '[data-item="'+ itemClickedAux  +'"]';
                     this.template.querySelector(element).classList.add("slds-is-selected");
                     selectedValuesList.push(items[0]);
                     selectedValues = selectedValuesList;
+                    
                 }
                 this.allvaluesselected = false;
             }
@@ -229,4 +231,23 @@ export default class Lwc_cn_dropdown extends LightningElement {
             this.template.querySelector(element).classList.add("slds-is-selected");
         }
     }
+
+    @api
+    clearData(){
+        var allOptions = this._values;
+        this.allvaluesselected = false;
+        for(var key in allOptions){
+            var element = '[data-item="'+ allOptions[key]  +'"]';
+            if(this.template.querySelector(element)){
+                this.template.querySelector(element).classList.remove("slds-is-selected");
+            }
+        }
+        var selectedValues = [];
+
+        const clearDataEvent = new CustomEvent('cleardataevent', {
+            detail: selectedValues
+        });
+        this.dispatchEvent(clearDataEvent);
+    }
+
 }

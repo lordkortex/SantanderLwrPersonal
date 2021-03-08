@@ -1,0 +1,253 @@
+<template>
+    <!-- <div class="listItems">
+        <template if:true={hasPaymentList}>
+            <template if:true={isSearchedString}>
+                <div class="slds-text-body_regular">{label.Displaying}
+                    <strong>
+                        {paymentList.length}&nbsp;{label.PAY_payments} 
+                    </strong>
+                    {label.PAY_accordingTo}<strong>{label.PAY_selectedFilters}</strong>
+                </div>
+                <template if:false={isSearchedString}>
+                    <div class="slds-text-body_regular">{label.Displaying}
+                        <strong>{label.PAY_last}&nbsp;{paymentList.length}&nbsp;{label.PAY_payments}</strong>
+                    </div>
+                </template>
+            </template>
+        </template>
+    </div> -->
+    
+    <!-- TABLE -->
+    <div class="tablePaymentsContent"> 
+        <div class="slds-grid">
+            <div class="slds-table--header-fixed_container tablePayment"> 
+                <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid" id="paymentsTable">
+                    <!-- HEADER -->
+                    <thead>
+                        <tr>
+                            <template for:each={columns} for:item="col">
+                                <th aria-label="Contact" key={col.order} aria-sort="ascending" class="headReference" scope="col">
+                                    <div if:true={col.sortable}>                            
+                                        <div id={col.order} style="text-transform:uppercase" onclick={handleOrderValueChange}>{col.value}<span id={col.order} class={col.styleColumn}></span></div>
+                                    </div> 
+                                    <div if:false={col.sortable}>
+                                        <div id={col.order} style="text-transform:uppercase">{col.value}</div>
+                                    </div>        
+                                </th>
+                            </template>
+                        </tr>
+                        <!-- version 2 
+                        <tr>
+                            <template for:each={columns} for:item="col">
+                                <th key={col.order} aria-label="Contact" aria-sort="ascending" class="headReference" scope="col">                             
+                                    <div class={clientreferenceclass} id={col.order} style="text-transform:uppercase" onclick={sortBy}><span class="button-orderRight icon-arrowDown">{col.value}</span></div>         
+                                </th> 
+                            </template>
+                        </tr> -->
+                        <!-- <tr class="slds-text-title_caps"> 
+                            <th class="headCheck checkboxContainer" scope="col">
+                                <div class="slds-checkbox" >
+                                    <input type="checkbox" value={isallselected} name="options" id="selectAllPayments" onclick={handleSelectAll}/>
+                                    <label class="slds-checkbox__label" for="selectAllPayments">
+                                        <span class="slds-checkbox_faux"></span> 
+                                    </label>
+                                </div> 
+                            </th> 
+                            <th class="headReference" aria-label="Name" aria-sort="ascending" scope="col">
+                                
+                                <div class={clientreferenceclass} style="text-transform:uppercase" id="clientReference" onclick={sortBy}>TRANSACTION #<span class="button-orderRight icon-arrowDown"></span></div>         
+                            </th> 
+                            <th class="headStatus" aria-label="Name" aria-sort="ascending" scope="col">
+      
+                                <div class={statusclass} style="text-transform:uppercase" id="status" onclick={sortBy}>STATUS<span class="button-orderRight icon-arrowDown"></span></div>                              
+                            </th>
+                            <th class="headSource" aria-label="Name" aria-sort="ascending" scope="col">
+                              
+                                <div class={sourceaccountclass} style="text-transform:uppercase" id="sourceAccount" onclick={sortBy}>PRODUCT<span class="button-orderRight icon-arrowDown"></span></div>                             
+                            </th>
+                            <th class="headBeneficiary" aria-label="Name" aria-sort="ascending" scope="col">
+                              
+                                <div class={beneficiaryaccountclass} style="text-transform:uppercase"  id="beneficiaryAccount" onclick={sortBy}>TRADE DATE<span class="button-orderRight icon-arrowDown"></span></div>
+                            </th>
+                            <th class="headAmount">
+                               
+                                <div class={amountclass} style="text-transform:uppercase" id="amount" onclick={sortBy}>SETT DATE<span class="button-orderRight icon-arrowDown"></span></div>
+                            </th>
+                            <th class="headCurrency" aria-label="Name" aria-sort="ascending" scope="col">
+                              
+                                <div class={currencyclass} style="text-transform:uppercase"  id="currency" onclick={sortBy}>AMOUNT<span class="button-orderRight icon-arrowDown"></span></div>
+                            </th>                             
+                            <th class="slds-is-sortable headDate " aria-label="Name" aria-sort="ascending" scope="col"> 
+
+                                <div class={valuedateclass} style="text-transform:uppercase" id="valueDate" onclick={sortBy}>COUNTER AMT<span class="button-orderRight icon-arrowDown"></span></div>
+                            </th>
+                            <th class="slds-is-sortable headDate " aria-label="Name" aria-sort="ascending" scope="col"> 
+
+                                <div class={valuedateclass} style="text-transform:uppercase" id="rate" onclick={sortBy}>RATE<span class="button-orderRight icon-arrowDown"></span></div>
+                            </th> 
+                            <th class="slds-is-sortable headDate " aria-label="Name" aria-sort="ascending" scope="col"> 
+
+                                <div class={valuedateclass} style="text-transform:uppercase" id="targetAcc" onclick={sortBy}>TARGET ACCOUNT<span class="button-orderRight icon-arrowDown"></span></div>
+                            </th> 
+                        </tr> -->
+                    </thead>
+                    
+                    <!-- BODY -->
+                    <!-- <tbody> --> 
+                        
+                        <!--SPINNER-->
+                        <!-- <template if:true={isloading} >
+                           <c-lwc_payments-landing-spinner></c-lwc_payments-landing-spinner>
+                        </template>
+                        <template if:true={emptyPaymentList} >
+                            <template if:true={isSearchedStringGTZ} >
+                                <c-lwc_payments-landing-spinner-no-results 
+                                    title={label.Search_NoPaymentsFound} 
+                                    subtitle={isSearchedStringNotEmpty} 
+                                    resetsearch={resetSearch} 
+                                    backgroundimage={backgroundimage}>
+                                </c-lwc_payments-landing-spinner-no-results>
+                            </template>
+                            <template if:true={isNotSearchedString}>
+                                <c-lwc_payments-landing-spinner-no-results 
+                                    title={label.PAY_didNotFindPayments} 
+                                    subtitle={label.PAY_checkConnectionRefresh} 
+                                    backgroundimage={backgroundimage}
+                                    showresetbutton={showresetbutton}>
+                                </c-lwc_payments-landing-spinner-no-results>
+                            </template>
+                        </template>
+                            
+                    
+                        <template if:true={hasPaymentList} >
+                            <template for:each={paginationList} for:item="item" for:index="index">
+                                <div key={item.key}>
+                                    <c-lwc_payments-landing-table-child 
+                                        key={item} item={item} 
+                                        currentuser={currentuser}>
+                                    </c-lwc_payments-landing-table-child> 
+                                </div>
+                            </template>
+                        </template>
+                                                
+                    </tbody> -->
+                    <tbody>
+                        <template for:each={rows} for:item="row">
+                          <tr key={row.orderScore} aria-selected="false">
+                            <template for:each={row.columnas} for:item="colrow">
+                              <!--<td key={colrow.order} role="gridcell" style={colrow.style} class={colrow.css}>-->
+                              <td key={colrow.order} role="gridcell">                    
+                                <!-- <lightning-formatted-rich-text data-id={colrow.order} value={colrow.value} onclick={showDetails}> </lightning-formatted-rich-text> -->
+                                <c-lwc_fx_trades-landing-table-child item={colrow} currentuser={currentUser}></c-lwc_fx_trades-landing-table-child>        
+                              </td>
+                            </template>        
+                          </tr>
+                        </template>
+                        <!-- version 2 
+                        <template if:true={isloading} >
+                            <c-lwc_payments-landing-spinner></c-lwc_payments-landing-spinner>
+                         </template>
+                         <template if:true={emptyPaymentList} >
+                             <template if:true={isSearchedStringGTZ} >
+                                 <c-lwc_payments-landing-spinner-no-results 
+                                     title={label.Search_NoPaymentsFound} 
+                                     subtitle={isSearchedStringNotEmpty} 
+                                     resetsearch={resetSearch} 
+                                     backgroundimage={backgroundimage}>
+                                 </c-lwc_payments-landing-spinner-no-results>
+                             </template>
+                            </template>
+                         ROWS 
+                        <template for:each={rows} for:item="row">
+                          <tr key={row.orderScore} aria-selected="false">
+                            <template for:each={row.columnas} for:item="colrow">
+                              //<td key={colrow.order} role="gridcell" style={colrow.style} class={colrow.css}>
+                              <td key={colrow.order} role="gridcell">                    
+                                <lightning-formatted-rich-text value={colrow.value}> </lightning-formatted-rich-text>          
+                              </td>
+                            </template>        
+                          </tr>
+                        </template> -->
+                      </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- <template if:true={hasPaymentList}>
+        <div class="contentPag">
+            <div class="slds-grid pagination">
+                <div class="slds-form-element infoPage">
+                    <template if:true={paymentsNumberGTvaluesZero}>
+                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" data-title-right={label.Show_More}>
+                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{selectedvalue}</div>
+                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                    </div>
+                                    <span class="slds-assistive-text">{label.Show_More}</span>
+                                </button>
+                            </div>
+                            <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
+                                <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                   <template for:each={values} for:item="item" for:index="index">
+                                       <div key={item.key}>
+                                            <c-lwc_b2b_select-pagination-dropdown 
+                                                paginationselection={selectedValue} 
+                                                item={item}>
+                                            </c-lwc_b2b_select-pagination-dropdown>
+                                        </div>
+                                    </template>
+                                </ul>
+                            </div>
+                        </div> 
+                        <span class="slds-text-body_regular">{label.B2B_Items_displayed}</span>
+                    </template>
+                </div>
+                <div class="slds-grid navigationPage">   
+                    <div class="slds-text-body_regular">
+                        <template if:true={selectedValueLEpaymentsNumber}>
+                            {firstitem}&nbsp;{label.toMinus}
+                        </template>
+                         &nbsp;{finalitem}&nbsp;{label.of}<strong>{paymentsnumber}&nbsp;{label.B2B_Items}</strong>
+                    </div> 
+                    <template if:true={selectedValueLEpaymentsNumber}>
+                        <template if:true={isNotFirstPage}>
+                            <a class="button-page " data-title-left="Prev page" onclick={handlePreviousPage}><span class="icon-arrowLeft_big"></span> {label.B2B_PREV}</a> 
+                        </template>
+                        <template for:each={pagesNumbers} for:item="number" for:index="key">
+                            <div key={item.key}>
+                                <c-lwc_b2b_number-pagination 
+                                    number={number} 
+                                    currentpage={currentpage} >
+                                </c-lwc_b2b_number-pagination>
+                            </div>
+                        </template>
+                        <template if:true={isNotLastPage}>
+                            <a class="button-page" data-title-left="Next page" onclick={handleNextPage}>{label.B2B_NEXT} <span class="icon-arrowRight_big"></span></a> 
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template> -->
+
+    <!-- Footer -->
+    <!-- Este componente solo aparecerá cuando se seleccione en la tabla -->
+
+    <!-- <template if:true={oneRowAndActions}>
+        <div>
+            <c-lwc_payments-landing-utility-bar 
+                paymentdetails={singleSelectedPayment} 
+                currentuser={currentuser} 
+                actions={actions} 
+                signatorystatus={signatoryStatus} >
+            </c-lwc_payments-landing-utility-bar>
+        </div>
+    </template> -->
+    <template if:true={showModalDetails}>
+        <div>
+            {tradeId}
+        </div>
+    </template>
+</template>

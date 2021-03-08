@@ -1,0 +1,38 @@
+<template>
+    <c-lwc_fx_dashboard-header></c-lwc_fx_dashboard-header>
+    <div><br/></div>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="8" padding="around-small">
+            <c-lwc_widget_ccy_minipricers></c-lwc_widget_ccy_minipricers>
+            <hr />
+        </lightning-layout-item>
+        <lightning-layout-item size="4" padding="around-small">
+            
+        </lightning-layout-item>
+        
+        <lightning-layout-item size="8" padding="around-small">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="8" padding="around-small">
+                    <div >Latest trades</div> 
+                </lightning-layout-item>
+                <lightning-layout-item size="2" padding="around-small">
+                    <div onclick={navigateToTrades}>View all trades ></div>
+                    <!-- <a href="trades" onclick={navigateToTrades} target="_blank">View all trades ></a> -->
+                </lightning-layout-item>
+            </lightning-layout>
+                <!-- <c-lwc_fx_styled-dummy-table></c-lwc_fx_styled-dummy-table> -->
+                <!-- <c-lwc_fx_trades-landing-table apicolumns={columns} apirows={rows} ></c-lwc_fx_trades-landing-table> -->
+                <!--<c-lwc_fx_blottertable tradeslist={tradesList}></c-lwc_fx_blottertable>-->
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" padding="around-medium">
+                        <div class="slds-align_absolute-center">
+                            <c-lwc_container-table></c-lwc_container-table>    
+                        </div>
+                    </lightning-layout-item>
+                 </lightning-layout>
+        </lightning-layout-item>
+        <lightning-layout-item size="4" padding="around-small">
+            
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

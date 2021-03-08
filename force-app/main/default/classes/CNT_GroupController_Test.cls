@@ -29,7 +29,7 @@ public with sharing class CNT_GroupController_Test {
         Test.setMock(HttpCalloutMock.class, new TestClass_MockHttp());        
         User u = DataFactory.getRunningUser(true);
         Test.startTest();
-        CNT_GroupController.getData();
+        CNT_GroupController.getData(u.Id);
         Test.stopTest();        
     }
     /*------------------------------------------------------------

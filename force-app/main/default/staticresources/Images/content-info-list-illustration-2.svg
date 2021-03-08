@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="528" height="312" viewBox="0 0 528 312">
+    <defs>
+        <filter id="c8v5sy9jvb" width="110.5%" height="118.6%" x="-4.4%" y="-7.9%" filterUnits="objectBoundingBox">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="2" result="shadowSpreadOuter1"/>
+            <feOffset dx="4" dy="4" in="shadowSpreadOuter1" result="shadowOffsetOuter1"/>
+            <feGaussianBlur in="shadowOffsetOuter1" result="shadowBlurOuter1" stdDeviation="6"/>
+            <feColorMatrix in="shadowBlurOuter1" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.08 0"/>
+        </filter>
+        <filter id="lckkuqqhad" width="100.6%" height="102.1%" x="-.3%" y="-1%" filterUnits="objectBoundingBox">
+            <feOffset dx=".5" dy=".5" in="SourceAlpha" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner1"/>
+            <feColorMatrix in="shadowInnerInner1" result="shadowMatrixInner1" values="0 0 0 0 0.807843137 0 0 0 0 0.870588235 0 0 0 0 0.905882353 0 0 0 1 0"/>
+            <feOffset dx=".5" dy="-.5" in="SourceAlpha" result="shadowOffsetInner2"/>
+            <feComposite in="shadowOffsetInner2" in2="SourceAlpha" k2="-1" k3="1" operator="arithmetic" result="shadowInnerInner2"/>
+            <feColorMatrix in="shadowInnerInner2" result="shadowMatrixInner2" values="0 0 0 0 0.807843137 0 0 0 0 0.870588235 0 0 0 0 0.905882353 0 0 0 1 0"/>
+            <feMerge>
+                <feMergeNode in="shadowMatrixInner1"/>
+                <feMergeNode in="shadowMatrixInner2"/>
+            </feMerge>
+        </filter>
+        <rect id="m623olcb9a" width="496" height="280" x="0" y="0" rx="4"/>
+        <path id="t2x4bdsdyc" d="M2 0h76v24H2c-1.105 0-2-.895-2-2V2C0 .895.895 0 2 0z"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g>
+            <g>
+                <g transform="translate(-460 -2022) translate(0 1954) translate(472 80)">
+                    <g>
+                        <use fill="#000" filter="url(#c8v5sy9jvb)" xlink:href="#m623olcb9a"/>
+                        <use fill="#FFF" xlink:href="#m623olcb9a"/>
+                    </g>
+                    <g transform="translate(40 209)">
+                        <rect width="415.5" height="27.5" x=".25" y=".25" fill="#F6FAFC" stroke="#CEDEE7" stroke-width=".5" rx="2"/>
+                        <path fill="#B5B5B5" d="M368 11H400V17H368z"/>
+                        <path fill="#DADADA" d="M304 11H328V17H304z"/>
+                        <text fill="#444" font-family="SantanderMicroText, Santander Micro Text" font-size="8">
+                            <tspan x="212" y="17">Last update</tspan>
+                        </text>
+                        <g fill="#444">
+                            <path d="M2.858 7h2.031l-1.373 3.662c-.041.11 0 .235.1.298.04.027.087.04.134.04.065 0 .13-.025.177-.074l5.384-5.434c.175-.16.232-.407.146-.628-.086-.221-.295-.364-.532-.364H6.681l1.786-3.126c.044-.077.044-.172 0-.25C8.42 1.048 8.338 1 8.25 1h-3c-.092 0-.176.05-.22.13L2.323 6.097c-.105.19-.1.417.01.604.112.187.308.299.526.299zm-.098-.664L5.398 1.5H7.82L6.033 4.626c-.044.077-.044.172 0 .25.046.077.128.124.217.124h2.675c.04 0 .058.025.066.045.008.02.011.05-.027.086l-4.57 4.614 1.09-2.907c.029-.077.018-.163-.028-.23-.047-.068-.124-.108-.206-.108H2.858c-.055 0-.083-.034-.096-.054-.012-.02-.028-.062-.002-.11z" transform="translate(196 8)"/>
+                        </g>
+                        <path fill="#B5B5B5" d="M36 11H76V17H36z"/>
+                        <g fill-rule="nonzero">
+                            <g transform="translate(16 8)">
+                                <circle cx="6" cy="6" r="6" fill="#F0F0F0"/>
+                                <path fill="#D80027" d="M12 6c0-2.58-1.628-4.779-3.913-5.627v11.254C10.372 10.779 12 8.58 12 6z"/>
+                                <path fill="#6DA544" d="M0 6c0 2.58 1.628 4.779 3.913 5.627V.373C1.628 1.221 0 3.42 0 6z"/>
+                            </g>
+                        </g>
+                    </g>
+                    <g transform="translate(40 173)">
+                        <rect width="415.5" height="27.5" x=".25" y=".25" fill="#F6FAFC" stroke="#CEDEE7" stroke-width=".5" rx="2"/>
+                        <path fill="#B5B5B5" d="M344 11H400V17H344z"/>
+                        <path fill="#DADADA" d="M272 11H328V17H272z"/>
+                        <text fill="#444" font-family="SantanderMicroText, Santander Micro Text" font-size="8">
+                            <tspan x="212" y="17">End of day</tspan>
+                        </text>
+                        <g fill="#444">
+                            <path d="M6 1c2.762 0 5 2.238 5 5s-2.238 5-5 5-5-2.238-5-5c0-1.38.56-2.63 1.464-3.536C3.37 1.56 4.62 1 6 1zm0 .5c-1.243 0-2.368.504-3.182 1.318C2.004 3.632 1.5 4.758 1.5 6c0 2.485 2.015 4.5 4.5 4.5s4.5-2.015 4.5-4.5c0-1.243-.504-2.368-1.318-3.182C8.368 2.004 7.242 1.5 6 1.5zm.25 1.75c.138 0 .25.112.25.25v2.75c0 .139-.112.25-.25.25H3.5c-.138 0-.25-.111-.25-.25 0-.138.112-.25.25-.25H6V3.5c0-.138.112-.25.25-.25z" transform="translate(196 8)"/>
+                        </g>
+                        <path fill="#B5B5B5" d="M36 11H76V17H36z"/>
+                        <g fill-rule="nonzero">
+                            <g transform="translate(16 8)">
+                                <circle cx="6" cy="6" r="6" fill="#D80027"/>
+                                <g fill="#F0F0F0">
+                                    <path d="M3.502 1.633c-.136.567-.378.459-.497.953-.7-.168-1.132-.872-.964-1.573.169-.7.873-1.131 1.574-.963-.238.99.01 1.076-.113 1.583zM1.685 2.053c.497.305.32.502.753.768-.377.614-1.18.807-1.794.43-.614-.376-.806-1.18-.43-1.794.867.532 1.026.323 1.47.596zM1.523 3.912c.444-.38.576-.15.963-.48.468.548.403 1.372-.145 1.84-.548.467-1.372.402-1.84-.146.775-.66.625-.876 1.022-1.214zM3.24 4.64c-.223-.54.037-.594-.158-1.064.666-.276 1.429.04 1.704.706.276.666-.04 1.429-.706 1.704-.39-.94-.64-.864-.84-1.346zM4.464 3.231c-.582.046-.554-.218-1.061-.178-.056-.718.48-1.346 1.198-1.402.718-.057 1.346.48 1.403 1.198-1.015.08-1.02.342-1.54.382z" transform="translate(3.117 2.906)"/>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g transform="translate(40 137)">
+                        <rect width="415.5" height="27.5" x=".25" y=".25" fill="#F6FAFC" stroke="#CEDEE7" stroke-width=".5" rx="2"/>
+                        <path fill="#B5B5B5" d="M360 11H400V17H360z"/>
+                        <path fill="#DADADA" d="M296 11H328V17H296z"/>
+                        <text fill="#444" font-family="SantanderMicroText, Santander Micro Text" font-size="8">
+                            <tspan x="212" y="17">End of day</tspan>
+                        </text>
+                        <g fill="#444">
+                            <path d="M6 1c2.762 0 5 2.238 5 5s-2.238 5-5 5-5-2.238-5-5c0-1.38.56-2.63 1.464-3.536C3.37 1.56 4.62 1 6 1zm0 .5c-1.243 0-2.368.504-3.182 1.318C2.004 3.632 1.5 4.758 1.5 6c0 2.485 2.015 4.5 4.5 4.5s4.5-2.015 4.5-4.5c0-1.243-.504-2.368-1.318-3.182C8.368 2.004 7.242 1.5 6 1.5zm.25 1.75c.138 0 .25.112.25.25v2.75c0 .139-.112.25-.25.25H3.5c-.138 0-.25-.111-.25-.25 0-.138.112-.25.25-.25H6V3.5c0-.138.112-.25.25-.25z" transform="translate(196 8)"/>
+                        </g>
+                        <path fill="#B5B5B5" d="M36 11H76V17H36z"/>
+                        <g fill-rule="nonzero">
+                            <g>
+                                <path fill="#FFDA44" d="M0 6c0-3.314 2.686-6 6-6s6 2.686 6 6l-6 .522L0 6z" transform="translate(16 8)"/>
+                                <path fill="#D80027" d="M.803 9C1.84 10.793 3.779 12 6 12c2.22 0 4.16-1.207 5.197-3L6 8.609.803 9z" transform="translate(16 8)"/>
+                                <path fill="#0052B4" d="M11.197 9c.51-.883.803-1.907.803-3H0c0 1.093.292 2.117.803 3h10.394z" transform="translate(16 8)"/>
+                            </g>
+                        </g>
+                    </g>
+                    <g transform="translate(40 101)">
+                        <rect width="415.5" height="27.5" x=".25" y=".25" fill="#F6FAFC" stroke="#CEDEE7" stroke-width=".5" rx="2"/>
+                        <path fill="#B5B5B5" d="M344 11H400V17H344z"/>
+                        <path fill="#DADADA" d="M304 11H328V17H304z"/>
+                        <text fill="#444" font-family="SantanderMicroText, Santander Micro Text" font-size="8">
+                            <tspan x="212" y="17">Last update</tspan>
+                        </text>
+                        <g fill="#444">
+                            <path d="M2.858 7h2.031l-1.373 3.662c-.041.11 0 .235.1.298.04.027.087.04.134.04.065 0 .13-.025.177-.074l5.384-5.434c.175-.16.232-.407.146-.628-.086-.221-.295-.364-.532-.364H6.681l1.786-3.126c.044-.077.044-.172 0-.25C8.42 1.048 8.338 1 8.25 1h-3c-.092 0-.176.05-.22.13L2.323 6.097c-.105.19-.1.417.01.604.112.187.308.299.526.299zm-.098-.664L5.398 1.5H7.82L6.033 4.626c-.044.077-.044.172 0 .25.046.077.128.124.217.124h2.675c.04 0 .058.025.066.045.008.02.011.05-.027.086l-4.57 4.614 1.09-2.907c.029-.077.018-.163-.028-.23-.047-.068-.124-.108-.206-.108H2.858c-.055 0-.083-.034-.096-.054-.012-.02-.028-.062-.002-.11z" transform="translate(196 8)"/>
+                        </g>
+                        <path fill="#B5B5B5" d="M36 11H76V17H36z"/>
+                        <g fill-rule="nonzero">
+                            <g>
+                                <path fill="#0052B4" d="M12 6.023c0 3.314-2.686 6-6 6s-6-2.686-6-6c0 .002 6-5.999 6-6 3.314 0 6 2.687 6 6z" transform="translate(16 8)"/>
+                                <g fill="#F0F0F0">
+                                    <path d="M6.04.062h-.004.004zM5.996 6.088h.069v-.069l-.069.069zM6 3.154V.024h-.001C2.686.023 0 2.71 0 6.023h3.13V4.26l1.763 1.762h1.091L6 6.007v-1.09L4.237 3.154H6z" transform="translate(16 8)"/>
+                                </g>
+                                <g fill="#D80027">
+                                    <path d="M2.262.01C1.324.543.544 1.323.01 2.261v2.965h1.565V1.574h3.653V.01H2.262z" transform="translate(16 8) translate(.773 .797)"/>
+                                    <path d="M5.227 4.489L3.095 2.357h-.738l2.87 2.87v-.738z" transform="translate(16 8) translate(.773 .797)"/>
+                                </g>
+                                <g fill="#F0F0F0">
+                                    <path d="M1.345 4.442L1.674 5.13 2.418 4.959 2.085 5.645 2.683 6.12 1.939 6.287 1.941 7.051 1.345 6.573.75 7.051.752 6.287.007 6.12.605 5.645.272 4.959 1.016 5.13zM6.71 5.746L6.874 6.091 7.246 6.005 7.08 6.348 7.379 6.585 7.006 6.669 7.007 7.051 6.71 6.812 6.412 7.051 6.413 6.669 6.041 6.585 6.34 6.348 6.173 6.005 6.545 6.091zM5.178 2.094L5.343 2.438 5.715 2.352 5.548 2.696 5.847 2.933 5.475 3.017 5.476 3.398 5.178 3.16 4.88 3.398 4.881 3.017 4.509 2.933 4.808 2.696 4.642 2.352 5.013 2.438zM6.71.007L6.874.351 7.246.265 7.08.609 7.379.846 7.006.93 7.007 1.311 6.71 1.073 6.412 1.311 6.413.93 6.041.846 6.34.609 6.173.265 6.545.351zM8.048 1.572L8.212 1.917 8.584 1.831 8.418 2.174 8.717 2.411 8.344 2.495 8.345 2.877 8.048 2.638 7.75 2.877 7.751 2.495 7.379 2.411 7.678 2.174 7.511 1.831 7.883 1.917zM7.091 3.398L7.221 3.797 7.64 3.797 7.301 4.043 7.43 4.442 7.091 4.196 6.752 4.442 6.881 4.043 6.542 3.797 6.962 3.797z" transform="translate(16 8) translate(2.273 2.625)"/>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                    <g>
+                        <path fill="#F6FAFC" stroke="#CEDEE7" stroke-width=".5" d="M70 .25c.483 0 .92.196 1.237.513.317.316.513.754.513 1.237h0v20c0 .483-.196.92-.513 1.237-.316.317-.754.513-1.237.513h0H.25V.25z" transform="translate(384 61)"/>
+                        <text fill="#444" font-family="SantanderMicroText, Santander Micro Text" font-size="8" transform="translate(384 61)">
+                            <tspan x="24" y="15">End of day</tspan>
+                        </text>
+                        <g fill="#EC0000">
+                            <path d="M6 1c2.762 0 5 2.238 5 5s-2.238 5-5 5-5-2.238-5-5c0-1.38.56-2.63 1.464-3.536C3.37 1.56 4.62 1 6 1zm0 .5c-1.243 0-2.368.504-3.182 1.318C2.004 3.632 1.5 4.758 1.5 6c0 2.485 2.015 4.5 4.5 4.5s4.5-2.015 4.5-4.5c0-1.243-.504-2.368-1.318-3.182C8.368 2.004 7.242 1.5 6 1.5zm.25 1.75c.138 0 .25.112.25.25v2.75c0 .139-.112.25-.25.25H3.5c-.138 0-.25-.111-.25-.25 0-.138.112-.25.25-.25H6V3.5c0-.138.112-.25.25-.25z" transform="translate(384 61) translate(8 6)"/>
+                        </g>
+                    </g>
+                    <g>
+                        <g transform="translate(306 61)">
+                            <use fill="#FFF" xlink:href="#t2x4bdsdyc"/>
+                            <use fill="#000" filter="url(#lckkuqqhad)" xlink:href="#t2x4bdsdyc"/>
+                        </g>
+                        <text fill="#C00" font-family="SantanderMicroText-Bd, Santander Micro Text" font-size="8" font-weight="bold" transform="translate(306 61)">
+                            <tspan x="24" y="15">Last update</tspan>
+                        </text>
+                        <g fill="#EC0000">
+                            <path d="M2.858 7h2.031l-1.373 3.662c-.041.11 0 .235.1.298.04.027.087.04.134.04.065 0 .13-.025.177-.074l5.384-5.434c.175-.16.232-.407.146-.628-.086-.221-.295-.364-.532-.364H6.681l1.786-3.126c.044-.077.044-.172 0-.25C8.42 1.048 8.338 1 8.25 1h-3c-.092 0-.176.05-.22.13L2.323 6.097c-.105.19-.1.417.01.604.112.187.308.299.526.299zm-.098-.664L5.398 1.5H7.82L6.033 4.626c-.044.077-.044.172 0 .25.046.077.128.124.217.124h2.675c.04 0 .058.025.066.045.008.02.011.05-.027.086l-4.57 4.614 1.09-2.907c.029-.077.018-.163-.028-.23-.047-.068-.124-.108-.206-.108H2.858c-.055 0-.083-.034-.096-.054-.012-.02-.028-.062-.002-.11z" transform="translate(306 61) translate(8 6)"/>
+                        </g>
+                    </g>
+                    <text fill="#444" font-family="SantanderMicroText, Santander Micro Text" font-size="14">
+                        <tspan x="40" y="79">Accounts</tspan>
+                    </text>
+                    <path fill="#F6F6F6" d="M0 24H496V40H0z"/>
+                    <path fill="#C00" d="M4 0h488c2.21 0 4 1.79 4 4v20H0V4c0-2.21 1.79-4 4-4z"/>
+                    <g fill="#FFF">
+                        <path d="M10.505 6.15L8.417 2.54c-.159-.276-.269-.57-.33-.873L8 1.817c-.517.894-.517 1.995 0 2.889l1.67 2.888c.517.894.517 1.995 0 2.888l-.087.151c-.061-.302-.171-.597-.33-.873L6.747 5.428c-.159-.276-.269-.57-.33-.873l-.087.15c-.515.891-.517 1.988-.005 2.88L8 10.482c.517.894.517 1.995 0 2.889l-.087.15c-.061-.302-.171-.597-.33-.872l-2.088-3.61c-.28-.485-.408-1.03-.384-1.57-2.235.583-3.778 1.82-3.778 3.254 0 1.994 2.985 3.61 6.667 3.61s6.667-1.616 6.667-3.61c0-1.433-1.543-2.672-3.778-3.254-.02-.457-.147-.91-.384-1.319z" transform="translate(40 4)"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
