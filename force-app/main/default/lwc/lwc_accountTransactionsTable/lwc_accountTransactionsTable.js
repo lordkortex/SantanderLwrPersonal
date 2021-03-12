@@ -13,6 +13,7 @@ import MovementHistory_Amount from '@salesforce/label/c.MovementHistory_Amount';
 import Book_Balance from '@salesforce/label/c.Book_Balance';
 import Detail from '@salesforce/label/c.Detail';
 import accountAndAlias from '@salesforce/label/c.accountAndAlias';
+import Account_Transactions from '@salesforce/label/c.Account_Transactions';
 
 export default class Lwc_account_TransactionsTable extends LightningElement {
 
@@ -26,6 +27,7 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
         Book_Balance,
         Detail,
         accountAndAlias,
+        Account_Transactions
     }
 
 
@@ -33,7 +35,7 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
 
     @api transactionresults;
     @api wholetransactionresults;
-    @api accountdetails;
+    @api accountdetails = {};
     @api sourcepage;
     @api loading;
     @api filters;
@@ -115,7 +117,16 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
         }
     }
 
+    get transactionResultsLength(){
+        return this.transactionresults.length;
+    }
+
+    get transactionresultsNotNull(){
+        return this.transactionresults == null || this.transactionresults === '' || !(this.transactionresults.length > 0);
+    }
+
     doBuildTablePage(event){
+        this.currentPage = event.detail.currentPage;
         this.buildTablePage(event);
     }
 
@@ -161,10 +172,11 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
                 this.oldPage=currentPage;
 
                 //Update a set of the paginated data
-                var paginatedValues=[];
-                for(var i = this.start;i<=this.end;i++){
-                    paginatedValues.push(json[i]);
-                }
+                var paginatedValues= json.slice(this.start, this.end+1);
+
+                // for(var i = this.start;i<=this.end;i++){
+                //     paginatedValues.push(json[i]);
+                // }
 
                 this.paginatedtransactions=paginatedValues;
             }
@@ -184,7 +196,7 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
             //Retrieve the field to sort by
             if(event.target.dataset.id){
                 //var sortEvent = component.getEvent("sortColumn");
-                var sortItem =  event.target.dataset.order;
+                var sortItem =  event.target.dataset.sort;
 
                 const sortevent = new CustomEvent('sortcolumn', {
                     detail: { 
@@ -206,7 +218,7 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
         // This component is accessible from the "Account Transactions" screen
         // and the "Transaction Search" screen. Hence we need to adapt the url depending
         // on the source screen
-        var transactionRow = this.transactionresults[event.currentTarget.id.split('-')[0]];
+        var transactionRow = this.transactionresults[event.currentTarget.dataset.id];
 
         if(this.sourcepage == "globalBalance"){
             var url =
@@ -267,7 +279,7 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
                 "&c__localTransactionDescription="+transactionRow.obtTransacBusqueda.ltcDescription+ 
                 "&c__transactionBatchReference="+transactionRow.obtTransacBusqueda.transactionBatchReference;
             
-            let accountList = this.accountsdata[0].accountList;
+            let accountList = this.accountsdata.accountList;
             for(var acc in accountList){
                 if(accountList[acc].displayNumber.trim() == transactionRow.obtTransacBusqueda.cuentaExtracto){
                     url += "&c__accountStatus=" + accountList[acc].status;
@@ -300,11 +312,12 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
 
 		this.end=end;
 
-		var paginatedValues=[];
+		var paginatedValues = response.slice(this.start, this.end+1);
 
-		for(var i= this.start;i<=this.end;i++){
-			paginatedValues.push(response[i]);
-		}
+		// for(var i= this.start;i<=this.end;i++){
+		// 	paginatedValues[i-this.start] = response[i];
+		// }
+
 
 		this.paginatedtransactions=paginatedValues;
 
@@ -316,9 +329,9 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
 			finish=1000;
 		}
 
-		for(var i= 0;i<finish;i++){
-			toDisplay.push(response[i]);
-		}
+		// for(var i= 0;i<finish;i++){
+		// 	toDisplay[i] = response[i];
+		// }
         //component.find("pagination").initPagination(toDisplay); 
         //Se llama a init y a su vez esta en LWC llama a setPagesNumber
         //this.template.querySelector("c-lwc_cn_pagination").setPagesNumber(toDisplay);		
@@ -338,6 +351,7 @@ export default class Lwc_account_TransactionsTable extends LightningElement {
                 aux[i].obtTransacBusqueda.importeDecimalMoneda = aux[i].obtTransacBusqueda.importeDecimal + ' ' + aux[i].obtTransacBusqueda.moneda;
                 item.value = aux[i];
                 item.id = i;
+                item.index = (this.currentPage - 1)*this.transactionsPerPage + i;
                 item.showfirstpoints = false;
                 item.showlastpoints = false;
                 if (i == this.start){

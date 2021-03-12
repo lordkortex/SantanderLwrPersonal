@@ -32,7 +32,7 @@ public class ControllerTransferFees {
                 output.put('transactionFeeServiceResponse', originalOutput.get('output'));
                 String transactionFeeCurrencyString = String.valueOf(output.get('originalTransactionFeeCurrency'));
                 if (String.isNotBlank(transactionFeeCurrencyString) && String.isNotBlank(paymentDraft.sourceAccount.currencyCodeAvailableBalance)) {
-                    if (transactionFeeCurrencyString != paymentDraft.sourceAccount.currencyCodeAvailableBalance) {
+                    if (transactionFeeCurrencyString != paymentDraft.sourceAccount.currencyCodeAvailableBalance  && originalTransactionFee != 0) {
                         String sourceCustomerId = paymentDraft.sourceAccount.codigoCorporate;
                         if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
                             sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);

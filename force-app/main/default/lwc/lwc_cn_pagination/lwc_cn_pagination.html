@@ -43,7 +43,7 @@
     
     
     <!-- <aura:if isTrue="{!not(or(empty(v.allData), v.allData == undefined))}"> -->
-    <template if:false={getcheckAllData}>    
+    <template if:false={alldata}>    
         <div class="slds-card__header slds-grid pagination">
             <header class="slds-media slds-media_center slds-has-flexi-truncate">
                 <div class="slds-media__body">
@@ -140,7 +140,7 @@
                         <template if:true={lastPage}>
                             <div class="number__gray">...</div>
                         </template>
-                        <div class="number__gray">{pageListLength}</div>
+                        <div class="number__gray">{getpageListLength}</div>
                     </template>    
 
 <!-- END 10/02/2021-->

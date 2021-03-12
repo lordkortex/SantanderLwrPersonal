@@ -36,7 +36,7 @@
                 <aura:if isTrue="{!v.filters.length != 0}">
                 <div class="slds-text-body_regular">{!$Label.c.Displaying}
                     <strong>
-                        &nbsp;{!v.accountsFiltered.length}&nbsp;{!$Label.c.PAY_payments}
+                        &nbsp;{!v.accountsFiltered.length}&nbsp;{!$Label.c.Accounts}
                     </strong>
                     &nbsp;{!$Label.c.PAY_accordingTo}<strong>&nbsp;{!$Label.c.PAY_selectedFilters}</strong>
                 </div>

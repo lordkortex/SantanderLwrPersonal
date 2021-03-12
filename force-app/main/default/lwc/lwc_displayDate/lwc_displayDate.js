@@ -28,7 +28,7 @@ export default class Lwc_displayDate extends LightningElement {
         }
     }
 
-    formatDate(){
+    @api formatDate(){
         if(this.userdateformat != undefined){
             this.formatUserDate(this.userdateformat);
         } else {

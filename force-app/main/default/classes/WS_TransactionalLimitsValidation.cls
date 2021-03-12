@@ -10,6 +10,7 @@ History:
 28/01/2021      Shahad Naji     Delete LimitsDataEntryUpdate structure
 01/02/2021      Candido         Refactor with WRAPPER_PAY_PaymentDraft
 */
+
 global with sharing class WS_TransactionalLimitsValidation {
     private OUTPUT result;
     private String baseEndpoint;
@@ -250,26 +251,17 @@ global with sharing class WS_TransactionalLimitsValidation {
 
     global with sharing class OUTPUT {
         @AuraEnabled
-        global LimitsResponse limitsResponse {get;set;}
-
-        global OUTPUT () {}
-
-        global OUTPUT (LimitsResponse limitsResponse) {
-            this.limitsResponse = limitsResponse;
-        }
-    }
-
-    global with sharing class LimitsResponse {
-        @AuraEnabled
         global String limitsResult;
         @AuraEnabled
         global String codeLimitsResult;
 
-        global LimitsResponse () {}
+        global OUTPUT () {}
 
-        global LimitsResponse (String limitsResult, String codeLimitsResult) {
+        global OUTPUT (String limitsResult, String codeLimitsResult) {
             this.limitsResult = limitsResult;
             this.codeLimitsResult = codeLimitsResult;
         }
     }
+    
+    
 }

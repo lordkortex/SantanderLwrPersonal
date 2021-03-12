@@ -1,6 +1,5 @@
 .THIS.paymentProcess-step4 {
     width: 808px;
-    padding: 0px 0 120px 0; 
     outline: none; /*added by SF*/
 }
 
@@ -18,10 +17,13 @@
     line-height: 27px;
 	margin-bottom: 16px;
 }
-
-.THIS.paymentProcess-step4 .slds-col.card{
-    margin-bottom: 40px;
+.THIS.paymentProcess-step4 .slds-col:last-child{
+	display:flex;
+	justify-content:flex-end;
 }
+/*.THIS.paymentProcess-step4 .slds-col.card{
+    margin-bottom: 40px;
+}*/
 
 /* CARD */
 /*

@@ -15,7 +15,7 @@
     },
 
     handleSelectedAccount: function (component, event, helper) {
-        helper.selectedAccount(component, event.getParam('account'));
+        helper.selectedAccount(component, helper, event.getParam('account'));
     },
 
     handleInputSearch: function (component, event, helper) {
@@ -43,7 +43,7 @@
     },
 
     handleClickSuggestion: function (component, event, helper) {
-        helper.selectedAccount(component, event.getParam('account'));
+        helper.selectedAccount(component, helper, event.getParam('account'));
         component.set('v.showDropdown', false);
     }
 })

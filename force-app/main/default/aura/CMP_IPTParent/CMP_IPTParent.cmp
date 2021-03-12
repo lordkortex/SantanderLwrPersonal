@@ -104,6 +104,11 @@ History
                             </aura:if>
                             <!--Table-->
                             <c:CMP_IPTTable aura:id="paymentsTable" isOneTrade="{!v.isOneTrade}" filters="{!v.filters}" fromCashNexus="{!v.fromCashNexus}" fromDetail="{!v.fromDetail}" fullAccountList="{!v.accountList}"/>
+                            
+                            <aura:set attribute="else">
+                                <c:CMP_IPTTable aura:id="paymentsTable" noPayments="true" showSpinner="false"/>
+                            </aura:set>
+                        
                         </aura:if>
                           
                         <aura:set attribute="else">

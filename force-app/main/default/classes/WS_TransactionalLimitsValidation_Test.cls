@@ -5,32 +5,59 @@ public class WS_TransactionalLimitsValidation_Test {
     static void setup(){
         DataFactory.createWsConfigurationSetting(true);     
     }
-    
+   
     @isTest
-    static void execute_Test(){
-        
-        Test.startTest();
-        Test.setMock(HttpCalloutMock.class, new WS_TransactionalLimitsValid_MockHttp());            
-        WS_TransactionalLimitsValidation wsObject = new WS_TransactionalLimitsValidation();
-        
-        WS_TransactionalLimitsValidation.LimitsResponse wsObjectLimit = new WS_TransactionalLimitsValidation.LimitsResponse('limitsResult', 'codeLimitsResult');
-        WS_TransactionalLimitsValidation.OriginalTransactionAmount wsObjectOTA = new WS_TransactionalLimitsValidation.OriginalTransactionAmount('12', 'tcurrency');
+    static void executePaymentDraft_Test(){
+        try{ 
+            Test.setMock(HttpCalloutMock.class, new WS_TransactionalLimitsValid_MockHttp());
+            
+            WRAPPER_PAY_PaymentDraft_Mock mock = new WRAPPER_PAY_PaymentDraft_Mock();
+            WRAPPER_PAY_PaymentDraft paymentDraft = mock.paymentDraftOrchestration();
+            Decimal baseAmount = 10;
+            String baseCurrency = 'EUR';
+            
+            WS_TransactionalLimitsValidation wsObject = new WS_TransactionalLimitsValidation();
 
-        
-        //createPayment params: payment
-        WRAPPER_PaymentDetail.OperationDetail payment = (WRAPPER_PaymentDetail.OperationDetail) JSON.deserialize(MockResponse.PaymentOptionsResult(), WRAPPER_PaymentDetail.OperationDetail.class); 
-        
-        wsObject.execute(payment);
-
-        //createB2BData paymentAmount
-        WRAPPER_B2B_Data.PaymentAmount paymentAmount = (WRAPPER_B2B_Data.PaymentAmount) JSON.deserialize(MockResponse.B2BData_PaymentAmount(), WRAPPER_B2B_Data.PaymentAmount.class);
-        //createAccountList sourceAccountData
-        WRAPPER_AccountList.AccountDetails sourceAccountData = (WRAPPER_AccountList.AccountDetails) JSON.deserialize(MockResponse.AccountList_AccountDetails('ES', 'EUR'), WRAPPER_AccountList.AccountDetails.class);
-
-        wsObject.execute('paymentId','serviceId', paymentAmount, sourceAccountData, sourceAccountData, 13, 'baseCurrency');
-        
-        Test.stopTest();
+            Test.startTest();
+            wsObject.execute(paymentDraft, baseAmount, baseCurrency);
+            Test.stopTest();
+        } catch (Exception e) {
+            System.debug('WS_TransactionalLimitsValidation_Test.executePaymentDraft_Test: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+        }
     }
     
+        @isTest
+    static void executePaymentDetail_Test(){
+        try{ 
+            Test.setMock(HttpCalloutMock.class, new WS_TransactionalLimitsValid_MockHttp());
+            
+			String str = MockResponse.WRAPPER_PaymentDetail();
+       		WRAPPER_PaymentDetail payment = WRAPPER_PaymentDetail.parse(str);
+            
+            WRAPPER_PaymentDetail.OperationDetail paymentData = new WRAPPER_PaymentDetail.OperationDetail();
+            paymentData = payment.operationResponse.operationDetail;
+            
+            Decimal baseAmount = 10;
+            String baseCurrency = 'EUR';
+            
+            WS_TransactionalLimitsValidation wsObject = new WS_TransactionalLimitsValidation();
+
+            Test.startTest();
+            wsObject.execute(paymentData);
+            Test.stopTest();
+        } catch (Exception e) {
+            System.debug('WS_TransactionalLimitsValidation_Test.executePaymentDetail_Test: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+        }
+    }
+        @isTest
+    static void output_Test(){
+        try{ 
+			Test.startTest();
+            WS_TransactionalLimitsValidation.OUTPUT wsObject= new  WS_TransactionalLimitsValidation.OUTPUT('limitsResult', 'codeLimitsResult');
+            Test.stopTest();
+        } catch (Exception e) {
+            System.debug('WS_TransactionalLimitsValidation_Test.output_Test: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+        }
+    }
 
 }

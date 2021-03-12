@@ -1,46 +1,149 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-24-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   02-24-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
 <template>
     <c-lwc_service-component data-id="Service" onsuccesscallback={successcallback}></c-lwc_service-component>
+    
     <!-- DOWNLOADS COMPONENT : Used to download the accounts information into and excel file -->
-    <c-lwc_download-accounts-lu data-id="downloadAccounts" 
-        sortselected={sortselected} 
-        accountcountrylist={accountcountrylist} 
-        accountcurrencylist={accountcurrencylist} 
-        accountsubsidiarylist={accountsubsidiarylist} 
-        consolidationcurrency={selectedcurrency}
-        globalbookbalance={globalbookbalance}
-        globalavailablebalance={globalAvailableBalance}
-        currenciesexchange={rcurrencylist}
-        exchangeratesstring={exchangeratesstring}
-        countrymap={countrymap}
-        seedcountrymap={seedcountrymap}
-        userpreferreddateformat={userpreferreddateformat}>
-    </c-lwc_download-accounts-lu>
+    <template if:true={isComunidadCashNexus}>
+        <template if:true={_isLastUpdateCN}>
+            <c-lwc_download-accounts-lu data-id="downloadAccounts" 
+                sortselected={sortselected} 
+                accountcountrylist={accountcountrylist} 
+                accountcurrencylist={accountcurrencylist} 
+                accountsubsidiarylist={accountsubsidiarylist} 
+                consolidationcurrency={selectedcurrency}
+                globalbookbalance={globalbookbalance}
+                globalavailablebalance={globalAvailableBalance}
+                currenciesexchange={rcurrencylist}
+                exchangeratesstring={exchangeratesstring}
+                countrymap={countrymap}
+                seedcountrymap={seedcountrymap}
+                userpreferreddateformat={userpreferreddateformat}>
+            </c-lwc_download-accounts-lu>
+        </template> 
+        <template if:false={_isLastUpdateCN}>
+            <c-lwc_download-accounts-lu data-id="downloadAccounts" 
+                sortselected={sortselected} 
+                accountcountrylist={taccountcountrylist} 
+                accountcurrencylist={taccountcurrencylist} 
+                accountsubsidiarylist={taccountsubsidiarylist} 
+                consolidationcurrency={selectedcurrency}
+                globalbookbalance={globalbookbalance}
+                globalavailablebalance={globalAvailableBalance}
+                currenciesexchange={rcurrencylist}
+                exchangeratesstring={exchangeratesstring}
+                countrymap={countrymap}
+                seedcountrymap={seedcountrymap}
+                userpreferreddateformat={userpreferreddateformat}>
+            </c-lwc_download-accounts-lu>
+        </template>   
+    </template>
+    <template if:false={isComunidadCashNexus}>
+        <c-lwc_download-accounts-lu data-id="downloadAccounts" 
+            sortselected={sortselected} 
+            accountcountrylist={accountcountrylist} 
+            accountcurrencylist={accountcurrencylist} 
+            accountsubsidiarylist={accountsubsidiarylist} 
+            consolidationcurrency={selectedcurrency}
+            globalbookbalance={globalbookbalance}
+            globalavailablebalance={globalAvailableBalance}
+            currenciesexchange={rcurrencylist}
+            exchangeratesstring={exchangeratesstring}
+            countrymap={countrymap}
+            seedcountrymap={seedcountrymap}
+            userpreferreddateformat={userpreferreddateformat}>
+        </c-lwc_download-accounts-lu>
+    </template>
+
+
     <div class="spinnercontainer">
        <template if:true={isloading}>  
             <div class="spinnerclass" style="position: absolute;">
                 <lightning-spinner data-id="spinner" variant="brand" size="large" title={spinnerText}  alternative-text={spinnerText}></lightning-spinner>
             </div> 
         </template>    
-        <template if:true={showError403}>
-            <c-lwc_cn_scope-notification notificationclass="slds-scoped-notification_error" notificationicon="icon-close_emptyCircle" title={label.ERROR} notificationtitle={label.ERROR} notificationbody={label.Error403}></c-lwc_cn_scope-notification>
-        </template> 
-        <template if:false={showError403}> 
-            <template if:true={rGlobalBalanceCurrencyListNotEmpty}> 
+       
+    <!--<aura:handler name="AccountsTab" event="c:EVT_SelectedTab" action="{!c.ischangeTab}"/>
+        <aura:handler name="GlobalBalanceTab" event="c:EVT_CurrentTabSelected" action="{!c.showHideContent}"/>
+        <aura:handler name="change" value="{!v.tCurrentUserCurrency}" action="{!c.updateGlobalBalance}"/>-->    
+
+        <template if:true={isComunidadCashNexus}>
+            <template if:true={rGlobalBalanceCurrencyListNotEmptyisLastUpdateCN}>
                 <c-lwc_accounts-title-dropdown  
                     data-id="accountTitleDropdown_one" 
                     thistest={thistest} 
-                    islastupdate="true" 
+                    islastupdate={_isLastUpdateCN} 
                     selectedcurrency={selectedcurrency} 
                     helptextdropdown={helptextdropdown} 
                     accountcurrencies={rGlobalBalance.currencyList} 
                     firenavigationevent="true" 
-                    source={sourcepage} 
+                    source={uno} 
                     selectedtimeframe={selectedtimeframe} 
                     accountlastupdate={accountlastupdate} 
                     userpreferreddateformat={userpreferreddateformat}
-                    oncurrencyexchanger={changercurrentusercurrencyhandler}>
+                    iscashnexus="true"
+                    oncurrencyexchanger={changercurrentusercurrencyhandler}
+                    onaccountsab={accountsab}>
                 </c-lwc_accounts-title-dropdown>
-            </template> 
+            </template>
+            <template if:true={rGlobalBalanceCurrencyListEmptyisLastUpdateCN}>
+                <c-lwc_accounts-title-dropdown  
+                    thistest={thistest} 
+                    islastupdate={_isLastUpdateCN} 
+                    selectedcurrency={selectedcurrency} 
+                    helptextdropdown={helptextdropdown} 
+                    firenavigationevent="true" 
+                    source={uno} 
+                    selectedtimeframe={selectedtimeframe} 
+                    accountlastupdate={accountlastupdate} 
+                    userpreferreddateformat={userpreferreddateformat}
+                    iscashnexus="true"
+                    oncurrencyexchanger={changercurrentusercurrencyhandler}
+                    onaccountsab={accountsab}>
+                </c-lwc_accounts-title-dropdown>
+            </template>
+            <template if:true={tGlobalBalanceCurrencyListNotEmptyNoisLastUpdateCN}>
+                <c-lwc_accounts-title-dropdown  
+                    data-id="accountTitleDropdown_two" 
+                    thistest={thistest} 
+                    islastupdate={_isLastUpdateCN} 
+                    selectedcurrency={selectedcurrency} 
+                    helptextdropdown={helptextdropdown} 
+                    accountcurrencies={tGlobalBalance.currencyList} 
+                    firenavigationevent="true" 
+                    source={uno} 
+                    selectedtimeframe={selectedtimeframe} 
+                    accountlastupdate={accountlastupdate} 
+                    userpreferreddateformat={userpreferreddateformat}
+                    iscashnexus="true"
+                    oncurrencyexchanger={changercurrentusercurrencyhandler}
+                    onaccountsab={accountsab}>
+                </c-lwc_accounts-title-dropdown>
+            </template>
+            <template if:true={tGlobalBalanceCurrencyListEmptyNoisLastUpdateCN}>
+                <c-lwc_accounts-title-dropdown  
+                    thistest={thistest} 
+                    islastupdate={_isLastUpdateCN} 
+                    selectedcurrency={selectedcurrency} 
+                    helptextdropdown={helptextdropdown} 
+                    firenavigationevent="true" 
+                    source={uno} 
+                    selectedtimeframe={selectedtimeframe} 
+                    accountlastupdate={accountlastupdate} 
+                    userpreferreddateformat={userpreferreddateformat}
+                    iscashnexus="true"
+                    oncurrencyexchanger={changercurrentusercurrencyhandler}
+                    onaccountsab={accountsab}>
+                </c-lwc_accounts-title-dropdown>
+            </template>
             <c-lwc_cn_filters 
                 data-id="filtering" 
                 showadvancedfilters={showadvancedfiltersaux}
@@ -50,51 +153,179 @@
                 dropdownselectedvalue={selectedtimeframe} 
                 displaydownloadicon="true" 
                 displayprinticon="true"
-                isdropdowndisabled={dropdowndisabled}
+                isdropdowndisabled={dropdowndisabledCN}
                 heritagedfilters={heritagedfilters}
                 ondropdownvalueselected={handledropdownvalueselected}
                 onfirefilter={handlefirefilter}
                 onlaunchdonwload={fileToDonwload}>
             </c-lwc_cn_filters> 
+
             <c-lwc_toast type={type} show={show} message={message} tobehidden={toBeHiddenToast}></c-lwc_toast>
-          <c-lwc_accounts-header 
-            islastupdate 
-            sortselected={sortselected} 
-            isloading={isloading} 
-            onexpandall={handleExpand}
-            oncollapseall={handleCollapse}>
-        </c-lwc_accounts-header>
+            <c-lwc_accounts-header 
+                islastupdate={_isLastUpdateCN} 
+                sortselected={sortselected} 
+                isloading={isloading} 
+                onexpandall={handleExpand}
+                oncollapseall={handleCollapse}>
+            </c-lwc_accounts-header>
+            
         </template>
+
+        <template if:false={isComunidadCashNexus}>
+            <template if:true={showError403}>
+                <c-lwc_cn_scope-notification notificationclass="slds-scoped-notification_error" notificationicon="icon-close_emptyCircle" title={label.ERROR} notificationtitle={label.ERROR} notificationbody={label.Error403}></c-lwc_cn_scope-notification>
+            </template> 
+            <template if:false={showError403}> 
+                <template if:true={rGlobalBalanceCurrencyListNotEmpty}> 
+                    <c-lwc_accounts-title-dropdown  
+                        data-id="accountTitleDropdown_one" 
+                        thistest={thistest} 
+                        islastupdate="true" 
+                        selectedcurrency={selectedcurrency} 
+                        helptextdropdown={helptextdropdown} 
+                        accountcurrencies={rGlobalBalance.currencyList} 
+                        firenavigationevent="true" 
+                        source={sourcepage} 
+                        selectedtimeframe={selectedtimeframe} 
+                        accountlastupdate={accountlastupdate} 
+                        userpreferreddateformat={userpreferreddateformat}
+                        oncurrencyexchanger={changercurrentusercurrencyhandler}>
+                    </c-lwc_accounts-title-dropdown>
+                </template> 
+                <c-lwc_cn_filters 
+                    data-id="filtering" 
+                    showadvancedfilters={showadvancedfiltersaux}
+                    filters={filters} 
+                    dropdownheader={dropdownheader} 
+                    dropdownvalues={timeperiods} 
+                    dropdownselectedvalue={selectedtimeframe} 
+                    displaydownloadicon="true" 
+                    displayprinticon="true"
+                    isdropdowndisabled={dropdowndisabled}
+                    heritagedfilters={heritagedfilters}
+                    ondropdownvalueselected={handledropdownvalueselected}
+                    onfirefilter={handlefirefilter}
+                    onlaunchdonwload={fileToDonwload}>
+                </c-lwc_cn_filters> 
+                <c-lwc_toast type={type} show={show} message={message} tobehidden={toBeHiddenToast}></c-lwc_toast>
+                <c-lwc_accounts-header 
+                    islastupdate 
+                    sortselected={sortselected} 
+                    isloading={isloading} 
+                    onexpandall={handleExpand}
+                    oncollapseall={handleCollapse}>
+                </c-lwc_accounts-header>
+            </template>
+        </template>
+
         <template if:false={isloading}> 
-            <template if:true={sortSelectedCountry}>
-                <template for:each={accountcountrylist} for:item="item" for:index="itemIndex">    
-                     <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={itemIndex} icurrency={rcurrentusercurrency} isortselected={sortselected}
-                        itabselected="LastUpdateTab" index={itemIndex}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
-                        islastupdate="true" filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
-                        userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
-                        isonetrade={isonetradeaux}>
-                    </c-lwc_child-accounts-list>
+            <template if:true={isComunidadCashNexus}>
+                <template if:true={_isLastUpdateCN}> 
+                    <template if:true={sortSelectedCountry}>
+                        <template for:each={accountcountrylist} for:item="item" for:index="itemIndex">  
+                            <!--A Index : {item.index}  -->
+                            <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
+                                itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                                islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
+                                userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                                isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
+                            </c-lwc_child-accounts-list>
+                        </template>
+                    </template>
+                    <template if:true={sortSelectedCurrency}>
+                        <template for:each={accountcurrencylist} for:item="item" for:index="itemIndex"> 
+                            <!--B Index : {item.index}  -->                       
+                        <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
+                                itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                                islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
+                                userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                                isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
+                            </c-lwc_child-accounts-list>
+                        </template>
+                    </template>
+                    <template if:true={sortSelectedCorporate}>
+                        <template for:each={accountsubsidiarylist} for:item="item"  for:index="itemIndex">
+                            <!--C Index : {item.index}  -->
+                        <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
+                                itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                                islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
+                                userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                                isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
+                            </c-lwc_child-accounts-list>
+                        </template>        
+                    </template>
+                </template>
+                <template if:false={_isLastUpdateCN}>
+                    <template if:true={sortSelectedCountry}>
+                        <template for:each={taccountcountrylist} for:item="item" for:index="itemIndex"> 
+                            <!--D Index : {item.index}  -->  
+                            <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={tcurrentusercurrency} isortselected={sortselected}
+                                itabselected="EndOfDayTab" index={item.index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylist}
+                                islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={tcurrencylist}
+                                userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                                isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
+                            </c-lwc_child-accounts-list>
+                        </template>
+                    </template>
+                    <template if:true={sortSelectedCurrency}>
+                        <template for:each={taccountcurrencylist} for:item="item" for:index="itemIndex">     
+                            <!--E Index : {item.index}  -->                  
+                        <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={tcurrentusercurrency} isortselected={sortselected}
+                                itabselected="EndOfDayTab" index={item.index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylist}
+                                islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={tcurrencylist}
+                                userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                                isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
+                            </c-lwc_child-accounts-list>
+                        </template>
+                    </template>
+                    <template if:true={sortSelectedCorporate}>
+                        <template for:each={taccountsubsidiarylist} for:item="item" for:index="itemIndex">
+                            <!--F Index : {item.index}  -->
+                        <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={tcurrentusercurrency} isortselected={sortselected}
+                                itabselected="EndOfDayTab" index={item.index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylist}
+                                islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={tcurrencylist}
+                                userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                                isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
+                            </c-lwc_child-accounts-list>
+                        </template>        
+                    </template>
                 </template>
             </template>
-            <template if:true={sortSelectedCurrency}>
-                <template for:each={accountcurrencylist} for:item="item" for:index="itemIndex">                         
-                   <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={itemIndex} icurrency={rcurrentusercurrency} isortselected={sortselected}
-                        itabselected="LastUpdateTab" index={itemIndex}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
-                        islastupdate="true" filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
-                        userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
-                        isonetrade={isonetradeaux}>
-                    </c-lwc_child-accounts-list>
+
+            <template if:false={isComunidadCashNexus}>
+                <template if:true={sortSelectedCountry}>
+                    <template for:each={accountcountrylist} for:item="item" for:index="itemIndex">    
+                        <!--G Index : {item.index}-->
+                        <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
+                            itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                            islastupdate="true" filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
+                            userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                            isonetrade={isonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
+                        </c-lwc_child-accounts-list>
+                    </template>
                 </template>
-            </template>
-            <template if:true={sortSelectedCorporate}>
-                <template for:each={accountsubsidiarylist} for:item="item">
-                  <c-lwc_child-accounts-list key={item} iregister={item} ikey={key} icurrency={rcurrentusercurrency} isortselected={sortselected}
-                        itabselected="LastUpdateTab" index={key}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
-                        islastupdate="true" filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
-                        userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
-                        isonetrade={isonetradeaux}>
-                    </c-lwc_child-accounts-list>
-                </template>        
+                <template if:true={sortSelectedCurrency}>
+                    <template for:each={accountcurrencylist} for:item="item" for:index="itemIndex">   
+                        <!--H Index : {item.index}-->                      
+                    <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
+                            itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                            islastupdate="true" filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
+                            userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                            isonetrade={isonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
+                        </c-lwc_child-accounts-list>
+                    </template>
+                </template>
+                <template if:true={sortSelectedCorporate}>
+                    <template for:each={accountsubsidiarylist} for:item="item"  for:index="itemIndex">
+                         <!--I Index : {item.index}-->
+                    <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
+                            itabselected="LastUpdateTab" index={v}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                            islastupdate="true" filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
+                            userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                            isonetrade={isonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}> 
+                        </c-lwc_child-accounts-list>
+                    </template>        
+                </template>
             </template>
         </template>        
     </div>    

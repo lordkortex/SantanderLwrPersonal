@@ -1,10 +1,10 @@
 import { LightningElement, api } from 'lwc';
 import { loadStyle,loadScript  } from 'lightning/platformResourceLoader';
 
-import SheetJS from '@salesforce/resourceUrl/SheetJS';
-//import SheetJSIntegra from '@salesforce/resourceUrl/SheetJSIntegra';
+//import SheetJS from '@salesforce/resourceUrl/SheetJS';
+import SheetJSIntegra from '@salesforce/resourceUrl/SheetJSIntegra';
 
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 import Country from '@salesforce/label/c.Country';
 import currency from '@salesforce/label/c.currency';
@@ -31,8 +31,8 @@ export default class lwc_downloadAccountsLu extends LightningElement {
 
     renderedCallback(){
         //loadScript(this, SheetJS + '/SheetJS.js');
-        //loadScript(this, SheetJSIntegra);
-        loadScript(this, SheetJS);
+        loadScript(this, SheetJSIntegra);
+        //loadScript(this, SheetJS);
         loadStyle(this, santanderStyle + '/style.css');
 
     }

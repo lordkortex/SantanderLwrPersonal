@@ -150,7 +150,7 @@ public without sharing class HANDLER_Case {
                         }*/
                     }
                 //AMR Desarrollo Customer Service 17/02/2021
-            	}else if(objCase.Status == 'Closed Solved' && objCase.CASE_CAU1__c != null && oldCaseList[0].Status != objCase.Status){
+                }else if(objCase.Status == 'Closed Solved' && objCase.CASE_CAU1__c != null && oldCaseList[0].Status != objCase.Status && String.valueOf(objCase.OwnerId).startsWith('005')){ 
                 	objCase.OwnerId = objCase.CASE_CAU1__c;
                 }else if(objCase.Status == 'In Progress' && objCase.CASE_Resolutor__c != null && oldCaseList[0].Status != objCase.Status &&  oldCaseList[0].Status == 'Reopen'){
                     objCase.OwnerId = objCase.CASE_Resolutor__c;
@@ -546,7 +546,9 @@ History
             if(objCase.RecordTypeId == RTCId && objCase.CASE_CAU1__c == null && objCase.Status == 'New'){
                 objCase.Status = 'In Progress';
                 objCase.CASE_Resolutor__c = objCase.OwnerId;	
-            }        
+            }else if(objCase.RecordTypeId == RTCId && objCase.CASE_CAU1__c == null && objCase.Status == 'In progress'){
+                objCase.Status.addError(System.Label.CASE_CAU2_new_case_error);
+            }       
         }
     }
     

@@ -75,6 +75,12 @@ export default class Lwc_cn_pagination extends LightningElement {
         }
     }
 
+    get getpageListLength() {
+        if(this.pagelist){
+            return this.pagelist.length;
+        }
+    }
+
     get lastPage(){
         if(this.pagelist){
             return this.pagelist.length-2 >= this.currentPage && this.pagelist.length-2 >= this.end;
@@ -126,9 +132,9 @@ export default class Lwc_cn_pagination extends LightningElement {
         return (this.currentPage * this.paymentsperpage);
     }
 
-    get getcheckAllData(){
-        return (this.alldata == null || this.alldata === '');
-    }
+    // get getcheckAllData(){
+    //     return (this.alldata == null || this.alldata === '' || !(this.alldata.length > 0));
+    // }
 
     get iterationPageList(){
         if(this.pagelist){
@@ -327,12 +333,12 @@ export default class Lwc_cn_pagination extends LightningElement {
 
             if(totalPages != null && totalPages != '' && totalPages != undefined){
                 if(this.maximumrecords==0){
-                    this.totalRetrieved = totalPages.length;
+                    this.totalRetrieved = totalPages; //.length;
                 }else{
                     this.totalRetrieved = this.maximumrecords;
                 }
                 var pagelist = [];
-                var pages =Math.ceil(totalPages.length/this.paymentsperpage);
+                var pages =Math.ceil(totalPages/this.paymentsperpage);
                 if(pages > 1){
                 for( var i =1;i<=pages;i++){
                     pagelist.push(i.toString());

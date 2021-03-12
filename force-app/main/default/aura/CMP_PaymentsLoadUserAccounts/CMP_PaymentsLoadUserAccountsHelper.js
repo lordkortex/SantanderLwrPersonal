@@ -76,8 +76,11 @@
         }), this);
     },
 
-    /*01/12/2020        Bea Hill        Add transferType*/
-    /*25/01/2021		Andrea Martín	Change the key for the cache */
+  	/*
+    01/12/2020      Bea Hill        Add transferType
+    25/01/2021		Andrea Martín	Change the key for the cache 
+    02/03/2021		Bea Hill		Remove the cache for IIP so that user can access the new beneficiary
+	*/
     getAccountsToB2BDestination: function (component, helper, user, transferType, sourceAccount) {
         return new Promise($A.getCallback(function (masterResolve, masterReject) {
             console.log("AQUI");
@@ -91,15 +94,21 @@
                     }
 				}
  				if(sourceAccount.country != null){
-                countryOriginator = sourceAccount.country;
-            }           
-        } 
-       let keyCache = key + '_' + companyGlobalId + '_' + countryOriginator;
+                	countryOriginator = sourceAccount.country;
+            	}           
+        	} 
+              
+            let keyCache = key + '_' + companyGlobalId + '_' + countryOriginator;
+            if (transferType == $A.get('$Label.c.PTT_international_transfer_single')) {
+            	keyCache = 'noCache';
+            }
             helper.handleRetrieveFromCache(component, helper, keyCache).then($A.getCallback(function (value) {
                 if (!$A.util.isEmpty(value)) {
                     masterResolve(value);
                 } else {
                     helper.getAccountsToB2BOrigin(component, helper, user, transferType).then($A.getCallback(function (value) {
+                        console.log('testAlex');
+                        console.log(value);
                         return helper.callToBeneficiaryAccounts(component, helper, user, transferType, sourceAccount, value)
                         .then($A.getCallback(function (value) {
                             return helper.handleSaveToCache(component, helper, keyCache, value);
@@ -115,7 +124,7 @@
                         }));
                     }));
                 }
-            
+                
             })).catch($A.getCallback(function (error) {
                 console.log(error);
                 masterReject({
@@ -235,11 +244,12 @@
     <Date>		    <Author>		    <Description>
     03/06/2020	    Guillermo Giral     Initial version
     20/08/2020      Candiman            Adapted version to Payments
+    02/03/2021		Bea Hill			Remove the cache for IIP so that user can access the new beneficiary
     */
     handleRetrieveFromCache: function (component, helper, key) {
         return new Promise($A.getCallback(function (resolve, reject) {
             const PAY_AccountsCache = $A.get('$Label.c.PAY_AccountsCache');
-            if (PAY_AccountsCache === 'false') {
+            if (PAY_AccountsCache === 'false' || key == 'noCache') {
                 resolve(null);
             } else {
                 let userId = $A.get('$SObjectType.CurrentUser.Id');

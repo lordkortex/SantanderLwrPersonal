@@ -1,0 +1,64 @@
+.title_container {
+    display: flex;
+  width: 100%;
+  margin: 0 0 16px 0;
+    height: 45px;
+    align-items: flex-end;
+  }
+  .title_container .slds-col.title {
+  display: block;
+  }
+  .title_container .title .slds-text-heading_medium {
+  color: #444444;
+  font-family:"SantanderHeadlineW05-Rg";
+  font-size: 28px;
+  line-height: 34px;
+  margin-bottom: 8px;
+  }
+  .title_container .title .text_line{
+  border-bottom: solid 3px #ec0000;
+    width:40px;
+  }
+   .slds-pill_container{
+    padding: 0;
+    border:none;
+    border-radius: 0;
+    justify-content: flex-end;
+  }
+  
+   .slds-pill_container .slds-pill{
+    margin: 0;
+    justify-content: center;
+    background-color: #eff6f9;
+    border: 1px solid #deedf2;
+    width: 124px;
+    border-radius: 4px 0 0 4px;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+    color: #444444;
+  }
+  
+   .slds-pill_container .slds-pill:last-child{
+    width: 118px;
+    border-radius: 0 4px 4px 0;
+    border-left: none;
+  }
+  
+   .slds-pill_container .slds-pill:not(.slds-pill__active):hover{
+    background-color: #e2eff4;  
+  }
+  
+   .slds-pill_container .slds-pill:focus{
+    background-color: #ffffff;
+    color: #cc0000;
+    font-family: "SantanderMicroText-Bd";
+    box-shadow: none;    
+  }
+  
+   .slds-pill_container > .slds-pill__active{
+    background-color: #ffffff;
+    color: #cc0000;
+    font-family: "SantanderMicroText-Bd";
+    box-shadow: none;   
+  }

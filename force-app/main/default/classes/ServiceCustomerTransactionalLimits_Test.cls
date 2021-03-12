@@ -43,20 +43,20 @@ public class ServiceCustomerTransactionalLimits_Test {
         ServiceCustomerTransactionalLimits.updateLimits(null);
 
         WS_TransactionalLimitsUpdate.OUTPUT outputUpdate = new WS_TransactionalLimitsUpdate.OUTPUT();
-        WS_TransactionalLimitsUpdate.LimitsResponseUpdate wsObjectLimitUpdate = new WS_TransactionalLimitsUpdate.LimitsResponseUpdate('operationId', 'ok', 'codeLimitsResult');
-        WS_TransactionalLimitsUpdate.LimitsResponseUpdate wsObjectLimitUpdateKO = new WS_TransactionalLimitsUpdate.LimitsResponseUpdate('operationId', 'KO', 'codeLimitsResult');
-        outputUpdate.limitsResponseUpdate = wsObjectLimitUpdate;
+        WS_TransactionalLimitsUpdate.OUTPUT wsObjectLimitUpdate = new WS_TransactionalLimitsUpdate.OUTPUT('operationId', 'ok', 'codeLimitsResult');
+        WS_TransactionalLimitsUpdate.OUTPUT wsObjectLimitUpdateKO = new WS_TransactionalLimitsUpdate.OUTPUT('operationId', 'KO', 'codeLimitsResult');
+        outputUpdate = wsObjectLimitUpdate;
         ServiceCustomerTransactionalLimits.getTransactionalLimitsUpdateOutput(outputUpdate);
-        outputUpdate.limitsResponseUpdate = wsObjectLimitUpdateKO;
+        outputUpdate = wsObjectLimitUpdateKO;
         ServiceCustomerTransactionalLimits.getTransactionalLimitsUpdateOutput(outputUpdate);
 
         WS_TransactionalLimitsValidation.OUTPUT outputValidation = new WS_TransactionalLimitsValidation.OUTPUT();
-        WS_TransactionalLimitsValidation.LimitsResponse wsObjectLimitValidation = new WS_TransactionalLimitsValidation.LimitsResponse('ok', 'codeLimitsResult');
-        WS_TransactionalLimitsValidation.LimitsResponse wsObjectLimitValidationKO = new WS_TransactionalLimitsValidation.LimitsResponse('KO', 'codeLimitsResult');
+        WS_TransactionalLimitsValidation.OUTPUT wsObjectLimitValidation = new WS_TransactionalLimitsValidation.OUTPUT('ok', 'codeLimitsResult');
+        WS_TransactionalLimitsValidation.OUTPUT wsObjectLimitValidationKO = new WS_TransactionalLimitsValidation.OUTPUT('KO', 'codeLimitsResult');
 
-        outputValidation.limitsResponse = wsObjectLimitValidation;
+        outputValidation = wsObjectLimitValidation;
         ServiceCustomerTransactionalLimits.getTransactionalLimitsValidationOutput(outputValidation);
-        outputValidation.limitsResponse = wsObjectLimitValidationKO;
+        outputValidation = wsObjectLimitValidationKO;
         ServiceCustomerTransactionalLimits.getTransactionalLimitsValidationOutput(outputValidation);
         Test.stopTest();
     }

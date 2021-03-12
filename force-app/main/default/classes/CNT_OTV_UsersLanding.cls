@@ -111,14 +111,15 @@ public without sharing class  CNT_OTV_UsersLanding {
                                              LIMIT 1];
                 
                     if(!currentUser.isEmpty() && currentUser[0].ContactId != null){
-                        List<Contact> contactList = [SELECT Id, 
-                                                        AccountId 
-                                                   FROM Contact
-                                                  WHERE Id = :currentUser[0].ContactId 
-                                                  LIMIT 1];    
+                        List<Account> accountList = [SELECT Id,ACC_TXT_CompanyId__c
+                                                        FROM ACCOUNT
+                                                        WHERE ACC_CHK_OTView_Admin__r.ID = :currentUser[0].ContactId
+                                                        LIMIT 1];
+                        
+                    
 					System.debug('COMPANYID ENTRA NULL');
-                    finalEndPoint = finalEndpoint.replace('{companyId}', '1588401980');
-                        String response = Global_IntegrationWrapper.launchHttp('1588401980', finalEndPoint, configWs.CNT_HTTPMethod__c);
+                    finalEndPoint = finalEndpoint.replace('{companyId}', accountList[0].ACC_TXT_CompanyId__c);
+                    String response = Global_IntegrationWrapper.launchHttp(accountList[0].ACC_TXT_CompanyId__c, finalEndPoint, configWs.CNT_HTTPMethod__c);
                     System.debug('>>>>>>>' + response);
                     WRAPPER_UserList listExtracts = WRAPPER_UserList.parse(response);
                     System.debug('>>>>>>>' + listExtracts);

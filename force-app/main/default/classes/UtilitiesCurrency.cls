@@ -75,16 +75,23 @@ History
                 throw new customException('ERROR: UtilitiesCurrency.getExchangeAmount');
             }
             if((dominantCurrency.equalsIgnoreCase(currencySend) && valueSend != null && valueReceive == null) || (!dominantCurrency.equalsIgnoreCase(currencySend) && valueSend == null && valueReceive != null)){
-                convertedValue = valueSend * valueDominant;
-            }else if((dominantCurrency.equalsIgnoreCase(currencySend) && valueSend == null && valueReceive != null) || (!dominantCurrency.equalsIgnoreCase(currencySend) && valueSend != null && valueReceive == null)){
                 if(valueDominant >  0){
-                    convertedValue = valueReceive / valueDominant;
+                    Decimal auxValue = valueSend;
+                    if(valueSend == null){
+                        auxValue = valueReceive;
+                    }
+                    convertedValue = auxValue / valueDominant;
                 }else{
                     System.debug('UtilitiesCurrency.getExchangeAmount');
                     throw new customException('ERROR: UtilitiesCurrency.getExchangeAmount');
                 }
-                
-            } 
+            }else if((dominantCurrency.equalsIgnoreCase(currencySend) && valueSend == null && valueReceive != null) || (!dominantCurrency.equalsIgnoreCase(currencySend) && valueSend != null && valueReceive == null)){
+				Decimal auxValue = valueSend;
+                if(valueSend == null){
+                    auxValue = valueReceive;
+                }
+                convertedValue = auxValue * valueDominant;                
+            }  
         }catch(Exception e){
             System.debug('Exception type caught: ' + e.getTypeName());    
             System.debug('Message: ' + e.getMessage());    

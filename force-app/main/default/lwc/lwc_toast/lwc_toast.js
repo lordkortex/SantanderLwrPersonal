@@ -1,6 +1,6 @@
 import { LightningElement , api, track } from 'lwc';
 import { loadStyle } from 'lightning/platformResourceLoader'; 
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 export default class Lwc_toast extends LightningElement {
 

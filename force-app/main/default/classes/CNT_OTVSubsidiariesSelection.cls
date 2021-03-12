@@ -34,10 +34,10 @@ public without sharing class CNT_OTVSubsidiariesSelection {
     <Date>          <Author>            <Change Description>
     11/02/2021	    Alberto Borraz      Initial version
     ------------------------------------------------------------*/ 
-    @AuraEnabled
-    public static List<AccountUrlService> getLstAccounts (String companyGlobalId){
+        @AuraEnabled
+    public static List<AccountUrlService> getLstAccounts (){
         Id userId = UserInfo.getUserId();
-        List<Contact> contactList = new List<Contact>();
+        List<Account> accountList = new List<Account>();
         CNT_ApiConfiguration__c configWs = CNT_ApiConfiguration__c.getValues('TRG_GetSubsidiaries');
         String finalEndPoint = configWs.CNT_Endpoint__c;
         
@@ -48,17 +48,19 @@ public without sharing class CNT_OTVSubsidiariesSelection {
                                    LIMIT 1];
         
         if(!currentUser.isEmpty() && currentUser[0].ContactId != null){
-            contactList = [SELECT Id, 
-                           		  AccountId 
-                             FROM Contact 
-                            WHERE Id = :currentUser[0].ContactId 
+            accountList = [SELECT Id,ACC_TXT_CompanyId__c
+                            FROM ACCOUNT
+                            WHERE ACC_CHK_OTView_Admin__r.ID = :currentUser[0].ContactId
                             LIMIT 1];
+            
         }
-        if(String.isEmpty(companyGlobalId) && contactList[0].AccountId != null){
-            finalEndPoint = finalEndpoint.replace('{companyGlobalId}', '2');//contactList[0].AccountId);
-        }else{
+        
+        if(accountList[0].ACC_TXT_CompanyId__c != null){
+            finalEndPoint = finalEndpoint.replace('{companyGlobalId}', accountList[0].ACC_TXT_CompanyId__c);
+        }
+        /*else{
             finalEndPoint = finalEndpoint.replace('{companyGlobalId}',companyGlobalId);
-        }
+        }*/
         System.debug('debug finalEndPoint' + finalEndPoint);
 		String response = Global_IntegrationWrapper.launchHttp('', finalEndPoint , configWs.CNT_HTTPMethod__c);
 		System.debug('getLstAccounts response>>>>>>>' + response);
@@ -93,12 +95,11 @@ public without sharing class CNT_OTVSubsidiariesSelection {
                 String url = '/resource/'
                             + String.valueOf(((DateTime)static_resource.get('SystemModStamp')).getTime())
                             + '/Flags/' 	
-                            + (sub.country == null ? 'Default' : sub.countryIncorporation) + '.svg';  
+                            + (sub.country == null ? 'Default' : sub.country) + '.svg';  
                 
                 AccountUrlService a = new AccountUrlService();
                 a.companyName = sub.companyName;
-                //a.country = sub.country;
-                a.country = sub.countryIncorporation;
+                a.country = sub.country;
                 system.debug(sub.companyIdentificationid);
                 system.debug(sub.companyGlobalId);
                 a.companyGlobalId = sub.companyGlobalId;

@@ -65,6 +65,11 @@ export default class Lwc_accountsTitleDropdown extends LightningElement {
     _currentcurrency;
     _currencyList;
 
+    get mostrarCashNexus(){
+        var cn = this.iscashnexus;
+        return cn;
+    }
+
     get currencyList(){
         return this._currencyList;
     }
@@ -232,7 +237,8 @@ export default class Lwc_accountsTitleDropdown extends LightningElement {
         if(!this._islastupdate){  
             this._islastupdate = true;            
             const tabevent = new CustomEvent('accountsab', {
-                detail : this.label.LastUpdate
+                //detail : this.label.LastUpdate
+                detail : 'LastUpdateTab'
             });
             this.dispatchEvent(tabevent);
         }
@@ -242,7 +248,8 @@ export default class Lwc_accountsTitleDropdown extends LightningElement {
         if(this._islastupdate){  
             this._islastupdate = false;            
             const tabevent = new CustomEvent('accountsab', {
-                detail : this.label.EndOfDay
+                //detail : this.label.EndOfDay
+                detail : 'EndOfDayTab'
             });
             this.dispatchEvent(tabevent);
         }

@@ -1,7 +1,6 @@
 global with sharing class ServiceCustomerTransactionalLimits {
-
-    global static final String PRODUCT_ID_001 = 'book_to_book';
-    global static final String PRODUCT_ID_002 = 'international_transfer';
+    global static final String PRODUCT_ID_001 = System.Label.CNF_payment_productId_001; // book_to_book
+    global static final String PRODUCT_ID_002 = System.Label.CNF_payment_productId_002; // international_instant_payment
 
     /*
     Author:         Shahad Naji
@@ -104,12 +103,8 @@ global with sharing class ServiceCustomerTransactionalLimits {
             WS_TransactionalLimitsUpdate transactionalLimitsUpdate = new WS_TransactionalLimitsUpdate();
             WS_TransactionalLimitsUpdate.OUTPUT output = transactionalLimitsUpdate.execute(paymentData);
             if (output != null) {
-                if (output.limitsResponseUpdate != null) {
-                    if (output.limitsResponseUpdate.limitsResult == 'ok') {
-                        response = new ReturnValue(true);
-                    } else {
-                        response = new ReturnValue(false);
-                    }
+                if (output.limitsResult == 'ok') {
+                    response = new ReturnValue(true);
                 } else {
                     response = new ReturnValue(false);
                 }
@@ -240,15 +235,13 @@ global with sharing class ServiceCustomerTransactionalLimits {
         String limitsResult = '';
         String errorMessage = '';
         if (output != null) {
-            if (output.limitsResponse != null) {
-                if(String.isNotBlank(output.limitsResponse.limitsResult)) {
-                    if (output.limitsResponse.limitsResult == 'ok') {
-                        limitsResult = output.limitsResponse.limitsResult;
-                        errorMessage = null;
-                    } else {
-                        limitsResult = output.limitsResponse.limitsResult;
-                        errorMessage = output.limitsResponse.codeLimitsResult;
-                    }
+            if(String.isNotBlank(output.limitsResult)) {
+                if (output.limitsResult == 'ok') {
+                    limitsResult = output.limitsResult;
+                    errorMessage = null;
+                } else {
+                    limitsResult = output.limitsResult;
+                    errorMessage = output.codeLimitsResult;
                 }
             }
         }
@@ -264,15 +257,13 @@ global with sharing class ServiceCustomerTransactionalLimits {
         String limitsResult = '';
         String errorMessage = '';
         if (output != null) {
-            if(output.limitsResponseUpdate != null) {
-                if (String.isNotBlank(output.limitsResponseUpdate.limitsResult)) {
-                    if (output.limitsResponseUpdate.limitsResult == 'ok') {
-                        limitsResult = output.limitsResponseUpdate.limitsResult;
-                        errorMessage = null;
-                    } else {
-                        limitsResult = output.limitsResponseUpdate.limitsResult;
-                        errorMessage = output.limitsResponseUpdate.codeLimitsResult;
-                    }
+            if (String.isNotBlank(output.limitsResult)) {
+                if (output.limitsResult == 'ok') {
+                    limitsResult = output.limitsResult;
+                    errorMessage = null;
+                } else {
+                    limitsResult = output.limitsResult;
+                    errorMessage = output.codeLimitsResult;
                 }
             }
         }
@@ -288,14 +279,12 @@ global with sharing class ServiceCustomerTransactionalLimits {
         String limitsResult = '';
         String errorMessage = '';
         if (output != null) {
-            if (output.limitsResult != null) {
-                if (output.limitsResult.endsWithIgnoreCase('ok')) {
-                    limitsResult = output.limitsResult;
-                    errorMessage = null;
-                } else {
-                    limitsResult = output.limitsResult;
-                    errorMessage = output.codeLimitsResult;
-                }
+            if (output.limitsResult.endsWithIgnoreCase('ok')) {
+                limitsResult = output.limitsResult;
+                errorMessage = null;
+            } else {
+                limitsResult = output.limitsResult;
+                errorMessage = output.codeLimitsResult;
             }
         }
         result.put('limitsResult', limitsResult);

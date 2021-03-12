@@ -23,6 +23,7 @@ global with sharing class WS_TransfersBeneficiaries {
             getParameters('accountId', input.accountId);
             getParameters('bankId', input.bankId);
             getParameters('bankCountry', input.bankCountry);
+            //getParameters('country', input.bankCountry);
             getParameters('alias', input.alias);
             if (input.t_limit != null) {
                 getParameters('_limit', String.valueOf(input.t_limit));

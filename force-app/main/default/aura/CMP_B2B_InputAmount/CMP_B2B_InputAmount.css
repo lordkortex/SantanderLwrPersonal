@@ -5,6 +5,9 @@
    height:fit-content;
    z-index: 1;
  }
+ .THIS.inputAmount .slds-form-element {
+    min-height:172px;
+}
  .THIS.inputAmount .slds-form-element__label {
    color: #444444;
 	font-family: "SantanderMicroText";
@@ -169,7 +172,7 @@
 
 /* INPUTS SINGLE AMOUNT*/
 .THIS .slds-form-element.singleAmount {
-     display: flex;
+    display: flex;
     width: fit-content;
     min-height: 124px;
 }

@@ -71,7 +71,8 @@
         }
     },
 
-    selectedAccount: function (component, account) {
+    selectedAccount: function (component, helper, account) {
+        helper.clearInput(component, helper, false);
         let country = '';
         if (!$A.util.isEmpty(account)) {
             component.set('v.errorMSG', '');

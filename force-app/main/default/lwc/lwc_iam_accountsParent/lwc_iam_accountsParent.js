@@ -2,7 +2,8 @@ import { LightningElement, api, track } from 'lwc';
 
 import {loadStyle, loadScript } from 'lightning/platformResourceLoader';
 //import santanderSheetJS from '@salesforce/resourceUrl/SheetJS';
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+//import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 import uId from '@salesforce/user/Id';
 import localeCurrency from '@salesforce/i18n/currency';
@@ -28,6 +29,10 @@ import orderByCountry from '@salesforce/apex/CNT_International_Treasury_Manageme
 import orderByCurrency from '@salesforce/apex/CNT_International_Treasury_Management.orderByCurrency';
 import orderBySubsidiary from '@salesforce/apex/CNT_International_Treasury_Management.orderBySubsidiary';
 
+//Comunidad Cash Nexus
+import basePath from '@salesforce/community/basePath'; 
+import basePathCashNexus from '@salesforce/label/c.basePathCashNexus';
+
 export default class Lwc_iam_accountsParent extends LightningElement {
 
     label = {
@@ -39,7 +44,9 @@ export default class Lwc_iam_accountsParent extends LightningElement {
         Corporate,
         refreshBalanceCollout,
         ERROR_NOT_RETRIEVED,
-        ERROR
+        ERROR,
+        basePath,
+        basePathCashNexus
     };
 //api vs track ?
     @track currencies = ['BRA','DEU','IND','MEX','PHL','Value 6'];
@@ -102,12 +109,60 @@ export default class Lwc_iam_accountsParent extends LightningElement {
 
     @track showError403 = false;
     
+    //Comunidad Cash Nexus
+    @track comunidadCashNexus = false;
+    @track isLastUpdateCN = true; //v.isLastUpdate del CMP de CN
+    @track tGlobalBalance; //Yesterday Global Balance Information
+    @track tcurrentusercurrency = '';
+    @api firsttaccountcountrylist;
+    @api firsttaccountcurrencylist;
+    @api firsttaccountsubsidiarylist;
+    @api tcurrencylist;
+    @api taccountcountrylist;
+    @api taccountcurrencylist;
+    @api taccountsubsidiarylist;
     
+    @track uno = '';
+
     hasparams = false;
     showadvancedfiltersaux =  false;
     isonetradeaux = true;
+    isnoonetradeaux = false;
     handleagain = false;
     handledata;
+    _isLastUpdateCN;
+
+    get isLastUpdateCN(){
+        return this._isLastUpdateCN;
+    }
+    set isLastUpdateCN(isLastUpdateCN){
+        this._isLastUpdateCN = isLastUpdateCN;
+    }
+    get isComunidadCashNexus(){
+        if(this.label.basePath == this.label.basePathCashNexus) this.comunidadCashNexus = true;
+        return this.comunidadCashNexus;        
+    }
+
+    get rGlobalBalanceCurrencyListNotEmptyisLastUpdateCN(){
+        return this.rGlobalBalance != null && this.rGlobalBalance.currencyList.length != 0 && this._isLastUpdateCN;
+    }
+    get rGlobalBalanceCurrencyListEmptyisLastUpdateCN(){
+        return (this.rGlobalBalance == null || (this.rGlobalBalance != null && this.rGlobalBalance.currencyList.length == 0)) && this._isLastUpdateCN;
+    }
+    get tGlobalBalanceCurrencyListNotEmptyNoisLastUpdateCN(){
+        return this.tGlobalBalance != null && this.tGlobalBalance.currencyList.length != 0 && !this._isLastUpdateCN;
+    }
+    get tGlobalBalanceCurrencyListEmptyNoisLastUpdateCN(){
+        return (this.tGlobalBalance == null || (this.tGlobalBalance != null && this.tGlobalBalance.currencyList.length == 0)) && !this._isLastUpdateCN;
+    }
+
+    get dropdowndisabledCN(){
+        if(this.rGlobalBalance && this.tGlobalBalance){
+            return ((this.rGlobalBalance.accountList == '' && this._isLastUpdateCN) || (this.tGlobalBalance.accountList == '' && !this._isLastUpdateCN)); 
+        }else if(this.rGlobalBalance){
+            return this.rGlobalBalance.accountList == '' && this._isLastUpdateCN;
+        }
+    }
 
     get spinnerText(){
         return (this.label.Loading + '...');
@@ -140,8 +195,36 @@ export default class Lwc_iam_accountsParent extends LightningElement {
 
     connectedCallback(){
         if(!this.firstTime){
+            this.sortselected = this.label.Country;
+
+
             loadStyle(this, santanderStyle + '/style.css');
-            this.getParametersUrl();
+            if(this.label.basePath == this.label.basePathCashNexus) this.comunidadCashNexus = true;
+
+            if(this.comunidadCashNexus){
+                //Comunidad Cash Nexus
+                this.userId = uId;	
+                var tabLabel = '';
+                var storage = window.localStorage.getItem(this.userId + '_' + 'tab');
+                if(storage != null && storage != undefined){
+                    if(storage == 'lastUpdate'){
+                        this._isLastUpdateCN = true;
+                    }else{
+                        this._isLastUpdateCN = false;
+                    }
+                }                
+                if(this._isLastUpdateCN == false){
+                    tabLabel = 'EndOfDayTab';
+                    window.localStorage.setItem(this.userId + '_' + 'tab', 'endOfDay');
+                }else{
+                    window.localStorage.setItem(this.userId + '_' + 'tab', 'lastUpdate');
+                }
+               
+                this.getParametersUrl();  
+            }else{
+                this.getParametersUrl();
+            }
+
             this.firstTime = true;
         }
     }
@@ -154,6 +237,7 @@ export default class Lwc_iam_accountsParent extends LightningElement {
                 //this.template.querySelector("c-lwc_service-component").apexDataDecryption({callercomponent: "lwc_iam_accounts-parentURL", callerhelper: "", datauri:sPageURLMain, controllermethod: ""});
                 //this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_accounts-parentURL',controllermethod:'decryptData',actionparameters:{str:sPageURLMain.split('=')[1]}});
                 this.hasparams = true;
+                this.uno = 'home';
                 decryptData({str:sPageURLMain.split('=')[1]})
                 .then(result => {
                     console.log('OK');
@@ -167,10 +251,29 @@ export default class Lwc_iam_accountsParent extends LightningElement {
                 .catch(error => {
                     console.log('KO '+error);
                 });
+                
             //}
         } else {
-            this.initData();
-            this.getUserInfo();
+            if(this.comunidadCashNexus){
+                //Comunidad Cash Nexus
+                                
+                var storage = window.localStorage.getItem(this.userId + '_' + 'tab');
+                if(storage != null && storage != undefined){
+                    if(storage == 'lastUpdate'){
+                        this.initData('LastUpdateTab');
+                    }else{
+                        this.initData('EndOfDayTab');
+                    }
+                }else{
+                    this.initData('LastUpdateTab');
+                }                  
+                
+                this.getUserInfo();
+
+            }else{
+                this.initData();
+                this.getUserInfo();
+            }
         }
     }
 
@@ -195,8 +298,8 @@ export default class Lwc_iam_accountsParent extends LightningElement {
                     case("c__iRegister"):
                         sParameterName[1] === undefined ? 'Not found' : this.iregister = JSON.parse(sParameterName[1]);
                         break;
-                    case("c__firstAccountCountryList"):
-                        sParameterName[1] === undefined ? 'Not found' : this.firstaccountcountrylist = JSON.parse(sParameterName[1]);
+                    case("c__firstTAccountCountryList"):
+                        sParameterName[1] === undefined ? 'Not found' : this.firsttaccountcountrylist = JSON.parse(sParameterName[1]);
                         break;
                     case("c__firstAccountCountryList"):
                         sParameterName[1] === undefined ? 'Not found' : this.firstaccountcountrylist = JSON.parse(sParameterName[1]);
@@ -207,35 +310,140 @@ export default class Lwc_iam_accountsParent extends LightningElement {
                     case("c__accountGrouping"):
                         sParameterName[1] === undefined ? 'Not found' : this.selectedtimeframe = sParameterName[1];
                         break;
+                    case("c__tabs"):
+                        sParameterName[1] === undefined ? 'Not found' : gInit=true; this._isLastUpdateCN = sParameterName[1];
+                        var tabLabel = "LastUpdate";
+                        if(sParameterName[1] == 'false'){
+                            tabLabel = 'EndOfDayTab';
+                        }
+                        break;
                 }
             }
         }
-        this.initData();
-        this.getUserInfo();
+        
+        if(this.comunidadCashNexus){
+            //Comunidad Cash Nexus
+            
+            var userId = uId;
+            var storage = window.localStorage.getItem(userId + '_' + 'tab');
+            if(storage != null && storage != undefined){
+                if(storage == 'lastUpdate'){
+                    this.initData('LastUpdateTab');                    
+                }else{
+                    this.initData('EndOfDayTab');                    
+                }
+            }else{
+                this.initData(this.tabLabel);
+            }
+            this.getUserInfo();
+
+        }else{        
+            this.initData();
+            this.getUserInfo();
+        }
         if (!this.herifilters) {
             this.isloading = false;
         }
     }
     
-    initData(){
+    accountsab(event){
+        //last day o end of day cash nexus comunidad
+        var tab = event.detail;
+
+        if(!this.firstaccountcountrylist ||!this.firsttaccountcountrylist ){
+        
+            if(!this.firstaccountcountrylist){
+                this.initData(tab);
+            }
+            if(!this.firsttaccountcountrylist){
+                this.initData(tab);
+            }
+        }
+
+        if(this.handledata){
+                
+            if(tab == 'EndOfDayTab'){
+                this._isLastUpdateCN = false;
+                this.tabselected = 'EndOfDayTab';
+            }
+            else{
+                this._isLastUpdateCN = true;
+                this.tabselected = 'LastUpdateTab';
+            }
+            this.handlefirefilter(this.handledata);
+        }else this.initData(tab);
+        
+    }
+
+    initData(tab){
         this.userId = uId;
-        // Call the apex method from the service component
-        var params = {
-            "iWhen" : "oneTrade",
-            "iUserId" : this.userId      
-        };
+        
+        if(this.comunidadCashNexus){
+            //Comunidad Cash Nexu
+            var tabLabel = '';
+            if(tab == 'EndOfDayTab'){
+                tabLabel = 'endOfDay';
+                this._isLastUpdateCN = false;
+                this.tabselected = 'EndOfDayTab';
+            }
+            else{
+                tabLabel = 'lastUpdate';
+                this._isLastUpdateCN = true;
+                this.tabselected = 'LastUpdateTab';
+            }
 
-        this.isloading = true;
+            // Call the apex method from the service component
+            var params = {
+                "iWhen" : tabLabel,
+                "iUserId" : this.userId      
+            };
+            this.tablabel = tabLabel;
+            this.isloading = true;
 
-        // Fetch the data from the cache if available. Otherwise get the data from the accounts web service
-        var storageBalance = window.localStorage.getItem(this.userId + '_' + 'balanceGP');
-        var balanceTimestampGP = window.localStorage.getItem(this.userId + '_' + 'balanceTimestampGP');
-        if(storageBalance != 'null' && storageBalance != undefined && balanceTimestampGP != 'null' && balanceTimestampGP != undefined && (new Date() - new Date(Date.parse(balanceTimestampGP))) < parseInt(this.label.refreshBalanceCollout)*60000){
-            this.decryptInitialData(storageBalance); 
+            if(tab != 'EndOfDayTab'){
+
+                var storageBalance = window.localStorage.getItem(this.userId + '_' + 'balanceGP');
+                var balanceTimestampGP = window.localStorage.getItem(this.userId + '_' + 'balanceTimestampGP');
+                if(storageBalance != 'null' && storageBalance != undefined && balanceTimestampGP != 'null' && balanceTimestampGP != undefined && (new Date() - new Date(Date.parse(balanceTimestampGP))) < parseInt(this.label.refreshBalanceCollout)*60000 ){
+                    this.decryptInitialData(storageBalance);
+                }else{
+                    if(this.template.querySelector("c-lwc_service-component")){
+                        this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_accountsParent',controllermethod:'callMulesoft',actionparameters:params});
+                    }
+                }
+            }else{
+                var storageBalanceEOD = window.localStorage.getItem(this.userId + '_' + 'balanceEODGP');
+                var balanceTimestampGP = window.localStorage.getItem(this.userId + '_' + 'balanceEODTimestampGP');
+                if(storageBalanceEOD != 'null' && storageBalanceEOD != undefined && balanceTimestampGP != 'null' && balanceTimestampGP != undefined && (new Date() - new Date(Date.parse(balanceTimestampGP))) < parseInt(this.label.refreshBalanceCollout)*60000 ){
+                    this.decryptInitialData(storageBalanceEOD);
+                }else{
+                    if(this.template.querySelector("c-lwc_service-component")){
+                        this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_accountsParent',controllermethod:'callMulesoft',actionparameters:params});
+                    }
+                }
+            }
+
+            
+
         }else{
-            //component.find("service").callApex2(component, helper, "c.callMulesoft", params , this.setComponentInitialData);
-            if(this.template.querySelector("c-lwc_service-component")){
-                this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_accountsParent',controllermethod:'callMulesoft',actionparameters:params});
+            // Call the apex method from the service component
+            var params = {
+                "iWhen" : "oneTrade",
+                "iUserId" : this.userId      
+            };
+
+            this.isloading = true;
+
+            // Fetch the data from the cache if available. Otherwise get the data from the accounts web service
+            var storageBalance = window.localStorage.getItem(this.userId + '_' + 'balanceGP');
+            var balanceTimestampGP = window.localStorage.getItem(this.userId + '_' + 'balanceTimestampGP');
+            if(storageBalance != 'null' && storageBalance != undefined && balanceTimestampGP != 'null' && balanceTimestampGP != undefined && (new Date() - new Date(Date.parse(balanceTimestampGP))) < parseInt(this.label.refreshBalanceCollout)*60000){
+                this.decryptInitialData(storageBalance); 
+            }else{
+                //component.find("service").callApex2(component, helper, "c.callMulesoft", params , this.setComponentInitialData);
+                if(this.template.querySelector("c-lwc_service-component")){
+                    this.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_accountsParent',controllermethod:'callMulesoft',actionparameters:params});
+                }
             }
         }
     }
@@ -265,68 +473,81 @@ export default class Lwc_iam_accountsParent extends LightningElement {
             console.log('Event details: ' + event.detail);
             this.setAccountsBySubsidiary(event.detail.value);
         }
+        //ordenacion cambio tabs
+                            
+            if(this.handledata){
+                this.handlefirefilter(this.handledata);
+                //this.template.querySelector("c-lwc_cn_filters").setFilterAux(this.filters);
+            }
+        
     }
 
     setComponentInitialData(iReturn,decrypt){
        
-        if(iReturn != null && iReturn.is403Error){
-            this.showError403 = true;
-            this.isloading = false;
+        if(this.comunidadCashNexus){
+            if(iReturn != null){
+                this.setComponentInitialDataComun(iReturn,decrypt,true);
+            }
         }else{
-            this.userId = uId;
+            if(iReturn != null && iReturn.is403Error){
+                this.showError403 = true;
+                this.isloading = false;
+            }else{
+                this.setComponentInitialDataComun(iReturn,decrypt,false);
+            }
+        }
+    }
+    setComponentInitialDataComun(iReturn,decrypt,comCN){    
+ 
+        this.userId = uId;
+        
+        if(!comCN){
+            //No comunidad Cash Nexus
             window.localStorage.setItem(this.userId + "_hasPaymentsTrackerAccess",  iReturn.canUserSeePaymentsTracker);
             window.localStorage.setItem(this.userId + "_hasGlobalPositionAccess",  iReturn.canUserSeeGP);
-            window.sessionStorage.setItem(this.userId + "_firstAccess", false);
-            //component.set("v.isLoading" , true);
-            if(iReturn != null){
+            window.sessionStorage.setItem(this.userId + "_firstAccess", false);           
+        }
+        if(iReturn != null){
 
-                if(decrypt!=true){
-                    this.encryptInitialData(iReturn);
-                }
+            if(decrypt!=true){
+                this.encryptInitialData(iReturn);
+            }
 
-                // Set the preferred user date and number
-                this.userpreferreddateformat = iReturn.mapUserFormats.dateFormat != '' ? iReturn.mapUserFormats.dateFormat : "dd/MM/yyyy";
-                this.userpreferrednumberformat = iReturn.mapUserFormats.numberFormat != '' ? iReturn.mapUserFormats.numberFormat : "###.###.###,##";
-                
+            // Set the preferred user date and number
+            this.userpreferreddateformat = iReturn.mapUserFormats.dateFormat != '' ? iReturn.mapUserFormats.dateFormat : "dd/MM/yyyy";
+            this.userpreferrednumberformat = iReturn.mapUserFormats.numberFormat != '' ? iReturn.mapUserFormats.numberFormat : "###.###.###,##";
+            
             //AM - 28/10/2020 - FIX INC726
-                var userCurrency = window.localStorage.getItem(this.userId + "_actualCurrencyChange");
-                if(userCurrency == undefined || userCurrency == null){
-                    userCurrency =  localeCurrency;
-                }
+            var userCurrency = window.localStorage.getItem(this.userId + "_actualCurrencyChange");
+            if(userCurrency == undefined || userCurrency == null){
+                userCurrency =  localeCurrency;
+            }
+            
+            if(iReturn.accountList.length > 0 ){              
+                if(iReturn.currencyList.length > 0){
+                    if(!iReturn.currencyList.includes(userCurrency)){
+                        userCurrency = 'EUR';
+                    return new Promise(function (resolve, reject) {
+                        setUserCurrencyString({"currencyStr" : userCurrency})
+                            .then(res => {
+                            //res = response.getReturnValue();
+                                this.setComponentInitialDataUpdate(iReturn, res);  
+                                resolve(res);   
+                            }).catch(error => {
+                                if (error) {
+                                    console.log("Error message: " + JSON.stringify(error));
+                                } else {
+                                    console.log("Unknown error");
+                                }
+                                reject(result);
+                            });
+                        }.bind(this));
+                    }else{
+                        this.setComponentInitialDataUpdate(iReturn, userCurrency);   
+                    }
+                }               
                 
-                if(iReturn.accountList.length > 0 ){              
-                    if(iReturn.currencyList.length > 0){
-                        if(!iReturn.currencyList.includes(userCurrency)){
-                            userCurrency = 'EUR';
-                        return new Promise(function (resolve, reject) {
-                            setUserCurrencyString({"currencyStr" : userCurrency})
-                                .then(res => {
-                                //res = response.getReturnValue();
-                                    this.setComponentInitialDataUpdate(iReturn, res);  
-                                    resolve(res);   
-                                }).catch(error => {
-                                    if (error) {
-                                        console.log("Error message: " + JSON.stringify(error));
-                                    } else {
-                                        console.log("Unknown error");
-                                    }
-                                    reject(result);
-                                });
-                            }.bind(this));
-                        }else{
-                            this.setComponentInitialDataUpdate(iReturn, userCurrency);   
-                        }
-                    }               
-                    
-                    
-                }else{
-                    this.isloading = false;
-                    var msg = this.label.ERROR_NOT_RETRIEVED;
-                    this.show = true;
-                    this.message = msg;
-                    this.type = error;
-                    this.tobehiddentoast = false;
-                }
+                
             }else{
                 this.isloading = false;
                 var msg = this.label.ERROR_NOT_RETRIEVED;
@@ -335,35 +556,66 @@ export default class Lwc_iam_accountsParent extends LightningElement {
                 this.type = error;
                 this.tobehiddentoast = false;
             }
+        }else{
+            this.isloading = false;
+            var msg = this.label.ERROR_NOT_RETRIEVED;
+            this.show = true;
+            this.message = msg;
+            this.type = error;
+            this.tobehiddentoast = false;
         }
             
     }
 
     setComponentInitialDataUpdate(iReturn, divisa){
         var currentCurrency = "";
+        var tabLabel = this.tablabel;
         if(iReturn.currencyList.includes(divisa)){
             var userCurrency = divisa;
         }
-        
-        this.rGlobalBalance = iReturn; 
-        this.currentusercurrency = userCurrency;
-        this.rcurrentusercurrency = userCurrency;
-        this.rcurrencylist = iReturn.tipoDeCambioList;
-        currentCurrency = this.rcurrentusercurrency;
-        this.selectedcurrency = userCurrency;
-        this.accountlastupdate = iReturn.headerLastModifiedDate;
-        if(iReturn.accountList != undefined){
-            if(this.template.querySelector("c-lwc_accounts-title-dropdown") != null){
-            //NO descomentar estas lineas. Att: Jhon Cortes
-            //component.find("accountTitleDropdown_one").calculateLastUpdated(true, iReturn.accountList, iReturn.headerLastModifiedDate, iReturn.headerLastModifiedDateMain);   
-               this.template.querySelector("c-lwc_accounts-title-dropdown").calculateLatestDate(true, iReturn.accountList, iReturn.headerLastModifiedDate, iReturn.headerLastModifiedDateMain);
+
+        if(this.comunidadCashNexus && tabLabel == 'endOfDay'){
+            this.tGlobalBalance = iReturn;                          
+            this.currentusercurrency = userCurrency;
+            this.tcurrentusercurrency = userCurrency;            
+            this.tcurrencylist = iReturn.tipoDeCambioList;
+            //this.rcurrencylist = iReturn.tipoDeCambioList;////////
+            currentCurrency = this.tcurrentusercurrency;
+            this.selectedcurrency = userCurrency;           
+            this.accountlastupdate = iReturn.headerLastModifiedDate;
+            if(iReturn.accountList != undefined){
+                //component.find("accountTitleDropdown_two").calculateLastUpdated(false, iReturn.accountList, iReturn.headerLastModifiedDate, iReturn.headerLastModifiedDateMain); 
+                this.template.querySelector("c-lwc_accounts-title-dropdown").calculateLatestDate(false, iReturn.accountList, iReturn.headerLastModifiedDate, iReturn.headerLastModifiedDateMain);
+            }
+        }else{
+            this.rGlobalBalance = iReturn; 
+            this.currentusercurrency = userCurrency;
+            this.rcurrentusercurrency = userCurrency;
+            this.rcurrencylist = iReturn.tipoDeCambioList;
+            //this.tcurrencylist = iReturn.tipoDeCambioList;////////
+            currentCurrency = this.rcurrentusercurrency;
+            this.selectedcurrency = userCurrency;
+            this.accountlastupdate = iReturn.headerLastModifiedDate;
+            if(iReturn.accountList != undefined){
+                if(this.template.querySelector("c-lwc_accounts-title-dropdown") != null){
+                //NO descomentar estas lineas. Att: Jhon Cortes
+                //component.find("accountTitleDropdown_one").calculateLastUpdated(true, iReturn.accountList, iReturn.headerLastModifiedDate, iReturn.headerLastModifiedDateMain);   
+                this.template.querySelector("c-lwc_accounts-title-dropdown").calculateLatestDate(true, iReturn.accountList, iReturn.headerLastModifiedDate, iReturn.headerLastModifiedDateMain);
+                }
             }
         }
 
-        this.tabsChange = !this.tabsChange; 
-        this.orderByCountry();
-        this.orderByCurrency();
-        this.orderBySubsidiary();
+        this.tabsChange = !this.tabsChange;
+        
+        if(this.comunidadCashNexus){
+            this.orderByCountry(tabLabel);
+            this.orderByCurrency(tabLabel);
+            this.orderBySubsidiary(tabLabel);
+        }else{        
+            this.orderByCountry();
+            this.orderByCurrency();
+            this.orderBySubsidiary();
+        }
         
         // Set the global balance amounts
         this.globalbookbalance = iReturn.currencyGlobalBalance[currentCurrency][0];  
@@ -378,11 +630,20 @@ export default class Lwc_iam_accountsParent extends LightningElement {
         // Set the selected currency to the one currently selected in the dropdown
         if(this.selectedcurrency != undefined){
             var sCurrency = this.selectedcurrency;
+
+            //REVISAR Comunidad Cash Nexus
+            /*
+            if(tabLabel == "endOfDay"){
+                component.find("accountTitleDropdown_two").selectCurrency(sCurrency);
+            } else {
+                component.find("accountTitleDropdown_one").selectCurrency(sCurrency);
+            }
+            */
             //REVISAR
             //component.find("accountTitleDropdown_one").selectCurrency(sCurrency);
-            if(this.template.querySelector("c-lwc_accounts-title-dropdown") != null){
+            /*if(this.template.querySelector("c-lwc_accounts-title-dropdown") != null){
                 this.template.querySelector("c-lwc_accounts-title-dropdown").selectCurrency(sCurrency);
-            }
+            }*/
 
         }
         //this.isloading = false;
@@ -391,11 +652,18 @@ export default class Lwc_iam_accountsParent extends LightningElement {
     decryptInitialData(data) {
         try {
             var result = "null";
-        
-            var params = {
-                "iWhen": "oneTrade",
-                "iUserId": this.userId
-            };
+            var tab = this.tablabel;
+            if(this.comunidadCashNexus){
+                var params = {
+                    "iWhen": tab,
+                    "iUserId": this.userId
+                };
+            }else{
+                var params = {
+                    "iWhen": "oneTrade",
+                    "iUserId": this.userId
+                };
+            }
             return new Promise(function (resolve, reject) {
             decryptData({str : data })
                 .then(result => {
@@ -447,14 +715,26 @@ export default class Lwc_iam_accountsParent extends LightningElement {
     encryptInitialData(data){
         try{
             var result="null";
+            var tab = this.tablabel;
+            var thisp = this;
             return new Promise(function (resolve, reject) {
                 encryptData({str : JSON.stringify(data)})
                 .then((value) => {
                     result = value;
                     if(result!='null' && result!=undefined && result!=null){
-                        this.userId = uId;
-                        window.localStorage.setItem( this.userId + '_' + 'balanceGP', result);
-                        window.localStorage.setItem( this.userId + '_' + 'balanceTimestampGP', new Date());
+                        thisp.userId = uId;
+                        if(thisp.comunidadCashNexus){
+                            if (tab != 'endOfDay') {
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceGP', result);
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceTimestampGP', new Date());
+                            } else {
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceEODGP', result);
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceEODTimestampGP', new Date());
+                            }
+                        }else{                             
+                            window.localStorage.setItem( thisp.userId + '_' + 'balanceGP', result);
+                            window.localStorage.setItem( thisp.userId + '_' + 'balanceTimestampGP', new Date());
+                        }
                     }
                     resolve(result);
                  })
@@ -468,13 +748,24 @@ export default class Lwc_iam_accountsParent extends LightningElement {
         }   
     }
 
-    orderByCountry(){
+    orderByCountry(tabLabel){
         var iAccountList;
         var iCountries;
         
-        iAccountList = this.rGlobalBalance.accountList;
-        iCountries = this.rGlobalBalance.countryList; 
-        
+        if(this.comunidadCashNexus){
+            if(tabLabel == 'lastUpdate'){
+                iAccountList = this.rGlobalBalance.accountList;
+                iCountries = this.rGlobalBalance.countryList; 
+            }
+            //if(tabLabel == $A.get("$Label.c.EndOfDay")){
+            if(tabLabel == 'endOfDay'){  
+                iAccountList = this.tGlobalBalance.accountList;
+                iCountries = this.tGlobalBalance.countryList;
+            }
+        }else{
+            iAccountList = this.rGlobalBalance.accountList;
+            iCountries = this.rGlobalBalance.countryList;        
+        }
         // Call the apex method from the service component
         var params = {
             "iCountries" : iCountries,
@@ -487,14 +778,29 @@ export default class Lwc_iam_accountsParent extends LightningElement {
     }
 
     setAccountsByCountry(iReturn){     
-        var custs = [];             
+        var custs = [];          
+        var tabLabel = this.tablabel;   
+        var counter = 0;
         for(var key in iReturn){
             var account = iReturn[key];
-            custs.push({value:account, key:key});
+            custs.push({value:account, key:key, index:counter});
+            counter = counter + 1;
             
         }
-        this.accountcountrylist = custs; 
-        this.firstaccountcountrylist = custs;
+        if(this.comunidadCashNexus){
+            if(tabLabel == 'lastUpdate'){
+                this.accountcountrylist = custs; 
+                this.firstaccountcountrylist = custs;
+            }
+            if(tabLabel == 'endOfDay'){
+                this.taccountcountrylist = custs;
+                this.firsttaccountcountrylist = custs;
+            }
+        }else{
+            this.accountcountrylist = custs; 
+            this.firstaccountcountrylist = custs;
+        }        
+
         if (this.handleagain){
             this.handlefirefilter(this.handledata);
         }
@@ -504,14 +810,24 @@ export default class Lwc_iam_accountsParent extends LightningElement {
         
     }
 
-    orderByCurrency(){
+    orderByCurrency(tabLabel){
         
         var iAccountList;
         var iCurrencies;
-        
-        iAccountList = this.rGlobalBalance.accountList;
-        iCurrencies = this.rGlobalBalance.currencyList; 
-        
+        if(this.comunidadCashNexus){
+            if(tabLabel == 'lastUpdate'){
+                iAccountList = this.rGlobalBalance.accountList;
+                iCurrencies = this.rGlobalBalance.currencyList; 
+            }
+            //if(tabLabel == $A.get("$Label.c.EndOfDay")){
+            if(tabLabel == 'endOfDay'){  
+                iAccountList = this.tGlobalBalance.accountList;
+                iCurrencies = this.tGlobalBalance.currencyList;
+            }
+        }else{
+            iAccountList = this.rGlobalBalance.accountList;
+            iCurrencies = this.rGlobalBalance.currencyList; 
+        }
         // Call the apex method from the service component
         var params = {
             "iCurrencies" : iCurrencies,
@@ -524,14 +840,30 @@ export default class Lwc_iam_accountsParent extends LightningElement {
     }
 
     setAccountsByCurrency(iReturn){
-        var custs = [];          
+        var custs = [];  
+        var tabLabel = this.tablabel;
+        var counter = 0;        
         for(var key in iReturn){
             var account = iReturn[key];
-            custs.push({value:account, key:key});
+            custs.push({value:account, key:key, index:counter});
+            counter = counter + 1;
         }
-        this.accountcurrencylist = custs;
-        this.firstaccountcurrencylist = custs;
-        if (!this.hasparams){
+
+        if(this.comunidadCashNexus){
+            if(tabLabel == 'lastUpdate'){
+                this.accountcurrencylist = custs;
+                this.firstaccountcurrencylist = custs;
+            }
+            if(tabLabel == 'endOfDay'){
+                this.taccountcurrencylist = custs;
+                this.firsttaccountcurrencylist = custs;
+            }
+        }else{        
+            this.accountcurrencylist = custs;
+            this.firstaccountcurrencylist = custs;
+        }
+        
+        if (!this.hasparams && !this.comunidadCashNexus){
             this.isloading = false;
         }
         //$A.util.addClass(component.find("spinner"), "slds-hide");
@@ -539,13 +871,24 @@ export default class Lwc_iam_accountsParent extends LightningElement {
         this.spinnerclass = 'slds-hide';
     }
 
-    orderBySubsidiary() {
+    orderBySubsidiary(tabLabel) {
         var iAccountList;
         var iSubsidiaries;
         
-        iAccountList = this.rGlobalBalance.accountList;
-        iSubsidiaries = this.rGlobalBalance.subsidiaryList; 
-        
+        if(this.comunidadCashNexus){
+            if(tabLabel == 'lastUpdate'){
+                iAccountList = this.rGlobalBalance.accountList;
+                iSubsidiaries = this.rGlobalBalance.subsidiaryList; 
+            }
+            //if(tabLabel == $A.get("$Label.c.EndOfDay")){
+            if(tabLabel == 'endOfDay'){  
+                iAccountList = this.tGlobalBalance.accountList;
+                iSubsidiaries = this.tGlobalBalance.subsidiaryList;
+            }
+        }else{
+            iAccountList = this.rGlobalBalance.accountList;
+            iSubsidiaries = this.rGlobalBalance.subsidiaryList; 
+        }
         // Call the apex method from the service component
         var params = {
             "iSubsidiaries" : iSubsidiaries,
@@ -560,14 +903,30 @@ export default class Lwc_iam_accountsParent extends LightningElement {
 
     setAccountsBySubsidiary(iReturn){
         
-        var custs = [];                
+        var custs = [];    
+        var tabLabel = this.tablabel; 
+        var counter = 0;              
         for(var key in iReturn){
             var account = iReturn[key];
-            custs.push({value:account, key:key});
+            custs.push({value:account, key:key, index: counter});
+            counter += 1;
         }
         
-        this.accountsubsidiarylist = custs;    
-        this.firstaccountsubsidiarylist = custs;    
+        if(this.comunidadCashNexus){
+            if(tabLabel == 'lastUpdate'){
+                this.accountsubsidiarylist = custs;    
+                this.firstaccountsubsidiarylist = custs; 
+            }
+            if(tabLabel == 'endOfDay'){
+                this.taccountsubsidiarylist = custs;
+                this.firsttaccountsubsidiarylist = custs;
+            } 
+            this.isloading = false;
+        }else{
+            this.accountsubsidiarylist = custs;    
+            this.firstaccountsubsidiarylist = custs;    
+        }
+
         console.log('filters: ' + this.filters);
         if(this.heritagedfilters == true){
                 var e = null;
@@ -576,7 +935,7 @@ export default class Lwc_iam_accountsParent extends LightningElement {
             }
             
         }
-       this.spinnerclass = 'slds-hide';
+        this.spinnerclass = 'slds-hide';
        
     }
 
@@ -739,29 +1098,83 @@ export default class Lwc_iam_accountsParent extends LightningElement {
 
     filterSearch(event) {
         if(event){
-            if(this.sortselected == this.label.Country){
-               // var filters = event.getParam("selectedFilters");
-                var filters = event.detail.cmpParams.selectedFilters;
-                this.filterparams = filters;
-                var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcountrylist));
-               // var filteredData = this.filterData(initialDataCards, filters, event.getParam("filterName"));
-               var filteredData = this.filterData(initialDataCards, filters, event.detail.cmpParams.filterName);
-               this.accountcountrylist = filteredData;
-            }else if(this.sortselected == this.label.currency){
-               // var filters = event.getParam("selectedFilters");
-                var filters = event.detail.cmpParams.selectedFilters;
-                this.filterparams = filters;
-                var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcurrencylist));
-                //var filteredData = this.filterData(initialDataCards, filters,event.getParam("filterName"));
-                var filteredData = this.filterData(initialDataCards, filters,event.detail.cmpParams.filterName);
-                this.accountcurrencylist = filteredData;
-            }else{
-                var filters = event.detail.cmpParams.selectedFilters;
-                this.filterparams = filters;
-                var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountsubsidiarylist));
-                //var filteredData = this.filterData(initialDataCards, filters,event.getParam("filterName"));
-                var filteredData = this.filterData(initialDataCards, filters,event.detail.cmpParams.filterName);
-                this.accountsubsidiarylist = filteredData;
+            if(this.comunidadCashNexus){
+                if(this._isLastUpdateCN){
+                    if(this.sortselected == this.label.Country){
+                    // var filters = event.getParam("selectedFilters");
+                        var filters = event.detail.cmpParams.selectedFilters;
+                        this.filterparams = filters;
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcountrylist));
+                        // var filteredData = this.filterData(initialDataCards, filters, event.getParam("filterName"));
+                        var filteredData = this.filterData(initialDataCards, filters, event.detail.cmpParams.filterName);
+                        this.accountcountrylist = filteredData;
+                    }else if(this.sortselected == this.label.currency){
+                    // var filters = event.getParam("selectedFilters");
+                        var filters = event.detail.cmpParams.selectedFilters;
+                        this.filterparams = filters;
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcurrencylist));
+                        //var filteredData = this.filterData(initialDataCards, filters,event.getParam("filterName"));
+                        var filteredData = this.filterData(initialDataCards, filters,event.detail.cmpParams.filterName);
+                        this.accountcurrencylist = filteredData;
+                    }else{
+                        var filters = event.detail.cmpParams.selectedFilters;
+                        this.filterparams = filters;
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountsubsidiarylist));
+                        //var filteredData = this.filterData(initialDataCards, filters,event.getParam("filterName"));
+                        var filteredData = this.filterData(initialDataCards, filters,event.detail.cmpParams.filterName);
+                        this.accountsubsidiarylist = filteredData;
+                    }
+                }else{
+                    if(this.sortselected == this.label.Country){
+                    // var filters = event.getParam("selectedFilters");
+                        var filters = event.detail.cmpParams.selectedFilters;
+                        this.filterparams = filters;
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firsttaccountcountrylist));
+                        // var filteredData = this.filterData(initialDataCards, filters, event.getParam("filterName"));
+                        var filteredData = this.filterData(initialDataCards, filters, event.detail.cmpParams.filterName);
+                        this.taccountcountrylist = filteredData;
+                    }else if(this.sortselected == this.label.currency){
+                    // var filters = event.getParam("selectedFilters");
+                        var filters = event.detail.cmpParams.selectedFilters;
+                        this.filterparams = filters;
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firsttaccountcurrencylist));
+                        //var filteredData = this.filterData(initialDataCards, filters,event.getParam("filterName"));
+                        var filteredData = this.filterData(initialDataCards, filters,event.detail.cmpParams.filterName);
+                        this.taccountcurrencylist = filteredData;
+                    }else{
+                        var filters = event.detail.cmpParams.selectedFilters;
+                        this.filterparams = filters;
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firsttaccountsubsidiarylist));
+                        //var filteredData = this.filterData(initialDataCards, filters,event.getParam("filterName"));
+                        var filteredData = this.filterData(initialDataCards, filters,event.detail.cmpParams.filterName);
+                        this.taccountsubsidiarylist = filteredData;
+                    }
+                }
+            }else{            
+                if(this.sortselected == this.label.Country){
+                // var filters = event.getParam("selectedFilters");
+                    var filters = event.detail.cmpParams.selectedFilters;
+                    this.filterparams = filters;
+                    var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcountrylist));
+                // var filteredData = this.filterData(initialDataCards, filters, event.getParam("filterName"));
+                var filteredData = this.filterData(initialDataCards, filters, event.detail.cmpParams.filterName);
+                this.accountcountrylist = filteredData;
+                }else if(this.sortselected == this.label.currency){
+                // var filters = event.getParam("selectedFilters");
+                    var filters = event.detail.cmpParams.selectedFilters;
+                    this.filterparams = filters;
+                    var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcurrencylist));
+                    //var filteredData = this.filterData(initialDataCards, filters,event.getParam("filterName"));
+                    var filteredData = this.filterData(initialDataCards, filters,event.detail.cmpParams.filterName);
+                    this.accountcurrencylist = filteredData;
+                }else{
+                    var filters = event.detail.cmpParams.selectedFilters;
+                    this.filterparams = filters;
+                    var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountsubsidiarylist));
+                    //var filteredData = this.filterData(initialDataCards, filters,event.getParam("filterName"));
+                    var filteredData = this.filterData(initialDataCards, filters,event.detail.cmpParams.filterName);
+                    this.accountsubsidiarylist = filteredData;
+                }
             }
             // Check how many options are checked after filtering them and update the displayed value
             let filterObject = this.filters;
@@ -1151,7 +1564,7 @@ export default class Lwc_iam_accountsParent extends LightningElement {
         }else {
             this.sortselected = this.label.Corporate;
             this.filterGroupBy(event);
-        }     
+        }            
     }
 
     filterGroupBy(){
@@ -1160,32 +1573,58 @@ export default class Lwc_iam_accountsParent extends LightningElement {
             if (this.filterparams){
                 filters = this.filterparams;
             }
-            if(this.sortselected == this.label.Country){
-                var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcountrylist));
-                var filteredData = this.filterData(initialDataCards, filters,'');
-                this.accountcountrylist = filteredData;
-            }else if(this.sortselected == this.label.currency){
-                var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcurrencylist));
-                var filteredData = this.filterData(initialDataCards, filters,'');
-                this.accountcurrencylist = filteredData;
+            if(this.comunidadCashNexus){
+                if(this._isLastUpdateCN == true){
+                    if(this.sortselected == this.label.Country){
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcountrylist));
+                        var filteredData = this.filterData(initialDataCards, filters,'');
+                        this.accountcountrylist = filteredData;
+                    }else if(this.sortselected == this.label.currency){
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcurrencylist));
+                        var filteredData = this.filterData(initialDataCards, filters,'');
+                        this.accountcurrencylist = filteredData;
+                    }else{
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountsubsidiarylist));
+                        var filteredData = this.filterData(initialDataCards, filters,'');
+                        this.accountsubsidiarylist = filteredData;
+                    }
+                }else{
+                    if(this.sortselected == this.label.Country){
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firsttaccountcountrylist));
+                        var filteredData = this.filterData(initialDataCards, filters,'');
+                        this.taccountcountrylist = filteredData;
+                    }else if(this.sortselected == this.label.currency){
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firsttaccountcurrencylist));
+                        var filteredData = this.filterData(initialDataCards, filters,'');
+                        this.taccountcurrencylist = filteredData;
+                    }else{
+                        var initialDataCards = JSON.parse(JSON.stringify(this.firsttaccountsubsidiarylist));
+                        var filteredData = this.filterData(initialDataCards, filters,'');
+                        this.taccountsubsidiarylist = filteredData;
+                    }
+                }
             }else{
-                var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountsubsidiarylist));
-                var filteredData = this.filterData(initialDataCards, filters,'');
-                this.accountsubsidiarylist = filteredData;
+                if(this.sortselected == this.label.Country){
+                    var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcountrylist));
+                    var filteredData = this.filterData(initialDataCards, filters,'');
+                    this.accountcountrylist = filteredData;
+                }else if(this.sortselected == this.label.currency){
+                    var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountcurrencylist));
+                    var filteredData = this.filterData(initialDataCards, filters,'');
+                    this.accountcurrencylist = filteredData;
+                }else{
+                    var initialDataCards = JSON.parse(JSON.stringify(this.firstaccountsubsidiarylist));
+                    var filteredData = this.filterData(initialDataCards, filters,'');
+                    this.accountsubsidiarylist = filteredData;
+                }
             }
         }
         
     }
 
     updateGlobalBalance() { 
-        var currentCurrency = "";
-        var globalBalanceInfo = this.rGlobalBalance;
-        //currentCurrency = component.get("v.rCurrentUserCurrency");
-        
-        currentCurrency = localeCurrency;
-        // Set the global balance amounts
-        
-        if(currentCurrency != ""){
+        var currentCurrency = "";        
+        if(!this.comunidadCashNexus){
             var globalBalanceInfo = this.rGlobalBalance;
             //currentCurrency = component.get("v.rCurrentUserCurrency");
             
@@ -1193,54 +1632,162 @@ export default class Lwc_iam_accountsParent extends LightningElement {
             // Set the global balance amounts
             
             if(currentCurrency != ""){
-                var actualCurrency;
-                if(this.selectedcurrency == undefined)
-                {
-                    this.globalbookbalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][0];
-                    this.globalavailablebalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][1]; 
-                    actualCurrency = currentCurrency;
-                }
-                else 
-                {
-                    this.globalbookbalance = globalBalanceInfo.currencyGlobalBalance[this.selectedcurrency][0];
-                    this.globalavailablebalance = globalBalanceInfo.currencyGlobalBalance[this.selectedcurrency][1]; 
-                    actualCurrency = this.selectedcurrency;
-                }
-                //JVV -Testing pending //
-                var auxTipoDeCambio = new Map();
-                var exchangeRatesAux = "";
-                globalBalanceInfo.tipoDeCambioList.forEach(element => auxTipoDeCambio.get(element.divisa) == null ? auxTipoDeCambio.set(element.divisa, element) : '');
-                if(auxTipoDeCambio.has(actualCurrency))
-                {
-                    for(let [key, value]of auxTipoDeCambio) {
-                        if(key != actualCurrency)
-                        {
-                            exchangeRatesAux += (key + '=' + (auxTipoDeCambio.get(key).importeDecimal / auxTipoDeCambio.get(actualCurrency).importeDecimal).toFixed(6)+ ' ' + (auxTipoDeCambio.get(key).fecha != undefined ? auxTipoDeCambio.get(key).fecha.split("T")[0] : ''));
+                var globalBalanceInfo = this.rGlobalBalance;
+                //currentCurrency = component.get("v.rCurrentUserCurrency");
+                
+                currentCurrency = localeCurrency;
+                // Set the global balance amounts
+                
+                if(currentCurrency != ""){
+                    var actualCurrency;
+                    if(this.selectedcurrency == undefined)
+                    {
+                        this.globalbookbalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][0];
+                        this.globalavailablebalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][1]; 
+                        actualCurrency = currentCurrency;
+                    }
+                    else 
+                    {
+                        this.globalbookbalance = globalBalanceInfo.currencyGlobalBalance[this.selectedcurrency][0];
+                        this.globalavailablebalance = globalBalanceInfo.currencyGlobalBalance[this.selectedcurrency][1]; 
+                        actualCurrency = this.selectedcurrency;
+                    }
+                    //JVV -Testing pending //
+                    var auxTipoDeCambio = new Map();
+                    var exchangeRatesAux = "";
+                    globalBalanceInfo.tipoDeCambioList.forEach(element => auxTipoDeCambio.get(element.divisa) == null ? auxTipoDeCambio.set(element.divisa, element) : '');
+                    if(auxTipoDeCambio.has(actualCurrency))
+                    {
+                        for(let [key, value]of auxTipoDeCambio) {
+                            if(key != actualCurrency)
+                            {
+                                exchangeRatesAux += (key + '=' + (auxTipoDeCambio.get(key).importeDecimal / auxTipoDeCambio.get(actualCurrency).importeDecimal).toFixed(6)+ ' ' + (auxTipoDeCambio.get(key).fecha != undefined ? auxTipoDeCambio.get(key).fecha.split("T")[0] : ''));
+                                exchangeRatesAux += "; ";
+                            }
+                        }
+                    }
+                    else{
+                        for(let [key, value]of auxTipoDeCambio) {
+                            if(key != actualCurrency)
+                                
+                                exchangeRatesAux += (key + '=' + (auxTipoDeCambio.get(key).importeDecimal)+' '+(auxTipoDeCambio.get(key).fecha != undefined ? auxTipoDeCambio.get(key).fecha.split("T")[0] : ''));
                             exchangeRatesAux += "; ";
                         }
-                        
-                        
                     }
+                    this.exchangeratesstring = exchangeRatesAux;
                 }
-                else{
-                    for(let [key, value]of auxTipoDeCambio) {
-                        if(key != actualCurrency)
-                            
-                            exchangeRatesAux += (key + '=' + (auxTipoDeCambio.get(key).importeDecimal)+' '+(auxTipoDeCambio.get(key).fecha != undefined ? auxTipoDeCambio.get(key).fecha.split("T")[0] : ''));
-                        exchangeRatesAux += "; ";
-                    }
-                }
-                this.exchangeratesstring = exchangeRatesAux;
+                // OLD
+                //component.set("v.globalBookBalance", globalBalanceInfo.currencyGlobalBalance[currentCurrency][0]);            
+                //component.set("v.globalAvailableBalance", globalBalanceInfo.currencyGlobalBalance[currentCurrency][1]);  
             }
-            // OLD
-            //component.set("v.globalBookBalance", globalBalanceInfo.currencyGlobalBalance[currentCurrency][0]);            
-            //component.set("v.globalAvailableBalance", globalBalanceInfo.currencyGlobalBalance[currentCurrency][1]);  
+        }else{            
+            var globalBalanceInfo;// = this.rGlobalBalance;
+            if(this._isLastUpdateCN){
+
+                globalBalanceInfo = this.rGlobalBalance;
+                //var globalBalanceInfo = this.rGlobalBalance;
+                currentCurrency = localeCurrency;
+                if(currentCurrency != ""){
+                    var actualCurrency;
+                    if(this.selectedcurrency == undefined)
+                    {
+                        this.globalbookbalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][0];
+                        this.globalavailablebalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][1]; 
+                        actualCurrency = currentCurrency;
+                    }
+                    else 
+                    {
+                        this.globalbookbalance = globalBalanceInfo.currencyGlobalBalance[this.selectedcurrency][0];
+                        this.globalavailablebalance = globalBalanceInfo.currencyGlobalBalance[this.selectedcurrency][1]; 
+                        actualCurrency = this.selectedcurrency;
+                    }
+                    //JVV -Testing pending //
+                    var auxTipoDeCambio = new Map();
+                    var exchangeRatesAux = "";
+                    globalBalanceInfo.tipoDeCambioList.forEach(element => auxTipoDeCambio.get(element.divisa) == null ? auxTipoDeCambio.set(element.divisa, element) : '');
+                    if(auxTipoDeCambio.has(actualCurrency))
+                    {
+                        for(let [key, value]of auxTipoDeCambio) {
+                            if(key != actualCurrency)
+                            {
+                                exchangeRatesAux += (key + '=' + (auxTipoDeCambio.get(key).importeDecimal / auxTipoDeCambio.get(actualCurrency).importeDecimal).toFixed(6)+ ' ' + (auxTipoDeCambio.get(key).fecha != undefined ? auxTipoDeCambio.get(key).fecha.split("T")[0] : ''));
+                                exchangeRatesAux += "; ";
+                            }
+                        }
+                    }
+                    else{
+                        for(let [key, value]of auxTipoDeCambio) {
+                            if(key != actualCurrency)
+                                
+                                exchangeRatesAux += (key + '=' + (auxTipoDeCambio.get(key).importeDecimal)+' '+(auxTipoDeCambio.get(key).fecha != undefined ? auxTipoDeCambio.get(key).fecha.split("T")[0] : ''));
+                            exchangeRatesAux += "; ";
+                        }
+                    }
+                    this.exchangeratesstring = exchangeRatesAux;
+                }
+                
+            }else{
+                globalBalanceInfo = this.tGlobalBalance;
+                currentCurrency = localeCurrency;
+                // Set the global balance amounts
+                /*if(currentCurrency != ''){
+                    this.globalbookbalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][0];
+                    this.globalavailablebalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][1]; 
+                }*/
+                if(currentCurrency != ""){
+                    //var globalBalanceInfo = this.rGlobalBalance;
+                    currentCurrency = localeCurrency;
+                    if(currentCurrency != ""){
+                        var actualCurrency;
+                        if(this.selectedcurrency == undefined)
+                        {
+                            this.globalbookbalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][0];
+                            this.globalavailablebalance = globalBalanceInfo.currencyGlobalBalance[currentCurrency][1]; 
+                            actualCurrency = currentCurrency;
+                        }
+                        else 
+                        {
+                            this.globalbookbalance = globalBalanceInfo.currencyGlobalBalance[this.selectedcurrency][0];
+                            this.globalavailablebalance = globalBalanceInfo.currencyGlobalBalance[this.selectedcurrency][1]; 
+                            actualCurrency = this.selectedcurrency;
+                        }
+                        //JVV -Testing pending //
+                        var auxTipoDeCambio = new Map();
+                        var exchangeRatesAux = "";
+                        globalBalanceInfo.tipoDeCambioList.forEach(element => auxTipoDeCambio.get(element.divisa) == null ? auxTipoDeCambio.set(element.divisa, element) : '');
+                        if(auxTipoDeCambio.has(actualCurrency))
+                        {
+                            for(let [key, value]of auxTipoDeCambio) {
+                                if(key != actualCurrency)
+                                {
+                                    exchangeRatesAux += (key + '=' + (auxTipoDeCambio.get(key).importeDecimal / auxTipoDeCambio.get(actualCurrency).importeDecimal).toFixed(6)+ ' ' + (auxTipoDeCambio.get(key).fecha != undefined ? auxTipoDeCambio.get(key).fecha.split("T")[0] : ''));
+                                    exchangeRatesAux += "; ";
+                                }
+                            }
+                        }
+                        else{
+                            for(let [key, value]of auxTipoDeCambio) {
+                                if(key != actualCurrency)
+                                    
+                                    exchangeRatesAux += (key + '=' + (auxTipoDeCambio.get(key).importeDecimal)+' '+(auxTipoDeCambio.get(key).fecha != undefined ? auxTipoDeCambio.get(key).fecha.split("T")[0] : ''));
+                                exchangeRatesAux += "; ";
+                            }
+                        }
+                        this.exchangeratesstring = exchangeRatesAux;
+                    }
+                }
+            }
+            
         }
+        
     }
 
     clearAllFilters(event) {
 		if(event){
-			this.initData();
+            if(this.comunidadCashNexus){
+                var isEndOfDay = this.tabselected;
+                this.initData(isEndOfDay);
+            }else this.initData();
 		}
 	}
     
@@ -1263,6 +1810,7 @@ export default class Lwc_iam_accountsParent extends LightningElement {
                     result = value; //apex returns true if user has been updated
 
                     this.rcurrentusercurrency = IsoCode; 
+                    this.tcurrentusercurrency = IsoCode;
                     this.currentusercurrency = IsoCode;
                     
                     //AM - 28/10/2020 - FIX INC726
@@ -1310,9 +1858,19 @@ export default class Lwc_iam_accountsParent extends LightningElement {
         }   
     }
 
+    /*
+    recoverselected(){
+        this.template.querySelector('c-lwc_child-accounts-list').setDropDown(this.selectedtimeframe);
+    }
+    */
+
     handledropdownvalueselected(evt){
         try {
             console.log("Entra a handledropdownvalueselected en globalPositionParent: " +  evt.detail);
+            //testPEdro
+            //this.template.querySelector('c-lwc_child-accounts-list').setDropDown(evt.detail);
+            //fintest
+
         // this.dropdownselectedvalue = evt.detail;
             this.selectedtimeframe =  evt.detail;
             this.handleCollapse();
@@ -1320,7 +1878,7 @@ export default class Lwc_iam_accountsParent extends LightningElement {
             this.orderCards(evt);
         } catch(e) {
             console.error(e);
-        }
+        }       
 
     }
 
@@ -1338,17 +1896,20 @@ export default class Lwc_iam_accountsParent extends LightningElement {
 
     handlefirefilter(event) {
         try {
-            if(!this.firstaccountcountrylist){
+            if(!this.firstaccountcountrylist && !this.firsttaccountcountrylist){
                 this.handleagain=true;
                 this.handledata =  event;
             }else{
+                //
+                this.handledata =  event;
+                //
                 this.filterSearch(event);
                 this.handleCollapse();
                 this.orderCards(null);
                 this.isloading = false;
             }
         } catch(e) {
-            console.error(e);
+            console.error('AccountParent handlefirefilter: '+ JSON.stringify(e));
         }
     }
 
@@ -1369,6 +1930,8 @@ export default class Lwc_iam_accountsParent extends LightningElement {
             //event.detail;
             console.log('changercurrentusercurrencyhandler executed: '+ event.detail);
             this.rcurrentusercurrency = event.detail;
+            this.tcurrentusercurrency = event.detail;
+            window.localStorage.setItem(this.userId + "_actualCurrencyChange",  event.detail);
             this.updateGlobalBalance();
         } catch(e) {
             console.error(e);

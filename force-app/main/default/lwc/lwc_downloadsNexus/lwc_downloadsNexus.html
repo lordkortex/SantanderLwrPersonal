@@ -1,0 +1,134 @@
+<template>
+    <c-lwc_service-component data-id="service" onsuccesscallback={handlerSuccessCallback}></c-lwc_service-component>
+
+    <template if:true={loadingUserInfo}>  
+        <div class="spinnerclass">
+            <lightning-spinner data-id="spinner" variant="brand" size="large" title={getLoadingTitle} alternative-text={getLoadingTitle}></lightning-spinner>
+        </div>
+    </template>
+    
+    <template if:false={loadingUserInfo}>
+        <c-lwc_cn_title-subtitle-gray title={label.DownloadBalance_DocumentDownload} subtitle={label.DownloadBalance_DocumentDownloadSubtitle}></c-lwc_cn_title-subtitle-gray>
+        <div class="downloads_CNF">
+            <div class="slds-form" role="list">
+                <div class="slds-row radioButtons fileDate">
+                    <fieldset class="slds-form-element">
+                        <legend class="slds-form-element__legend slds-form-element__label">{label.DownloadBalance_FileDate}</legend>
+                        <div class="slds-form-element__control">
+                            <span class="slds-radio">
+                                <label class="slds-radio__label" for="radio-42">
+                                    <span class="slds-form-element__label">{label.DownloadBalance_Online}</span>
+                                </label>
+                            </span>
+                        </div>
+                    </fieldset>
+                </div>
+            
+                <div class="slds-row">
+                    <div class="slds-form-element slds-combobox__Rg country">                       
+                        <c-lwc_cn_dropdown data-id="dropdownCountries" headerdropdown={label.Country} values={countries} selectedvalues={selectedcountries} selectallvalues={label.AllCountries} issimpledropdown={issimpledropdownAuxFalse} ondropdownvalueselected={handlerSelectedCountry}></c-lwc_cn_dropdown>
+                    </div>
+                    
+                    <div class="account">
+                        <c-lwc_cn_dropdown data-id="dropdownAccounts" headerdropdown={label.Account} values={accountsListString} selectedvalues={selectedAccounts} selectallvalues={label.AllAccounts} issimpledropdown={issimpledropdownAuxFalse} ondropdownvalueselected={handlerAccountSelection}></c-lwc_cn_dropdown>
+                    </div>
+                </div>
+                <div class="slds-row typeOfFile">
+                    <div class="slds-form-element slds-combobox__Rg ">
+                        <c-lwc_cn_dropdown headerdropdown={label.DownloadBalance_FileFormat} values={fileFormatList} selectedvalue={fileFormat} issimpledropdown={issimpledropdownAux} ondropdownvalueselected={setFileFormat}></c-lwc_cn_dropdown>
+                    </div>
+                    <div class="radioButtons typeofFileDate ">
+                        <fieldset class="slds-form-element radioCalendarSingle">
+                            <legend class="slds-form-element__legend slds-form-element__label">{label.DownloadBalance_FileDate}</legend>
+                            <div class="slds-form-element__control">
+                                <template if:true={isFileFormatnotSIC}>
+                                    <span class="slds-radio">
+                                        <lightning-input type="radio" data-id="radio-52" value="lastStatement" name="date" checked onchange={getFileDate} label={label.DownloadBalance_LastStatement}>
+                                        </lightning-input>
+                                    </span>
+                                </template>
+                                <template if:false={isFileFormatnotSIC}>
+                                    <div class="calendarSIC">
+                                        <c-lwc_cn_calendar data-id="calendarDay" simple placeholdersingle={label.Day} dates={singleDate}></c-lwc_cn_calendar>
+                                    </div>
+                                </template>
+                            
+                                <span class="slds-radio">
+                                    <lightning-input type="radio" data-id="radio-53" value="statementFor" name="date" onchange={getFileDate} label={label.DownloadBalance_UniqueDate}>
+                                    </lightning-input>
+                                </span>
+                                <template if:true={isFileFormatnotSIC}>
+                                    <span class="slds-radio">
+                                        <lightning-input  type="radio" data-id="radio-54" value="betweenDates" name="date" onchange={getFileDate} label={label.DownloadBalance_BetweenDates}>
+                                        </lightning-input>
+                                    </span>
+    
+                
+                                    <div class="radioCalendarDoble">
+                                        <template if:true={isfileDatestatementFor}>
+                                            <template if:false={isfileDatelastStatement}>
+                                                    <div class="unicCalendarDoble">
+                                                    <c-lwc_cn_calendar data-id="calendarBetweenDates" 
+                                                        simple={isSimpleFalse}
+                                                        placeholderfrom={label.fromlabel} 
+                                                        placeholderto={label.to} 
+                                                        dateto={datesto} 
+                                                        datefrom={datesfrom} 
+                                                        dates={dates}
+                                                        ondatechangefrom={changedatefromhandler}
+                                                        ondatechangeto={changedatetohandler}>
+                                                    </c-lwc_cn_calendar>
+                                                    </div>
+                                            </template>
+
+                                        </template>
+                                        <template if:false={isfileDatestatementFor}>
+                                            <div class="unicCalendar">
+                                                <c-lwc_cn_calendar data-id="calendarDay" 
+                                                    simple
+                                                    placeholdersingle={label.Day}
+                                                    dates={singleDate}>
+                                                </c-lwc_cn_calendar>
+                                            </div> 
+                                        </template>
+                                    </div>
+                                </template>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+
+                 <template if:true={isFileDataPdf}>
+                     <template if:true={isfileDatestatementBetween}>
+                        <div class="slds-row radioButtons reportType">
+                            <fieldset class="slds-form-element">
+                                <legend class="slds-form-element__legend slds-form-element__label">{label.DownloadBalance_TypeOfReport}</legend>
+                                <div class="slds-form-element__control">
+                                    <span class="slds-radio">
+                                        <input type="radio" id="radio-61" value="fileForDay" name="secondGroup" checked onchange={getReportType}/>
+                                        <label class="slds-radio__label" for="radio-61">
+                                            <span class="slds-radio_faux"></span>
+                                            <span class="slds-form-element__label">{label.Downloads_fileForDay}</span>
+                                        </label>
+                                    </span>
+                                    <span class="slds-radio">
+                                        <input type="radio" id="radio-62" value="groupedEveryDay" name="secondGroup" onchange={getReportType}/>
+                                        <label class="slds-radio__label" for="radio-62">
+                                            <span class="slds-radio_faux"></span>
+                                            <span class="slds-form-element__label">{label.DownloadBalance_EverydayGroupedFile}</span>
+                                        </label>
+                                    </span>
+                                </div>
+                            </fieldset>
+                        </div>
+                       </template>
+                   </template>
+                <div class="pill-button">
+                    <button class="slds-button slds-button_neutral whiteButton" data-aura-rendered-by="504:2;a" onclick={cleanData}>{label.clearAll}</button>
+                    <button class="slds-button slds-button_brand redButton" data-aura-rendered-by="506:2;a" onclick={download}>{label.DownloadBalance_Download}</button>
+                </div>
+                <c-lwc_toast type={type} show={show} message={message}/></c-lwc_toast>
+            </div>
+        </div>
+    </template>
+</template>

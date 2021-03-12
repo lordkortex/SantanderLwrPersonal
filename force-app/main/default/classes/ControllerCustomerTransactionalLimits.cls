@@ -16,6 +16,7 @@ public with sharing class ControllerCustomerTransactionalLimits {
     <Date>          <Author>                <Description>
     16/09/2020      Shahad Naji             Initial version
     19/01/2021      Shahad Naji             Creates another reverseLimits to be called when it is required by the action of a payment process
+    04/03/2021      Bea Hill                Remove the productId from the condition so that the method depends only on user type.
     */
     @AuraEnabled
     public static ReturnValue reverseLimits (WRAPPER_PaymentDetail.OperationDetail paymentData) {
@@ -24,10 +25,10 @@ public with sharing class ControllerCustomerTransactionalLimits {
         try {
             if (paymentData != null) {
                 String serviceAPILine = ServiceAPILine.getAPILine();
-                if (String.isNotBlank(serviceAPILine) && String.isNotBlank(paymentData.productId)) {
-                    if ((serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) && paymentData.productId.equalsIgnoreCase(PRODUCT_ID_001)) {
+                if (String.isNotBlank(serviceAPILine)) {
+                    if (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) {
                         return new ReturnValue(true);
-                    } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING) && (paymentData.productId.equalsIgnoreCase(PRODUCT_ID_002) || paymentData.productId.equalsIgnoreCase(PRODUCT_ID_003))) {
+                    } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
                         // TO-DO
                     } else {
                         return new ReturnValue(true);
@@ -58,6 +59,7 @@ public with sharing class ControllerCustomerTransactionalLimits {
     History:
     <Date>          <Author>                <Description>
     01/02/2021      Candido Parejo          Initial version
+    04/03/2021      Bea Hill                Remove the productId from the condition so that the method depends only on user type.
     */
     @AuraEnabled
     public static ReturnValue reverseLimits (WRAPPER_PAY_PaymentDraft paymentDraft) {
@@ -65,11 +67,10 @@ public with sharing class ControllerCustomerTransactionalLimits {
         Map<String, Object> value = new Map<String, Object>();
         try {
             String serviceAPILine = ServiceAPILine.getAPILine();
-            String productId = paymentDraft.productId;
-            if (String.isNotBlank(serviceAPILine) && String.isNotBlank(productId)) {
-                if ((serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) && productId.equalsIgnoreCase(PRODUCT_ID_001)) {
+            if (String.isNotBlank(serviceAPILine)) {
+                if (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) {
                     return new ReturnValue(true);
-                } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING) && (paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_002) || paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_003))) {
+                } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
                     value = ServiceCustomerTransactionalLimits.transactionalLimitsReverse(paymentDraft);
                 } else {
                     return new ReturnValue(true);
@@ -95,6 +96,7 @@ public with sharing class ControllerCustomerTransactionalLimits {
     History:
     <Date>          <Author>                <Description>
     29/11/2020      Shahad Naji             Initial version
+    04/03/2021      Bea Hill                Remove the productId from the condition so that the method depends only on user type.
     */
     @AuraEnabled
     public static ReturnValue updateLimits (WRAPPER_PaymentDetail.OperationDetail paymentData) {
@@ -102,23 +104,9 @@ public with sharing class ControllerCustomerTransactionalLimits {
         Map<String, Object> value = new Map<String, Object>();
         try {
             String serviceAPILine = ServiceAPILine.getAPILine();
-            List<String> updateLimitsProductIds = ControllerCustomerTransactionalLimits.getProductIds();
             if (paymentData != null) {
                 if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
-                    if (String.isNotBlank(paymentData.productId)) {
-                        String productId = paymentData.productId;
-                        if (updateLimitsProductIds != null && !updateLimitsProductIds.isEmpty()) {
-                            if (updateLimitsProductIds.contains(productId)) {
-                                response = ServiceCustomerTransactionalLimits.updateLimits(paymentData);
-                            } else {
-                                response = new ReturnValue(true);
-                            }
-                        } else {
-                            response = new ReturnValue(true);
-                        }
-                    } else {
-                        throw new CustomException('ERROR: Invalid data');
-                    }
+                    response = ServiceCustomerTransactionalLimits.updateLimits(paymentData);       
                 } else {
                     response = new ReturnValue(true);
                 }
@@ -140,6 +128,8 @@ public with sharing class ControllerCustomerTransactionalLimits {
     History:
     <Date>          <Author>                <Description>
     01/02/2021      Candido Parejo          Initial version
+    04/03/2021      Bea Hill                Remove the productId from the condition so that the method depends only on user type.
+
     */
     @AuraEnabled
     public static ReturnValue updateLimits (WRAPPER_PAY_PaymentDraft paymentDraft) {
@@ -162,9 +152,9 @@ public with sharing class ControllerCustomerTransactionalLimits {
                 return new ReturnValue(false);
             }
             String serviceAPILine = ServiceAPILine.getAPILine();
-            if (paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_001) && (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS))) {
+            if (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) {
                 throw new CustomException('ERROR: Invalid data');
-            } else if ((paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_002) || paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_003)) && serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
+            } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
                 value = ServiceCustomerTransactionalLimits.callTransactionalLimitsUpdate(paymentDraft);
             }
             if (value != null) {
@@ -186,6 +176,8 @@ public with sharing class ControllerCustomerTransactionalLimits {
     History:
     <Date>          <Author>                <Description>
     29/11/2020      Shahad Naji             Initial version
+    04/03/2021      Bea Hill                Remove the productId from the condition so that the method depends only on user type.
+
     */
     @AuraEnabled
     public static ReturnValue validateLimits (WRAPPER_PaymentDetail.OperationDetail paymentData) {
@@ -193,18 +185,14 @@ public with sharing class ControllerCustomerTransactionalLimits {
         Map<String, Object> value = new Map<String, Object>();
         try {
             if (paymentData != null) {
-                if (String.isNotBlank(paymentData.productId)) {
-                    String serviceAPILine = ServiceAPILine.getAPILine();
-                    if (paymentData.productId == PRODUCT_ID_001  && (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS))) {
-                        value = ServiceCustomerTransactionalLimits.callTransactionalLimits (paymentData);
-                    } else if ((paymentData.productId.equalsIgnoreCase(PRODUCT_ID_002) || paymentData.productId.equalsIgnoreCase(PRODUCT_ID_003)) && serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
-                        value = ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentData);
-                    }
-                    if (value != null) {
-                        response = new ReturnValue(true, value);
-                    } else {
-                       response = new ReturnValue(false);
-                    }
+                String serviceAPILine = ServiceAPILine.getAPILine();
+                if (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) {
+                    value = ServiceCustomerTransactionalLimits.callTransactionalLimits (paymentData);
+                } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
+                    value = ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentData);
+                }
+                if (value != null) {
+                    response = new ReturnValue(true, value);
                 } else {
                     response = new ReturnValue(false);
                 }
@@ -225,6 +213,8 @@ public with sharing class ControllerCustomerTransactionalLimits {
     History:
     <Date>          <Author>            <Description>
     29/11/2020      Candido             Initial version
+    04/03/2021      Bea Hill            Remove the productId from the condition so that the method depends only on user type.
+
     */
     @AuraEnabled
     public static ReturnValue validateLimits (WrapperUserData userData, WRAPPER_PAY_PaymentDraft paymentDraft) {
@@ -247,20 +237,17 @@ public with sharing class ControllerCustomerTransactionalLimits {
                 return new ReturnValue(false);
             }
             String serviceAPILine = ServiceAPILine.getAPILine(userData);
-            if (String.isNotBlank(paymentDraft.productId)) {
-                if (paymentDraft.productId == PRODUCT_ID_001 && (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS))) {
-                    value = ServiceCustomerTransactionalLimits.callTransactionalLimits(userData, paymentDraft, baseAmount, baseCurrency);
-                } else if ((paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_002) || paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_003)) && serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
-                    value = ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentDraft, baseAmount, baseCurrency);
-                }
-                if (value != null) {
-                    response = new ReturnValue(true, value);
-                } else {
-                    response = new ReturnValue(false);
-                }
+            if (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) {
+                value = ServiceCustomerTransactionalLimits.callTransactionalLimits(userData, paymentDraft, baseAmount, baseCurrency);
+            } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
+                value = ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentDraft, baseAmount, baseCurrency);
+            }
+            if (value != null) {
+                response = new ReturnValue(true, value);
             } else {
                 response = new ReturnValue(false);
             }
+            
         } catch (Exception e) {
             System.debug('ControllerCustomerTransactionalLimits.validateLimits: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
             response = new ReturnValue(false, null, e.getMessage());
@@ -268,19 +255,4 @@ public with sharing class ControllerCustomerTransactionalLimits {
         return response;
     }
 
-    /*
-    Author:         Shahad Naji
-    Company:        Deloitte
-    Description:    Method to return the product ids of the payments which limits have to be updated and/or reverted.
-    History:
-    <Date>          <Author>                <Description>
-    27/11/2020      Shahad Naji             Initial version
-    */
-    @TestVisible
-    private static List<String> getProductIds() {
-        List<String> productIds =  new List<String>();
-        productIds.add(PRODUCT_ID_002);
-        productIds.add(PRODUCT_ID_003);
-        return productIds;
-    }
 }

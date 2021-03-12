@@ -1,58 +1,69 @@
 global class CNT_B2B_SignatureUtilitiesLocal {
-
+    
+    
     global class SourceAccount {
         @AuraEnabled
-        global String accountType {get;set;}
+        global String accountIdType {get;set;}
         @AuraEnabled
         global String accountId {get;set;}
-        @AuraEnabled
-        global String tcurrency {get;set;}
-
-        global SourceAccount () {}
-
-        global SourceAccount (WRAPPER_AccountList.AccountDetails sourceAccount) {
-            this.accountType = sourceAccount.idType;
+        /*@AuraEnabled
+global String tcurrency {get;set;}*/
+        
+        global SourceAccount(){
+        }
+        
+        global SourceAccount(WRAPPER_AccountList.AccountDetails sourceAccount){
+            this.accountIdType = sourceAccount.idType;
             this.accountId = sourceAccount.displayNumber;
-            this.tcurrency = sourceAccount.currencyCodeAvailableBalance;
+            //this.tcurrency = sourceAccount.currencyCodeAvailableBalance;
         }
     }
-
+    
     global class SourceAgent {
         @AuraEnabled
-        global String agentId {get;set;}
+        global String agent {get;set;}
         @AuraEnabled
-        global String name {get;set;}
+        global String agentName {get;set;} 
         @AuraEnabled
-        global String address {get;set;}
-
-        global SourceAgent() {}
-
-        global SourceAgent (WRAPPER_AccountList.AccountDetails sourceAccount) {
-            this.agentId = sourceAccount.codigoBic;
-            this.name = sourceAccount.bankName;
-            this.address = sourceAccount.country;
+        global String addressAgent {get;set;}
+        
+        global SourceAgent(){
+        }
+        
+        global SourceAgent(WRAPPER_AccountList.AccountDetails sourceAccount){
+            this.agent = sourceAccount.codigoBic;
+            this.agentName = sourceAccount.bankName;
+            this.addressAgent = sourceAccount.country;
         }
     }
-
+    
     global class PaymentAmount {
         @AuraEnabled
         global String tcurrency {get;set;}
         @AuraEnabled
         global Double amount {get;set;}
-
-        global PaymentAmount () {}
-
+        
+        global PaymentAmount () {
+        }
+        
+        global PaymentAmount (WRAPPER_B2B_Data.PaymentAmount amount, WRAPPER_AccountList.AccountDetails sourceAccount){
+            this.tcurrency = sourceAccount.currencyCodeAvailableBalance;
+            this.amount = amount.amountSend;
+        }
         global PaymentAmount (Double amount, String tcurrency) {
             this.amount = amount;
             this.tcurrency = tcurrency;
         }
     }
-
-    global class Data_Payment {
+    
+    
+    global class Data_Payment{
         @AuraEnabled
         global String idempotentReference {get;set;}
         @AuraEnabled
         global String countryDestinationFunds {get;set;}
+        @AuraEnabled
+        global String sourceName {get;set;}
         @AuraEnabled
         global SourceAccount sourceAccount {get;set;}
         @AuraEnabled
@@ -67,12 +78,12 @@ global class CNT_B2B_SignatureUtilitiesLocal {
         global String subject {get;set;}
         @AuraEnabled
         global String transactionDate {get;set;}
-
         global Data_Payment () {}
-
+        
         global Data_Payment (WRAPPER_PAY_PaymentDraft paymentDraft) {
             this.idempotentReference = paymentDraft.paymentId;
             this.countryDestinationFunds = paymentDraft.destinationAccount.country;
+            this.sourceName = paymentDraft.sourceAccount.alias;
             this.sourceAccount = new SourceAccount(paymentDraft.sourceAccount);
             this.sourceAgent = new SourceAgent(paymentDraft.sourceAccount);
             this.destinationAccount = new SourceAccount(paymentDraft.destinationAccount);
@@ -82,43 +93,41 @@ global class CNT_B2B_SignatureUtilitiesLocal {
             DateTime todaysDate = System.today();
             this.transactionDate = todaysDate.format('yyyy-MM-dd');
         }
-
+        
         global Data_Payment (String paymentId, String serviceId, WRAPPER_PaymentDetail.OperationDetail paymentDetail) {
             this.idempotentReference = paymentId;
             this.countryDestinationFunds = paymentDetail.destinationData.country;
             this.sourceAccount = new SourceAccount();
             this.sourceAccount.accountId = paymentDetail.sourceData.sourceAccount.accountId;
-            this.sourceAccount.accountType = paymentDetail.sourceData.sourceAccount.accountType;
-            this.sourceAccount.tcurrency = paymentDetail.sourceData.sourceAccount.tcurrency;
+            this.sourceAccount.accountIdType = paymentDetail.sourceData.sourceAccount.accountType;
             this.sourceAgent = new SourceAgent();
-            this.sourceAgent.agentId = paymentDetail.sourceData.sourceAgent.agentId;
-            this.sourceAgent.name = paymentDetail.sourceData.sourceAgent.name;
-            this.sourceAgent.address = paymentDetail.sourceData.sourceAgent.address;
+            this.sourceAgent.agent = paymentDetail.sourceData.sourceAgent.agentId;
+            this.sourceAgent.agentName = paymentDetail.sourceData.sourceAgent.name;
+            this.sourceAgent.addressAgent = paymentDetail.sourceData.sourceAgent.address;
             this.destinationAccount = new SourceAccount();
             this.destinationAccount.accountId = paymentDetail.destinationData.destinationAccount.accountId;
-            this.destinationAccount.accountType = paymentDetail.destinationData.destinationAccount.accountType;
-            this.destinationAccount.tcurrency = paymentDetail.destinationData.destinationAccount.tcurrency;
+            this.destinationAccount.accountIdType = paymentDetail.destinationData.destinationAccount.accountType;
             this.destinationAgent = new SourceAgent();
-            this.destinationAgent.agentId = paymentDetail.destinationData.destinationAgent.agentId;
-            this.destinationAgent.name = paymentDetail.destinationData.destinationAgent.name;
-            this.destinationAgent.address = paymentDetail.destinationData.destinationAgent.address;
+            this.destinationAgent.agent = paymentDetail.destinationData.destinationAgent.agentId;
+            this.destinationAgent.agentName = paymentDetail.destinationData.destinationAgent.name;
+            this.destinationAgent.addressAgent = paymentDetail.destinationData.destinationAgent.address;
             this.paymentAmount = new PaymentAmount(Double.valueOf(paymentDetail.amount), paymentDetail.sourceData.sourceAccount.tcurrency);
             this.subject = paymentDetail.subject;
             DateTime todaysDate = System.today();
             this.transactionDate = todaysDate.format('yyyy-MM-dd');
         }
     }
-
+    
     /*
-    Author:         R. cervino
-    Company:        Deloitte
-    Description:    get the signature structure for GTS
-    History:
-    <Date>          <Author>            <Description>
-    11/12/2020      R. Cervino          Initial version
-    08/01/2021      Candido             Move the place to delete the old structure, if exist
-    02/02/2021      Candido             Refactor with WRAPPER_PAY_PaymentDraft
-    */
+Author:         R. cervino
+Company:        Deloitte
+Description:    get the signature structure for GTS
+History:
+<Date>          <Author>            <Description>
+11/12/2020      R. Cervino          Initial version
+08/01/2021      Candido             Move the place to delete the old structure, if exist
+02/02/2021      Candido             Refactor with WRAPPER_PAY_PaymentDraft
+*/
     global static WRAPPER_B2B_SignatureStructure getSignatureStructure (String channel, Map<String, String> navigatorInfo, WRAPPER_PAY_PaymentDraft paymentDraft) {
         WRAPPER_B2B_SignatureStructure structure = new WRAPPER_B2B_SignatureStructure();
         try {
@@ -144,6 +153,8 @@ global class CNT_B2B_SignatureUtilitiesLocal {
             header.put('Global-Payment-Id', String.isNotBlank(paymentDraft.paymentId) ? paymentDraft.paymentId : '');
             header.put('Document-Type', documentType);
             header.put('Document-Number', documentNumber);
+            header.put('Document-Number', documentNumber);
+            header.put('Access-Channel', 'web');
             header.put('Device-Info-Token', ServiceDeviceInfo.getDeviceInfo(navigatorInfo, configWs.CNT_HTTPMethod__c));
             header.put('Operation-Token', generateOperationToken(paymentDraft.paymentId, paymentDraft.serviceId, new Data_Payment(paymentDraft)));
             TokenInformation tokenInformation = new TokenInformation(country, configWs.tokenPlatform__c, configWs.tokenUser__c, null, codigoBic);
@@ -171,16 +182,16 @@ global class CNT_B2B_SignatureUtilitiesLocal {
         }
         return structure;
     }
-
+    
     /*
-    Author:         R. cervino
-    Company:        Deloitte
-    Description:    Obtain OTP
-    History:
-    <Date>          <Author>            <Description>
-    05/08/2020      R. Cervino          Initial version
-    07/10/2020      Shahad Naji         Adding sourceCountry and sourceBIC to generate token
-    */
+Author:         R. cervino
+Company:        Deloitte
+Description:    Obtain OTP
+History:
+<Date>          <Author>            <Description>
+05/08/2020      R. Cervino          Initial version
+07/10/2020      Shahad Naji         Adding sourceCountry and sourceBIC to generate token
+*/
     @AuraEnabled
     public static ReturnValue getOTP_Strategic (String paymentId, WRAPPER_PaymentDetail.OperationDetail paymentDetail, String service_id, Map<String, String> deviceHeader) {
         ReturnValue response = null;
@@ -202,17 +213,17 @@ global class CNT_B2B_SignatureUtilitiesLocal {
         }
         return response;
     }
-
+    
     /*
-    Author:         R. cervino
-    Company:        Deloitte
-    Description:    Obtain OTP
-    History:
-    <Date>          <Author>            <Description>
-    05/08/2020      R. Cervino          Initial version
-    07/10/2020      Shahad Naji         Adding sourceCountry and sourceBIC to generate token
-    02/02/2021      Candido             Refactor with WRAPPER_PAY_PaymentDraft
-    */
+Author:         R. cervino
+Company:        Deloitte
+Description:    Obtain OTP
+History:
+<Date>          <Author>            <Description>
+05/08/2020      R. Cervino          Initial version
+07/10/2020      Shahad Naji         Adding sourceCountry and sourceBIC to generate token
+02/02/2021      Candido             Refactor with WRAPPER_PAY_PaymentDraft
+*/
     @AuraEnabled
     public static ReturnValue getOTP_Strategic (Map<String, String> navigatorInfo, WRAPPER_PAY_PaymentDraft paymentDraft) {
         ReturnValue response = null;
@@ -233,7 +244,7 @@ global class CNT_B2B_SignatureUtilitiesLocal {
         }
         return response;
     }
-
+    
     global static String generateOperationToken (String paymentID, String service_id, Data_Payment data_payment) {
         try {
             Auth.JWT jwt = new Auth.JWT();
@@ -242,6 +253,7 @@ global class CNT_B2B_SignatureUtilitiesLocal {
             claims.put('payment_id', paymentID);
             claims.put('nonce', Global_Utilities.generateRandomNumber(12));
             String jsonExample = JSON.serialize(data_payment, true);
+            jsonExample = jsonExample.replace('"tcurrency"', '"currency"');
             Object deserializedJSON = (Object) JSON.deserializeUntyped(jsonExample);
             claims.put('data_payment', deserializedJSON);
             jwt.setAdditionalClaims(claims);

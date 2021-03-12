@@ -148,8 +148,9 @@ global class WS_TransactionalLimitsUpdate {
             TokenInformation tokenInformation = new TokenInformation(country, this.tokenPlatform, this.tokenUser, null, codigoBic);
             String response = Global_IntegrationWrapper.launchHTTP(inputJson, this.baseEndpoint, this.baseMethod, extraHeaderParameters);
             if (String.isNotBlank(response)) {
-                WS_TransactionalLimitsUpdate.LimitsResponseUpdate limitsResponseUpdate = (WS_TransactionalLimitsUpdate.LimitsResponseUpdate) JSON.deserialize(response, WS_TransactionalLimitsUpdate.LimitsResponseUpdate.class);
-                WS_TransactionalLimitsUpdate.OUTPUT output = new WS_TransactionalLimitsUpdate.OUTPUT(limitsResponseUpdate);                    
+                //WS_TransactionalLimitsUpdate.LimitsResponseUpdate limitsResponseUpdate = (WS_TransactionalLimitsUpdate.LimitsResponseUpdate) JSON.deserialize(response, WS_TransactionalLimitsUpdate.LimitsResponseUpdate.class);
+                //WS_TransactionalLimitsUpdate.OUTPUT output = new WS_TransactionalLimitsUpdate.OUTPUT(limitsResponseUpdate);
+                WS_TransactionalLimitsUpdate.OUTPUT output = (WS_TransactionalLimitsUpdate.OUTPUT) JSON.deserialize(response, WS_TransactionalLimitsUpdate.OUTPUT.class);                    
                 this.result = output;
             } else {
                 this.result = null;
@@ -232,19 +233,8 @@ global class WS_TransactionalLimitsUpdate {
             this.contractId = contractId;
         }
     }
-
+    
     global with sharing class OUTPUT {
-        @AuraEnabled
-        global LimitsResponseUpdate limitsResponseUpdate {get;set;}
-
-        global OUTPUT () {}
-
-        global OUTPUT (LimitsResponseUpdate limitsResponseUpdate) {
-            this.limitsResponseUpdate=limitsResponseUpdate;
-        }
-    }
-
-    global class LimitsResponseUpdate {
         @AuraEnabled
         global String operationId {get;set;}
         @AuraEnabled
@@ -252,9 +242,9 @@ global class WS_TransactionalLimitsUpdate {
         @AuraEnabled
         global String codeLimitsResult {get;set;}
 
-        global LimitsResponseUpdate () {}
+        global OUTPUT () {}
 
-        global LimitsResponseUpdate (String operationId, String limitsResult, String codeLimitsResult) {
+        global OUTPUT (String operationId, String limitsResult, String codeLimitsResult) {
             this.operationId = operationId;
             this.limitsResult = limitsResult;
             this.codeLimitsResult = codeLimitsResult;

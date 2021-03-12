@@ -28,7 +28,15 @@ import retrieveData from '@salesforce/apex/CNT_GlobalPositionController.retrieve
 import retrieveInitialData from '@salesforce/apex/CNT_StatementHistoryController.retrieveInitialData';
 import callAccountServices from '@salesforce/apex/CNT_AccountConverter.callAccountServices';
 import getTransactionsByAccount from '@salesforce/apex/CNT_TransactionSearchController.getTransactionsByAccount';
-
+import retrieveInitialDatad from '@salesforce/apex/CNT_DownloadBalanceMovementsController.retrieveInitialData';
+import getTransactionCategories from '@salesforce/apex/CNT_TransactionSearchController.getTransactionCategories';
+import getCountryValuesMap from '@salesforce/apex/CNT_ICMOriginDestinationTable.getCountryValuesMap';
+import sendPayment from '@salesforce/apex/CNT_InstantCashManagementController.sendPayment';
+import getUserPreferredFormat from '@salesforce/apex/CNT_TransactionSearchController.getUserPreferredFormat';
+import getFiltersData from '@salesforce/apex/CNT_TransactionSearchController.getFiltersData';
+import getTransactions from '@salesforce/apex/CNT_TransactionSearchController.getTransactions';
+import searchMovements from '@salesforce/apex/CNT_StatementHistoryController.searchMovements';
+import getUETR from '@salesforce/apex/CNT_SwiftPaymentTable.getUETR';
 
 
 // Import current user info
@@ -450,6 +458,7 @@ export default class Lwc_serviceComponent extends NavigationMixin(LightningEleme
 			});
 		}
 		else if (controllerMethod === 'getTransactionsByAccount'){
+			console.log('getTransactionsByAccount');
 			getTransactionsByAccount(actionParameters)
 			.then(result => {
 				console.log('OK');
@@ -463,6 +472,140 @@ export default class Lwc_serviceComponent extends NavigationMixin(LightningEleme
 				console.log('KO '+ JSON.stringify(error));
 			});
 		}
+		else if (controllerMethod === 'retrieveInitialDataDow'){
+			console.log('retrieveInitialDataDow');
+			retrieveInitialDatad(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getTransactionCategories'){
+			console.log('getTransactionCategories');
+			getTransactionCategories()
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getCountryValuesMap'){
+			getCountryValuesMap(actionParameters)
+			.then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+			})
+			.catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+			});
+		}
+		else if (controllerMethod === 'sendPayment'){
+			sendPayment(actionParameters)
+			.then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+			})
+			.catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+			});
+		}
+		else if (controllerMethod === 'getUserPreferredFormat'){
+			console.log('getUserPreferredFormat');
+			getUserPreferredFormat(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getFiltersData'){
+			console.log('getFiltersData');
+			getFiltersData(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getTransactions'){
+			console.log('getTransactions');
+			getTransactions(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'searchMovements'){
+			console.log('searchMovements');
+			searchMovements(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+		else if (controllerMethod === 'getUETR'){
+			console.log('getUETR');
+			getUETR(actionParameters)
+            .then(result => {
+				console.log('OK');
+				const successcallback = new CustomEvent('successcallback', {
+					detail: { callercomponent : callercomponent,  value : result},
+				});
+				// Fire the custom event
+				this.dispatchEvent(successcallback);
+            })
+            .catch(error => {
+				console.log('KO '+ JSON.stringify(error));
+            });
+		}
+	
 	}
 	handleRedirection(page, url) {
 		//var results = this.encrypt(url);

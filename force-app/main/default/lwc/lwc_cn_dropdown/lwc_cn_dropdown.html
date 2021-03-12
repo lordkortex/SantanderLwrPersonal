@@ -57,21 +57,6 @@
                     </div>
                     <div if:false={issimpledropdown}>
                         <!-- MULTISELECT DROPDOWN -->
-                        <div>
-                        <template for:each={listValues} for:item="item">
-                            <li class="slds-dropdown__item" role="presentation"  key={item.key} data-item={item.key} onclick={selectOption}>
-                                <a class="paddingOption" role="menuitemcheckbox" tabindex="0" aria-checked="true">
-                                    <div class="slds-truncate optionOrder">
-                                        <div
-                                            class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
-                                            <div class={item.class}></div>
-                                        </div>
-                                        <span class="nameOrder">{item.val}</span>
-                                    </div>
-                                </a>
-                            </li>
-                        </template>
-                        </div>
                         <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
                             <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" disabled={isdisabled}>
                                 <div if:true={isZeroSelectedValue}>
@@ -91,11 +76,11 @@
                                 <span class="slds-assistive-text">{helptext}</span>
                             </button>
                         </div>
-                        <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                        <!-- <div class="slds-dropdown slds-dropdown_left dropdownOrder"> -->
                             <div class={multiDropdownClass}>
                                 <ul class="slds-dropdown__list" role="menu" aria-label={helptext}>
                                     <template for:each={listValues} for:item="item">
-                                        <li class="slds-dropdown__item" role="presentation"  key={item.key} onclick={selectOption}>
+                                        <li class="slds-dropdown__item" data-item={item.key} role="presentation"  key={item.key} onclick={selectOption}>
                                             <a class="paddingOption" role="menuitemcheckbox" tabindex="0" aria-checked="true">
                                                 <div class="slds-truncate optionOrder">
                                                     <div
@@ -109,7 +94,7 @@
                                     </template>
                                 </ul>
                             </div>
-                        </div>
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>

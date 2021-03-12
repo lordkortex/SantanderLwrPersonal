@@ -1,6 +1,6 @@
 import { LightningElement, track, api } from 'lwc';
 
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import { loadStyle } from'lightning/platformResourceLoader';
 import ACCOUNTS_UPDATED from '@salesforce/label/c.Accounts_Updated';
 import INFORMATION_AT from '@salesforce/label/c.InformationAt';
@@ -61,8 +61,12 @@ export default class Lwc_globalTitleTabs extends LightningElement {
     }
     lastUpdateTab(){
         this.lastupdateselected =  true;
+        const evt = new CustomEvent('lastupdateselected', {detail : this.lastupdateselected });
+        this.dispatchEvent(evt);
     }
     endOfDayTab(){            
-        this.lastupdateselected = true
+        this.lastupdateselected = false;
+        const evt = new CustomEvent('lastupdateselected', {detail : this.lastupdateselected });
+        this.dispatchEvent(evt);
     }
 }

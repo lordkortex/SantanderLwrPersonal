@@ -19,6 +19,8 @@ import Max from '@salesforce/label/c.Max';
 import Min from '@salesforce/label/c.Min';
 import bookDate from '@salesforce/label/c.bookDate';
 import TimePeriod from '@salesforce/label/c.TimePeriod';
+import Category from '@salesforce/label/c.Category';
+
 //import encryptData from '@salesforce/apex/Global_Utilities.encryptData';
 export default class Lwc_cn_filters extends LightningElement {
 
@@ -41,7 +43,8 @@ export default class Lwc_cn_filters extends LightningElement {
         Min,
         bookDate,
         Show_More,
-        TimePeriod
+        TimePeriod,
+        Category
     }; 
 
 
@@ -80,7 +83,7 @@ export default class Lwc_cn_filters extends LightningElement {
     @track placeholderTo = this.label.to;
     @track displayDropdown = true;
     @track helpTextDropdown = this.label.Show_More;
-    @track dropdownPlaceholder = this.label.TimePeriod;
+    @track dropdownPlaceholder = this.label.selectOne;
     @track isDropdownDisabled = false;
     @track displayDropdown = true;
     @track iamC;
@@ -302,14 +305,23 @@ export default class Lwc_cn_filters extends LightningElement {
 						}
 					}
 				}
+                else if(filters[key].name == this.label.Category){
+                    for(var option in filters[key].data){
+                        filters[key].data[option].checked = false;
+                        filters[key].numberChecked = 0;
+                    }
+                }
 			}
+
             this.filtersAux = filters;
             var aux= [];
 			
             const evt = new CustomEvent('onoptionselection', {
-                "filterName" : filterName,
-                "selectedOptions" : aux,
-                "source" : "clearAll"
+                detail: {
+                    "filterName" : filterName,
+                    "selectedOptions" : aux,
+                    "source" : "clearAll"
+                }
               });
             this.dispatchEvent(evt);
             this.applyFilters(event);
@@ -422,7 +434,7 @@ export default class Lwc_cn_filters extends LightningElement {
 	}
 
 	openModal() {
-        const compEvent = new CustomEvent('openmodal', {openModal : true});
+        const compEvent = new CustomEvent('openmodal', {detail: {openModal : true}});
         this.dispatchEvent(compEvent);
 		this.showModal = true;
     }
@@ -451,9 +463,12 @@ export default class Lwc_cn_filters extends LightningElement {
 		}
 		// Fire the option selection event so that the other dropdowns can be updated
 		this.filtersAux = filters;
-       const evt = new CustomEvent('optionselection', {
-            "filterName" : selectedFilter,
-			"selectedOptions" : selectedOptionAux
+        const evt = new CustomEvent('optionselection', {
+            detail: {
+                "filterName" : selectedFilter,
+                "selectedOptions" : selectedOptionAux,
+                "filters" : this.filtersAux
+            }
         });
         this.dispatchEvent(evt);
         this.setFilterAux(this.filtersAux);
@@ -709,7 +724,7 @@ export default class Lwc_cn_filters extends LightningElement {
                 } else if(filters[key].type == "text"){
                     //if(filters[key].selectedFilters != undefined){
                         var selection = {};
-                        selection.value = {};
+                        selection.value =   {};
                         selection.value.from = this.fromamount;//this.amountBis[0];//filters[key].selectedFilters.from;
                         selection.value.to = this.toamount;//this.amountBis[1];//filters[key].selectedFilters.to;
                         selection.name = filters[key].name;
@@ -1004,5 +1019,4 @@ export default class Lwc_cn_filters extends LightningElement {
             const selectedEvent = new CustomEvent('dropdownvalueselected', {detail: this.dropdownselectedvalue});
             this.dispatchEvent(selectedEvent);
         }
-
 }

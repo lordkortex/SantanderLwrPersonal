@@ -666,6 +666,9 @@
         return new Promise($A.getCallback(function (resolve, reject) {
             if (documentId != null && documentId != '' && documentId != undefined) {
                 var domain = $A.get('$Label.c.domain');
+                if(component.get("v.currentUser").cashNexus == true){
+                    domain = $A.get('$Label.c.domainCashNexus');
+                }
                 window.location.href = domain + '/sfc/servlet.shepherd/document/download/' + documentId + '?operationContext=S1';
                 resolve(documentId);
             } else {

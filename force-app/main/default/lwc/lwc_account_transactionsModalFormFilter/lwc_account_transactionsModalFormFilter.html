@@ -13,8 +13,9 @@
             <div class="slds-modal__content" id="modal-content-id-1">
                 <div class="slds-grid__content" >
                     <template if:true={isNotAccTransactions}>
-                    
-                        <div class="slds-row">
+                        <table class="dropdownTable">
+                            <td width ={tam}>
+                        <!-- <div class="slds-row"> -->
                             <!-- COUNTRY DROPDOWN MARKUP -->
                             <div class="slds-col">
                                 <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
@@ -24,23 +25,23 @@
                                         <div class="slds-combobox_container slds-combobox__check ">
                                             <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
                                                 <button id ={label.Country} disabled={isdisabled} class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" onclick={showDropdown}>
-                                                    <template for:each={filters} for:item='item' for:index='index'>
+                                                    <template for:each={filtersIteration} for:item='item' for:index='index'>
                                                         <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
-                                                        <div key={item.key}>
-                                                            <div if:true={isCountryWithNooneChecked}>
-                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
-                                                            </div>
-                                                            <div if:true={isCountryWithOneChecked}>
+                                                        <template key={item.key}>
+                                                            <template if:true={item.isCountryWithNooneChecked}>
+                                                                <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
+                                                            </template>
+                                                            <template if:true={item.isCountryWithOneChecked}>
                                                                 <template for:each={item.data} for:item='option' for:index='op'>
-                                                                    <div if:true={option.checked} key={option.key}>
-                                                                        <div class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
-                                                                    </div>
+                                                                    <template if:true={option.checked} >
+                                                                        <div key={option.key} class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
+                                                                    </template>
                                                                 </template>
-                                                            </div>
-                                                            <div if:true={isCountryWithGTOneChecked}>
-                                                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked}' '{label.options}</div>
-                                                            </div>
-                                                        </div>
+                                                            </template>
+                                                            <template if:true={item.isCountryWithGTOneChecked}>
+                                                                <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{item.itemCheckedOptions}</div>
+                                                            </template>
+                                                        </template>
                                                     </template>    
                                                     <div class="slds-button__icon arrow" aria-hidden="true">
                                                         <div class="button-arrow icon-arrowDown_small"></div>
@@ -49,14 +50,14 @@
                                                 </button>
                                             </div>
                                             <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" role="dialog"> <!-- id="popover-unique-id-04" -->
-                                                <template for:each={filters} for:item='item' for:index='index'>
-                                                    <div if:true={itemNameIsCountry} key={item.name}>    
+                                                <template for:each={filtersIteration} for:item='item' for:index='index'>
+                                                    <div if:true={item.itemNameIsCountry} key={item.name}>    
                                                         <div class="slds-popover__body"><!-- id="dialog-body-id-25">-->
                                                             <fieldset class="slds-form-element">
                                                                 <div class="slds-form-element__control">
                                                                     <template for:each={item.data} for:item='country' for:index='countryindex'>
                                                                         <div class="slds-checkbox" key={country.value}>
-                                                                            <input type="checkbox" name={item.name} id={countryindex} value={country.value} checked={country.checked}  onclick={chekOptions}/>
+                                                                            <input type="checkbox" name={item.name} data-id={countryindex} value={country.value} checked={country.checked}  onclick={chekOptions}/>
                                                                             <!--<label class="slds-checkbox__label" for={country.value + index}>-->
                                                                             <label class="slds-checkbox__label" for={country.value}>
                                                                                 <span class="slds-checkbox_faux"></span>
@@ -74,8 +75,11 @@
                                     </div>
                                 </div>
                             </div>
+                            </td>
+                            <td width="5%"></td>
+                            <td width="45%">
                             <!-- BANK DROPDOWN MARKUP -->
-                            <div class="slds-col">
+                            <!-- <div class="slds-col"> -->
                                 <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
                                 <div class="slds-form-element slds-combobox">
                                     <label class="slds-form-element__label" for="combobox-id-49">{label.Bank}</label>
@@ -83,24 +87,24 @@
                                         <div class="slds-combobox_container slds-combobox__check "> 
                                             <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
                                                 <button id={label.Bank} disabled={isdisabled} class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" onclick={showDropdown}>
-                                                    <template for:each={filters} for:item='item' for:index='index'>
+                                                    <template for:each={filtersIteration} for:item='item' for:index='index'>
                                                         <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
-                                                        <div key={item.key}>
-                                                            <div if:true={isBankWithNooneChecked}>
-                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
-                                                            </div>
-                                                            <div if:true={isBankWithOneChecked}>
+                                                        <template key={item.key}>
+                                                            <template if:true={item.isBankWithNooneChecked}>
+                                                                <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
+                                                            </template>
+                                                            <template if:true={item.isBankWithOneChecked}>
                                                                 <template for:each={item.data} for:item='option' for:index='op'>
-                                                                    <div if:true={option.checked} key={item.key}>
-                                                                        <div class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
-                                                                    </div>
+                                                                    <template if:true={option.checked} key={item.key}>
+                                                                        <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
+                                                                    </template>
                                                                 </template>
-                                                            </div>
-                                                            <div if:true={isBankWithGTOneChecked}>
+                                                            </template>
+                                                            <template if:true={item.isBankWithGTOneChecked}>
                                                                     <!--<div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked +' '+ label.options}</div>-->
-                                                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked}' '{label.options}</div>
-                                                            </div>
-                                                        </div>
+                                                                    <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{item.itemCheckedOptions}</div>
+                                                            </template>
+                                                        </template>
                                                     </template>
                                                     <div class="slds-button__icon arrow" aria-hidden="true">
                                                         <div class="button-arrow icon-arrowDown_small"></div>
@@ -109,16 +113,17 @@
                                                 </button>
                                             </div>
                                             <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" role="dialog" > <!-- id="popover-unique-id-04" -->
-                                                <template for:each={filters} for:item='item' for:index='index'>  
-                                                    <div if:true={itemNameIsBank} key={item.key}>   
+                                                <template for:each={filtersIteration} for:item='item' for:index='index'>  
+                                                    <div if:true={item.itemNameIsBank} key={item.key}>   
                                                         <div class="slds-popover__body"><!-- id="dialog-body-id-25"> -->
                                                             <fieldset class="slds-form-element">
                                                                 <div class="slds-form-element__control">
                                                                     <template for:each={item.data} for:item='bank' for:index='bankindex'>
                                                                         <div class="slds-checkbox" key={bank.key}>
-                                                                            <input type="checkbox" name={item.name} id={bankindex} value={bank.value} checked={bank.checked} onclick={chekOptions}/>
+                                                                            <input type="checkbox" name={item.name} data-id={bankindex} value={bank.value} checked={bank.checked} onclick={chekOptions}/>
                                                                             <!--<label class="slds-checkbox__label" for={bank.value + index}>-->
-                                                                            <label class="slds-checkbox__label" for={bank.value}>                                                                              <span class="slds-checkbox_faux"></span>
+                                                                            <label class="slds-checkbox__label" for={bank.value}>                                                                              
+                                                                                <span class="slds-checkbox_faux"></span>
                                                                                 <span class="slds-form-element__label">{bank.displayValue}</span>
                                                                             </label>
                                                                         </div>
@@ -132,13 +137,16 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            </td>
+                        </table>
+                            <!-- </div>
+                        </div> -->
                     </template>
                     <template if:true={isNotAccTransactions}>
-                    
-                        <div class="slds-row">
-                            <div class="slds-col">
+                        <table class="dropdownTable">
+                            <td width ={tam}>
+                        <!-- <div class="slds-row">
+                            <div class="slds-col"> -->
                                 <!-- ACCOUNT DROPDOWN MARKUP -->
                                 <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
                                 <div class="slds-form-element slds-combobox">
@@ -147,24 +155,24 @@
                                         <div class="slds-combobox_container slds-combobox__check ">
                                             <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
                                                 <button id={label.Account} disabled={isdisabled} class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" onclick={showDropdown}>
-                                                    <template for:each={filters} for:item='item' for:index='index'>
-                                                        <div key={item.key}>
+                                                    <template for:each={filtersIteration} for:item='item' for:index='index'>
+                                                        <template key={item.key}>
                                                             <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
-                                                            <div if:true={isAccountWithNooneChecked}>
-                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
-                                                            </div>
-                                                            <div if:true={isAccountWithOneChecked}>
+                                                            <template if:true={item.isAccountWithNooneChecked}>
+                                                                <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
+                                                            </template>
+                                                            <template if:true={item.isAccountWithOneChecked}>
                                                                 <template for:each={item.data} for:item='option' for:index='op'>
-                                                                    <div if:true={option.checked} key={option.key}>
-                                                                        <div class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
-                                                                    </div>
+                                                                    <template if:true={option.checked} key={option.key}>
+                                                                        <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
+                                                                    </template>
                                                                 </template>
-                                                            </div>
-                                                            <div if:true={isAccountWithGTOneChecked}>
+                                                            </template>
+                                                            <template if:true={item.isAccountWithGTOneChecked}>
                                                                 <!--<div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked +' '+ label.options}</div>-->
-                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked}' '{label.options}</div>
-                                                            </div>
-                                                        </div>
+                                                                <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{item.itemCheckedOptions}</div>
+                                                            </template>
+                                                        </template>
                                                     </template>
                                                     <div class="slds-button__icon arrow" aria-hidden="true">
                                                         <div class="button-arrow icon-arrowDown_small" id={label.Account}></div>
@@ -173,14 +181,14 @@
                                                 </button>
                                             </div>
                                             <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" role="dialog"> <!-- id="popover-unique-id-04" -->
-                                                <template for:each={filters} for:item='item' for:index='index'> 
-                                                    <div if:true={itemNameIsAccount} key={item.key}>        
+                                                <template for:each={filtersIteration} for:item='item' for:index='index'> 
+                                                    <div if:true={item.itemNameIsAccount} key={item.key}>        
                                                         <div class="slds-popover__body"> <!-- id="dialog-body-id-25"> -->
                                                             <fieldset class="slds-form-element">
                                                                 <div class="slds-form-element__control">
                                                                     <template for:each={item.data} for:item='account' for:index='accountindex'>
                                                                         <div class="slds-checkbox" key={account.value}>
-                                                                            <input type="checkbox" name={item.name} id={accountindex} value={account.value}  checked={account.checked} onclick={chekOptions}/>
+                                                                            <input type="checkbox" name={item.name} data-id={accountindex} value={account.value}  checked={account.checked} onclick={chekOptions}/>
                                                                             <!--<label class="slds-checkbox__label" for={account.displayValue + index}>-->
                                                                             <label class="slds-checkbox__label" for={account.displayValue}>
                                                                                 <span class="slds-checkbox_faux"></span>
@@ -197,8 +205,11 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="slds-col">
+                            <!-- </div> -->
+                            </td>
+                            <td width="5%"></td>
+                            <td width="45%">
+                            <!-- <div class="slds-col"> -->
                                 <!-- CURRENCY DROPDOWN MARKUP -->
                                 <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
                                 <div class="slds-form-element slds-combobox">
@@ -208,23 +219,23 @@
                                             <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
                                                 <button id ={label.Currency} disabled={isdisabled} class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" onclick={showDropdown}>
                                                     <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
-                                                    <template for:each={filters} for:item='item' for:index='index'>    
-                                                        <div key={item.key}>
-                                                            <div if:true={isCurrencyWithNooneChecked}>
-                                                                <div class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
-                                                            </div>
-                                                            <div if:true={isCurrencyWithOneChecked}>
+                                                    <template for:each={filtersIteration} for:item='item' for:index='index'>    
+                                                        <template key={item.key}>
+                                                            <template if:true={item.isCurrencyWithNooneChecked}>
+                                                                <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
+                                                            </template>
+                                                            <template if:true={item.isCurrencyWithOneChecked}>
                                                                 <template for:each={item.data} for:item='option' for:index='op'>
-                                                                    <div if:true={option.checked} key={option.key}>
-                                                                        <div class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
-                                                                    </div>
+                                                                    <template if:true={option.checked} key={option.key}>
+                                                                        <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
+                                                                    </template>
                                                                 </template>
-                                                            </div>
-                                                            <div if:true={isCurrencyWithGTOneChecked}>
-                                                                    <!--<div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked +' '+ label.options}</div>-->
-                                                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked}' '{label.options}</div>
-                                                            </div>
-                                                        </div>
+                                                            </template>
+                                                            <template if:true={item.isCurrencyWithGTOneChecked}>
+                                                                <!--<div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked +' '+ label.options}</div>-->
+                                                                <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{item.itemCheckedOptions}</div>
+                                                            </template>
+                                                        </template>
                                                     </template>
                                                     <div class="slds-button__icon arrow" aria-hidden="true">
                                                         <div class="button-arrow icon-arrowDown_small" id={label.Currency}></div>
@@ -233,14 +244,14 @@
                                                 </button>
                                             </div>
                                             <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" role="dialog"> <!-- id="popover-unique-id-04" -->
-                                                <template for:each={filters} for:item='item' for:index='index'>
-                                                    <div if:true={itemNameIsCurrency} key={item.key}>     
+                                                <template for:each={filtersIteration} for:item='item' for:index='index'>
+                                                    <div if:true={item.itemNameIsCurrency} key={item.key}>     
                                                         <div class="slds-popover__body"> <!-- id="dialog-body-id-25"> -->
                                                             <fieldset class="slds-form-element">
                                                                 <div class="slds-form-element__control">
                                                                     <template for:each={item.data} for:item='currency' for:index='currencyindex'>
                                                                         <div class="slds-checkbox" key={currency.value}>
-                                                                            <input type="checkbox" name={item.name} id={currencyindex} value={currency.value} checked={currency.checked}  onclick={chekOptions} />
+                                                                            <input type="checkbox" name={item.name} data-id={currencyindex} value={currency.value} checked={currency.checked}  onclick={chekOptions} />
                                                                             <!--<label class="slds-checkbox__label" for={currency + index}>-->
                                                                             <label class="slds-checkbox__label" for={currency}>
                                                                                 <span class="slds-checkbox_faux"></span>
@@ -257,13 +268,17 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            <!-- </div> -->
+                            </td>
+                        <!-- </div> -->
+                        </table>
                     </template>
                     
-                    <div class="slds-row">
+                    <table>
+                    <!--<div class="slds-row">-->
                         <!-- BOOK DATE CALENDAR -->
-                        <div class="slds-col">
+                        <td width={tam}>
+                        <!--<div class="slds-col">-->
                             <div class="slds-form-element"> 
                                 <div class="slds-form slds-form_compound calendar">
                                     <div class="slds-form-element__label slds-form-element__legend textLabel ">{label.bookDate}</div> 
@@ -289,7 +304,9 @@
                                     </fieldset>
                                 </div>
                             </div>
-                        </div>
+                        <!--</div>-->
+                        </td>
+                        <td width="5%"></td>
                         <!--<template if:true={isinstantaccount}>
                                                
                             <div class="slds-col doblecheck">
@@ -313,9 +330,10 @@
                             </div>
                         </template>-->
                         
+                            <td width="45%">
                         <template if:false={isinstantaccount}>
-                        
-                            <div class="slds-col">
+                            
+                            <!--<div class="slds-col">-->
                                 <!-- CATEGORY DROPDOWN MARKUP -->
                                 <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
                                 <div class="slds-form-element slds-combobox">
@@ -324,24 +342,24 @@
                                             <div class="slds-combobox_container slds-combobox__check ">
                                                 <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
                                                     <button id ={label.Category} class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" onclick={showDropdown}>
-                                                        <template for:each={filters} for:item='item' for:index='index'>   
-                                                            <div key={item.key}>
+                                                        <template for:each={filtersIteration} for:item='item' for:index='index'>   
+                                                            <template key={item.key}>
                                                                 <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
-                                                                <div if:true={isCategoryWithNooneChecked}>
-                                                                    <div class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
-                                                                </div>
-                                                                <div if:true={isCategoryWithOneChecked}>
+                                                                <template if:true={item.isCategoryWithNooneChecked}>
+                                                                    <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{label.multipleChoice}</div>
+                                                                </template>
+                                                                <template if:true={item.isCategoryWithOneChecked}>
                                                                     <template for:each={item.data} for:item='option' for:index='op'>
-                                                                        <div if:true={option.checked} key={option.key}>
-                                                                            <div class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
-                                                                        </div>
+                                                                        <template if:true={option.checked} key={option.key}>
+                                                                            <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{option.displayValue}</div>
+                                                                        </template>
                                                                     </template>
-                                                                </div>
-                                                                <div if:true={isCategoryWithGTOneChecked}>
-                                                                        <!--<div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked +' '+ label.options}</div>-->
-                                                                        <div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked}' '{label.options}</div>
-                                                                </div>
-                                                            </div>
+                                                                </template>
+                                                                <template if:true={item.isCategoryWithGTOneChecked}>
+                                                                    <!--<div class="slds-border_right orderSelected selectedValue-placeholder">{item.numberChecked +' '+ label.options}</div>-->
+                                                                    <div key={item.key} class="slds-border_right orderSelected selectedValue-placeholder">{item.itemCheckedOptions}</div>
+                                                                </template>
+                                                            </template>
                                                         </template>
                                                         <div class="slds-button__icon arrow" aria-hidden="true">
                                                             <div class="button-arrow icon-arrowDown_small" id={label.Category}></div>
@@ -350,14 +368,14 @@
                                                     </button>
                                                 </div>
                                                 <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" role="dialog"> <!-- id="popover-unique-id-04" -->
-                                                    <template for:each={filters} for:item='item' for:index='index'>   
-                                                        <div if:true={itemNameIsCategory} key={item.key}>
+                                                    <template for:each={filtersIteration} for:item='item' for:index='index'>   
+                                                        <div if:true={item.itemNameIsCategory} key={item.key}>
                                                             <div class="slds-popover__body"> <!-- id="dialog-body-id-25"> -->
                                                                 <fieldset class="slds-form-element" >
                                                                     <div class="slds-form-element__control">
                                                                         <template for:each={item.data} for:item='category' for:index='categoryindex'>
                                                                             <div class="slds-checkbox" key={category.value}>
-                                                                                <input type="checkbox" name={item.name} id={categoryindex} value={category.value} checked={category.checked} onclick={chekOptions}/>
+                                                                                <input type="checkbox" name={item.name} data-id={categoryindex} value={category.value} checked={category.checked} onclick={chekOptions}/>
                                                                                 <!--<label class="slds-checkbox__label" for={category.value + categoryindex}>-->
                                                                                 <label class="slds-checkbox__label" for={category.value}>
                                                                                     <span class="slds-checkbox_faux"></span>
@@ -374,72 +392,97 @@
                                             </div>
                                         </div>
                                     </div>
-                            </div>
+                            <!--</div>-->
+                            
                         </template>
-                    </div> 
+                        </td>
+                    <!--</div> -->
+                    </table>
                     
                     <!-- Type of transaction -->
                     <template if:true={isNotEndOfDayNorInstantAccount}>
-                    
-                        <div class="slds-row">
-                            <div class="slds-col doblecheck">
-                                <label class="slds-form-element__label" for="text-input-id-1">{label.TypeOfTransacction}</label>
-                                <div class="slds-form-element slds-form-element__doblecheck">
-                                    <div class="slds-checkbox">
-                                        <input type="checkbox" id="debitInput2" name="debitCheck" value={formFilters.debit} checked={formFilters.debit} onclick={getFormFilters} />
-                                        <label class="slds-checkbox__label" for="debitInput">
-                                            <span class="slds-checkbox_faux"></span>
-                                            <span class="slds-form-element__label">{label.Debit}</span>
-                                        </label>
+                        <table class="dropdownTable2">
+                            <td width="45%">
+                            <!-- <div class="slds-row"> -->
+                                <!--<div class="slds-col doblecheck">
+                                    <label class="slds-form-element__label" for="text-input-id-1">{label.TypeOfTransacction}</label>
+                                    <div class="slds-form-element slds-form-element__doblecheck">
+                                        <div class="slds-checkbox">
+                                            <input type="checkbox" id="debitInput2" name="debitCheck" value={formFilters.debit} checked={formFilters.debit} onclick={getFormFilters} />
+                                            <label class="slds-checkbox__label" for="debitInput">
+                                                <span class="slds-checkbox_faux"></span>
+                                                <span class="slds-form-element__label">{label.Debit}</span>
+                                            </label>
+                                        </div>
+                                        <div class="slds-checkbox"> 
+                                            <input type="checkbox" id="creditInput2" name="creditCheck" value={formFilters.credit} checked={formFilters.credit} onclick={getFormFilters} /> 
+                                            <label class="slds-checkbox__label" for="creditInput">
+                                                <span class="slds-checkbox_faux"></span>
+                                                <span class="slds-form-element__label">{label.MovementHistory_Credit}</span>
+                                            </label>
+                                        </div>
                                     </div>
-                                    <div class="slds-checkbox"> 
-                                        <input type="checkbox" id="creditInput2" name="creditCheck" value={formFilters.credit} checked={formFilters.credit} onclick={getFormFilters} /> 
-                                        <label class="slds-checkbox__label" for="creditInput">
-                                            <span class="slds-checkbox_faux"></span>
-                                            <span class="slds-form-element__label">{label.MovementHistory_Credit}</span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- Amount -->
-                            <div class="slds-col">
-                                <div class="slds-form-element input_text">
-                                    <label class="slds-form-element__label" for="text-input-id-1">{label.amount}</label>
-                                    <div class="input_text__combo">
-                                        <template for:each={filters} for:item='item' for:index='index'>
-                                            <div if:true={itemNameIsAmount} key={item.key}>
-                                                <div class="slds-form-element__control">
-                                                    <input type="number" data-id="AmountFrom" placeholder={label.from} class="slds-input" value={item.value.from} onblur={saveData} /> <!-- id="AmountFrom" -->
-                                                        <div  class="slds-form-element__help clr-red">
-                                                            <div if:true={isAmountErrorAndNotFormatError}>
-                                                                {label.toAmountLowerThanFrom}
-                                                            </div>
-                                                            <div if:true={showFormatError}>
-                                                                {label.amountLowerThanZero}
-                                                            </div>
-                                                        </div>   
+                                </div>-->
+                                <!-- Amount -->
+
+                                <!-- <div class="slds-col"> -->
+                                    <div class="slds-form-element input_text">
+                                        <label class="slds-form-element__label" for="text-input-id-1">{label.amount}</label>
+                                        <div class="input_text__combo">
+                                            <template for:each={filtersIteration} for:item='item' for:index='index'>
+                                                <div if:true={item.itemNameIsAmount} key={item.key}>
+                                                    <table>
+                                                    <td width="50%">
+                                                        <!--<input type="number" data-id="AmountFrom" placeholder={label.from} class="slds-input" value={item.selectedFilters.from} onblur={saveData} />-->
+                                                        <input type="number" data-id="AmountFrom" placeholder={label.from} class="slds-input" value={amountZero} onblur={saveData} />  
+                                                            <div  class="slds-form-element__help clr-red">
+                                                                <div if:true={isAmountErrorAndNotFormatError}>
+                                                                    {label.toAmountLowerThanFrom}
+                                                                </div>
+                                                                <div if:true={showFormatError}>
+                                                                    {label.amountLowerThanZero}
+                                                                </div>
+                                                            </div>   
+                                                    </td>
+                                                    <td width="50%">
+                                                    <div class="slds-form-element__control">
+                                                        <!--<input type="number" data-id="AmountTo" placeholder={label.to} class="slds-input" value={item.selectedFilters.to} onblur={saveData}/> -->
+                                                        <input type="number" data-id="AmountTo" placeholder={label.to} class="slds-input" value={amountOne} onblur={saveData}/> 
+                                                    </div>
+                                                    </td>
+                                                    </table>
                                                 </div>
-                                                <div class="slds-form-element__control">
-                                                    <input type="number" data-id="AmountTo" placeholder={label.to} class="slds-input" value="35" onblur={saveData}/> <!-- onkeyup={saveData}/>-->
-                                                </div>
+                                            </template>
+                                            <!--<div class="slds-form-element__control">
+                                                <input type="number" id="AmountFrom2" data-id="AmountFrom2" placeholder={label.from} class="slds-input" onblur={saveData2} value={amountZero}/>
+                                                <div class="slds-form-element__help clr-red">
+                                                    <div if:true={isAmountErrorAndNotFormatError}>
+                                                        {label.toAmountLowerThanFrom}
+                                                    </div>
+                                                    <div if:true={showFormatError}>
+                                                        {label.amountLowerThanZero}
+                                                    </div>
+                                                </div>   
                                             </div>
-                                        </template>
+                                            <div class="slds-form-element__control">
+                                                <input type="number" id="AmountTo2" data-id="AmountTo2" placeholder={label.to} class="slds-input" onblur={saveData2} value={amountOne}/>
+                                            </div>-->
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
+                                <!-- </div>
+                            </div> -->
+                            </td>
+                            <td width="55%"></td>
+                        </table>
                     </template>
                     <template if:true={isinstantaccount}>
                         <!-- Amount -->
                         <div class="slds-col">
                             <div class="slds-form-element input_text">
                                 <label class="slds-form-element__label" for="text-input-id-1">{label.amount}</label>
-                                <!--<div class="slds-form-element__label slds-form-element__legend textLabel ">{label.amount}</div>-->
                                     <div class="input_text__combo">
-                                        
                                         <div class="slds-form-element__control">
                                             <input type="number" id="AmountFrom" data-id="AmountFrom" placeholder={label.from} class="slds-input" onblur={saveData} value={amountZero}/>
-                                            <!--<lightning-input type="number" id="AmountFrom" data-id="AmountFrom" placeholder={label.from} onblur={saveData} value={amountZero}></lightning-input>-->
                                             <div class="slds-form-element__help clr-red">
                                                 <div if:true={isAmountErrorAndNotFormatError}>
                                                     {label.toAmountLowerThanFrom}
@@ -451,7 +494,6 @@
                                         </div>
                                         <div class="slds-form-element__control">
                                             <input type="number" id="AmountTo" data-id="AmountTo" placeholder={label.to} class="slds-input" onblur={saveData} value={amountOne}/>
-                                            <!--<lightning-input type="number" id="AmountTo" data-id="AmountTo" placeholder={label.to} onblur={saveData} value={amountOne}></lightning-input>-->
                                         </div>
                                     </div>
                             </div>
@@ -461,27 +503,34 @@
                     
                     <template if:true={isNotEndOfDayNorInstantAccount}>
                     
-                        <div class="slds-row">
+                        <!--<div class="slds-row">-->
+                        <table>
                             <!-- Client reference free text -->
-                            <div class="slds-col">
+                            <td>
+                            <!--<div class="slds-col">-->
                                 <div class="slds-form-element textarea">
                                     <label class="slds-form-element__label" for="textarea-id-01">{label.ClientReference}</label>
                                     <div class="slds-form-element__control">
-                                        <textarea id="clientRefInput" class="slds-textarea" placeholder={label.WriteAClienteReference} onchange={getFormFilters}>{formFilters.clientRef}</textarea>
+                                        <!--<textarea id="clientRefInput" class="slds-textarea" placeholder={label.WriteAClienteReference} onchange={getFormFilters}>{formFilters.clientRef}</textarea>-->
+                                        <textarea id="clientRefInput" class="slds-textarea" placeholder={label.WriteAClienteReference} onchange={getFormFilters}>{clientref}</textarea>
                                     </div>
                                 </div>
-                            </div>
-                            
+                            <!--</div>-->
+                            </td>
                             <!-- Description free text -->
-                            <div class="slds-col">
+                            <td>
+                            <!--<div class="slds-col">-->
                                 <div class="slds-form-element textarea">
                                     <label class="slds-form-element__label" for="textarea-id-01">{label.MovementHistory_Description}</label>
                                     <div class="slds-form-element__control">
-                                        <textarea id="descriptionInput" class="slds-textarea" placeholder={label.WriteAWordOfDescription} onchange={getFormFilters}>{formFilters.description}</textarea>
+                                        <!--<textarea id="descriptionInput" class="slds-textarea" placeholder={label.WriteAWordOfDescription} onchange={getFormFilters}>{formFilters.description}</textarea>-->
+                                        <textarea id="descriptionInput" class="slds-textarea" placeholder={label.WriteAWordOfDescription} onchange={getFormFilters}>{descrip}</textarea>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
+                            <!--</div>-->
+                            </td>
+                        </table>    
+                        <!--</div>-->
                     </template>
                 </div>
             </div>

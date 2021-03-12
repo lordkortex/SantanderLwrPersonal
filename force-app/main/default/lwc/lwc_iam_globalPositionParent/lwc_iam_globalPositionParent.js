@@ -162,6 +162,13 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
         }
     }
 
+    onlastupdateselected(event){
+        // para comunidades cash nexus cambiar de lastUpdate a end of day
+        this.lastupdateselected = event.detail;
+        this.handleDoInit();
+    }
+
+
     updateCurrencies(event){
         var newValue = event.getParam('value');
         var oldValue = event.getParam('oldValue');
@@ -324,7 +331,7 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
                 }else { 
                     thisp.userId = uId;
                     if(thisp.comunidadCashNexus){
-                        thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveData',actionparameters:{isEndOfDay: !this.lastupdateselected,globalId: thisp.userId}});
+                        thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveData',actionparameters:{isEndOfDay: !thisp.lastupdateselected,globalId: thisp.userId}});
                     }else{
                         thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveIAMData',actionparameters:{isEndOfDay: false, globalId: thisp.userId}});
                     }
@@ -333,7 +340,7 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
             .catch(error => {
                 console.log('### lwc_iam_globalPositionParent ### decrypt() ::: Try Error: ' + error);
                 if(thisp.comunidadCashNexus){
-                    thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveData',actionparameters:{isEndOfDay: !this.lastupdateselected,globalId: thisp.userId}});
+                    thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveData',actionparameters:{isEndOfDay: !thisp.lastupdateselected,globalId: thisp.userId}});
                 }else{
                     thisp.template.querySelector("c-lwc_service-component").onCallApex({callercomponent:'lwc_iam_globalPositionParent',controllermethod:'retrieveIAMData',actionparameters:{isEndOfDay: false, globalId: thisp.userId}});
                 }
@@ -419,24 +426,25 @@ export default class Lwc_iam_globalPositionParent extends LightningElement {
     encryptInitialData(data){
         try{
             var result="null";
+            var thisp = this;
             return new Promise(function (resolve, reject) {
                 encryptData({str : JSON.stringify(data.value)})
                 .then((value) => {
                     result = value;
                     if(result!='null' && result!=undefined && result!=null){
                         
-                        if(this.comunidadCashNexus)
+                        if(thisp.comunidadCashNexus)
                         {
-                            if(this.lastupdateselected){
-                                window.localStorage.setItem(this.userId + '_' + 'balanceGP', result);
-                                window.localStorage.setItem(this.userId + '_' + 'balanceTimestampGP', new Date());   
+                            if(thisp.lastupdateselected){
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceGP', result);
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceTimestampGP', new Date());   
                             }else{
-                                window.localStorage.setItem(this.userId + '_' + 'balanceEODGP', result);
-                                window.localStorage.setItem(this.userId + '_' + 'balanceEODTimestampGP', new Date());
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceEODGP', result);
+                                window.localStorage.setItem(thisp.userId + '_' + 'balanceEODTimestampGP', new Date());
                             }
                         }else{                        
-                            window.localStorage.setItem( this.userId + '_' + 'balanceGP', result);
-                            window.localStorage.setItem( this.userId + '_' + 'balanceTimestampGP', new Date());
+                            window.localStorage.setItem( thisp.userId + '_' + 'balanceGP', result);
+                            window.localStorage.setItem( thisp.userId + '_' + 'balanceTimestampGP', new Date());
                         }
                     }
                     resolve(result);

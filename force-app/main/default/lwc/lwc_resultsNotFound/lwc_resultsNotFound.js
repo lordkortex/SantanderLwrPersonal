@@ -2,7 +2,7 @@ import { LightningElement, api } from 'lwc';
 
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 // Import styles
-import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 
 import NoFoundResults from '@salesforce/label/c.NoFoundResults';
 import NoFoundResultsDescription from '@salesforce/label/c.NoFoundResultsDescription';

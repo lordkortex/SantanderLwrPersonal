@@ -38,16 +38,17 @@
         <c-lwc_cn_title-subtitle
             title={label.Accounts}
             subtitle={label.Transactions_AccountTransactions}
+            comesfromtracker={comesfromtracker}
             firenavigationevent={firenavigationevent} 
             onnavigateback={navigateBack}>
         </c-lwc_cn_title-subtitle>       
-          
+
         <c-lwc_cn_title-subtitle-totals
             accountdetails={accountDetails}
             accountocopy={accountDetails.accountNumber} 
             filters={filters}
             showlatestinformationtimestamp="true" 
-            lastupdate="true" 
+            lastupdate={lastUpdate} 
             isaccounttransactions={isaccounttransactions} 
             showtotals="true"
             showaccountdetaillink="true" >
@@ -65,23 +66,28 @@
                 dates={dates} 
                 numberactivefilters={numberActiveFilters} 
                 isdisabled="true" 
-                isacctransactions="true" 
-                endofday={endofday}
+                isacctransactions={isacctransactions} 
+                endofday={isEndOfDay}
                 fromdate={fromDate} 
                 todate={toDate} 
                 fromamount={fromamount}
                 toamount={toamount}
+                clientref={clientref}
+                descrip={descrip}
                 convertdatestousertimezone={isconvertdatestousertimezone} 
-                isinstantaccount="true"
+                isinstantaccount={isinstantaccount}
+                iscomunidadcashnexus={isComunidadCashNexus}
                 onfireadvancedfilter={filterTableData} 
                 onclearallfilters={clearallfilters}
                 onclosemodalfilters={closemodalfilters}
+                ononoptionselection={ononoptionselection}
                 >
             </c-lwc_account_transactions-modal-form-filter> 
 
         </template>
 
         <!-- FILTER COMPONENT -->
+         
         <template if:true={isNotEbury}>
             <c-lwc_cn_filters
                 data-id="filterComponent" 
@@ -143,30 +149,82 @@
                 onsearchagain={getUpdatedData}>
             </c-lwc_results-not-found> 
         </template>
-       <template if:false={tableContent}>   
+        <template if:false={tableContent}>         
 
-            <c-lwc_account-transactions-table
-                sourcepage="globalBalance" 
-                accountdetails={accountDetails}  
-                transactionresults={transactionResults.listaObtTransacciones} 
-                filters={filters} 
-                dates={dates} 
-                sortbookdate={sortBookDate} 
-                sortamount={sortamount} 
-                sortcategory={sortCategory} 
-                selectedfilters={selectedFilters} 
-                maximumrecords={maximumRecords}
-                userpreferreddateformat={userPreferredDateFormat} 
-                userpreferrednumberformat={userPreferredNumberFormat}  
-                selectedtimeframe={selectedTimeframe} 
-                formfilters={formFilters} 
-                isiam="true" 
-                listofpages={listOfPages} 
-                currentpagenumber={currentPage} 
-                onsortcolumn={sortBy} 
-                ongetpageevent={pageChanged}>
-            </c-lwc_account-transactions-table> 
-        
+            <template if:true={isComunidadCashNexus}>
+                <template if:false={_isAdvancedSearch}>
+                    <c-lwc_account-transactions-table
+                        sourcepage="globalBalance" 
+                        accountdetails={accountDetails}  
+                        transactionresults={islistaObtTransaccionesCero} 
+                        wholetransactionresults={islistaObtWholeTransaccionesCero}
+                        filters={filters} 
+                        dates={dates} 
+                        sortbookdate={sortBookDate} 
+                        sortamount={sortamount} 
+                        sortcategory={sortCategory} 
+                        selectedfilters={selectedFilters} 
+                        maximumrecords={maximumRecords}
+                        userpreferreddateformat={userPreferredDateFormat} 
+                        userpreferrednumberformat={userPreferredNumberFormat}  
+                        selectedtimeframe={selectedTimeframe} 
+                        formfilters={formFilters} 
+                        isiam="true" 
+                        listofpages={listOfPages} 
+                        currentpagenumber={currentPage} 
+                        onsortcolumn={sortBy} 
+                        ongetpageevent={pageChanged}>
+                    </c-lwc_account-transactions-table>
+                </template>
+                <template if:true={_isAdvancedSearch}>
+                    <c-lwc_account-transactions-table
+                        sourcepage="globalBalance" 
+                        accountdetails={accountDetails}  
+                        transactionresults={transactionResults.obtTransacBusqueda} 
+                        wholetransactionresults={wholeTransactionResults.obtTransacBusqueda}
+                        filters={filters} 
+                        dates={dates} 
+                        sortbookdate={sortBookDate} 
+                        sortamount={sortamount} 
+                        sortcategory={sortCategory} 
+                        selectedfilters={selectedFilters} 
+                        maximumrecords={maximumRecords}
+                        userpreferreddateformat={userPreferredDateFormat} 
+                        userpreferrednumberformat={userPreferredNumberFormat}  
+                        selectedtimeframe={selectedTimeframe} 
+                        formfilters={formFilters} 
+                        isiam="true" 
+                        listofpages={listOfPages} 
+                        currentpagenumber={currentPage} 
+                        onsortcolumn={sortBy} 
+                        ongetpageevent={pageChanged}>
+                    </c-lwc_account-transactions-table>
+                </template>
+            </template>
+
+            <template if:false={isComunidadCashNexus}>
+                <c-lwc_account-transactions-table
+                    sourcepage="globalBalance" 
+                    accountdetails={accountDetails}  
+                    transactionresults={transactionResults.listaObtTransacciones} 
+                    filters={filters} 
+                    dates={dates} 
+                    sortbookdate={sortBookDate} 
+                    sortamount={sortamount} 
+                    sortcategory={sortCategory} 
+                    selectedfilters={selectedFilters} 
+                    maximumrecords={maximumRecords}
+                    userpreferreddateformat={userPreferredDateFormat} 
+                    userpreferrednumberformat={userPreferredNumberFormat}  
+                    selectedtimeframe={selectedTimeframe} 
+                    formfilters={formFilters} 
+                    isiam="true" 
+                    listofpages={listOfPages} 
+                    currentpagenumber={currentPage} 
+                    onsortcolumn={sortBy} 
+                    ongetpageevent={pageChanged}>
+                </c-lwc_account-transactions-table> 
+            </template>
         
         </template> 
 

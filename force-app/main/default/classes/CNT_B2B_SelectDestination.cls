@@ -377,7 +377,7 @@ global with sharing class CNT_B2B_SelectDestination {
                 if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
                     sourceCustomerId = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
-                value = exchangeRate.execute(1, null, currency1, currency2, paymentDraft.sourceAccount.alias, paymentDraft.sourceAccount.aliasEntidad,sourceCustomerId, paymentDraft.sourceAccount.country, paymentDraft.sourceAccount.codigoBic);
+                value = exchangeRate.execute(5, null, currency1, currency2, paymentDraft.sourceAccount.alias, paymentDraft.sourceAccount.aliasEntidad,sourceCustomerId, paymentDraft.sourceAccount.country, paymentDraft.sourceAccount.codigoBic);
             } else {
                 value.put('sameCurrencies', true);
             }
