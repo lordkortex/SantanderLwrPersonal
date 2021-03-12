@@ -15,8 +15,8 @@ History
 
     <aura:attribute name="settledErrorFrom" type="String"/>
     <aura:attribute name="settledErrorTo" type="String"/>
-    <!--<aura:handler name="change" value="{!v.settledTo}" action="{!c.updatePlaceHolder}"/>
-    <aura:handler name="change" value="{!v.settledFrom}" action="{!c.updatePlaceHolder}"/>-->
+    <aura:handler name="change" value="{!v.settledTo}" action="{!c.updatePlaceHolder}"/>
+    <aura:handler name="change" value="{!v.settledFrom}" action="{!c.updatePlaceHolder}"/>
 
     <aura:registerEvent name="updateFilterDropdown" type="c:EVT_updateFilter" />
 

@@ -103,7 +103,7 @@ History
                                 </aura:set>
                             </aura:if>
                             <!--Table-->
-                            <c:CMP_IPTTable aura:id="paymentsTable" isOneTrade="{!v.isOneTrade}" filters="{!v.filters}" fromCashNexus="{!v.fromCashNexus}" fromDetail="{!v.fromDetail}" fullAccountList="{!v.accountList}"/>
+                            <c:CMP_IPTTable aura:id="paymentsTable" isOneTrade="{!v.isOneTrade}" filters="{!v.filters}" fromCashNexus="{!v.fromCashNexus}" fromDetail="true" fullAccountList="{!v.accountList}"/>
                         </aura:if>
                           
                         <aura:set attribute="else">

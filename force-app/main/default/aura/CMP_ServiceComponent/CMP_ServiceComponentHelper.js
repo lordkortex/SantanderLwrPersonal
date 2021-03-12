@@ -4,11 +4,13 @@
         // in the server-side controller
         var action = component.get(controllerMethod);
         action.setParams(actionParameters);
+        console.log("yyyy");
         
         // Create a callback that is executed after 
         // the server-side action returns
         action.setCallback(this, function(response) {
             var state = response.getState();
+            console.log("state: "+state);
             if (state === "SUCCESS") {
                 //->HERE WE CALL THE CALLBACK RATHER PROCESS THE RESPONSE
                 successCallback(component, response.getReturnValue());
@@ -26,8 +28,6 @@
                     } else {
                         console.log("Unknown error");
                     }
-                    successCallback(component, 'ERROR');
-
                 }
         });
         
@@ -44,18 +44,20 @@
             // create a one-time use instance of the serverEcho action
             // in the server-side controller
             var action = component.get(controllerMethod);
-            action.setParams(actionParameters);            
+            action.setParams(actionParameters);
+            console.log("yyyy");
+            
             // Create a callback that is executed after 
             // the server-side action returns
             action.setCallback(this, function(response) {
                 var state = response.getState();
+                console.log("state: "+state);
                 if (state === "SUCCESS") {
                     //->HERE WE CALL THE CALLBACK RATHER PROCESS THE RESPONSE
                     successCallback(component,helper, response.getReturnValue());
                 }
                 else if (state === "INCOMPLETE") {
                     // do something
-                    
                 }
                     else if (state === "ERROR") {
                         var errors = response.getError();
@@ -67,8 +69,6 @@
                         } else {
                             console.log("Unknown error");
                         }
-                        
-                        
                     }
             });
             
@@ -186,6 +186,7 @@
                 action.setCallback(this, function(response) {
 
                 var state = response.getState();
+                console.log(state);
                 if (state === "ERROR") {
                     var errors = response.getError();
                     if (errors) {
@@ -248,9 +249,6 @@
                             if(key == "balanceEODGP"){
                                 window.localStorage.setItem(userId + '_balanceEODTimestampGP', new Date());
                             }
-                            else if(key == "balanceGP"){
-                                window.localStorage.setItem(userId + '_balanceTimestampGP', new Date());
-                            }
                             return {key : data};
                         }
                     }
@@ -281,9 +279,6 @@
             let timestamp = window.localStorage.getItem(userId + '_' + key + '_timestamp');
             if(key == "balanceEODGP"){
                 timestamp = window.localStorage.getItem(userId + '_balanceEODTimestampGP');
-            }
-            else if(key == "balanceGP"){
-                timestamp = window.localStorage.getItem(userId + '_balanceTimestampGP');
             }
             let isFreshData = timestamp != 'null' && timestamp != undefined && ((new Date() - new Date(Date.parse(timestamp))) < parseInt($A.get("$Label.c.refreshBalanceCollout"))*60000); 
             if(data != undefined && data != "undefined" && isFreshData){
@@ -318,4 +313,8 @@
             console.error(e);
         }
     }
+
+        
+
+            
 })

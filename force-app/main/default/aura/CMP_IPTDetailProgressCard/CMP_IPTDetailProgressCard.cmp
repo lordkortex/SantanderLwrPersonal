@@ -60,39 +60,19 @@ History
                 <!-- BANK -->
                 <div class="{!'slds-media__body colBank' + v.FXLabel}">
                     <div class="{!'slds-card__header-title slds-truncate ' + v.textBold}">
-                        <aura:if isTrue="{!v.item.bank == undefined}">
-                            {!$Label.c.undefined}
-                        <aura:set attribute="else">
-                            {!v.item.bank}
-                        </aura:set>
-                        </aura:if>
+                         {!v.item.bank}
                     </div>
                     <div class="{!'slds-card__header-title slds-truncate ' + v.textRegular}">
-                        <aura:if isTrue="{!v.item.bic == undefined}">
-                            {!$Label.c.undefined}
-                        <aura:set attribute="else">
-                            {!v.item.bic}
-                        </aura:set>
-                        </aura:if> 
+                         {!v.item.bic} 
                     </div>
                 </div>
                 <!-- CITY -->
                 <div class="{!'slds-media__body colCountry' + v.FXLabel}">
                     <div class="{!'slds-card__header-title slds-truncate ' + v.textBold}">
-                        <aura:if isTrue="{!v.item.city == undefined}">
-                            {!$Label.c.undefined}
-                        <aura:set attribute="else">
-                            {!v.item.city}
-                        </aura:set>
-                        </aura:if> 
+                         {!v.item.city} 
                     </div>
                     <div class="{!'slds-card__header-title slds-truncate ' +  v.textRegular}">
-                        <aura:if isTrue="{!v.item.countryName == undefined}">
-                            {!$Label.c.undefined}
-                        <aura:set attribute="else">
-                            {!v.item.countryName}
-                        </aura:set>
-                        </aura:if>
+                         {!v.item.countryName}  
                     </div>
                 </div>
                 <!-- DATE -->

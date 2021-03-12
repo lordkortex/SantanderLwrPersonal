@@ -2,6 +2,7 @@
 	onCallApex : function(component, event, helper) {
         //get the method parameters
         var params = event.getParams().arguments;
+        console.log(params);
         var callerComponent = params.component;
         var controllerMethod = params.controllerMethod;
         var actionParameters = params.actionParameters;
@@ -12,6 +13,7 @@
         onCallApex2 : function(component, event, helper) {
                 //get the method parameters
                 var params = event.getParams().arguments;
+                console.log(params);
                 var callerComponent = params.component;
                 var callerHelper = params.helper;
                 var controllerMethod = params.controllerMethod;
@@ -75,4 +77,5 @@
 
                 helper.handleRetrieveFromCache(component, callerHelper, callerComponent, key, successCallback);
         }
+
 })

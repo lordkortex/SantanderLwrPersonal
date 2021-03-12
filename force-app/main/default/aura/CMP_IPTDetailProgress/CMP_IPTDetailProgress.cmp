@@ -40,8 +40,7 @@ History
                             <div class="slds-media slds-media_center slds-has-flexi-truncate">
                                 <div class="{!'slds-media__body colBankTitle' + v.FXLabel}">
                                     <div class="slds-card__header-title titleCaps">
-                                        <!--{!$Label.c.Bank} &amp; {!$Label.c.BICFlow}-->
-                                        {!$Label.c.TrackerBank_BIC}
+                                        {!$Label.c.Bank} &amp; {!$Label.c.BICFlow}
                                     </div>
                                 </div>
                                 <div class="{!'slds-media__body colCountryTitle' + v.FXLabel}">

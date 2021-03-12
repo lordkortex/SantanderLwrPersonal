@@ -53,9 +53,6 @@
                         if(key == "MX"){
                             component.set("v.isMX", iReturn[key]);
                         }
-                        if(key == "PT"){
-                            component.set("v.isPT", iReturn[key]);
-                        }
                         if(key == "Other"){
                             component.set("v.isOther", iReturn[key]);
                         }
@@ -72,7 +69,6 @@
                     var pl = component.get("v.isPL");
                     var cl = component.get("v.isCL");
                     var mx = component.get("v.isMX");
-                    var pt = component.get("v.isPT");
                     var other = component.get("v.isOther");
                     
                     if(gb == true) {
@@ -89,9 +85,6 @@
                     }
                     if(mx == true) {
                         component.set("v.country", "MX");
-                    }
-                    if(pt == true) {
-                        component.set("v.country", "PT");
                     }
                     if(other == true) {
                         component.set("v.country", "Other");

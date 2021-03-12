@@ -14,8 +14,6 @@ History
     <aura:attribute name="isPL" type="Boolean" default="False" description="True if current user's BIC is from Poland"/>
     <aura:attribute name="isCL" type="Boolean" default="False" description="True if current user's BIC is from Chile"/>
     <aura:attribute name="isMX" type="Boolean" default="False" description="True if current user's BIC is from Mexico"/>
-    <aura:attribute name="isPT" type="Boolean" default="False" description="True if current user's BIC is from Portugal"/>
-
     <aura:attribute name="isOther" type="Boolean" default="False" description="True if current user's BIC is from other country"/>
     <aura:attribute name="country" type="String" description="Terms and conditions country"/>
     <aura:attribute name="language" type="String" default="english" description="User language"/>

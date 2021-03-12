@@ -1,5 +1,29 @@
 ({
     /*
+	Author:         Diego Asis
+    Company:        Deloitte
+	Description:    Init search if uetr comes in url.
+    History
+    <Date>			<Author>			<Description>
+    11/02/2021		Diego Asis   		Initial version
+    */
+    
+    doInit : function(component, event, helper){
+
+        var uetr;
+
+        if(window.location.search != "" && window.location.search.includes("uetr")) {
+            var lastEqual = window.location.search.lastIndexOf("=");
+            uetr = window.location.search.substring(lastEqual+1);
+        }
+
+        if(uetr != " " && uetr != undefined) {
+            component.set("v.searchValue", uetr);
+            helper.getData(component, event, helper, uetr);
+        }
+    },
+
+    /*
 	Author:         Adrian Muñio
     Company:        Deloitte
 	Description:    Method to go to the previous page.
@@ -59,7 +83,7 @@
             }
 
             if (inputValue != component.get("v.searchValue") && valid && !$A.util.isEmpty(inputValue)) {
-                component.set('v.searchValue', inputValue);
+            component.set('v.searchValue', inputValue);
                 try{
                     helper.getData(component, event, helper, inputValue);
                 } catch (e) {

@@ -12,6 +12,7 @@
     <aura:attribute name="isIngested"  type="Boolean" default="true" description="Check if the payment is ingested in the system"/>
     <aura:attribute name="result"      type="Object"  description="result searching by UETR code"/>
     <aura:attribute name="comesFromTracker" type="Boolean" default="false" description="flag to check if back button is checked" />
+    <aura:attribute name="uetr" type="String"  default=""      description="Text entered by user"/>
     
     <!-- AM - 05/11/2020 - Portugal SSO Tracker -->
     <aura:attribute name="comesFromSSO" type="Boolean" default="false" description="flag to check if comes from SSO with params" />
@@ -25,7 +26,7 @@
             <aura:if isTrue="{!v.comesFromTracker}">
                 <c:CMP_IPTHeaderSearchUETR comesFromSSO="{!v.comesFromSSO}" searchValue = "{!v.searchValue}" isSearched = "{!v.isSearched}" noResults = "{!v.noResults}" result = "{!v.result}" isIngested = "{!v.isIngested}" comesFromTracker = "{!v.comesFromTracker}" showBackButton ="{!v.showBackButton}" /> 
                 <aura:set attribute="else">
-                    <c:CMP_IPTHeaderSearchUETRPublic searchValue = "{!v.searchValue}" isSearched = "{!v.isSearched}" noResults = "{!v.noResults}" result = "{!v.result}" isIngested = "{!v.isIngested}" comesFromTracker = "{!v.comesFromTracker}" />
+                    <c:CMP_IPTHeaderSearchUETRPublic searchValue = "{!v.searchValue}" isSearched = "{!v.isSearched}" noResults = "{!v.noResults}" result = "{!v.result}" isIngested = "{!v.isIngested}" comesFromTracker = "{!v.comesFromTracker}" uetr="{!uetr}"/>
                 </aura:set>
             </aura:if>
             

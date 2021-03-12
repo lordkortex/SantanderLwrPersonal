@@ -65,7 +65,7 @@ History
         </div>
     </aura:if>
 
-    <!-- GREAT BRITAIN -->
+    <!-- GREAT BRITAIN 
     <aura:if isTrue="{!v.country eq 'GB'}">
         <div class="slds-col titleContainer">
             <div class="slds-text-heading_medium">{!$Label.c.legalNotice}</div>
@@ -79,7 +79,7 @@ History
                 <p>{!$Label.c.legalNexus2}</p>
             </div>
         </div>
-    </aura:if>
+    </aura:if>-->
 
     <!-- CHILE -->
     <aura:if isTrue="{!v.country eq 'CL'}">
@@ -115,23 +115,6 @@ History
             </div>
         </div>
     </aura:if>
-    
-        <!-- PORTUGAL -->
-    <aura:if isTrue="{!v.country eq 'PT'}">
-        <div class="slds-col titleContainer">
-            <div class="slds-text-heading_medium">Informação legal</div>
-            <div class="text_line"></div>
-        </div> 
-
-        <div class="privacyInfoContainer">
-            <p>Banco Santander S.A. (doravante “Grupo Santander”), instituição financeira registada no Banco de Espanha com o número 0049, com sede social em Paseo de Pereda 9-12 Santander e com o número de identificação fiscal A-39000013.
-            </p>
-            <br></br>
-            <p>A informação contida neste site destina-se a pessoas, empresas, sociedades, trusts, pessoas singulares e coletivas ou qualquer outra entidade (doravante Pessoas) que isentam o Grupo Santander de qualquer responsabilidade pelo acesso de pessoas em jurisdições onde tal uso possa ser contrário à lei ou regulamento.
-            	<br></br>
-            </p>
-        </div>
-    </aura:if> 
     
     <!-- POLAND -->
     <aura:if isTrue="{!v.country eq 'PL'}">

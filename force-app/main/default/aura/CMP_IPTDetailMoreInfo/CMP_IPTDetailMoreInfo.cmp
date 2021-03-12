@@ -99,7 +99,7 @@ History
                     </div>
                     <div class="slds-card__header slds-col_GPI">
                         <div class="slds-card__header-subTitle">
-                            <div class="name"> {!$Label.c.ExtractSearch_Account} </div>
+                            <div class="name"> {!$Label.c.Account} </div>
                             <div class="information">
                                 <aura:if isTrue="{!v.iObject.beneficiaryAccountNumber == undefined}">
                                     {!$Label.c.undefined}

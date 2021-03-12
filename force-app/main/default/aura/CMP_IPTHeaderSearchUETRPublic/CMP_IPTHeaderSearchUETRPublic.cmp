@@ -11,8 +11,11 @@
     <aura:attribute name="iObject"	   type="Object"/>
     <aura:attribute name="result"      type="Object"                    description="result searching by UETR code"/>
     <aura:attribute name="comesFromTracker" type="Boolean" default="false" description="flag to check if back button is checked" />
+    <aura:attribute name="uetr" type="String"  default=" "        description="Text entered by user"/>
 
-<c:CMP_ServiceComponent aura:id="Service" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <c:CMP_ServiceComponent aura:id="Service" />
 
     <div class="slds-grid headerSearch">
         <div class="slds-align_absolute-center">

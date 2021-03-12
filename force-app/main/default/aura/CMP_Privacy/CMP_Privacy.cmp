@@ -296,7 +296,7 @@ History
         </div>
     </aura:if>
 
-    <!-- GREAT BRITAIN -->
+    <!-- GREAT BRITAIN 
     <aura:if isTrue="{!v.country eq 'GB'}">
         <div class="slds-col titleContainer">
             <div class="slds-text-heading_medium">{!$Label.c.privacy}</div>
@@ -325,7 +325,7 @@ History
                 <p>{!$Label.c.privacyNexus9}</p>
             </div>
         </div>
-    </aura:if>
+    </aura:if>-->
 
     <!-- CHILE -->
     <aura:if isTrue="{!v.country eq 'CL'}">
@@ -628,44 +628,6 @@ History
                  </p>
             </div>
         </div>
-    </aura:if>
-    
-         <!-- PORTUGAL -->
-    <aura:if isTrue="{!v.country eq 'PT'}">
-        <div class="slds-col titleContainer">
-            <div class="slds-text-heading_medium">Política de Privacidade</div>
-            <div class="text_line"></div>
-        </div>
-        <div class="privacyInfoContainer">
-            <div class="slds-text-body_regular">
-                <p>
-					O Banco Santander, S.A. elaborou uma política de privacidade, estabelecendo os meios e procedimentos necessários para a sua execução.                  <br></br>
-                </p>
-                <p>
-					De acordo com a Ley Orgánica de Protección de Datos de Carácter Personal (LO 15/1999 de 13 de dezembro), dados pessoais são entendidos como “toda a informação relativa a uma pessoa singular identificada ou identificável”.                   <br></br>
-                </p>
-				<p>
-                 	Os únicos dados pessoais aos quais o Banco Santander, S.A. terá acesso serão dados disponibilizados voluntariamente pelo utilizador. Nesse sentido, informamos desde já, que para a contratação de alguns produtos/serviços disponibilizados através da Internet serão solicitados os seus dados pessoais. Assim, nos casos em que os dados pessoais do utilizador sejam expressamente solicitados, se não os fornecer, não poderá aceder nem utilizar os respetivos serviços e conteúdos. A título de exemplo, podem ser solicitados dados de identificação, dados de solvência - quando exigidos pela natureza da operação - e quaisquer outros que, consoante o caso, sejam legalmente exigidos ou necessários para dar resposta a informações solicitadas ou para a prestação de um determinado serviço. Os dados de carácter voluntário são recolhidos pelo Banco Santander, S.A. para os fins indicados na cláusula de Proteção de Dados que será mencionada mais adiante. As políticas de privacidade de cada uma das filiais do Banco Santander estão disponíveis nos Avisos Legais nas suas respetivas páginas da internet.
-				 <br></br>
-                </p>
-				<p>
-					De acordo com a lei aplicável, o Banco Santander adotou medidas técnicas e organizativas adequadas para manter o nível de segurança exigido no tratamento dos dados pessoais. Está igualmente equipado de mecanismos precisos que pretendem evitar, na medida do possível, o tratamento não autorizado, alterações ilícitas, furto e perda de dados.				 <br></br>
-                	<br></br>
-                </p>
-                <p>
-                    Não obstante, se o utilizador publicar dados pessoais online que sejam acessíveis ao público, poderá receber mensagens não solicitadas de outras pessoas e, assim, dar a conhecer os seus dados pessoais a terceiros.
-                    <br></br>
-                </p>
-                <p>
-                    Pelas razões anteriormente mencionadas, recomenda-se a máxima diligência nesta matéria e o uso de todas as ferramentas de segurança que tenha à sua disposição, não sendo o Banco Santander responsável pelo furto, alterações ou perdas de dados realizados de forma ilícita.
-                    <br></br>
-                </p>
-                <p>
-                    O utilizador tem o direito de acesso aos dados que lhe digam respeito, bem como à sua retificação, de opor-se ao seu tratamento e de solicitar o seu apagamento, podendo exercer estes direitos por escrito ao cuidado da direção que figura na Cláusula de Proteção de Dados que será mencionada mais adiante. Pode igualmente revogar, a qualquer momento, a autorização que concedeu para a utilização ou transferência dos seus dados pessoais, sem prejuízo do direito do Banco Santander em cessar o contrato ou a operação em causa, quando tais dados pessoais sejam essenciais para a realização dos mesmos. Poderá também modificar os dados pessoais que, através das páginas da internet, tenha fornecido ao Banco Santander.
-                    <br></br>
-                </p>
-        	</div>
-    	</div>
     </aura:if>
 
     <!-- POLAND -->

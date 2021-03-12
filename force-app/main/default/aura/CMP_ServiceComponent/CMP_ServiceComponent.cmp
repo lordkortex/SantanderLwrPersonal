@@ -30,7 +30,7 @@
         <aura:attribute name="dataURI"         type="String" />
         <aura:attribute name="controllerMethod"      type="Object" />
     </aura:method>
-
+    
     <aura:method name="saveToCache" action="{!c.saveToCache}" description="Method to save data in the cache">
         <aura:attribute name="key"          type="String"         description="Reference to the current component, to allow the callback to work properly"/>
         <aura:attribute name="data"         type="Object"         description="Data to be saved to the cache"/>
@@ -42,5 +42,5 @@
         <aura:attribute name="key"                       type="String"           description="Key to pass the encrypted value to the cache"/>
         <aura:attribute name="successCallback"           type="Object"           description="Function which is called upon successful data retrieval"/>
     </aura:method>
-    
+
 </aura:component>

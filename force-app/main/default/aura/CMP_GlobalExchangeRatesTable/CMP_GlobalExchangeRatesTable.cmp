@@ -26,7 +26,7 @@
                 <div class="text_line"></div>
                 <div class="subtitle">{!$Label.c.currencyExchangeSourceBCE}</div> 
                 <aura:if isTrue="{!and(v.upToDate != undefined, v.upToHour != undefined)}">
-                	<div class="subtitle-date"> <c:CMP_displayDate aura:id="displayDate" convertToUserTimezone = "false" userDateFormat="{!v.userPreferredDateFormat}" dateClass=""  date="{!v.upToDate}"/>&nbsp;</div>
+                	<div class="subtitle-date"> <c:CMP_displayDate aura:id="displayDate" userDateFormat="{!v.userPreferredDateFormat}" dateClass=""  date="{!v.upToDate}"/>&nbsp;</div>
                     <aura:set attribute="else">
                         <div class="subtitle-date">N/A</div>
                     </aura:set>

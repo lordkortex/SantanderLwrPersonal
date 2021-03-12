@@ -7,6 +7,7 @@
     <Date>			<Author>		<Description>
     17/03/2020		R. Alexander Cervino     Initial version*/
     clear : function(component, event, helper) {
+        component.set("v.valuePlaceholder", $A.get("$Label.c.amount"));
         component.set("v.settledFrom","");
         component.set("v.settledTo","");
         helper.refreshInput(component, event, helper);
@@ -30,5 +31,9 @@
     17/03/2020		R. Alexander Cervino     Initial version*/
     apply : function(component, event, helper) {
         helper.validateSettled(component, event, helper);
+    },
+
+    updatePlaceHolder : function(component, event, helper) {
+        helper.updatePlaceHolder(component, event, helper);
     }
 })

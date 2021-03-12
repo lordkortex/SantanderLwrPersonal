@@ -18,7 +18,9 @@
                 var state = response.getState();
                 if (state === "SUCCESS") {
                     var iReturn = response.getReturnValue();
-                    component.set("v.iObject", iReturn);                    
+                    if(iReturn != null && iReturn != undefined && Object.keys(iReturn).length != 0)
+                    {
+                        component.set("v.iObject", iReturn);                    
                     var lgt = iReturn.stepList.length;
                     var i = 0;
                     var ok = false;
@@ -36,6 +38,12 @@
                         component.set("v.currentBank", iReturn.stepList[lgt-1].bank);
                     }
 
+                    }
+                    else
+                    {
+                        component.set("v.iObject", {});
+                    }
+                    
                 }
                 else{
                     var errors = response.getError();
@@ -481,7 +489,7 @@
             console.error(e);
         }
     },
-        /*
+         /*
 	Author:         R. Cervino
     Company:        Deloitte
     Description:    Method to get payment steps
@@ -489,8 +497,9 @@
     <Date>			<Author>			<Description>
 	27/02/2020		R. Cervino     	Initial version
     */    
-    getDataSteps : function(component,event,helper){
+         getDataSteps:function(component, event, helper) {
         try {
+   return new Promise($A.getCallback(function (resolve, reject) {        
             var action = component.get("c.getSteps");
 
             action.setParams({ "str" : component.get("v.iObject.uetr") }); 
@@ -498,7 +507,6 @@
             action.setCallback(this, function(response) {
                 var state = response.getState();
                 if (state === "ERROR") {
-                    
                     if(component.get("v.comesFromUETRSearch")){
                         component.set("v.UETRSearchResult", null);
                     }
@@ -518,12 +526,11 @@
                         component.set("v.showError", true);
                     }
                 }else if (state === "SUCCESS") {
-
                     var res = response.getReturnValue();
                     console.log(res);
 
                     if(res!='' && res!=undefined && res!=null){
-                        //var res = JSON.parse(result)
+                        
 
                         var iobj= component.get("v.iObject");
                         component.set("v.iObject.lastUpdate", res.lastUpdateTime);
@@ -531,7 +538,6 @@
                         component.set("v.iObject.instructedAmount", res.instructedAmount);
                         component.set("v.iObject.confirmedAmount", res.confirmedAmount);
 						
-                        console.log('InstructedAmount en steps');
                         var tempLog = component.get("v.iObject");
                         console.log(tempLog);
                                     
@@ -569,9 +575,9 @@
                                 step.departure=steps[i].senderAcknowledgementReceipt;
                                 step.foreignExchangeDetails=steps[i].foreignExchangeDetails;
 								
-                                //if(steps[i].receivedDate==''){
+                                
                                     component.set("v.iObject.currentBank", step.bank);
-                                //}
+                                
                                 if(steps[i].chargeAmountSingle!=undefined){
                                     if(steps[i].chargeAmountSingle.amount!=null && steps[i].chargeAmountSingle.amount!=0.0){
                                         step.feeApplied=true;
@@ -605,7 +611,7 @@
                             }   
 
                             if((iobj.status=='ACSP' || iobj.status=='RJCT') && iobj.beneficiaryAccountBic!=stepList[stepList.length-1].bic){
-                                //if(component.get("v.isPaymentIngested")){
+                                
                                     var step = [];
                                     step.bank=iobj.beneficiaryAccountBank;
                                     step.bic=iobj.beneficiaryAccountBic;
@@ -619,7 +625,7 @@
                                         step.lastStep2=true;
                                     }
                                     stepList.push(step);
-                                //}
+                                
                         	}else  if(iobj.status=='ACSP' && iobj.beneficiaryAccountBic==stepList[stepList.length-1].bic  && stepList[stepList.length-1].arrival!=null){
                                 if (stepList.length>1){
                                     stepList[stepList.length-2].lastStep=true;
@@ -646,7 +652,7 @@
                             iobj.fees=fees;
                             console.log(iobj.fees);
 
-                            //resolve(iobj);
+                            
                         }
                     }
                 }else{
@@ -660,6 +666,7 @@
             });
             helper.getReason(component,event, helper)
             $A.enqueueAction(action);
+        }));
         } catch(e) {
             component.set("v.showError", true);
             console.error(e);

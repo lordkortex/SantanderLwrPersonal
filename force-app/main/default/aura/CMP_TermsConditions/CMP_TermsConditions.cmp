@@ -1199,41 +1199,6 @@
         </aura:if>
     </aura:if>
 
-        <!-- PORTUGAL -->
-    <aura:if isTrue="{!v.country eq 'PT'}">
-        <aura:if isTrue="{!v.showModal}">
-            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open welcomePack">
-                <div class="slds-modal__container modalTerms">
-                    <header class="slds-modal__header">
-                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">CLÁUSULAS DE PROTEÇÃO DE DADOS</h2>
-                    </header>
-                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                        <div class="textContainer">
-                                <ul class="slds-list--dotted">
-                                	<li>O utilizador, no caso de ser pessoa singular, é informado que os dados pessoais aos quais o Banco Santander, S.A. tenha acesso como consequência de consultas, transações, operações, pedidos de contratação, contratação de produtos e serviços que se realizem por qualquer meio ou de processos informáticos relativos aos dados já registados, são incorporados no correspondente ficheiro do Banco Santander, SA, autorizando assim o tratamento daqueles que são necessários à sua utilização em relação ao desenvolvimento da operação ou serviço acordado que terão caráter obrigatório.</li>
-                                    <br></br>
-                                    <li>O utilizador fica informado do seu direito de acesso, oposição, retificação e apagamento dos seus dados pessoais nos termos da Lei, podendo exercer esses direitos por escrito, mediante carta acompanhada de cópia do Documento de Identidade, e dirigida ao Servicio de Atención al Cliente, Ciudad Grupo Santander, Avda. Cantabria, s/n, 28660 - Boadilla del Monte (Madrid), sendo o Banco Santander, S.A. o responsável pelo ficheiro, com domicílio para este efeito no endereço acima indicado.</li>
-                                </ul>
-                        </div>
-                    </div>
-                    <footer class="slds-modal__footer">
-                        <div class="slds-form-element__control">
-                            <div class="slds-checkbox" onchange="{!c.change}">
-                                <input type="checkbox" name="options" id="checkbox-unique-id-73" value="checkbox-unique-id-73" />
-                                <label class="slds-checkbox__label" for="checkbox-unique-id-73" data-title-top-left="Check">
-                                    <span class="slds-checkbox_faux" ></span>
-                                    <span class="slds-form-element__label checkboxLabel">{!$Label.c.acceptTerms}</span>
-                                </label>
-                            </div>
-                            <button class="slds-button redButton" disabled="{!v.buttonDisabled}" data-title="Continue" onclick="{!c.closeModal}">{!$Label.c.continue}</button>
-                        </div>
-                    </footer>
-                </div>
-            </section>
-            <div class="slds-backdrop slds-backdrop_open"></div>
-        </aura:if>
-    </aura:if>
-    
     <!-- POLAND -->
     <aura:if isTrue="{!v.country eq 'PL'}">
         <aura:if isTrue="{!v.showModal}">

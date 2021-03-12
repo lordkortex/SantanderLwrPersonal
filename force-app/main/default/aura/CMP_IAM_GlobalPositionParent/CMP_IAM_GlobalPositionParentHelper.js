@@ -19,14 +19,14 @@
             if(hasGlobalPositionAccess){
                 helper.getIsCashNexus(component, event);
                 helper.handleDoInit(component, event, helper);
-            } else {
+        	} else {
                 component.set("v.showNoAccessError", true);
-            }
+        	}
         } catch (e) {
             console.log(e);
         }   
     },
-    
+
     //SNJ - 23/04/2020 - Toast/Notification messages
     // DO NOT DELETE the following lines. They are hints to ensure labels are preloaded
     // $Label.c.ERROR_NOT_RETRIEVED
@@ -34,11 +34,11 @@
         component.set("v.loadingUserInfo", true);
         component.set("v.loadingData", true);
         var userId = $A.get( "$SObjectType.CurrentUser.Id" );
-        
+
         var storageBalance = window.localStorage.getItem(userId + '_' + 'balanceGP');
         var balanceTimestampGP = window.localStorage.getItem(userId + '_' + 'balanceTimestampGP');
         var sessionCheck = window.sessionStorage.getItem(userId + '_' + 'loadingScreenCheck');
-        
+
         //Check if we have the variable on the session cache, to show or not the first time welcome loading.
         //if(storageBalance != undefined || storageBalanceEOD != undefined){
         if(sessionCheck != undefined && sessionCheck != null){
@@ -47,7 +47,7 @@
             component.set("v.firstTimeLoading", true);
             window.sessionStorage.setItem(userId + '_' + 'loadingScreenCheck', true);
         }
-        
+
         //Check if its LU or EOD, if we have cache of them we decrypt it and if not we call the service.
         if(storageBalance != 'null' && storageBalance != undefined && balanceTimestampGP != 'null' && balanceTimestampGP != undefined && (new Date() - new Date(Date.parse(balanceTimestampGP))) < parseInt($A.get('$Label.c.refreshBalanceCollout'))*60000 ){
             helper.decryptInitialData(component, event, helper,  storageBalance);
@@ -55,14 +55,14 @@
             component.find("Service").callApex2(component,helper,"c.retrieveIAMData", {isEndOfDay: false, globalId: userId}, helper.handleInitialData);
         }
     },
-    
+
     /*Author:         R. Alexander Cervino
     Company:        Deloitte
     Description:    Method to encrypt data
     History
     <Date>			<Author>		<Description>
     21/05/2020		R. Alexander Cervino     Initial version*/
-    
+
     encryptInitialData : function(component, helper,data){
         try{
             var result="null";
@@ -94,7 +94,7 @@
             console.log(e);
         }
     },
-    
+
     setData : function(component, helper, response) {   
         var UserInfo = {};
         UserInfo.firstName = response;
@@ -103,7 +103,7 @@
         component.set("v.title", label);
         component.set("v.loadingUserInfo", false);
     },
-    
+
     /*
     Author:         Guillermo Giral
     Company:        Deloitte
@@ -113,7 +113,7 @@
     10/07/2020		Guillermo Giral     Initial version
     */
     handleInitialData : function(component, helper, response, decrypt) {
-        if(response && !response.isOneTrade)
+        if(!response.isOneTrade)
         {
             component.find("Service").callApex2(component,helper,"c.retrieveIAMData", {isEndOfDay: false, globalId: $A.get( "$SObjectType.CurrentUser.Id" )}, helper.handleInitialData);
         } else
@@ -264,15 +264,10 @@
                 component.set("v.toBeHiddenToast", false);
                 component.set("v.dataIsLoaded", true);
             }
-        }
-        
-        
-        
-        
-        
+        }                          
         }
     },
-    
+
     /*Author:      Shahad Naji
     Company:        Deloitte
     Description:    Method to notify an error
@@ -290,33 +285,33 @@
     updateUserCurrency : function(component,  helper) {
         try{
             if(component.get("v.selectedCurrency") != undefined){
-                
-                
-                var action = component.get("c.setUserCurrency");  
-                action.setParams({
-                    "currencyStr" : component.get("v.selectedCurrency")
-                });              
-                action.setCallback(this, function(response) {
-                    var state = response.getState();
-                    if (state === "SUCCESS") {
-                        var res = response.getReturnValue(); 
-                        
-                        this.updateCurrencies(component, helper);    
-                    }
-                    else{
-                        var errors = response.getError();
-                        if (errors) {
-                            if (errors[0] && errors[0].message) {
-                                console.log("Error message: " + 
-                                            errors[0].message);
-                            }
-                        } else {
-                            console.log("Unknown error");
+
+            
+            var action = component.get("c.setUserCurrency");  
+            action.setParams({
+                "currencyStr" : component.get("v.selectedCurrency")
+            });              
+            action.setCallback(this, function(response) {
+                var state = response.getState();
+                if (state === "SUCCESS") {
+                    var res = response.getReturnValue(); 
+                  
+                this.updateCurrencies(component, helper);    
+                }
+                else{
+                    var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log("Error message: " + 
+                                        errors[0].message);
                         }
+                    } else {
+                        console.log("Unknown error");
                     }
-                });
-                $A.enqueueAction(action);
-            }   
+                }
+            });
+            $A.enqueueAction(action);
+        }   
         }catch(e){
             console.log("CMP_GlobalPosition / updateCurrencies : " + e);
         }
@@ -337,183 +332,183 @@
                 element.totalBalance = element.bookBalanceMapped[component.get("v.selectedCurrency")];
                 elementList.push(element);
             });
-                component.set("v.countryGroupResponse", elementList);
-                
-                elementList = [];
-                component.get("v.corporateGroupResponse").forEach((element) => {
+            component.set("v.countryGroupResponse", elementList);
+            
+            elementList = [];
+            component.get("v.corporateGroupResponse").forEach((element) => {
                 element.availableBalance = element.avaibleBalanceMapped[component.get("v.selectedCurrency")];
                 element.totalBalance = element.bookBalanceMapped[component.get("v.selectedCurrency")];
                 elementList.push(element);
             });
-                component.set("v.corporateGroupResponse", elementList);
+            component.set("v.corporateGroupResponse", elementList);
                 
-                component.set("v.ExchangeRatesToShow", component.get("v.ExchangeRates")[component.get("v.selectedCurrency")]);
-            }
+            component.set("v.ExchangeRatesToShow", component.get("v.ExchangeRates")[component.get("v.selectedCurrency")]);
+        }
                 
-            },
+    },
                 
-                getIsCashNexus :  function (component, event){
-                    try{
-                        var action = component.get("c.getIsCashNexus");
-                        
-                        action.setCallback(this, function(response) {
-                            var state = response.getState();
-                            if (state === "SUCCESS") {
-                                var iReturn = response.getReturnValue();
-                                for ( var key in iReturn ) {
-                                    if(key == "agreedTerms"){
-                                        component.set("v.agreedTerms", iReturn[key]);
-                                    }
-                                    if(key == "isCashNexusUser"){
-                                        component.set("v.isCashNexus", iReturn[key]);
-                                    }
-                                    if(key == "BIC"){
-                                        component.set("v.isBIC", iReturn[key]);
-                                    }
-                                    if(key == "ES"){
-                                        component.set("v.isES", iReturn[key]);
-                                    }
-                                    if(key == "PL"){
-                                        component.set("v.isPL", iReturn[key]);
-                                    }
-                                    if(key == "GB"){
-                                        component.set("v.isGB", iReturn[key]);
-                                    }
-                                    if(key == "Other"){
-                                        component.set("v.isOther", iReturn[key]);
-                                    }
-                                }
-                                
-                                var gb = component.get("v.isGB");
-                                var es = component.get("v.isES");
-                                var pl = component.get("v.isPL");
-                                var other = component.get("v.isOther");
-                                
-                                if(gb == true) {
-                                    component.set("v.country", "GB");
-                                } else if(es == true) {
-                                    component.set("v.country", "ES");
-                                } else if(other == true) {
-                                    component.set("v.country", "Other");
-                                }else if(pl == true) {
-                                    component.set("v.country", "PL");
-                                }
-                                
-                                var nexus = component.get("v.isCashNexus");
-                                var terms = component.get("v.agreedTerms");
-                                var bic = component.get("v.isBIC");
-                                
-                                if(nexus == true && terms == false){
-                                    component.set("v.showTerms", true);
-                                }
-                                
-                                if(nexus == false && bic == true && terms == false && pl == true) {
-                                    component.set("v.showTerms", true);
-                                }
-                            }
-                            else {
-                                var errors = response.getError();
-                                if (errors) {
-                                    if (errors[0] && errors[0].message) {
-                                        console.log("Error message: " + 
-                                                    errors[0].message);
-                                    }
-                                } else {
-                                    console.log("Unknown error");
-                                }
-                            }
-                        });
-                        $A.enqueueAction(action);
-                    } catch (e) {
-                        console.log(e);
+    getIsCashNexus :  function (component, event){
+        try{
+            var action = component.get("c.getIsCashNexus");
+            
+            action.setCallback(this, function(response) {
+                var state = response.getState();
+                if (state === "SUCCESS") {
+                    var iReturn = response.getReturnValue();
+                    for ( var key in iReturn ) {
+                        if(key == "agreedTerms"){
+                            component.set("v.agreedTerms", iReturn[key]);
+                        }
+                        if(key == "isCashNexusUser"){
+                            component.set("v.isCashNexus", iReturn[key]);
+                        }
+                        if(key == "BIC"){
+                            component.set("v.isBIC", iReturn[key]);
+                        }
+                        if(key == "ES"){
+                            component.set("v.isES", iReturn[key]);
+                        }
+                        if(key == "PL"){
+                            component.set("v.isPL", iReturn[key]);
+                        }
+                        if(key == "GB"){
+                            component.set("v.isGB", iReturn[key]);
+                        }
+                        if(key == "Other"){
+                            component.set("v.isOther", iReturn[key]);
+                        }
                     }
-                } , 
-                /*Author:         R. Alexander Cervino
+                    
+                    var gb = component.get("v.isGB");
+                    var es = component.get("v.isES");
+                    var pl = component.get("v.isPL");
+                    var other = component.get("v.isOther");
+                    
+                    if(gb == true) {
+                        component.set("v.country", "GB");
+                    } else if(es == true) {
+                        component.set("v.country", "ES");
+                    } else if(other == true) {
+                        component.set("v.country", "Other");
+                    }else if(pl == true) {
+                        component.set("v.country", "PL");
+                    }
+                    
+                    var nexus = component.get("v.isCashNexus");
+                    var terms = component.get("v.agreedTerms");
+                    var bic = component.get("v.isBIC");
+                    
+                    if(nexus == true && terms == false){
+                        component.set("v.showTerms", true);
+                    }
+                    
+                    if(nexus == false && bic == true && terms == false && pl == true) {
+                        component.set("v.showTerms", true);
+                    }
+                }
+                else {
+                    var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                            console.log("Error message: " + 
+                                        errors[0].message);
+                        }
+                    } else {
+                        console.log("Unknown error");
+                    }
+                }
+            });
+            $A.enqueueAction(action);
+        } catch (e) {
+            console.log(e);
+        }
+    } , 
+    /*Author:         R. Alexander Cervino
     Company:        Deloitte
     Description:    Method to get user browser
     History
     <Date>			<Author>		<Description>
     17/03/2020		R. Alexander Cervino     Initial version*/
-                
-                checkBrowser: function (component,event,helper) {
-                    try{
-                        var browserType = navigator.sayswho= (function(){
-                            var ua= navigator.userAgent, tem,
-                                M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-                            if(/trident/i.test(M[1])){
-                                tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
-                                return 'IE '+(tem[1] || '');
-                            }
-                            if(M[1]=== 'Chrome'){
-                                tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
-                                if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
-                            }
-                            M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
-                            if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
-                            return M.join(' ');
-                        })();
-                        if (browserType.startsWith("IE")) {
-                            component.set("v.isIE", true);
-                        }else{
-                            component.set("v.isIE", false);
-                        }
-                        
-                        
-                    } catch (e) {
-                        console.log(e);
-                    }
-                },
-                
-                /*Author:         R. Alexander Cervino
+            
+    checkBrowser: function (component,event,helper) {
+        try{
+            var browserType = navigator.sayswho= (function(){
+                var ua= navigator.userAgent, tem,
+                    M= ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+                if(/trident/i.test(M[1])){
+                    tem=  /\brv[ :]+(\d+)/g.exec(ua) || [];
+                    return 'IE '+(tem[1] || '');
+                }
+                if(M[1]=== 'Chrome'){
+                    tem= ua.match(/\b(OPR|Edge)\/(\d+)/);
+                    if(tem!= null) return tem.slice(1).join(' ').replace('OPR', 'Opera');
+                }
+                M= M[2]? [M[1], M[2]]: [navigator.appName, navigator.appVersion, '-?'];
+                if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
+                return M.join(' ');
+            })();
+            if (browserType.startsWith("IE")) {
+                component.set("v.isIE", true);
+            }else{
+                component.set("v.isIE", false);
+            }
+            
+            
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    
+    /*Author:         R. Alexander Cervino
     Company:        Deloitte
     Description:    Method to decrypt data
     History
     <Date>			<Author>		<Description>
     21/05/2020		R. Alexander Cervino     Initial version*/
-                
-                decryptInitialData : function(component ,event, helper,data){
-                    try {
-                        var result="null";
-                        var action = component.get("c.decryptData");
-                        var userId = $A.get( "$SObjectType.CurrentUser.Id" );
+
+    decryptInitialData : function(component ,event, helper,data){
+        try {
+            var result="null";
+            var action = component.get("c.decryptData");
+            var userId = $A.get( "$SObjectType.CurrentUser.Id" );
+
+            action.setParams({ str : data }); 
+
+                action.setCallback(this, function(response) {
+                var state = response.getState();
+                if (state === "ERROR") {
+                    var errors = response.getError();
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                                console.log("Error message: " + 
+                                        errors[0].message);
+                        component.find("Service").callApex2(component,helper,"c.retrieveIAMData", {isEndOfDay: false, globalId: userId}, helper.handleInitialData); 
+                        }
+                    } else {
+                        console.log("Unknown error");
+                    }
+                }else if (state === "SUCCESS") {
+                    result = response.getReturnValue();
+
+                    if(result!=null && result !=undefined && result!='null'){
+
+                        result = JSON.parse(result); 
+                        if(result.responseGP != undefined && result.responseGP != null){
+                            result = result.responseGP;
+                        }
                         
-                        action.setParams({ str : data }); 
-                        
-                        action.setCallback(this, function(response) {
-                            var state = response.getState();
-                            if (state === "ERROR") {
-                                var errors = response.getError();
-                                if (errors) {
-                                    if (errors[0] && errors[0].message) {
-                                        console.log("Error message: " + 
-                                                    errors[0].message);
-                                        component.find("Service").callApex2(component,helper,"c.retrieveIAMData", {isEndOfDay: false, globalId: userId}, helper.handleInitialData); 
-                                    }
-                                } else {
-                                    console.log("Unknown error");
-                                }
-                            }else if (state === "SUCCESS") {
-                                result = response.getReturnValue();
-                                
-                                if(result!=null && result !=undefined && result!='null'){
-                                    
-                                    result = JSON.parse(result); 
-                                    if(result.responseGP != undefined && result.responseGP != null){
-                                        result = result.responseGP;
-                                    }
-                                    
-                                    helper.handleInitialData(component, helper, result,true);
-                                }else{
-                                    component.find("Service").callApex2(component,helper,"c.retrieveIAMData", {isEndOfDay: false, globalId: userId}, helper.handleInitialData); 
-                                }
-                            }
-                        });
-                        $A.enqueueAction(action);
-                    } catch(e) {
-                        console.error(e);
+                        helper.handleInitialData(component, helper, result,true);
+                    }else{
+                        component.find("Service").callApex2(component,helper,"c.retrieveIAMData", {isEndOfDay: false, globalId: userId}, helper.handleInitialData); 
                     }
                 }
-                
-                
-                
-            })
+                });
+                $A.enqueueAction(action);
+        } catch(e) {
+            console.error(e);
+        }
+    }
+
+    
+ 
+})

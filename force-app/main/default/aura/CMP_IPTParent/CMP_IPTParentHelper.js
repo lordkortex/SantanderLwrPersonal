@@ -63,7 +63,14 @@
     */
 
     getAccountsAndPayments : function(component, event, helper){
-        component.find("service").callApex2(component, helper, "c.getAccountsAndPayments", {}, helper.setAccountsAndPayments);
+        if(component.get("v.accountList") == null || component.get("v.accountList").length == 0){
+            component.find("service").callApex2(component, helper, "c.getAccountsAndPayments", {}, helper.setAccountsAndPayments);
+        }else{
+            component.set("v.ready",true);
+            component.set("v.errorAccount",false);
+            component.set("v.loading", false);
+        }
+        
     },
 
     /*
@@ -356,6 +363,7 @@
             var sParameterName;
             var sPageURL;
             var iAccount = component.get("v.accountObj");
+            var newshowAccountPayment = false;
             
             if (sURLVariablesMain[0] == 'params') {
                 this.decrypt(component,sURLVariablesMain[1]).then(function(results){
@@ -399,7 +407,7 @@
 							}
                             else if (sParameterName[0] === 'c__showFilters') {
                                 // Payments Tracker for Nexus - When the user navigates from an account
-                                sParameterName[1] == "true" ? component.set("v.showAccountPayment" , true) : component.set("v.showAccountPayment" , false);
+                                newshowAccountPayment = sParameterName[1] == "true" ? true : false;//component.set("v.showAccountPayment" , true) : component.set("v.showAccountPayment" , false);
                             }else if (sParameterName[0] === 'c__isOneTrade') {
                                 sParameterName[1] == "true" ? component.set("v.isOneTrade" , true) : component.set("v.isOneTrade" , false);
                             } else if (sParameterName[0] === 'c__filters') {
@@ -456,6 +464,8 @@
                             
                             //for
                         }
+                        
+                        component.set("v.showAccountPayment" , newshowAccountPayment);
                         
                     } else {
                         component.set("v.showAccountPayment", false);

@@ -30,20 +30,30 @@
         console.log('Llega la respuesta:');
         console.log(response);
         
-        if(response.includes("errors")){
+        if(response != null) {
+            if(response.includes("errors")){
+                console.log("No encuentra");
+                component.set("v.isIngested", false);
+                
+                var result = {};
+                //result.uetrCode = component.get("v.searchValue");
+                component.set("v.result", result);
+                component.set("v.isSearched", true);
+            }else{
+                var testResponse = JSON.parse(response);
+                testResponse.paymentId = component.get('v.searchValue');
+                component.set("v.result", testResponse);
+                component.set("v.noResults", false);
+                component.set("v.isIngested", true);
+                component.set("v.isSearched", true);
+            }
+        } else {
             console.log("No encuentra");
             component.set("v.isIngested", false);
-            
+                
             var result = {};
             //result.uetrCode = component.get("v.searchValue");
             component.set("v.result", result);
-            component.set("v.isSearched", true);
-        }else{
-            var testResponse = JSON.parse(response);
-            testResponse.paymentId = component.get('v.searchValue');
-            component.set("v.result", testResponse);
-            component.set("v.noResults", false);
-            component.set("v.isIngested", true);
             component.set("v.isSearched", true);
         }
         
