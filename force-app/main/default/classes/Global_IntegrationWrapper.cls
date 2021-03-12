@@ -90,7 +90,9 @@ public with sharing class Global_IntegrationWrapper {
             System.debug('HTTP_CALL REQ BODY: ' + String.valueOf(req.getBody()));
 
             h = new Http();
+            System.debug('afer req');
             HttpResponse res = h.send(req);
+            System.debug('afer res');
             System.debug('HTTP_CALL RES: ' + res);
             System.debug('HTTP_CALL RES STATUS: ' + res.getStatus());
             System.debug('HTTP_CALL RES STATUSCODE: ' + res.getStatusCode());

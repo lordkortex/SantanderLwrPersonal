@@ -41,5 +41,14 @@ export default class Lwc_globalExchangeRatesSingle extends LightningElement {
 	@api
 	updateExchageRates(e){
 		this.exchangeratesshow = e._exchangerates;
+		if(this.template.querySelector("c-lwc_child-global-exchange-rates-single") != undefined && this.template.querySelector("c-lwc_child-global-exchange-rates-single") != null) {
+			this.template.querySelectorAll('c-lwc_child-global-exchange-rates-single').forEach(element => {
+				element.formatNumber();
+			});
+        }
+	}
+
+	get exchangeratesshowjson(){
+		return JSON.stringify(this.exchangeratesshow );
 	}
 }

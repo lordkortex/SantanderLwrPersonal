@@ -280,13 +280,11 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
         }
     }
 
-    handleDownload(event) {
-       this.showSpinner = true;
-
-        let params = event.getParams();
+    handleDownload(format) {
+        this.showSpinner = true;
         let fileFormat = "";
-        if (params) {
-            fileFormat = params.format;
+        if (format) {
+            fileFormat = format;
         }
         this.getDocumentId(fileFormat)
         .then((documentId) => {
@@ -1170,8 +1168,17 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
         this.reloadAccounts = true;
     }
 
-    onopendowloadmodal(){
+    onOpenDownloadModal(){
         this.showDownloadModal = true;
     }
 
+    onApplyDownload(event){
+        var fileFormat = event.detail;
+        console.log('Formato de descarga seleccionado por el usuario: ' + fileFormat);
+        this.handleDownload(fileFormat);
+    }
+
+    onCloseDownloadModal(){
+        this.showDownloadModal = false;
+    }
 }

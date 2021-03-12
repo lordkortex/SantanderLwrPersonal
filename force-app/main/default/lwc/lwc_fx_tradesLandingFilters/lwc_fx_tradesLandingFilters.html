@@ -30,14 +30,22 @@
                 <div class="slds-form-element">
                     <label class="slds-form-element__label">{label.filterBy}</label>
                     <div class="slds-form-element__control filters">  
-
                         <c-lwc_b2b_filter-button-dropdown data-id="filter" 
                             showdropdown={showdropdown} 
-                            label= 'Time period'
+                            label= 'Settled period'
                             name="status" 
                             filterlist={statusdropdownlist} 
                             selectedfilters={selectedstatuses} 
                             cleardropdown={resetSearch}>
+                        </c-lwc_b2b_filter-button-dropdown>
+
+                        <c-lwc_b2b_filter-button-dropdown data-id="filter" 
+                            showdropdown={showdropdown}
+                            label= 'Status' 
+                            name="currency" 
+                            filterlist={statusfilter} 
+                            selectedfilters={selectedcurrencies} 
+                            cleardropdown={resetSearch} >
                         </c-lwc_b2b_filter-button-dropdown>
 
                         <c-lwc_b2b_filter-button-dropdown data-id="filter" 
@@ -51,20 +59,11 @@
 
                         <c-lwc_b2b_filter-button-dropdown data-id="filter" 
                             showdropdown={showdropdown} 
-                            label= 'Side'
+                            label= 'Direction'
                             name="side" 
                             filterlist={sidefilter} 
                             selectedfilters={selectedstatuses} 
                             cleardropdown={resetSearch}>
-                        </c-lwc_b2b_filter-button-dropdown>
-
-                        <c-lwc_b2b_filter-button-dropdown data-id="filter" 
-                            showdropdown={showdropdown}
-                            label= 'Status' 
-                            name="currency" 
-                            filterlist={statusfilter} 
-                            selectedfilters={selectedcurrencies} 
-                            cleardropdown={resetSearch} >
                         </c-lwc_b2b_filter-button-dropdown>
 
                         <!--PILL 3 COMBOBOX--> 
@@ -82,12 +81,13 @@
                     </div>
                 </div>
             </div>
-            <div class="rightIcons">
+            <!-- <div class="rightIcons"> -->
                 <!--DOWNLOAD-->
-                <button class="slds-button button_link" onclick={openModal}>{label.download}       
+                <button class="slds-button button_link" onclick={openModal}>      
                     <span class="icon_left icon-download"></span>
+                    <span style="color:red;font-family:'SantanderMicroText';">{label.download}</span>
                 </button>
-            </div>   
+            <!-- </div>    -->
         </div>
     </div>
 </template>

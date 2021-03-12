@@ -14,6 +14,7 @@ export default class Lwc_iptTrackUetrParent extends LightningElement {
     _result;
     comesFromSSO;
     showBackButton;
+    @track uetr;
     
     label = {
         Displaying,
@@ -58,19 +59,45 @@ export default class Lwc_iptTrackUetrParent extends LightningElement {
         if(navigatorLanguage.length >=2){
             navigatorLanguage = navigatorLanguage.substring(0, 2);
         }
-        
-        if(navigatorLanguage === "es") {   
-            (window.location.search != searchHeader + "es" ? window.location.search = searchHeader + "es" : "");  
 
-        } else if (navigatorLanguage === "pt") {            
-            (window.location.search != searchHeader + "pt_BR" ? window.location.search = searchHeader + "pt_BR" : "");
+        if(window.location.search.includes("uetr") && !window.location.search.includes("language")) {
+            console.log("HAS UETR");
 
-        } else if (navigatorLanguage === "pl") {
-            (window.location.search != searchHeader + "pl" ? window.location.search = searchHeader + "pl" : "");
+            if(navigatorLanguage === "es") {   
+                window.location.search += "&language=es";  
+    
+            } else if (navigatorLanguage === "pt") {            
+                window.location.search += "&language=pt_BR";
+    
+            } else if (navigatorLanguage === "pl") {
+                window.location.search += "&language=pl";;
+    
+            } else {
+                window.location.search += "&language=en_us"; 
+            }
 
-        } else {
-            (window.location.search != searchHeader + "en_US" ? window.location.search = searchHeader + "en_US" : ""); 
+        } else if (!window.location.search.includes("uetr")){
+            if(navigatorLanguage === "es") {   
+                (window.location.search != searchHeader + "es" ? window.location.search = searchHeader + "es" : "");  
+    
+            } else if (navigatorLanguage === "pt") {            
+                (window.location.search != searchHeader + "pt_BR" ? window.location.search = searchHeader + "pt_BR" : "");
+    
+            } else if (navigatorLanguage === "pl") {
+                (window.location.search != searchHeader + "pl" ? window.location.search = searchHeader + "pl" : "");
+    
+            } else {
+                (window.location.search != searchHeader + "en_US" ? window.location.search = searchHeader + "en_US" : ""); 
+            }
         }
+
+        if(window.location.search != "" && window.location.search.includes("uetr")) {
+            var lastEqual = window.location.search.lastIndexOf("=");
+            var uetr = window.location.search.substring(lastEqual+1);
+
+            this.uetr = uetr;
+        }
+        
     }
 
     handleParams(response){

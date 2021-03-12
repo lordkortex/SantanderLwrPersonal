@@ -6,6 +6,7 @@ import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import downloadOTFXTrades from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.downloadOTFXTrades';
 import searchFIlterTrades from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.searchFIlterTrades';    
 import removeFile from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.removeFile';
+import getStatus from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.getStatus';
 //Import labels
 import PAY_fileDownloaded from '@salesforce/label/c.PAY_fileDownloaded';
 import PAY_downloadSuccessful from '@salesforce/label/c.PAY_downloadSuccessful';
@@ -36,6 +37,14 @@ export default class Lwc_containerTable extends LightningElement {
     docId = '';
     @track columns;
     @track rows;
+    @track pages = [];
+    @track page = 1;
+    @track previousLoadPage = 1;
+    @track perpage = 50;
+    totalNumberPages = 0;
+    set_size = 10;
+    pageSizeOptions = recordsPerPage;
+    statusValues = [];
 
     connectedCallback() {
         loadStyle(this, santanderStyle + '/style.css');
@@ -161,6 +170,8 @@ export default class Lwc_containerTable extends LightningElement {
                     ]
             },
         ];
+        context = 'FX';
+        this.getFilterStatusValues(context);
     }
 
     handleDownload(event) {
@@ -247,6 +258,32 @@ export default class Lwc_containerTable extends LightningElement {
         });
         }, this);
     }
+
+    getFilterStatusValues(context) {
+        return new Promise((resolve, reject) => {
+        getStatus({
+            context: context}).then(response => {
+               if (response.success) {
+                    for(let index in response.value){
+                        this.statusValues.push(response.value[index].Status_Label__c);
+                    }
+                    resolve(documentId);
+                }else {
+                    reject({
+                        'title': errorLoading,
+                        'body': errorCheckConnection,
+                        'noReload': true
+                    });
+                }
+        }).catch(error => {
+            if (error) {
+                if (error[0] && error[0].message) {
+                    console.log('Error message: ' + error[0].message);
+                }
+            }
+        });
+        }, this);
+    }
     
     removeDocument(ID){
         try{
@@ -305,11 +342,11 @@ export default class Lwc_containerTable extends LightningElement {
 
    
     handleProgressValueChange(event) {
-        //console.log('Recomendador 5.1');
         this.sortData(event.detail.columnName, event.detail.columnOrder);
-      }
+    
+    }
+    
     sortData(fieldname, direction) {
-        //console.log('Recomendador 5.2');
         let parseData = JSON.parse(JSON.stringify(this.accountData));
     
         let keyValue = (a) => {
@@ -350,10 +387,30 @@ export default class Lwc_containerTable extends LightningElement {
             }
         })
     }
-    get hasNext() {
-        //console.log('Recomendador A4.1');
+    //PAGINATION
+
+    get hasNext() {    
         return this.page < this.pages.length;
     }
 
+    get hasPrev() {
+        return this.page > 1;
+    }
 
+    onPrev = () => {
+        let newPage = this.page - 1;
+        if (newPage <= 0 || newPage > this.totalNumberPages) {
+          this.page = this.page;
+        } else {
+          --this.page;
+        }
+    };
+
+    onFirst(){
+        this.page = 1;
+    }
+
+    onLast(){
+        this.page = this.totalNumberPages;
+    }
 }

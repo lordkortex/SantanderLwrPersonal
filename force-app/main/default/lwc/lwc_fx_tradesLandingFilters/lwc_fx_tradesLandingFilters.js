@@ -85,8 +85,8 @@ export default class lwc_fx_tradesLandingFilters extends LightningElement {
     sidefilter = [];
     //currencypairdropdownlist = [];
     currencypairdropdownlist = ['EUR/USD', 'USD/GBP', 'GBP/EUR'];
-    statuslist = ['COMPLETE', 'PENDING TO BE CONFIRMED', 'SETTLEMENT INSTRUCTIONS PENDING', 'CANCELLED', 'SETTLED', 'TERMINATED', 'REPLACED', 'SETTLEMENT INSTRUCTIONS ASSIGNED'];
-    sidelist = ['SELL', 'BUY'];
+    statuslist = ['Complete', 'Pending To Be Confirmed', 'Settlement Instruction Pending', 'Cancelled', 'Settled', 'Terminated', 'Replaced', 'Settlement Instruction Assigned'];
+    sidelist = ['Sell', 'Buy'];
     
     get searchedStringNotEmpty(){
         return (this.searchedstring != undefined && this.searchedstring != null && this.searchedstring != '');

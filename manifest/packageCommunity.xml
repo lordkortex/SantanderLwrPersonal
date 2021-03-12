@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
+		<members>*</members>
+		<name>ApexPage</name>
+	</types>
+	<types>
 		<members>One_Trade_FX_LWR</members>
 		<name>CustomSite</name>
 	</types>
@@ -19,6 +23,10 @@
 	<types>
 		<members>cbOne_Trade_FX_LWR</members>
 		<name>NetworkBranding</name>
+	</types>
+	<types>
+		<members>One_Trade_FX_LWR1</members>
+		<name>SiteDotCom</name>
 	</types>
 	<version>50.0</version>
 </Package>

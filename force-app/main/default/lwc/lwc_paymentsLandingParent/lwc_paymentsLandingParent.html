@@ -63,7 +63,7 @@
                         onreloadaccounts={onReloadAccounts}
                         numberofpayments={singlePaymentList.length}
                         availablestatuses={availableStatuses}
-                        onopendowloadmodal={onopendowloadmodal}>
+                        onopendownloadmodal={onOpenDownloadModal}>
                     </c-lwc_payments-landing-filters>
                 
             </div>
@@ -97,7 +97,9 @@
             selectedrows={selectedRows} 
             filtercounter={filterCounter} 
             listlength={singlePaymentList.length}
-            isallselected={isAllSelected}>
+            isallselected={isAllSelected}
+            onbuttoncancel={onCloseDownloadModal}
+            onapplydownload={onApplyDownload}>
         </c-lwc_payments-landing-download-modal>
     </template>
 

@@ -196,13 +196,13 @@ export default class Lwc_downloadsNexus extends LightningElement {
             loadStyle(this, santanderStyle + '/style.css');
             console.log('Inicio downloads Nexus');
             this.doInit();
-            this.template.querySelectorAll('c-lwc_cn_dropdown').forEach(element => {
-                element.doInit();
-            });
+            // this.template.querySelectorAll('c-lwc_cn_dropdown').forEach(element => {
+            //     element.doInit();
+            // });
         }
-        // this.template.querySelectorAll('c-lwc_cn_dropdown').forEach(element => {
-        //     element.doInit();
-        // });
+        this.template.querySelectorAll('c-lwc_cn_dropdown').forEach(element => {
+            element.doInit();
+        });
         
     }
 

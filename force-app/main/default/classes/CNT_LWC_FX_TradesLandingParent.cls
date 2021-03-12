@@ -1,13 +1,13 @@
 public inherited sharing class CNT_LWC_FX_TradesLandingParent {
     
-    @AuraEnabled
+    @AuraEnabled(cacheable=true)
     public static List<WRAPPER_FX_TradesData> searchFIlterTrades(String parameters){
         
         String responseAux = FX_ServiceApiTrades.searchFIlterTrades(parameters);
         String response = responseAux.replaceAll('currency', 'currency1');
 
         List<WRAPPER_FX_TradesData> trades = WRAPPER_FX_TradesData.parse(response);
-        System.debug(trades);
+        
         return trades;
 
     }
@@ -15,7 +15,9 @@ public inherited sharing class CNT_LWC_FX_TradesLandingParent {
     @AuraEnabled(cacheable=true)
     public static WRAPPER_FX_Download downloadTrades(String parameters, String content){
         String response = FX_ServiceApiTrades.downloadFIlterTrades(parameters, content);
+        system.debug('RESPONSE ' + response);
         WRAPPER_FX_Download tradeDetail = WRAPPER_FX_Download.parse(response);
+        system.debug('Detail ' + tradeDetail);
         return tradeDetail;
     }
 
@@ -115,7 +117,18 @@ public inherited sharing class CNT_LWC_FX_TradesLandingParent {
             }
 
         } catch (Exception e) {throw new customException(e.getMessage());}
+    }
 
+    @AuraEnabled
+    public static List<Global_Status__mdt> getStatus(String context){
+        List<Global_Status__mdt> filters = new List<Global_Status__mdt>();
+        try{
+            if(context!=''){
+                filters = [SELECT Status_Label__c, Status_Code__c FROM Global_Status__mdt WHERE Context__c =:context];
+            }
+
+        } catch (Exception e) {throw new customException(e.getMessage());}
+        return filters;
     }
 
 }

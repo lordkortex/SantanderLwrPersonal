@@ -21,6 +21,7 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
     @api comesfromtracker; 
     isIngested = false;
     @track classError = 'slds-hide textHelp errorText';
+    @api uetr = " ";
 
     label = {
         TRACK_UETR_HELP_DETAILS,
@@ -59,6 +60,31 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
         loadStyle(this, santanderStyle + '/style.css');
         if (!this.searchvalue){
             this.searchvalue = "";
+        }
+        this.doInit();
+    }
+
+      /*
+	Author:         Diego Asis
+    Company:        Deloitte
+	Description:    Init search if uetr comes in url.
+    History
+    <Date>			<Author>			<Description>
+    11/02/2021		Diego Asis   		Initial version
+    */
+    
+    @api doInit(){
+
+        var uetr;
+
+        if(window.location.search != "" && window.location.search.includes("uetr")) {
+            var lastEqual = window.location.search.lastIndexOf("=");
+            uetr = window.location.search.substring(lastEqual+1);
+        }
+
+        if(uetr != " " && uetr != undefined) {
+            this.searchValue = uetr;
+            this.getData(uetr);
         }
     }
     
@@ -151,7 +177,8 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
             }
         }
     }
-   /* getData (codeValue) {
+
+    getData (codeValue) {
         try {
             var filter = codeValue;
             this.template.querySelector('c-lwc_service-component').
@@ -159,7 +186,7 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
          } catch (e) {
              console.log(e);
          }
-    }*/
+    }
 
     successcallback(event){
         console.log('OK successcallback');
@@ -186,15 +213,26 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
             var detail = {noresults:true, issearched: true, result:this.result, isingested:false};
             this.sendResultsEvent(detail);
         }else{
-            var testResponse = JSON.parse(response);
-            testResponse.paymentId = this.searchvalue;
-            this.result = testResponse;
-            this.noresults = false;
-            this.isingested = true;
-            this.issearched = true;
-
-            var detail = {resultnotnull:true, noresults:false, issearched: true, result:this.result, searchvalue:this.searchvalue, isingested:true};
-            this.sendResultsEvent(detail);
+            if(response.includes("errors")){
+                console.log("No encuentra");
+                this.result = {};
+                this.noresults=true;
+                this.isingested=false;
+                this.issearched=true;
+    
+                var detail = {resultnotnull:true, noresults:true, issearched: true, result:this.result, searchvalue:this.searchvalue, isingested:false};
+                this.sendResultsEvent(detail);
+            }else{
+                var testResponse = JSON.parse(response);
+                testResponse.paymentId = this.searchvalue;
+                this.result = testResponse;
+                this.noresults = false;
+                this.isingested = true;
+                this.issearched = true;
+    
+                var detail = {resultnotnull:true, noresults:false, issearched: true, result:this.result, searchvalue:this.searchvalue, isingested:true};
+                this.sendResultsEvent(detail);
+            }
         }
         
         /*if(response != undefined && response != null && Array.isArray(response.paymentList) && response.paymentList.length){

@@ -21,6 +21,7 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
     @api comesfromtracker; 
     isIngested = false;
     @track classError = 'slds-hide textHelp errorText';
+    uetr = " ";
 
     label = {
         TRACK_UETR_HELP_DETAILS,
@@ -60,7 +61,34 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
         if (!this.searchvalue){
             this.searchvalue = "";
         }
+        this.doInit();
     }
+
+        /*
+	Author:         Diego Asis
+    Company:        Deloitte
+	Description:    Init search if uetr comes in url.
+    History
+    <Date>			<Author>			<Description>
+    11/02/2021		Diego Asis   		Initial version
+    */
+    
+    doInit(){
+
+        var uetr;
+
+        if(window.location.search != "" && window.location.search.includes("uetr")) {
+            var lastEqual = window.location.search.lastIndexOf("=");
+            uetr = window.location.search.substring(lastEqual+1);
+        }
+
+        if(uetr != " " && uetr != undefined) {
+            this.searchValue = uetr;
+            this.getData(uetr);
+        }
+    }
+
+
     
     goBack () {
         window.history.back();
@@ -149,7 +177,9 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
             }
         }
     }
-   /* getData (codeValue) {
+
+
+    getData (codeValue) {
         try {
             var filter = codeValue;
             this.template.querySelector('c-lwc_service-component').
@@ -157,7 +187,7 @@ export default class Lwc_ipt_headerSearchUetrPublic extends LightningElement {
          } catch (e) {
              console.log(e);
          }
-    }*/
+    }
 
     successcallback(event){
         console.log('OK successcallback');

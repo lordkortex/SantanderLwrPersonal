@@ -221,8 +221,8 @@ export default class Lwc_paymentsLandingFilters extends LightningElement {
             this.showToast(this.label.PAY_noPaymentsDownloadPrint, this.label.PAY_checkFilterSearchCriteria, 'Error', 'error', true);
         } else {
             this.showdownloadmodal = true;
-            const opendowloadmodal = new CustomEvent('opendowloadmodal', params);
-            this.dispatchEvent(opendowloadmodal);          
+            const opendownloadmodal = new CustomEvent('opendownloadmodal');
+            this.dispatchEvent(opendownloadmodal);          
         }
     }
 

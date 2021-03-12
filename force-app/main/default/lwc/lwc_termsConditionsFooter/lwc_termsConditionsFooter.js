@@ -65,12 +65,15 @@ import decryptData from '@salesforce/apex/CNT_termsFooter.decryptData';
 
 export default class Lwc_termsConditionsFooter extends LightningElement {
 
+    /*GB: {termsConditionsUse, termsConditions, terms3, terms4, webNexus, terms1a, terms1b, terms2, terms5a, terms6a, terms7, 
+        terms8, terms9, terms10, terms11, terms12, terms13, terms14, modifications, lawJurisdiction, terms5b,
+        terms6b, intelectualProperty, responsibility, acceptTerms, continueLabel},*/
+
     label = { 
         
-        GB: {termsConditionsUse, termsConditions, terms3, terms4, webNexus, terms1a, terms1b, terms2, terms5a, terms6a, terms7, 
-            terms8, terms9, terms10, terms11, terms12, terms13, terms14, modifications, lawJurisdiction, terms5b,
-            terms6b, intelectualProperty, responsibility, acceptTerms, continueLabel},
-        
+        GB: {},
+    
+            
         ES: {termsConditionsUse, termsConditions, terms3, terms4, webNexus, terms1a, terms1b, terms2, terms5a, terms6a, terms7, 
              terms8, terms9, terms10, terms11, terms12, terms13, terms14, modifications, lawJurisdiction, terms5b,
              terms6b, intelectualProperty, responsibility, acceptTerms, continueLabel},

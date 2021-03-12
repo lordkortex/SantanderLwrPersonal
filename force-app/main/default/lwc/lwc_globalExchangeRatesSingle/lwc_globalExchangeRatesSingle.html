@@ -3,7 +3,7 @@
         <div class="exchange"><span class="icon-fx"></span> 1 {selectedcurrency} =</div>
         <ul>
 			<template for:each={exchangeratesshow} for:item="item" >
-			<c-lwc_child-global-exchange-rates-single key={item} item={item} numberformat={userpreferrednumberformat} selectedcurrency={selectedcurrency}></c-lwc_child-global-exchange-rates-single>
+			<c-lwc_child-global-exchange-rates-single key={item.divisa} item={item} numberformat={userpreferrednumberformat} selectedcurrency={selectedcurrency}></c-lwc_child-global-exchange-rates-single>
 			
 				<!--	<template if:true={divisaNEselectedCurrency}>
 					<li key={item.value}>{item.divisa}&nbsp;

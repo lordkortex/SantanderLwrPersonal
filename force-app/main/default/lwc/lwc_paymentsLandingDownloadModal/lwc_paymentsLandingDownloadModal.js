@@ -94,13 +94,16 @@ export default class Lwc_paymentsLandingDownloadModal extends LightningElement {
     }
     
 	closeDownloadModal() {
-        if(this.isotfxcommunity){
+        /*if(this.isotfxcommunity){
             const closeModal = new CustomEvent('buttoncancel',{close: false});
             this.dispatchEvent(closeModal);
         } else {
             this.showdownloadmodal = false;
         }
-
+        */
+        this.showdownloadmodal = false;
+        const closeModal = new CustomEvent('buttoncancel',{close: false});
+        this.dispatchEvent(closeModal);
     }
     
     get contat(){
@@ -226,7 +229,8 @@ export default class Lwc_paymentsLandingDownloadModal extends LightningElement {
     handleApply() {
         var selectedFormat = this.selectedvalue;
         if (selectedFormat){
-            this.showdownloadmodal= false;
+            //this.showdownloadmodal= false;
+            this.closeDownloadModal();
             this.iserror = false;
             const selectedEvent = new CustomEvent('applydownload', {detail: selectedFormat});
             this.dispatchEvent(selectedEvent);

@@ -124,27 +124,32 @@ export default class lwc_iptDetailParent extends LightningElement{
             generateObject({url:params})
             .then(result => {
                 console.log(result);
-                var iReturn = result
-                this.iobject = iReturn;
-                if(iReturn.stepList){
-                    var lgt = iReturn.stepList.length;
-                        var i = 0;
-                        var ok = false;
-                        if(iReturn.status != 'ACCC'){
-                            while(i < lgt && !ok){
-                                if(iReturn.stepList[i].departureDate == ''){
-                                    ok = true;
-                                    this.iobject.currentBank = iReturn.stepList[i].bank;
+                if(result != null && result != undefined && Object.keys(result).length != 0){
+                    var iReturn = result
+                    this.iobject = iReturn;
+                    if(iReturn.stepList){
+                        var lgt = iReturn.stepList.length;
+                            var i = 0;
+                            var ok = false;
+                            if(iReturn.status != 'ACCC'){
+                                while(i < lgt && !ok){
+                                    if(iReturn.stepList[i].departureDate == ''){
+                                        ok = true;
+                                        this.iobject.currentBank = iReturn.stepList[i].bank;
+                                    }
+                                    i++;
                                 }
-                                i++;
                             }
-                        }
-                        else{
-                            this.currentbank = iReturn.stepList[lgt-1].bank;
-                        }
-                }else{
-                    console.log('### lwc_iptDetailParent ### getDataObject() ::: response.stepList: undefined');
-                }
+                            else{
+                                this.currentbank = iReturn.stepList[lgt-1].bank;
+                            }
+                    }else{
+                        console.log('### lwc_iptDetailParent ### getDataObject() ::: response.stepList: undefined');
+                    }
+                } else
+                    {
+                        this.iobject  =  {};
+                    }
             })
             .catch(error => {
                 console.log('### lwc_iptDetailParent ### getDataObject() ::: Try Error: ' + error);
@@ -458,165 +463,167 @@ export default class lwc_iptDetailParent extends LightningElement{
     getDataSteps() {
         this.ready = false;
         try {
-            getSteps({
-                "str" : this.iobject.uetr
-            })
-            .then(result => {
-                var res = result;
-                if(res!='' && res!=undefined && res!=null){
-                    var iobj= this.iobject;
-                    this.iobject.lastUpdate = res.lastUpdateTime;
-                    this.iobject.hasForeignExchange = res.hasForeignExchange;
-                    this.iobject.instructedAmount = res.instructedAmount;
-                    this.iobject.confirmedAmount = res.confirmedAmount;
-                    
-                    console.log('InstructedAmount en steps');
-                    var tempLog = this.iobject;
-                    console.log(tempLog);
-                                
-                    this.iobject.lastUpdateTime = res.lastUpdateTime;
-                    this.iobject.reason = res.transactionStatus.reason;
-                    this.iobject.status = res.transactionStatus.status;
-                    this.totalelapsedtime = res.totalElapsedTime;
-
-                    if(this.comesfromuetrsearch && !this.ispaymentingested && res.creditorAgent != null){
-                        iobj.beneficiaryAccountBic = res.creditorAgent.agentCode;
-                        iobj.beneficiaryCountry = res.creditorAgent.agentCountry;
-                        iobj.beneficiaryCountryName = res.creditorAgent.agentCountryName;
-                        iobj.beneficiaryAccountBank = res.creditorAgent.agentName;
-                        iobj.beneficiaryCity = res.creditorAgent.agentLocation;
-                      /*  this.iobject.beneficiaryAccountBic = res.creditorAgent.agentCode;
-                        this.iobject.beneficiaryCountry = res.creditorAgent.agentCountry;
-                        this.iobject.beneficiaryCountryName = res.creditorAgent.agentCountryName;
-                        this.iobject.beneficiaryAccountBank = res.creditorAgent.agentName;
-                        this.iobject.beneficiaryCity = res.creditorAgent.agentLocation;*/
-                    }
-                    var stepList=[];
-                    var steps=res.paymentEventsArray;
-                    
-                    if(steps.length>0){
+            return new Promise( (resolve, reject) => {  
+                getSteps({
+                    "str" : this.iobject.uetr
+                })
+                .then(result => {
+                    var res = result;
+                    if(res!='' && res!=undefined && res!=null){
+                        var iobj= this.iobject;
+                        this.iobject.lastUpdate = res.lastUpdateTime;
+                        this.iobject.hasForeignExchange = res.hasForeignExchange;
+                        this.iobject.instructedAmount = res.instructedAmount;
+                        this.iobject.confirmedAmount = res.confirmedAmount;
                         
-                        var fees = [];
-                        var currencies = [];
-                        for(var i in steps){
-                            var step = [];
-                            step.bank = steps[i].toAgent.agentName;
-                            step.bic = steps[i].toAgent.agentCode;
-                            step.country = steps[i].toAgent.agentCountry;
-                            step.countryName = steps[i].toAgent.agentCountryName;
-                            step.city = steps[i].toAgent.agentLocation;
-                            step.arrival = steps[i].receivedDate;
-                            step.departure = steps[i].senderAcknowledgementReceipt;
-                            step.foreignExchangeDetails = steps[i].foreignExchangeDetails;
-                            this.iobject.currentBank = step.bank;
+                        console.log('InstructedAmount en steps');
+                        var tempLog = this.iobject;
+                        console.log(tempLog);
+                                    
+                        this.iobject.lastUpdateTime = res.lastUpdateTime;
+                        this.iobject.reason = res.transactionStatus.reason;
+                        this.iobject.status = res.transactionStatus.status;
+                        this.totalelapsedtime = res.totalElapsedTime;
 
-                            if(steps[i].chargeAmountSingle != undefined){
-                                if(steps[i].chargeAmountSingle.amount!=null && steps[i].chargeAmountSingle.amount!=0.0){
-                                    step.feeApplied = true;
-                                    step.stepFee = steps[i].chargeAmountSingle.amount;
-                                    step.stepFeeCurrency = steps[i].chargeAmountSingle.tcurrency;
-                                    if(!currencies.includes(steps[i].chargeAmountSingle.tcurrency)){
-                                        currencies.push(steps[i].chargeAmountSingle.tcurrency);
-                                    }
-                                    fees.push([steps[i].chargeAmountSingle.tcurrency,(steps[i].chargeAmountSingle.amount)]);
-                                    step.feeApplied=true;
-                                }else{
-                                    step.feeApplied=false;
-                                }
-                            }
-                            if(steps[i].chargeBearer=='SHAR'){
-                                step.charges = this.label.shared;
-                                iobj.charges = this.label.shared;
-                                //this.iobject.charges = this.label.shared;
-                            }
-                            if(steps[i].chargeBearer=='DEBT'){
-                                step.charges = this.label.borneByDebitor;
-                                iobj.charges = this.label.borneByDebitor;
-                                //this.iobject.charges = this.label.borneByDebitor;
-                            }
-                            if(steps[i].chargeBearer=='CRED'){
-                                step.charges = this.label.borneByCreditor;
-                                iobj.charges = this.label.borneByCreditor;
-                                //this.iobject.charges = this.label.borneByCreditor;
-                            }
-                            stepList.push(step);
-                        }   
-
-                        if((iobj.status=='ACSP' || iobj.status=='RJCT') && iobj.beneficiaryAccountBic != stepList[stepList.length-1].bic){
-                       // if((this.iobject.status=='ACSP' || this.iobject.status=='RJCT') && this.iobject.beneficiaryAccountBic != stepList[stepList.length-1].bic){
-                            var step = [];
-                            step.bank = iobj.beneficiaryAccountBank;
-                            step.bic = iobj.beneficiaryAccountBic;
-                            step.country = iobj.beneficiaryCountry
-                            step.countryName = iobj.beneficiaryCountryName;
-                            step.city = iobj.beneficiaryCity;
-                         /*   step.bank = this.iobject.beneficiaryAccountBank;
-                            step.bic = this.iobject.beneficiaryAccountBic;
-                            step.country = this.iobject.beneficiaryCountry
-                            step.countryName = this.iobject.beneficiaryCountryName;
-                            step.city = this.iobject.beneficiaryCity;*/
-                            step.arrival = '';
-                            step.departure = '';
-                            if(iobj.status == 'RJCT'){
-                            //if(this.iobject.status == 'RJCT'){
-                                stepList[stepList.length-1].lastStep = true;
-                                step.lastStep2 = true;
-                            }
-                            stepList.push(step);
-                        }else if(iobj.status=='ACSP' && iobj.beneficiaryAccountBic==stepList[stepList.length-1].bic  && stepList[stepList.length-1].arrival!=null){
-                        //}else if(this.iobject.status=='ACSP' && this.iobject.beneficiaryAccountBic==stepList[stepList.length-1].bic  && stepList[stepList.length-1].arrival!=null){ 
-                            if (stepList.length > 1){
-                                stepList[stepList.length-2].lastStep = true;
-                                stepList[stepList.length-1].lastStep2 = true;
-                            }
+                        if(this.comesfromuetrsearch && !this.ispaymentingested && res.creditorAgent != null){
+                            iobj.beneficiaryAccountBic = res.creditorAgent.agentCode;
+                            iobj.beneficiaryCountry = res.creditorAgent.agentCountry;
+                            iobj.beneficiaryCountryName = res.creditorAgent.agentCountryName;
+                            iobj.beneficiaryAccountBank = res.creditorAgent.agentName;
+                            iobj.beneficiaryCity = res.creditorAgent.agentLocation;
+                        /*  this.iobject.beneficiaryAccountBic = res.creditorAgent.agentCode;
+                            this.iobject.beneficiaryCountry = res.creditorAgent.agentCountry;
+                            this.iobject.beneficiaryCountryName = res.creditorAgent.agentCountryName;
+                            this.iobject.beneficiaryAccountBank = res.creditorAgent.agentName;
+                            this.iobject.beneficiaryCity = res.creditorAgent.agentLocation;*/
                         }
+                        var stepList=[];
+                        var steps=res.paymentEventsArray;
+                        
+                        if(steps.length>0){
+                            
+                            var fees = [];
+                            var currencies = [];
+                            for(var i in steps){
+                                var step = [];
+                                step.bank = steps[i].toAgent.agentName;
+                                step.bic = steps[i].toAgent.agentCode;
+                                step.country = steps[i].toAgent.agentCountry;
+                                step.countryName = steps[i].toAgent.agentCountryName;
+                                step.city = steps[i].toAgent.agentLocation;
+                                step.arrival = steps[i].receivedDate;
+                                step.departure = steps[i].senderAcknowledgementReceipt;
+                                step.foreignExchangeDetails = steps[i].foreignExchangeDetails;
+                                this.iobject.currentBank = step.bank;
 
-                        if(fees.length>0){
-                            var auxFees = [];
-                            for(var c in currencies){
-                                var amount = 0;
-                                for(var f in fees){
-                                    console.log(f);
-                                    if(fees[f][0] == currencies[c]){
-                                        amount += fees[f][1];
+                                if(steps[i].chargeAmountSingle != undefined){
+                                    if(steps[i].chargeAmountSingle.amount!=null && steps[i].chargeAmountSingle.amount!=0.0){
+                                        step.feeApplied = true;
+                                        step.stepFee = steps[i].chargeAmountSingle.amount;
+                                        step.stepFeeCurrency = steps[i].chargeAmountSingle.tcurrency;
+                                        if(!currencies.includes(steps[i].chargeAmountSingle.tcurrency)){
+                                            currencies.push(steps[i].chargeAmountSingle.tcurrency);
+                                        }
+                                        fees.push([steps[i].chargeAmountSingle.tcurrency,(steps[i].chargeAmountSingle.amount)]);
+                                        step.feeApplied=true;
+                                    }else{
+                                        step.feeApplied=false;
                                     }
                                 }
-                                auxFees.push([currencies[c],amount]);
-                            }
-                            fees=auxFees;
-                        }
+                                if(steps[i].chargeBearer=='SHAR'){
+                                    step.charges = this.label.shared;
+                                    iobj.charges = this.label.shared;
+                                    //this.iobject.charges = this.label.shared;
+                                }
+                                if(steps[i].chargeBearer=='DEBT'){
+                                    step.charges = this.label.borneByDebitor;
+                                    iobj.charges = this.label.borneByDebitor;
+                                    //this.iobject.charges = this.label.borneByDebitor;
+                                }
+                                if(steps[i].chargeBearer=='CRED'){
+                                    step.charges = this.label.borneByCreditor;
+                                    iobj.charges = this.label.borneByCreditor;
+                                    //this.iobject.charges = this.label.borneByCreditor;
+                                }
+                                stepList.push(step);
+                            }   
 
-                        iobj.stepList=stepList;
-                        iobj.fees=fees;
-                        //this.iobject.stepList=stepList;
-                        //this.iobject.fees=fees
-                        //console.log(this.iobject.fees);
+                            if((iobj.status=='ACSP' || iobj.status=='RJCT') && iobj.beneficiaryAccountBic != stepList[stepList.length-1].bic){
+                        // if((this.iobject.status=='ACSP' || this.iobject.status=='RJCT') && this.iobject.beneficiaryAccountBic != stepList[stepList.length-1].bic){
+                                var step = [];
+                                step.bank = iobj.beneficiaryAccountBank;
+                                step.bic = iobj.beneficiaryAccountBic;
+                                step.country = iobj.beneficiaryCountry
+                                step.countryName = iobj.beneficiaryCountryName;
+                                step.city = iobj.beneficiaryCity;
+                            /*   step.bank = this.iobject.beneficiaryAccountBank;
+                                step.bic = this.iobject.beneficiaryAccountBic;
+                                step.country = this.iobject.beneficiaryCountry
+                                step.countryName = this.iobject.beneficiaryCountryName;
+                                step.city = this.iobject.beneficiaryCity;*/
+                                step.arrival = '';
+                                step.departure = '';
+                                if(iobj.status == 'RJCT'){
+                                //if(this.iobject.status == 'RJCT'){
+                                    stepList[stepList.length-1].lastStep = true;
+                                    step.lastStep2 = true;
+                                }
+                                stepList.push(step);
+                            }else if(iobj.status=='ACSP' && iobj.beneficiaryAccountBic==stepList[stepList.length-1].bic  && stepList[stepList.length-1].arrival!=null){
+                            //}else if(this.iobject.status=='ACSP' && this.iobject.beneficiaryAccountBic==stepList[stepList.length-1].bic  && stepList[stepList.length-1].arrival!=null){ 
+                                if (stepList.length > 1){
+                                    stepList[stepList.length-2].lastStep = true;
+                                    stepList[stepList.length-1].lastStep2 = true;
+                                }
+                            }
+
+                            if(fees.length>0){
+                                var auxFees = [];
+                                for(var c in currencies){
+                                    var amount = 0;
+                                    for(var f in fees){
+                                        console.log(f);
+                                        if(fees[f][0] == currencies[c]){
+                                            amount += fees[f][1];
+                                        }
+                                    }
+                                    auxFees.push([currencies[c],amount]);
+                                }
+                                fees=auxFees;
+                            }
+
+                            iobj.stepList=stepList;
+                            iobj.fees=fees;
+                            //this.iobject.stepList=stepList;
+                            //this.iobject.fees=fees
+                            //console.log(this.iobject.fees);
+                        }
+                    }else{
+                        console.log("Recibimos lista vacia");
                     }
-                }else{
-                    console.log("Recibimos lista vacia");
-                }
-                console.log("lista final");
-                console.log(iobj.stepList);
-                console.log(this.iobject);
-                this.ready = true;
-                //GAA
-                //$A.util.addClass(component.find("spinnerCreate"), "slds-hide"); 
-                this.spinnerClass = 'slds-hide';
-                this.template.querySelector('div').classList.add('slds-hide');
-            })
-            .catch(error => {
-                console.log('### lwc_iptDetailParent ### getDataStepsTry() ::: Error: ' + error);
-                this.showerror = true;
-                this.dispatchErrorLoadEvent();
-                console.log(this.iobject);
-                this.ready = true;
-                //GAA
-                //$A.util.addClass(component.find("spinnerCreate"), "slds-hide"); 
-                this.spinnerClass = 'slds-hide';
-                this.template.querySelector('div').classList.add('slds-hide');
-            });  
-            this.getReason();
-
+                    console.log("lista final");
+                    console.log(iobj.stepList);
+                    console.log(this.iobject);
+                    this.ready = true;
+                    //GAA
+                    //$A.util.addClass(component.find("spinnerCreate"), "slds-hide"); 
+                    this.spinnerClass = 'slds-hide';
+                    this.template.querySelector('div').classList.add('slds-hide');
+                    reject(error);
+                })
+                .catch(error => {
+                    console.log('### lwc_iptDetailParent ### getDataStepsTry() ::: Error: ' + error);
+                    this.showerror = true;
+                    this.dispatchErrorLoadEvent();
+                    console.log(this.iobject);
+                    this.ready = true;
+                    //GAA
+                    //$A.util.addClass(component.find("spinnerCreate"), "slds-hide"); 
+                    this.spinnerClass = 'slds-hide';
+                    this.template.querySelector('div').classList.add('slds-hide');
+                });  
+                this.getReason();
+            }, this); 
         } catch(e) {
             this.showerror = true;
             this.dispatchErrorLoadEvent();
