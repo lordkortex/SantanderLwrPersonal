@@ -1,0 +1,158 @@
+.THIS.slds-form-element {
+  display: inline-block;
+  min-height: 72px;
+  width: 392px;
+}
+.THIS .slds-form-element__label {
+  color: #767676;
+  font-family: "SantanderMicroText";
+  font-size: 12px;
+  left: 16px;
+  line-height: 17px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 6px;
+  z-index: 2;
+}
+
+.THIS.slds-form-element .slds-input__icon {
+  bottom: 0;
+  height: 24px;
+  margin: auto;
+  right: 16px;
+  top: 0;
+  width: 24px;
+}
+
+.THIS.slds-form-element .slds-button__icon {
+  height: 24px;
+  margin: 0;
+  padding: 2px;
+  width: 24px;
+}
+
+.THIS.slds-form-element .icon-close_filledCircle:before {
+  color: #cccccc;
+  font-size: 20px;
+}
+
+.THIS .slds-form-element__label + .slds-form-element__control .slds-input {
+  padding: 19px 70px 5px 16px;
+}
+
+.THIS .slds-form-element__control .errorText {
+  color: #cc0000;
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0px;
+  margin-left: 16px;
+  position: absolute;
+}
+
+.THIS .slds-form-element__control {
+  height: 48px;
+}
+
+.THIS .slds-input {
+  border: 1px solid #deedf2;
+  box-shadow: inset 0 -1px 0 0 #257fa4;
+  border-radius: 4px 4px 0 0;
+  color: #444444;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  height: 48px;
+  line-height: 24px;
+  padding: 0 70px 0 16px;
+  min-width: 392px;
+}
+
+.THIS .slds-form-element__help {
+  color: #767676;
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 20px;
+  margin-left: 16px;
+  margin-top: 0;
+}
+
+.THIS ::-webkit-input-placeholder {
+  color: #767676;
+}
+
+.THIS :-moz-placeholder {
+  /* Firefox 18- */
+  color: #767676;
+}
+
+.THIS ::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #767676;
+}
+
+.THIS :-ms-input-placeholder {
+  color: #767676;
+}
+
+.THIS :focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.THIS .slds-input:focus,
+.THIS .slds-input:active {
+  box-shadow: none;
+  border-bottom: 2px solid #257fa4;
+}
+
+/*ERRORS*/
+.THIS.error .slds-form-element__help {
+  display: none;
+}
+
+.THIS.slds-form-element .errorText {
+  color: #cc0000;
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0px;
+  margin-left: 16px;
+  position: absolute;
+  display: none;
+}
+
+.THIS.slds-form-element.error .errorText {
+  display: block;
+}
+
+.THIS.error .slds-form-element__label {
+  color: #cc0000;
+}
+
+.THIS.error .slds-form-element__control .slds-input {
+  border-bottom: 1px solid #cc0000;
+  box-shadow: none;
+}
+
+.THIS.error .slds-form-element__control .slds-input:active,
+.THIS.error .slds-form-element__control .slds-input:focus {
+  box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+
+/* DISABLED */
+.THIS .slds-input[disabled] {
+  background-color: #ffffff;
+  border: solid 1px #cccccc;
+  border-bottom: solid 1px #9bc3d3;
+  cursor: not-allowed;
+  color: #767676;
+}
+.THIS .slds-input[disabled] + .slds-button {
+  cursor: not-allowed;
+}
+
+.THIS .slds-input[disabled]:active,
+.THIS .slds-input[disabled]:focus {
+  box-shadow: none;
+  border-bottom: solid 1px #9bc3d3;
+}

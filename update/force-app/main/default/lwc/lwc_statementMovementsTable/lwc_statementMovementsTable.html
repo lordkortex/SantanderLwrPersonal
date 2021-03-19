@@ -1,0 +1,106 @@
+<template>
+    <c-lwc_service-component data-id="Service"></c-lwc_service-component>
+    <!-- Pagination -->
+         <c-lwc_cn_pagination data-id="pagination" 
+            alldata={movementslistNotNull} 
+            paymentsperpage={transactionsPerPage} 
+            namelisttodisplay={label.Movements} 
+            maximumrecords={totalmovements}
+            todisplay={toDisplay} 
+            oncurrentpage={buildTablePage}
+            ongetpageevent={buildTablePage}>
+         </c-lwc_cn_pagination> 
+
+    <!-- TABLE -->
+    <div class="slds-table--header-fixed_container tableExtract">
+        <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+            <!-- HEADER -->
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th class="containerValueDate" aria-sort="ascending" scope="col">
+                        <div class="slds-truncate" >{label.MovementHistory_ValueDate}</div>
+                    </th>
+                    <th class="containerCategory" scope="col">
+                        <div class="slds-truncate slds-button">
+                            <span>{label.MovementHistory_Category}</span>
+                            <template if:true={getSortByCategoryDesc}>
+                                <div class="icon-arrowDown" id="CategoryDesc" onclick={sortBy}></div>
+                            </template>
+                            
+                            <template if:true={getSortByCategoryAsc}>
+                                <div class="icon-arrowUp" id="CategoryAsc"  onclick={sortBy}></div>
+                            </template>
+                        </div>
+                    </th>
+                    <th class="slds-is-sortable containerClientRef" aria-sort="none" scope="col">
+                        <div class="slds-truncate" >{label.MovementHistory_CustomerRef}</div>
+                    </th>
+                    <th class="slds-is-sortable slds-text-align_right containerAmount"  aria-sort="none" scope="col">
+                        <div class="slds-truncate slds-button">
+                            
+                            <span >{label.amount}</span>
+                            <template if:true={getSortByAmountDesc}>
+                                <div class="icon-arrowDown" id="AmountDesc" onclick={sortBy}></div>
+                            </template>
+
+                            <template if:true={getSortByAmountAsc}>
+                                <div class="icon-arrowUp" id="AmountAsc" onclick={sortBy}></div>
+                            </template>
+                        </div>
+                    </th>
+                    <th class="containerIconDetail" scope="col">
+                        <div class="slds-truncate slds-assistive-text ">{label.actions}</div>
+                    </th>
+                </tr>
+            </thead>
+            
+            <!-- BODY -->
+            <tbody>
+                <template if:true={isMovemntsListEmpty}>
+                    <c-lwc_results-not-found msg={label.noResultsFound} showsearchagain="false"></c-lwc_results-not-found>  
+                </template>
+
+                <template if:false={isMovemntsListEmpty2}>
+                      <!--Iterate here-->
+                    <!-- ROW 1 -->
+                    <template for:each={listaBetweenStartToEnd} for:item='item' for:index="index">
+                        <tr class="slds-hint-parent" aria-selected="false" key={item.key}>
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{item.obtTransacBusqueda.valueDate}</span>
+                                </div>
+                            </td>
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{item.obtTransacBusqueda.tipoTransaccion}</span>
+                                </div>
+                            </td>
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{item.obtTransacBusqueda.refCliente}</span>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                    <div class="slds-truncate">
+                                        <span class="text amountInteger">{item.obtTransacBusqueda.importeFormatted.entirePart_Formatted}</span>
+                                        <span class="text amountDecimals">{item.obtTransacBusqueda.importeFormatted.decimalPart_Formatted} &nbsp; {getAccountCurrency} </span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" id={item.key} onclick={navigateToDetail}>
+                                    <div class="slds-truncate slds-button">
+                                        <span class="detail icon-arrowRight_big">{label.Detail}</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </template> 
+                </template>
+                
+            </tbody>
+        </table>
+        
+    </div>
+</template>

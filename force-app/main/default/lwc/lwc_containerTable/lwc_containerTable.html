@@ -1,0 +1,67 @@
+<template>
+    <template if:true={showSpinner}>
+        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+    </template>
+    
+    <c-lwc_fx_trades-landing-boxes
+    onboxesfilters={getSelectedFilters}>>
+    </c-lwc_fx_trades-landing-boxes>
+
+    <br/>
+
+    <c-lwc_fx_trades-landing-filters
+        statuslist={statusValues}
+        onbuttondownload={openDownloadModal}
+        currentuser={currentUser}
+        ongetfilters={getSelectedFilters}>
+    </c-lwc_fx_trades-landing-filters>
+    <br/>
+
+    <template if:true={showdownloadmodal}>
+        <c-lwc_payments-landing-download-modal 
+            showdownloadmodal={showdownloadmodal} 
+            isallselected={isallselected}
+            onapplydownload={handleDownload} 
+            onbuttoncancel={closeModal}
+            isotfxcommunity=true>
+        </c-lwc_payments-landing-download-modal>
+    </template>
+    	
+	<!-- Tabla Dinamica -->
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12" padding="around-medium">
+            <div class="slds-align_absolute-center">
+                <c-lwc_fx_trades-landing-table 
+                    onprogressvaluechange={handleProgressValueChange} 
+                    columns={columns}
+                    rows={rows} 
+                    onhandleordervaluechange={handleOrderValueChange} >
+                </c-lwc_fx_trades-landing-table>  
+            </div>
+        </lightning-layout-item>
+     </lightning-layout>
+    
+
+    <!-- Botones paginacion -->
+    <!-- <template if:true={hasPrev}>  
+        <li class="slds-button-group-item" >
+           <lightning-button variant="brand-outline" icon-name="utility:jump_to_left" label="" title="primero" onclick={onFirst} class="slds-m-left_x-small"></lightning-button>
+        </li>
+        <li class="slds-button-group-item" >
+           <lightning-button variant="brand-outline" icon-name="utility:chevronleft"  label="" title="previo" onclick={onPrev} class="slds-m-left_x-small"></lightning-button>
+        </li>
+     </template>
+     <template for:each={pagesList} for:item= "pageNumber">
+        <li class="slds-button-group-item" key={pageNumber}>
+           <button data-id={pageNumber} class="slds-button slds-button_neutral"  onclick={onPageClick}>{pageNumber}</button>
+        </li>
+     </template>
+     <template if:true={hasNext}>
+        <li class="slds-button-group-item" >
+           <lightning-button variant="brand-outline" icon-name="utility:chevronright"  label=""  title="siguiente" onclick={onNext} class="slds-m-left_x-small"></lightning-button>
+        </li>
+        <li class="slds-button-group-item" >
+           <lightning-button variant="brand-outline" icon-name="utility:jump_to_right" label="" title="último" onclick={onLast} class="slds-m-left_x-small"></lightning-button>
+        </li>
+     </template> -->
+</template>

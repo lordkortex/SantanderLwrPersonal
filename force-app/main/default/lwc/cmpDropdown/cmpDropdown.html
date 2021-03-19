@@ -13,7 +13,7 @@
                 <button class="slds-button button-order" aria-haspopup="true">
 
                     <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
-                    <div class="slds-border_right selectedValue-placeholder">{placeholder}</div>
+                    <div class="slds-border_right selectedValue-placeholder">{value}</div>
 
                     <!-- Icono que aparecerá cuando este disabled -->
                     <div class="slds-button__icon disabled" aria-hidden="true">
@@ -34,7 +34,11 @@
                 <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
 
                 <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
-                <div class="errorText">{error}</div>
+                <template if:true={showError}>
+                    <template if:true={errormsg}>
+                        <div class="errorText">{errormsg}{label}.</div>
+                    </template>
+                </template>
             </div>
 
             <!-- Cuando el button esté disabled el dropdown se oculta -->

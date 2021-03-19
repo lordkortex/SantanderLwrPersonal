@@ -11,7 +11,7 @@
 
                 <!-- Cuando el input esté disabled se le añade disabled="true"-->
                 <input type="text" data-id={id} placeholder={placeholder}
-                    class="slds-input" name={name} onchange={handleChange} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>
+                    class="slds-input" name={name} value={value} onchange={handleChange} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>
 
                 <!-- Icono que aparecerá cuando este disabled -->
                 <div class="slds-button__icon disabled" aria-hidden="true">
@@ -20,7 +20,7 @@
 
                 <!-- Icono de cruz para eliminar una vez seleccionada una opción -->
                 <button
-                    class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={handleClearInput}>
+                    class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={handleClearInput} onchange={handleChange}>
                     <div class="slds-button__icon icon-close_filledCircle"
                         aria-hidden="true"></div>
                     <span class="slds-assistive-text">Clear the text input</span>
@@ -30,7 +30,18 @@
                 <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
 
                 <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
-                <div class="errorText">{error}</div>
+                <template if:true={showError}>
+                    <template if:false={errorFormat}>
+                        <template if:true={errormsg}>
+                            <div class="errorText">{error}{label}.</div>
+                        </template>
+                    </template>
+                    <template if:true={errorFormat}>
+                        <template if:true={errormsg2}>
+                            <div class="errorText">{errormsg2}{label}{format}</div>
+                        </template>
+                    </template>
+                </template>
             </div>
         </div>
     </div>

@@ -1,0 +1,69 @@
+.paymentBoxes {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0;
+  width: 100%;
+}
+.paymentBoxes .slds-grid {
+  width: 1224px;
+  justify-content: space-between;
+}
+/* PAYMENTS */
+.paymentBoxes .slds-col {
+  display: inline-block;
+  margin: 0 16px;
+  border: none;
+  cursor: pointer;
+  line-height: initial;
+}
+.paymentBoxes .slds-col:first-child {
+  margin-left: 0;
+}
+.paymentBoxes .line {
+  background-color: #cedee7;
+  bottom: 0;
+  content: "";
+  margin: auto;
+  height: auto;
+  position: absolute;
+  top: 0;
+  width: 1px;
+  margin-top: 10px;
+  display: inline-block;
+}
+.paymentBoxes .slds-col .number {
+  color: #444444;
+  display: block;
+  font-family: "SantanderHeadlineW05-Rg";
+  font-size: 42px;
+  line-height: 50px;
+}
+
+.paymentBoxes .slds-col .slds-truncate {
+  white-space: inherit;
+  display: inline-flex;
+  vertical-align: top;
+}
+.paymentBoxes .slds-col .text {
+  color: #444444;
+  display: inline-block;
+  font-family: "SantanderMicroText";
+  font-size: 12px;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 156px;
+}
+
+.paymentBoxes .slds-col.slds-button:hover .number,
+.paymentBoxes .slds-col.slds-button:hover .text {
+  color: #cc0000;
+}
+.paymentBoxes .slds-col.slds-button:focus .number,
+.paymentBoxes .slds-col.slds-button:focus .text,
+.paymentBoxes .slds-col.slds-button:active .number,
+.paymentBoxes .slds-col.slds-button:active .text,
+.paymentBoxes .slds-col.slds-button.slds-button-active .number,
+.paymentBoxes .slds-col.slds-button.slds-button-active .text {
+  color: #990000;
+}

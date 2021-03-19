@@ -1,0 +1,26 @@
+<template>
+    <c-lwc_accounts-card-row 
+        iparentid={iparentid}
+        ikey={item}
+        iaccount={iaccount}
+        itabselected={itabselected}
+        islastupdate={islastupdate}
+        filters={filters}
+        source={source}
+        firstaccountcountrylist={firstaccountcountrylist}
+        firsttaccountcountrylist={firsttaccountcountrylist}
+        iregister={iregister}
+        isortselected={isortselected}
+        icurrency={icurrency}
+        isloading={isloading}
+        userpreferreddateformat={userpreferreddateformat}
+        userpreferrednumberformat={userpreferrednumberformat}
+        isonetrade={isonetrade}>
+    </c-lwc_accounts-card-row>       
+                
+    <template if:true={linea}>
+        <div class="containerLine">
+            <hr class="line"/>
+        </div>
+    </template>
+</template>

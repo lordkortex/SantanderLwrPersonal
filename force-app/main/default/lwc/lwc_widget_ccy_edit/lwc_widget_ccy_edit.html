@@ -1,0 +1,41 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-label="Meaningful description of the modal content" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title={Label.close}>
+                <span class="slds-assistive-text">{Label.close}</span>
+                </button>
+                
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{Label.currency}</h2>
+            
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-layout multiple-rows="true">
+
+                    <!-- User Language Block -->
+                    <lightning-layout-item size="12" padding="around-small">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" >* </abbr>{Label.currency}</div>
+                        <div class="slds-form-element__control">
+                        <div class="slds-form-element">
+                            <c-lwc_cn_dropdown data-id="Dropdown" issimpledropdown="true" valueplaceholder={Label.LogAdmin_SelectOne} 
+                            values={userpicklistvalues.CurrenciesPairListLabel} selectedvalue={userinfoedit.value}
+                            ondropdownvalueselected={selectCcyPairsDropdown} ></c-lwc_cn_dropdown>
+                        </div>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="12" padding="around-small"></lightning-layout-item>
+                    <lightning-layout-item size="12" padding="around-small"></lightning-layout-item>
+                    <lightning-layout-item size="12" padding="around-small"></lightning-layout-item>
+                    <lightning-layout-item size="12" padding="around-small"></lightning-layout-item>
+                    <lightning-layout-item size="12" padding="around-small"></lightning-layout-item>
+                    <lightning-layout-item size="12" padding="around-small"></lightning-layout-item>
+                </lightning-layout>
+            </div>
+            <footer class="slds-modal__footer">
+                <button class="slds-button slds-button_neutral" onclick={cancelEditClicked}>{Label.AdminRoles_Cancel}</button>
+                <button class="slds-button slds-button_brand" onclick={saveEditClicked}>{Label.AdminRoles_Save}</button>
+              </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

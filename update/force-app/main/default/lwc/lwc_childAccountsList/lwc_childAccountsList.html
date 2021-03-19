@@ -1,0 +1,30 @@
+<template>
+    <template if:true={itemValueLengthGTzero}>  
+        <template if:true={iscomunidadcashnexus}>
+            <template if:true={islastupdate}>
+                <c-lwc_accounts-card iregister={iregister} ikey={ikey}  icurrency={icurrency} isortselected={isortselected}
+                    itabselected="LastUpdateTab" index={index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                    islastupdate={islastupdate} filters={filters} source={source} icurrencylist={icurrencylist}
+                    userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                    isonetrade={isonetrade} onrecoverselected={recoverselected}>
+                </c-lwc_accounts-card>
+            </template>
+            <template if:false={islastupdate}>
+                <c-lwc_accounts-card iregister={iregister} ikey={ikey}  icurrency={icurrency} isortselected={isortselected}
+                    itabselected="EndOfDayTab" index={index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylist}
+                    islastupdate={islastupdate} filters={filters} source={source} icurrencylist={icurrencylist}
+                    userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                    isonetrade={isonetrade} onrecoverselected={recoverselected}>
+                </c-lwc_accounts-card>
+            </template>           
+        </template>        
+        <template if:false={iscomunidadcashnexus}>            
+            <c-lwc_accounts-card iregister={iregister} ikey={ikey}  icurrency={icurrency} isortselected={isortselected}
+                itabselected="LastUpdateTab" index={index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                islastupdate="true" filters={filters} source={source} icurrencylist={icurrencylist}
+                userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
+                isonetrade={isonetrade} onrecoverselected={recoverselected}>
+            </c-lwc_accounts-card>
+        </template> 
+    </template>
+</template>

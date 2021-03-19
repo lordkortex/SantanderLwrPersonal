@@ -40,7 +40,7 @@
                                                         class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
                                         
                                                         <!-- Cuando el input esté disabled se le añade disabled="true"-->
-                                                        <input type="text" data-id="input" placeholder={label.accountnumber}
+                                                        <input type="text" data-id="input" value={value1.displayNumber} placeholder={label.accountnumber}
                                                             class="slds-input" name={name} id="1" onchange={sendFormData} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>
                                         
                                                         <!-- Icono que aparecerá cuando este disabled -->
@@ -60,17 +60,28 @@
                                                         <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
                                         
                                                         <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
-                                                        <div class="errorText">{error}</div>
+                                                        <template if:true={showError}>
+                                                            <template if:true={condition}>
+                                                                <template if:true={errormsg}>
+                                                                    <div class="errorText">{errormsg}{label.accountnumber}.</div>
+                                                                </template>
+                                                            </template>
+                                                            <template if:false={condition}>
+                                                                <template if:true={errormsg2}>
+                                                                    <div class="errorText">{errormsg2}{label.accountnumber}{format}</div>
+                                                                </template>
+                                                            </template>
+                                                        </template>
                                                     </div>
                                                 </div>
                                             </div>
                                                                                    
                                             <!-- TEXT INPUT SIMPLE -->
-                                            <c-cmp-text-input id="2" label={label.accountholder} placeholder={label.accountholder} ondata={sendFormData} required="true"></c-cmp-text-input>                                       
+                                            <c-cmp-text-input id="2" value={value1.subsidiaryName} label={label.accountholder} placeholder={label.accountholder} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>                                       
                                         </div>
                                         <div class="slds-col">
                                             <!-- TEXT INPUT SIMPLE -->
-                                            <c-cmp-text-input id="3" label={label.biccode} placeholder={label.biccode} ondata={sendFormData} required="true"></c-cmp-text-input>                                       
+                                            <c-cmp-text-input id="3" value={value1.codigoBic} label={label.biccode} placeholder={label.biccode} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>                                       
                                         </div>
                                     </div>
     
@@ -81,9 +92,20 @@
                                     <div class="slds-grid">
                                         <div class="slds-col">
                                             <!-- TEXT INPUT SIMPLE -->
-                                            <c-cmp-text-input id="4" label={label.province} placeholder={label.province} ondata={sendFormData} required="true"></c-cmp-text-input>                                       
+                                            <c-cmp-text-input id="4" value={value1.address.province} label={label.province} placeholder={label.province} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>                                       
                                             <!-- TEXT INPUT SIMPLE -->
-                                            <c-cmp-text-input id="5" label={label.streetandnumber} placeholder={label.streetandnumber} ondata={sendFormData} required="true"></c-cmp-text-input>                                                                                                                    
+                                            <c-cmp-text-input id="5" value={value1.address.streetName} label={label.streetandnumber} placeholder={label.streetandnumber} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
+                                        </div>
+                                        <div class="slds-col">
+                                            <!-- TEXT INPUT SIMPLE -->
+                                            <c-cmp-text-input id="6" value={value1.address.townName} label={label.city} placeholder={label.city} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>                                       
+                                            <!-- TEXT INPUT SIMPLE -->
+                                            <c-cmp-text-input id="7" value={value1.address.floor} label={label.floor} placeholder={label.floor} ondata={sendFormData} required="false"></c-cmp-text-input>                                       
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-grid">
+                                        <div class="slds-col">
                                             <!--SAVE-->
                                             <fieldset class="slds-form-element checkbox">
                                                 <div class="slds-form-element__control">
@@ -99,12 +121,6 @@
                                                     </div>
                                                 </div>
                                             </fieldset>
-                                        </div>
-                                        <div class="slds-col">
-                                            <!-- TEXT INPUT SIMPLE -->
-                                            <c-cmp-text-input id="6" label={label.city} placeholder={label.city} ondata={sendFormData} required="true"></c-cmp-text-input>                                       
-                                            <!-- TEXT INPUT SIMPLE -->
-                                            <c-cmp-text-input id="7" label={label.floor} placeholder={label.floor} ondata={sendFormData} required="false"></c-cmp-text-input>                                       
                                         </div>
                                     </div>
                                     
@@ -125,9 +141,9 @@
                                         <div class="slds-grid">
                                             <div class="slds-col">
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.accountholder} id="8" placeholder={label.accountholder} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.accountholder} value={value2.subsidiaryName} id="8" placeholder={label.accountholder} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.taxid} id="9" placeholder={label.taxid} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.taxid} id="9" value={value2.creditorDocument.documentNumber} placeholder={label.taxid} ondata={sendFormData} required="true" errormsg={errormsg} errormsg2={errormsg2}></c-cmp-text-input>
                                                                        
                                             </div>
     
@@ -144,7 +160,7 @@
                                                             class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
                                             
                                                             <!-- Cuando el input esté disabled se le añade disabled="true"-->
-                                                            <input type="text" data-id="input" placeholder={label.accountnumber}
+                                                            <input type="text" data-id="input" value={value2.displayNumber} placeholder={label.accountnumber}
                                                                 class="slds-input" name={name} id="10" onchange={sendFormData} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>
                                             
                                                             <!-- Icono que aparecerá cuando este disabled -->
@@ -164,7 +180,18 @@
                                                             <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
                                             
                                                             <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
-                                                            <div class="errorText">{error}</div>
+                                                            <template if:true={showError}>
+                                                                <template if:true={condition}>
+                                                                    <template if:true={errormsg}>
+                                                                        <div class="errorText">{errormsg}{label.accountnumber}.</div>
+                                                                    </template>
+                                                                </template>
+                                                                <template if:false={condition}>
+                                                                    <template if:true={errormsg2}>
+                                                                        <div class="errorText">{errormsg2}{label.accountnumber}{format}</div>
+                                                                    </template>
+                                                                </template>
+                                                            </template>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -180,22 +207,22 @@
                                         <div class="slds-grid">
                                             <div class="slds-col">
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.state} id="11" placeholder={label.state} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.state} id="11" value={value2.address.state} placeholder={label.state} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.streetandnumber} id="12" placeholder={label.streetandnumber} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.streetandnumber} id="12" value={value2.address.streetName} placeholder={label.streetandnumber} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
                                             </div>
     
                                             <div class="slds-col">
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.city} id="13" placeholder={label.city} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.city} id="13" value={value2.address.townName} placeholder={label.city} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.floor} id="14" placeholder={label.floor} ondata={sendFormData} required="false"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.floor} id="14" value={value2.address.floor} placeholder={label.floor} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
                                             </div>
                                         </div>
 
                                         <div class="slds-grid">
                                             <div class="slds-col">
-                                                <c-cmp-text-input label={label.addinfo} id="15" placeholder={label.addinfo} ondata={sendFormData} required="false"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.addinfo} id="15" value={value2.address.addressAddition} placeholder={label.addinfo} ondata={sendFormData} required="false"></c-cmp-text-input>
                                             </div>                                            
                                         </div>
     
@@ -235,26 +262,26 @@
                                         <div class="slds-grid">
                                             <div class="slds-col">
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.accountholder} id="16" placeholder={label.accountholder} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.accountholder} id="16" value={value3.subsidiaryName} placeholder={label.accountholder} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
 
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.taxid} id="17" placeholder={label.taxid} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.taxid} id="17" value={value3.creditorDocument.documentNumber} placeholder={label.taxid} ondata={sendFormData} required="true" errormsg={errormsg} errormsg2={errormsg2}></c-cmp-text-input>
 
                                                 <!-- DROPDOWN SINGLE CHOICE -->
-                                                <c-cmp-dropdown label={label.bankname} id="18" placeholder={label.bankname} valuelist={bankName} ondata={sendFormData} required="true"></c-cmp-dropdown>
+                                                <c-cmp-dropdown label={label.bankname} id="18" value={value3.bankName} placeholder={label.bankname} valuelist={bankName} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-dropdown>
 
                                                                                             
                                             </div>
     
                                             <div class="slds-col">
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input id="19" label={label.accountnumber} placeholder={label.accountnumber} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input id="19" value={value3.displayNumber} label={label.accountnumber} placeholder={label.accountnumber} ondata={sendFormData} required="true" errormsg={errormsg} errormsg2={errormsg2}></c-cmp-text-input>
     
                                                 <!-- DROPDOWN SINGLE CHOICE -->
-                                                <c-cmp-dropdown label={label.acctype} id="20" placeholder={label.acctype} valuelist={accountType} ondata={sendFormData} required="true"></c-cmp-dropdown>                                              
+                                                <c-cmp-dropdown label={label.acctype} id="20" value={value3.type} placeholder={label.acctype} valuelist={accountType} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-dropdown>                                              
                                                 
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.branch} id="21" placeholder={label.branch} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.branch} id="21" value={value3.branch} placeholder={label.branch} ondata={sendFormData} required="true" errormsg={errormsg} errormsg2={errormsg2}></c-cmp-text-input>
                                             </div>
                                         </div>
     
@@ -266,22 +293,22 @@
                                         <div class="slds-grid">
                                             <div class="slds-col">
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.state} id="22" placeholder={label.state} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.state} id="22" value={value3.address.state} placeholder={label.state} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.streetandnumber} id="23" placeholder={label.streetandnumber} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.streetandnumber} id="23" value={value3.address.streetName} placeholder={label.streetandnumber} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
                                             </div>
     
                                             <div class="slds-col">
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.city} id="24" placeholder={label.city} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.city} id="24" value={value3.address.townName} placeholder={label.city} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
                                                 <!-- TEXT INPUT SIMPLE -->
-                                                <c-cmp-text-input label={label.floor} id="25" placeholder={label.floor} ondata={sendFormData} required="false"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.floor} id="25" value={value3.address.floor} placeholder={label.floor} ondata={sendFormData} required="true" errormsg={errormsg}></c-cmp-text-input>
                                             </div>
                                         </div>
 
                                         <div class="slds-grid">
                                             <div class="slds-col">
-                                                <c-cmp-text-input label={label.addinfo} id="26" placeholder={label.addinfo} ondata={sendFormData} required="false"></c-cmp-text-input>
+                                                <c-cmp-text-input label={label.addinfo} id="26" value={value3.address.addressAddition} placeholder={label.addinfo} ondata={sendFormData} required="false"></c-cmp-text-input>
                                             </div>                                            
                                         </div>
     

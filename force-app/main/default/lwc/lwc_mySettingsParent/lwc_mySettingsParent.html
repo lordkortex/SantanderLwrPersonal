@@ -1,0 +1,107 @@
+<template>
+<!-- Apex CNT_UserSettingsController -->
+    <c-lwc_service-component></c-lwc_service-component>
+
+    <div class="c-container">
+
+        <div class="slds-text-heading_large">{Label.T_MyProfile}</div>
+
+        <hr />
+
+        <!-- BUTTONS -->
+        <div class="button-container">
+            <lightning-button variant="brand-outline" label={Label.edit} title={Label.edit} onclick={editButtonClicked} ></lightning-button>
+            <template if:true={userinfo.isCashNexus}>
+                <lightning-button variant="brand-outline" label={Label.Change_Password} title={Label.Change_Password} onclick={changePasswordButtonClicked}></lightning-button>
+            </template>
+        </div>
+
+        <lightning-layout multiple-rows="true">
+            <!-- LANGUAJE BLOCK -->
+            <lightning-layout-item size="6" padding="around-small">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label">{Label.language}</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{userinfo.Language}</div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+
+            
+            <!-- TIME ZONE BLOCK -->
+            
+            <lightning-layout-item size="6" padding="around-small">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label"> {Label.timeZone} </span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{userinfo.TimeZone}</div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+
+            <!-- DATE FORMAT -->
+            <lightning-layout-item size="6" padding="around-small">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label">{Label.dateFormat}</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{userinfo.DateFormat}</div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+
+            <!-- LOCALE BLOCK -->
+            <lightning-layout-item size="6" padding="around-small">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label">{Label.numberFormat}</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{userinfo.NumberFormat}</div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+        
+
+            <!-- CURRENCY PAIRS 1 BLOCK 
+            <lightning-layout-item size="6" padding="around-small">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label">{Label.currency} Pair 1</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{userinfo.ccyPairs1}</div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+
+             CURRENCY PAIRS 2 BLOCK 
+            <lightning-layout-item size="6" padding="around-small">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label">{Label.currency} Pair 2</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{userinfo.ccyPairs3}</div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+
+             CURRENCY PAIRS 3 BLOCK 
+            <lightning-layout-item size="6" padding="around-small">
+                <div class="slds-form-element slds-form-element_readonly">
+                    <span class="slds-form-element__label">{Label.currency} Pair 3</span>
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__static">{userinfo.ccyPairs3}</div>
+                    </div>
+                </div>
+            </lightning-layout-item>
+            -->
+        </lightning-layout>
+        
+    </div>
+
+    <template if:true={isediting}>
+        <c-lwc_my-settings-edit userpicklistvalues={userpicklistvalues} isediting={isediting} userinfoedit={userinfoedit} onbuttoncancel={cancel}>
+        </c-lwc_my-settings-edit>
+    </template>
+
+    <template if:true={ischangingpassword}>
+        <c-lwc_my-settings-change-password ischangingpassword={ischangingpassword} onbuttoncancelchangepassword={cancelchangepassword}>
+        </c-lwc_my-settings-change-password>
+    </template>
+
+</template>

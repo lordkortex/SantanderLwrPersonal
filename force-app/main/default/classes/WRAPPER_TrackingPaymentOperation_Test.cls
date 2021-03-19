@@ -1,245 +1,424 @@
 @isTest
 public with sharing class WRAPPER_TrackingPaymentOperation_Test {
-
-    @isTest
-    static void testParse () {
-        WRAPPER_TrackingPaymentOperation obj = new WRAPPER_TrackingPaymentOperation();
-        String operationStatus_status = 'Authorized';
-        String operationStatus_reason = 'Payment is partially authorized';
-        String operationStatus_statusDate = '2020-04-22T17:15:35.552Z';
-        String operationStatus_globalUserId = 'globalUserId_TEST';
-        WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus = new WRAPPER_TrackingPaymentOperation.OperationStatus(operationStatus_status, operationStatus_reason, operationStatus_statusDate, operationStatus_globalUserId);
-        WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus_1 = new WRAPPER_TrackingPaymentOperation.OperationStatus(operationStatus_status, operationStatus_reason, operationStatus_statusDate);
-        WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus_2 = new WRAPPER_TrackingPaymentOperation.OperationStatus(operationStatus_status, operationStatus_reason);
-        WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus_3 = new WRAPPER_TrackingPaymentOperation.OperationStatus(operationStatus_status);
-        WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus_4 = new WRAPPER_TrackingPaymentOperation.OperationStatus();
-        String sourceAddress_streetName = 'streetName_TEST';
-        String sourceAddress_townName = 'townName_TEST';
-        String sourceAddress_country = 'country_TEST';
-        WRAPPER_TrackingPaymentOperation.SourceAddress sourceAddress = new WRAPPER_TrackingPaymentOperation.SourceAddress(sourceAddress_streetName, sourceAddress_townName, sourceAddress_country);
-        WRAPPER_TrackingPaymentOperation.SourceAddress sourceAddress_2 = new WRAPPER_TrackingPaymentOperation.SourceAddress();
-        String sourceAccount_accountType = 'IBA';
-        String sourceAccount_accountId = 'GB54ABBY6578956387330';
-        String sourceAccount_tcurrency = 'GBP';
-        WRAPPER_TrackingPaymentOperation.SourceAccount sourceAccount = new WRAPPER_TrackingPaymentOperation.SourceAccount(sourceAccount_accountType, sourceAccount_accountId, sourceAccount_tcurrency);
-        WRAPPER_TrackingPaymentOperation.SourceAccount sourceAccount_1 = new WRAPPER_TrackingPaymentOperation.SourceAccount();
-        String sourceAgent_agentId = 'ABBYGB2LXXX';
-        String sourceAgent_name = 'SANTANDER UK PLC';
-        String sourceAgent_address = 'Bridle Road';
-        WRAPPER_TrackingPaymentOperation.SourceAgent sourceAgent = new WRAPPER_TrackingPaymentOperation.SourceAgent(sourceAgent_agentId, sourceAgent_name, sourceAgent_address);
-        WRAPPER_TrackingPaymentOperation.SourceAgent sourceAgent_1 = new WRAPPER_TrackingPaymentOperation.SourceAgent();
-        String sourceData_sourceName = 'Banco Santander';
-        String sourceData_customerId = 'customerId_Test';
-        String sourceData_companyGlobalId ='companyGlobalId_TEST';
-        String sourceData_country = 'ES';
-        WRAPPER_TrackingPaymentOperation.SourceData sourceData = new WRAPPER_TrackingPaymentOperation.SourceData(sourceData_sourceName, sourceData_customerId, sourceData_companyGlobalId, sourceAddress, sourceAccount, sourceAgent, sourceData_country);
-        WRAPPER_TrackingPaymentOperation.SourceData sourceData_2 = new WRAPPER_TrackingPaymentOperation.SourceData();
-        String sourceFeeData_sourceName = 'sourceName_TEST';
-        String sourceFeeData_country = 'ES';
-        WRAPPER_TrackingPaymentOperation.SourceFeeData sourceFeeData = new WRAPPER_TrackingPaymentOperation.SourceFeeData(sourceFeeData_sourceName, sourceAccount, sourceAgent, sourceFeeData_country);
-        WRAPPER_TrackingPaymentOperation.SourceFeeData sourceFeeData_1 = new WRAPPER_TrackingPaymentOperation.SourceFeeData();
-        String destinationData_sourceName = 'sourceName_TEST';
-        String destinationData_customerId = 'customerId_TEST';
-        String destinationData_companyGlobalId = 'companyGlobalId_TEST';
-        String destinationData_country= 'ES';
-        WRAPPER_TrackingPaymentOperation.DestinationData destinationData = new WRAPPER_TrackingPaymentOperation.DestinationData(destinationData_sourceName, destinationData_customerId, destinationData_companyGlobalId, sourceAddress, sourceAccount, sourceAgent, destinationData_country);
-        WRAPPER_TrackingPaymentOperation.DestinationData destinationData_1 = new WRAPPER_TrackingPaymentOperation.DestinationData();
-        WRAPPER_TrackingPaymentOperation.IntermediateAgentAccount intermediateAgentAccount = new WRAPPER_TrackingPaymentOperation.IntermediateAgentAccount();
-        intermediateAgentAccount.accountType = 'accountType_Test';
-        intermediateAgentAccount.accountId = 'accountId_Test';
-        WRAPPER_TrackingPaymentOperation.OperationStep1Data operationStep1Data = new WRAPPER_TrackingPaymentOperation.OperationStep1Data();
-        operationStep1Data.opStep1Id = 'opStep1Id';
-        operationStep1Data.status = 'status_TEST';
-        operationStep1Data.valueDate = '2020-06-17';
-        operationStep1Data.flowIndicator = 'S';
-        operationStep1Data.intermediateAgentAccount = intermediateAgentAccount;
-        WRAPPER_TrackingPaymentOperation.OperationStep2Data operationStep2Data = new WRAPPER_TrackingPaymentOperation.OperationStep2Data();
-        operationStep2Data.opStep2Id = 'opStep1Id';
-        operationStep2Data.status = 'status_TEST';
-        operationStep2Data.valueDate = '2020-06-17';
-        operationStep2Data.flowIndicator = 'S';
-        operationStep2Data.intermediateAgentAccount = intermediateAgentAccount;
-        String operationAmount_tcurrency = 'PLN';
-        Double operationAmount_amount = 1000;
-        WRAPPER_TrackingPaymentOperation.OperationAmount operationAmount = new  WRAPPER_TrackingPaymentOperation.OperationAmount(operationAmount_tcurrency, operationAmount_amount);
-        WRAPPER_TrackingPaymentOperation.OperationAmount operationAmount_1 = new  WRAPPER_TrackingPaymentOperation.OperationAmount();
-        String operationAmountBaseCurrency_tcurrency = 'PLN';
-        Double operationAmountBaseCurrency_amount = 1000;
-        WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency operationAmountBaseCurrency = new  WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency(operationAmountBaseCurrency_tcurrency, operationAmountBaseCurrency_amount);
-        WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency operationAmountBaseCurrency_1 = new  WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency();
-        String counterValueOperationAmount_tcurrency = 'USD';
-        Double counterValueOperationAmount_amount = 0;
-        String counterValueOperationAmount_tradeCurrency = 'EUR';
-        WRAPPER_TrackingPaymentOperation.CounterValueOperationAmount counterValueOperationAmount = new WRAPPER_TrackingPaymentOperation.CounterValueOperationAmount(counterValueOperationAmount_tcurrency, counterValueOperationAmount_amount, counterValueOperationAmount_tradeCurrency);
-        WRAPPER_TrackingPaymentOperation.CounterValueOperationAmount counterValueOperationAmount_1 = new WRAPPER_TrackingPaymentOperation.CounterValueOperationAmount();
-        WRAPPER_TrackingPaymentOperation.OperationFraudDetails operationFraudDetails = new WRAPPER_TrackingPaymentOperation.OperationFraudDetails();
-        operationFraudDetails.fraudValidationResult = 'OK';
-        operationFraudDetails.fraudReference = '9a0a67d3675b4627b28034517737437f';
-        Double ccyCountervalue_ccyCountervalueAmount = 1200.85;
-        String ccyCountervalue_ccyCountervalueCurrency = 'EUR';
-        WRAPPER_TrackingPaymentOperation.CcyCountervalue ccyCountervalue = new WRAPPER_TrackingPaymentOperation.CcyCountervalue(ccyCountervalue_ccyCountervalueAmount, ccyCountervalue_ccyCountervalueCurrency);
-        WRAPPER_TrackingPaymentOperation.CcyCountervalue ccyCountervalue_1 = new WRAPPER_TrackingPaymentOperation.CcyCountervalue();
-        WRAPPER_TrackingPaymentOperation.FxComercialMargin fxComercialMargin = new WRAPPER_TrackingPaymentOperation.FxComercialMargin();
-        fxComercialMargin.fxComercialMarginCurrency = 'EUR';
-        fxComercialMargin.fxComercialMarginAmount = 27.05;
-        WRAPPER_TrackingPaymentOperation.NominalAmountNoMarkUp nominalAmountNoMarkUp = new WRAPPER_TrackingPaymentOperation.NominalAmountNoMarkUp();
-        nominalAmountNoMarkUp.amount = 345.89;
-        nominalAmountNoMarkUp.tcurrency = 'EUR';
-        WRAPPER_TrackingPaymentOperation.OperationNominalFxDetails operationNominalFxDetails = new WRAPPER_TrackingPaymentOperation.OperationNominalFxDetails();
-        operationNominalFxDetails.fxCountervalueId = 'A12345678901234567890123456789012345B';
-        operationNominalFxDetails.priceType = 'ONL';
-        operationNominalFxDetails.discount = 25;
-        operationNominalFxDetails.ccyCountervalue = ccyCountervalue;
-        operationNominalFxDetails.valueDateEfx = '2020-07-15';
-        operationNominalFxDetails.customerExchangeRate = 1.10000002;
-        operationNominalFxDetails.fxComercialMargin = fxComercialMargin;
-        operationNominalFxDetails.nominalAmountNoMarkUp = nominalAmountNoMarkUp;
-        WRAPPER_TrackingPaymentOperation.SpecialFixedRatePrice specialFixedRatePrice = new WRAPPER_TrackingPaymentOperation.SpecialFixedRatePrice();
-        specialFixedRatePrice.specialRate = 1.250126;
-        specialFixedRatePrice.specialMinimumAmount = 10;
-        specialFixedRatePrice.specialMaximumAmount = 500;
-        specialFixedRatePrice.tcurrency = 'EUR';
-        WRAPPER_TrackingPaymentOperation.SpecialFixedAmountPrice specialFixedAmountPrice = new WRAPPER_TrackingPaymentOperation.SpecialFixedAmountPrice();
-        specialFixedAmountPrice.specialFixedAmount = 3;
-        specialFixedAmountPrice.tcurrency = 'EUR';
-        WRAPPER_TrackingPaymentOperation.SpecialTiersList specialTiersList = new WRAPPER_TrackingPaymentOperation.SpecialTiersList();
-        specialTiersList.specialAmountTier = 50000.12345;
-        specialTiersList.specialAmountTierType = 'I';
-        specialTiersList.specialFixedRatePrice = specialFixedRatePrice;
-        specialTiersList.specialFixedAmountPrice = specialFixedAmountPrice;
-        List<WRAPPER_TrackingPaymentOperation.SpecialTiersList> specialTiersL = new List<WRAPPER_TrackingPaymentOperation.SpecialTiersList>();
-        specialTiersL.add(specialTiersList);
-        WRAPPER_TrackingPaymentOperation.SpecialPrice specialPrice = new WRAPPER_TrackingPaymentOperation.SpecialPrice();
-        specialPrice.specialPriceLevel = 'product agreement';
-        specialPrice.specialTiersList= specialTiersL;
-        WRAPPER_TrackingPaymentOperation.StandardFixedAmountPrice standardFixedAmountPrice = new WRAPPER_TrackingPaymentOperation.StandardFixedAmountPrice();
-        standardFixedAmountPrice.standardFixedAmount = 3;
-        standardFixedAmountPrice.tcurrency ='EUR';
-        WRAPPER_TrackingPaymentOperation.StandardFixedRatePrice standardFixedRatePrice = new WRAPPER_TrackingPaymentOperation.StandardFixedRatePrice();
-        standardFixedRatePrice.standardRate = 1.25;
-        standardFixedRatePrice.standardMaximumAmount = 500;
-        standardFixedRatePrice.standardMinimumAmount = 10;
-        standardFixedRatePrice.tcurrency = 'EUR';
-        WRAPPER_TrackingPaymentOperation.StandardTiersList standardTiersList = new WRAPPER_TrackingPaymentOperation.StandardTiersList();
-        standardTiersList.standardAmountTier = 5000.12345;
-        standardTiersList.standardAmountTierType = 's';
-        standardTiersList.standardFixedAmountPrice = standardFixedAmountPrice;
-        standardTiersList.standardFixedRatePrice = standardFixedRatePrice;
-        List <WRAPPER_TrackingPaymentOperation.StandardTiersList> standardTiersL = new List<WRAPPER_TrackingPaymentOperation.StandardTiersList>();
-        standardTiersL.add(standardTiersList);
-        WRAPPER_TrackingPaymentOperation.StandardPrice standarPrice = new WRAPPER_TrackingPaymentOperation.StandardPrice();
-        standarPrice.standardTiersList = standardTiersL;
-        WRAPPER_TrackingPaymentOperation.ConceptAmount conceptAmount = new WRAPPER_TrackingPaymentOperation.ConceptAmount();
-        conceptAmount.amount = 250;
-        conceptAmount.tcurrency = 'EUR';
-        conceptAmount.fixing = 1.25;
-        WRAPPER_TrackingPaymentOperation.ConceptsList conceptsList = new WRAPPER_TrackingPaymentOperation.ConceptsList();
-        conceptsList.conceptId = 'conceptId_TEST';
-        conceptsList.conceptName = '';
-        conceptsList.specialPrice = specialPrice;
-        conceptsList.conceptAmount = conceptAmount;
-        List< WRAPPER_TrackingPaymentOperation.ConceptsList> conceptL = new List<WRAPPER_TrackingPaymentOperation.ConceptsList>();
-        conceptL.add(conceptsList);
-        WRAPPER_TrackingPaymentOperation.CurrencyList currencyList = new WRAPPER_TrackingPaymentOperation.CurrencyList();
-        currencyList.tcurrency = 'USD';
-        String currencyList_tcurrency = currencyList.tcurrency;
-        currencyList.currencyName = 'U.S. dollar';
-        currencyList.conceptsList = conceptL;
-        WRAPPER_TrackingPaymentOperation.CurrencyList currencyList_1 = new WRAPPER_TrackingPaymentOperation.CurrencyList(currencyList_tcurrency);
-        List<WRAPPER_TrackingPaymentOperation.CurrencyList> currencyL = new List<WRAPPER_TrackingPaymentOperation.CurrencyList>();
-        currencyL.add(currencyList);
-        String pricingDetails_productName = 'productName_TEST';
-        Double pricingDetails_totalPrice = 38.9;
-        String pricingDetails_tcurrency = 'EUR';
-        WRAPPER_TrackingPaymentOperation.PricingDetails pricingDetails = new WRAPPER_TrackingPaymentOperation.PricingDetails(pricingDetails_productName, pricingDetails_totalPrice, pricingDetails_tcurrency, currencyL);
-        WRAPPER_TrackingPaymentOperation.PricingDetails pricingDetails_1 = new WRAPPER_TrackingPaymentOperation.PricingDetails(pricingDetails_totalPrice, pricingDetails_tcurrency);
-        WRAPPER_TrackingPaymentOperation.PricingDetails pricingDetails_2 = new WRAPPER_TrackingPaymentOperation.PricingDetails();
-        String reviewAdditionalData_subject= 'subject_TEST';
-        String reviewAdditionalData_description = 'description_TEST';
-        WRAPPER_TrackingPaymentOperation.ReviewAdditionalData reviewAdditionalData = new WRAPPER_TrackingPaymentOperation.ReviewAdditionalData(reviewAdditionalData_subject, reviewAdditionalData_description);
-        WRAPPER_TrackingPaymentOperation.ReviewAdditionalData reviewAdditionalData_1 = new WRAPPER_TrackingPaymentOperation.ReviewAdditionalData();
-        String rejectAdditionalData_subject = 'subject_TEST';
-        String rejectAdditionalData_description = 'description_TEST';
-        WRAPPER_TrackingPaymentOperation.RejectAdditionalData rejectAdditionalData = new WRAPPER_TrackingPaymentOperation.RejectAdditionalData(rejectAdditionalData_subject, rejectAdditionalData_description);
-        WRAPPER_TrackingPaymentOperation.RejectAdditionalData rejectAdditionalData_1 = new WRAPPER_TrackingPaymentOperation.RejectAdditionalData();
-        WRAPPER_TrackingPaymentOperation.OperationNominalFxDetails operationNominalFxRefundDetails = new WRAPPER_TrackingPaymentOperation.OperationNominalFxDetails();
-        operationNominalFxRefundDetails.fxCountervalueId  = 'A12345678901234567890123456789012345B';
-        operationNominalFxRefundDetails.priceType = 'ONL';
-        operationNominalFxRefundDetails.discount = 25 ;
-        operationNominalFxRefundDetails.ccyCountervalue = ccyCountervalue;
-        operationNominalFxRefundDetails.valueDateEfx = '2020-07-15';
-        operationNominalFxRefundDetails.customerExchangeRate = 1.10000002;
-        operationNominalFxRefundDetails.fxComercialMargin = fxComercialMargin;
-        operationNominalFxRefundDetails.nominalAmountNoMarkUp = nominalAmountNoMarkUp;
-        String operationNominalFxRollbackDetails_fxCountervalueId = 'fxCountervalueId_TEST';
-        String operationNominalFxRollbackDetails_priceType = 'priceType:TEST';
-        String operationNominalFxRollbackDetails_valueDateEfx= 'valueDateEfx_TEST';
-        Double operationNominalFxRollbackDetails_customerExchangeRate = 20;
-        WRAPPER_TrackingPaymentOperation.OperationNominalFxRollbackDetails operationNominalFxRollbackDetails = new WRAPPER_TrackingPaymentOperation.OperationNominalFxRollbackDetails(operationNominalFxRollbackDetails_fxCountervalueId, operationNominalFxRollbackDetails_priceType, ccyCountervalue, operationNominalFxRollbackDetails_valueDateEfx, operationNominalFxRollbackDetails_customerExchangeRate);
-        WRAPPER_TrackingPaymentOperation.OperationNominalFxRollbackDetails operationNominalFxRollbackDetails_1 = new WRAPPER_TrackingPaymentOperation.OperationNominalFxRollbackDetails();
-        String operationFeesFxDetails_fxCountervalueId = 'A12345678901234567890123456789012345B';
-        String operationFeesFxDetails_priceType = 'ONL';
-        Integer operationFeesFxDetails_discount = 25 ;
-        String  operationFeesFxDetails_valueDateEfx = '2020-07-15';
-        Double operationFeesFxDetails_customerExchangeRate = 1.10000002;
-        WRAPPER_TrackingPaymentOperation.OperationFeesFxDetails operationFeesFxDetails = new WRAPPER_TrackingPaymentOperation.OperationFeesFxDetails(operationFeesFxDetails_fxCountervalueId, operationFeesFxDetails_priceType, operationFeesFxDetails_discount, ccyCountervalue, operationFeesFxDetails_valueDateEfx, operationFeesFxDetails_customerExchangeRate);
-        WRAPPER_TrackingPaymentOperation.OperationFeesFxDetails operationFeesFxDetails_1 = new WRAPPER_TrackingPaymentOperation.OperationFeesFxDetails();
-        String operationDetail_paymentMethod = 'paymentMethod_TEST';
-        String operationDetail_issueDate = '2020-07-07T13:05:30.346Z';
-        String operationDetail_chargeBearer = 'chargeBearer_TEST';
-        String operationDetail_clientReference = 'clientReference_TEST';
-        String operationDetail_purpose = 'purpose_TEST';
-        String operationDetail_description = 'Description_TEST';
-        String operationDetail_subject = 'Customer Order 0123213213';
-        String operationDetail_commercialCode = 'comercialCode_Test';
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationDetail_paymentMethod, operationStatus, sourceData, destinationData, operationStep1Data, operationStep2Data, operationDetail_issueDate, operationDetail_chargeBearer, operationAmount, counterValueOperationAmount, operationAmount, operationDetail_clientReference, operationDetail_purpose, operationDetail_description, operationDetail_subject, operationFraudDetails, operationNominalFxDetails, operationFeesFxDetails, operationNominalFxRollbackDetails, pricingDetails);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_1 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationDetail_subject, operationDetail_description, operationAmount, operationStatus );
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_2 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationStatus);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_3 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationDetail_clientReference, operationDetail_purpose, operationDetail_subject, operationDetail_chargeBearer, operationDetail_paymentMethod, operationDetail_commercialCode);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_4 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationDetail_clientReference, operationDetail_purpose, operationDetail_subject, operationDetail_chargeBearer, operationDetail_paymentMethod, operationDetail_commercialCode, operationDetail_issueDate, operationAmountBaseCurrency);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_5 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationDetail_clientReference, operationDetail_purpose, operationDetail_subject, operationDetail_chargeBearer, operationDetail_paymentMethod);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_6 = new WRAPPER_TrackingPaymentOperation.OperationDetail(counterValueOperationAmount, pricingDetails);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_7 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationAmount, pricingDetails);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_8 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationAmount, pricingDetails, operationFeesFxDetails);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_9 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationAmount, counterValueOperationAmount, pricingDetails, operationFeesFxDetails, operationAmount);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_10 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationAmount, counterValueOperationAmount, pricingDetails, operationFeesFxDetails);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_11 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationStatus, rejectAdditionalData);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_12 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationStatus, reviewAdditionalData);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_13 = new WRAPPER_TrackingPaymentOperation.OperationDetail(sourceData, destinationData, sourceFeeData);
-        WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_14 = new WRAPPER_TrackingPaymentOperation.OperationDetail();
-        WRAPPER_TrackingPaymentOperation.RefundDetails refundDetails = new WRAPPER_TrackingPaymentOperation.RefundDetails();
-        refundDetails.globalUserId = 'x124903';
-        refundDetails.authUserId = 'x569085';
-        refundDetails.authDate = '2020-06-17T10:20:33.256Z';
-        refundDetails.authComments = 'The funds can be returned to the customer. Validation OK';
-        refundDetails.creationDate ='2020-06-17T10:20:33.256Z';
-        refundDetails.refundType = 'bank_error';
-        refundDetails.refundAmount = nominalAmountNoMarkUp;
-        refundDetails.status = 'status_TEST';
-        refundDetails.reason = 'Duplicated payment confirmed due to a bank error. Funds have to be returned to the originator of the original payment';
-        refundDetails.comments = 'Refund needed due to a possible duplicated detected';
-        refundDetails.refundDate = '2020-06-17';
-        refundDetails.operationFeesFxRefundDetails = operationFeesFxDetails;
-        refundDetails.operationNominalFxRefundDetails =  operationNominalFxRefundDetails;
-        WRAPPER_TrackingPaymentOperation.OperationTracking operationTracking = new WRAPPER_TrackingPaymentOperation.OperationTracking();
-        operationTracking.trackingOperationType ='postrequestcountervalue';
-        operationTracking.headers = 'headers_TEST';
-        operationTracking.responseBody= 'responseBody_TEST';
-        operationTracking.responseDate = '2020-07-25T10:10:10.123Z';
-        operationTracking.responseCode = 200;
-        operationTracking.responseDescription = 'responseDescription_TEST';
-        List<WRAPPER_TrackingPaymentOperation.OperationTracking> oT = new List<WRAPPER_TrackingPaymentOperation.OperationTracking>();
-        oT.add(operationTracking);
-        WRAPPER_TrackingPaymentOperation.InputData inputData = new WRAPPER_TrackingPaymentOperation.InputData();
-        inputData.operationDetail = operationDetail;
-        inputData.refundDetails = refundDetails;
-        inputData.operationTracking=oT;
-        WRAPPER_TrackingPaymentOperation.InputData inputData_2 = new WRAPPER_TrackingPaymentOperation.InputData(operationDetail);
-        obj.inputData = inputData;
-        WRAPPER_TrackingPaymentOperation.INPUT input = new WRAPPER_TrackingPaymentOperation.INPUT(inputData);
-        WRAPPER_TrackingPaymentOperation.INPUT input_2 = new WRAPPER_TrackingPaymentOperation.INPUT();
-        WRAPPER_TrackingPaymentOperation.OUTPUT output = new WRAPPER_TrackingPaymentOperation.OUTPUT();
-        String json = '{"inputData": {"operationDetail": {"paymentMethod": "paymentMethod_TEST","operationStatus": {"status": "Authorized","reason": "Payment is partially authorized","statusDate": "2020-04-22T17:15:35.552Z","globalUserId": "globalUserId_TEST"},"sourceData": {"name": "Banco Santander","customerId": "customerId_Test","companyGlobalId": "companyGlobalId_TEST","sourceAddress": {"streetName": "streetName_TEST","townName": "townName_TEST","country": "country_TEST"},"sourceAccount": {"accountType": "IBA","accountId": "GB54ABBY6578956387330","tcurrency": "GBP"},"sourceAgent": {"agentId": "ABBYGB2LXXX","name": "SANTANDER UK PLC","address": "Bridle Road"},"country": "ES"},"sourceFeeData":{"sourceName": "sourceName_TEST","sourceAccount": {"accountType": "IBA","accountId": "GB54ABBY6578956387330","tcurrency": "GBP"},"sourceAgent": {"agentId": "ABBYGB2LXXX","name": "SANTANDER UK PLC","address": "Bridle Road"},"country": "ES"},"destinationData": {"sourceName": "sourceName_TEST","customerId": "customerId_TEST","companyGlobalId": "companyGlobalId","destinationAddress": {"streetName": "streetName_TEST","townName": "townName_TEST","country": "country_TEST"},"destinationAccount": {"accountType": "IBA","accountId": "ES54004956387330056782","tcurrency": "EUR"},"destinationAgent": {"agentId": "BSCHESMMXXX","name": "Banco Santander España","address": "Avda Cantabria s/n Boadilla del Monte"},"country": "ES"},"operationStep1Data": {"opStep1Id": "string","status": "string","valueDate": "2020-06-17","flowIndicator": "S","intermediateAgentAccount": {"accountType": "string","accountId": "string"}},"operationStep2Data": {"opStep2Id": "string","status": "string","valueDate": "2020-06-17","flowIndicator": "D","intermediateAgentAccount": {"accountType": "string","accountId": "string"}},"issueDate": "2020-07-07T13:05:30.346Z","chargeBearer": "string","operationAmount": {"tcurrency": "PLN","amount": 1000},"OperationAmountBaseCurrency": {"tcurrency": "PLN","amount": 1000},"counterValueOperationAmount": {"tcurrency": "USD","amount": 0,"tradeCurrency": "EUR"},"sourceTotalAmount": {"tcurrency": "USD","amount": 0},"clientReference": "string","purpose": "string","subject": "Customer Order 0123213213","operationFraudDetails": {"fraudValidationResult": "OK","fraudReference": "9a0a67d3675b4627b28034517737437f"},"operationNominalFxDetails": {"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","discount": 25,"ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002,"fxComercialMargin": {"fxComercialMarginCurrency": "EUR","fxComercialMarginAmount": 27.05},"nominalAmountNoMarkUp": {"amount": 345.89,"tcurrency": "EUR"}},"operationFeesFxDetails": {"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","discount": 25,"ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002},"operationNominalFxRollbackDetails":{"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002},"pricingDetails": {"productName": "string","totalPrice": 38.9,"tcurrency": "EUR","currencyList": [{"tcurrency": "USD","currencyName": "U.S. dollar","conceptsList": [{"conceptId": 293,"conceptName": "share fee","specialPrice": {"specialPriceLevel": "product agreement","specialTiersList": [{"specialAmountTier": 50000.12345,"specialAmountTierType": "I","specialFixedRatePrice": {"specialRate": 1.250126,"specialMinimumAmount": 10,"specialMaximumAmount": 500,"tcurrency": "EUR"},"specialFixedAmountPrice": {"specialFixedAmount": 3,"tcurrency": "EUR"}}]},"standardPrice": {"standardTiersList": [{"standardAmountTier": 5000.12345,"standardAmountTierType": "S","standardFixedRatePrice": {"standardRate": 1.25,"standardMinimumAmount": 10,"standardMaximumAmount": 500,"tcurrency": "EUR"},"standardFixedAmountPrice": {"standardFixedAmount": 3,"tcurrency": "EUR"}}]},"conceptAmount": {"amount": 250,"tcurrency": "EUR","fixing": 1.25}}]}]},"comercialCode": "comercialCode_Test","reviewAdditionalData": { "subject": "subject_TEST", "description": "description_TEST"},"rejectAdditionalData": {"subject": "subject_TEST", "description": "description_TEST"}},"refundDetails": {"globalUserId": "x124903","authUserId": "x569085","authDate": "2020-06-17T10:20:33.256Z","authComments": "The funds can be returned to the customer. Validation OK","creationDate": "2020-06-17T10:20:33.256Z","refundType": "bank_error","refundAmount": {"amount": 1234566.98,"tcurrency": "EUR"},"status": "string","reason": "Duplicated payment confirmed due to a bank error. Funds have to be returned to the originator of the original payment","comments": "Refund needed due to a possible duplicated detected","refundDate": "2020-06-17","operationNominalFxRefundDetails": {"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","discount": 25,"ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002,"fxComercialMargin": {"fxComercialMarginCurrency": "EUR","fxComercialMarginAmount": 27.05},"nominalAmountNoMarkUp": {"amount": 345.89,"tcurrency": "EUR"}},"operationFeesFxRefundDetails": {"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","discount": 25,"ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002}},"operationTracking": [{"trackingOperationType": "postrequestcountervalue","headers": "string","resquestBody": "string","responseBody": "string","responseDate": "2020-07-25T10:10:10.123Z","responseCode": 200,"responseDescription": "string"}]}}';
-        WRAPPER_TrackingPaymentOperation objPO = WRAPPER_TrackingPaymentOperation.parse(json);
-    }
+  @isTest
+  static void testParse() {
+    WRAPPER_TrackingPaymentOperation obj = new WRAPPER_TrackingPaymentOperation();
+    String operationStatus_status = 'Authorized';
+    String operationStatus_reason = 'Payment is partially authorized';
+    String operationStatus_statusDate = '2020-04-22T17:15:35.552Z';
+    String operationStatus_globalUserId = 'globalUserId_TEST';
+    WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus = new WRAPPER_TrackingPaymentOperation.OperationStatus(
+      operationStatus_status,
+      operationStatus_reason,
+      operationStatus_statusDate,
+      operationStatus_globalUserId
+    );
+    WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus_1 = new WRAPPER_TrackingPaymentOperation.OperationStatus(
+      operationStatus_status,
+      operationStatus_reason,
+      operationStatus_statusDate
+    );
+    WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus_2 = new WRAPPER_TrackingPaymentOperation.OperationStatus(
+      operationStatus_status,
+      operationStatus_reason
+    );
+    WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus_3 = new WRAPPER_TrackingPaymentOperation.OperationStatus(
+      operationStatus_status
+    );
+    WRAPPER_TrackingPaymentOperation.OperationStatus operationStatus_4 = new WRAPPER_TrackingPaymentOperation.OperationStatus();
+    String sourceAddress_streetName = 'streetName_TEST';
+    String sourceAddress_townName = 'townName_TEST';
+    String sourceAddress_country = 'country_TEST';
+    String floor = 'floor_TEST';
+    String state = 'state_TEST';
+    String province = 'province_TEST';
+    String additionalInformation = 'Additional_TEST';
+    WRAPPER_TrackingPaymentOperation.SourceAddress sourceAddress = new WRAPPER_TrackingPaymentOperation.SourceAddress(
+      sourceAddress_streetName,
+      sourceAddress_townName,
+      sourceAddress_country
+    );
+    WRAPPER_TrackingPaymentOperation.SourceAddress sourceAddress_2 = new WRAPPER_TrackingPaymentOperation.SourceAddress();
+    WRAPPER_TrackingPaymentOperation.DestinationAddress destinationAddress = new WRAPPER_TrackingPaymentOperation.DestinationAddress(
+      sourceAddress_streetName,
+      floor,
+      sourceAddress_townName,
+      state,
+      province,
+      sourceAddress_country,
+      additionalInformation
+    );
+    String sourceAccount_accountType = 'IBA';
+    String sourceAccount_accountId = 'GB54ABBY6578956387330';
+    String sourceAccount_tcurrency = 'GBP';
+    WRAPPER_TrackingPaymentOperation.SourceAccount sourceAccount = new WRAPPER_TrackingPaymentOperation.SourceAccount(
+      sourceAccount_accountType,
+      sourceAccount_accountId,
+      sourceAccount_tcurrency
+    );
+    WRAPPER_TrackingPaymentOperation.SourceAccount sourceAccount_1 = new WRAPPER_TrackingPaymentOperation.SourceAccount();
+    String sourceAgent_agentId = 'ABBYGB2LXXX';
+    String sourceAgent_name = 'SANTANDER UK PLC';
+    String sourceAgent_address = 'Bridle Road';
+    WRAPPER_TrackingPaymentOperation.SourceAgent sourceAgent = new WRAPPER_TrackingPaymentOperation.SourceAgent(
+      sourceAgent_agentId,
+      sourceAgent_name,
+      sourceAgent_address
+    );
+    WRAPPER_TrackingPaymentOperation.SourceAgent sourceAgent_1 = new WRAPPER_TrackingPaymentOperation.SourceAgent();
+    String sourceData_sourceName = 'Banco Santander';
+    String sourceData_customerId = 'customerId_Test';
+    String sourceData_companyGlobalId = 'companyGlobalId_TEST';
+    String sourceData_country = 'ES';
+    WRAPPER_TrackingPaymentOperation.SourceData sourceData = new WRAPPER_TrackingPaymentOperation.SourceData(
+      sourceData_sourceName,
+      sourceData_customerId,
+      sourceData_companyGlobalId,
+      sourceAddress,
+      sourceAccount,
+      sourceAgent,
+      sourceData_country
+    );
+    WRAPPER_TrackingPaymentOperation.SourceData sourceData_2 = new WRAPPER_TrackingPaymentOperation.SourceData();
+    String sourceFeeData_sourceName = 'sourceName_TEST';
+    String sourceFeeData_country = 'ES';
+    WRAPPER_TrackingPaymentOperation.SourceFeeData sourceFeeData = new WRAPPER_TrackingPaymentOperation.SourceFeeData(
+      sourceFeeData_sourceName,
+      sourceAccount,
+      sourceAgent,
+      sourceFeeData_country
+    );
+    WRAPPER_TrackingPaymentOperation.SourceFeeData sourceFeeData_1 = new WRAPPER_TrackingPaymentOperation.SourceFeeData();
+    String destinationData_sourceName = 'sourceName_TEST';
+    String destinationData_customerId = 'customerId_TEST';
+    String destinationData_companyGlobalId = 'companyGlobalId_TEST';
+    String destinationData_country = 'ES';
+    WRAPPER_TrackingPaymentOperation.DestinationData destinationData = new WRAPPER_TrackingPaymentOperation.DestinationData(
+      destinationData_sourceName,
+      destinationData_customerId,
+      destinationData_companyGlobalId,
+      destinationAddress,
+      sourceAccount,
+      sourceAgent,
+      destinationData_country
+    );
+    WRAPPER_TrackingPaymentOperation.DestinationData destinationData_1 = new WRAPPER_TrackingPaymentOperation.DestinationData();
+    WRAPPER_TrackingPaymentOperation.IntermediateAgentAccount intermediateAgentAccount = new WRAPPER_TrackingPaymentOperation.IntermediateAgentAccount();
+    intermediateAgentAccount.accountType = 'accountType_Test';
+    intermediateAgentAccount.accountId = 'accountId_Test';
+    WRAPPER_TrackingPaymentOperation.OperationStep1Data operationStep1Data = new WRAPPER_TrackingPaymentOperation.OperationStep1Data();
+    operationStep1Data.opStep1Id = 'opStep1Id';
+    operationStep1Data.status = 'status_TEST';
+    operationStep1Data.valueDate = '2020-06-17';
+    operationStep1Data.flowIndicator = 'S';
+    operationStep1Data.intermediateAgentAccount = intermediateAgentAccount;
+    WRAPPER_TrackingPaymentOperation.OperationStep2Data operationStep2Data = new WRAPPER_TrackingPaymentOperation.OperationStep2Data();
+    operationStep2Data.opStep2Id = 'opStep1Id';
+    operationStep2Data.status = 'status_TEST';
+    operationStep2Data.valueDate = '2020-06-17';
+    operationStep2Data.flowIndicator = 'S';
+    operationStep2Data.intermediateAgentAccount = intermediateAgentAccount;
+    String operationAmount_tcurrency = 'PLN';
+    Double operationAmount_amount = 1000;
+    WRAPPER_TrackingPaymentOperation.OperationAmount operationAmount = new WRAPPER_TrackingPaymentOperation.OperationAmount(
+      operationAmount_tcurrency,
+      operationAmount_amount
+    );
+    WRAPPER_TrackingPaymentOperation.OperationAmount operationAmount_1 = new WRAPPER_TrackingPaymentOperation.OperationAmount();
+    String operationAmountBaseCurrency_tcurrency = 'PLN';
+    Double operationAmountBaseCurrency_amount = 1000;
+    WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency operationAmountBaseCurrency = new WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency(
+      operationAmountBaseCurrency_tcurrency,
+      operationAmountBaseCurrency_amount
+    );
+    WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency operationAmountBaseCurrency_1 = new WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency();
+    String counterValueOperationAmount_tcurrency = 'USD';
+    Double counterValueOperationAmount_amount = 0;
+    String counterValueOperationAmount_tradeCurrency = 'EUR';
+    WRAPPER_TrackingPaymentOperation.CounterValueOperationAmount counterValueOperationAmount = new WRAPPER_TrackingPaymentOperation.CounterValueOperationAmount(
+      counterValueOperationAmount_tcurrency,
+      counterValueOperationAmount_amount,
+      counterValueOperationAmount_tradeCurrency
+    );
+    WRAPPER_TrackingPaymentOperation.CounterValueOperationAmount counterValueOperationAmount_1 = new WRAPPER_TrackingPaymentOperation.CounterValueOperationAmount();
+    WRAPPER_TrackingPaymentOperation.OperationFraudDetails operationFraudDetails = new WRAPPER_TrackingPaymentOperation.OperationFraudDetails();
+    operationFraudDetails.fraudValidationResult = 'OK';
+    operationFraudDetails.fraudReference = '9a0a67d3675b4627b28034517737437f';
+    Double ccyCountervalue_ccyCountervalueAmount = 1200.85;
+    String ccyCountervalue_ccyCountervalueCurrency = 'EUR';
+    WRAPPER_TrackingPaymentOperation.CcyCountervalue ccyCountervalue = new WRAPPER_TrackingPaymentOperation.CcyCountervalue(
+      ccyCountervalue_ccyCountervalueAmount,
+      ccyCountervalue_ccyCountervalueCurrency
+    );
+    WRAPPER_TrackingPaymentOperation.CcyCountervalue ccyCountervalue_1 = new WRAPPER_TrackingPaymentOperation.CcyCountervalue();
+    WRAPPER_TrackingPaymentOperation.FxComercialMargin fxComercialMargin = new WRAPPER_TrackingPaymentOperation.FxComercialMargin();
+    fxComercialMargin.fxComercialMarginCurrency = 'EUR';
+    fxComercialMargin.fxComercialMarginAmount = 27.05;
+    WRAPPER_TrackingPaymentOperation.NominalAmountNoMarkUp nominalAmountNoMarkUp = new WRAPPER_TrackingPaymentOperation.NominalAmountNoMarkUp();
+    nominalAmountNoMarkUp.amount = 345.89;
+    nominalAmountNoMarkUp.tcurrency = 'EUR';
+    WRAPPER_TrackingPaymentOperation.OperationNominalFxDetails operationNominalFxDetails = new WRAPPER_TrackingPaymentOperation.OperationNominalFxDetails();
+    operationNominalFxDetails.fxCountervalueId = 'A12345678901234567890123456789012345B';
+    operationNominalFxDetails.priceType = 'ONL';
+    operationNominalFxDetails.discount = 25;
+    operationNominalFxDetails.ccyCountervalue = ccyCountervalue;
+    operationNominalFxDetails.valueDateEfx = '2020-07-15';
+    operationNominalFxDetails.customerExchangeRate = 1.10000002;
+    operationNominalFxDetails.fxComercialMargin = fxComercialMargin;
+    operationNominalFxDetails.nominalAmountNoMarkUp = nominalAmountNoMarkUp;
+    WRAPPER_TrackingPaymentOperation.SpecialFixedRatePrice specialFixedRatePrice = new WRAPPER_TrackingPaymentOperation.SpecialFixedRatePrice();
+    specialFixedRatePrice.specialRate = 1.250126;
+    specialFixedRatePrice.specialMinimumAmount = 10;
+    specialFixedRatePrice.specialMaximumAmount = 500;
+    specialFixedRatePrice.tcurrency = 'EUR';
+    WRAPPER_TrackingPaymentOperation.SpecialFixedAmountPrice specialFixedAmountPrice = new WRAPPER_TrackingPaymentOperation.SpecialFixedAmountPrice();
+    specialFixedAmountPrice.specialFixedAmount = 3;
+    specialFixedAmountPrice.tcurrency = 'EUR';
+    WRAPPER_TrackingPaymentOperation.SpecialTiersList specialTiersList = new WRAPPER_TrackingPaymentOperation.SpecialTiersList();
+    specialTiersList.specialAmountTier = 50000.12345;
+    specialTiersList.specialAmountTierType = 'I';
+    specialTiersList.specialFixedRatePrice = specialFixedRatePrice;
+    specialTiersList.specialFixedAmountPrice = specialFixedAmountPrice;
+    List<WRAPPER_TrackingPaymentOperation.SpecialTiersList> specialTiersL = new List<WRAPPER_TrackingPaymentOperation.SpecialTiersList>();
+    specialTiersL.add(specialTiersList);
+    WRAPPER_TrackingPaymentOperation.SpecialPrice specialPrice = new WRAPPER_TrackingPaymentOperation.SpecialPrice();
+    specialPrice.specialPriceLevel = 'product agreement';
+    specialPrice.specialTiersList = specialTiersL;
+    WRAPPER_TrackingPaymentOperation.StandardFixedAmountPrice standardFixedAmountPrice = new WRAPPER_TrackingPaymentOperation.StandardFixedAmountPrice();
+    standardFixedAmountPrice.standardFixedAmount = 3;
+    standardFixedAmountPrice.tcurrency = 'EUR';
+    WRAPPER_TrackingPaymentOperation.StandardFixedRatePrice standardFixedRatePrice = new WRAPPER_TrackingPaymentOperation.StandardFixedRatePrice();
+    standardFixedRatePrice.standardRate = 1.25;
+    standardFixedRatePrice.standardMaximumAmount = 500;
+    standardFixedRatePrice.standardMinimumAmount = 10;
+    standardFixedRatePrice.tcurrency = 'EUR';
+    WRAPPER_TrackingPaymentOperation.StandardTiersList standardTiersList = new WRAPPER_TrackingPaymentOperation.StandardTiersList();
+    standardTiersList.standardAmountTier = 5000.12345;
+    standardTiersList.standardAmountTierType = 's';
+    standardTiersList.standardFixedAmountPrice = standardFixedAmountPrice;
+    standardTiersList.standardFixedRatePrice = standardFixedRatePrice;
+    List<WRAPPER_TrackingPaymentOperation.StandardTiersList> standardTiersL = new List<WRAPPER_TrackingPaymentOperation.StandardTiersList>();
+    standardTiersL.add(standardTiersList);
+    WRAPPER_TrackingPaymentOperation.StandardPrice standarPrice = new WRAPPER_TrackingPaymentOperation.StandardPrice();
+    standarPrice.standardTiersList = standardTiersL;
+    WRAPPER_TrackingPaymentOperation.ConceptAmount conceptAmount = new WRAPPER_TrackingPaymentOperation.ConceptAmount();
+    conceptAmount.amount = 250;
+    conceptAmount.tcurrency = 'EUR';
+    conceptAmount.fixing = 1.25;
+    WRAPPER_TrackingPaymentOperation.ConceptsList conceptsList = new WRAPPER_TrackingPaymentOperation.ConceptsList();
+    conceptsList.conceptId = 'conceptId_TEST';
+    conceptsList.conceptName = '';
+    conceptsList.specialPrice = specialPrice;
+    conceptsList.conceptAmount = conceptAmount;
+    List<WRAPPER_TrackingPaymentOperation.ConceptsList> conceptL = new List<WRAPPER_TrackingPaymentOperation.ConceptsList>();
+    conceptL.add(conceptsList);
+    WRAPPER_TrackingPaymentOperation.CurrencyList currencyList = new WRAPPER_TrackingPaymentOperation.CurrencyList();
+    currencyList.tcurrency = 'USD';
+    String currencyList_tcurrency = currencyList.tcurrency;
+    currencyList.currencyName = 'U.S. dollar';
+    currencyList.conceptsList = conceptL;
+    WRAPPER_TrackingPaymentOperation.CurrencyList currencyList_1 = new WRAPPER_TrackingPaymentOperation.CurrencyList(
+      currencyList_tcurrency
+    );
+    List<WRAPPER_TrackingPaymentOperation.CurrencyList> currencyL = new List<WRAPPER_TrackingPaymentOperation.CurrencyList>();
+    currencyL.add(currencyList);
+    String pricingDetails_productName = 'productName_TEST';
+    Double pricingDetails_totalPrice = 38.9;
+    String pricingDetails_tcurrency = 'EUR';
+    WRAPPER_TrackingPaymentOperation.PricingDetails pricingDetails = new WRAPPER_TrackingPaymentOperation.PricingDetails(
+      pricingDetails_productName,
+      pricingDetails_totalPrice,
+      pricingDetails_tcurrency,
+      currencyL
+    );
+    WRAPPER_TrackingPaymentOperation.PricingDetails pricingDetails_1 = new WRAPPER_TrackingPaymentOperation.PricingDetails(
+      pricingDetails_totalPrice,
+      pricingDetails_tcurrency
+    );
+    WRAPPER_TrackingPaymentOperation.PricingDetails pricingDetails_2 = new WRAPPER_TrackingPaymentOperation.PricingDetails();
+    String reviewAdditionalData_subject = 'subject_TEST';
+    String reviewAdditionalData_description = 'description_TEST';
+    WRAPPER_TrackingPaymentOperation.ReviewAdditionalData reviewAdditionalData = new WRAPPER_TrackingPaymentOperation.ReviewAdditionalData(
+      reviewAdditionalData_subject,
+      reviewAdditionalData_description
+    );
+    WRAPPER_TrackingPaymentOperation.ReviewAdditionalData reviewAdditionalData_1 = new WRAPPER_TrackingPaymentOperation.ReviewAdditionalData();
+    String rejectAdditionalData_subject = 'subject_TEST';
+    String rejectAdditionalData_description = 'description_TEST';
+    WRAPPER_TrackingPaymentOperation.RejectAdditionalData rejectAdditionalData = new WRAPPER_TrackingPaymentOperation.RejectAdditionalData(
+      rejectAdditionalData_subject,
+      rejectAdditionalData_description
+    );
+    WRAPPER_TrackingPaymentOperation.RejectAdditionalData rejectAdditionalData_1 = new WRAPPER_TrackingPaymentOperation.RejectAdditionalData();
+    WRAPPER_TrackingPaymentOperation.OperationNominalFxDetails operationNominalFxRefundDetails = new WRAPPER_TrackingPaymentOperation.OperationNominalFxDetails();
+    operationNominalFxRefundDetails.fxCountervalueId = 'A12345678901234567890123456789012345B';
+    operationNominalFxRefundDetails.priceType = 'ONL';
+    operationNominalFxRefundDetails.discount = 25;
+    operationNominalFxRefundDetails.ccyCountervalue = ccyCountervalue;
+    operationNominalFxRefundDetails.valueDateEfx = '2020-07-15';
+    operationNominalFxRefundDetails.customerExchangeRate = 1.10000002;
+    operationNominalFxRefundDetails.fxComercialMargin = fxComercialMargin;
+    operationNominalFxRefundDetails.nominalAmountNoMarkUp = nominalAmountNoMarkUp;
+    String operationNominalFxRollbackDetails_fxCountervalueId = 'fxCountervalueId_TEST';
+    String operationNominalFxRollbackDetails_priceType = 'priceType:TEST';
+    String operationNominalFxRollbackDetails_valueDateEfx = 'valueDateEfx_TEST';
+    Double operationNominalFxRollbackDetails_customerExchangeRate = 20;
+    WRAPPER_TrackingPaymentOperation.OperationNominalFxRollbackDetails operationNominalFxRollbackDetails = new WRAPPER_TrackingPaymentOperation.OperationNominalFxRollbackDetails(
+      operationNominalFxRollbackDetails_fxCountervalueId,
+      operationNominalFxRollbackDetails_priceType,
+      ccyCountervalue,
+      operationNominalFxRollbackDetails_valueDateEfx,
+      operationNominalFxRollbackDetails_customerExchangeRate
+    );
+    WRAPPER_TrackingPaymentOperation.OperationNominalFxRollbackDetails operationNominalFxRollbackDetails_1 = new WRAPPER_TrackingPaymentOperation.OperationNominalFxRollbackDetails();
+    String operationFeesFxDetails_fxCountervalueId = 'A12345678901234567890123456789012345B';
+    String operationFeesFxDetails_priceType = 'ONL';
+    Integer operationFeesFxDetails_discount = 25;
+    String operationFeesFxDetails_valueDateEfx = '2020-07-15';
+    Double operationFeesFxDetails_customerExchangeRate = 1.10000002;
+    WRAPPER_TrackingPaymentOperation.OperationFeesFxDetails operationFeesFxDetails = new WRAPPER_TrackingPaymentOperation.OperationFeesFxDetails(
+      operationFeesFxDetails_fxCountervalueId,
+      operationFeesFxDetails_priceType,
+      operationFeesFxDetails_discount,
+      ccyCountervalue,
+      operationFeesFxDetails_valueDateEfx,
+      operationFeesFxDetails_customerExchangeRate
+    );
+    WRAPPER_TrackingPaymentOperation.OperationFeesFxDetails operationFeesFxDetails_1 = new WRAPPER_TrackingPaymentOperation.OperationFeesFxDetails();
+    String operationDetail_paymentMethod = 'paymentMethod_TEST';
+    String operationDetail_issueDate = '2020-07-07T13:05:30.346Z';
+    String operationDetail_chargeBearer = 'chargeBearer_TEST';
+    String operationDetail_clientReference = 'clientReference_TEST';
+    String operationDetail_purpose = 'purpose_TEST';
+    String operationDetail_description = 'Description_TEST';
+    String operationDetail_subject = 'Customer Order 0123213213';
+    String operationDetail_commercialCode = 'comercialCode_Test';
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationDetail_paymentMethod,
+      operationStatus,
+      sourceData,
+      destinationData,
+      operationStep1Data,
+      operationStep2Data,
+      operationDetail_issueDate,
+      operationDetail_chargeBearer,
+      operationAmount,
+      counterValueOperationAmount,
+      operationAmount,
+      operationDetail_clientReference,
+      operationDetail_purpose,
+      operationDetail_description,
+      operationDetail_subject,
+      operationFraudDetails,
+      operationNominalFxDetails,
+      operationFeesFxDetails,
+      operationNominalFxRollbackDetails,
+      pricingDetails
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_1 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationDetail_subject,
+      operationDetail_description,
+      operationAmount,
+      operationStatus
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_2 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationStatus
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_3 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationDetail_clientReference,
+      operationDetail_purpose,
+      operationDetail_subject,
+      operationDetail_chargeBearer,
+      operationDetail_paymentMethod,
+      operationDetail_commercialCode
+    );
+    // WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_4 = new WRAPPER_TrackingPaymentOperation.OperationDetail(operationDetail_clientReference, operationDetail_purpose, operationDetail_subject, operationDetail_chargeBearer, operationDetail_paymentMethod, operationDetail_commercialCode, operationDetail_issueDate, operationAmountBaseCurrency);
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_5 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationDetail_clientReference,
+      operationDetail_purpose,
+      operationDetail_subject,
+      operationDetail_chargeBearer,
+      operationDetail_paymentMethod
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_6 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      counterValueOperationAmount,
+      pricingDetails
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_7 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationAmount,
+      pricingDetails
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_8 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationAmount,
+      pricingDetails,
+      operationFeesFxDetails
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_9 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationAmount,
+      counterValueOperationAmount,
+      pricingDetails,
+      operationFeesFxDetails,
+      operationAmount
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_10 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationAmount,
+      counterValueOperationAmount,
+      pricingDetails,
+      operationFeesFxDetails
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_11 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationStatus,
+      rejectAdditionalData
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_12 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      operationStatus,
+      reviewAdditionalData
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_13 = new WRAPPER_TrackingPaymentOperation.OperationDetail(
+      sourceData,
+      destinationData,
+      sourceFeeData
+    );
+    WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail_14 = new WRAPPER_TrackingPaymentOperation.OperationDetail();
+    WRAPPER_TrackingPaymentOperation.RefundDetails refundDetails = new WRAPPER_TrackingPaymentOperation.RefundDetails();
+    refundDetails.globalUserId = 'x124903';
+    refundDetails.authUserId = 'x569085';
+    refundDetails.authDate = '2020-06-17T10:20:33.256Z';
+    refundDetails.authComments = 'The funds can be returned to the customer. Validation OK';
+    refundDetails.creationDate = '2020-06-17T10:20:33.256Z';
+    refundDetails.refundType = 'bank_error';
+    refundDetails.refundAmount = nominalAmountNoMarkUp;
+    refundDetails.status = 'status_TEST';
+    refundDetails.reason = 'Duplicated payment confirmed due to a bank error. Funds have to be returned to the originator of the original payment';
+    refundDetails.comments = 'Refund needed due to a possible duplicated detected';
+    refundDetails.refundDate = '2020-06-17';
+    refundDetails.operationFeesFxRefundDetails = operationFeesFxDetails;
+    refundDetails.operationNominalFxRefundDetails = operationNominalFxRefundDetails;
+    WRAPPER_TrackingPaymentOperation.OperationTracking operationTracking = new WRAPPER_TrackingPaymentOperation.OperationTracking();
+    operationTracking.trackingOperationType = 'postrequestcountervalue';
+    operationTracking.headers = 'headers_TEST';
+    operationTracking.responseBody = 'responseBody_TEST';
+    operationTracking.responseDate = '2020-07-25T10:10:10.123Z';
+    operationTracking.responseCode = 200;
+    operationTracking.responseDescription = 'responseDescription_TEST';
+    List<WRAPPER_TrackingPaymentOperation.OperationTracking> oT = new List<WRAPPER_TrackingPaymentOperation.OperationTracking>();
+    oT.add(operationTracking);
+    WRAPPER_TrackingPaymentOperation.InputData inputData = new WRAPPER_TrackingPaymentOperation.InputData();
+    inputData.operationDetail = operationDetail;
+    inputData.refundDetails = refundDetails;
+    inputData.operationTracking = oT;
+    WRAPPER_TrackingPaymentOperation.InputData inputData_2 = new WRAPPER_TrackingPaymentOperation.InputData(
+      operationDetail
+    );
+    obj.inputData = inputData;
+    WRAPPER_TrackingPaymentOperation.INPUT input = new WRAPPER_TrackingPaymentOperation.INPUT(
+      inputData
+    );
+    WRAPPER_TrackingPaymentOperation.INPUT input_2 = new WRAPPER_TrackingPaymentOperation.INPUT();
+    WRAPPER_TrackingPaymentOperation.OUTPUT output = new WRAPPER_TrackingPaymentOperation.OUTPUT();
+    String json = '{"inputData": {"operationDetail": {"paymentMethod": "paymentMethod_TEST","operationStatus": {"status": "Authorized","reason": "Payment is partially authorized","statusDate": "2020-04-22T17:15:35.552Z","globalUserId": "globalUserId_TEST"},"sourceData": {"name": "Banco Santander","customerId": "customerId_Test","companyGlobalId": "companyGlobalId_TEST","sourceAddress": {"streetName": "streetName_TEST","townName": "townName_TEST","country": "country_TEST"},"sourceAccount": {"accountType": "IBA","accountId": "GB54ABBY6578956387330","tcurrency": "GBP"},"sourceAgent": {"agentId": "ABBYGB2LXXX","name": "SANTANDER UK PLC","address": "Bridle Road"},"country": "ES"},"sourceFeeData":{"sourceName": "sourceName_TEST","sourceAccount": {"accountType": "IBA","accountId": "GB54ABBY6578956387330","tcurrency": "GBP"},"sourceAgent": {"agentId": "ABBYGB2LXXX","name": "SANTANDER UK PLC","address": "Bridle Road"},"country": "ES"},"destinationData": {"sourceName": "sourceName_TEST","customerId": "customerId_TEST","companyGlobalId": "companyGlobalId","destinationAddress": {"streetName": "streetName_TEST","townName": "townName_TEST","country": "country_TEST"},"destinationAccount": {"accountType": "IBA","accountId": "ES54004956387330056782","tcurrency": "EUR"},"destinationAgent": {"agentId": "BSCHESMMXXX","name": "Banco Santander España","address": "Avda Cantabria s/n Boadilla del Monte"},"country": "ES"},"operationStep1Data": {"opStep1Id": "string","status": "string","valueDate": "2020-06-17","flowIndicator": "S","intermediateAgentAccount": {"accountType": "string","accountId": "string"}},"operationStep2Data": {"opStep2Id": "string","status": "string","valueDate": "2020-06-17","flowIndicator": "D","intermediateAgentAccount": {"accountType": "string","accountId": "string"}},"issueDate": "2020-07-07T13:05:30.346Z","chargeBearer": "string","operationAmount": {"tcurrency": "PLN","amount": 1000},"OperationAmountBaseCurrency": {"tcurrency": "PLN","amount": 1000},"counterValueOperationAmount": {"tcurrency": "USD","amount": 0,"tradeCurrency": "EUR"},"sourceTotalAmount": {"tcurrency": "USD","amount": 0},"clientReference": "string","purpose": "string","subject": "Customer Order 0123213213","operationFraudDetails": {"fraudValidationResult": "OK","fraudReference": "9a0a67d3675b4627b28034517737437f"},"operationNominalFxDetails": {"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","discount": 25,"ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002,"fxComercialMargin": {"fxComercialMarginCurrency": "EUR","fxComercialMarginAmount": 27.05},"nominalAmountNoMarkUp": {"amount": 345.89,"tcurrency": "EUR"}},"operationFeesFxDetails": {"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","discount": 25,"ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002},"operationNominalFxRollbackDetails":{"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002},"pricingDetails": {"productName": "string","totalPrice": 38.9,"tcurrency": "EUR","currencyList": [{"tcurrency": "USD","currencyName": "U.S. dollar","conceptsList": [{"conceptId": 293,"conceptName": "share fee","specialPrice": {"specialPriceLevel": "product agreement","specialTiersList": [{"specialAmountTier": 50000.12345,"specialAmountTierType": "I","specialFixedRatePrice": {"specialRate": 1.250126,"specialMinimumAmount": 10,"specialMaximumAmount": 500,"tcurrency": "EUR"},"specialFixedAmountPrice": {"specialFixedAmount": 3,"tcurrency": "EUR"}}]},"standardPrice": {"standardTiersList": [{"standardAmountTier": 5000.12345,"standardAmountTierType": "S","standardFixedRatePrice": {"standardRate": 1.25,"standardMinimumAmount": 10,"standardMaximumAmount": 500,"tcurrency": "EUR"},"standardFixedAmountPrice": {"standardFixedAmount": 3,"tcurrency": "EUR"}}]},"conceptAmount": {"amount": 250,"tcurrency": "EUR","fixing": 1.25}}]}]},"comercialCode": "comercialCode_Test","reviewAdditionalData": { "subject": "subject_TEST", "description": "description_TEST"},"rejectAdditionalData": {"subject": "subject_TEST", "description": "description_TEST"}},"refundDetails": {"globalUserId": "x124903","authUserId": "x569085","authDate": "2020-06-17T10:20:33.256Z","authComments": "The funds can be returned to the customer. Validation OK","creationDate": "2020-06-17T10:20:33.256Z","refundType": "bank_error","refundAmount": {"amount": 1234566.98,"tcurrency": "EUR"},"status": "string","reason": "Duplicated payment confirmed due to a bank error. Funds have to be returned to the originator of the original payment","comments": "Refund needed due to a possible duplicated detected","refundDate": "2020-06-17","operationNominalFxRefundDetails": {"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","discount": 25,"ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002,"fxComercialMargin": {"fxComercialMarginCurrency": "EUR","fxComercialMarginAmount": 27.05},"nominalAmountNoMarkUp": {"amount": 345.89,"tcurrency": "EUR"}},"operationFeesFxRefundDetails": {"fxCountervalueId": "A12345678901234567890123456789012345B","priceType": "ONL","discount": 25,"ccyCountervalue": {"ccyCountervalueAmount": 1200.85,"ccyCountervalueCurrency": "EUR"},"valueDateEfx": "2020-07-15","customerExchangeRate": 1.10000002}},"operationTracking": [{"trackingOperationType": "postrequestcountervalue","headers": "string","resquestBody": "string","responseBody": "string","responseDate": "2020-07-25T10:10:10.123Z","responseCode": 200,"responseDescription": "string"}]}}';
+    WRAPPER_TrackingPaymentOperation objPO = WRAPPER_TrackingPaymentOperation.parse(
+      json
+    );
+  }
 }

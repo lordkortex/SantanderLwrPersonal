@@ -1,0 +1,110 @@
+<template>
+
+    <c-lwc_service-component data-id="Service" ></c-lwc_service-component>
+
+    <!-- Pagination -->       
+    <c-lwc_cn_pagination 
+        data-id="pagination" 
+        alldata={statementsresultsNotNull}
+        todisplay={toDisplay} 
+        paymentsperpage={transactionsPerPage} 
+        namelisttodisplay={Label.Extracts}
+        ongetpageevent={buildTablePage}
+    >
+    </c-lwc_cn_pagination>
+
+    <!-- TABLE -->
+    <div class="slds-table--header-fixed_container tableExtract">
+        
+        <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+            <!-- HEADER -->
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th class="containerBookDate" aria-sort="ascending" scope="col">
+                        <div class="slds-truncate" >{Label.bookDate}</div>
+                    </th>
+                    <th class="containerValueDate" scope="col">
+                        <div class="slds-truncate" >{Label.valueDate}</div>
+                    </th>
+                    <th class="slds-is-sortable slds-text-align_right containerAmount" aria-sort="none" scope="col">
+                        <div class="slds-truncate" >{Label.Available_Balance}</div>
+                    </th>
+                    <th class="slds-is-sortable slds-text-align_right containerBookBalance" aria-sort="none" scope="col">
+                        <div class="slds-truncate">{Label.Book_Balance}</div>
+                    </th>
+                    <th class="containerIconDetail" scope="col">
+                        <div class="slds-truncate slds-assistive-text ">{Label.actions}</div>
+                    </th>
+                </tr>
+            </thead>
+            
+            <!-- BODY -->
+            <tbody>
+                <template if:true={statementsListEmpty}>
+                    <c-lwc_results-not-found 
+                        msg="No data found"
+                        showsearchagain
+                    >
+                    </c-lwc_results-not-found> 
+                </template>
+
+                <template if:false={statementsListEmpty}>
+                    <!--Iterate here-->
+                    <!-- ROW 1 -->
+                    <template for:each={statementsListFromStartToEnd} for:item="item" for:index="index">
+                        <tr class="slds-hint-parent" aria-selected="false" key={item.index}>
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                     <!--{!item.saldo.bookDate_Formatted}--> 
+                                     <c-lwc_display-date 
+                                        userdateformat={userdateformat} 
+                                        date={item.saldo.bookDate} 
+                                        dateclass="slds-truncate text">
+                                    </c-lwc_display-date>
+                                </div>
+                            </td>
+                            
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                    <!--{!item.saldo.valueDate_Formatted}--> 
+                                    <c-lwc_display-date 
+                                        userdateformat={userdateformat} 
+                                        date={item.saldo.valueDate} 
+                                        dateclass="slds-truncate text">
+                                    </c-lwc_display-date>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                    <div class="slds-truncate" >
+                                       <span class="text">{item.valueBalance_Formatted} </span> 
+                                        <!-- <c-lwc_displayAmount userFormat="{userNumberFormat}" amount="{!item.saldo.valueBalance}" wholeClass="text " decimalClass="text " currencyClass="text " currency="{accountCurrency}"/> -->
+                                    </div>
+                                </div>
+                            </td>
+                            
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                    <div class="slds-truncate">
+                                        <span class="text">{item.bookBalance_Formatted} </span> 
+                                        <!-- <c-lwc_displayAmount userFormat="{userNumberFormat}" amount="{!item.saldo.bookBalance}" wholeClass="text amountInteger " decimalClass="text amountDecimals " currencyClass="text amountDecimals " currency="{accountCurrency}"/> -->
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" data-id={item.index} id={item.index} onclick={navigateToMovements}>
+                                    <div class="slds-truncate slds-button">
+                                        <div class="detail icon-arrowRight_big">{Label.viewStatement}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            
+                        </tr>
+                    </template>
+
+                </template>
+                
+            </tbody>
+        </table>
+    </div>
+</template>

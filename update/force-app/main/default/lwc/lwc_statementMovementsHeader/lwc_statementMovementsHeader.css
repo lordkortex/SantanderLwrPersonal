@@ -1,0 +1,77 @@
+.cardTitleDetail {
+  margin-bottom: 16px;
+}
+
+.cardTitleDetail .containerInformation {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.cardTitleDetail .slds-card__header-title {
+  color: #444444;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 4px;
+}
+
+.cardTitleDetail .slds-card__header-title .space,
+.cardTitleDetail .slds-card__header-title .number_small {
+  font-size: 14px;
+  line-height: 21px;
+  font-family: "SantanderMicroText";
+  color: #444444;
+}
+
+.cardTitleDetail .slds-card__header-title .space {
+  margin-right: 24px;
+}
+
+.cardTitleDetail .slds-card__header-title .col-amount {
+  min-width: 330px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cardTitleDetail .slds-card__header-title .number {
+  font-size: 32px;
+  font-family: "SantanderHeadlineW05-Bold";
+  line-height: 38px;
+}
+
+.cardTitleDetail .slds-card__header-title .currency {
+  font-size: 24px;
+  font-family: "SantanderHeadlineW05-Bold";
+  line-height: 29px;
+}
+
+.cardTitleDetail .slds-card__header-title .bankAccount {
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 21px;
+}
+
+.cardTitleDetail .separation {
+  justify-content: space-between;
+}
+
+.cardTitleDetail .slds-card__header-title .title {
+  color: #444444;
+  font-size: 28px;
+  font-weight: normal;
+  font-family: "SantanderHeadlineW05-Rg";
+  line-height: 34px;
+  letter-spacing: normal;
+}
+
+.cardTitleDetail .extract {
+  font-family: SantanderMicroText;
+  font-size: 14px;
+  line-height: 20px;
+  color: #767676;
+}
+
+.cardTitleDetail .text_line {
+  width: 40px;
+  border-bottom: 3px solid #ec0000;
+}

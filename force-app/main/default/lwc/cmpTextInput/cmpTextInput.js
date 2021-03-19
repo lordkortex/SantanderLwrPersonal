@@ -1,84 +1,144 @@
-import { LightningElement, api, track } from 'lwc';
+import { LightningElement, api, track } from "lwc";
 
-import error from '@salesforce/label/c.B2B_Error_Enter_Input';
+import error from "@salesforce/label/c.B2B_Error_Enter_Input";
 
 export default class CmpTextInput extends LightningElement {
-    showLabel = false;
+  showLabel = false;
 
-    /*label = {
-        error
-    }*/
+  showError = true;
 
-    errorText = error;
+  format = " format.";
 
+  errorFormat = false;
 
-    @api label;
-    @api placeholder;
+  errorText = error;
 
-    @api value;
+  @api label;
+  @api placeholder;
 
-    @api required;
+  @api value = "";
 
-    @track error = "";
+  @api required;
 
-    //booleanClear = false;
+  @track error = "";
 
+  @api get errormsg() {
+    return this.error;
+  }
 
-    handleClearInput(){
-        this.template.querySelector("input").value = "";
-        this.showLabel = false;
-        this.template.querySelector('div.icon-close_filledCircle').style.display = "none";
-        this.template.querySelector('div.errorText').style.display = "none";
-        
-        if(this.showLabel == false){
-            this.template.querySelector('button').style.display = "none";
-        }
+  set errormsg(value) {
+    this.error = value;
+  }
+
+  @api errormsg2;
+
+  connectedCallback() {
+    if (this.value) {
+      this.showLabel = true;
+    } else {
+      this.showLabel = false;
     }
+  }
 
-    handleFocus(event){
-        this.showLabel = true;
-        this.template.querySelector('button').style.display = "block";
-        this.template.querySelector('div.icon-close_filledCircle').style.display = "block";
+  handleClearInput() {
+    this.template.querySelector("input").value = "";
+    this.showLabel = false;
+    this.template.querySelector("div.icon-close_filledCircle").style.display =
+      "none";
+    //this.template.querySelector('div.errorText').style.display = "none";
+
+    this.value = "";
+    //this.errormsg = "";
+    this.showError = false;
+
+    if (this.showLabel == false) {
+      this.template.querySelector("button").style.display = "none";
     }
+  }
 
-    handleBlur(event){
-        var value = event.target.value;
+  handleFocus(event) {
+    this.showLabel = true;
+    this.template.querySelector("button").style.display = "block";
+    this.template.querySelector("div.icon-close_filledCircle").style.display =
+      "block";
+  }
 
-        
+  handleBlur(event) {
+    var value = event.target.value;
 
-        if(value == ""){
-            this.showLabel = false;
-            this.template.querySelector('div.errorText').style.display = "block";
-            this.template.querySelector('button').style.display = "none";
-            if(this.required == "true" && this.error == ""){
+    if (value == "") {
+      this.showLabel = false;
+      //this.template.querySelector('div.errorText').style.display = "block";
+      this.template.querySelector("button").style.display = "none";
+
+      this.showError = true;
+      this.errorFormat = false;
+      /*if(this.required == "true" && this.error == ""){
                 var msg = this.errorText;
                 var fullmsg = msg.replace("{0}", this.label);
                 this.error = fullmsg;
-            }
-        }else{
-            this.showLabel = true;
-            this.template.querySelector('div.icon-close_filledCircle').style.display = "none";
+            }*/
+    } else {
+      this.showLabel = true;
+      this.template.querySelector("div.icon-close_filledCircle").style.display =
+        "none";
+    }
+  }
+
+  handleInput(event) {
+    var value = event.target.value;
+
+    if (value != "") {
+      //this.errormsg = "";
+      this.showError = false;
+      //this.template.querySelector('div.errorText').style.display = "none";
+    }
+  }
+
+  handleChange(event) {
+    this.value = event.target.value;
+    var value = event.target.value;
+
+    const selectedEvent = new CustomEvent("data", {
+      detail: this.value
+    });
+
+    this.dispatchEvent(selectedEvent);
+
+    this.validationNumber(value);
+  }
+
+  validationNumber(value) {
+    var letras = "abcdefghyjklmnñopqrstuvwxyz";
+    var i = 0;
+    if (this.label == "Tax ID") {
+      value = value.toLowerCase();
+      for (i = 0; i < value.length; i++) {
+        if (letras.indexOf(value.charAt(i), 0) != -1) {
+          this.showError = true;
+          this.errorFormat = true;
         }
-        
+      }
     }
 
-    handleInput(event){
-        var value = event.target.value;
-
-        if(value != ""){
-            this.template.querySelector('div.errorText').style.display = "none";
+    if (this.label == "Branch") {
+      value = value.toLowerCase();
+      for (i = 0; i < value.length; i++) {
+        if (letras.indexOf(value.charAt(i), 0) != -1) {
+          this.showError = true;
+          this.errorFormat = true;
         }
+      }
     }
 
-    handleChange(event){
-        this.value = event.target.value;
-
-
-        const selectedEvent = new CustomEvent('data', {
-            detail: this.value
-        });
-
-        this.dispatchEvent(selectedEvent);
+    if (this.label == "Account number") {
+      value = value.toLowerCase();
+      for (i = 0; i < value.length; i++) {
+        if (letras.indexOf(value.charAt(i), 0) != -1) {
+          this.showError = true;
+          this.errorFormat = true;
+        }
+      }
     }
-
+  }
 }

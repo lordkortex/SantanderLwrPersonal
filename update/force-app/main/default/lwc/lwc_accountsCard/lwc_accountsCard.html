@@ -1,0 +1,175 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 02-24-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   02-23-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <!--METODOS AURA
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.iCurrency}" action="{!c.updateCurrency}"/>
+    <aura:handler name="change" value="{!v.tabsChange}" action="{!c.tabsChange}"/>
+    
+    <aura:handler name="change" value="{!v.bookBalance}" action="{!c.displayAmountOne}"/>
+    <aura:handler name="change" value="{!v.availableBalance}" action="{!c.displayAmountTwo}"/>
+    -->         
+    <!--<p>{mBookBalance}</p>-->
+    <!--<p>{_bookBalance}</p>-->
+
+    <!--Isortselected  : {isortselected} 
+    AvailableBalance : {_availableBalance} 
+    BookBalance: {_bookBalance} 
+    Current Currecy: {_icurrency} -->
+    
+
+    <template if:true={showCard}>
+        <div class="slds-card cardAccount" id={idClass}> 
+            <!--CARD PRINCIPAL-->
+            <div class="slds-card__header slds-grid contentCard" >
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+
+
+
+                    <template if:true={isSorted}>
+                        <div class="slds-media__figure icon">
+                            <template if:true={isEbury}>
+                                <img class="eburySymbol" data-id="countryImage"  src={imgEbury}  onerror={defaultImage}/> 
+                            </template> 
+                            <template if:false={isEbury}>                            
+                                <img class="sizeFlag" data-id="countryImage"  src={imgCardInfoCountryCode}  onerror={defaultImage}/>                                
+                            </template>   
+                        </div>
+                    
+                    </template>
+                    
+                    <div class="slds-media__body">
+                        <div class="slds-card__header-title">
+                            <span class="title">
+                                <template if:true={isSortedYName}>
+                                    {_countryName}
+                                </template>
+                                <template if:false={isSortedYName}>
+                                    {iregister.key}
+                                </template>                              
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="availableBalance">
+                        <div class="slds-card__header-title">
+                            <template if:true={isSortedCurrency}>
+                                <template if:true={isAvailableBalance}>
+                                    <span class="integer">
+                                        <c-lwc_display-amount 
+                                            data-id="availableBalance"
+                                            amountd={_availableBalance} 
+                                            amount={_availableBalance} 
+                                            wholeclass="availableInteger" 
+                                            decimalclass="availableDecimals" 
+                                            currency={iregister.key} 
+                                            numberformat={userpreferrednumberformat}>
+                                        </c-lwc_display-amount>    
+                                    </span>
+                                </template>
+                            </template>
+                            <template if:false={isSortedCurrency}>
+                                <template if:true={isAvailableBalance}>
+                                    <span class="integer">
+                                        <c-lwc_display-amount 
+                                            data-id="availableBalance"
+                                            amountd={_availableBalance} 
+                                            amount={_availableBalance} 
+                                            wholeclass="availableInteger" 
+                                            decimalclass="availableDecimals" 
+                                            currency={icurrency} 
+                                            numberformat={userpreferrednumberformat}>
+                                        </c-lwc_display-amount>
+                                    </span>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="bookBalance">
+                        <div class="slds-card__header-title">
+                            <template if:true={isSortedCurrency}>
+                                <template if:true={isBookBalance}>
+                                    <span class="integer">
+                                        <c-lwc_display-amount 
+                                            data-id="bookBalance"
+                                            amountd={_bookBalance} 
+                                            amount={_bookBalance} 
+                                            wholeclass="bookInteger" 
+                                            decimalclass="bookDecimals" 
+                                            currency={iregister.key} 
+                                            numberformat={userpreferrednumberformat}>
+                                        </c-lwc_display-amount>
+                                        
+                                    </span>
+                                </template>
+                            </template>
+                            <template if:false={isSortedCurrency}>
+                                <template if:true={isBookBalance}>
+                                    <span class="integer"> 
+                                        <c-lwc_display-amount 
+                                            data-id="bookBalance"
+                                            amountd={_bookBalance} 
+                                            amount={_bookBalance} 
+                                            wholeclass="bookInteger" 
+                                            decimalclass="bookDecimals" 
+                                            currency={icurrency} 
+                                            numberformat={userpreferrednumberformat}>
+                                        </c-lwc_display-amount>
+
+                                    </span>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="iconContainer">
+
+                        <!-- ICONO EXPANDIR -->
+                        <div id={cmpId} data-id={cmpId} class={expandirClass}>
+                            <div class="button-arrow icon-arrowDown_small" data-title={label.Expand} onclick={handleExpand}></div> 
+                        </div>
+
+                        <!-- ICONO COLAPSAR -->
+                        <div id={cmpId} data-id={cmpId} class={colapseClass}>
+                            <div class="button-arrow icon-arrowUp_small" data-title={label.Collapse}  onclick={handleCollapse}></div>
+                        </div>
+                    </div>
+                </header>                        
+            </div>
+            
+         <template if:true={isCardExpanded}> 
+                <template for:each={iregister.value} for:item="item" for:index="index">           
+                    <!--LLAMAMOS A UN LWC HIJO NUEVO PARA PODER PINTAR LA LINEA DE SEPARACION -->
+                    <c-lwc_accounts-card-row-child 
+                        key={item.index}
+                        item={index}
+                        iparentid={cmpId}
+                        ikey={item.index}
+                        iaccount={item}
+                        itabselected={itabselected}
+                        islastupdate={islastupdate}
+                        filters={filters}
+                        source={source}
+                        firstaccountcountrylist={firstaccountcountrylist}
+                        firsttaccountcountrylist={firsttaccountcountrylist}
+                        iregister={iregister}
+                        isortselected={isortselected}
+                        icurrency={icurrency}
+                        isloading={isloading}
+                        userpreferreddateformat={userpreferreddateformat}
+                        userpreferrednumberformat={userpreferrednumberformat}
+                        isonetrade={isonetrade}>
+                    </c-lwc_accounts-card-row-child>
+                </template> 
+            </template>
+            
+        </div> 
+    </template>
+</template>

@@ -1,0 +1,117 @@
+<template>
+
+        <!-- MARKUP -->
+        <!-- Service component -->
+        <c-lwc_service-component data-id="Service" onsuccesscallback={handleSuccessCallback}></c-lwc_service-component>
+        <c-lwc_toast type={typeToast} show={showToast} message={msgToast}></c-lwc_toast>  
+        <c-lwc_toast type="error" show={showLimitTransactionsToast} message={toastErrorLimit}></c-lwc_toast>  
+    
+        <!-- Spinner -->
+        <template if:true={loading}>  
+            <div class="spinnerclass">
+                <lightning-spinner data-id="spinner" variant="brand" size="large" title={loadingLabel} alternative-text={loadingLabel}></lightning-spinner>
+            </div>
+        </template> 
+    
+        <template if:false={loading}>
+            <!-- Breadcrumbs title -->
+            <c-lwc_cn_simple-title 
+                title={label.SearchTransactions} 
+                endofday={endOfDay} 
+                onendofdayselected={handleChangeEndOfDay}
+            >
+            </c-lwc_cn_simple-title> 
+    
+            <!-- Advanced filters modal -->
+            <template if:true={showModal}> <!--MIRAR ononoptionselection -->
+                <c-lwc_account_transactions-modal-form-filter 
+                    data-id="advancedFilters"
+                    filters={filters}
+                    formfilters={formFilters}
+                    transactionresults={transactionResults}
+                    showmodal={showModal}
+                    dates={dates}
+                    numberactivefilters={numberActiveFilters}
+                    endofday={endOfDay}
+                    fromdate={fromDate}
+                    todate={toDate}
+                    fromamount={fromAmount}
+                    toamount={toAmount}
+                    clientref={clientref}
+                    descrip={descrip}
+                    onfirefilter={filterTableData}
+                    ononoptionselection={handleUpdateDropdownFilters}
+                    onclearallfilters={updateDropdownFilters}
+                    onfireadvancedfilter={filterTableData}
+                    onclosemodalfilters={handleCloseModal}
+                >
+                </c-lwc_account_transactions-modal-form-filter>
+            </template>
+    
+            <!-- Standard filters -->
+            <!-- <c:CMP_CN_Filters aura:id="filterComponent" showAdvancedFilters="{!v.showAdvancedFilters}" showModal="{!v.showModal}" filters="{!v.filters}" numberActiveFilters="{!v.numberActiveFilters}"
+                                dates="{!v.dates}" dropdownHeader="{!v.dropdownHeader}" dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}"
+                                currentPage="transactions-search" displayDownloadIcon="{!v.endOfDay}" fromDate="{!v.fromDate}" toDate="{!v.toDate}"/> -->
+
+                                <!--MIRAR ononoptionselection --> 
+            <c-lwc_cn_filters 
+                data-id="filterComponent" 
+                showadvancedfilters={showAdvancedFilters}
+                showmodal={showModal}
+                filters={filters}
+                numberactivefilters={numberActiveFilters}
+                dates={dates}
+                dropdownheader={dropdownHeader}
+                dropdownvalues={timePeriods}
+                dropdownselectedvalue={selectedTimeframe}
+                currentpage="transactions-search"
+                displayprinticon
+                displaydownloadicon
+                fromdate={fromDate}
+                todate={toDate}
+                onfirefilter={filterTableData}
+                ononoptionselection={handleUpdateDropdownFilters}
+                onoptionselection={handleUpdateDropdownFilters}
+                onlaunchdonwload={downloadTransactions}
+                onopenmodal={handleOpenModal}
+                ondropdownvalueselected={handleTimeFrameSelected}
+            >
+            </c-lwc_cn_filters>
+            
+            <!-- TABLE COMPONENT -->
+            <template if:true={isTransactionsResultsNull}>
+                <c-lwc_results-not-found 
+                    msg={label.noTransactionsFound}
+                    onsearchagain={getUpdatedData}
+                >
+                </c-lwc_results-not-found>
+            </template>
+
+            <template if:false={isTransactionsResultsNull}>
+                <c-lwc_account-transactions-table 
+                    aura:id="transactionsTable" 
+                    loading={loading}
+                    sourcepage="" 
+                    transactionresults={transactionResults.obtTransacBusqueda} 
+                    wholetransactionresults={wholeTransactionResults.obtTransacBusqueda}
+                    sortbookdate={sortBookDate} 
+                    sortamount={sortamount} 
+                    sortcategory={sortCategory}
+                    filters={filters} 
+                    isendofday={endOfDay} 
+                    accountsdata={accountsData} 
+                    dates={dates}
+                    accountcodetoinfo={accountCodeToInfo} 
+                    selectedtimeframe={selectedTimeframe} 
+                    selectedfilters={selectedFilters}
+                    userpreferreddateformat={userPreferredDateFormat} 
+                    userpreferrednumberformat={userPreferredNumberFormat} 
+                    maximumrecords={maximumRecords}
+                    accountcodestosearch={accountCodesToSearch} 
+                    formfilters={formFilters}
+                    onsortcolumn={sortByEvt}
+                >
+                </c-lwc_account-transactions-table>
+            </template>
+        </template>
+</template>

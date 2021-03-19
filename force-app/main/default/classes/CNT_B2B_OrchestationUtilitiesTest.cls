@@ -1,132 +1,91 @@
 @isTest
 public class CNT_B2B_OrchestationUtilitiesTest {
-    
-    @TestSetup
-    static void setup(){
-        DataFactory.getCustomSettingCryptoKey(true);
-        DataFactory.createWsConfigurationSetting(true); 
-    }
-    
-    @isTest
-    static void validateUserInput_Test01(){
-        
-        Test.setMock(HttpCalloutMock.class, new WS_B2B_Orchestation_MockHttp.B2B_Orchestation());
-        Test.setMock(HttpCalloutMock.class, new CNT_PAY_PaymentOptions_MockHttp());
-        
-        //OrcErrors params
-        WS_B2B_Orchestation.OrcErrors orcErrors = new WS_B2B_Orchestation.OrcErrors();
-        orcErrors.code = 'codeTest';
-        orcErrors.description = 'descriptionTest';
-        orcErrors.level = 'levelTest';
-        orcErrors.message = 'messageTest';
-        
-        List<WS_B2B_Orchestation.OrcErrors> errors = new List<WS_B2B_Orchestation.OrcErrors>();
-        errors.add(orcErrors);
-        
-        //BuyNominal params
-        WS_B2B_Orchestation.BuyNominal buyNom = new WS_B2B_Orchestation.BuyNominal();
-        buyNom = new WS_B2B_Orchestation.BuyNominal('buyNominalAmountTest', 'buyNominalCurrencyTest');
-        
-        //SellNominal params
-        WS_B2B_Orchestation.SellNominal sellNom = new WS_B2B_Orchestation.SellNominal();
-        sellNom = new WS_B2B_Orchestation.SellNominal('sellNominalAmountTest', 'sellNominalCurrencyTest');
-        
-        //PaymentFraudDetails params
-        WS_B2B_Orchestation.PaymentFraudDetails fraudDetails = new WS_B2B_Orchestation.PaymentFraudDetails();
-        fraudDetails.fraudReference = 'fraudReferenceTest';
-        fraudDetails.fraudValidationResult = 'fraudValidationResultTest';
-        
-        //DataCancelConfirmFx params
-        WS_B2B_Orchestation.DataCancelConfirmFx datCancelConfirmFx = new WS_B2B_Orchestation.DataCancelConfirmFx();
-        datCancelConfirmFx.buyNominal = buyNom;
-        datCancelConfirmFx.operationReference = 'operationReferenceTest';
-        datCancelConfirmFx.priceType = 'priceTypeTest';
-        datCancelConfirmFx.sellNominal = sellNom;
-        datCancelConfirmFx.valueDateRequested = 'valueDateRequestedTest';
-        
-        //FxValueDetailsFee params
-        WS_B2B_Orchestation.FxValueDetailsFee fxValueDetailsFeeTest = new WS_B2B_Orchestation.FxValueDetailsFee();
-        fxValueDetailsFeeTest.FxCommercialMargin = new WS_B2B_Orchestation.FxCommercialMargin();
-        fxValueDetailsFeeTest.fxContravalueId = 'test';
-        fxValueDetailsFeeTest.fxCounterpaymentAmount = fxValueDetailsFeeTest.FxCommercialMargin;
-        fxValueDetailsFeeTest.fxExchangeRate = 'fxExchangeRateTest';
-        fxValueDetailsFeeTest.fxExecutionDate = 'test';
-        fxValueDetailsFeeTest.fxValueDate = 'test';
-        
-        //IntermediateAgent params
-        WS_B2B_Orchestation.IntermediateAgent interAgent = new WS_B2B_Orchestation.IntermediateAgent();
-        interAgent.addressAgent = 'addressAgentTest';
-        interAgent.agent = 'agentTest';
-        interAgent.agentName = 'agentNameTest';
-        interAgent.intermediateAccount = new WS_B2B_Orchestation.DestinationAccount();
-        
-        //Tiers params
-        WS_B2B_Orchestation.Tiers tiersTest = new WS_B2B_Orchestation.Tiers();
-        tiersTest.amountTier = 123.34;
-        tiersTest.amountTierType = 'amountTierTypeTest';
-        WS_B2B_Orchestation.FixedAmountPrice fixedAmountPriceTest = new WS_B2B_Orchestation.FixedAmountPrice();
-        fixedAmountPriceTest.amount = '1000';
-        fixedAmountPriceTest.tcurrency = 'PLN';
-        tiersTest.fixedAmountPrice = fixedAmountPriceTest;
-        WS_B2B_Orchestation.FixedRatePrice fixedRatePriceTest = new WS_B2B_Orchestation.FixedRatePrice();
-        fixedRatePriceTest.tcurrency = 'PLN';
-        fixedRatePriceTest.maximumAmount = 123.45;
-        fixedRatePriceTest.minimumAmount = 123;
-        fixedRatePriceTest.rate = 10;
-        tiersTest.fixedRatePrice = fixedRatePriceTest;
-        
-        //Concepts params
-        WS_B2B_Orchestation.Concepts conceptsTest = new WS_B2B_Orchestation.Concepts();
-        WS_B2B_Orchestation.SpecialPrice specialPriceTest = new WS_B2B_Orchestation.SpecialPrice();
-        specialPriceTest.specialPriceLevel = 'specialPriceLevelTest';
-        specialPriceTest.specialTiersList = new List<WS_B2B_Orchestation.Tiers>();
-        specialPriceTest.specialTiersList.add(tiersTest);
-        WS_B2B_Orchestation.StandardPrice standardPriceTest = new WS_B2B_Orchestation.StandardPrice();
-        standardPriceTest.standardTiersList = new List<WS_B2B_Orchestation.Tiers>();
-        conceptsTest.specialPrice = specialPriceTest;
-        conceptsTest.standardPrice = standardPriceTest;
-        
-        //OrchestationBody empty constructor
-        WS_B2B_Orchestation.OrchestationBody emptyOrchestrationBody = new WS_B2B_Orchestation.OrchestationBody();
-        
-        //params
-        String str = MockResponse.B2BData_PaymentAmount(); 
-        WRAPPER_B2B_Data.PaymentAmount amountData = (WRAPPER_B2B_Data.PaymentAmount) JSON.deserialize(str, WRAPPER_B2B_Data.PaymentAmount.class);
-        str = MockResponse.AccountList_AccountDetails('ES', 'EUR');
-        WRAPPER_AccountList.AccountDetails destinationAccount = (WRAPPER_AccountList.AccountDetails) JSON.deserialize(str, WRAPPER_AccountList.AccountDetails.class);
-        str = MockResponse.WS_ExchangeRate();
-        WS_ExchangeRate.OUTPUT exchRate = (WS_ExchangeRate.OUTPUT) JSON.deserialize(str, WS_ExchangeRate.OUTPUT.class);
-        str = MockResponse.WS_TransferFees();
-        WS_TransferFees.OUTPUT pricesData = (WS_TransferFees.OUTPUT) JSON.deserialize(str, WS_TransferFees.OUTPUT.class);
-        
-        Test.startTest();
-        	ReturnValue res = CNT_B2B_OrchestationUtilities.validateUserInput('paymentId',amountData, 
-                                                                    exchRate, exchRate, 
-                                                                    pricesData, destinationAccount, 
-                                                                    destinationAccount,
-                                                                    'description', 'clientReference');
-+
-        Test.stopTest();
-        
-    }
-    
-    @isTest
-    static void validateUserInput_Test02(){
-        
-        Test.setMock(HttpCalloutMock.class, new WS_B2B_Orchestation_MockHttp.B2B_Orchestation());
-        Test.setMock(HttpCalloutMock.class, new CNT_PAY_PaymentOptions_MockHttp());
-        //params
-        String str = MockResponse.WS_ExchangeRate();
-        WS_ExchangeRate.OUTPUT exchRate = (WS_ExchangeRate.OUTPUT) JSON.deserialize(str, WS_ExchangeRate.OUTPUT.class);
+  @TestSetup
+  static void setup() {
+    DataFactory.getCustomSettingCryptoKey(true);
+    DataFactory.createWsConfigurationSetting(true);
+  }
 
-        str = MockResponse.WRAPPER_PaymentDetail();
-        
-        WRAPPER_PaymentDetail payment = WRAPPER_PaymentDetail.parse(str);
-        
-        Test.startTest();
-        	ReturnValue res = CNT_B2B_OrchestationUtilities.validateUserInput(payment.operationResponse.operationDetail,'paymentId',exchRate,exchRate);
-        Test.stopTest();
-        
+  @isTest
+  static void validateUserInput_Test01() {
+    try {
+      Test.setMock(
+        HttpCalloutMock.class,
+        new WS_B2B_Orchestation_MockHttp.B2B_Orchestation()
+      );
+      Test.setMock(
+        HttpCalloutMock.class,
+        new CNT_PAY_PaymentOptions_MockHttp()
+      );
+      //params
+      String str = MockResponse.WS_ExchangeRate();
+      WS_ExchangeRate.OUTPUT exchRate = (WS_ExchangeRate.OUTPUT) JSON.deserialize(
+        str,
+        WS_ExchangeRate.OUTPUT.class
+      );
+
+      str = MockResponse.WRAPPER_PaymentDetail();
+
+      WRAPPER_PaymentDetail payment = WRAPPER_PaymentDetail.parse(str);
+      WRAPPER_PaymentDetail.OperationDetail payment_1 = (WRAPPER_PaymentDetail.OperationDetail) JSON.deserialize(
+        MockResponse.PaymentOptionsResult(),
+        WRAPPER_PaymentDetail.OperationDetail.class
+      );
+
+      Test.startTest();
+      ReturnValue res = CNT_B2B_OrchestationUtilities.validateUserInput(
+        payment.operationResponse.operationDetail,
+        'paymentId',
+        exchRate,
+        exchRate
+      );
+      CNT_B2B_OrchestationUtilities.validateUserInput(
+        payment_1,
+        'paymentId',
+        exchRate,
+        exchRate
+      );
+
+      Test.stopTest();
+    } catch (Exception e) {
+      System.debug(
+        'CNT_B2B_OrchestationUtilitiesTest.validateUserInput_Test01 ' +
+        e.getMessage() +
+        ', in line: ' +
+        e.getLineNumber()
+      );
     }
-    
+  }
+  @isTest
+  static void validateUserInput_Test02() {
+    try {
+      Test.setMock(
+        HttpCalloutMock.class,
+        new WS_B2B_Orchestation_MockHttp.B2B_Orchestation()
+      );
+      Test.setMock(
+        HttpCalloutMock.class,
+        new CNT_PAY_PaymentOptions_MockHttp()
+      );
+
+      WRAPPER_PAY_PaymentDraft_Mock mock = new WRAPPER_PAY_PaymentDraft_Mock();
+      WRAPPER_PAY_PaymentDraft paymentDraft = mock.paymentDraftOrchestration();
+      WRAPPER_PAY_PaymentDraft paymentDraft_2 = mock.bookToBookDraft(true);
+
+      Test.startTest();
+      ReturnValue res = CNT_B2B_OrchestationUtilities.validateUserInput(
+        paymentDraft
+      );
+      CNT_B2B_OrchestationUtilities.validateUserInput(paymentDraft_2);
+
+      Test.stopTest();
+    } catch (Exception e) {
+      System.debug(
+        'CNT_B2B_OrchestationUtilitiesTest.validateUserInput_Test02: ' +
+        e.getMessage() +
+        ', in line: ' +
+        e.getLineNumber()
+      );
+    }
+  }
 }

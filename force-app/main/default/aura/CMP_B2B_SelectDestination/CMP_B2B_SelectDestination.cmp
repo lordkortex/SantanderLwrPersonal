@@ -1,159 +1,406 @@
-<aura:component controller="CNT_B2B_SelectDestination" implements="forceCommunity:availableForAllPageTypes" access="global">
-    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+<aura:component
+  controller="CNT_B2B_SelectDestination"
+  implements="forceCommunity:availableForAllPageTypes"
+  access="global"
+>
+  <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
 
-    <!-- CORE ATTRIBUTES -->
-    <aura:attribute access="public"  type="Map"         name="paymentDraft"           default="{}" />
-    <aura:attribute access="public"  type="Map"         name="userData"                                                     description="User data." />
-    <aura:attribute access="public"  type="String"      name="transferType"           default="" />
-    <aura:attribute access="public"  type="Map"         name="steps"                                                        description="Data of the steps." />
-    <aura:attribute access="public"  type="List"        name="accountList"            default="[]"                          description="List of accounts" />
-    <aura:attribute access="public"  type="Aura.Action" name="handleContinue" />
-    <aura:attribute access="private" type="Boolean"     name="spinner"                default="false"                       description="Spinner loading." />
-    <aura:attribute access="public"  type="Boolean"     name="reload"                                                       description="Indicates if the conection with the service should be retried." />
-    <aura:attribute access="public"  type="Boolean"     name="isModified"             default="false"                       description="Indicates if the input data has been changed." />
-    <aura:attribute access="public"  type="Map"         name="currencyGlobalBalance"  default="{}"                          description="List of Currency's." />
-    <aura:attribute access="public"  type="String"      name="headerLabel"            default="{!$Label.c.instantTransfer}" description="Header label" />
-    <aura:attribute access="private" type="String"      name="errorMSG"                                                     description="Error message when clicked continue." />
-    <aura:attribute access="private" type="String"      name="searchedString"                                               description="Entered string in the Select Account component." />
-    <aura:attribute access="public"  type="Boolean"     name="isEditing"              default="false"                       description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
-    <aura:attribute access="public"  type="Boolean"     name="canCreateBeneficiaries" default="false"                       description="Enable the component to create new beneficiaries." />
-    <aura:attribute access="private" type="Boolean"     name="enableBrowseAccount"    default="false"                       description="Enable the button browse account." />
-    <aura:attribute access="public"  type="Map"         name="draftData"              default="{}"                          description="Account data saved as draft before creating a new account" />
-    <aura:attribute access="public"  type="List"        name="countryList"                                                  description="List of countries for dropdwon in IIP" />
-    <aura:attribute access="public"  type="String"      name="selectedCountry"         default=""                           description="Country value in dropdown for IIP." />
-    <aura:attribute access="public"  type="Boolean"     name="disableCountryDropdown"  default="false"                      description="Disable Country dropdown for IIP." />
-    <aura:attribute access="public"  type="List"        name="currencyList"                                                 description="List of currencies for dropdwon in IIP" />
-    <aura:attribute access="public"  type="String"      name="selectedCurrency"        default=""                           description="Currency value in dropdown for IIP." />
-    <aura:attribute access="public"  type="Boolean"     name="disableCurrencyDropdown" default="false"                      description="Disable Currency dropdown for IIP." />
-    <aura:attribute access="public"  type="Map"         name="countryCurrencyLists"    default="{}"                         description="List of currencies for each country" />
-    <aura:attribute access="public"  type="List"        name="bankNameList"                                                description="List of Bank Names dropdown in Register New Beneficiary form" />
-    <aura:attribute access="public"  type="List"        name="accountTypeList"                                              description="List of Account Types dropdown in Register New Beneficiary form" />
-    <aura:attribute access="public"  type="Map"         name="newBeneficiarySettings"   default="{}"                       description="Info by country code of the currencyList, baseCurrency, simpleForm and ibanLength" />
-    <aura:attribute access="public"  type="Boolean"     name="simpleForm"                                    description="Show simple beneficiary details form or double (Local/IBAN)" />
-    <aura:attribute access="public"  type="Integer"     name="ibanLength"                                                   description="Number of characters for valid IBAN format based on country" />
-    <aura:attribute access="private" type="Boolean"     name="showSearch"               default="true"                     description="To hide search bar when new ben form is open" />
+  <!-- CORE ATTRIBUTES -->
+  <aura:attribute access="public" type="Map" name="paymentDraft" default="{}" />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="userData"
+    description="User data."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="transferType"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="steps"
+    description="Data of the steps."
+  />
+  <aura:attribute
+    access="public"
+    type="List"
+    name="accountList"
+    default="[]"
+    description="List of accounts"
+  />
+  <aura:attribute access="public" type="Aura.Action" name="handleContinue" />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="spinner"
+    default="false"
+    description="Spinner loading."
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="errorFX"
+    default="true"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="reload"
+    description="Indicates if the conection with the service should be retried."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="isModified"
+    default="false"
+    description="Indicates if the input data has been changed."
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="currencyGlobalBalance"
+    default="{}"
+    description="List of Currency's."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="headerLabel"
+    default="{!$Label.c.instantTransfer}"
+    description="Header label"
+  />
+  <aura:attribute
+    access="private"
+    type="String"
+    name="errorMSG"
+    description="Error message when clicked continue."
+  />
+  <aura:attribute
+    access="private"
+    type="String"
+    name="errorMSG_1"
+    description="Error message when clicked continue."
+  />
+  <aura:attribute
+    access="private"
+    type="String"
+    name="errorMSG_2"
+    description="Error message when clicked continue."
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="errorBoolean"
+    default="true"
+    description="Error boolean when clicked continue."
+  />
+  <aura:attribute
+    access="private"
+    type="String"
+    name="searchedString"
+    description="Entered string in the Select Account component."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="isEditing"
+    default="false"
+    description="Indicates if the user is editing an existing payment so field should not be reset on initialisation."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="canCreateBeneficiaries"
+    default="false"
+    description="Enable the component to create new beneficiaries."
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="enableBrowseAccount"
+    default="false"
+    description="Enable the button browse account."
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="draftData"
+    default="{}"
+    description="Account data saved as draft before creating a new account"
+  />
+  <aura:attribute
+    access="public"
+    type="List"
+    name="countryList"
+    description="List of countries for dropdwon in IIP"
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="selectedCountry"
+    default=""
+    description="Country value in dropdown for IIP."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="disableCountryDropdown"
+    default="false"
+    description="Disable Country dropdown for IIP."
+  />
+  <aura:attribute
+    access="public"
+    type="List"
+    name="currencyList"
+    description="List of currencies for dropdwon in IIP"
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="selectedCurrency"
+    default=""
+    description="Currency value in dropdown for IIP."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="disableCurrencyDropdown"
+    default="false"
+    description="Disable Currency dropdown for IIP."
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="countryCurrencyLists"
+    default="{}"
+    description="List of currencies for each country"
+  />
+  <aura:attribute
+    access="public"
+    type="List"
+    name="bankNameList"
+    description="List of Bank Names dropdown in Register New Beneficiary form"
+  />
+  <aura:attribute
+    access="public"
+    type="List"
+    name="accountTypeList"
+    description="List of Account Types dropdown in Register New Beneficiary form"
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="newBeneficiarySettings"
+    default="{}"
+    description="Info by country code of the currencyList, baseCurrency, simpleForm and ibanLength"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="simpleForm"
+    description="Show simple beneficiary details form or double (Local/IBAN)"
+  />
+  <aura:attribute
+    access="public"
+    type="Integer"
+    name="ibanLength"
+    description="Number of characters for valid IBAN format based on country"
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="showSearch"
+    default="true"
+    description="To hide search bar when new ben form is open"
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="showBeneficiaryForm"
+    default="true"
+    description="To control when beneficiary form appears"
+  />
 
-    <aura:method access="public" name="checkContinue" action="{!c.handleCheckContinue}">
-		<aura:attribute type="Integer" name="step" />
-    </aura:method>
+  <aura:method
+    access="public"
+    name="checkContinue"
+    action="{!c.handleCheckContinue}"
+  >
+    <aura:attribute type="Integer" name="step" />
+  </aura:method>
 
-    <aura:handler name="init"   action="{!c.initComponent}"  value="{!this}" />
-    <aura:handler name="change" action="{!c.handleModified}" value="{!v.isModified}" />
-    <aura:handler name="change" action="{!c.handleChangeCountryOrCurrency}" value="{!v.selectedCountry}" />
-    <aura:handler name="change" action="{!c.handleChangeCountryOrCurrency}" value="{!v.selectedCurrency}" />
-    <aura:handler name="selectAccount" action="{!c.handleSelectAccount}" event="c:EVT_PAY_SelectAccount" />
-    
-    <aura:registerEvent name="completeStep" type="c:EVT_B2B_CompleteStep" />
+  <aura:handler name="init" action="{!c.initComponent}" value="{!this}" />
+  <aura:handler
+    name="change"
+    action="{!c.handleModified}"
+    value="{!v.isModified}"
+  />
+  <aura:handler
+    name="change"
+    action="{!c.handleChangeCountryOrCurrency}"
+    value="{!v.selectedCountry}"
+  />
+  <aura:handler
+    name="change"
+    action="{!c.handleChangeCountryOrCurrency}"
+    value="{!v.selectedCurrency}"
+  />
+  <aura:handler
+    name="selectAccount"
+    action="{!c.handleSelectAccount}"
+    event="c:EVT_PAY_SelectAccount"
+  />
 
-    <div class="{! 'paymentProcessStep2 slds-is-relative ' + (v.steps.shownStep eq 2 ? 'heightTotal' : '')}" id="step-2" tabindex="-1">
-        <!-- <div class="slds-grid">
+  <aura:registerEvent name="completeStep" type="c:EVT_B2B_CompleteStep" />
+
+  <div
+    class="{! 'paymentProcessStep2 slds-is-relative ' + (v.steps.shownStep eq 2 ? 'heightTotal' : '')}"
+    id="step-2"
+    tabindex="-1"
+  >
+    <!-- <div class="slds-grid">
             <div class="slds-text-heading_large">{!$Label.c.B2B_Step_2_Header}</div>
         </div> -->
 
-        <c:cmpPayStepHeader stepNumber="2" stepTitle="{!$Label.c.B2B_Step_2_Header}"/>
-        <div class="paymentStep_body">
-
-            <aura:if isTrue="{!v.transferType == $Label.c.PTT_instant_transfer}">
-                <!-- INSTANT TRANSFER -->
-                <c:CMP_B2B_SelectAccount
-                    userData="{!v.userData}"
-                    headerLabel="{!v.headerLabel}"
-                    account="{!v.paymentDraft.destinationAccount}"
-                    accountList="{!v.accountList}"
-                    beneficiaryDetails="true"
-                    headerCard="{!$Label.c.B2B_Recipient_information}"
-                    label="{!$Label.c.B2B_Recipient_account}"
-                    placeholder="{!$Label.c.B2B_Recipient_account}"
-                    steps="{!v.steps}"
-                    errorMSG="{!v.errorMSG}"
-                    searchedString="{!v.searchedString}"
-                    isModified="{!v.isModified}"
-                    isEditing="{!v.isEditing}"
-                    enableBrowseAccount="{!v.enableBrowseAccount}"
-                    canCreateBeneficiaries="{!v.transferType eq $Label.c.PTT_international_transfer_single}" />
-                <aura:set attribute="else">
-                    <aura:if isTrue="{!v.transferType == $Label.c.PTT_international_transfer_single}">  
-                        <!-- INTERNATIONAL INSTANT PAYMENT -->
-                        <div class="row countryCurrencyFx">
-                            <div class="slds-col">
-                                <c:CMP_PAY_FilterDropdown 
-                                    aura:id="countryDropdown"
-                                    values="{!v.countryList}"
-                                    selectedValue="{!v.selectedCountry}"
-                                    helpTextDropdown="{!$Label.c.Show_More}"
-                                    isSimpleDropdown="true"
-                                    label="{!$Label.c.destinationCountry}"
-                                    isDisabled="{!v.disableCountryDropdown}"
-                                    valuesPlaceholder=""
-                                    errorText="" />
-                            </div>
-                            <div class="slds-col">                
-                                <c:CMP_PAY_FilterDropdown 
-                                    aura:id="currencyDropdown"
-                                    values="{!v.currencyList}"
-                                    selectedValue="{!v.selectedCurrency}"
-                                    helpTextDropdown="{!$Label.c.Show_More}"
-                                    isSimpleDropdown="true"
-                                    label="{!$Label.c.B2B_Currency}"
-                                    isDisabled="{!v.disableCurrencyDropdown}"
-                                    valuesPlaceholder=""
-                                    errorText="" />
-                            </div>
-                            <div class="slds-col">
-                                <aura:if isTrue="{!not(empty(v.paymentDraft.exchangeRate))}">
-                                    <div>
-                                        <c:CMP_displayAmount
-                                            amount="{!v.paymentDraft.exchangeRate}" 
-                                            decimalClass="amount"
-                                            wholeClass="amount"
-                                            numberOfDec="4"
-                                            wholeDecimal = "true"
-                                            numberFormat="{!v.userData.numberFormat}" />
-                                        <aura:if isTrue="{!v.paymentDraft.sourceCurrencyDominant == false}">
-                                            {!v.paymentDraft.paymentCurrency + '/' + v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}
-                                            <aura:set attribute="else">
-                                                {!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance + '/' + v.paymentDraft.paymentCurrency}
-                                            </aura:set>
-                                        </aura:if>
-                                    </div>
-                                    <div>{!$Label.c.B2B_Step_3_Indicative_Rate + ' ' + v.paymentDraft.timestamp}</div>
-                                </aura:if>
-                            </div>
-                        </div>
-                        <aura:if isTrue="{!v.showSearch eq true}">
-                            <div class="row includesBrowse">
-                                <c:CMP_B2B_SelectIndividualAccount
-                                    label="{!$Label.c.B2B_Recipient_account}"
-                                    isEditing="{!v.isEditing}"
-                                    searchedString="{!v.searchedString}"
-                                    errorMSG="{!v.errorMSG}"
-                                    account="{!v.paymentDraft.destinationAccount}"
-                                    steps="{!v.steps}"
-                                    userData="{!v.userData}"
-                                    isModified="{!v.isModified}"
-                                    headerLabel="{!v.headerLabel}"
-                                    headerCard="{!$Label.c.B2B_Recipient_information}"
-                                    accountList="{!v.accountList}"
-                                    beneficiaryDetails="true"
-                                    placeholder="{!$Label.c.B2B_Recipient_account}"
-                                    enableBrowseAccount="{!v.enableBrowseAccount}" 
-                                    canCreateBeneficiaries="true" />
-                            </div>
-                        </aura:if>
-                        <!--NEW BENEFICIARY-->
-                             <aura:if isTrue="{!empty(v.paymentDraft.destinationAccount)}">
-                                <c:cmpPayRegisterBeneficiary aura:id="newBeneficiaryForm" ibanLength="{!v.ibanLength}" simpleForm="{!v.simpleForm}" draftData="{!v.draftData}" accountType="{!v.accountTypeList}" bankName="{!v.bankNameList}" country="{!v.selectedCountry}" onalert="{!c.newBeneficiaryAlert}" ondraftdata="{!c.handleCompletedFormData}"/> <!--newBeneficiarySettings="{!v.newBeneficiarySettings}" countryCode="{!v.selectedCountry}"-->
-                            </aura:if> 
+    <c:cmpPayStepHeader
+      stepNumber="2"
+      stepTitle="{!$Label.c.B2B_Step_2_Header}"
+    />
+    <div class="paymentStep_body">
+      <aura:if isTrue="{!v.transferType == $Label.c.PTT_instant_transfer}">
+        <!-- INSTANT TRANSFER -->
+        <c:CMP_B2B_SelectAccount
+          userData="{!v.userData}"
+          headerLabel="{!v.headerLabel}"
+          account="{!v.paymentDraft.destinationAccount}"
+          accountList="{!v.accountList}"
+          beneficiaryDetails="true"
+          headerCard="{!$Label.c.B2B_Recipient_information}"
+          label="{!$Label.c.B2B_Recipient_account}"
+          placeholder="{!$Label.c.B2B_Recipient_account}"
+          steps="{!v.steps}"
+          errorMSG="{!v.errorMSG}"
+          searchedString="{!v.searchedString}"
+          isModified="{!v.isModified}"
+          isEditing="{!v.isEditing}"
+          enableBrowseAccount="{!v.enableBrowseAccount}"
+          canCreateBeneficiaries="{!v.transferType eq $Label.c.PTT_international_transfer_single}"
+        />
+        <aura:set attribute="else">
+          <aura:if
+            isTrue="{!v.transferType == $Label.c.PTT_international_transfer_single}"
+          >
+            <!-- INTERNATIONAL INSTANT PAYMENT -->
+            <div class="row countryCurrencyFx">
+              <div class="slds-col">
+                <c:CMP_PAY_FilterDropdown
+                  aura:id="countryDropdown"
+                  values="{!v.countryList}"
+                  selectedValue="{!v.selectedCountry}"
+                  helpTextDropdown="{!$Label.c.Show_More}"
+                  isSimpleDropdown="true"
+                  label="{!$Label.c.destinationCountry}"
+                  isDisabled="{!v.disableCountryDropdown}"
+                  valuesPlaceholder=""
+                  errorText=""
+                />
+              </div>
+              <div class="slds-col">
+                <c:CMP_PAY_FilterDropdown
+                  aura:id="currencyDropdown"
+                  values="{!v.currencyList}"
+                  selectedValue="{!v.selectedCurrency}"
+                  helpTextDropdown="{!$Label.c.Show_More}"
+                  isSimpleDropdown="true"
+                  label="{!$Label.c.B2B_Currency}"
+                  isDisabled="{!v.disableCurrencyDropdown}"
+                  valuesPlaceholder=""
+                  errorText=""
+                />
+              </div>
+              <div class="slds-col">
+                <aura:if isTrue="{!not(empty(v.paymentDraft.exchangeRate))}">
+                  <div>
+                    <c:CMP_displayAmount
+                      amount="{!v.paymentDraft.exchangeRate}"
+                      decimalClass="amount"
+                      wholeClass="amount"
+                      numberOfDec="4"
+                      wholeDecimal="true"
+                      numberFormat="{!v.userData.numberFormat}"
+                    />
+                    <aura:if
+                      isTrue="{!v.paymentDraft.sourceCurrencyDominant == false}"
+                    >
+                      {!v.paymentDraft.paymentCurrency + '/' +
+                      v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}
+                      <aura:set attribute="else">
+                        {!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance
+                        + '/' + v.paymentDraft.paymentCurrency}
+                      </aura:set>
                     </aura:if>
-                </aura:set>
+                  </div>
+                  <div>
+                    {!$Label.c.B2B_Step_3_Indicative_Rate + ' ' +
+                    v.paymentDraft.timestamp}
+                  </div>
+                </aura:if>
+              </div>
+            </div>
+            <aura:if isTrue="{!v.showSearch eq true}">
+              <div class="row includesBrowse">
+                <c:CMP_B2B_SelectIndividualAccount
+                  label="{!$Label.c.B2B_Recipient_account}"
+                  isEditing="{!v.isEditing}"
+                  searchedString="{!v.searchedString}"
+                  errorMSG="{!v.errorMSG}"
+                  account="{!v.paymentDraft.destinationAccount}"
+                  steps="{!v.steps}"
+                  userData="{!v.userData}"
+                  isModified="{!v.isModified}"
+                  headerLabel="{!v.headerLabel}"
+                  headerCard="{!$Label.c.B2B_Recipient_information}"
+                  accountList="{!v.accountList}"
+                  beneficiaryDetails="true"
+                  placeholder="{!$Label.c.B2B_Recipient_account}"
+                  enableBrowseAccount="{!v.enableBrowseAccount}"
+                  canCreateBeneficiaries="true"
+                />
+              </div>
             </aura:if>
-            <aura:if isTrue="{!v.spinner eq true}">
-                <lightning:spinner alternativeText="Loading" size="medium" />
-            </aura:if>        
-            <aura:if isTrue="{!v.steps.lastModifiedStep eq 2}">
-                <c:CMP_B2B_ProcessContinueButton handleContinue="{!v.handleContinue}" />
+            <!--NEW BENEFICIARY-->
+            <aura:if
+              isTrue="{!or(v.showBeneficiaryForm eq true, empty(v.paymentDraft.destinationAccount))}"
+            >
+              <c:cmpPayRegisterBeneficiary
+                aura:id="newBeneficiaryForm"
+                errormsg="{!v.errorMSG_1}"
+                errormsg2="{!v.errorMSG_2}"
+                ibanLength="{!v.ibanLength}"
+                simpleForm="{!v.simpleForm}"
+                draftData="{!v.draftData}"
+                accountType="{!v.accountTypeList}"
+                bankName="{!v.bankNameList}"
+                country="{!v.selectedCountry}"
+                onalert="{!c.newBeneficiaryAlert}"
+                ondraftdata="{!c.handleCompletedFormData}"
+              />
+              <!--newBeneficiarySettings="{!v.newBeneficiarySettings}" countryCode="{!v.selectedCountry}"-->
             </aura:if>
-            <c:CMP_B2B_Toast aura:id="errorToast" />  
-        </div>
+          </aura:if>
+        </aura:set>
+      </aura:if>
+      <aura:if isTrue="{!v.spinner eq true}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+      </aura:if>
+      <aura:if isTrue="{!v.steps.lastModifiedStep eq 2}">
+        <c:CMP_B2B_ProcessContinueButton handleContinue="{!v.handleContinue}" />
+      </aura:if>
+      <c:CMP_B2B_Toast aura:id="errorToast" />
     </div>
+  </div>
 </aura:component>

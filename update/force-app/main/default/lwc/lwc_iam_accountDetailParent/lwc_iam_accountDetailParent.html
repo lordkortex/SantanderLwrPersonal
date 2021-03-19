@@ -1,0 +1,257 @@
+<template>        
+    <!-- HANDLERS -->
+
+    <!-- COMPONENT MARKUP -->
+    <c-lwc_service-component onsuccesscallback={successcallback}></c-lwc_service-component>
+
+    <div if:true={isLoading}>  
+        <div class="spinnerclass">
+            <lightning-spinner data-id="spinner" variant="brand" size="large" title={loadingTitle} alternative-text={loadingTitle}></lightning-spinner>
+        </div> 
+    </div>
+    <div if:false={isLoading}>
+            <c-lwc_cn_title-subtitle 
+                title={label.Accounts}
+                subtitle={label.accountDetail}
+                comesfromtracker={comesfromtracker}
+                fire-navigation-event="true"
+                onnavigateback={navigateback}
+            >
+            </c-lwc_cn_title-subtitle>
+            <c-lwc_cn_title-subtitle-totals 
+                accountdetails={accountDetails}
+                source={source}
+                lastupdate={lastUpdate}
+                showtotals
+                accounttocopy={accountDetails.accountNumber}
+            >
+            </c-lwc_cn_title-subtitle-totals>
+
+            <!--SNJ - 21/04/2020 - Adding CMP_Toast-->
+            <c-lwc_toast
+                type={typeToast}
+                show={showToast}
+                message={msgToast}
+            >
+            </c-lwc_toast>
+            
+            <!-- DETAILS -->
+            <article class="slds-card cardAccountDetail">
+                <!-- Header -->
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <span class="slds-text-heading_small">{label.basicDetails}</span>
+                        </div>
+                    </header>
+                </div>
+                
+                <!-- BODY -->
+                <div class="slds-card__body slds-card__body_inner">
+                    <div class="slds-grid">
+                        <div class="slds-col firstCol">
+                            <div class="textRow">
+                                <div class="slds-grid">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{label.Country}</span>
+                                </div>
+                                <div class="slds-grid">
+                                    
+                                    <span class="slds-truncate slds-text-body_regular">{accountDetails.country}</span>
+                                </div>
+                            </div>
+                            <div class="textRow">
+                                <div class="slds-grid">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{label.Bank}</span>
+                                </div>
+                                <div class="slds-grid">
+                                    <span class="slds-truncate slds-text-body_regular">{accountDetails.bank}</span>
+                                </div>
+                            </div>
+                            <div class="textRow">
+                                <div class="slds-grid">
+                                    <!-- AM - 28/09/2020 - Ebury Accounts -->
+                                    <div if:true={countryEqEbury}>
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{label.Account_Identifier}</span>
+                                    </div>
+                                    <div if:false={countryEqEbury}>
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{label.Account_Number}</span>
+                                    </div>
+                                </div>
+                                <div class="slds-grid">
+                                    <span class="slds-truncate slds-text-body_regular">{accountDetails.accountNumber}</span>
+                                </div>
+                            </div>
+                            <div class="textRow">
+                                <div class="slds-grid">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{label.currency}</span>
+                                </div>
+                                <div class="slds-grid">
+                                    <span class="slds-truncate slds-text-body_regular">{accountDetails.accountCurrency}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col secondCol">
+                            <div class="textRow">
+                                <div class="slds-grid">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{label.Corporate}</span>
+                                </div>
+                                <div class="slds-grid">
+                                    <span class="slds-truncate slds-text-body_regular">{accountDetails.accountName}</span>
+                                </div>
+                            </div>
+                            <!-- AM - 28/09/2020 - Ebury Accounts -->
+                            <div if:false={countryEqEbury}>
+                                <div class="textRow">
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{label.bic}</span>
+                                    </div>
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular">{accountDetails.codigoBic}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="textRow slds-grid">
+                                <div class="slds-col">
+                                    <div class="slds-grid">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{label.aliasAccount}</span>
+                                    </div>
+                                    
+                                    <div if:false={editingAliasAccount}>
+                                        <div class="slds-grid">
+                                            <span class="slds-truncate slds-text-body_regular">{accountDetails.accountAlias}</span>
+                                        </div>
+                                    </div>
+                                    <div if:true={editingAliasAccount}>
+                                        <!-- INPUT EDICION DE TEXTO -->
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control slds-grid slds-grid_align-spread">
+                                                <input class="slds-input" type="text" data-id="aliasAccountInput" value={accountDetails.accountAlias}/>
+                                                <button id="closeAliasAccount" class="slds-button slds-button_icon slds-input__icon" onclick={closeSaveAlias}>
+                                                    <div class="slds-button__icon slds-button__icon_hint icon-close_filledCircle"></div>
+                                                </button>
+                                                <button id="saveAliasAccount" class="slds-button slds-button_icon slds-input__icon" onclick={closeSaveAlias}>
+                                                    <div class="slds-button__icon slds-button__icon_hint icon-check"></div>
+                                                </button>
+                                            </div>
+                                            <span class="textHelp"></span>
+                                        </div>
+                                    </div>    
+                                </div>
+
+                                <!-- AM - 28/09/2020 - Ebury Accounts -->
+                                <div if:false={countryEqEbury}>
+                                    <div if:false={editingAliasAccount}>
+                                        <div class="slds-col icon">
+                                            <span class="icon-edit" id="aliasAccount" data-title-on-left={label.T_Modify} onclick={editAlias}></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- AM - 28/09/2020 - Ebury Accounts -->
+            <div if:true={eburyAccountDetails}>
+					
+                <!-- EBURY ACCOUNT DETAILS -->
+                <article class="slds-card cardAccountDetail ebury">
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            <div class="slds-media__body">
+                                <span class="slds-text-heading_small">{label.Ebury}&nbsp;{label.accountDetail}</span>
+                            </div>
+                        </header>
+                    </div>
+                    <template for:each={accountDetails.associatedAccountList} for:item="item" for:index="index">
+                        <div key={item.accountNumber} class="slds-card__body slds-card__body_inner">
+                            <div class="row">
+                                <span>{label.Account}&nbsp;[{item.account.accountId}]</span>
+                                <img class="eburySymbol" src={eburyImage}/>
+                            </div>
+                            <div class="slds-grid">
+                                <div class="slds-col firstCol">
+                                    <div class="textRow">
+                                        <div class="slds-grid" data-title={label.BankId}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.BankId}</span>
+                                        </div>
+                                        <div class="slds-grid" data-title="Value">
+                                            <span class="slds-truncate slds-text-body_regular">
+                                                <div if:false={isBankIdUndefined}>
+                                                    {item.bankId}
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="textRow">
+                                        <div class="slds-grid" data-title={label.Account_Number}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.Account_Number}</span>
+                                        </div>
+                                        <div class="slds-grid" data-title="Value">
+                                            <span class="slds-truncate slds-text-body_regular">
+                                                <div if:false={isAccountUndefined}>
+                                                    {item.account.accountId}
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="textRow">
+                                        <div class="slds-grid" data-title={label.AccountName}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.AccountName}</span>
+                                        </div>
+                                        <div class="slds-grid" data-title="Value">
+                                            <span class="slds-truncate slds-text-body_regular">
+                                                <div if:false={isAccountNameUndefined}>
+                                                    {item.accountName}
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-col secondCol">
+                                    <div class="textRow">
+                                        <div class="slds-grid" data-title={label.BankIdType}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.BankIdType}</span>
+                                        </div>
+                                        <div class="slds-grid" data-title="Value">
+                                            <span class="slds-truncate slds-text-body_regular">
+                                                <div if:false={isBankIdTypeUndefined}>
+                                                    {item.bankIdType}
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>                        
+                                    <div class="textRow">
+                                        <div class="slds-grid" data-title={label.AccountAddress}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.AccountAddress}</span>
+                                        </div>
+                                        <div class="slds-grid" data-title="Value">
+                                            <span class="slds-truncate slds-text-body_regular">
+                                                <div if:false={isAccountAddressUndefined}>
+                                                    {item.accountAddress}
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="textRow">
+                                        <div class="slds-grid" data-title={label.AccountNumberType}>
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{label.AccountNumberType}</span>
+                                        </div>
+                                        <div class="slds-grid" data-title="Value">
+                                            <span class="slds-truncate slds-text-body_regular">
+                                                <div if:false={isAccountIdTypeUndefined}>
+                                                    {item.account.accountIdType}
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </article>      
+            </div>
+    </div>
+</template>

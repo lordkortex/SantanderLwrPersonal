@@ -2,118 +2,144 @@
 //Handler class. You will need to customize it to ensure it meets your needs and
 //the data provided by the third party.
 
-global class GtsRegistrationHandler implements Auth.RegistrationHandler{
-    private static final String DEFAULT_ACCOUNTNAME = 'Empresa';
+global class GtsRegistrationHandler implements Auth.RegistrationHandler {
+  private static final String DEFAULT_ACCOUNTNAME = 'Empresa';
 
-    global boolean canCreateUser(Auth.UserData data) {
-        System.debug('canCreateUser was called for ' + (data != null ? data.email : 'null'));
-        Boolean retVal = (data != null 
-                && data.email != null
-                && data.lastName != null
-                && data.firstName != null);
-        
-        System.debug('data.username='+data.username);
-        System.debug('data.email='+data.email);
-        System.debug('data.lastName='+data.lastName);
-        System.debug('data.firstName='+data.firstName);
-        
-        if(Test.isRunningTest()){
-            return true;
-        }else{
-            return false;
-        }
+  global boolean canCreateUser(Auth.UserData data) {
+    System.debug(
+      'canCreateUser was called for ' + (data != null ? data.email : 'null')
+    );
+    Boolean retVal = (data != null &&
+    data.email != null &&
+    data.lastName != null &&
+    data.firstName != null);
+
+    System.debug('data.username=' + data.username);
+    System.debug('data.email=' + data.email);
+    System.debug('data.lastName=' + data.lastName);
+    System.debug('data.firstName=' + data.firstName);
+
+    if (Test.isRunningTest()) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    global User createUser(Id portalId, Auth.UserData data){
-        /*if(!canCreateUser(data)) {
+  global User createUser(Id portalId, Auth.UserData data) {
+    /*if(!canCreateUser(data)) {
             //Returning null or throwing an exception fails the SSO flow
             return null;
         }*/
-        system.debug(data);
-        System.debug(data.attributeMap);
-        System.debug('entity: ' + data.attributeMap.get('entity'));
-        System.debug('luid: ' + data.attributeMap.get('luid'));
-        System.debug('sub: ' + data.attributeMap.get('sub'));
-        System.debug('identifier: ' + data.identifier);
-        
-        //We have a community id, so create a user with community access
-        //TODO: Get an actual account
-        String sub=data.attributeMap.get('sub');
-        Contact cId=new Contact();
-        List<Contact> listContact = new List<Contact>();
-        
-        listContact =[SELECT Id, FirstName, LastName,Email, CONTACT_TXT_BIC__c, CONTACT_Country__c,CONTACT_TXT_GlobalId__c,CONTACT_TXT_RelationshipType__c, CONTACT_TXT_LocalUid__c, CONTACT_TXT_Signer_email__c  from Contact where CONTACT_TXT_GlobalId__c=:sub LIMIT 1];
-        if (listContact.size() > 0){   
-            cId = listContact[0];     
-            User nuevoUsr = new User();
-            nuevoUsr.FirstName = cId.FirstName;
-            nuevoUsr.LastName = cId.LastName;
-            nuevoUsr.USER_TXT_GlobalId__c = cId.CONTACT_TXT_GlobalId__c;
-            nuevoUsr.USER_TXT_LocalUid__c = cId.CONTACT_TXT_LocalUid__c;
-            nuevoUsr.USER_TXT_Signer_email__c = cId.CONTACT_TXT_Signer_email__c;
-            nuevoUsr.FederationIdentifier = cId.CONTACT_TXT_GlobalId__c;
-            nuevoUsr.CommunityNickname = cId.CONTACT_TXT_GlobalId__c;
-            String alias= cId.CONTACT_TXT_GlobalId__c;
-            //Alias must be 8 characters or less
-            if(alias.length() > 8) {
-                alias = alias.substring(0, 8);
-            }
-            nuevoUsr.Alias = alias;
-            nuevoUsr.username = cId.CONTACT_TXT_GlobalId__c + '@gtsinvalid.com';
-            if (cId.Email != null && cId.Email != ''){
-                nuevoUsr.Email = cId.Email;
-            }else{
-                nuevoUsr.Email = 'globalid@gts.invalid.com';
-            }
-            nuevoUsr.emailEncodingKey = 'UTF-8';
-            nuevoUsr.ContactId = cId.Id;
-            nuevoUsr.USER_country__c = cId.CONTACT_Country__c;
-            nuevoUsr.USER_TXT_BIC__c = cId.CONTACT_TXT_BIC__c;
-            if (cId.CONTACT_TXT_RelationshipType__c == 'FUNC'){
-                Profile p = [SELECT Id FROM profile WHERE name='Nexus User'];
-                nuevoUsr.profileId = p.Id;
-                nuevoUsr.USER_CHK_CashNexus__c = true;
+    system.debug(data);
+    System.debug(data.attributeMap);
+    System.debug('entity: ' + data.attributeMap.get('entity'));
+    System.debug('luid: ' + data.attributeMap.get('luid'));
+    System.debug('sub: ' + data.attributeMap.get('sub'));
+    System.debug('identifier: ' + data.identifier);
 
-                //Handle URL Params
-                String urlParams = data.attributeMap.get('urlParams');
-                if(urlParams != null && urlParams != ''){
-                    if(urlParams.contains('profile=mrtracker')){
-                        cId.CONTACT_CHBOX_MrTracker__c = true;
-                    }else{
-                        cId.CONTACT_CHBOX_MrTracker__c = false;
-                    }
+    //We have a community id, so create a user with community access
+    //TODO: Get an actual account
+    String sub = data.attributeMap.get('sub');
+    Contact cId = new Contact();
+    List<Contact> listContact = new List<Contact>();
 
-                    if(urlParams.contains('language=')){
-                        try{
-                            Integer strLocation = urlParams.indexOf('language=');
-                            String language = urlParams.subString(strLocation+9,strLocation+11);
-                            if('pt'.equals(language)){
-                                language = urlParams.subString(strLocation+9,strLocation+14);
-                            }else if('en'.equals(language)){
-                                language = 'en_US';
-                            }
-                            nuevoUsr.USER_PCK_Language__c = language;
-                        }catch(Exception e){}
-                    }
-                }else{
-                    cId.CONTACT_CHBOX_MrTracker__c = false;
-                }
-                update cId;
-            }else if (cId.CONTACT_TXT_RelationshipType__c == 'ADMIN'){
-                Profile p = [SELECT Id FROM profile WHERE name='Admin Nexus User'];
-                nuevoUsr.profileId = p.Id;
-                nuevoUsr.USER_CHK_CashNexus__c = true;
-            }else{
-                Profile p = [SELECT Id FROM profile WHERE name='Portal User'];
-                nuevoUsr.profileId = p.Id;
-            
-                // Call the payments tracker service to have the information pre-loaded, when the user logs into Tracker
-                ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(data.identifier));
+    listContact = [
+      SELECT
+        Id,
+        FirstName,
+        LastName,
+        Email,
+        CONTACT_TXT_BIC__c,
+        CONTACT_Country__c,
+        CONTACT_TXT_GlobalId__c,
+        CONTACT_TXT_RelationshipType__c,
+        CONTACT_TXT_LocalUid__c,
+        CONTACT_TXT_Signer_email__c
+      FROM Contact
+      WHERE CONTACT_TXT_GlobalId__c = :sub
+      LIMIT 1
+    ];
+    if (listContact.size() > 0) {
+      cId = listContact[0];
+      User nuevoUsr = new User();
+      nuevoUsr.FirstName = cId.FirstName;
+      nuevoUsr.LastName = cId.LastName;
+      nuevoUsr.USER_TXT_GlobalId__c = cId.CONTACT_TXT_GlobalId__c;
+      nuevoUsr.USER_TXT_LocalUid__c = cId.CONTACT_TXT_LocalUid__c;
+      nuevoUsr.USER_TXT_Signer_email__c = cId.CONTACT_TXT_Signer_email__c;
+      nuevoUsr.FederationIdentifier = cId.CONTACT_TXT_GlobalId__c;
+      nuevoUsr.CommunityNickname = cId.CONTACT_TXT_GlobalId__c;
+      String alias = cId.CONTACT_TXT_GlobalId__c;
+      //Alias must be 8 characters or less
+      if (alias.length() > 8) {
+        alias = alias.substring(0, 8);
+      }
+      nuevoUsr.Alias = alias;
+      nuevoUsr.username = cId.CONTACT_TXT_GlobalId__c + '@gtsinvalid.com';
+      if (cId.Email != null && cId.Email != '') {
+        nuevoUsr.Email = cId.Email;
+      } else {
+        nuevoUsr.Email = 'globalid@gts.invalid.com';
+      }
+      nuevoUsr.emailEncodingKey = 'UTF-8';
+      nuevoUsr.ContactId = cId.Id;
+      nuevoUsr.USER_country__c = cId.CONTACT_Country__c;
+      nuevoUsr.USER_TXT_BIC__c = cId.CONTACT_TXT_BIC__c;
+      if (cId.CONTACT_TXT_RelationshipType__c == 'FUNC') {
+        Profile p = [SELECT Id FROM profile WHERE name = 'Nexus User'];
+        nuevoUsr.profileId = p.Id;
+        nuevoUsr.USER_CHK_CashNexus__c = true;
+
+        //Handle URL Params
+        String urlParams = data.attributeMap.get('urlParams');
+        if (urlParams != null && urlParams != '') {
+          if (urlParams.contains('profile=mrtracker')) {
+            cId.CONTACT_CHBOX_MrTracker__c = true;
+          } else {
+            cId.CONTACT_CHBOX_MrTracker__c = false;
+          }
+
+          if (urlParams.contains('language=')) {
+            try {
+              Integer strLocation = urlParams.indexOf('language=');
+              String language = urlParams.subString(
+                strLocation + 9,
+                strLocation + 11
+              );
+              if ('pt'.equals(language)) {
+                language = urlParams.subString(
+                  strLocation + 9,
+                  strLocation + 14
+                );
+              } else if ('en'.equals(language)) {
+                language = 'en_US';
+              }
+              nuevoUsr.USER_PCK_Language__c = language;
+            } catch (Exception e) {
             }
-
-            return nuevoUsr;            
+          }
         } else {
-            /* OBD Development
+          cId.CONTACT_CHBOX_MrTracker__c = false;
+        }
+        update cId;
+      } else if (cId.CONTACT_TXT_RelationshipType__c == 'ADMIN') {
+        Profile p = [SELECT Id FROM profile WHERE name = 'Admin Nexus User'];
+        nuevoUsr.profileId = p.Id;
+        nuevoUsr.USER_CHK_CashNexus__c = true;
+      } else {
+        Profile p = [SELECT Id FROM profile WHERE name = 'Portal User'];
+        nuevoUsr.profileId = p.Id;
+
+        // Call the payments tracker service to have the information pre-loaded, when the user logs into Tracker
+        ID jobID = System.enqueueJob(
+          new CALLOUT_PaymentsTrackerAsyncCallout(data.identifier)
+        );
+      }
+
+      return nuevoUsr;
+    } else {
+      /* OBD Development
             //Create dummy contact and user for the Digital Onboarding.
             Contact c = new Contact();
             c.LastName = data.attributeMap.get('sub');
@@ -149,84 +175,105 @@ global class GtsRegistrationHandler implements Auth.RegistrationHandler{
             }
             Cache.Org.put('mapTokenInformationOBD', TokenInformation, 60000);
             return u;*/
-            return null;
-        }
+      return null;
+    }
+  }
+
+  global void updateUser(Id userId, Id portalId, Auth.UserData data) {
+    System.debug('updateUser');
+    System.debug(data);
+    System.debug(data.attributeMap);
+    System.debug('entity: ' + data.attributeMap.get('entity'));
+    System.debug('luid: ' + data.attributeMap.get('luid'));
+    System.debug('sub: ' + data.attributeMap.get('sub'));
+    System.debug('cmc: ' + data.attributeMap.get('cmc'));
+    System.debug('identifier: ' + data.identifier);
+    System.debug('urlParams: ' + data.attributeMap.get('urlParams'));
+
+    Map<String, String> claims = new Map<String, String>();
+    claims.put(
+      'country',
+      data.attributeMap.get('country') + data.attributeMap.get('entity')
+    );
+    //Map<String,String> entity = new Map<String,String>();
+    // claims.put('entity',data.attributeMap.get('entity'));
+    claims.put('local_uid', data.attributeMap.get('luid'));
+    claims.put('local_realm', '');
+
+    //AM - 26/10/2020 - CMC MX
+    if (data.attributeMap.get('cmc') != null) {
+      claims.put('Channel-Access-Agreement-Id', data.attributeMap.get('cmc'));
     }
 
-    global void updateUser(Id userId, Id portalId, Auth.UserData data){
-        System.debug('updateUser');
-        System.debug(data);
-        System.debug(data.attributeMap);
-        System.debug('entity: ' + data.attributeMap.get('entity'));
-        System.debug('luid: ' + data.attributeMap.get('luid'));
-        System.debug('sub: ' + data.attributeMap.get('sub'));
-        System.debug('cmc: ' + data.attributeMap.get('cmc'));
-        System.debug('identifier: ' + data.identifier);
-        System.debug('urlParams: '+data.attributeMap.get('urlParams'));
+    //AM - 05/11/2020 - Portugal SSO Tracker
+    String uetr = data.attributeMap.get('uetr');
+    if (uetr != null && uetr != '') {
+      System.debug('entra uetr: ' + uetr);
+      Map<String, String> mapGlobalIdToUETR = new Map<String, String>();
+      if (!Cache.Org.contains('mapGlobalIdToUETR')) {
+        mapGlobalIdToUETR.put(data.identifier, uetr);
+      } else {
+        mapGlobalIdToUETR = (Map<String, String>) Cache.Org.get(
+          'mapGlobalIdToUETR'
+        );
+        mapGlobalIdToUETR.put(data.identifier, uetr);
+      }
+      Integer orgCacheTtlSecs = 60000; // Time-to-life value for the cached value, 60000 seconds ~ 16,5h
+      Cache.Org.put('mapGlobalIdToUETR', mapGlobalIdToUETR, orgCacheTtlSecs);
+    }
 
-        
-                
-        Map<String,String> claims= new Map<String,String>();
-        claims.put('country',data.attributeMap.get('country')+data.attributeMap.get('entity'));
-        //Map<String,String> entity = new Map<String,String>();
-        // claims.put('entity',data.attributeMap.get('entity'));
-        claims.put('local_uid',data.attributeMap.get('luid'));
-        claims.put('local_realm', '');
-        
-        //AM - 26/10/2020 - CMC MX
-        if (data.attributeMap.get('cmc') != null){
-            claims.put('Channel-Access-Agreement-Id', data.attributeMap.get('cmc'));
+    Auth.JWT jwt = new Auth.JWT();
+    jwt.setIss(System.Label.jwtIss); //'desGtsInternet'
+    jwt.setSub(data.identifier);
+
+    jwt.setValidityLength(86400);
+
+    List<User> userList = [
+      SELECT Id, USER_CHK_CashNexus__c
+      FROM User
+      WHERE Id = :userId
+    ];
+    if (!userList.isEmpty()) {
+      //Fix One Trade PL
+      if (!userList[0].USER_CHK_CashNexus__c) {
+        if (
+          data.attributeMap.get('country') != null &&
+          data.attributeMap.get('country') == 'PL'
+        ) {
+          jwt.setAud('hybridapis-santander');
+          claims.put('local_realm', 'ibiznes');
         }
-        
-        //AM - 05/11/2020 - Portugal SSO Tracker
-        String uetr = data.attributeMap.get('uetr');
-        if(uetr != null && uetr != ''){
-            Cache.Session.put('searchUETR', uetr);
-        }
-        
-        Auth.JWT jwt = new Auth.JWT();
-        jwt.setIss(System.Label.jwtIss); //'desGtsInternet'
-        jwt.setSub(data.identifier);
-            
-        jwt.setValidityLength(86400);
-        
-        List<User> userList = [SELECT Id, USER_CHK_CashNexus__c FROM User WHERE Id =: userId];
-        if(!userList.isEmpty()){
-            //Fix One Trade PL
-            if(!userList[0].USER_CHK_CashNexus__c){
-				if(data.attributeMap.get('country') != null && data.attributeMap.get('country') == 'PL'){
-            		jwt.setAud('hybridapis-santander');
-                    claims.put('local_realm', 'ibiznes');
-        		}                
+      } else {
+        //MRTracker
+        String urlParams = data.attributeMap.get('urlParams');
+        List<Contact> userContact = [
+          SELECT Id, CONTACT_CHBOX_MrTracker__c
+          FROM Contact
+          WHERE CONTACT_User__c = :userList[0].Id
+          LIMIT 1
+        ];
+        if (userContact.size() > 0) {
+          Contact c = userContact[0];
+          if (urlParams != null && urlParams != '') {
+            if (urlParams.contains('profile=mrtracker')) {
+              c.CONTACT_CHBOX_MrTracker__c = true;
+            } else {
+              c.CONTACT_CHBOX_MrTracker__c = false;
             }
-            //MRTracker
-            else{
-                String urlParams = data.attributeMap.get('urlParams');
-                List<Contact> userContact = [SELECT Id, CONTACT_CHBOX_MrTracker__c FROM Contact WHERE CONTACT_User__c = :userList[0].Id LIMIT 1];
-                if(userContact.size()>0){
-                    Contact c = userContact[0];
-                    if(urlParams != null && urlParams != ''){
-                        if(urlParams.contains('profile=mrtracker')){
-                            c.CONTACT_CHBOX_MrTracker__c = true;
-                        }else{
-                            c.CONTACT_CHBOX_MrTracker__c = false;
-                        }
-                    }else{
-                        c.CONTACT_CHBOX_MrTracker__c = false;
-                    }
-                    update c;
-                }
-            }
-
+          } else {
+            c.CONTACT_CHBOX_MrTracker__c = false;
+          }
+          update c;
         }
-        
-        jwt.setAdditionalClaims(claims);
-        
+      }
+    }
 
-        Auth.JWS signedToken = new Auth.JWS(jwt,System.Label.certificateName);   // SelfSignedCert_02Oct2019_144111
-        String serializedJwtToken = signedToken.getCompactSerialization();
-        System.debug('serializedJwtToken:  ' + serializedJwtToken );
-        
+    jwt.setAdditionalClaims(claims);
+
+    Auth.JWS signedToken = new Auth.JWS(jwt, System.Label.certificateName); // SelfSignedCert_02Oct2019_144111
+    String serializedJwtToken = signedToken.getCompactSerialization();
+    System.debug('serializedJwtToken:  ' + serializedJwtToken);
+
     /* Cache.Org.put('serializedJwtToken', serializedJwtToken);
         Cache.Org.put('data', data);
         if (Cache.Org.contains('serializedJwtToken')) {
@@ -236,47 +283,63 @@ global class GtsRegistrationHandler implements Auth.RegistrationHandler{
         System.debug('Cache.Org data : ' + Cache.Org.get('data'));
         }
         */
-        // Create a map between the user's globalId and its associated access token, to retrieve later in the Community
-        Map<String,String> mapGlobalIdToJwtToken = new Map<String,String>();
-        if(!Cache.Org.contains('mapGlobalIdToJwtToken')) {
-            mapGlobalIdToJwtToken.put(data.identifier, serializedJwtToken);
-        } else {
-            mapGlobalIdToJwtToken = (Map<String,String>)Cache.Org.get('mapGlobalIdToJwtToken');
-            mapGlobalIdToJwtToken.put(data.identifier, serializedJwtToken);
-        }
-        Integer orgCacheTtlSecs = 60000; // Time-to-life value for the cached value, 60000 seconds ~ 16,5h
-        Cache.Org.put('mapGlobalIdToJwtToken', mapGlobalIdToJwtToken, orgCacheTtlSecs);
-        System.debug('Cache.Org JWT Token Map : ' + Cache.Org.get('mapGlobalIdToJwtToken'));
-        
-        // Call the payments tracker service to have the information pre-loaded
-        List<User> userGlobalIdList = [SELECT Id, USER_TXT_GlobalId__c, USER_CHK_CashNexus__c FROM User WHERE Id =: userId];
-        if(!userGlobalIdList.isEmpty()){
-            if(!userGlobalIdList[0].USER_CHK_CashNexus__c)
-                ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(userGlobalIdList[0].USER_TXT_GlobalId__c));
-            //ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(data.identifier));
-            //ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(userId)); 
-        }
+    // Create a map between the user's globalId and its associated access token, to retrieve later in the Community
+    Map<String, String> mapGlobalIdToJwtToken = new Map<String, String>();
+    if (!Cache.Org.contains('mapGlobalIdToJwtToken')) {
+      mapGlobalIdToJwtToken.put(data.identifier, serializedJwtToken);
+    } else {
+      mapGlobalIdToJwtToken = (Map<String, String>) Cache.Org.get(
+        'mapGlobalIdToJwtToken'
+      );
+      mapGlobalIdToJwtToken.put(data.identifier, serializedJwtToken);
+    }
+    Integer orgCacheTtlSecs = 60000; // Time-to-life value for the cached value, 60000 seconds ~ 16,5h
+    Cache.Org.put(
+      'mapGlobalIdToJwtToken',
+      mapGlobalIdToJwtToken,
+      orgCacheTtlSecs
+    );
+    System.debug(
+      'Cache.Org JWT Token Map : ' + Cache.Org.get('mapGlobalIdToJwtToken')
+    );
 
-        /*List<User> userList2 = [SELECT Id, name, ProfileId FROM User WHERE Id = '0050E000007Pl2JQAS'];
+    // Call the payments tracker service to have the information pre-loaded
+    List<User> userGlobalIdList = [
+      SELECT Id, USER_TXT_GlobalId__c, USER_CHK_CashNexus__c
+      FROM User
+      WHERE Id = :userId
+    ];
+    if (!userGlobalIdList.isEmpty()) {
+      if (!userGlobalIdList[0].USER_CHK_CashNexus__c)
+        ID jobID = System.enqueueJob(
+          new CALLOUT_PaymentsTrackerAsyncCallout(
+            userGlobalIdList[0].USER_TXT_GlobalId__c
+          )
+        );
+      //ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(data.identifier));
+      //ID jobID = System.enqueueJob(new CALLOUT_PaymentsTrackerAsyncCallout(userId));
+    }
+
+    /*List<User> userList2 = [SELECT Id, name, ProfileId FROM User WHERE Id = '0050E000007Pl2JQAS'];
         Profile p = [select id from profile where name='Mister Tracker'];
         User u =new User();
         u = userList2[0];
         u.ProfileId = p.id;
         update u;*/
-        // u.Id = userId;
-        // u.ProfileId = '00e1j000000h0swAAA';
-        // update(u);
-        //TODO: Customize the username. Must be 80 characters or less.
-        //u.username = data.username + '@myorg.com';
-        //u.email = data.email;
-        //u.lastName = data.lastName;
-        //u.firstName = data.firstName;
-        //String alias = data.username;
-        //Alias must be 8 characters or less
-        //if(alias.length() > 8) {
-            //alias = alias.substring(0, 8);
-        //}
-        //u.alias = alias;
-           //update(u);
-    }
+    // u.Id = userId;
+    // u.ProfileId = '00e1j000000h0swAAA';
+    // update(u);
+    //TODO: Customize the username. Must be 80 characters or less.
+    //u.username = data.username + '@myorg.com';
+    //u.email = data.email;
+    //u.lastName = data.lastName;
+    //u.firstName = data.firstName;
+    //String alias = data.username;
+    //Alias must be 8 characters or less
+    //if(alias.length() > 8) {
+    //alias = alias.substring(0, 8);
+    //}
+    //u.alias = alias;
+    //update(u);
+  }
 }

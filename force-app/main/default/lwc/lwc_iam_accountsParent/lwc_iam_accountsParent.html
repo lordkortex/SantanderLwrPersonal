@@ -225,7 +225,7 @@
                         <template for:each={accountcountrylist} for:item="item" for:index="itemIndex">  
                             <!--A Index : {item.index}  -->
                             <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
-                                itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                                itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylistjson}
                                 islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
                                 userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
                                 isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
@@ -236,7 +236,7 @@
                         <template for:each={accountcurrencylist} for:item="item" for:index="itemIndex"> 
                             <!--B Index : {item.index}  -->                       
                         <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
-                                itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                                itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylistjson}
                                 islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
                                 userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
                                 isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
@@ -247,7 +247,7 @@
                         <template for:each={accountsubsidiarylist} for:item="item"  for:index="itemIndex">
                             <!--C Index : {item.index}  -->
                         <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
-                                itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                                itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylistjson}
                                 islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
                                 userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
                                 isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
@@ -260,7 +260,7 @@
                         <template for:each={taccountcountrylist} for:item="item" for:index="itemIndex"> 
                             <!--D Index : {item.index}  -->  
                             <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={tcurrentusercurrency} isortselected={sortselected}
-                                itabselected="EndOfDayTab" index={item.index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylist}
+                                itabselected="EndOfDayTab" index={item.index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylistjson}
                                 islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={tcurrencylist}
                                 userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
                                 isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
@@ -271,7 +271,7 @@
                         <template for:each={taccountcurrencylist} for:item="item" for:index="itemIndex">     
                             <!--E Index : {item.index}  -->                  
                         <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={tcurrentusercurrency} isortselected={sortselected}
-                                itabselected="EndOfDayTab" index={item.index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylist}
+                                itabselected="EndOfDayTab" index={item.index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylistjson}
                                 islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={tcurrencylist}
                                 userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
                                 isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
@@ -282,7 +282,7 @@
                         <template for:each={taccountsubsidiarylist} for:item="item" for:index="itemIndex">
                             <!--F Index : {item.index}  -->
                         <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={tcurrentusercurrency} isortselected={sortselected}
-                                itabselected="EndOfDayTab" index={item.index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylist}
+                                itabselected="EndOfDayTab" index={item.index}  tabschange={tabschange} firsttaccountcountrylist={firsttaccountcountrylistjson}
                                 islastupdate={_isLastUpdateCN} filters={filters} source={sourcepage} icurrencylist={tcurrencylist}
                                 userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
                                 isonetrade={isnoonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
@@ -297,7 +297,7 @@
                     <template for:each={accountcountrylist} for:item="item" for:index="itemIndex">    
                         <!--G Index : {item.index}-->
                         <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
-                            itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                            itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylistjson}
                             islastupdate="true" filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
                             userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
                             isonetrade={isonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
@@ -308,7 +308,7 @@
                     <template for:each={accountcurrencylist} for:item="item" for:index="itemIndex">   
                         <!--H Index : {item.index}-->                      
                     <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
-                            itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                            itabselected="LastUpdateTab" index={item.index}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylistjson}
                             islastupdate="true" filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
                             userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
                             isonetrade={isonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}>
@@ -319,7 +319,7 @@
                     <template for:each={accountsubsidiarylist} for:item="item"  for:index="itemIndex">
                          <!--I Index : {item.index}-->
                     <c-lwc_child-accounts-list key={item.index} iregister={item} ikey={item.index} icurrency={rcurrentusercurrency} isortselected={sortselected}
-                            itabselected="LastUpdateTab" index={v}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylist}
+                            itabselected="LastUpdateTab" index={v}  tabschange={tabschange} firstaccountcountrylist={firstaccountcountrylistjson}
                             islastupdate="true" filters={filters} source={sourcepage} icurrencylist={rcurrencylist}
                             userpreferreddateformat={userpreferreddateformat} userpreferrednumberformat={userpreferrednumberformat} isloading={isloading}
                             isonetrade={isonetradeaux} iscomunidadcashnexus={isComunidadCashNexus} onrecoverselected={recoverselected}> 

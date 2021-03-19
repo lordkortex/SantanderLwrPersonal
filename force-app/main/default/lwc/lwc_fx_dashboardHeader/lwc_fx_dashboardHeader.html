@@ -1,0 +1,47 @@
+<template>
+    <div class="slds-grid title_container">
+        <div class="slds-align_absolute-center">
+            <div class="slds-col">
+                <div class="slds-text-heading_medium">
+                    <div class="title">FX Dashboard</div>
+                        <div class="buttons">
+                        <button class="slds-button primary button_icon" role="option" tabindex="0" aria-selected="true" onclick={openMethodModal}>
+                            New Trade
+                            <span class="icon icon-more"></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="text_line"></div>
+                <div class="slds-text-heading_subtitle">
+                    Check here your relevant FX Information.
+                </div>
+                <!-- Reloj 
+                <div class="slds-text-heading_subtitle">
+                    <lightning-icon icon-name="utility:clock" alternative-text="Clock" title="Image"></lightning-icon>
+                     &nbsp; Information at {dateValue}
+                </div> -->
+            </div>
+            <!-- # PESTAÑAS / TABS
+            <div class="slds-tabs">
+                <ul class="slds-tabs_default__nav" role="tablist">
+                    <li class={singleTabSelectedClass} role="presentation" onclick={selectSigleTab}>
+                        <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" 
+                        aria-selected={issingletabselected} 
+                        aria-controls="tab-default-1" id="tab-default-1__item">{label.single}</a>
+                        <div class="numberSelect">
+                            <span>{singlenumrecords}</span>
+                        </div>
+                    </li>
+                    <li class={multipleTabSelectedClass} role="presentation" onclick={selectMultipleTab}>
+                        <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0" 
+                        aria-selected={isNotSingleTabSelected} 
+                        aria-controls="tab-default-2" id="tab-default-2__item">{label.multiple}</a>
+                        <div class="numberSelect">
+                            <span>{multiplenumrecords}</span>
+                        </div> 
+                    </li>
+                </ul>
+            </div> -->
+        </div>
+    </div>
+</template>
