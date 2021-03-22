@@ -3,7 +3,7 @@
         <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
             <button class={class2} onclick={handleDropdownButton}>
                 <div if:true={condition1}>
-                    {selectedLabel}
+                    {selectedlabel}
                 </div>
                 <div if:false={condition1}>{label}
                     <div class="numberSelected">
@@ -25,7 +25,9 @@
                                             data-id="checkboxes" 
                                             label={item.label} 
                                             iden={item.value} 
-                                            value={item.value}>
+                                            value={item.value}
+                                            ischecked={item.checked}
+                                            onvaluechecked={handleCheck}>
                                         </c-lwc_b2b_filter-options-checkbox>
                                     </div>
                                 </template>

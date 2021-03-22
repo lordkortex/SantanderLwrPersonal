@@ -13,8 +13,6 @@ import payment_statusThree from '@salesforce/label/c.payment_statusThree';
 import payment_statusFour from '@salesforce/label/c.payment_statusFour';
 import domain from '@salesforce/label/c.domain';
 import domainBackfront from '@salesforce/label/c.domainBackfront';
-
-
 //Import styles
 import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
@@ -189,43 +187,24 @@ export default class Lwc_swiftPaymentTableRow extends NavigationMixin(LightningE
         try{
             this.encrypt(url)
             .then((results) =>{
-                //let navService = component.find("navService");
-                let pageReference={};
                 if(this.backfront==true){
-                    // pageReference= {
-                    //     type: "standard__component",
-                    //     attributes: {
-                    //         "componentName":page,
-                    //         "actionName":"view"
-                    //     },
-                    //     state: {c__params:results}
-                    // };  
                     this[NavigationMixin.Navigate]({
-                        type: "comm__namedPage", 
+                        type: "standard__component", 
                         attributes: {
-                            pageName: page
+                            "componentName":page,
                         },
                         state: {
-                            params : result
+                            c__params:results
                         }
                     });
                 }else{                    
-                    // pageReference = {
-                    //     type: "comm__namedPage", 
-                    //     attributes: {
-                    //         pageName: page
-                    //     },
-                    //     state: {
-                    //         params : results
-                    //     }
-                    // }
                     this[NavigationMixin.Navigate]({
                         type: "comm__namedPage", 
                         attributes: {
                             pageName: page
                         },
                         state: {
-                            params : ''
+                            params:results
                         }
                     });
                 }
@@ -239,8 +218,6 @@ export default class Lwc_swiftPaymentTableRow extends NavigationMixin(LightningE
     encrypt (data){
         try{
             var result="null";
-            //var action = component.get("c.encryptData");
-            //action.setParams({ str : data });
             return new Promise((resolve, reject) => {
                 encryptData({ str : data })
                 .then(value => {
@@ -269,21 +246,21 @@ export default class Lwc_swiftPaymentTableRow extends NavigationMixin(LightningE
     showHideDetails () {
         try{
             //var cmp = component.find("details");
-            var cmp = this.template.querySelector('[data-id]="details"]');
+            var cmp = this.template.querySelector('[data-id="details"]');
             //var cmpParent = component.find("parentDetails");
-            var cmpParent = this.template.querySelector('[data-id]="parentDetails"]');
+            var cmpParent = this.template.querySelector('[data-id="parentDetails"]');
             //var cmptable = component.find("datailsTable");
-            var cmptable = this.template.querySelector('[data-id]="datailsTable"]');
+            var cmptable = this.template.querySelector('[data-id="datailsTable"]');
             // var icon = component.find("icon");
-            var icon = this.template.querySelector('[data-id]="icon"]');
-            var pos = this.itemPosition;
+            var icon = this.template.querySelector('[data-id="icon"]');
+            var pos = this.itemposition;
     
             if(cmp!=undefined){
                 cmp.classList.toggle("hidden");
             }
     
             if(pos != undefined && pos!=null){
-                if(this.itemPosition%2!=0){
+                if(this.itemposition%2!=0){
                     cmptable.classList.add("evenBackground");
                 }
             }
@@ -353,7 +330,7 @@ export default class Lwc_swiftPaymentTableRow extends NavigationMixin(LightningE
 
     retrieveMT103 (){
         try{
-            var action = component.get("c.downloadMT103Doc");
+            //var action = component.get("c.downloadMT103Doc");
             //Send the payment ID
             //action.setParams({str:component.get("v.item.paymentDetail.paymentId")});
             return new Promise((resolve, reject) => {

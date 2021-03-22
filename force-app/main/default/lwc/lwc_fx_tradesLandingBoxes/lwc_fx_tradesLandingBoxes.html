@@ -4,22 +4,32 @@
             <div class="slds-form-element">
 
                     <!-- EX BORRAR-->
-                    <div class="slds-col slds-button " onclick={selectPaymentStatus}>
-                        <span class="number">138</span>
+                    <div class="slds-col slds-button " data-id="Pending" onclick={boxesFilters}>
+                        <span class="number">3</span>
                         <div class="slds-truncate">
-                            <span class="text">Update last week</span>
+                            <span class="text">Pending Trades</span>
                         </div>
                     </div>
-                        <div class="line"></div>    
+                        
+                    <div class="line"></div>    
 
                     <!-- EX BORRAR-->
-                    <div class="slds-col slds-button " onclick={selectPaymentStatus}>
+                    <div class="slds-col slds-button " data-id="Settled" onclick={boxesFilters}>
+                        <span class="number">5</span>
+                        <div class="slds-truncate">
+                            <span class="text">Trades upcoming to be settled</span>
+                        </div>
+                    </div>
+
+                    <div class="line"></div>  
+                    
+                    <!-- EX BORRAR-->
+                    <div class="slds-col slds-button " data-id="LastMoth" onclick={boxesFilters}>
                         <span class="number">23</span>
                         <div class="slds-truncate">
-                            <span class="text">Pending</span>
+                            <span class="text">Trades executed Last month</span>
                         </div>
-                    </div>       
-         
+                    </div>
                 <!-- <template for:each={paymentstatusboxes} for:item='item' for:index="index">
                     <div key = {item.index}>
                         <div class={item.class1} id={item.statusName} onclick={selectPaymentStatus}>

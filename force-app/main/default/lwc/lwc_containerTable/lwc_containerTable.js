@@ -3,10 +3,13 @@ import { loadStyle } from 'lightning/platformResourceLoader';
 //Import styles
 import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 //Import Apex method
+// import searchFIlterTrades from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.searchFIlterTrades';
 import downloadOTFXTrades from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.downloadOTFXTrades';
-import searchFIlterTrades from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.searchFIlterTrades';    
 import removeFile from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.removeFile';
+
 import getStatus from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.getStatus';
+import getUserData from '@salesforce/apex/CNT_PaymentsLandingParent.getUserData';
+import searchFIlterTradesColumns from '@salesforce/apex/CNT_LWC_FX_TradesLandingParent.searchFIlterTradesColumns';
 //Import labels
 import PAY_fileDownloaded from '@salesforce/label/c.PAY_fileDownloaded';
 import PAY_downloadSuccessful from '@salesforce/label/c.PAY_downloadSuccessful';
@@ -14,6 +17,7 @@ import B2B_Error_Check_Connection from '@salesforce/label/c.B2B_Error_Check_Conn
 import download from '@salesforce/label/c.download';
 import B2B_Error_Problem_Loading from '@salesforce/label/c.B2B_Error_Problem_Loading';
 import domainCashNexus from '@salesforce/label/c.domainCashNexus';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class Lwc_containerTable extends LightningElement {
     //Labels
@@ -26,159 +30,63 @@ export default class Lwc_containerTable extends LightningElement {
         domainCashNexus,
     }
 
+    @track currentUser = {};
     @track showdownloadmodal = false;
     @track selectedrows = [];
     @track filtercounter = 0;
     @track isallselected = false;
-    tradeslist;
+    @track tradeslist;
     @track reload = false;
     @track showSpinner = false;
-    filters = '{"tradeId": "1234", "counterpartyList": [{"counterparty": "008FYA"}]}';
+    filters = '{"tradeId": "1234","counterpartyList": ["008FYA", "008FYB"]}' //Variable para descargas
+    emptyFilters = '{"counterpartyList": ["008FYB"]}';
     docId = '';
     @track columns;
     @track rows;
-    @track pages = [];
-    @track page = 1;
-    @track previousLoadPage = 1;
-    @track perpage = 50;
-    totalNumberPages = 0;
-    set_size = 10;
-    pageSizeOptions = recordsPerPage;
-    statusValues = [];
+    @track statusValues = [];
 
     connectedCallback() {
         loadStyle(this, santanderStyle + '/style.css');
-       
-        this.columns = [
-                        {order: "1",
-                        styleColumn: "button-orderRight icon-arrowDown color:white",
-                        value: "TRANSACTION #",
-                        sortable: false,
-                        sortOrder: "desc"},
-                        {order: "2",
-                        styleColumn: "button-orderRight icon-arrowDown color:white",
-                        value: "STATUS",
-                        sortable: true,
-                        sortOrder: "desc"},
-                        {order: "3",
-                        styleColumn: "button-orderRight icon-arrowDown color:white",
-                        value: "PRODUCT",
-                        sortable: true,
-                        sortOrder: "desc"},
-                        {order: "4",
-                        styleColumn: "button-orderRight icon-arrowDown color:white",
-                        value: "TRADE DATE",
-                        sortable: true,
-                        sortOrder: "desc"},
-                        {order: "5",
-                        styleColumn: "button-orderRight icon-arrowDown color:white",
-                        value: "SETT DATE",
-                        sortable: true,
-                        sortOrder: "desc"},
-                        {order: "6",
-                        styleColumn: "button-orderRight icon-arrowDown color:white",
-                        value: "AMOUNT",
-                        sortable: true,
-                        sortOrder: "desc"},
-                        {order: "7",
-                        styleColumn: "button-orderRight icon-arrowDown color:white",
-                        value: "COUNTER AMT",
-                        sortable: true,
-                        sortOrder: "desc"},
-                        {order: "8",
-                        styleColumn: "button-orderRight icon-arrowDown color:white",
-                        value: "RATE",
-                        sortable: true,
-                        sortOrder: "desc"},
-                        {order: "9",
-                        styleColumn: "button-orderRight icon-arrowDown color:white",
-                        value: "TARGET ACCOUNT",
-                        sortable: true,
-                        sortOrder: "desc"},
-            ];
-            this.rows = [
-            {orderScore: "1",
-            columnas : [
-                        {order: "1",
-                        type: "standard",
-                        value: "row1"},
-                        {order: "2",
-                        type: "status",
-                        value: "Draft",
-                        status: "001"},
-                        {order: "3",
-                        type: "standard",
-                        value: "row3"},
-                        {order: "4",
-                        type: "date",
-                        value: "2021-02-01T16:23:23.123+0000"},
-                        {order: "5",
-                        type: "date",
-                        value: "2021-02-01T16:23:23.123+0000"},
-                        {order: "6",
-                        type: "amount",
-                        value: "50355",
-                        currency: "EUR",
-                        side:   "Sell"},
-                        {order: "7",
-                        type: "amount",
-                        value: "13035",
-                        currency: "USD",
-                        side:   "Buy"},
-                        {order: "8",
-                        type: "standard",
-                        value: "row8"},
-                        {order: "9",
-                        type: "standard",
-                        value: "row9"}
-                    ]
-            },
-            {orderScore: "2",
-            columnas : [
-                        {order: "1",
-                        type: "standard",
-                        value: "row1"},
-                        {order: "2",
-                        type: "status",
-                        value: "Pending",
-                        status: "002"},
-                        {order: "3",
-                        type: "standard",
-                        value: "row3"},
-                        {order: "4",
-                        type: "date",
-                        value: "2021-02-01T16:23:23.123+0000"},
-                        {order: "5",
-                        type: "date",
-                        value: "2021-02-01T16:23:23.123+0000"},
-                        {order: "6",
-                        type: "amount",
-                        value: "50355",
-                        currency: "EUR",
-                        side:   "Sell"},
-                        {order: "7",
-                        type: "amount",
-                        value: "13035",
-                        currency: "USD",
-                        side:   "Buy"},
-                        {order: "8",
-                        type: "standard",
-                        value: "row8"},
-                        {order: "9",
-                        type: "standard",
-                        value: "row9"}
-                    ]
-            },
-        ];
-        context = 'FX';
+        this.getCurrentUserData();
+        this.getTradesHandler();
+        var context = 'FX';
         this.getFilterStatusValues(context);
+    }
+
+    getTradesHandler(jsonFilter) {
+        if(jsonFilter == null){
+            jsonFilter = this.emptyFilters;
+        }
+        
+        searchFIlterTradesColumns({'parameters' : jsonFilter}).then(result => {
+            console.log(JSON.stringify(result));
+            if(JSON.stringify(result)=='{}'){
+                const evt = new ShowToastEvent({
+                    title: "No results from server",
+                    message: "No results from server"
+                });
+                this.dispatchEvent(evt);
+            }
+                this.columns = result.headers;
+                this.rows = result.data;
+            
+            
+        }).catch(error => { 
+            this.error = error;
+            console.log('ERROR');
+            console.log(this.error);
+            const evt = new ShowToastEvent({
+                title: "Server Error",
+                message: this.error
+            });
+            this.dispatchEvent(evt);
+        }); 
     }
 
     handleDownload(event) {
         this.showdownloadmodal = false;
         this.showSpinner = true;
         let params = event.detail;
-
          let fileFormat = "";
          if (params) {
              fileFormat = params;
@@ -216,6 +124,11 @@ export default class Lwc_containerTable extends LightningElement {
                                 }
                                 var toastText = this.label.PAY_fileDownloaded;
                                 toastText = toastText.replace("{0}", fileName);
+                                const evt = new ShowToastEvent({
+                                    title: "Download in progress",
+                                    message: toastText
+                                });
+                                this.dispatchEvent(evt);
                                 //this.showSuccessToast(this.label.PAY_downloadSuccessful, toastText);
                                 resolve(documentId);
                             }else {
@@ -258,33 +171,70 @@ export default class Lwc_containerTable extends LightningElement {
         });
         }, this);
     }
-
-    getFilterStatusValues(context) {
-        return new Promise((resolve, reject) => {
-        getStatus({
-            context: context}).then(response => {
-               if (response.success) {
-                    for(let index in response.value){
-                        this.statusValues.push(response.value[index].Status_Label__c);
-                    }
-                    resolve(documentId);
-                }else {
+    
+    getCurrentUserData() {
+        var errorLoading = this.label.B2B_Error_Problem_Loading;
+        var errorCheckConnection = this.label.B2B_Error_Check_Connection;
+        return new Promise( function(resolve, reject) {
+            getUserData()
+            .then((result) => {
+                var currentUser = {};
+                //console.log('GAA getCurrentUserData result: ' + JSON.stringify(result.value.userData));
+                if (result.success) {
+                    if(result.value){
+                        if(result.value.userData){
+                            currentUser = JSON.parse((JSON.stringify(result.value.userData)));//result.value.userData;
+                            this.currentUser = currentUser;
+                            resolve(result.value.userData);
+                            //resolve(result.value.userData);
+                        }else{
+                            reject({
+                                'title': errorLoading,
+                                'body': errorCheckConnection,
+                                'noReload': false
+                            });
+                        }
+                    }else{
+                        reject({
+                            'title': errorLoading,
+                            'body': errorCheckConnection,
+                            'noReload': false
+                        });
+                    }                       
+                    
+                } else {
                     reject({
                         'title': errorLoading,
                         'body': errorCheckConnection,
-                        'noReload': true
+                        'noReload': false
                     });
                 }
-        }).catch(error => {
-            if (error) {
-                if (error[0] && error[0].message) {
-                    console.log('Error message: ' + error[0].message);
-                }
-            }
-        });
-        }, this);
+            })
+            .catch((errors) => {
+                console.log('### lwc_paymentsLandingParent ### getCurrentUserData() ::: Catch Error: ' + errors);
+                reject({
+                    'title': errorLoading,
+                    'body': errorCheckConnection,
+                    'noReload': false
+                });
+            })
+        }.bind(this)); 
     }
-    
+
+    getFilterStatusValues(context){
+        getStatus({'context' : context}).then(response => {
+            if (response) {
+                for(let index in response){
+                    this.statusValues.push(response[index].Status_Label__c);
+                }               
+            }
+        }).finally(() => {
+            this.template.querySelector('c-lwc_fx_trades-landing-filters').setFilters();
+        }).catch(error => {
+            this.error = error;
+        }); 
+    }
+
     removeDocument(ID){
         try{
             removeFile({
@@ -311,8 +261,11 @@ export default class Lwc_containerTable extends LightningElement {
         var errorLoading = this.label.B2B_Error_Problem_Loading;
         var errorCheckConnection = this.label.B2B_Error_Check_Connection;
         return new Promise(function(resolve, reject) {
+            var baseURL = window.location.origin;
             if(documentId!=null && documentId!='' && documentId!=undefined){
-                window.location.href = 'https://lwr-santanderonetrade.cs109.force.com/otfx/sfsites/c/sfc/servlet.shepherd/document/download/' + documentId;
+                var downloadURL = baseURL + '/otfx/sfsites/c/sfc/servlet.shepherd/document/download/' + documentId;
+                window.location.href = downloadURL;
+                //window.location.href = 'https://lwr-santanderonetrade.cs109.force.com/otfx/sfsites/c/sfc/servlet.shepherd/document/download/' + documentId;
                 resolve(documentId);
             } else {
                 reject({
@@ -372,7 +325,10 @@ export default class Lwc_containerTable extends LightningElement {
 
         const columnId = event.detail.columnId;
         this.columns.forEach (function (column) {
-            if(column.order==columnId){
+            console.log("id pulsado: "+columnId);
+            console.log("id actual: "+column.order);
+            console.log("id actual: "+column.key);
+            if(column.key==columnId){
                 if(column.styleColumn == "button-orderRight icon-arrowDown color:white" || 
                     column.styleColumn == "button-orderRight icon-arrowUp color:white button-orderOpacity"){
                     column.styleColumn="button-orderRight icon-arrowDown color:white button-orderOpacity";
@@ -381,36 +337,51 @@ export default class Lwc_containerTable extends LightningElement {
                     column.styleColumn="button-orderRight icon-arrowUp color:white button-orderOpacity";
                     column.sortOrder = 'asc';
                 }
-                this.sortData(column.value,column.sortOrder);
+                //this.sortData(column.value,column.sortOrder);
             } else {
                 column.styleColumn="button-orderRight icon-arrowDown color:white";
             }
         })
     }
-    //PAGINATION
-
-    get hasNext() {    
+    /*get hasNext() {
+        
         return this.page < this.pages.length;
-    }
+    }*/
 
-    get hasPrev() {
-        return this.page > 1;
-    }
+    getSelectedFilters(event) {   
+        console.log('GET SELECTED FILTERS');
+        console.log(JSON.stringify(event.detail));
+        if(event.detail.filters != null){
+            var filterStructure = {
+                // "searchId":"",
+                // "tradeId":"",
+                "status":event.detail.filters.statusSelected, 
+                // "counterpartyList":"",
+                // "counterparty":"",
+                // "productName":"",
+                // "fromAmount":"",
+                // "toAmount":"",
+                // "currency":"",
+                "direction":event.detail.filters.directionSelected,
+                // "targetAccount":"",
+                "currencyPair":event.detail.filters.currencyPairSelected,
+                // "fromDateSettlement":"",
+                // "toDateSettlement":"",
+                // "fromDateCreated":"",
+                // "toDateCreated":"",
+                // "fromRate":"",
+                // "toRate":""
+            }
 
-    onPrev = () => {
-        let newPage = this.page - 1;
-        if (newPage <= 0 || newPage > this.totalNumberPages) {
-          this.page = this.page;
-        } else {
-          --this.page;
+            this.getTradesHandler(JSON.stringify(filterStructure));
+        }else{
+            const evt = new ShowToastEvent({
+                title: "Error on Filters",
+                message: 'Event.Detail is undefined'
+            });
+            this.dispatchEvent(evt);
         }
-    };
-
-    onFirst(){
-        this.page = 1;
+    console.log(JSON.stringify(filterStructure));
     }
 
-    onLast(){
-        this.page = this.totalNumberPages;
-    }
 }

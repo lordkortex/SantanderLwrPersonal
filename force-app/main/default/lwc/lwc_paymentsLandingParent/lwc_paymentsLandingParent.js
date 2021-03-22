@@ -21,6 +21,7 @@ import callToAccountsWithoutAttributions from '@salesforce/apex/CNT_PaymentsLoad
 import discardAccountsByCountry from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.discardAccountsByCountry';
 import encryptAccountsData from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.encryptAccountsData';
 import decryptAccountsData from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.decryptAccountsData';
+import getRawAccounts from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.getRawAccounts';
 
 //Import labels
 import B2B_Error_Problem_Loading from '@salesforce/label/c.B2B_Error_Problem_Loading';
@@ -35,7 +36,7 @@ import FCCError from '@salesforce/label/c.FCCError';
 import FCCErrorDescription from '@salesforce/label/c.FCCErrorDescription';
 import PAY_AccountsCache from '@salesforce/label/c.PAY_AccountsCache';
 import refreshBalanceCollout from '@salesforce/label/c.refreshBalanceCollout';
-
+import domain from '@salesforce/label/c.domain';
 
 
 export default class lwc_paymentsLandingParent extends NavigationMixin(LightningElement) {
@@ -54,7 +55,7 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
         FCCErrorDescription,
         PAY_AccountsCache,
         refreshBalanceCollout,
-
+        domain
     }
 
     @track currentUser = {}; //Current user data
@@ -98,15 +99,19 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
     
     @track urlFilter = ''; //User selected a filter through URL
 
+    get singlePaymentListLength(){
+        if(this.singlePaymentList) return this.singlePaymentList.length;
+        else return 0;
+    }
+
+    get getClassFullScreen(){
+        return (this.showSpinner ? 'contentPayments slds-is-relative' : 'contentPayments');
+    }
 
     connectedCallback() {
         loadStyle(this, santanderStyle + '/style.css');
         this.userId = uId;
         this.doInit();
-    }
-
-    get getClassFullScreen(){
-        return (this.showSpinner ? 'contentPayments slds-is-relative' : 'contentPayments');
     }
 
     openModal(){
@@ -129,12 +134,15 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
                 return this.getAccountData();
             }, this)    
             .then( (value) => {
-                return this.getAccountsToList(this.currentUser); //GAA este método no existe en ningún sitio
+                // alineamiento 16-03-2021
+                //return this.getAccountsToList(this.currentUser); //GAA este método no existe en ningún sitio
+                return this.getRawAccountsFiltered(this.currentUser); // PGP este método tampoco existe, pero es la ultima version a 16-03-2021
             }, this)
             .then( (value) => {
                 return this.handleAccountsToList(JSON.parse(JSON.stringify(value)));
             }, this)
             .then( (value) => {
+                this.template.querySelector('c-lwc_payments-landing-filters').updateAccounts(this.accounts);
                 return Promise.all([
                     this.getPaymentsStatuses(isSingleTabSelected),
                     this.getPaymentsInformation(isSingleTabSelected)
@@ -337,6 +345,8 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
                         if(result.value.userData){
                             currentUser = JSON.parse((JSON.stringify(result.value.userData)));//result.value.userData;
                             this.currentUser = currentUser;
+                            this.template.querySelector('c-lwc_payments-landing-filters').setCurrentUser(this.currentUser);
+                            this.template.querySelector('c-lwc_payments-landing-filters').setFilters();
                             resolve(result.value.userData);
                             //resolve(result.value.userData);
                         }else{
@@ -539,8 +549,13 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
                                     this.simpleCountryDropdownList = result.value.output.countryList;                                         
                                     this.initialSinglePaymentList = result.value.output.paymentsList;
                                     this.singlePaymentList = result.value.output.paymentsList;
+                                    //this.template.querySelector('c-lwc_payments-method-modal').doInit();
                                     this.template.querySelector('c-lwc_payments-landing-table').setPaymentList(result.value.output.paymentsList);                                        
-                                    this.template.querySelector('c-lwc_payments-landing-table').doInit();                                        
+                                    this.template.querySelector('c-lwc_payments-landing-table').doInit();    
+                                    //pedro
+                                    this.setFilters();
+                                    this.template.querySelector('c-lwc_payments-landing-filters').statusFilters(this.singleStatusDropdownList,this.singleCurrencyDropdownList);
+                                    
                                     this.isSingleDataLoaded = true;
                                     this.availableStatuses = result.value.output.availableStatuses;
                                     resolve('ok'); 
@@ -614,19 +629,19 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
     
     searchOperationsList(event) {        
         return new Promise(function(resolve, reject) {
-            var globalUserId = event.getParam('globalUserId'); 
-            var pendingAuthorization = event.getParam('pendingAuthorization'); 
+            var globalUserId = event.detail.globalUserId; 
+            var pendingAuthorization = event.detail.pendingAuthorization; 
             var latestOperationsFlag = false;//event.getParam('latestOperationsFlag'); 
-            var sourceAccountList = event.getParam('sourceAccountList'); 
-            var destinationCountry = event.getParam('destinationCountry');
-            var statusList = event.getParam('statusList');
-            var amountFrom = event.getParam('amountFrom');
-            var amountTo = event.getParam('amountTo');
-            var currencyList = event.getParam('currencyList');
-            var paymentType = event.getParam('paymentMethod');
-            var clientReference = event.getParam('clientReference');
-            var valueDateFrom = event.getParam('valueDateFrom');
-            var valueDateTo = event.getParam('valueDateTo');
+            var sourceAccountList = event.detail.sourceAccountList; 
+            var destinationCountry = event.detail.destinationCountry;
+            var statusList = event.detail.statusList;
+            var amountFrom = event.detail.amountFrom;
+            var amountTo = event.detail.amountTo;
+            var currencyList = event.detail.currencyList;
+            var paymentType = event.detail.paymentMethod;
+            var clientReference = event.detail.clientReference;
+            var valueDateFrom = event.detail.valueDateFrom;
+            var valueDateTo = event.detail.valueDateTo;
             var accountList = this.accounts;
             
             searchPaymentsInformation({     
@@ -660,7 +675,7 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
 
                     this.singlePaymentList = null;
                     console.log('ko');
-                    reject(this.label.ERROR_NOT_RETRIEVED);                       
+                    //reject(this.label.ERROR_NOT_RETRIEVED);                       
                 }          
             })
             .catch((errors) => {
@@ -798,7 +813,13 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
         var errorCheckConnection = this.label.B2B_Error_Check_Connection;
         return new Promise(function(resolve, reject) {
             if(documentId!=null && documentId!='' && documentId!=undefined){
-                var domain = this.label.domainCashNexus;
+                
+                //16-03-2021 alineamiento
+                var domain = this.label.domain;
+                if(this.currentUser.cashNexus == true){
+                    domain = this.label.domainCashNexus;
+                }
+                //var domain = this.label.domainCashNexus;
                 window.location.href = domain+'/sfc/servlet.shepherd/document/download/'+documentId+'?operationContext=S1';
                 resolve(documentId);
             } else {
@@ -854,6 +875,16 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
                             sParameterName = sURLVariables[i].split('=');
                             if (sParameterName[0] === 'c__signed') {
                                 if(sParameterName[1] && sParameterName[1] != 'false'){
+
+                                    //16-03-2021 alineamiento
+                                    if(sParameterName[1] == 'last'){
+                                        let userId = uId;
+                            			window.localStorage.setItem(userId + '_clearCache','true');
+                                        window.localStorage.removeItem(userId + '_balanceGP_timestamp');
+                                        window.localStorage.removeItem(userId + '_balanceTimestampGP');
+                                        window.localStorage.removeItem(userId + '_balanceGP');
+                                    }
+                                    //FIN 16-03-2021 alineamiento
                                     this.showSuccessToast(this.label.success, this.label.authorizeSuccess);
                                 }
                             }
@@ -900,7 +931,9 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
         }
     }
 
-    getAccountsToList(userData) {
+    // 16-03-2021 cambio de nombre
+    
+    getRawAccountsFiltered(userData) {
         var errorLoading = this.label.B2B_Error_Problem_Loading;
         var errorProblemAccounts = this.label.B2B_Problem_accounts;
         var errorCheckConnection = this.label.B2B_Error_Check_Connection;
@@ -912,7 +945,9 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
                     resolve(value);
                 } else {
                     console.log('getAccountsToList(userData) ::: userData: ' + JSON.stringify(userData));
-                    this.callToAccountsWithoutAttributions(userData)
+                    //this.callToAccountsWithoutAttributions(userData)
+                    //16-03-2021
+                    this.getRawAccounts(userData)
 					.then( (value) => {
                         return this.discardAccountsByCountry(userData, value);
                     })
@@ -982,9 +1017,9 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
         }.bind(this));
     }
 
-    callToAccountsWithoutAttributions(nexus) {
+    getRawAccounts(nexus) {
         return new Promise( function(resolve, reject) {
-            callToAccountsWithoutAttributions({
+            getRawAccounts({
                 'userData': nexus
             })
             .then( (result) => {
@@ -992,11 +1027,11 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
                 if (stateRV.success) {
                     resolve(stateRV.value.accountList);
                 } else {
-                    reject('callToAccountsWithAttributions_ERROR');
+                    reject('getRawAccounts_ERROR');
                 }
             })
             .catch( (error) => {
-                console.log('### lwc_paymentsLandingParent ### callToAccountsWithoutAttributions() ::: Catch error: ' + JSON.stringify(error));
+                console.log('### lwc_paymentsLandingParent ### getRawAccounts() ::: Catch error: ' + JSON.stringify(error));
                 reject('callToAccountsWithAttributions_ERROR');
             })           
         }.bind(this));
@@ -1180,5 +1215,94 @@ export default class lwc_paymentsLandingParent extends NavigationMixin(Lightning
 
     onCloseDownloadModal(){
         this.showDownloadModal = false;
+    }
+
+
+    setFilters() {
+		//let rPayemntMethodList = this.paymentmethoddropdownlist;
+        let rCurrencyList = this.singleCurrencyDropdownList;
+        let rStatusList = this.singleStatusDropdownList;
+        //let rCountryList = this.countrydropdownlist;
+        
+        let currencyList = [];
+        let currencyListAux = [];
+        let statusList = [];
+        let statusListAux = [];
+        let methodList = [];
+        let methodListAux = [];
+        let countryList = [];
+        let countryListAux = [];
+
+        
+        for(let i=0; i < rCurrencyList.length; i++){
+            //currency
+            let currency = rCurrencyList[i].currencyName;
+            if(currency){
+                if(!currencyListAux.includes(currency)){
+                    currencyListAux.push(currency);
+                    currencyList.push({
+                        'label' : rCurrencyList[i].parsedCurrencyName,
+                        'value' : 'chk_' + currency
+                    });
+                }
+            }
+        }
+        for(let i=0; i < rStatusList.length; i++){
+            //Status
+            let status = rStatusList[i].statusName;
+            if(status){
+                if(!statusListAux.includes(status)){
+                    statusListAux.push(status);
+                    statusList.push({
+                        'label' : rStatusList[i].parsedStatusName,
+                        'value' : 'chk_' + status
+                    });
+                }
+            }
+        }
+        
+        /*
+        for(let i=0; i < rPayemntMethodList.length; i++){
+            //Payment method
+            let method = rPayemntMethodList[i].paymentTypeName;
+            if(method){
+                if(!methodListAux.includes(method)){
+                    methodListAux.push(method);
+                    methodList.push({
+                        'label' : rPayemntMethodList[i].parsedPaymentTypeName,
+                        'value' : 'chk_' + method
+                    });
+                }
+            }
+        }
+ 
+        for(let i=0; i < rCountryList.length; i++){
+            //Country
+            let country = rCountryList[i].countryName;
+            if(country){
+                if(!countryListAux.includes(country)){
+                    countryListAux.push(country);
+                    countryList.push({
+                        'label' : rCountryList[i].parsedCountryName,
+                        'value' : 'chk_' + country
+                    });
+                }
+            }
+        }
+        */
+        var sortCurrencyList = this.sortList(currencyList);
+        var sortStatusList = this.sortList(statusList);
+        //var sortMethodList = this.sortList(methodList);
+        //var sortCountryList = this.sortList(countryList);
+        this.singleCurrencyDropdownList = sortCurrencyList;
+        this.singleStatusDropdownList = sortStatusList;
+        //this.paymentmethoddropdownlist = sortMethodList;
+        //this.countrydropdownlist = sortCountryList;
+    }
+    sortList(list) {
+        var sort;
+        var data = list;
+       	sort = data.sort((a,b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0));
+        return sort;
     }
 }

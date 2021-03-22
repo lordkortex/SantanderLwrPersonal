@@ -65,55 +65,51 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
         ERROR_NOT_RETRIEVED
     }; 
 
-    @api selectedpaymentstatusbox = '';
     @api currentuser;
-    @track paymentList;
+    @api selectedpaymentstatusbox = '';
+    @api searchedstring = '';    
     @api hassearched = false;
     @api showfiltermodal = false;
-    @track isloading = true;
-    @track selectedrows = [];
+    @api isloading; //Default true;
     @api resetsearch = false;
-    @api searchedstring = '';
-    @api noservice = false;
-    @track selectall = [];
-
-    @api selectedsort = 'valuedate';
-    @api clientreferenceorderby = 'asc';
-    @api statusorderby = 'asc';
-    @api sourceaccountorderby = 'asc';
-    @api beneficiaryaccountorderby = 'asc';
-    @api amountorderby = 'asc';
-    @api currencyorderby = 'asc';
-    @api valuedateorderby = 'desc';
+    @api filtercounter = 0;
+    @api selectedrows = [];
     @api isallselected = false;
+    @api noservice = false;
 
+    @track selectedsort = 'valuedate';
+    @track clientreferenceorderby = 'asc';
+    @track statusorderby = 'asc';
+    @track sourceaccountorderby = 'asc';
+    @track beneficiaryaccountorderby = 'asc';
+    @track amountorderby = 'asc';
+    @track currencyorderby = 'asc';
+    @track valuedateorderby = 'desc';
+    @track values = "['10','20','40']";
+    @track helptextdropdown = this.label.Show_More;
+    @track pagesnumbers;
+    @track signatorystatus = {};
+    @track hasactions = false;
+    @track detailspage = "landing-payment-details";
+    @track filteredpaymentlist = [];
 
-    @api values = "['10','20','40']";
+    @track paymentList;
+    @track selectall = [];
     @track selectedvalue;
-    @api helptextdropdown = this.label.Show_More;
     @track firstitem = 1;
     @track finalitem;
     @track paymentsnumber;
-    @api pagesnumbers;
     @track paginationlist;
-    @api currentpage;
-
-    @api detailspage = "landing-payment-details";
-    @api filtercounter = 0;
-    @api filteredpaymentlist = [];
+    @track currentpage;
     @track singleselectedpayment = {};
     @track actions = {};
-    @api signatorystatus = {};
-    @api hasactions = false;
-
     @track clientreferenceclass = '';
     @track statusclass = '';
     @track sourceaccountclass = '';
     @track beneficiaryaccountclass = '';
     @track amountclass = '';
     @track currencyclass = '';
-    @track valuedateclass = '';    
-
+    @track valuedateclass = '';   
     @track backgroundimage = true;
     @track showresetbutton = false;
 
@@ -379,7 +375,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
     }
 
     setPaginations() {
-        return new Promise((resolve, reject) => {
+        return new Promise( function(resolve, reject) {
             var paginationsList = this.values;
             var itemsXpage = this.selectedvalue;
             let selectAll = this.selectall;
@@ -388,7 +384,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
                 this.selectedvalue = itemsXpage;
             }
             var items = this.paymentList;
-            if(items != null && items != undefined){
+            if(items){
                 var numberItems = items.length;
                 var numberPages = Math.ceil(numberItems / itemsXpage);
                 var lastItemPage = 0;
@@ -419,8 +415,8 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
             }
 
           resolve('Ok');
-        //}.bind(this)); 
-        }, this); 
+        }.bind(this)); 
+        //}, this); 
         
     }
 
@@ -452,10 +448,10 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
         var index = selectedPage - 1;
         var selectAll = this.selectall;
         var thisPageSelected = selectAll[index];
-        if (thisPageSelected != undefined && thisPageSelected != null) {
+        if (thisPageSelected) {
             this.isallselected = thisPageSelected;
-            var selectAllCheckbox = this.template.querySelector('#selectAllPayments');//document.getElementById('selectAllPayments');
-            if(selectAllCheckbox != null && selectAllCheckbox != undefined){
+            var selectAllCheckbox = this.template.querySelector('[data-id="selectAllPayments"]');//document.getElementById('selectAllPayments');
+            if(selectAllCheckbox){
                 selectAllCheckbox.checked = thisPageSelected;
             }
         }  
@@ -465,21 +461,24 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
         var currentPage = this.currentpage;
         var prevPage = parseInt(currentPage) - 1;
         this.currentpage = prevPage;
+        this.changePage();
     }
 
     handleNextPage() {
         var currentPage = this.currentpage;
         var nextPage = parseInt(currentPage) +1;
         this.currentpage = nextPage;
+        this.changePage();
     }
 
     sortBy(event) {
-        var columnId = event.target.id;
+        var columnId = event.target.id.split('-')[0];
         if(columnId == null || columnId == '' || columnId == undefined){
             if (event.target.parentNode&&event.target.parentNode.id){
                 let parentId = event.target.parentNode.id;
                 if(parentId != null && parentId != '' && parentId != undefined){
-                    columnId = parentId;
+                    //columnId = parentId;
+                    columnId = parentId.split('-')[0];
                 }
             }
         }
@@ -532,20 +531,24 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
     getOrderByName(columnId){
         var orderBy;
 
-        if(columnId == clientreference){
+        //columnId = columnId.split('-')[0];
+
+        if(columnId == 'clientReference'){
             orderBy = this.clientreferenceorderby;
-        }else if(columnId == status){
+        }else if(columnId == 'status'){
             orderBy = this.statusorderby;
-        }else if(columnId == sourceaccount ){
+        }else if(columnId == 'sourceAccount' ){
             orderBy = this.sourceaccountorderby;
-        }else if(columnId == beneficiaryaccount){
+        }else if(columnId == 'beneficiaryAccount'){
             orderBy = this.beneficiaryaccountorderby;
-        }else if(columnId == amount){
+        }else if(columnId == 'amount'){
             orderBy = this.amountorderby;
-        }else if(columnId == beneficiaryaccount){
+        }else if(columnId == 'beneficiaryAccount'){
             orderBy = this.beneficiaryaccountorderby;
-        }else if(columnId == currency){
+        }else if(columnId == 'currency'){
             orderBy = this.currencyorderby;
+        }else if(columnId == 'valueDate'){
+            orderBy = this.valuedateorderby;
         }
 
         return orderBy;
@@ -553,44 +556,49 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
 
     orderByDesc(columnId){
 
-        if(columnId == clientreference){
+        if(columnId == 'clientReference'){
             this.clientreferenceorderby = 'desc';
-        }else if(columnId == status){
+        }else if(columnId == 'status'){
             this.statusorderby = 'desc';
-        }else if(columnId == sourceaccount ){
+        }else if(columnId == 'sourceAccount' ){
             this.sourceaccountorderby = 'desc';
-        }else if(columnId == beneficiaryaccount){
+        }else if(columnId == 'beneficiaryAccount'){
             this.beneficiaryaccountorderby = 'desc';
-        }else if(columnId == amount){
+        }else if(columnId == 'amount'){
             this.amountorderby = 'desc';
-        }else if(columnId == beneficiaryaccount){
+        }else if(columnId == 'beneficiaryAccount'){
             this.beneficiaryaccountorderby = 'desc';
-        }else if(columnId == currency){
+        }else if(columnId == 'currency'){
             this.currencyorderby = 'desc';
+        }else if(columnId == 'valueDate'){
+            this.valuedateorderby = 'desc';
         }
 
     }
 
     orderByAsc(columnId){
-        if(columnId == clientreference){
+        if(columnId == 'clientReference'){
             this.clientreferenceorderby = 'asc';
-        }else if(columnId == status){
+        }else if(columnId == 'status'){
             this.statusorderby = 'asc';
-        }else if(columnId == sourceaccount ){
+        }else if(columnId == 'sourceAccount' ){
             this.sourceaccountorderby = 'asc';
-        }else if(columnId == beneficiaryaccount){
+        }else if(columnId == 'beneficiaryAccount'){
             this.beneficiaryaccountorderby = 'asc';
-        }else if(columnId == amount){
+        }else if(columnId == 'amount'){
             this.amountorderby = 'asc';
-        }else if(columnId == beneficiaryaccount){
+        }else if(columnId == 'beneficiaryAccount'){
             this.beneficiaryaccountorderby = 'asc';
-        }else if(columnId == currency){
+        }else if(columnId == 'currency'){
             this.currencyorderby = 'asc';
+        }else if(columnId == 'valueDate'){
+            this.valuedateorderby = 'asc';
         }
     }
 
     sortByColumnId(sortBy) {
-		var sort;
+        var sort;
+        
         //var orderBy = component.get('v.'+sortBy+'OrderBy');
         var orderBy = this.getOrderByName(sortBy);
         if(orderBy != null && orderBy != '' && orderBy != undefined){
@@ -650,9 +658,8 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
         if(paginationList.length > 0){
             for(let i=0; i<paginationList.length;i++){
                 var item = paginationList[i].paymentId;
-                console.log(JSON.stringify(document));
-                var row = document.getElementById(item);
-                //var row = this.template.querySelector('#'+item);
+                //var row = document.getElementById(item);
+                var row = this.template.querySelector('#'+item);
                 if(row != null && row != undefined){
                     row.checked = this.isallselected; 
                     this.selectRow(item, row.checked); 
@@ -671,7 +678,7 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
 
         if(item != '' && item != null && item != undefined){
             //var element = document.getElementById('ROW_'+item);
-            var element = this.template.querySelector('#ROW_'+item);
+            var element = this.template.querySelector('ROW_'+item);
             let paymentList = this.paymentList;
             console.log(this.paymentList);
             let paymentIndex = paymentList.findIndex(payment => payment.paymentId == item);
@@ -935,9 +942,8 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
 
     uncheckSelected(){
         this.isallselected = false;
-        //var selectAllCheckbox = document.getElementById('selectAllPayments');
-        var selectAllCheckbox = this.template.querySelector('#selectAllPayments');
-        if(selectAllCheckbox != null && selectAllCheckbox != undefined){
+        var selectAllCheckbox = this.template.querySelector('[data-id="selectAllPayments"]');
+        if(selectAllCheckbox){
             selectAllCheckbox.checked = false;
         }
         this.selectAll(false);
@@ -1014,8 +1020,21 @@ export default class Lwc_paymentsLandingTable extends NavigationMixin(LightningE
         }   
     }
 
-
     get paginationListJson(){
         return JSON.stringify(this.paginationlist);
+    }
+
+    onDropdownValue(event){
+        if(event.detail && event.detail.pagination){
+            this.selectedvalue = event.detail.pagination;
+        }
+        this.setPaginations();
+    }
+
+    onHandleSelectPage(event){
+        if(event.detail && event.detail.currentpage){
+            this.currentpage = event.detail.currentpage;
+        }
+        this.changePage();
     }
 }

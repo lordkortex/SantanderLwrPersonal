@@ -116,13 +116,6 @@
                         </button>
                     </li>
                 </aura:if>
-                <aura:if isTrue="{!v.actions.saveforlater == true}">
-                    <li class="slds-utility-bar__item" onclick="{!c.handleShowSaveForLaterModal}">
-                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
-                            <span class="slds-utility-bar__text">{!$Label.c.PAY_SaveForLater}</span>
-                        </button>
-                    </li>
-                </aura:if>
                 <li class="slds-utility-bar__item" onclick="{!c.clearSelection}">
                     <button class="slds-button slds-utility-bar__action" aria-pressed="false">
                         <div class="link icon-close_big">
@@ -133,10 +126,9 @@
             </ul>
 	</footer>
     <aura:if isTrue="{!v.showCancelModal eq true}">
-        <c:cmpPayModalRemove onsaveAction="{!c.handleCancel}" oncloseAction="{!c.handleCloseCancel}"  headingMsg="{!$Label.c.B2B_CancelPayment}" contentMsg=""  primaryBtn="{!$Label.c.B2B_CancelPayment_YES}" secondaryBtn="{!$Label.c.B2B_CancelPayment_NO}"/>	
-    </aura:if>
-    <aura:if isTrue="{!v.showSaveForLaterModal eq true}">
-        <c:cmpPayModalRemove onsaveAction="{!c.handleSaveForLater}" oncloseAction="{!c.handleCloseSaveForLater}" headingMsg="{!$Label.c.B2B_SaveLaterQuestion}" contentMsg="{!$Label.c.B2B_SaveLaterDescription}" primaryBtn="{!$Label.c.PAY_SaveForLater}" secondaryBtn="{!$Label.c.cancel}"/>
+        <!--<c:CMP_B2B_DiscardPayment fromUtilityBar="{!v.fromUtilityBar}" fromDetail="{!v.fromDetail}"/>-->
+        <c:cmpPayModalRemove onsaveAction="{!c.handleCancel}" oncloseAction="{!c.handleCloseCancel}"  headingMsg="{!$Label.c.B2B_CancelPayment}" contentMsg=""  primaryBtn="{!$Label.c.B2B_CancelPayment_YES}" secondaryBtn="{!$Label.c.B2B_CancelPayment_NO}"/>
+
     </aura:if>
     <aura:if isTrue="{!v.showDiscardModal eq true}">
         <c:cmpPayModalRemove onsaveAction="{!c.handleDiscard}" oncloseAction="{!c.handleCloseDiscard}" headingMsg="{!$Label.c.PAY_discardPayment + ' ' +v.paymentDetails.clientReference+ ' ' + $Label.c.Int}" contentMsg="{!$Label.c.PAY_DiscardDate1 + ' ' + v.paymentDetails.draftDate + ' ' + $Label.c.PAY_DiscardDate2}" primaryBtn="{!$Label.c.Pay_YesDiscard}" secondaryBtn="{!$Label.c.No}"/>

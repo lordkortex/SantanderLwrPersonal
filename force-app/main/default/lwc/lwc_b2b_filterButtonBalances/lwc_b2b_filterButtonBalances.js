@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 // Import styles
-import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
 
 
 import B2B_Balance from '@salesforce/label/c.B2B_Balance';
@@ -54,7 +54,7 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
     get buttonClass(){
         return 'slds-button buttons' + (this.amountInformed > 0 ? ' filterButton' : '');
     }
-    get showdropdownClass(){
+    get showDropdownClass(){
         return this.showdropdown == true ? 'icon-arrowUp_small' : 'icon-arrowDown_small';
     }
     get divInputClass(){
@@ -75,9 +75,7 @@ export default class Lwc_b2b_filterButtonBalances extends LightningElement {
     get showDropdownEqualsTrue(){
         return this.showdropdown == true;
     }
-    get inputClass(){
-        return this.showdropdown == true ? 'icon-arrowUp_small' : 'icon-arrowDown_small';
-    }
+    
 
 
 

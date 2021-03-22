@@ -1,4 +1,194 @@
 <template>
+
+    <!-- <aura:attribute access="public"     type="Boolean"      name="disabled"           default="false"   description="input box is disabled" />
+    <aura:attribute access="public"     type="String"       name="accCurrency"                          description="currency to be displayed in input box" />
+    <aura:attribute access="public"     type="String"       name="inputType"                            description="In which input field was the amount entered source or recipient?" />
+    <aura:attribute access="public"     type="Decimal"      name="value" />
+    <aura:attribute access="public"     type="String"       name="formattedValue"     default="" />
+    <aura:attribute access="public"     type="Decimal"      name="decimalValue"       default="" />
+    <aura:attribute access="public"     type="String"       name="userInputValue"     default="" />
+    <aura:attribute access="private"    type="Boolean"      name="showMiniLabel"      default="false"   description="Control to show mini label." />
+    <aura:attribute access="public"     type="String"       name="inputId" />
+    <aura:attribute access="private"    type="String"       name="locale"             default="en" />
+    <aura:attribute access="private"    type="String"       name="decimalSeparator"   default="." />
+    <aura:attribute access="private"    type="String"       name="thousandsSeparator" default="," />
+    <aura:attribute access="public"     type="String"       name="errorMSG"           default=""        description="Indicates the errors when clicked on continue." />
+    <aura:attribute access="public"     type="String"       name="errorMSG_1"         default=""        description="Indicates the error when clicked on continue." />
+    <aura:attribute access="public"     type="String"       name="errorMSG_2"         default=""        description="Indicates the error when clicked on continue (if there are two errors)." />
+    <aura:attribute access="public"     type="Aura.Action"  name="handleChange"                         description="Action in SelectAmount to process amount in put by user." />
+    <aura:attribute access="public"     type="String"       name="numberFormat"                         description="User number format" />
+    <aura:attribute access="public"     type="Boolean"      name="isModified"                           description="Indicates if the input data has been modified." />
+    <aura:attribute access="public"     type="Map"          name="steps"                                description="Data of the steps." />
+    <aura:attribute access="public"     type="Boolean"      name="disableFrom"        default="false"   description="Disable the From field for CIB user when they input a value in the To field." />
+    <aura:attribute access="public"     type="Boolean"      name="disableTo"          default="false"   description="Disable the To field for CIB user when they input a value in the From field." />
+    <aura:attribute access="public"     type="Boolean"      name="isCib"              default="false"   description="Account data." />
+    <aura:attribute access="public"     type="String"      	name="elementLabel"       default=""   		description="Input amount title" />
+    <aura:attribute access="public"     type="Boolean"      name="showBalanceInfo"    default="false"  	description="TRUE to show amount, currency and datetime info and FALSE to hide info" />
+    <aura:attribute access="public"		type="String"		name="balanceValue"		  default=""		description="Value of availbale balance"/>
+    <aura:attribute access="public"		type="String"		name="balanceCurrency"	  default=""		description="Currency of availbale balance"/>
+    <aura:attribute access="public"		type="String"		name="dateText"			  default=""		description="Date at which the source account balance was last updated."/>
+    <aura:attribute access="public"		type="String"		name="timeText"			  default=""		description="Time at which the source account balance was last updated."/>
+    <aura:attribute access="public"     type="Boolean"      name="showMoreInfoText"   default="false"   description="TRUE to show more information div and FALSE to hide more information"/>
+    <aura:attribute access="public"		type="String"		name="moreInfoLabel"	  default=""		description="Label of more information"/>
+    <aura:attribute access="public"		type="String"		name="moreInfoValue"	  default=""		description="Value of more information"/>
+    <aura:attribute access="public"     type="Boolean"      name="showBothAmountInput"  default=""  	description="TRUE to show a inputAmmount with two currencies  and FALSE to a inputAmmount with one currency"/>
+    <aura:attribute access="public"    	type="String"     	name="dateFormat"     	  default="" /> -->
+
+    <!-- <aura:method access="public" name="setInputAmount" action="{!c.setInputAmount}" description="Method to change the amount from parent component">
+        <aura:attribute name="inputId" type="String" />
+        <aura:attribute name="inputValue" type="String" />
+    </aura:method> -->
+    
+    <div class="inputAmount">
+        <template if:true={showbothamountinput}>
+        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+            <div class={errorClass}>
+            <!-- Cuando no hay nada escrito en el input la label se oculta
+                        y cuando se escriba algo la label aparece -->
+            
+                <label class="slds-form-element__label" for={inputid}>{elementlabel}</label>
+         
+            	<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                
+                    <div class="inputInformation">
+                        <!-- Cuando la cifra introducida por el usuario es mayor al saldo disponible saldrá
+                                    un mensaje de error -->
+                        <input type="text" data-id={inputid} placeholder={label.B2B_Amount_Input_Placeholder} value={formattedValue} class="slds-input" name="amount" auto-complete="off" onchange={handleChangeAmount} oninput={handleInputAmount} onfocus={handleFocusAmount} onblur={handleBlurAmount} disabled={disabled} onkeyup={handleKeyUp}/>               
+                        <div class="slds-box information">
+                            <p>{acccurrency}</p>
+                        </div>
+                    </div>
+                    <div class="slds-box balance">
+                        <template if:true={showbalanceinfo}>                        
+                            <div class="amountText">
+                                <h2 class="slds-text-heading_small slds-truncate">{label.B2B_Available_Balance}</h2>
+                                <p class="slds-truncate bold">
+                                    <template if:true={balanceValueNotEmpty}>                                         
+                                        <c-lwc_display-amount 
+                                            amount={balancevalue}
+                                            decimalclass="slds-truncate bold"
+                                            wholeclass="slds-truncate bold"
+                                            currency={balancecurrency}
+                                            numberformat={numberformat}
+                                        >
+                                        </c-lwc_display-amount>       
+                                    </template>
+                                    <template if:false={balanceValueNotEmpty}>
+                                        {label.PAY_NotCurrentlyAvailable}                                             
+                                    </template>
+                                </p>                                
+                            </div>
+                            <template if:true={balanceValueNotEmpty}>
+                                <div class="timeText">
+                                    <div class="small"> 
+                                        <span class="icon-time"></span>
+                                        <p class="slds-truncate small">{label.PAY_UpdatedAt} </p>
+                                    </div>
+                                    <!-- Hay que meter el componente datetime -->
+                                    <p class="slds-truncate small">
+                                        <c-lwc_display-date 
+                                            userdateformat={dateformat}
+                                            date={datetext}
+                                            dateclass="slds-truncate text" 
+                                        >
+                                        </c-lwc_display-date>&nbsp;{timetext}
+                                    </p>
+                                </div> 
+                            </template>
+   
+                        </template>
+                        <template if:true={showmoreinfotext}>
+                            <div class="amountText">
+                                <h2 class="slds-text-heading_small slds-truncate">{moreinfolabel}</h2>
+                                <p class="slds-truncate bold">{moreinfovalue}</p>
+                            </div>
+                        </template>
+                    </div>
+            	</div>
+                <template if:true={errorMSGnotEmpty}>
+                    <div class="errorText">{errorMSG_1}</div> 
+                </template>
+            </div>
+        </template>
+        <template if:false={showbothamountinput}>
+            <div class="slds-form-element singleAmount">
+                <label class="slds-form-element__label" for={inputid}>{elementlabel}</label>
+                
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">                    
+                    <div class="inputInformation">
+                        <input type="text" data-id={inputId} placeholder={label.B2B_Amount_Input_Placeholder} value={formattedValue} class="slds-input" name="amount" auto-complete="off" onchange={handleChangeAmount} oninput={handleInputAmount} onfocus={handleFocusAmount} onblur={handleBlurAmount} disabled={disabled} onkeyup={handleKeyUp}/>
+                        <div class="slds-box information">
+                            <p>{acccurrency}</p>
+                        </div>
+                    </div>
+                    <div class="slds-box availableBalance">
+                        <h2 class="slds-text-heading_small slds-truncate">{label.B2B_Available_Balance}</h2>                            
+                        <template if:true={balanceValueNotEmpty}>
+                            <p class="slds-truncate bold">
+                                <c-lwc_display-amount 
+                                    amount={balancevalue}
+                                    decimalclass="slds-truncate bold"
+                                    wholeclass="slds-truncate bold"
+                                    currency={balancecurrency}
+                                    numberformat={numberformat}
+                                >
+                                </c-lwc_display-amount>
+                            </p>
+                            <div class="timeText">
+                                <div class="icon-time"></div>
+                                <p class="slds-truncate small">
+                                    <c-lwc_display-date 
+                                        userdateformat={dateformat}
+                                        date={datetext} 
+                                        dateclass="slds-truncate text"
+                                    >
+                                    </c-lwc_display-date>
+                                </p>
+                            </div>
+                        </template>
+                        <template if:false={balanceValueNotEmpty}>
+                                <p class="slds-truncate bold">
+                                    {label.PAY_NotCurrentlyAvailable}
+                                </p>
+                        </template>       
+                    </div>
+                    
+                </div>
+                <template if:true={errorMSGnotEmpty}>
+                    <div class="errorText">{errorMSG_1}</div> 
+                </template>
+            </div>
+        </template>
+    </div>
+    
+   <!-- <div>
+        <div class="{!'slds-form-element input' + (not(empty(v.errorMSG)) ? ' error' :'')}">
+            <aura:if isTrue="{!and(v.disabled == false, (or(v.showMiniLabel eq true, not(empty(v.formattedValue)))))}">
+                <label id="amount-label" class="slds-form-element__label" for="{!v.inputId}">
+                    {!$Label.c.B2B_Amount_Input_Placeholder}
+                </label>
+            </aura:if>
+            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                <input type="text" id="{!v.inputId}"  value="{!v.formattedValue}" placeholder="{!$Label.c.B2B_Amount_Input_Placeholder}" class="slds-input" name="amount"  onchange="{!c.handleChangeAmount}" oninput="{!c.handleInputAmount}" onfocus="{!c.handleFocusAmount}" onblur="{!c.handleBlurAmount}" disabled="{!v.disabled eq true}" onkeyup="{!c.handleKeyUp}"/>
+                <div class="slds-box">
+                    <p>{!v.accCurrency}</p>
+                </div>
+                <aura:if isTrue="{!not(empty(v.errorMSG))}">
+                    <div class="errorText">
+                        {!v.errorMSG_1}
+                        <aura:if isTrue="{!not(empty(v.errorMSG_2))}">
+                            <br/> {!v.errorMSG_2}
+                        </aura:if>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+    </div>-->
+</template>
+
+
+
+<!-- <template>
     <div>
         <div class={mainClass}>
             <template if:true={isDisabledAndShowMiniLabelOrFormatedValue}>
@@ -22,4 +212,4 @@
             </div>
         </div>
     </div>
-</template>
+</template> -->

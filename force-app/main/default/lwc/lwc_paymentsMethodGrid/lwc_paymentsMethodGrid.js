@@ -4,6 +4,8 @@ import { LightningElement, api, track } from 'lwc';
 import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
 import { loadStyle } from 'lightning/platformResourceLoader';
 
+import uId from '@salesforce/user/Id';
+
 //Labels
 import instantTransfer from '@salesforce/label/c.instantTransfer';
 import PAY_betweenMyAccounts from '@salesforce/label/c.PAY_betweenMyAccounts';
@@ -20,6 +22,10 @@ import PTT_instant_transfer from '@salesforce/label/c.PTT_instant_transfer';
 import B2B_no_Origin_Accounts from '@salesforce/label/c.B2B_no_Origin_Accounts';
 import PTT_international_transfer_multiple from '@salesforce/label/c.PTT_international_transfer_multiple';
 import PTT_international_transfer_single from '@salesforce/label/c.PTT_international_transfer_single';
+import B2B_Problem_accounts from '@salesforce/label/c.B2B_Problem_accounts';
+import B2B_Error_Problem_Loading from '@salesforce/label/c.B2B_Error_Problem_Loading';
+import PAY_AccountsCache from '@salesforce/label/c.PAY_AccountsCache';
+import refreshBalanceCollout from '@salesforce/label/c.refreshBalanceCollout';
 
 //Import Apex
 //import encryptData from '@salesforce/apex/CNT_PaymentsMethod.encryptData';
@@ -45,8 +51,10 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
         B2B_no_Origin_Accounts,
         PTT_international_transfer_multiple,
         PTT_international_transfer_single,
-
-
+        B2B_Problem_accounts,
+        B2B_Error_Problem_Loading,
+        PAY_AccountsCache,
+        refreshBalanceCollout
     };
 
     @api countrydropdownlist = []; //List of values to populate the dropdown
@@ -61,7 +69,7 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
     
     @api userdata = {};
     @api transfertypeparams// = {};
-    @api spinner = false;   
+    @track spinner = false;   
 
 
     connectedCallback() {
@@ -72,7 +80,8 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
     checkTypeAvailable(){
         let transferTypeParams = this.transfertypeparams;
         //if (transferTypeParams != null && transferTypeParams != undefined && transferTypeParams != {}) {}
-        if (transferTypeParams) {}
+        //if (transferTypeParams) {}
+        if (Object.keys(this.transfertypeparams).length > 0) {}
         else {
             this.spinner = true;
             let userData = this.userdata;
@@ -97,7 +106,7 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
 
     goToBooktoBook() {
         this.spinner = true;
-        const transferTypeParams = this.transferTypeParams;
+        const transferTypeParams = this.transfertypeparams;
         const instant_transfer =this.label.PTT_instant_transfer;
         if(transferTypeParams && transferTypeParams.instant_transfer){
             this.getAccountsToB2BOrigin(this.userData, instant_transfer)
@@ -217,12 +226,301 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
         var errorToast = this.template.querySelector('c-lwc_b2b_toast');
         if (errorToast) {
             if (mode == 'error') {
-                errorToast.openToast(false, false, title,  body, 'Error', warning, 'warning', noReload);
+               // errorToast.openToast(false, false, title,  body, 'Error', warning, 'warning', noReload);
+               //errorToast.openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload);
+               var toastEvent = {detail:{action: false, static: false, "notificationTitle": title, "bodytext": body, "functionTypeText":'Error', "functionTypeClass":'warning',"functionTypeClassIcon": 'warning',"noReload": noReload}} 
+               errorToast.openToast(toastEvent);
             }
             if (mode == 'success') {
-                errorToast.openToast(true, false, title,  body,  'Success', success, 'success', noReload);
+              //  errorToast.openToast(true, false, title,  body,  'Success', success, 'success', noReload);
+              //errorToast.openToast(true, false, title,  body,  'Success', 'success', 'success', noReload);
+              var toastEvent = {detail:{action: true, static: false, "notificationTitle": title, "bodytext": body, "functionTypeText":'Success', "functionTypeClass":'success',"functionTypeClassIcon": 'success',"noReload": noReload}} 
+              errorToast.openToast(toastEvent);
             }
         }
     }
 
+    getAccountsToB2BOrigin(userData, transferType) {
+        return new Promise(function(masterResolve, masterReject){
+ 			this.removeAccountsCacheItems()
+            .then((value) => {
+                let key = 'AccountsToB2BOrigin'+ transferType;
+                //let services = [];
+                //services.push('add_international_payment_internal'); //07-09-2020 - SNJ - Accounts which can be selected by current logged in user to initiate a payment procedure
+                this.handleRetrieveFromCache(key)
+                .then((value)=> {
+                    if (!value) {
+                        masterResolve(value);
+                    } else {
+                        this.callToAccountsWithAttributions(userData, transferType)
+                        .then((value)=> {
+                            return this.filterAccountsToB2BOriginByCountryAndCurrency(userData, value);
+                        }).then((value)=> {
+                            return helper.handleSaveToCache(component, helper, key, value);
+                        }).then((function (value) {
+                            masterResolve(value);
+                        })).catch((error)=> {
+                            console.log(error);
+                            masterReject({
+                                'title': this.label.B2B_Error_Problem_Loading,
+                                'body': this.label.B2B_Problem_accounts,
+                                'noReload': false
+                            });
+                        });
+                    }
+                    
+                }).catch((error)=> {
+                    console.log(error);
+                    masterReject({
+                        'title': this.label.B2B_Error_Problem_Loading,
+                        'body': this.label.B2B_Problem_accounts,
+                        'noReload': false
+                    });
+                });
+            });
+        }.bind(this));
+    }
+
+
+    removeAccountsCacheItems() {
+        return new Promise(function(resolve, reject) {
+            let userId = uId;
+            let clearCache = window.localStorage.getItem(userId + '_clearCache');
+			console.log(userId + '_AccountsToB2BOrigin'+this.label.PTT_international_transfer_single);
+            if(clearCache && clearCache == 'true'){
+                window.localStorage.removeItem(userId + '_RawAccountsFiltered');
+                window.localStorage.removeItem(userId + '_RawAccountsFiltered_timestamp');
+                window.localStorage.removeItem(userId + '_AccountsToB2BOrigin'+this.label.PTT_instant_transfer);
+                window.localStorage.removeItem(userId + '_AccountsToB2BOrigin'+this.label.PTT_instant_transfer+'_timestamp');
+                window.localStorage.removeItem(userId + '_AccountsToB2BOrigin'+this.label.PTT_international_transfer_single);
+                window.localStorage.removeItem(userId + '_AccountsToB2BOrigin'+this.label.PTT_international_transfer_single+'_timestamp');    
+                window.localStorage.removeItem(userId + '_AccountsToB2BOrigin'+this.label.PTT_international_transfer_multiple);
+                window.localStorage.removeItem(userId + '_AccountsToB2BOrigin'+this.label.PTT_international_transfer_multiple+'_timestamp'); 
+                
+                //Add the rest of payments types as the are implemented
+
+ 				window.localStorage.setItem(userId + '_clearCache',false);                
+            }
+            
+            resolve('ok');
+            
+        }.bind(this));
+    }
+
+    handleRetrieveFromCache(key) {
+        return new Promise( function(resolve, reject) {
+            const PAY_AccountsCache = this.label.PAY_AccountsCache;
+            if (PAY_AccountsCache === 'false') {
+                resolve(null);
+            } else {
+                let userId = this.userId;
+                let data = window.localStorage.getItem(userId + '_' + key);
+                let timestamp = window.localStorage.getItem(userId + '_' + key + '_timestamp');
+                let isFreshData = timestamp != 'null' && timestamp != undefined && ((new Date() - new Date(Date.parse(timestamp))) < parseInt(this.label.refreshBalanceCollout) * 60000);
+                //console.log('timestamp: ' + timestamp);
+                //console.log('isFreshData: ' + isFreshData);
+                if (data && isFreshData) {
+                    decryptAccountsData({ 
+                        str : data
+                    })
+                    .then( response =>{
+                        let stateRV = response;
+                        if (stateRV.success == true) {
+                            if (stateRV.value.result) {
+                                let result = stateRV.value.result;
+                                resolve(JSON.parse(result));
+                            } else {
+                                reject('REJECT');
+                            }                           
+                        } else {
+                            reject('REJECT');
+                        }
+                    })
+                    .catch( error => {
+                        console.log('### lwc_paymentsLandingParent ### handleRetrieveFromCache() ::: Catch error: ' + JSON.stringify(error));
+                        reject('REJECT');
+                    })
+                } else {
+                    resolve(undefined);
+                }
+            }
+        }.bind(this));
+    }
+
+
+    callToAccountsWithAttributions(userData, transferType) {
+        return new Promise((function (masterResolve, masterReject) {
+            this.getRawAccountsFiltered(userData).then((function (value) {
+                return this.callToAccountsWithAttributionsParams(component, {'userData': userData, 'transferType': transferType , 'globalPositionAccounts': value})
+                .then((function (value) {
+                    masterResolve(value);
+                })).catch((function (error) {
+                    console.log(error);
+                    masterReject({
+                        'title': this.label.B2B_Error_Problem_Loading,
+                        'body': this.label.B2B_Problem_accounts,
+                        'noReload': false
+                    });
+                }));
+            }));
+        }),this);
+    }
+
+    getRawAccountsFiltered(userData) {
+        var errorLoading = this.label.B2B_Error_Problem_Loading;
+        var errorProblemAccounts = this.label.B2B_Problem_accounts;
+        var errorCheckConnection = this.label.B2B_Error_Check_Connection;
+        return new Promise(function (resolve, reject) {
+            let key = 'AccountsToList';
+            this.handleRetrieveFromCache(key)
+            .then( (value) => {
+                if (value) {
+                    resolve(value);
+                } else {
+                    console.log('getAccountsToList(userData) ::: userData: ' + JSON.stringify(userData));
+                    //this.callToAccountsWithoutAttributions(userData)
+                    //16-03-2021
+                    this.getRawAccounts(userData)
+					.then( (value) => {
+                        return this.discardAccountsByCountry(userData, value);
+                    })
+                    .then( (value) => {
+                        return this.handleSaveToCache(key, value);
+                    })
+                    .then( (value) => {
+                        resolve(value);
+                    })
+                    .catch( (error) => {
+                        console.log('### lwc_paymentsMethodGrid ### getAccountsToList(userData) ::: Catch Error: ' + JSON.stringify(error));
+                        reject({
+                            'title': errorLoading,
+                            'body': errorProblemAccounts,
+                            'noReload': false
+                        });
+                    });
+                }
+            }).catch( (error) => {
+                console.log(error);
+                reject({
+                    'title': errorLoading,
+                    'body': errorCheckConnection,
+                    'noReload': false
+                });
+            });
+        }.bind(this));
+    }
+
+    getRawAccounts(nexus) {
+        return new Promise( function(resolve, reject) {
+            getRawAccounts({
+                'userData': nexus
+            })
+            .then( (result) => {
+                var stateRV = result;
+                if (stateRV.success) {
+                    resolve(stateRV.value.accountList);
+                } else {
+                    reject('getRawAccounts_ERROR');
+                }
+            })
+            .catch( (error) => {
+                console.log('### lwc_paymentsMethodGrid ### getRawAccounts() ::: Catch error: ' + JSON.stringify(error));
+                reject('callToAccountsWithAttributions_ERROR');
+            })           
+        }.bind(this));
+    }
+
+    discardAccountsByCountry(userData, accountList){
+        return new Promise( function(resolve, reject) {
+            discardAccountsByCountry({
+                'userData': userData,
+                'accountList': accountList
+            })
+            .then( (result) => {
+                var stateRV = result;
+                if (stateRV.success) {
+                    resolve(stateRV.value.accountList);
+                } else {
+                    reject('discardAccountsByCountry_ERROR');
+                }
+            })
+            .catch( (error) => {
+                console.log('### lwc_paymentsMethodGrid ### discardAccountsByCountry() ::: Catch error: ' + JSON.stringify(error));
+                reject('discardAccountsByCountry_ERROR');
+            })
+        }.bind(this));
+    }
+
+    handleSaveToCache(key, data) {
+        const PAY_AccountsCache = this.label.PAY_AccountsCache;
+        return new Promise( function(resolve, reject) {
+            if (PAY_AccountsCache === 'false') {
+                resolve(data);
+            } else {
+                let userId = this.userId
+                encryptAccountsData({
+                    str : JSON.stringify(data)
+                })
+                .then( response => {
+                    let stateRV = response;
+                    if (stateRV.success) {
+                        let result = stateRV.value.result;
+                        window.localStorage.setItem(userId + '_' + key, result);
+                        window.localStorage.setItem(userId + '_' + key + '_timestamp', new Date());
+                        resolve(data);
+                    } else {
+                        reject('REJECT');
+                    }
+                })
+                .catch( error => {
+                    console.log('### lwc_paymentsMethodGrid ### handleSaveToCache() ::: Catch error: ' + JSON.stringify(error));
+                    reject('REJECT');
+                })
+            }
+        }.bind(this));
+    }
+
+    callToAccountsWithAttributionsParams(params) {
+        console.log(params);
+        return new Promise((function (resolve, reject) {
+            callToAccountsWithAttributionsParent({
+                str : params
+            })
+            .then( response => {
+                let stateRV = response;
+                if (stateRV.success) {
+                    resolve(stateRV.value.accountList);
+                } else {
+                    reject('callToAccountsWithAttributions_ERROR');
+                }
+            })
+            .catch( error => {
+                console.log('### lwc_paymentsMethodGrid ### callToAccountsWithAttributionsParams() ::: Catch error: ' + JSON.stringify(error));
+                reject('REJECT');
+            })
+        }), this);
+        
+    }
+
+    filterAccountsToB2BOriginByCountryAndCurrency(userData, accountList){
+        return new Promise((function (resolve, reject) {
+            filterAccountsByCountryAndCurrency({
+                'userData': userData,
+                'accountList': accountList
+            })
+            .then( response => {
+                let stateRV = response;
+                if (stateRV.success) {
+                    resolve(stateRV.value.accountList);
+                } else {
+                    reject('discardAccountsByCountry_ERROR');
+                }
+            })
+            .catch( error => {
+                console.log('### lwc_paymentsMethodGrid ### filterAccountsToB2BOriginByCountryAndCurrency() ::: Catch error: ' + JSON.stringify(error));
+                reject('REJECT');
+            })
+        }), this);
+    
+    }
 }

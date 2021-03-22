@@ -9,14 +9,15 @@ import Show_More from '@salesforce/label/c.Show_More';
 
 export default class Lwc_pay_filterdropdown extends LightningElement {
 
-label = {
-    option,
-    incorrectinputformat
-}
+    label = {
+        option,
+        incorrectinputformat,
+        Show_More
+    }
 
-    @api values; //"List of values to populate the dropdown" 
     @track valuesAux = [];
 
+    @api values; //"List of values to populate the dropdown" 
     @api selectedvalue; //Selected option from the dropdown
     @api selectedvalues; //Selected option from the dropdown
     @api selectedvaluestext; //Selected values String
@@ -25,7 +26,7 @@ label = {
     @api labelvar = ''; //Dropdown label
     @api isdisabled = false; //Attribute to indicate if the dropdown is disabled
     @api valuesplaceholder = ''; //Placeholder value when values are selected
-    @api errortext = this.label.IncorrectInputFormat; //Text to show when an error ocurred
+    @api errortext = this.label.incorrectinputformat; //Text to show when an error ocurred
     @api cleardropdown; //Flag to clear or not the dropdown
     @api deselectoption; //Default=true
 
@@ -38,37 +39,38 @@ label = {
     set cleardropdown(cleardropdown){
         if (cleardropdown){
             this._cleardropdown= cleardropdown;
+            this.handleReset();
         }
-        this.handleReset();
+        
     }
 
     handleReset() {
         var reset = this._cleardropdown;
-       if(reset != undefined && reset != null){
+        if(reset != undefined && reset != null){
            if(reset){
                this.reset();
            }
-       }   
-   }
+        }   
+    }    
 
-   reset (){
-    var isSimple = this.issimpledropdown;
-     if(isSimple){
-         this.selectedvalue = '';
-         this.selectedvaluestext = '';
-     }else{
-       
-         var myValues = this.values;
-         let checkboxes = this.template.querySelector('[data-id="PAY_Checkbox"]')
-   
-         for(var j=0; j<checkboxes.length;j++){                
-             checkboxes[j].ischecked = false;  
-         }
-         this.selectedvalues= [];
-         this.selectedvaluestext ='';
-     }
-     this.cleardropdown=false;
- }
+    reset (){
+        var isSimple = this.issimpledropdown;
+        if(isSimple){
+            this.selectedvalue = '';
+            this.selectedvaluestext = '';
+        }else{
+        
+            var myValues = this.values;
+            let checkboxes = this.template.querySelector('[data-id="PAY_Checkbox"]')
+    
+            for(var j=0; j<checkboxes.length;j++){                
+                checkboxes[j].ischecked = false;  
+            }
+            this.selectedvalues= [];
+            this.selectedvaluestext ='';
+        }
+        this.cleardropdown=false;
+    }
     
     connectedCallback(){
         loadStyle(this, santanderStyle + '/style.css');
@@ -78,10 +80,10 @@ label = {
         if(this.values){
             var valuesAux = JSON.parse(JSON.stringify(this.values));
             Object.keys(valuesAux).forEach(key => {
-                valuesAux[key].class1 = item[key].label == this.selectedvalue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item';
-                valuesAux[key].value = item[key].value;
-                valuesAux[key].label = item[key].label;
-                valuesAux[key].valuecheckid = 'OPT_'+item[key].value;
+                valuesAux[key].class1 = valuesAux[key].label == this.selectedvalue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item';
+                //valuesAux[key].value = valuesAux[key].value;
+                //valuesAux[key].label = valuesAux[key].label;
+                valuesAux[key].valuecheckid = 'OPT_'+valuesAux[key].value;
             });
             this.values = valuesAux;
         }
@@ -174,7 +176,7 @@ label = {
     }
 
     selectOption(event){
-        var item = event.currentTarget.id;
+        var item = event.currentTarget.dataset.id;
         var items = [];
         if(item){
             items.push(item);

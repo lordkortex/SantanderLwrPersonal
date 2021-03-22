@@ -242,6 +242,57 @@ global with sharing class WS_TrackingPaymentOperation {
         return this.result;
     }
 
+     /*
+    Author:         Bea Hill
+    Company:        Deloitte
+    Description:    Executes the callout to the PATCH tracking operation web service to udpate the details of the payment in step 4
+    History:
+    <Date>          <Author>                <Description>
+    07/08/2020      Bea Hill                Initial version
+    12/08/2020      Bea Hill                Removed the status and reason parameters
+    07/09/2020      Bea Hill                Add chargeBearer
+    14/01/2021      Shahad Naji             Extend updateInformation method to receive more input parameters
+    */
+    public String updateInformation (String clientReference, String purpose, String description, String chargeBearer, String paymentMethod, String commercialCode,String productId,String serviceId) {
+        return this.updateInformation(clientReference, purpose, description, chargeBearer, paymentMethod, commercialCode,  null, null, null,productId,serviceId);
+    }
+
+    public String updateInformation (String clientReference, String purpose, String description, String chargeBearer, String paymentMethod, String commercialCode, String issueDate, double baseAmount, String baseCurrency,String productId,String serviceId) {
+        this.result = '';
+        String inputJson = '';
+        WRAPPER_TrackingPaymentOperation.INPUT input;
+        try {
+            WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency operationAmountBaseCurrency = null;
+            if (baseAmount != null && String.isNotBlank(baseCurrency)) {
+                operationAmountBaseCurrency = new WRAPPER_TrackingPaymentOperation.OperationAmountBaseCurrency(baseCurrency, baseAmount);
+            }
+            WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail = new WRAPPER_TrackingPaymentOperation.OperationDetail(clientReference, purpose, description, chargeBearer, paymentMethod, commercialCode, issueDate, operationAmountBaseCurrency,productId,serviceId);
+            WRAPPER_TrackingPaymentOperation.InputData inputData = new WRAPPER_TrackingPaymentOperation.InputData(operationDetail);
+            input = new WRAPPER_TrackingPaymentOperation.INPUT(inputData);
+            Map<String, String> extraHeaderParameters = new Map<String, String>();
+            extraHeaderParameters.put('Access-Channel', 'Web');
+            extraHeaderParameters.put('Global-Payment-Id', this.paymentId);
+            inputJson = JSON.serialize(input, true);
+            // Generate the endpoint based on the paymentId
+            String finalEndpoint = this.baseEndpoint.replace('{paymentId}', this.paymentId);
+            // Make the callout to the PATCH web service
+            String result = null;
+            result = Global_IntegrationWrapper.launchHTTP(inputJson, finalEndpoint, this.baseMethod, extraHeaderParameters);
+            String resultAux = result.replaceAll('\n', '');
+            resultAux = resultAux.replaceAll('\\\\', '');
+            resultAux = resultAux.replaceAll(' ', '');
+            if (result != null && resultAux.contains('"status":"OK"')) {
+                this.result = 'OK';
+            } else {
+                throw new CustomException('Error when consulting update information service');
+            }
+        } catch (Exception e) {
+            System.debug('WS_TrackingPaymentOperation.updateInformation: ' + e.getMessage());
+            throw new CustomException(e.getMessage());
+        }
+        return this.result;
+    }
+
     /*
     Author:         Bea Hill
     Company:        Deloitte
@@ -542,6 +593,98 @@ global with sharing class WS_TrackingPaymentOperation {
                 }
             } else {
                 throw new CustomException('Error when consulting updateAdditionalData service');
+            }
+        } catch (Exception e) {
+            System.debug('WS_TrackingPaymentOperation.updateAccountsInformation: ' + e.getMessage());
+            throw new CustomException(e.getMessage());
+        }
+        return this.result;
+    }
+
+    global String updateAccountsInformation (WRAPPER_AccountList.AccountDetails sourceAccountData, WRAPPER_AccountList.AccountDetails recipientAccountData, WRAPPER_AccountList.AccountDetails sourceFeeAccountData, String paymentCurrency) {
+        this.result = '';
+        String inputJson = '';
+        WRAPPER_TrackingPaymentOperation.INPUT input;
+        try {
+            if (sourceAccountData == null) {
+                throw new CustomException('You must inform the source account.');
+            }
+            if (recipientAccountData == null) {
+                throw new CustomException('You must inform the recipient account.');
+            }
+            if(String.isBlank(paymentCurrency)) {
+                paymentCurrency = recipientAccountData.currencyCodeAvailableBalance;
+            }
+            WRAPPER_TrackingPaymentOperation.SourceAccount sourceAccount = new WRAPPER_TrackingPaymentOperation.SourceAccount(sourceAccountData.idType, sourceAccountData.displayNumber, sourceAccountData.currencyCodeAvailableBalance);
+            WRAPPER_TrackingPaymentOperation.SourceAgent sourceAgent = new WRAPPER_TrackingPaymentOperation.SourceAgent(sourceAccountData.codigoBic, sourceAccountData.bankName, sourceAccountData.countryName);
+            WRAPPER_TrackingPaymentOperation.SourceAddress sourceAddress = null;
+            if (sourceAccountData.address != null) {
+                sourceAddress = new WRAPPER_TrackingPaymentOperation.SourceAddress(sourceAccountData.address.streetName, sourceAccountData.address.townName, sourceAccountData.address.country);
+            } else {
+                // TO-DO
+            }
+            String sourceCustomerId = sourceAccountData.customerId;
+            String sourceCompanyGlobalId = '';
+            if (sourceAccountData.companyIdsList != null) {
+                if (String.isNotBlank(sourceAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    sourceCustomerId = sourceAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier);
+                }
+                if (String.isNotBlank(sourceAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier))) {
+                    sourceCompanyGlobalId = sourceAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier);
+                }
+            }
+            String recipientCustomerId = recipientAccountData.customerId;
+            String recipientCompanyGlobalId = '';
+            if (recipientAccountData.companyIdsList != null) {
+                if (String.isNotBlank(recipientAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    recipientCustomerId = recipientAccountData.companyIdsList.get(System.Label.CNF_APIIdentifier);
+                }
+                if (String.isNotBlank(recipientAccountData.companyIdsList.get(System.Label.CNF_GTSIdentifier))) {
+                    recipientCompanyGlobalId = recipientAccountData.companyIdsList.get(System.Label.CNF_GTsIdentifier);
+                }
+            }
+            WRAPPER_TrackingPaymentOperation.SourceData sourceData = new WRAPPER_TrackingPaymentOperation.SourceData(sourceAccountData.subsidiaryName, sourceCustomerId, sourceCompanyGlobalId, sourceAddress, sourceAccount, sourceAgent, sourceAccountData.country);
+            WRAPPER_TrackingPaymentOperation.SourceAccount destinationAccount = new WRAPPER_TrackingPaymentOperation.SourceAccount(recipientAccountData.idType, recipientAccountData.displayNumber, recipientAccountData.currencyCodeAvailableBalance);
+            WRAPPER_TrackingPaymentOperation.SourceAgent destinationAgent = new WRAPPER_TrackingPaymentOperation.SourceAgent(recipientAccountData.codigoBic, recipientAccountData.bankName, recipientAccountData.countryName);
+            WRAPPER_TrackingPaymentOperation.SourceAddress destinationAddress = null;
+            if (recipientAccountData.address != null) {
+                destinationAddress = new WRAPPER_TrackingPaymentOperation.SourceAddress(recipientAccountData.address.streetName, recipientAccountData.address.townName, recipientAccountData.address.country);
+            } else {
+                // TO-DO
+            }
+            WRAPPER_TrackingPaymentOperation.DestinationData destinationData = new WRAPPER_TrackingPaymentOperation.DestinationData(recipientAccountData.subsidiaryName, recipientCustomerId, recipientCompanyGlobalId, destinationAddress, destinationAccount, destinationAgent, recipientAccountData.country);
+            WRAPPER_TrackingPaymentOperation.SourceFeeData sourceFeeData = null;
+            if (sourceFeeAccountData != null && String.isNotBlank(sourceFeeAccountData.displayNumber)) {
+                WRAPPER_TrackingPaymentOperation.SourceAccount sourceFeeAccount = new WRAPPER_TrackingPaymentOperation.SourceAccount(sourceFeeAccountData.idType, sourceFeeAccountData.displayNumber, sourceFeeAccountData.currencyCodeAvailableBalance);
+                WRAPPER_TrackingPaymentOperation.SourceAgent sourceFeeAgent = new WRAPPER_TrackingPaymentOperation.SourceAgent(sourceFeeAccountData.codigoBic, sourceFeeAccountData.bankName, sourceFeeAccountData.countryName);
+                sourceFeeData = new WRAPPER_TrackingPaymentOperation.SourceFeeData(sourceFeeAccountData.subsidiaryName, sourceFeeAccount, sourceFeeAgent, sourceFeeAccountData.country);
+            }
+            WRAPPER_TrackingPaymentOperation.OperationDetail operationDetail = new WRAPPER_TrackingPaymentOperation.OperationDetail(sourceData, destinationData, sourceFeeData);
+            WRAPPER_TrackingPaymentOperation.InputData inputData = new WRAPPER_TrackingPaymentOperation.InputData(operationDetail);
+            input = new WRAPPER_TrackingPaymentOperation.INPUT(inputData);
+            Map<String,String> extraHeaderParameters = new Map<String,String> ();
+            extraHeaderParameters.put('Access-Channel', 'Web');
+            extraHeaderParameters.put('Global-Payment-Id', this.paymentId);
+            inputJson = JSON.serialize(input, true);
+            String finalEndpoint = this.baseEndpoint.replace('{paymentId}', this.paymentId);
+            String result = null;
+            result = Global_IntegrationWrapper.launchHTTP(inputJson, finalEndpoint, this.baseMethod, extraHeaderParameters);
+            String resultAux  = '';
+            if (String.isNotBlank(result)) {
+                resultAux = result.replaceAll('\n', '');
+                resultAux = resultAux.replaceAll('\\\\', '');
+                resultAux = resultAux.replaceAll(' ', '');
+                if (String.isNotBlank(resultAux)) {
+                    if (resultAux.contains('"status":"OK"')) {
+                        this.result = 'OK';
+                    } else {
+                        throw new CustomException('Error when update accounts with PATCH');
+                    }
+                } else {
+                    throw new CustomException('Error when update accounts with PATCH');
+                }
+            } else {
+                throw new CustomException('Error when update accounts with PATCH');
             }
         } catch (Exception e) {
             System.debug('WS_TrackingPaymentOperation.updateAccountsInformation: ' + e.getMessage());

@@ -37,7 +37,7 @@ export default class Lwc_b2b_processHeader extends NavigationMixin(LightningElem
     }
 
     @api spinner;
-    @api steps = {focusStep:20, totalSteps:20, lastModifiedStep: 20};
+    @api steps;
     @api paymentid;
     @api hasbackbutton;                                                         
     @api headerlabel = 'SANTANDER';
@@ -48,11 +48,24 @@ export default class Lwc_b2b_processHeader extends NavigationMixin(LightningElem
     @track showSFLModal;
     @track hasSaveForLaterButton = true;
 
+    _steps;
+
     imageLogo = imagePack + '/logo_symbol_red.svg';
 
     connectedCallback(){
         this.hasbackbutton = true;
         this.showSFLModal = false;
+    }
+
+    get steps(){
+        return this._steps;
+    }
+
+    set steps(steps){
+        if(steps){
+            this._steps = steps;
+            //if(this._steps != undefined) this.template.querySelector("c-lwc_b2b_progressBar").changeWidthSteps(this._steps);
+        }        
     }
 
 
@@ -61,11 +74,11 @@ export default class Lwc_b2b_processHeader extends NavigationMixin(LightningElem
     }
 
     get hasSaveForLaterButtonIsTrue(){
-        return this.hasSaveForLaterButton === true && this.steps.focusStep > 2;
+        return this.hasSaveForLaterButton === true && this._steps.focusStep > 2;
     }
 
     get hasDiscardButtonIsTrue(){
-        return this.hasdiscardbutton === true && this.steps.totalSteps != 0;
+        return this.hasdiscardbutton === true && this._steps.totalSteps != 0;
     }
 
     get showCancelModalIsTrue(){
@@ -76,13 +89,12 @@ export default class Lwc_b2b_processHeader extends NavigationMixin(LightningElem
         return this.showSFLModal === true;
     }
 
-    get classHeader(){ 
-        
-        return 'slds-modal__header slds-is-fixed' + (this.steps.totalSteps === 0 ? ' oneStep':'');
+    get classHeader(){         
+        return 'slds-modal__header slds-is-fixed' + (this._steps.totalSteps === 0 ? ' oneStep':'');
     }
 
     get saveButtonCondition(){
-        return this.hasSaveForLaterButton === true && this.steps.focusStep > 1
+        return this.hasSaveForLaterButton === true && this._steps.focusStep > 1
     }
 
     handleBack(event) {
@@ -250,4 +262,10 @@ export default class Lwc_b2b_processHeader extends NavigationMixin(LightningElem
             console.log(e);
         }   
     }
+
+    @api
+    changeWidthSteps(steps){
+        this.template.querySelector("c-lwc_b2b_progress-bar").changeWidthSteps(steps);       
+    }
+
 }

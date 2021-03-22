@@ -1,7 +1,5 @@
 <template>
-    <template if:true={isSimpleDropdown}>
-        <c-lwc_pay_filter-dropdown-checkbox onnotification={handleSelectValue}>
-        </c-lwc_pay_filter-dropdown-checkbox>
+    <template if:true={issimpledropdown}>
         <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
         <div class="slds-form-element dropdown">
             <!-- DROPDOWN MARKUP -->
@@ -47,7 +45,7 @@
                         <ul class="slds-dropdown__list" role="menu" aria-label={helptextdropdown}>
                             
                             <template for:each={values} for:item='item'>
-                                <li key={item.value} class={item.class1} role="presentation" id={item.value} onclick={selectOption}>
+                                <li key={item.value} class={item.class1} role="presentation" data-id={item.value} onclick={selectOption}>
                                     <a role="menuitemcheckbox" tabindex="0" aria-checked="true" >
                                         <div class="slds-truncate optionOrder">{item.label}</div>
                                     </a>
@@ -60,7 +58,7 @@
             </div>            
         </div>
     </template>
-    <template if:false={isSimpleDropdown}>
+    <template if:false={issimpledropdown}>
         <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
         <div class="slds-form-element">
             <!-- Escribir la clase show para verlo abierto-->
@@ -94,8 +92,7 @@
                                             data-id="PAY_Checkbox" 
                                             key={item}
                                             checkid={item.valuecheckid}
-                                            checkvalue={item.value}
-                                            ischecked=false
+                                            checkvalue={item.value}                                            
                                             checklabel={item.label}>
                                         </c-lwc_pay_filter-dropdown-checkbox >
                                     </template>

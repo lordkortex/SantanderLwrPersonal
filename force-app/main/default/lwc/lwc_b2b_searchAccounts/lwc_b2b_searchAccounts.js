@@ -2,7 +2,7 @@ import { LightningElement, track, api } from 'lwc';
 
 import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
 // Import styles
-import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
+import santanderStyle from '@salesforce/resourceUrl/Santander_Icons';
 
 import B2B_Payment_Header from '@salesforce/label/c.B2B_Payment_Header';
 

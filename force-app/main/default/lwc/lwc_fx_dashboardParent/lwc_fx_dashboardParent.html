@@ -13,10 +13,10 @@
         <lightning-layout-item size="8" padding="around-small">
             <lightning-layout multiple-rows="true">
                 <lightning-layout-item size="8" padding="around-small">
-                    <div >Latest trades</div> 
+                    <div class="header-text">Latest trades</div> 
                 </lightning-layout-item>
                 <lightning-layout-item size="2" padding="around-small">
-                    <div onclick={navigateToTrades}>View all trades ></div>
+                    <div class="view-button" onclick={navigateToTrades}><div>View all trades &nbsp; &nbsp;</div><div class="arrow-button">></div></div>
                     <!-- <a href="trades" onclick={navigateToTrades} target="_blank">View all trades ></a> -->
                 </lightning-layout-item>
             </lightning-layout>
@@ -26,7 +26,7 @@
                 <lightning-layout multiple-rows="true">
                     <lightning-layout-item size="12" padding="around-medium">
                         <div class="slds-align_absolute-center">
-                            <c-lwc_container-table></c-lwc_container-table>    
+                            <!-- <c-lwc_container-table></c-lwc_container-table> -->
                         </div>
                     </lightning-layout-item>
                  </lightning-layout>

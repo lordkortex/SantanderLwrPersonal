@@ -72,4 +72,6 @@ export default class Lwc_fx_blottertable extends LightningElement {
         //this.getTradesHandler();
     }
 
+
+
 }

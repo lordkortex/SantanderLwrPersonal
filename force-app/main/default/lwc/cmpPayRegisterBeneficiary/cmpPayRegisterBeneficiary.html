@@ -1,0 +1,315 @@
+<template>
+    <!-- ACCORDION -->
+    <div class="row">
+        <!-- Añadir la clase local_format para mostrar los campos de formulario correspondientes a esta opción -->
+        <ul class="slds-accordion">
+
+            <li class="slds-accordion__list-item">
+                <!-- Añadir la clase slds-is-open para mostrar el contenido -->
+                <!-- Al abrir el formulario para crear un nuevo beneficiario se deberá ocultar el inputLookup y el botón anteriores -->
+                <section class={selectedClass}>
+
+                    <div class="slds-accordion__summary">
+                        <h2 class="slds-accordion__summary-heading">
+                            <button class="slds-button slds-button_reset slds-accordion__summary-action"
+                                aria-controls="referenceId-36" aria-expanded="true" onclick={showForm}>
+                                <span class="slds-accordion__summary-content">{label.newbeneficiary}</span>
+                                <div class="containerIcon">
+                                    <!-- ICONO FLECHA: MENÚ DESPLEGADO -->
+                                    <span class="icon icon-arrowUp_small"></span>
+                                    <!-- ICONO FLECHA: MENÚ PLEGADO -->
+                                    <span class="icon icon-arrowDown_small"></span>
+                                </div>
+                            </button>
+                        </h2>
+                    </div>
+                        <template if:true={showF}>
+                            <template if:true={simpleForm}>
+                                <div class="slds-accordion__content ib" id="refecityrenceId-37">
+                                    <div class="slds-grid">
+                                        <div class="slds-col">
+                                            <!-- TEXT INPUT SIMPLE -->
+                                            <div class="textInput_simple">
+                                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                                <div class="slds-form-element input">
+                                                    <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                                    <template if:true={showLabel}>
+                                                        <label class="slds-form-element__label" for="text-input-id-1">{label.accountnumber}</label>
+                                                    </template>
+                                                    <div
+                                                        class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        
+                                                        <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                        <input type="text" data-id="input" placeholder={label.accountnumber}
+                                                            class="slds-input" name={name} id="1" onchange={sendFormData} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>
+                                        
+                                                        <!-- Icono que aparecerá cuando este disabled -->
+                                                        <div class="slds-button__icon disabled" aria-hidden="true">
+                                                            <div class="button icon-prohibited"></div>
+                                                        </div>
+                                        
+                                                        <!-- Icono de cruz para eliminar una vez seleccionada una opción -->
+                                                        <button
+                                                            class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" data-id="clear" onclick={handleClearInput}>
+                                                            <div class="slds-button__icon icon-close_filledCircle"
+                                                                aria-hidden="true"></div>
+                                                            <span class="slds-assistive-text">{label.cleartextinput}</span>
+                                                        </button>
+                                        
+                                                        <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                        <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                        
+                                                        <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                        <div class="errorText">{error}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                                                   
+                                            <!-- TEXT INPUT SIMPLE -->
+                                            <c-cmp-text-input id="2" label={label.accountholder} placeholder={label.accountholder} ondata={sendFormData} required="true"></c-cmp-text-input>                                       
+                                        </div>
+                                        <div class="slds-col">
+                                            <!-- TEXT INPUT SIMPLE -->
+                                            <c-cmp-text-input id="3" label={label.biccode} placeholder={label.biccode} ondata={sendFormData} required="true"></c-cmp-text-input>                                       
+                                        </div>
+                                    </div>
+    
+                                    <div class="beneficiary_adress">
+                                        <span class="subtitle">{label.beneficiaryaddress}</span>
+                                    </div>
+
+                                    <div class="slds-grid">
+                                        <div class="slds-col">
+                                            <!-- TEXT INPUT SIMPLE -->
+                                            <c-cmp-text-input id="4" label={label.province} placeholder={label.province} ondata={sendFormData} required="true"></c-cmp-text-input>                                       
+                                            <!-- TEXT INPUT SIMPLE -->
+                                            <c-cmp-text-input id="5" label={label.streetandnumber} placeholder={label.streetandnumber} ondata={sendFormData} required="true"></c-cmp-text-input>                                                                                                                    
+                                            <!--SAVE-->
+                                            <fieldset class="slds-form-element checkbox">
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-checkbox slds-truncate">
+                                                        <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                                                        <input type="checkbox" name="options"
+                                                            value="checkbox-unique-id-20" />
+                                                        <label class="slds-checkbox__label" for="checkbox-unique-id-20">
+                                                            <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                                            <span class="slds-checkbox_faux"></span>
+                                                            <span class="slds-form-element__label checkboxLabel">{label.savebeneficiary}</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                        <div class="slds-col">
+                                            <!-- TEXT INPUT SIMPLE -->
+                                            <c-cmp-text-input id="6" label={label.city} placeholder={label.city} ondata={sendFormData} required="true"></c-cmp-text-input>                                       
+                                            <!-- TEXT INPUT SIMPLE -->
+                                            <c-cmp-text-input id="7" label={label.floor} placeholder={label.floor} ondata={sendFormData} required="false"></c-cmp-text-input>                                       
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </template>
+                            <template if:false={simpleForm}>
+                                <template if:true={show}>
+                                    <!-- NEW BENEFICIARY WITH IBAN -->
+                                    <div class="slds-accordion__content ib" id="referenceId-36">
+                                        <!-- OPTION BUTTONS -->
+                                        <div class="slds-button-group sizeS" role="group">
+                                            <!-- Añadir la clase selected para que el botón se muestre seleccionado -->
+                                            <button class="slds-button slds-button_neutral selected">{label.iban}</button>
+                                            <button class="slds-button slds-button_neutral" value="local" onclick={showclick}>{label.localformat}</button>
+                                        </div>
+    
+                                        <!-- FORM ELEMENTS -->
+                                        <div class="slds-grid">
+                                            <div class="slds-col">
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.accountholder} id="8" placeholder={label.accountholder} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.taxid} id="9" placeholder={label.taxid} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                                       
+                                            </div>
+    
+                                            <div class="slds-col">
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <div class="textInput_simple">
+                                                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                                    <div class="slds-form-element input">
+                                                        <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                                        <template if:true={showLabel}>
+                                                            <label class="slds-form-element__label" for="text-input-id-1">{label.accountnumber}</label>
+                                                        </template>
+                                                        <div
+                                                            class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                            
+                                                            <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                            <input type="text" data-id="input" placeholder={label.accountnumber}
+                                                                class="slds-input" name={name} id="10" onchange={sendFormData} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>
+                                            
+                                                            <!-- Icono que aparecerá cuando este disabled -->
+                                                            <div class="slds-button__icon disabled" aria-hidden="true">
+                                                                <div class="button icon-prohibited"></div>
+                                                            </div>
+                                            
+                                                            <!-- Icono de cruz para eliminar una vez seleccionada una opción -->
+                                                            <button
+                                                                class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" data-id="clear" onclick={handleClearInput}>
+                                                                <div class="slds-button__icon icon-close_filledCircle"
+                                                                    aria-hidden="true"></div>
+                                                                <span class="slds-assistive-text">{label.cleartextinput}</span>
+                                                            </button>
+                                            
+                                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                            <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                            
+                                                            <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                            <div class="errorText">{error}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                                                                                     
+                                            </div>
+                                        </div>
+    
+                                        <!-- BENEFICIARY ADRESS -->
+                                        <div class="beneficiary_adress">
+                                            <span class="subtitle">{label.beneficiaryaddress}</span>
+                                        </div>
+    
+                                        <div class="slds-grid">
+                                            <div class="slds-col">
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.state} id="11" placeholder={label.state} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.streetandnumber} id="12" placeholder={label.streetandnumber} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                            </div>
+    
+                                            <div class="slds-col">
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.city} id="13" placeholder={label.city} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.floor} id="14" placeholder={label.floor} ondata={sendFormData} required="false"></c-cmp-text-input>
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-grid">
+                                            <div class="slds-col">
+                                                <c-cmp-text-input label={label.addinfo} id="15" placeholder={label.addinfo} ondata={sendFormData} required="false"></c-cmp-text-input>
+                                            </div>                                            
+                                        </div>
+    
+                                        <!-- SAVE -->
+                                        <div class="slds-grid">
+                                            <div class="slds-col">
+                                                <fieldset class="slds-form-element checkbox">
+                                                    <div class="slds-form-element__control">
+                                                        <div class="slds-checkbox slds-truncate">
+                                                            <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                                                            <input type="checkbox" name="options"
+                                                                value="checkbox-unique-id-20" />
+                                                            <label class="slds-checkbox__label" for="checkbox-unique-id-20">
+                                                                <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                                                <span class="slds-checkbox_faux"></span>
+                                                                <span class="slds-form-element__label checkboxLabel">{label.savebeneficiary}</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+    
+                                    </div>
+                                </template>
+                                <template if:false={show}>                                    
+                                    <!-- NEW BENEFICIARY LOCAL FORMAT -->
+                                    <div class="slds-accordion__content local" id="localFormatAccordion">
+                                        <!-- OPTION BUTTONS-->
+                                        <div class="slds-button-group sizeS" role="group">
+                                            <!-- Añadir la clase selected para que el botón se muestre seleccionado -->
+                                            <button class="slds-button slds-button_neutral" value="iban" onclick={showclick}>{label.iban}</button>
+                                            <button class="slds-button slds-button_neutral selected">{label.localformat}</button>
+                                        </div>
+    
+                                        <!-- FORM ELEMENTS -->
+                                        <div class="slds-grid">
+                                            <div class="slds-col">
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.accountholder} id="16" placeholder={label.accountholder} ondata={sendFormData} required="true"></c-cmp-text-input>
+
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.taxid} id="17" placeholder={label.taxid} ondata={sendFormData} required="true"></c-cmp-text-input>
+
+                                                <!-- DROPDOWN SINGLE CHOICE -->
+                                                <c-cmp-dropdown label={label.bankname} id="18" placeholder={label.bankname} valuelist={bankName} ondata={sendFormData} required="true"></c-cmp-dropdown>
+
+                                                                                            
+                                            </div>
+    
+                                            <div class="slds-col">
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input id="19" label={label.accountnumber} placeholder={label.accountnumber} ondata={sendFormData} required="true"></c-cmp-text-input>
+    
+                                                <!-- DROPDOWN SINGLE CHOICE -->
+                                                <c-cmp-dropdown label={label.acctype} id="20" placeholder={label.acctype} valuelist={accountType} ondata={sendFormData} required="true"></c-cmp-dropdown>                                              
+                                                
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.branch} id="21" placeholder={label.branch} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                            </div>
+                                        </div>
+    
+                                        <!-- BENEFICIARY ADRESS -->
+                                        <div class="beneficiary_adress">
+                                            <span class="subtitle">{label.beneficiaryaddress}</span>
+                                        </div>
+    
+                                        <div class="slds-grid">
+                                            <div class="slds-col">
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.state} id="22" placeholder={label.state} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.streetandnumber} id="23" placeholder={label.streetandnumber} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                            </div>
+    
+                                            <div class="slds-col">
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.city} id="24" placeholder={label.city} ondata={sendFormData} required="true"></c-cmp-text-input>
+                                                <!-- TEXT INPUT SIMPLE -->
+                                                <c-cmp-text-input label={label.floor} id="25" placeholder={label.floor} ondata={sendFormData} required="false"></c-cmp-text-input>
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-grid">
+                                            <div class="slds-col">
+                                                <c-cmp-text-input label={label.addinfo} id="26" placeholder={label.addinfo} ondata={sendFormData} required="false"></c-cmp-text-input>
+                                            </div>                                            
+                                        </div>
+    
+                                        <!-- SAVE -->
+                                        <div class="slds-grid">
+                                            <div class="slds-col">
+                                                <fieldset class="slds-form-element checkbox">
+                                                    <div class="slds-form-element__control">
+                                                        <div class="slds-checkbox slds-truncate">
+                                                            <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                                                            <input type="checkbox" name="options" id="checkbox-unique-id-21"
+                                                                value="checkbox-unique-id-21" />
+                                                            <label class="slds-checkbox__label" for="checkbox-unique-id-21">
+                                                                <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                                                <span class="slds-checkbox_faux"></span>
+                                                                <span class="slds-form-element__label checkboxLabel">{label.savebeneficiary}</span>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                    </template>
+                </section>
+            </li>
+        </ul>
+    </div>
+</template>

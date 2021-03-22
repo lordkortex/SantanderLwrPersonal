@@ -1,0 +1,43 @@
+{
+  "appPageId" : "343ae25e-de17-4c31-b3b2-718c7b166661",
+  "componentName" : "siteforce:sldsOneColLayout",
+  "id" : "b8711720-8ad9-476e-bfe6-a9968e383cae",
+  "label" : "FX Dashboard",
+  "regions" : [ {
+    "id" : "ce05aa89-1f35-4331-a8c4-d4be2c54cb8a",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : { },
+      "componentName" : "c:lwc_fx_dashboardParent",
+      "id" : "6a6227c6-8605-4819-ad30-ca4eed435bcf",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "00e059c8-7363-486e-a2cf-c27c3f60c3e6",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "c78fd3f0-e144-4337-a055-3e181be73f6d",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "title" : "Foreign Exchange"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "46481ed3-1159-4a13-b1c1-8fffd82fabd6",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "0a55b134-2562-40fd-862c-de38b89f6fd7",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-dashboard"
+}

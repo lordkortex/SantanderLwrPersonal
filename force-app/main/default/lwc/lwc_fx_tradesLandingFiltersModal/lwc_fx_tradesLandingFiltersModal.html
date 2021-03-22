@@ -1,0 +1,205 @@
+<template>
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <template if:true={showToast}>
+                <c-lwc_b2b_toast 
+                    showtoast={showtoast} 
+                    bodytext={toasttext} 
+                    notificationtitle={toasttitle} 
+                    functiontypetext={toasttype} 
+                    reload={reloadaccounts}>
+                </c-lwc_b2b_toast>
+        </template>
+        
+        <div class="slds-modal__container">  
+            <div class="modal-content allFilters">  
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close"  onclick={closeFilterModal}>
+                        <div class="icon-close_big"></div> 
+                        <span class="slds-assistive-text">{label.close}</span>
+                    </button>
+                    <div class="title"> 
+                        <h2 id="modal-heading-01"  class="slds-modal__title">{label.AllFilters}</h2> 
+                        <div class="title-line"></div>
+                    </div>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>{label.AllFilters_Subtitle}</p>
+                    
+                    <!-- seccion1 -->
+                    <div class="seccion1">
+                        
+                        <div class="slds-row">
+
+                            <div class="slds-col">
+                                <div class="col-left">
+                                    <!-- <c-lwc_pay_filterdropdown data-id="statusDropdownModal" 
+                                        values={statusdropdownlist} 
+                                        selectedvalues={selectedstatuses} 
+                                        helptextdropdown={label.Show_More} 
+                                        issimpledropdown={isSimpleDropdown}
+                                        label={label.status} 
+                                        isdisabled={isDisabledDropdown}  
+                                        valuesplaceholder="Status" 
+                                        cleardropdown={clearstatusdropdown}
+                                        errortext="">
+                                    </c-lwc_pay_filterdropdown> -->
+                                    <c-lwc_b2b_filter-button-dropdown data-id="filter-status" 
+                                        showdropdown={showdropdown}
+                                        label= 'Status' 
+                                        name="status" 
+                                        filterlist={statusfilter} 
+                                        selectedfilters={selectedcurrencies} 
+                                        cleardropdown={resetSearch}
+                                        onsavefilters={handleFilter}>
+                                    </c-lwc_b2b_filter-button-dropdown>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="col-right">                                           
+                                    <!-- <c-lwc_pay_filterdropdown data-id="methodDropdownModal" 
+                                        values={paymentmethoddropdownlist} 
+                                        selectedvalue={selectedmethod} 
+                                        helptextdropdown={label.Show_More} 
+                                        issimpledropdown={isSimpleDropdownTrue} 
+                                        label={label.PAY_PaymentType} 
+                                        isdisabled={isDisabledDropdown} 
+                                        valuesplaceholder="Direction" 
+                                        cleardropdown={clearmethoddropdown}
+                                        errortext="">                          
+                                    </c-lwc_pay_filterdropdown> -->
+                                    <c-lwc_b2b_filter-button-dropdown data-id="filter-side" 
+                                        showdropdown={showdropdown}
+                                        label= 'Direction' 
+                                        name="direction" 
+                                        filterlist={sidefilter} 
+                                        selectedfilters={selectedcurrencies} 
+                                        cleardropdown={resetSearch}
+                                        onsavefilters={handleFilter}>
+                                    </c-lwc_b2b_filter-button-dropdown>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="slds-row"></div>
+
+                    </div>
+
+                    <!-- seccion2 -->
+                    <div class="seccion2">
+                        <h3>Amount</h3> 
+                        <div class="slds-row">
+                            <h3>Amount</h3>
+                            <div class="slds-col">
+                                <div class="col-left">
+                                    <lightning-input value="From"></lightning-input>
+                                </div>
+                            </div>
+                            <div > - </div>
+                            <div class="slds-col">
+                                <div class="col-right">                                           
+                                    <lightning-input  value="To"></lightning-input> <!--class="field" -->
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="slds-row">
+
+                            <div class="slds-col">
+                                <div class="col-left">
+                                    <!-- <c-lwc_pay_filterdropdown data-id="statusDropdownModal" 
+                                        values={statusdropdownlist} 
+                                        selectedvalues={selectedstatuses} 
+                                        helptextdropdown={label.Show_More} 
+                                        issimpledropdown={isSimpleDropdown}
+                                        label={label.status} 
+                                        isdisabled={isDisabledDropdown}  
+                                        valuesplaceholder="Currency" 
+                                        cleardropdown={clearstatusdropdown}
+                                        errortext="">
+                                    </c-lwc_pay_filterdropdown> -->
+                                    <c-lwc_b2b_filter-button-dropdown data-id="filter-currencypair" 
+                                        showdropdown={showdropdown}
+                                        label= 'Currency Pair' 
+                                        name="currencypair" 
+                                        filterlist={currencypairfilter} 
+                                        selectedfilters={selectedcurrencies} 
+                                        cleardropdown={resetSearch}
+                                        onsavefilters={handleFilter}>
+                                    </c-lwc_b2b_filter-button-dropdown>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="col-right">                                           
+                                    
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- seccion3 -->
+                    <div class="seccion2">
+                        <h3>Rate</h3> 
+                        <div class="slds-row">
+
+                            <div class="slds-col">
+                               <div class="slds-row">
+
+                                    <div class="slds-col">
+                                        <div class="col-left">
+                                            <lightning-input value="From"></lightning-input>
+                                        </div>
+                                    </div>
+                                    <div class="slds-col">
+                                        <div class="col-right">                                           
+                                            <lightning-input value="To"></lightning-input>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- seccion4 -->
+                    <div class="seccion2">
+                        <h3>Settle period</h3> 
+                        <div class="slds-row">
+                            <c-lwc_calendar
+                                placeholderto={label.to}
+                                placeholderfrom={label.from}
+                                datefrom={dateFrom}
+                                dateto={dateTo}
+                                helptext="dd/MM/yyyy" 
+                                helptextfrom="dd/MM/yyyy" 
+                                helptextto="dd/MM/yyyy" 
+                                validity={datesValidity}
+                                ondatechangefrom={changedatefromhandler}
+                                ondatechangeto={changedatetohandler}>
+                            </c-lwc_calendar>
+                        </div>
+
+                    </div>
+
+
+                    <div class="slds-modal__footer"> 
+                        <div class="modal-footer-buttons">
+                            <button class="slds-button primary button_small button_full" onclick={applyFilterModal}>{label.apply}</button> 
+                            <button class="slds-button secondary button_small button_full" onclick={clearAll}>{label.clearAll}</button>         
+                        </div> 
+                    </div>     
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

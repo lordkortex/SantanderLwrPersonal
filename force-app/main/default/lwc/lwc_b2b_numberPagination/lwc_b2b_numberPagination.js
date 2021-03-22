@@ -1,15 +1,20 @@
-import {LightningElement,api,track} from 'lwc';
+import {LightningElement,api} from 'lwc';
 
 
 export default class lwc_b2b_numberPagination extends LightningElement{
 
     @api number = ''; //Page number displayed
-    @api track = ''; //Number of the currently displayed page
     @api currentpage;
 
-	handleSelectPage(event) {
+	handleSelectPage() {
 		var pagination = this.number;
-		this.currentpage = pagination;
+        this.currentpage = pagination;
+        const handleselectpage = new CustomEvent('handleselectpage',{
+            detail : {
+                currentpage: this.currentpage
+            }
+        })
+        this.dispatchEvent(handleselectpage);
     }
 
     get classPagination(){

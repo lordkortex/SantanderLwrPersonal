@@ -19,10 +19,17 @@ global with sharing class WRAPPER_AccountList {
         @AuraEnabled 
 		global String townName {get;set;}
 		@AuraEnabled
-		global String country {get;set;}
+        global String country {get;set;}
+        @AuraEnabled
+        global String floor {get;set;}
+        @AuraEnabled
+        global String state {get;set;}
+        @AuraEnabled
+        global String province {get;set;}
+        @AuraEnabled
+        global String addressAddition {get;set;}
 		global Address () {}  
 	}
-    
 
      
     global with sharing class LastestTransaction {

@@ -37,7 +37,7 @@
                         <c-lwc_b2b_button 
                             label={label.B2B_Button_SaveForLater} 
                             icon="icon-time" 
-                            click={handleShowSaveLater}>
+                            onclickbutton={handleShowSaveLater}>
                         </c-lwc_b2b_button>
                     </template>
                     <!-- ******** ACTUALIZACION DESPLIEGE 25-02-2021 FIN ******** -->
@@ -51,8 +51,8 @@
                 </div>                    
             </div>
             <div class="row">
-                <c-lwc_b2b_progress-bar>
-                    steps={steps}
+                <c-lwc_b2b_progress-bar
+                    steps={steps}>
                 </c-lwc_b2b_progress-bar>
             </div>
         </header>
@@ -68,10 +68,10 @@
        <c-cmp-pay-modal-remove 
             onsaveaction={handleSavePaymentForLater} 
             oncloseaction={handleCloseSaveForLater} 
-            headingmsg={label.B2B_SaveLaterQuestion} 
-            contentmsg={label.B2B_SaveLaterDescription} 
-            primarybtn={label.PAY_SaveForLater} 
-            secondarybtn={label.cancel}>
+            heading-msg={label.B2B_SaveLaterQuestion} 
+            content-msg={label.B2B_SaveLaterDescription} 
+            primary-btn={label.PAY_SaveForLater} 
+            secondary-btn={label.cancel}>
         </c-cmp-pay-modal-remove>
     </template> 
     <!-- ******** ACTUALIZACION DESPLIEGE 25-02-2021 FIN ******** -->

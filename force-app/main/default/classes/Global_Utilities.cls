@@ -914,4 +914,30 @@ History
             
         return response;
     }
+
+    /*----------------------------------------------------------------------------------
+Author:         R. Cervino
+Company:        Deloitte
+Description:   	Receives a country ISO Code and returns its preferred account type.
+History
+<Date>			<Author>		<Description>
+01/03/2021		R. Cervino    Initial version
+----------------------------------------------------------------------------------*/   
+public static String getCountryPreferredAccountType(String ISOCode){
+    String str = '';
+    try {
+        List<Country__mdt> countryList = [SELECT COU_PCK_preferreAccountType__c FROM Country__mdt WHERE COU_PCK_ISO_Code2__c =: ISOCode LIMIT 1];
+        if(!countryList.isEmpty()){
+            str = countryList[0].COU_PCK_preferreAccountType__c;
+        }  
+        
+    }catch(Exception e){
+        System.debug('Exception type caught: ' + e.getTypeName());    
+        System.debug('Message: ' + e.getMessage());    
+        System.debug('Cause: ' + e.getCause());    // returns null
+        System.debug('Line number: ' + e.getLineNumber());    
+        System.debug('Stack trace: ' + e.getStackTraceString());   
+    }
+    return str;
+}
 }

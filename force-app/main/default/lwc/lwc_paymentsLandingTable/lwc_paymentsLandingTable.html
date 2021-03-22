@@ -139,7 +139,8 @@
                                        <div key={item.key}>
                                             <c-lwc_b2b_select-pagination-dropdown 
                                                 paginationselection={selectedValue} 
-                                                item={item}>
+                                                item={item}
+                                                ondropdownvalue={onDropdownValue}>
                                             </c-lwc_b2b_select-pagination-dropdown>
                                         </div>
                                     </template>
@@ -158,18 +159,19 @@
                     </div> 
                     <template if:true={selectedValueLEpaymentsNumber}>
                         <template if:true={isNotFirstPage}>
-                            <a class="button-page " data-title-left="Prev page" onclick={handlePreviousPage}><span class="icon-arrowLeft_big"></span> {label.B2B_PREV}</a> 
+                            <a class="button-page " data-title-left="Prev page" onclick={handlePreviousPage}><span class="icon-arrowLeft_big"></span> {label.B2B_PREV} </a> 
                         </template>
-                        <template for:each={pagesNumbers} for:item="number" for:index="key">
-                            <div key={item.key}>
+                        <template for:each={pagesnumbers} for:item="number" for:index="key">
+                            <div key={number.key}>
                                 <c-lwc_b2b_number-pagination 
                                     number={number} 
-                                    currentpage={currentpage} >
+                                    currentpage={currentpage}
+                                    onhandleselectpage={onHandleSelectPage} >
                                 </c-lwc_b2b_number-pagination>
                             </div>
                         </template>
                         <template if:true={isNotLastPage}>
-                            <a class="button-page" data-title-left="Next page" onclick={handleNextPage}>{label.B2B_NEXT} <span class="icon-arrowRight_big"></span></a> 
+                            <a class="button-page" data-title-left="Next page" onclick={handleNextPage}> {label.B2B_NEXT} <span class="icon-arrowRight_big"></span></a> 
                         </template>
                     </template>
                 </div>

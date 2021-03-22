@@ -1,7 +1,7 @@
 <template>
-    <div class="searchFiltersAccounts">
+    <div class="searchFiltersAccounts ">
         <div class="slds-grid">
-            <div class="searchFilters">
+            <div class="searchFilters search">
                 <!-- Añadir la clase "error" en el siguiente div para mostrar el mensaje errorText -->
                 <div class="slds-form-element search">
                     <div class="slds-form-element__control slds-input-has-icon">
@@ -23,7 +23,7 @@
                     </div>
                 </div>
                 <!-- Mensaje de error oculto por defecto -->
-            <div class="errorText">Error! Incorrect user input format.</div>
+                <div class="errorText">Error! Incorrect user input format.</div>
             </div>
             <div class="slds-form-element">
                 <label class="slds-form-element__label">{Label.filterBy}</label>
@@ -35,7 +35,7 @@
                         name="country"    
                         filterlist={countries}  
                         selectedfilters={countriesSelected} 
-                        cleardropdown={resetSearch}
+                        cleardropdown={resetSearch}                        
                         onsavefilters={handleFilter}>
                 </c-lwc_b2b_filter-button-dropdown>
                     <!--PILL 2 COMBOBOX -->
@@ -45,9 +45,9 @@
                         name="corporates" 
                         filterlist={corporates} 
                         selectedfilters={corporatesSelected} 
-                        cleardropdown={resetSearch}
+                        cleardropdown={resetSearch}                        
                         onsavefilters={handleFilter}>
-                    </c-lwc_b2b_filter-button-dropdown>-->
+                    </c-lwc_b2b_filter-button-dropdown>
                     <!--PILL 3 COMBOBOX -->
                     <c-lwc_b2b_filter-button-dropdown 
                         data-id="filter" 
@@ -55,7 +55,7 @@
                         name="currency"   
                         filterlist={currencies} 
                         selectedfilters={currenciesSelected} 
-                        cleardropdown={resetSearch}
+                        cleardropdown={resetSearch}                        
                         onsavefilters={handleFilter}>
                     </c-lwc_b2b_filter-button-dropdown>
                     <!--PILL 4 COMBOBOX -->
@@ -64,7 +64,7 @@
                         numberformat={numberFormat} 
                         minimumbalance={minimumBalance} 
                         maximumbalance={maximumBalance} 
-                        clearbalances={resetSearch}
+                        clearbalances={resetSearch}                        
                         onsavefilters={handleFilter}
                     ></c-lwc_b2b_filter-button-balances>
                 </div>

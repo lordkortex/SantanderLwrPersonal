@@ -23,7 +23,7 @@ export default class lwc_paymentsLandingHeader extends LightningElement {
     @api singlenumrecords; //"Number of records in Single tab" 
     @api multiplenumrecords; //"Number of records in Multiple tab" 
     @api issingletabselected;//true //"Attribute which detemines which tab is selected" 
-    @api showmethodmodal;//false //"Controls whether the Payment Methods modal is open or not" 
+    //@api showmethodmodal;//false //"Controls whether the Payment Methods modal is open or not" 
 
 
     connectedCallback(){
@@ -33,7 +33,7 @@ export default class lwc_paymentsLandingHeader extends LightningElement {
     openMethodModal(){   
         //page name body class: comm-page-custom-landing-payments
         //this.template.querySelector(".comm-page-custom-landing-payments").style.overflow = 'hidden';
-        this.showmethodmodal= true;
+        //this.showmethodmodal= true;
         const compEvent = new CustomEvent('opennewpayment');
         this.dispatchEvent(compEvent);
     }

@@ -40,6 +40,38 @@ public class CNT_Payments {
         }
         return currencyList;
     }
+
+    @AuraEnabled
+    public static List<WRAPPER_PaymentList.WRAPPER_Country> getIipBeneficicaryCountries(String sourceAccountCountry){
+        String countryToExclude = '';
+        if (String.isNotBlank(sourceAccountCountry)) {
+            countryToExclude = sourceAccountCountry; 
+        }
+        List<WRAPPER_PaymentList.WRAPPER_Country> countryList = new List<WRAPPER_PaymentList.WRAPPER_Country>();  
+        try{
+            Boolean isIipBeneficiary = true;
+            Map<String, String> res = new Map<String, String>();            
+            List<Country__mdt> countries = [SELECT toLabel(COU_PCK_ISO_Code2__c), toLabel(COU_PCK_Name__c) FROM Country__mdt WHERE PAY_CHK_IIP_Beneficiary__c =: isIipBeneficiary];
+            if(!countries.isEmpty()){
+                for(Country__mdt i : countries){
+                    res.put(i.COU_PCK_ISO_Code2__c, i.COU_PCK_Name__c);
+                }
+            }
+            for(String key: res.keySet()){
+                if (key != countryToExclude){
+                    WRAPPER_PaymentList.WRAPPER_Country item = new WRAPPER_PaymentList.WRAPPER_Country();
+                    item.countryName = key;
+                    item.parsedCountryName = res.get(key);
+                    countryList.add(item);
+                }
+            }
+        }catch(Exception e){
+            System.debug('CNT_Payments.getIipBeneficicaryCountries: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            return countryList;
+        }
+        return countryList;
+    }
+    
     
     
     

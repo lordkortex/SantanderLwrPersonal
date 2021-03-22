@@ -1,4 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
+
 //Labels
 import Loading from '@salesforce/label/c.Loading';
 import PAY_UtilityBar from '@salesforce/label/c.PAY_UtilityBar';
@@ -16,6 +17,13 @@ import PAY_ClearSelection from '@salesforce/label/c.PAY_ClearSelection';
 import ERROR_NOT_RETRIEVED from '@salesforce/label/c.ERROR_NOT_RETRIEVED';
 import B2B_Error_Problem_Loading from '@salesforce/label/c.B2B_Error_Problem_Loading';
 import B2B_Error_Check_Connection from '@salesforce/label/c.B2B_Error_Check_Connection';
+import B2B_CancelPayment from '@salesforce/label/c.B2B_CancelPayment';
+import B2B_CancelPayment_YES from '@salesforce/label/c.B2B_CancelPayment_YES';
+import B2B_CancelPayment_NO from '@salesforce/label/c.B2B_CancelPayment_NO';
+import PAY_DiscardDate1 from '@salesforce/label/c.PAY_DiscardDate1';
+import Int from '@salesforce/label/c.Int';
+import PAY_DiscardDate2 from '@salesforce/label/c.PAY_DiscardDate2';
+import No from '@salesforce/label/c.No';
 
 //Apex class
 import getAccountDataApex from '@salesforce/apex/CNT_PaymentsLandingUtilityBar.getAccountData';
@@ -46,7 +54,14 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
         PAY_ClearSelection,
         ERROR_NOT_RETRIEVED,
         B2B_Error_Problem_Loading,
-        B2B_Error_Check_Connection
+        B2B_Error_Check_Connection,
+        B2B_CancelPayment,
+        B2B_CancelPayment_YES,
+        B2B_CancelPayment_NO,
+        PAY_DiscardDate1,
+        Int,
+        PAY_DiscardDate2,
+        No
     }
 
     showsubmenu = false;    //Controls is the submenu is open or closed
@@ -75,6 +90,7 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
     @track fromUtilityBar = false;
     @track fromDetail = false;
     @track onwardPage = "landing-payments";
+    @track convertToUserTimezone = true;
 
     get getActionEdit(){
         return this.actions.edit;
@@ -132,7 +148,7 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
     }
 
     getAccountData () {
-        return new Promise((resolve, reject) =>{
+        return new Promise( function(resolve, reject) {
             getAccountDataApex()
             .then((value) => {
                 var accountData = {};
@@ -160,15 +176,10 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                 resolve('La ejecucion ha sido correcta.');
             })
             .catch((error) => {
-                var errors = error;
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log('Error message: ' + errors[0].message);
-                    }
-                }
+                console.log('### lwc_paymentsLandingUtilityBar ### getAccountData() ::: Catched Error: ' + JSON.stringify(error));
                 reject(this.label.ERROR_NOT_RETRIEVED);
             });
-        });  
+        }.bind(this));  
     }
 
     showSubmenu () {
@@ -217,13 +228,11 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                         return promise_aux;
                     }                    
                 }
-               
             }
-        	
         }).then((value) => { 
             return this.goToEditPayment();
         }).catch((error) => {
-            console.log('Error edit: ' + error);
+            console.log('### lwc_paymentsLandingUtilityBar ### edit() ::: Catched Error: ' + JSON.stringify(error));
         }).finally(() => {
             this.spinner = false;
         });
@@ -252,14 +261,14 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
         //************************************************************************************* */
         //************************************************************************************* */
         /*TO-DO
-        component.set('v.spinner', true);
-        helper.getPaymentDetails(component, event, helper)  
+        this.spinner', true);
+        this.getPaymentDetails()  
         .then($A.getCallback(function (value) { 
-            return helper.goToReusePayment(component, event, helper);               
+            return this.goToReusePayment();               
         }), this).catch(function (error) {
             console.log('error');
         }).finally($A.getCallback(function() {
-            component.set('v.spinner', false);
+            this.spinner', false);
         }));
         */
         
@@ -270,9 +279,9 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
     }
 
     authorize () {
-        //component.set('v.spinner', true);
+        //this.spinner', true);
         this.spinner = true;
-        //helper.getPaymentDetails(component, event, helper)
+        //this.getPaymentDetails()
         this.getPaymentDetails()
         .then((value) => {
             let signature = this.signatoryStatus;
@@ -332,9 +341,9 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                     }
                     return this.goTo(page, url);
                 }).catch((error) => {
-                    console.log(error);
+                    console.log('### lwc_paymentsLandingUtilityBar ### authorize().reloadFX() ::: Catched Error: ' + JSON.stringify(error));
                 }).finally(()=> {
-                    component.set('v.spinner', false);
+                    this.spinner = false;
                 });
             } else {
                 var page = 'authorizationfinal'; 
@@ -352,7 +361,7 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                 return this.goTo(page, url);
             }
         }).catch((error) => {
-            console.log(error);
+            console.log('### lwc_paymentsLandingUtilityBar ### authorize() ::: Catched Error: ' + JSON.stringify(error));
             this.spinner = false;
         }).finally(() => {
         });
@@ -390,7 +399,7 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
     }
 
     getPaymentDetails () {
-        return new Promise((resolve, reject) => {
+        return new Promise( function(resolve, reject) {
             var paymentId = this.paymentdetails.paymentId;
             //var action = component.get('c.getPaymentDetail');
             getPaymentDetail ({
@@ -407,22 +416,15 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                     }
             })
             .catch(error => {
-                var errors = error;
-                    if (errors) {
-                        if (errors[0] && errors[0].message) {
-                            console.log('Error message: ' + errors[0].message);
-                        }
-                    } else {
-                        console.log('problem getting list of payments msg2');
-                    }
-                    this.showToastMode(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
-					reject(this.label.ERROR_NOT_RETRIEVED);
+                console.log('### lwc_paymentsLandingUtilityBar ### getPaymentDetails() ::: Catched Error: ' + JSON.stringify(error));
+                this.showToastMode(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
+                reject(this.label.ERROR_NOT_RETRIEVED);
             });
-        });
+        }.bind(this));
     }
 
     handleDiscardPayment () {
-        return new Promise((resolve, reject) => {
+        return new Promise( function(resolve, reject) {
             this.action = 'Discard';
             // var action = component.get('c.sendToService');
             // action.setParams({ 
@@ -445,42 +447,51 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                 }
             })
             .catch(error => {
-                var errors = response.getError();
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log('Error message: ' + errors[0].message);
-                    }
-                } else {
-                    console.log('Unknown error');
-                }
+                console.log('### lwc_paymentsLandingUtilityBar ### handleDiscardPayment() ::: Catched Error: ' + JSON.stringify(error));
                 this.showToastMode(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
                 reject('ko');
             // } else {
             //     console.log('Another error');
-            //     helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
+            //     this.showToastMode(, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
             //     reject('ko');
                 
             });
-        });
+        }.bind(this));
     }
 
     showToastMode (title, body, noReload, mode) {
-        //var errorToast = component.find('errorToast');
         var errorToast = this.template.querySelector('[data-id="errorToast"]');
-        //if (!$A.util.isEmpty(errorToast)) {
-        if (errorToast != undefined) {
+        var myEvent = {
+            detail: {
+                action: false, 
+                static: false, 
+                notificationTitle: title,
+                bodyText: body, 
+                functionTypeText: 'Error', 
+                functionTypeClass: 'warning', 
+                functionTypeClassIcon: 'warning', 
+                noReload: noReload,
+                landing: ''
+            }
+        }
+        if (errorToast) {
             if (mode == 'error') {
-                errorToast.openToast(false, false, title,  body, 'Error', 'warning', 'warning', noReload);
+                errorToast.openToast(myEvent);
             }
             if (mode =='success') {
-                //errorToast.openToast(true, false, title,  body,  'Success', 'success', 'success', noReload);
-                errorToast.openToast(true, false, title,  body,  'Success', 'success', 'success', false, false, 'goToPaymentDetail');
+                myEvent.detail.action = true;
+                myEvent.detail.functionTypeText = 'Success', 
+                myEvent.detail.functionTypeClass = 'success', 
+                myEvent.detail.functionTypeClassIcon = 'success', 
+                myEvent.detail.noReload = false,
+                // myEvent.detail.???: 'goToPaymentDetail'
+                errorToast.openToast(myEvent);
             }
         }
     }
 
     updateStatusEditPayment () {
-        return new Promise((resolve, reject) => {
+        return new Promise( function(resolve, reject) {
             
             this.action = 'Cancel';
             var payment = this.paymentdetails;
@@ -504,22 +515,14 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                 }
             })
             .catch((error) => {
-                var errors = error;
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log('Error message: ' + errors[0].message);
-                    }
-                } else {
-                    console.log('Unknown error');
-                }
+                console.log('### lwc_paymentsLandingUtilityBar ### updateStatusEditPayment() ::: Catched Error: ' + JSON.stringify(error));
                 this.showToastMode(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
                 reject('ko');
-                console.log('Another error');
                 ///???????????????????????? 
-                //helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
+                //this.showToastMode(, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
                 //reject('ko');
             })
-        });
+        }.bind(this));
     }
 
     showREDOModal () {
@@ -527,7 +530,7 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
     }
 
     reverseLimits () {
-        return new Promise( (resolve, reject) =>{
+        return new Promise( function(resolve, reject) {
             resolve('ok');
             ////////////////////////////////////////////////////////////////
             // EL SIGUIENTE CODIGO ESTA COMENTADO EN EL ENTORNO DE MERGE 
@@ -563,7 +566,7 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                 }
             });       
             $A.enqueueAction(action); */
-        });
+        }.bind(this));
     }
 
     goToEditPayment () {
@@ -581,7 +584,7 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
             }
             this.goTo(page, url);
         } catch (e) {
-            console.log(e);
+            console.log('### lwc_paymentsLandingUtilityBar ### goToEditPayment() ::: Catched Error: ' + JSON.stringify(error));
         }
     }
 
@@ -627,15 +630,15 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                 });
             })
             .catch((error) => {
-                console.log(error);
+                console.log('### lwc_paymentsLandingUtilityBar ### encrypt().encryptData() ::: Catched Error: ' + JSON.stringify(error));
             });
         } catch (e) { 
-            console.log(e);
+            console.log('### lwc_paymentsLandingUtilityBar ### encrypt() ::: Catched Error: ' + JSON.stringify(error));
         }  
     }
 
     reloadFX(feesBoolean) {
-        return new Promise((resolve, reject) => {
+        return new Promise( function(resolve, reject) {
             var payment = this.paymentdetails;
             //let feesAmount = ($A.util.isEmpty(payment.fees) ? '' : payment.fees);
             let feesAmount = ((!payment.fees) ? '' : payment.fees);
@@ -706,16 +709,17 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                     
                 })
                 .catch((error) => {
+                    console.log('### lwc_paymentsLandingUtilityBar ### reloadFX() ::: Catched Error: ' + JSON.stringify(error));
                     this.showToastMode(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
                     reject('ko');
                 });
                 
             }
-        });  
+        }.bind(this));  
     }
 
     checkAccounts () {
-        return new Promise((resolve, reject) => {
+        return new Promise( function(resolve, reject) {
             let payment = this.paymentdetails;
             let amount = 0;
             if (!payment.amount) {
@@ -763,17 +767,11 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
             })
             .catch((error) => {
                 let errors = error;
-                    if (errors) {
-                        if (errors[0] && errors[0].message) {
-                            console.log('Error message: ' + errors[0].message);
-                        }
-                    } else {
-                        console.log('ko');
-                    }
-                    this.showToastMode(errorProblemLoading, errorCheckConnection, true, 'error');
-                    reject(this.label.ERROR_NOT_RETRIEVED);
+                console.log('### lwc_paymentsLandingUtilityBar ### checkAccounts() ::: Catched Error: ' + JSON.stringify(error));
+                this.showToastMode(errorProblemLoading, errorCheckConnection, true, 'error');
+                reject(this.label.ERROR_NOT_RETRIEVED);
             });
-        });
+        }.bind(this));
     }
 
     getCurrentDateTime () {
@@ -808,12 +806,14 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
         this.showCancelModal = false;
         var cancel = event.getParam('cancelSelectedPayment');
         if (cancel) {
-            component.set('v.spinner', true);
+            this.spinner = true;
             this.reverseLimits(event).then((value) =>{
                 return this.cancelSelectedPayment();
-            }).catch((error) =>{
-                console.log('Error handleCancelSelectedPayment: ' + error);
-            }).finally(() => {
+            })
+            .catch((error) =>{
+                console.log('### lwc_paymentsLandingUtilityBar ### handleCancelSelectedPayment() ::: Catched Error: ' + JSON.stringify(error));
+            })
+            .finally(() => {
                 this.spinner = false;
                 //Pdte de cambiar la redirección
                 //$A.get('e.force:refreshView').fire();
@@ -822,16 +822,10 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
     }
 
     cancelSelectedPayment () {
-        return new Promise((resolve, reject) => {
+        return new Promise( function(resolve, reject) {
             this.action = Cancel;
             var payment = this.paymentdetails;
-            var action = component.get('c.sendToService');
-            // action.setParams({ 
-            //     'paymentId': payment.paymentId,
-            //     'status': '998',
-            //     'reason': '003'
-            // });
-            validateAccount({
+            sendToService({
                 paymentId: payment.paymentId,
                 status: '998',
                 reason: '003'
@@ -851,36 +845,23 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                 }
             })
             .catch((error) =>{
-                var errors = error;
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log('Error message: ' + errors[0].message);
-                    }
-                } else {
-                    console.log('Unknown error');
-                }
+                console.log('### lwc_paymentsLandingUtilityBar ### cancelSelectedPayment() ::: Catched Error: ' + JSON.stringify(error));
                 this.showToastMode(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true, 'error');
                 reject('ko');
-                // } else {
-                //     console.log('Another error');
-                //     helper.showToastMode(component, event, helper, $A.get('$Label.c.B2B_Error_Problem_Loading'), $A.get('$Label.c.B2B_Error_Check_Connection'), true, 'error');
-                //     reject('ko');
-                // }
-
             });
-        });
+        }.bind(this));
     }
     
     goToPaymentDetail (event){
         var payment =  this.paymentdetails;
         var paymentID = payment.paymentId;
-        var url =  "c__currentUser="+JSON.stringify(component.get("v.currentUser")) +"&c__paymentID="+paymentID;
+        var url =  "c__currentUser="+JSON.stringify(this.currentUser)+"&c__paymentID="+paymentID;
         var page = 'landing-payment-details';
-        helper.goTo(event, page, url);
+        this.goTo(event, page, url);
     }
 
     getUserData () {
-        return new Promise((resolve, reject) => {
+        return new Promise( function(resolve, reject) {
             //var action = component.get('c.getUserData');
             getUserData()
             .then((value) => {
@@ -904,17 +885,143 @@ export default class Lwc_paymentsLandingUtilityBar extends LightningElement {
                 }
                 this.userData = userData;
                 resolve('La ejecucion ha sido correcta.'); 
-
             })
             .catch((error) => {
-                var errors = error;
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log('Error message: ' + errors[0].message);
-                    }
-                }
+                console.log('### lwc_paymentsLandingUtilityBar ### getUserData() ::: Catched Error: ' + JSON.stringify(error));
                 reject(this.label.ERROR_NOT_RETRIEVED);
             });
-        });
+        }.bind(this));
+    }
+
+    get getHeadingMsgDiscardModel(){
+        return this.label.PAY_discardPayment + ' ' + this.paymentDetails.clientReference + ' ' + this.label.Int;
+    }
+
+    get getContentMsgDiscardModel(){
+        return this.label.PAY_DiscardDate1 + ' ' + this.paymentDetails.draftDate + ' ' + this.label.PAY_DiscardDate2;
+    }
+
+    cancel() { 	
+        return new Promise((function (resolve, reject) { 	
+        this.spinner= true;  	
+        this.getPaymentDetails()
+        .then(function (value) { 	
+            return this.reverseLimits();  	
+        })
+        .then( (value) => { 	
+            return this.cancelSelectedPayment();	
+        })
+        .catch( (error) => {	
+            console.log('### lwc_paymentsLandingUtilityBar ### cancel() ::: Error discard catched: ' + JSON.stringify(error));	
+            reject ('ko');	
+        })
+        .finally( () => {	
+            this.spinner = false;	
+            resolve('OK');	
+        });	
+        }.bind(this))); 	
+    }
+
+    sendToLanding(variable, discard) {	
+        var url = '';	
+        if (variable === 'discard'){	
+            url = 'c__discard=' + discard;	
+       } else if (variable === 'cancel'){	
+            url = 'c__cancel=' + discard;	
+       }	
+        this.encrypt(url)	
+        .then((results) => {	
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: this.onwardPage
+                },
+                state: {
+                    params: results
+                }
+            });
+        });	
+    }
+
+    showSuccessToast(variable) {
+        if (variable == 'discard'){
+            const toastevent = new CustomEvent('toastevent', {
+                title : this.label.Toast_Success,
+                message:  this.label.Pay_discarted,          
+                duration:' 5000',
+                key: 'info_alt',
+                type: 'success',
+                mode: 'pester'
+            });            
+            this.dispatchEvent(toastevent);
+        } else if (variable == 'save'){
+            const toastevent = new CustomEvent('toastevent', {
+                title: this.label.Toast_Success,
+                message:  this.label.PAY_savedSuccess,          
+                duration:' 5000',
+                key: 'info_alt',
+                type: 'success',
+                mode: 'pester'
+            });
+            this.dispatchEvent(toastevent);
+        }
+    }
+
+    //PARCHE_FLOWERPOWER JHM
+    //CÓDIGO REPLICADO A FALTA DE AVERIGUAR COMO UTILIZAR LA FUNCIÓN .FIND DE UN MÉTODO DE OTRO COMPONENTE
+    formatUserDate(response){
+        return new Promise( function(resolve, reject) {  
+            // If a date format exists for the User, make use of the given format
+            // If not, the Locale's short date format is used
+            var dateString = this.payment.draftDate;
+            var format = (response != '' && response != null) ? response : shortFormat;
+
+            if(dateString != "N/A" && dateString != undefined){
+                if(this.convertToUserTimezone){
+                    this.dateToFormat = new Date(dateString.substring(0,4), parseInt(dateString.substring(5,7)) - 1, dateString.substring(8,10), dateString.substring(11,13), dateString.substring(14,16), 0, 0 );
+                    this.dateToFormat.setMinutes(this.dateToFormat.getMinutes() - this.dateToFormat.getTimezoneOffset());
+                    this.getDateStringBasedOnTimezone(this.dateToFormat);
+                    if(this.formattedDate != "Invalid Date"){
+                        switch(format){
+                            case "dd/MM/yyyy" :
+                                this.formattedDate = dateString.substring(8,10) + "/" + dateString.substring(5,7) + "/" + dateString.substring(0,4);
+                                break;
+                            case "MM/dd/yyyy" :
+                                this.formattedDate = dateString.substring(5,7) + "/" + dateString.substring(8,10) + "/" + dateString.substring(0,4);
+                                break;
+                        }
+                        this.payment.draftDate = this.formattedDate;
+                    }else {
+                        this.payment.draftDate = dateString;
+                    }
+                    
+                } else {
+                    this.formattedDate = "";
+                    switch(format){
+                        case "dd/MM/yyyy" :
+                            this.formattedDate = dateString.substring(8,10) + "/" + dateString.substring(5,7) + "/" + dateString.substring(0,4);
+                            break;
+                        case "MM/dd/yyyy" :
+                            this.formattedDate = dateString.substring(5,7) + "/" + dateString.substring(8,10) + "/" + dateString.substring(0,4);
+                            break;
+                    }
+                    this.payment.draftDate = this.formattedDate;
+                } 
+            } else {
+                this.payment.draftDate = "N/A";
+            }
+            //console.log('showdisplayeddate::::: ', this.showdisplayeddate);
+            resolve('ok');
+        }.bind(this)); 
+
+    }
+
+
+    getDateStringBasedOnTimezone(dateToFormat){
+        try{
+            this.formattedDate = dateToFormat.toLocaleString({timeZone: timezone});		
+        }catch(e){
+            console.log(e);
+        }
     }
 }

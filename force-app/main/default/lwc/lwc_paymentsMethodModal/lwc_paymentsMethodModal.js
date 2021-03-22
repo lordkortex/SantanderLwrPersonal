@@ -24,10 +24,10 @@ export default class Lwc_paymentsMethodModal extends LightningElement {
 
     @api userdata = {};
     @track transferTypeParams = {};
-    @api _showmethodmodal = false;        //Controls whether the Payment Methods modal is open or not
+    //@api showmethodmodal;// = false;        //Controls whether the Payment Methods modal is open or not
     //_showmethodmodal;
-    countrydropdownlist;
-    @api _countrydropdownlist;       //List of countries received ?????? Quitar tras pruebas
+    _countrydropdownlist;
+    @api countrydropdownlist;       //List of countries received ?????? Quitar tras pruebas
     @track countryDropdownListSorted = [];  //List of countries that are displayed in the dropdown"
     @track toastTitle = this.label.PAY_workingOnNewService;
     @track toastText  = this.label.PAY_availableNearFuture;
@@ -38,15 +38,17 @@ export default class Lwc_paymentsMethodModal extends LightningElement {
     @track falseValue = false;
     @track trueValue = true;
 
+    /*
     get showmethodmodal(){
         return this._showmethodmodal;
     }
 
     set showmethodmodal(showmethodmodal){
         if (showmethodmodal){
-            this._showmethodmodal = this.showmethodmodal;
+            this._showmethodmodal = showmethodmodal;
         }
     }
+    */
 
     get showtoast(){
         return this._showtoast;
@@ -54,11 +56,10 @@ export default class Lwc_paymentsMethodModal extends LightningElement {
 
     set showtoast(showtoast){
         if (showtoast){
-            this._showtoast = this.showtoast;
+            this._showtoast = showtoast;
         }
     }
 
-    @api
     get countrydropdownlist(){
         return this._countrydropdownlist;
     }
@@ -90,7 +91,7 @@ export default class Lwc_paymentsMethodModal extends LightningElement {
 
     closeMethodModal () {
         //this.template.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';
-        this._showmethodmodal = false;
+        //this._showmethodmodal = false;
         const showmodalevent = new CustomEvent('closemodal');
         this.dispatchEvent(showmodalevent);  
     }

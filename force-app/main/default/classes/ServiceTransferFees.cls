@@ -19,15 +19,16 @@ global with sharing class ServiceTransferFees {
     <Date>          <Author>            <Description>
     30/11/2020      Shahad Naji          Initial version    
     ----------------------------------------------------------------------------------*/
-    global static Map<String, Object> transferFeesExecute(String paymentId, String productId, WRAPPER_B2B_Data.PaymentAmount paymentData, WRAPPER_AccountList.AccountDetails sourceAccountData, WRAPPER_AccountList.AccountDetails recipientAccountData){
+
+    global static Map<String, Object> transferFeesExecute (WRAPPER_PAY_PaymentDraft paymentDraft) {
         Map<String, Object> response =  new Map<String, Object>();
-        try{
-            String paymentId_aux = String.isNotBlank(paymentId) ? paymentId : '';
+        try {
+            String paymentId = String.isNotBlank(paymentDraft.paymentId) ? paymentDraft.paymentId : '';
             String sourceId = '';
             String sourceCodigoCorporate = '';
             String recipientCodigoCorporate = '';
             String sourceCodigoBic = '';
-            String recipientCodigoBic = '';            
+            String recipientCodigoBic = '';
             String sourceBranch = '';
             String sourceCountry = '';
             String recipientCountry = '';
@@ -35,54 +36,123 @@ global with sharing class ServiceTransferFees {
             String amountReceive = '';
             String apiConfiguration = '';
             Map<String, String> queryParameters = new Map<String, String>();
-            if(sourceAccountData != null){
-                sourceId = String.isNotBlank(sourceAccountData.displayNumber) ? sourceAccountData.displayNumber : '';
-                
-                sourceCodigoCorporate = sourceAccountData.codigoCorporate;
-                if(sourceAccountData.companyIdsList != null &&  String.isNotBlank(sourceAccountData.companyIdsList.get('LOCAL'))){
-                    sourceCodigoCorporate = sourceAccountData.companyIdsList.get('LOCAL');
+            Map<String, String> extraHeaderParameters = null;
+            if (paymentDraft.sourceAccount != null) {
+                sourceId = String.isNotBlank(paymentDraft.sourceAccount.displayNumber) ? paymentDraft.sourceAccount.displayNumber : '';
+                sourceCodigoCorporate = paymentDraft.sourceAccount.codigoCorporate;
+                if (paymentDraft.sourceAccount.companyIdsList != null &&  String.isNotBlank(paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    sourceCodigoCorporate = paymentDraft.sourceAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
-                        
-                sourceCodigoBic = String.isNotBlank(sourceAccountData.codigoBic) ? sourceAccountData.codigoBic : '';
-                sourceBranch = String.isNotBlank(sourceAccountData.branch) ? sourceAccountData.branch : '';
-                sourceCountry = String.isNotBlank(sourceAccountData.country) ? sourceAccountData.country : '';        
-                
+                sourceCodigoBic = String.isNotBlank(paymentDraft.sourceAccount.codigoBic) ? paymentDraft.sourceAccount.codigoBic : '';
+                sourceBranch = String.isNotBlank(paymentDraft.sourceAccount.branch) ? paymentDraft.sourceAccount.branch : '';
+                sourceCountry = String.isNotBlank(paymentDraft.sourceAccount.country) ? paymentDraft.sourceAccount.country : '';
             }
-            if(recipientAccountData != null){
-                recipientCurrency = String.isNotBlank(recipientAccountData.currencyCodeAvailableBalance) ? recipientAccountData.currencyCodeAvailableBalance.trim() : '';
-                recipientCountry = String.isNotBlank(recipientAccountData.country) ? recipientAccountData.country : '';
-                recipientCodigoBic = String.isNotBlank(recipientAccountData.codigoBic) ? recipientAccountData.codigoBic : '';
-                recipientCodigoCorporate = String.isNotBlank(recipientAccountData.codigoCorporate) ? recipientAccountData.codigoCorporate : '';
-                if(recipientAccountData.companyIdsList != null &&  String.isNotBlank(recipientAccountData.companyIdsList.get('LOCAL'))){
-                    recipientCodigoCorporate = recipientAccountData.companyIdsList.get('LOCAL');
+            if (paymentDraft.destinationAccount != null) {
+                recipientCurrency = String.isNotBlank(paymentDraft.destinationAccount.currencyCodeAvailableBalance) ? paymentDraft.destinationAccount.currencyCodeAvailableBalance.trim() : '';
+                recipientCountry = String.isNotBlank(paymentDraft.destinationAccount.country) ? paymentDraft.destinationAccount.country : '';
+                recipientCodigoBic = String.isNotBlank(paymentDraft.destinationAccount.codigoBic) ? paymentDraft.destinationAccount.codigoBic : '';
+                recipientCodigoCorporate = String.isNotBlank(paymentDraft.destinationAccount.codigoCorporate) ? paymentDraft.destinationAccount.codigoCorporate : '';
+                if (paymentDraft.destinationAccount.companyIdsList != null && String.isNotBlank(paymentDraft.destinationAccount.companyIdsList.get(System.Label.CNF_APIIdentifier))) {
+                    recipientCodigoCorporate = paymentDraft.destinationAccount.companyIdsList.get(System.Label.CNF_APIIdentifier);
                 }
             }
-            
-            if(paymentData != null){
-                //If the currency of the source account and the currency of receipt account is the same, amountReceive must be equal to amountSend
-                amountReceive = paymentData.amountReceive != null ? String.valueOf(paymentData.amountReceive) : String.valueOf(paymentData.amountSend);
-            }else{
+            if (paymentDraft.amountReceive != null || paymentDraft.amountSend != null) {
+                amountReceive = paymentDraft.amountReceive != null ? String.valueOf(paymentDraft.amountReceive) : String.valueOf(paymentDraft.amountSend);
+            } else {
                 amountReceive = null;
             }
-            if(String.isNotBlank(productId)){
+            if (String.isNotBlank(paymentDraft.productId)) {
                 String serviceAPILine = ServiceAPILine.getAPILine();
-                if(productId == PRODUCT_ID_001 && (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS))){         
+                if (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) {
                     apiConfiguration = API_CONFIGURATION_001;
-                    queryParameters = ServiceTransferFees.setBookToBookParameters(paymentId_aux, sourceId, sourceCodigoCorporate, recipientCodigoCorporate, sourceCodigoBic, recipientCodigoBic, sourceBranch, recipientCurrency, amountReceive, sourceCountry, recipientCountry);
-                }else if(productId == PRODUCT_ID_002 && serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)){
+                    queryParameters = ServiceTransferFees.setBookToBookParameters(paymentDraft.productId, paymentId, sourceId, sourceCodigoCorporate, recipientCodigoCorporate, sourceCodigoBic, recipientCodigoBic, sourceBranch, recipientCurrency, amountReceive, sourceCountry, recipientCountry);
+                } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
                     apiConfiguration = API_CONFIGURATION_002;
-                    queryParameters = ServiceTransferFees.setInternationalInstantPaymentParameters(paymentId_aux, sourceId, sourceCodigoCorporate, recipientCodigoCorporate, sourceCodigoBic, recipientCodigoBic, sourceBranch, recipientCurrency, amountReceive, sourceCountry, recipientCountry);  
+                    queryParameters = ServiceTransferFees.setInternationalInstantPaymentParameters(paymentDraft.productId, paymentId, sourceId, sourceCodigoCorporate, recipientCodigoCorporate, sourceCodigoBic, recipientCodigoBic, sourceBranch, recipientCurrency, amountReceive, sourceCountry, recipientCountry);
+                    Boolean xCompanySan = ServiceCustomLabels.checkCountryWithXCompanySan(sourceCountry);
+                    if (xCompanySan == true) {
+                        if (String.isNotBlank(sourceCodigoCorporate)) {
+                            extraHeaderParameters = new Map<String, String>();
+                            extraHeaderParameters.put('X-Company-San', sourceCodigoCorporate);
+                        } else {
+                            throw new CustomException('You need to inform the sourceCodigoCorporate.');
+                        }
+                    }
                 }
-            }            
+            }
             WS_TransferFees transferFees = new WS_TransferFees(apiConfiguration);
-            response = transferFees.execute(queryParameters);
-          
+            response = transferFees.execute(sourceCountry, sourceCodigoBic, queryParameters, extraHeaderParameters);
         } catch (Exception e) {
             System.debug('ServiceTransferFees.transferFeesExecute: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
             response = null;
-        } 
+        }
         return response;
     }
+
+    // global static Map<String, Object> transferFeesExecute(String paymentId, String productId, WRAPPER_B2B_Data.PaymentAmount paymentData, WRAPPER_AccountList.AccountDetails sourceAccountData, WRAPPER_AccountList.AccountDetails recipientAccountData){
+    //     Map<String, Object> response =  new Map<String, Object>();
+    //     try{
+    //         String paymentId_aux = String.isNotBlank(paymentId) ? paymentId : '';
+    //         String sourceId = '';
+    //         String sourceCodigoCorporate = '';
+    //         String recipientCodigoCorporate = '';
+    //         String sourceCodigoBic = '';
+    //         String recipientCodigoBic = '';            
+    //         String sourceBranch = '';
+    //         String sourceCountry = '';
+    //         String recipientCountry = '';
+    //         String recipientCurrency = '';
+    //         String amountReceive = '';
+    //         String apiConfiguration = '';
+    //         Map<String, String> queryParameters = new Map<String, String>();
+    //         if(sourceAccountData != null){
+    //             sourceId = String.isNotBlank(sourceAccountData.displayNumber) ? sourceAccountData.displayNumber : '';
+                
+    //             sourceCodigoCorporate = sourceAccountData.codigoCorporate;
+    //             if(sourceAccountData.companyIdsList != null &&  String.isNotBlank(sourceAccountData.companyIdsList.get('LOCAL'))){
+    //                 sourceCodigoCorporate = sourceAccountData.companyIdsList.get('LOCAL');
+    //             }
+                        
+    //             sourceCodigoBic = String.isNotBlank(sourceAccountData.codigoBic) ? sourceAccountData.codigoBic : '';
+    //             sourceBranch = String.isNotBlank(sourceAccountData.branch) ? sourceAccountData.branch : '';
+    //             sourceCountry = String.isNotBlank(sourceAccountData.country) ? sourceAccountData.country : '';        
+                
+    //         }
+    //         if(recipientAccountData != null){
+    //             recipientCurrency = String.isNotBlank(recipientAccountData.currencyCodeAvailableBalance) ? recipientAccountData.currencyCodeAvailableBalance.trim() : '';
+    //             recipientCountry = String.isNotBlank(recipientAccountData.country) ? recipientAccountData.country : '';
+    //             recipientCodigoBic = String.isNotBlank(recipientAccountData.codigoBic) ? recipientAccountData.codigoBic : '';
+    //             recipientCodigoCorporate = String.isNotBlank(recipientAccountData.codigoCorporate) ? recipientAccountData.codigoCorporate : '';
+    //             if(recipientAccountData.companyIdsList != null &&  String.isNotBlank(recipientAccountData.companyIdsList.get('LOCAL'))){
+    //                 recipientCodigoCorporate = recipientAccountData.companyIdsList.get('LOCAL');
+    //             }
+    //         }
+            
+    //         if(paymentData != null){
+    //             //If the currency of the source account and the currency of receipt account is the same, amountReceive must be equal to amountSend
+    //             amountReceive = paymentData.amountReceive != null ? String.valueOf(paymentData.amountReceive) : String.valueOf(paymentData.amountSend);
+    //         }else{
+    //             amountReceive = null;
+    //         }
+    //         if(String.isNotBlank(productId)){
+    //             String serviceAPILine = ServiceAPILine.getAPILine();
+    //             if(productId == PRODUCT_ID_001 && (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS))){         
+    //                 apiConfiguration = API_CONFIGURATION_001;
+    //                 queryParameters = ServiceTransferFees.setBookToBookParameters(paymentId_aux, sourceId, sourceCodigoCorporate, recipientCodigoCorporate, sourceCodigoBic, recipientCodigoBic, sourceBranch, recipientCurrency, amountReceive, sourceCountry, recipientCountry);
+    //             }else if(productId == PRODUCT_ID_002 && serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)){
+    //                 apiConfiguration = API_CONFIGURATION_002;
+    //                 queryParameters = ServiceTransferFees.setInternationalInstantPaymentParameters(paymentId_aux, sourceId, sourceCodigoCorporate, recipientCodigoCorporate, sourceCodigoBic, recipientCodigoBic, sourceBranch, recipientCurrency, amountReceive, sourceCountry, recipientCountry);  
+    //             }
+    //         }            
+    //         WS_TransferFees transferFees = new WS_TransferFees(apiConfiguration);
+    //         response = transferFees.execute(queryParameters);
+          
+    //     } catch (Exception e) {
+    //         System.debug('ServiceTransferFees.transferFeesExecute: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+    //         response = null;
+    //     } 
+    //     return response;
+    // }
                  /*----------------------------------------------------------------------------------
     Author:         Shahad Naji
     Company:        Deloitte
@@ -91,38 +161,72 @@ global with sharing class ServiceTransferFees {
     <Date>          <Author>            <Description>
     30/11/2020      Shahad Naji          Initial version    
     ----------------------------------------------------------------------------------*/
-    global static Map<String, String> setBookToBookParameters(String paymentId, String sourceId, String sourceCodigoCorporate, String recipientCodigoCorporate, String sourceCodigoBic, String recipientCodigoBic,String sourceBranch, String recipientCurrency, String amountReceive, String sourceCountry, String recipientCountry){
+
+    global static Map<String, String> setBookToBookParameters (String productId, String paymentId, String sourceId, String sourceCodigoCorporate, String recipientCodigoCorporate, String sourceCodigoBic, String recipientCodigoBic,String sourceBranch, String recipientCurrency, String amountReceive, String sourceCountry, String recipientCountry) {
         Map<String, String> bookToBookParemeters = new Map<String, String>();
-        bookToBookParemeters.put('product_id', PRODUCT_ID_001); 
-        bookToBookParemeters.put('operation_id', paymentId); 
+        bookToBookParemeters.put('product_id', productId);
+        bookToBookParemeters.put('operation_id', paymentId);
         bookToBookParemeters.put('agreement_type', 'Product');
         bookToBookParemeters.put('agreement_id', sourceId);
         bookToBookParemeters.put('customer_id', sourceCodigoCorporate);
         bookToBookParemeters.put('bank_id', sourceCodigoBic);
-        bookToBookParemeters.put('branch_id', sourceBranch);
+        // bookToBookParemeters.put('branch_id', sourceBranch);
         bookToBookParemeters.put('currency', recipientCurrency);
-        if(amountReceive != null){
+        if (amountReceive != null) {
             bookToBookParemeters.put('payment_amount', amountReceive);
         }
         bookToBookParemeters.put('urgency_indicator', 'Standard');
-        if(sourceCountry == recipientCountry){
+        if (sourceCountry == recipientCountry) {
             bookToBookParemeters.put('country_indicator', 'equal');
-        }else{
+        } else {
             bookToBookParemeters.put('country_indicator', 'different');
         }
-        if(sourceCodigoBic == recipientCodigoBic){
+        if (sourceCodigoBic == recipientCodigoBic) {
             bookToBookParemeters.put('entity_indicator', 'equal');
-        }else{
+        } else {
             bookToBookParemeters.put('entity_indicator', 'different');
         }
-        if (sourceCodigoCorporate == recipientCodigoCorporate) { 
+        if (sourceCodigoCorporate == recipientCodigoCorporate) {
             bookToBookParemeters.put('customer_indicator', 'equal');
         } else {
             bookToBookParemeters.put('customer_indicator', 'different');
         }
-        bookToBookParemeters.put('purpose_code', 'OTHR');   
-        return bookToBookParemeters; 
+        bookToBookParemeters.put('purpose_code', 'OTHR');
+        return bookToBookParemeters;
     }
+
+    // global static Map<String, String> setBookToBookParameters(String paymentId, String sourceId, String sourceCodigoCorporate, String recipientCodigoCorporate, String sourceCodigoBic, String recipientCodigoBic,String sourceBranch, String recipientCurrency, String amountReceive, String sourceCountry, String recipientCountry){
+    //     Map<String, String> bookToBookParemeters = new Map<String, String>();
+    //     bookToBookParemeters.put('product_id', PRODUCT_ID_001); 
+    //     bookToBookParemeters.put('operation_id', paymentId); 
+    //     bookToBookParemeters.put('agreement_type', 'Product');
+    //     bookToBookParemeters.put('agreement_id', sourceId);
+    //     bookToBookParemeters.put('customer_id', sourceCodigoCorporate);
+    //     bookToBookParemeters.put('bank_id', sourceCodigoBic);
+    //     bookToBookParemeters.put('branch_id', sourceBranch);
+    //     bookToBookParemeters.put('currency', recipientCurrency);
+    //     if(amountReceive != null){
+    //         bookToBookParemeters.put('payment_amount', amountReceive);
+    //     }
+    //     bookToBookParemeters.put('urgency_indicator', 'Standard');
+    //     if(sourceCountry == recipientCountry){
+    //         bookToBookParemeters.put('country_indicator', 'equal');
+    //     }else{
+    //         bookToBookParemeters.put('country_indicator', 'different');
+    //     }
+    //     if(sourceCodigoBic == recipientCodigoBic){
+    //         bookToBookParemeters.put('entity_indicator', 'equal');
+    //     }else{
+    //         bookToBookParemeters.put('entity_indicator', 'different');
+    //     }
+    //     if (sourceCodigoCorporate == recipientCodigoCorporate) { 
+    //         bookToBookParemeters.put('customer_indicator', 'equal');
+    //     } else {
+    //         bookToBookParemeters.put('customer_indicator', 'different');
+    //     }
+    //     bookToBookParemeters.put('purpose_code', 'OTHR');   
+    //     return bookToBookParemeters; 
+    // }
             /*----------------------------------------------------------------------------------
     Author:         Shahad Naji
     Company:        Deloitte
@@ -131,31 +235,32 @@ global with sharing class ServiceTransferFees {
     <Date>          <Author>            <Description>
     30/11/2020      Shahad Naji          Initial version    
     ----------------------------------------------------------------------------------*/
-    global static Map<String, String> setInternationalInstantPaymentParameters(String paymentId, String sourceId, String sourceCodigoCorporate, String recipientCodigoCorporate, String sourceCodigoBic, String recipientCodigoBic,String sourceBranch, String recipientCurrency, String amountReceive, String sourceCountry, String recipientCountry){
+
+    global static Map<String, String> setInternationalInstantPaymentParameters (String productId, String paymentId, String sourceId, String sourceCodigoCorporate, String recipientCodigoCorporate, String sourceCodigoBic, String recipientCodigoBic,String sourceBranch, String recipientCurrency, String amountReceive, String sourceCountry, String recipientCountry) {
         Map<String, String> iipParemeters = new Map<String, String>();
-        iipParemeters.put('product_id', PRODUCT_ID_002); 
-        iipParemeters.put('operation_id', paymentId); 
-        iipParemeters.put('agreement_type', 'Product'); 
+        iipParemeters.put('product_id', productId);
+        iipParemeters.put('operation_id', paymentId);
+        iipParemeters.put('agreement_type', 'Product');
         iipParemeters.put('agreement_id', sourceId);
         iipParemeters.put('customer_id', sourceCodigoCorporate);
         iipParemeters.put('bank_id', sourceCodigoBic);
-        iipParemeters.put('branch_id', sourceBranch);
+        // iipParemeters.put('branch_id', sourceBranch);
         iipParemeters.put('currency', recipientCurrency);
-        if(amountReceive != null){
+        if (amountReceive != null) {
             iipParemeters.put('payment_amount', amountReceive);
         }
         iipParemeters.put('urgency_indicator', 'Standard');
-        if(sourceCountry == recipientCountry){
+        if (sourceCountry == recipientCountry) {
             iipParemeters.put('country_indicator', 'equal');
-        }else{
+        } else {
             iipParemeters.put('country_indicator', 'different');
         }
-        if(sourceCodigoBic == recipientCodigoBic){
-            iipParemeters.put('entity_indicator', 'equal'); 
-        }else{
+        if (sourceCodigoBic == recipientCodigoBic) {
+            iipParemeters.put('entity_indicator', 'equal');
+        } else {
             iipParemeters.put('entity_indicator', 'different');
         }
-        if (sourceCodigoCorporate == recipientCodigoCorporate) { 
+        if (sourceCodigoCorporate == recipientCodigoCorporate) {
             iipParemeters.put('customer_indicator', 'equal');
         } else {
             iipParemeters.put('customer_indicator', 'different');
@@ -163,4 +268,37 @@ global with sharing class ServiceTransferFees {
         iipParemeters.put('purpose_code', 'OTHR');
         return iipParemeters;
     }
+
+    // global static Map<String, String> setInternationalInstantPaymentParameters(String paymentId, String sourceId, String sourceCodigoCorporate, String recipientCodigoCorporate, String sourceCodigoBic, String recipientCodigoBic,String sourceBranch, String recipientCurrency, String amountReceive, String sourceCountry, String recipientCountry){
+    //     Map<String, String> iipParemeters = new Map<String, String>();
+    //     iipParemeters.put('product_id', PRODUCT_ID_002); 
+    //     iipParemeters.put('operation_id', paymentId); 
+    //     iipParemeters.put('agreement_type', 'Product'); 
+    //     iipParemeters.put('agreement_id', sourceId);
+    //     iipParemeters.put('customer_id', sourceCodigoCorporate);
+    //     iipParemeters.put('bank_id', sourceCodigoBic);
+    //     iipParemeters.put('branch_id', sourceBranch);
+    //     iipParemeters.put('currency', recipientCurrency);
+    //     if(amountReceive != null){
+    //         iipParemeters.put('payment_amount', amountReceive);
+    //     }
+    //     iipParemeters.put('urgency_indicator', 'Standard');
+    //     if(sourceCountry == recipientCountry){
+    //         iipParemeters.put('country_indicator', 'equal');
+    //     }else{
+    //         iipParemeters.put('country_indicator', 'different');
+    //     }
+    //     if(sourceCodigoBic == recipientCodigoBic){
+    //         iipParemeters.put('entity_indicator', 'equal'); 
+    //     }else{
+    //         iipParemeters.put('entity_indicator', 'different');
+    //     }
+    //     if (sourceCodigoCorporate == recipientCodigoCorporate) { 
+    //         iipParemeters.put('customer_indicator', 'equal');
+    //     } else {
+    //         iipParemeters.put('customer_indicator', 'different');
+    //     }
+    //     iipParemeters.put('purpose_code', 'OTHR');
+    //     return iipParemeters;
+    // }
 }

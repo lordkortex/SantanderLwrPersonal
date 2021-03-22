@@ -66,7 +66,7 @@ export default class Lwc_b2b_grid_accounts extends LightningElement {
     }
 
     set accountsfiltered(accountsfiltered){
-        this._accountsfiltered = accountsfiltered;
+        this._accountsfiltered = [... accountsfiltered];
         if(accountsfiltered.length > 0){
             this.setPaginations();
         }
@@ -75,7 +75,7 @@ export default class Lwc_b2b_grid_accounts extends LightningElement {
 
     connectedCallback() {
         loadStyle(this, santanderStyle + '/style.css');
-        this.init();
+        // this.init();
     }
 
     init() {
@@ -153,11 +153,11 @@ export default class Lwc_b2b_grid_accounts extends LightningElement {
         var pagesList = [];
         var listItems = [];
         for (let i = 0; i < numberPages; i++) {
-            pagesList.push(i + 1);
+            pagesList[i] = i + 1;
         }
         for (let i = 0; i < itemsXpage; i++) {
             if (numberItems > i) {
-                listItems.push(items[i]);
+                listItems[i] = items[i];
                 lastItemPage++;
             }
         }

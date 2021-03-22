@@ -17,18 +17,7 @@ import again from '@salesforce/label/c.again';
 
 export default class Lwc_countDown extends LightningElement {
 
-    @api minutes = 0;
-    @api update = false;
-    @api expiredFX = false;
-    @api spinner = false;
-    @api FXAction;
-
-    @track evolution = '';
-    @track seconds = 0;
-    @track minutesInit = 0;
-    @track secondsInit = 0;
-
-    Label={
+    Label = {
         titleFXExpired,
         subtitleFXExpired,
         ExchangeRateLocked,
@@ -40,15 +29,18 @@ export default class Lwc_countDown extends LightningElement {
         again
     }
 
-    connectedCallback() {
-        loadStyle(this, santanderStyle + '/style.css');
-        this.minutesInit = this.minutes;
-        this.secondsInit = this.seconds;
-        this.setStartTimeOnUI();
-    }
+    @api minutes = 0;
+    @api update = false;
+    @api expiredfx = false;
+    @api spinner = false;
+
+    @track evolution = '';
+    @track seconds = 0;
+    @track minutesInit = 0;
+    @track secondsInit = 0;
 
     get expiredFXEqualsFalse(){
-        return this.expiredFX == false;
+        return this.expiredfx == false;
     }
     get spinnerEqualsTrue(){
         return this.spinner == true;
@@ -57,6 +49,12 @@ export default class Lwc_countDown extends LightningElement {
         return "slds-progress-ring__progress slds-progress-ring__progress" + this.evolution;
     }
 
+    connectedCallback() {
+        loadStyle(this, santanderStyle + '/style.css');
+        this.minutesInit = this.minutes;
+        this.secondsInit = this.seconds;
+        this.setStartTimeOnUI();
+    }
 
     setStartTimeOnUI() {
         if(this.minutes !=0 || this.seconds !=0){
@@ -66,7 +64,7 @@ export default class Lwc_countDown extends LightningElement {
         }
     }
     restart() {
-        if(this.expiredFX == false){
+        if(this.expiredfx == false){
             this.minutes = this.minutesInit;
             this.seconds = this.secondsInit;
         }
@@ -91,7 +89,7 @@ export default class Lwc_countDown extends LightningElement {
         var current = parseInt(this.minutes)*60 + parseInt(this.seconds);
         var diff =Math.floor((1-current/sum)*100);
         if(diff>=25 && diff <50){
-            this.expiredFX = false;
+            this.expiredfx = false;
 
             this.evolution = '__25';
         }
@@ -102,7 +100,7 @@ export default class Lwc_countDown extends LightningElement {
             this.evolution = '__75';
         }
         if(diff==100){
-            this.expiredFX = true;
+            this.expiredfx = true;
 
             this.evolution = '__100';
             this.showToast(Label.titleFXExpired, Label.subtitleFXExpired, true,'error');
@@ -121,5 +119,10 @@ export default class Lwc_countDown extends LightningElement {
 
             }
         }
+    }
+
+    handleFXAction(){
+        const FXActionEvent = new CustomEvent('fxaction');
+        this.dispatchEvent(FXActionEvent);
     }
 }

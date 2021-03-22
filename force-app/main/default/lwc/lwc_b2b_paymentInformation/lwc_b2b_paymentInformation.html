@@ -1,106 +1,108 @@
 <template>
-    <c-lwc_b2b_toast data-id="errorToast"></c-lwc_b2b_toast>
+    <c-lwc_b2b_toast 
+        data-id="errorToast">
+    </c-lwc_b2b_toast>
+
     <div class="paymentProcess-step4 slds-is-relative" id="step-4" tabindex="-1">
-		<div class="slds-text-heading_large">4. {label.CMP_B2B_PaymentInformation}</div>
-        <!--9814: Delete payment method card -->
-        <!--
-        <div class="slds-col card">
-            <div class="slds-text-heading_subtitle">{label.transferMethod}</div>
-            <article class="slds-card">
-                <span class="slds-badge">{label.Standard}</span>
-                <div class="slds-card__header slds-grid">
-                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                      <div class="slds-media__body title">
-                        <h2 class="slds-card__header-title">
-                            <span>{label.BookTobook}</span>
-                        </h2>
-                          <span class="subtitle">{label.Immediate}</span>
-                      </div>
-                    </header>
-                </div>
-                <div class="line"></div>
-                <div class="slds-card__body">
-                    <div class="slds-card__header-title">
-                        <span>{label.CMP_B2B_PaymentInformation_TransferBetween}</span>
-                    </div>
-                    <template if:true={isNotEmptyConvertedTransaciontFee}>
-                        <span class="subtitle">{label.estimatedFee}&nbsp;
-                            <c-lwc_display-amount 
-                                amount={amountchangedata.convertedTransactionFee} 
-                                decimalclass="number" 
-                                wholeclass="number" 
-                                currency={amountchangedata.convertedTransactionFeeCurrency}
-                                numberformat={userdata.numberFormat}>
-                            </c-lwc_display-amount>
-                        </span>
-                        <template if:false={isNotEmptyConvertedTransaciontFee}>
-                            <template if:true={isNotEmptyTransaciontFee}>
-                                <span class="subtitle">{label.estimatedFee}&nbsp;
-                                    <c-lwc_display-amount 
-                                        amount={amountchangedata.transactionFee} 
-                                        decimalclass="number" 
-                                        wholeclass="number" 
-                                        currency={amountchangedata.transactionFeeCurrency} 
-                                        numberformat={userdata.numberFormat}>
-                                    </c-lwc_display-amount>
-                                </span>
-                            </template>
-                        </template>
-                    </template>
-                </div>
-            </article>
-        </div>-->
-        <div class="slds-text-heading_subtitle">{label.paymentInformation}</div>
+        <div class="slds-text-heading_subtitle">{label.PAY_PaymentSummary_details}</div>
         <div class="slds-grid slds-wrap">
             <div class="slds-col">
-                <c-lwc_b2b_reference 
-                    value={mydata.reference} 
-                    errormsg={errorRef} 
-                    steps={steps} 
-                    ismodified={isModified} 
-                    isediting={isediting}>
-                </c-lwc_b2b_reference>
+                <template if:true={step3field.clientReference}>
+                    <c-lwc_b2b_reference 
+                        value={paymentdraft.reference} 
+                        errormsg={errorRef} 
+                        steps={steps} 
+                        ismodified={isModified} 
+                        isediting={isediting}>
+                    </c-lwc_b2b_reference>
+                </template>
             </div>
             <div class="slds-col">
-                <c-lwc_b2b_purpose data-id="dropdown" 
-                    name="purpose" 
-                    selectedvalue={mydata.purpose}
-                    errormsg={errorPurpose}
-                    showdropdown={showDropdown} 
-                    steps={steps}
-                    ismodified={isModified}
-                    isediting={isediting}
-                    onhandledropdown={handleDropdowns}>
-                </c-lwc_b2b_purpose>
-            </div> 
-        </div>    
-        <template if:true={isAccountDataFromChile}>
+                <!--<template if:true={step3field.reference}>
+                    <c-lwc_b2b_reference value="{paymentdraft.reference}" errormsg="{errorRef}" steps="steps}" ismodified="{isModified}" isediting="{isediting}" />
+                </template>-->
+                <template if:true={step3field.paymentPurpose}> <!--payment purpose-->
+                    <c-lwc_pay_filterdropdown 
+                        data-id="purposeDropdown" 
+                        values={paymentpurpose}
+                        selectedvalue={paymentdraft.purpose}
+                        helptextdropdown={label.Show_More} 
+                        issimpledropdown
+                        labelvar={label.B2B_PaymentPurpose}                         
+                        valuesplaceholder=""                        
+                        errortext={errorPurpose}>
+                    </c-lwc_pay_filterdropdown>
+                    <!--<c-lwc_b2b_purpose data-id="dropdown" name="purpose" selectedvalue="{!v.paymentdraft.purpose}" errormsg="{!v.errorPurpose}" showdropdown="false" steps="{!v.steps}" ismodified="{!v.isModified}" isediting="{!v.isediting}" />-->
+                </template>
+                    
+                <template if:true={step3field.charges}> <!--charges-->
+                    <!--ToDo MA <c-lwc_pay_filterdropdown/>-->
+                    <c-lwc_pay_filterdropdown 
+                        data-id="charges" 
+                        values={charges} 
+                        selectedvalue={paymentdraft.chargeBearer} 
+                        helptextdropdown={label.Show_More} 
+                        issimpledropdown
+                        labelvar={label.charges}                         
+                        valuesplaceholder=""                         
+                        errortext={errorCharges}>
+                    </c-lwc_pay_filterdropdown>
+                </template> 
+                <template if:true={step3field.paymentReason}> <!--payment reason-->
+                    <!--ToDo MA <c-lwc_pay_filterdropdown/>-->
+                    <c-lwc_pay_filterdropdown 
+                        data-id="paymentReason" 
+                        values={charges} 
+                        selectedvalues={paymentdraft.chargeBearer}
+                        helptextdropdown={label.Show_More}
+                        issimpledropdown
+                        labelvar={label.B2B_PaymentPurpose}                         
+                        valuesplaceholder=""                         
+                        errortext={errorPaymentReason}>
+                    </c-lwc_pay_filterdropdown>
+                </template> 
+            </div>
+        </div>
+
+        <template if:true={step3field.commercialCode}><!--commercial code-->
             <div class="slds-col">
-                <c-lwc_b2b_comercial-code data-id="dropdown" 
+                <c-lwc_b2b_comercial-code 
+                    data-id="comercialCode" 
                     name="comercialCode" 
-                    selectedvalue={mydata.comercialCode} 
-                    steps={steps} 
-                    showdropdown={showDropdown} 
+                    selectedvalue={paymentdraft.comercialCode} 
+                    steps={steps}                    
                     ismodified={isModified} 
                     isediting={isediting}>
                 </c-lwc_b2b_comercial-code>
             </div>
         </template>
-        <div class="slds-col">
+        <div class="slds-col"> <!--commercial code-->
             <c-lwc_b2b_description 
-                value={mydata.description} 
-                steps={steps} 
+                value={paymentdraft.description} 
+                steps={steps}
                 ismodified={isModified} 
                 isediting={isediting}>
             </c-lwc_b2b_description>
-        </div>    
-
+        </div> 
+        <!--<div class="slds-col">
+            <template if:true={step3field.reference}>
+                <c-lwc_b2b_reference value="{paymentdraft.reference}" errormsg="{errorRef}" steps="{steps}" ismodified="{isModified}" isediting="{isediting}" />
+            </template>
+        </div>-->
         <template if:true={spinner}>
             <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
         </template>
+        <!--<template if:true={isStepNumberThree}>
+            <c-lwc_b2b_process-continue-button handlecontinue={handleContinue}></c-lwc_b2b_process-continue-button>
+        </template>-->
 
-        <template if:true={isStepNumberFour}>
-            <c-lwc_b2b_process-continue-button></c-lwc_b2b_process-continue-button>
+        <template if:true={isBrasilAccount}>
+            <template if:true={paymentDraftPurpose}>
+                <c-cmp-upload-document-brasil 
+                    oninformfiles={updateFiles} 
+                    paymentid={paymentdraft.paymentId}>
+                </c-cmp-upload-document-brasil>
+            </template>
         </template>
-    </div>
+    </div> 
 </template>

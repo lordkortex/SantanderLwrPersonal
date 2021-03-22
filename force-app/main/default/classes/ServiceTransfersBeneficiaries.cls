@@ -1,12 +1,28 @@
 global class ServiceTransfersBeneficiaries {
 
     global static List<WRAPPER_AccountList.AccountDetails> getBeneficiaries () {
+        WRAPPER_AccountList.AccountDetails sourceAccount = new WRAPPER_AccountList.AccountDetails();
+        return getBeneficiaries(sourceAccount);
+    }
+
+    global static List<WRAPPER_AccountList.AccountDetails> getBeneficiaries (WRAPPER_AccountList.AccountDetails sourceAccount) {
+        WS_TransfersBeneficiaries.INPUT filters = new WS_TransfersBeneficiaries.INPUT();
+        return getBeneficiaries(sourceAccount, filters);
+    }
+
+    global static List<WRAPPER_AccountList.AccountDetails> getBeneficiaries (WRAPPER_AccountList.AccountDetails sourceAccount, WS_TransfersBeneficiaries.INPUT filters) {
         List<WRAPPER_AccountList.AccountDetails> res = new List<WRAPPER_AccountList.AccountDetails>();
+        WS_TransfersBeneficiaries.INPUT input = new WS_TransfersBeneficiaries.INPUT();
         try {
-            WS_TransfersBeneficiaries.OUTPUT executeRes = WS_TransfersBeneficiaries.executeGet();
+            if (sourceAccount != null) {
+                //TO-DO send companyGlobalId in input
+            }
+            if (filters != null) {
+                input = filters;
+            }
+            WS_TransfersBeneficiaries.OUTPUT executeRes = WS_TransfersBeneficiaries.executeGet(input);
             if (executeRes != null && executeRes.beneficiaryList != null) {
                 for (WS_TransfersBeneficiaries.BeneficiaryData accountsData : executeRes.beneficiaryList) {
-                    System.debug('BH_accountsData: ' + JSON.serialize(accountsData));
                     WRAPPER_AccountList.AccountDetails element = new WRAPPER_AccountList.AccountDetails();
                     element.alias = String.isNotBlank(accountsData.alias) ? accountsData.alias : '';
                     // element.type = accountsData.type;
@@ -73,8 +89,6 @@ global class ServiceTransfersBeneficiaries {
                             element.lastUpdateOverdraftLimit = accountsData.overdraftLimit.lastUpdate;
                         } */
                     }
-                    System.debug('BH_element: ' + JSON.serialize(element));
-
                     res.add(element);
                 }
             }
@@ -117,6 +131,9 @@ global class ServiceTransfersBeneficiaries {
             if (String.isBlank(data.displayNumber)) {
                 throw new CustomException('AccountId is mandatory to registre new beneficiary');
             }
+            if (String.isBlank(data.idType)) {
+                throw new CustomException('idType is mandatory to registre new beneficiary');
+            }
             if (String.isBlank(data.country)) {
                 throw new CustomException('country is mandatory to registre new beneficiary');
             } else {
@@ -128,6 +145,16 @@ global class ServiceTransfersBeneficiaries {
                     if (data.displayNumber.length() != 22) {
                         throw new CustomException(fullMessage);
                     }
+                } else if (data.country.equalsIgnoreCase('PL')){
+                    if (data.displayNumber.length() != 26) {
+                        throw new CustomException(fullMessage);
+                    }
+                } else if (data.country.equalsIgnoreCase('BR')){
+                    if (data.idType == 'IBA') {
+                        if (data.displayNumber.length() != 29) {
+                            throw new CustomException(fullMessage);
+                        }
+                    }
                 } else {
                     throw new CustomException(fullMessage);
                 }
@@ -135,9 +162,7 @@ global class ServiceTransfersBeneficiaries {
             if (String.isBlank(data.subsidiaryName)) {
                 throw new CustomException('Account holder is mandatory to registre new beneficiary');
             }
-            if (!data.country.equalsIgnoreCase('ES') && !data.country.equalsIgnoreCase('GB')) {
-                throw new CustomException(fullMessage);
-            }
+            
         } catch (Exception e) {
             System.debug('ServiceTransfersBeneficiaries.checkValuesAccount: ' + e.getMessage() + ' in line ' + e.getLineNumber());
             throw new CustomException(e.getMessage());
@@ -151,21 +176,27 @@ global class ServiceTransfersBeneficiaries {
                 throw new CustomException('Destination account is mandatory to register new beneficiary');
             }
             String iban = data.displayNumber;
-            if (String.isNotBlank(iban)) {
+            /*if (String.isNotBlank(iban)) {
                 if (iban.contains('ES')) {
                     data.idType = 'IBA';
                 } else {
                     data.idType = 'BBA';
                 }
-            }
+            }*/
             String country = data.country;
             if (country != null) {
+                String idType = Global_Utilities.getCountryPreferredAccountType(country);
+                if (idType == 'BBA') {
+                	data.idType = 'BBA';
+                } else {
+                    data.idType = 'IBA';
+                }
                 String baseCurrency = Global_Utilities.getCountryCurrency(country);
                 data.currencyCodeAvailableBalance = String.isNotBlank(baseCurrency) ? baseCurrency : '';
                 Boolean mandatoryPurpose = Global_Utilities.getCountryMandatoryPurpose(country); 
                 data.mandatoryPurpose = mandatoryPurpose;
                 data.address = new WRAPPER_AccountList.Address();
-                if (country.toLowerCase() == 'es') {
+                /*if (country.toLowerCase() == 'es') {
                     data.address.streetName = 'Avda. de Cantabria s/n';
                     data.address.townName = 'Boadilla del Monte, Madrid';
                     data.address.country = 'ES';
@@ -173,14 +204,16 @@ global class ServiceTransfersBeneficiaries {
                     data.address.streetName = '306ª, High Holborn, High Holborn';
                     data.address.townName = 'London';
                     data.address.country = 'GB';
-                }
+                }*/
                 if (country.toLowerCase() == 'es') {
                     data.bankName = 'SANTANDER ES';
                 } else if (country.toLowerCase() == 'gb' || country.toLowerCase() == 'uk') {
                     data.bankName = 'SANTANDER UK';
                 }
             }
-            ServiceFixByCountry.fixBicByCountry(data);
+            if (String.isBlank(data.codigoBic)) {
+                ServiceFixByCountry.fixBicByCountry(data);
+            }
             data.customerId = '34311586';
         } catch (Exception e) {
             System.debug('ServiceTransfersBeneficiaries.completeAccountDetails: ' + e.getMessage() + ' in line ' + e.getLineNumber());
@@ -196,10 +229,7 @@ global class ServiceTransfersBeneficiaries {
     
     public static WS_TransfersBeneficiaries.BeneficiaryData createBeneficiaryData (WRAPPER_AccountList.AccountDetails data, WRAPPER_AccountList.AccountDetails sourceAccount) {
         WS_TransfersBeneficiaries.BeneficiaryData res = new WS_TransfersBeneficiaries.BeneficiaryData();
-        
         try {
-            System.debug('sourceAccount: ' + sourceAccount);
-
             if (data == null) {
                 throw new CustomException('Destination account is mandatory to register new beneficiary');
             }
@@ -216,6 +246,13 @@ global class ServiceTransfersBeneficiaries {
             String country = data.country;
             if (country != null) {
                 res.address.country = country;
+                res.address.streetName = data.address.streetName;
+                res.address.townName = data.address.townName;
+                res.address.state = data.address.state;
+                res.address.floor = data.address.floor;
+                res.address.province = data.address.province;
+                res.address.addressAddition = data.address.addressAddition;
+
                 res.bank.bankCountry = country;
                 res.bank.bankId = data.codigoBic;
                 res.bank.bankName =  data.bankName;
@@ -223,12 +260,13 @@ global class ServiceTransfersBeneficiaries {
             if (sourceAccount != null) {
                 res.companyGlobalId = sourceAccount.codigoCorporate;
                 if (sourceAccount.companyIdsList != null) {
-                    String companyGlobalId = sourceAccount.companyIdsList.get('GLOBAL');
+                    String companyGlobalId = sourceAccount.companyIdsList.get(System.Label.CNF_GTSIdentifier);
                     if (String.isNotBlank(companyGlobalId)) {
                         res.companyGlobalId = companyGlobalId;
                     }
                 }
             }
+
         } catch (Exception e) {
             System.debug('ServiceTransfersBeneficiaries.createBeneficiaryData: ' + e.getMessage() + ' in line ' + e.getLineNumber());
             throw new CustomException(e.getMessage());

@@ -48,8 +48,11 @@ export default class Lwc_b2b_selectAccount extends LightningElement {
     @api accountdata;
     @api errorMSGExpenses
 
+    @api enablebrowseaccount
+    @api cancreatebeneficiaries
+
     _isediting;
-    _accountlist;
+    // _accountlist;
    
 
 
@@ -58,8 +61,8 @@ export default class Lwc_b2b_selectAccount extends LightningElement {
     @track error;
     @track showDropdown;
 
-    @track enableBrowseAccount
-    @track canCreateBeneficiaries
+    
+    
     @track canSelectExpenses
     @track enableExpensesSelect
     @track expensesAccountList = [];
@@ -69,16 +72,16 @@ export default class Lwc_b2b_selectAccount extends LightningElement {
 
   
   
-    get accountlist(){
-        return this._accountlist;
-    }
+    // get accountlist(){
+    //     return this._accountlist;
+    // }
 
-    set accountlist(accountlist){
-        if(accountlist){
-            this._accountlist = accountlist;
-            this.setAccountListItems();
-        }
-    }
+    // set accountlist(accountlist){
+    //     if(accountlist){
+    //         this._accountlist = accountlist;
+    //         this.setAccountListItems();
+    //     }
+    // }
 
     get isediting(){
         return this._isediting;
@@ -92,21 +95,21 @@ export default class Lwc_b2b_selectAccount extends LightningElement {
     }
 
     get beneficiaryDetailsEqFalse(){
-        if(this._accountlist){
-            return (!this.beneficiarydetails && this._accountlist.length <= 6) ? true : false;
+        if(this.accountlist){
+            return (!this.beneficiarydetails && this.accountlist.length <= 6) ? true : false;
         }
     }
 
     get accountlistLeSix(){
-        return (this._accountlist.length <= 6) ? true : false;
+        return (this.accountlist.length <= 6) ? true : false;
     }
 
     get accountlistGeOne(){
-        return (this._accountlist.length >= 1) ? true : false;
+        return (this.accountlist.length >= 1) ? true : false;
     }
     
     get accountInfoClass(){
-        return 'accountInformation' + (this._accountlist.length <= 6 ? ' sixAccounts' : '');
+        return 'accountInformation' + (this.accountlist.length <= 6 ? ' sixAccounts' : '');
     }
 
     get isCountryClOrPl(){
@@ -126,16 +129,16 @@ export default class Lwc_b2b_selectAccount extends LightningElement {
             this.initComponent();
     }
 
-    setAccountListItems(){
-        //if(this.accountlist){
-            var listAux = JSON.parse(JSON.stringify(this._accountlist));
-            Object.keys(listAux).forEach(key => {
-                listAux[key].index = key;
-                listAux[key].displaySelected = listAux[key].displayNumber == this.account.displayNumber ? true : false;
-            });
-            this._accountlist = listAux;
-        //}
-    }
+    // setAccountListItems(){
+    //     //if(this.accountlist){
+    //         var listAux = JSON.parse(JSON.stringify(this._accountlist));
+    //         Object.keys(listAux).forEach(key => {
+    //             listAux[key].index = key;
+    //             listAux[key].displaySelected = listAux[key].displayNumber == this.account.displayNumber ? true : false;
+    //         });
+    //         this._accountlist = listAux;
+    //     //}
+    // }
 
     initComponent(){
         var steps = this.steps;
@@ -194,7 +197,7 @@ export default class Lwc_b2b_selectAccount extends LightningElement {
     /******** ACTUALIZACIÓN DESPLIEGUE 25-02-2021 INICIO (NO EXISTE) ********/
 
     handleSelectedAccount(event){
-        var accountList = this._accountlist;
+        var accountList = this.accountlist;
         if(accountList){
             if(accountList.length <= 6){
                 this.errormsg = '';

@@ -196,15 +196,16 @@ History
                         baseAmount = paymentDraft.amountSend;
                     } else {
                         baseAmount = UtilitiesCurrency.convertCurrency(paymentDraft.sourceAccount.currencyCodeAvailableBalance, baseCurrency, paymentDraft.amountSend);
+                    	baseAmount = baseAmount.setScale(5, RoundingMode.DOWN);
                     }
                 }
             } else {
                 return new ReturnValue(false);
             }
             String serviceAPILine = ServiceAPILine.getAPILine();
-            if (paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_001) && (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS))) {
+            if (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) {
                 throw new CustomException('ERROR: Invalid data');
-            } else if ((paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_002) || paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_003)) && serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
+            } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
                 value = ServiceCustomerTransactionalLimits.callTransactionalLimitsUpdate(paymentDraft);
             }
             if (value != null) {
@@ -266,6 +267,46 @@ History
 <Date>			<Author>		            <Description>
 29/11/2020		Shahad Naji		            Initial version
 ----------------------------------------------------------------------------------*/   
+
+    // public static ReturnValue validateLimits (WrapperUserData userData, WRAPPER_PAY_PaymentDraft paymentDraft) {
+    //     ReturnValue response = null;
+    //     Map<String, Object> value = new Map<String, Object>();
+    //     Decimal baseAmount = null;
+    //     String baseCurrency = '';
+    //     try {
+    //         if (paymentDraft.sourceAccount != null && paymentDraft.amountSend != null) {
+    //             if (String.isNotBlank(paymentDraft.sourceAccount.country) && String.isNotBlank(paymentDraft.sourceAccount.currencyCodeAvailableBalance)) {
+    //                 baseCurrency = Global_Utilities.getCountryCurrency(paymentDraft.sourceAccount.country);
+    //                 if (paymentDraft.sourceAccount.currencyCodeAvailableBalance == baseCurrency || String.isBlank(baseCurrency)) {
+    //                     baseCurrency = paymentDraft.sourceAccount.currencyCodeAvailableBalance;
+    //                     baseAmount = paymentDraft.amountSend;
+    //                 } else {
+    //                     baseAmount = UtilitiesCurrency.convertCurrency(paymentDraft.sourceAccount.currencyCodeAvailableBalance, baseCurrency, paymentDraft.amountSend);
+    //                 	baseAmount = baseAmount.setScale(5, RoundingMode.DOWN);
+    //                 }
+    //             }
+    //         } else {
+    //             return new ReturnValue(false);
+    //         }
+    //         String serviceAPILine = ServiceAPILine.getAPILine(userData);
+    //         if (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) {
+    //             value = ServiceCustomerTransactionalLimits.callTransactionalLimits(userData, paymentDraft, baseAmount, baseCurrency);
+    //         } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
+    //             value = ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentDraft, baseAmount, baseCurrency);
+    //         }
+    //         if (value != null) {
+    //             response = new ReturnValue(true, value);
+    //         } else {
+    //             response = new ReturnValue(false);
+    //         }
+            
+    //     } catch (Exception e) {
+    //         System.debug('ControllerCustomerTransactionalLimits.validateLimits: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+    //         response = new ReturnValue(false, null, e.getMessage());
+    //     }
+    //     return response;
+    // }
+
     @AuraEnabled
     public static ReturnValue validateLimits (WRAPPER_PaymentDetail.OperationDetail paymentData){ 
         ReturnValue response = null;
@@ -351,48 +392,48 @@ History
     History:
     <Date>          <Author>            <Description>
     29/11/2020      Candido             Initial version
-    */
-    @AuraEnabled
-    public static ReturnValue validateLimits (WrapperUserData userData, WRAPPER_PAY_PaymentDraft paymentDraft) {
-        ReturnValue response = null;
-        Map<String, Object> value = new Map<String, Object>();
-        Decimal baseAmount = null;
-        String baseCurrency = '';
-        try {
-            if (paymentDraft.sourceAccount != null && paymentDraft.amountSend != null) {
-                if (String.isNotBlank(paymentDraft.sourceAccount.country) && String.isNotBlank(paymentDraft.sourceAccount.currencyCodeAvailableBalance)) {
-                    baseCurrency = Global_Utilities.getCountryCurrency(paymentDraft.sourceAccount.country);
-                    if (paymentDraft.sourceAccount.currencyCodeAvailableBalance == baseCurrency || String.isBlank(baseCurrency)) {
-                        baseCurrency = paymentDraft.sourceAccount.currencyCodeAvailableBalance;
-                        baseAmount = paymentDraft.amountSend;
-                    } else {
-                        baseAmount = UtilitiesCurrency.convertCurrency(paymentDraft.sourceAccount.currencyCodeAvailableBalance, baseCurrency, paymentDraft.amountSend);
-                    }
-                }
-            } else {
-                return new ReturnValue(false);
-            }
-            String serviceAPILine = ServiceAPILine.getAPILine(userData);
-            if (String.isNotBlank(paymentDraft.productId)) {
-                if (paymentDraft.productId == PRODUCT_ID_001 && (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS))) {
-                    value = ServiceCustomerTransactionalLimits.callTransactionalLimits(userData, paymentDraft, baseAmount, baseCurrency);
-                } else if ((paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_002) || paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_003)) && serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
-                    value = ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentDraft, baseAmount, baseCurrency);
-                }
-                if (value != null) {
-                    response = new ReturnValue(true, value);
-                } else {
-                    response = new ReturnValue(false);
-                }
-            } else {
-                response = new ReturnValue(false);
-            }
-        } catch (Exception e) {
-            System.debug('ControllerCustomerTransactionalLimits.validateLimits: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
-            response = new ReturnValue(false, null, e.getMessage());
-        }
-        return response;
-    }
+    // */
+    // @AuraEnabled
+    // public static ReturnValue validateLimits (WrapperUserData userData, WRAPPER_PAY_PaymentDraft paymentDraft) {
+    //     ReturnValue response = null;
+    //     Map<String, Object> value = new Map<String, Object>();
+    //     Decimal baseAmount = null;
+    //     String baseCurrency = '';
+    //     try {
+    //         if (paymentDraft.sourceAccount != null && paymentDraft.amountSend != null) {
+    //             if (String.isNotBlank(paymentDraft.sourceAccount.country) && String.isNotBlank(paymentDraft.sourceAccount.currencyCodeAvailableBalance)) {
+    //                 baseCurrency = Global_Utilities.getCountryCurrency(paymentDraft.sourceAccount.country);
+    //                 if (paymentDraft.sourceAccount.currencyCodeAvailableBalance == baseCurrency || String.isBlank(baseCurrency)) {
+    //                     baseCurrency = paymentDraft.sourceAccount.currencyCodeAvailableBalance;
+    //                     baseAmount = paymentDraft.amountSend;
+    //                 } else {
+    //                     baseAmount = UtilitiesCurrency.convertCurrency(paymentDraft.sourceAccount.currencyCodeAvailableBalance, baseCurrency, paymentDraft.amountSend);
+    //                 }
+    //             }
+    //         } else {
+    //             return new ReturnValue(false);
+    //         }
+    //         String serviceAPILine = ServiceAPILine.getAPILine(userData);
+    //         if (String.isNotBlank(paymentDraft.productId)) {
+    //             if (paymentDraft.productId == PRODUCT_ID_001 && (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS))) {
+    //                 value = ServiceCustomerTransactionalLimits.callTransactionalLimits(userData, paymentDraft, baseAmount, baseCurrency);
+    //             } else if ((paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_002) || paymentDraft.productId.equalsIgnoreCase(PRODUCT_ID_003)) && serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
+    //                 value = ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentDraft, baseAmount, baseCurrency);
+    //             }
+    //             if (value != null) {
+    //                 response = new ReturnValue(true, value);
+    //             } else {
+    //                 response = new ReturnValue(false);
+    //             }
+    //         } else {
+    //             response = new ReturnValue(false);
+    //         }
+    //     } catch (Exception e) {
+    //         System.debug('ControllerCustomerTransactionalLimits.validateLimits: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+    //         response = new ReturnValue(false, null, e.getMessage());
+    //     }
+    //     return response;
+    // }
     
     
  
@@ -415,6 +456,56 @@ History
         return productIds;
     }
     
+
+    /*
+    Author:         Candido
+    Company:        Deloitte
+    Description:    Makes a call to an external WS to validate if a transaction can be processed on behalf of a customer according to their transactional limits.
+    History:
+    <Date>          <Author>            <Description>
+    29/11/2020      Candido             Initial version
+    04/03/2021      Bea Hill            Remove the productId from the condition so that the method depends only on user type.
+
+    */
+    @AuraEnabled
+    public static ReturnValue validateLimits (WrapperUserData userData, WRAPPER_PAY_PaymentDraft paymentDraft) {
+        ReturnValue response = null;
+        Map<String, Object> value = new Map<String, Object>();
+        Decimal baseAmount = null;
+        String baseCurrency = '';
+        try {
+            if (paymentDraft.sourceAccount != null && paymentDraft.amountSend != null) {
+                if (String.isNotBlank(paymentDraft.sourceAccount.country) && String.isNotBlank(paymentDraft.sourceAccount.currencyCodeAvailableBalance)) {
+                    baseCurrency = Global_Utilities.getCountryCurrency(paymentDraft.sourceAccount.country);
+                    if (paymentDraft.sourceAccount.currencyCodeAvailableBalance == baseCurrency || String.isBlank(baseCurrency)) {
+                        baseCurrency = paymentDraft.sourceAccount.currencyCodeAvailableBalance;
+                        baseAmount = paymentDraft.amountSend;
+                    } else {
+                        baseAmount = UtilitiesCurrency.convertCurrency(paymentDraft.sourceAccount.currencyCodeAvailableBalance, baseCurrency, paymentDraft.amountSend);
+                    	baseAmount = baseAmount.setScale(5, RoundingMode.DOWN);
+                    }
+                }
+            } else {
+                return new ReturnValue(false);
+            }
+            String serviceAPILine = ServiceAPILine.getAPILine(userData);
+            if (serviceAPILine.equalsIgnoreCase(MULTI_ONE_TRADE) || serviceAPILine.equalsIgnoreCase(NEXUS)) {
+                value = ServiceCustomerTransactionalLimits.callTransactionalLimits(userData, paymentDraft, baseAmount, baseCurrency);
+            } else if (serviceAPILine.equalsIgnoreCase(LOCAL_BANKING)) {
+                value = ServiceCustomerTransactionalLimits.callTransactionalLimitsValidation(paymentDraft, baseAmount, baseCurrency);
+            }
+            if (value != null) {
+                response = new ReturnValue(true, value);
+            } else {
+                response = new ReturnValue(false);
+            }
+            
+        } catch (Exception e) {
+            System.debug('ControllerCustomerTransactionalLimits.validateLimits: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            response = new ReturnValue(false, null, e.getMessage());
+        }
+        return response;
+    }
    
     
    

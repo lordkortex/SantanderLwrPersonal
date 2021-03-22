@@ -89,109 +89,105 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
     };
 
     @api showfiltermodal = false;//	"Boolean to show or hide advanced filter modat (CMP_PaymentsLandingFilterModal)"
-    @api currentuser;// "Current user data"/> 
+    @api currentuser = {};// "Current user data"/> 
+    @api isloading = false;//	"Control to show spinner when loading records"/>
+    @api clientreference;// User input for client reference filter." />
+    @api currencydropdownlist = [];// 	"List of currencies that are displayed in the dropdown"/>
+    @api selectedcurrencies = [];// 	"List of selected currencies." />
+    @api selectedpaymentstatusbox = '';// 	"Selected payment status"/>    
+    @api statusdropdownlist = [];// 	"List of statuses that are displayed in the dropdown"/>
+    @api selectedstatuses = [];// "List of selected statuses." />
+    @api paymentmethoddropdownlist =[];// "List of payment methods that are displayed in the dropdown in Single tab"/>
+    @api selectedmethod ='';//"Payment method selected"/>
+    @api countrydropdownlist =[];// 	"List of countries that are displayed in the dropdown in Single tab"/>
+    @api selectedcountry ='';// 	"Country selected from dropdown." />
+    @api accountlist = [];//    "List of accounts" />
+    @api account ={};//   "Selected account." />
+    @api searchedsourceaccount ='';//   "Search information placed in the source account search input." />
+    @api fromdecimal = '';//"Search information placed in the From Amount search input."/>
+    @api todecimal = '';//	"Search information placed in the To Amount search input."/>
+    @api dates = ['', ''];// 	"List containing the selected dates" />
     @api resetsearch;// "Flag to clear or not all filters"/>
     @api filtercounter = 0;// 	"Counts the number of types of filers selected (source account, amount, currency, status, payment method, client reference, destination country, date)"/>
-    
-    //<!--FROM-->
-    @api fromdecimal = '';//"Search information placed in the From Amount search input."/>
+    @api reloadaccounts;//  description="Retry the call to retrieve list of accounts." />
+    @api applyisclicked = false;
+
+  
     @track showfromminilabel = false;// "Control to show mini label." />
     @track isfromdisabled = false;// 	"Control to disable From Amount input"/>
     @track erroramount = false;// "Show error text and styles in From Amount"/>
     
     //<!--TO-->
-    @api todecimal = '';//	"Search information placed in the To Amount search input."/>
     @track showtominilabel = false;// 	"Control to show mini label." />
     @track istodisabled = false;// 	"Control to disable To Amount input"/>    
     
     //<!--CURRENCY-->
-    @api currencydropdownlist = [];// 	"List of currencies that are displayed in the dropdown"/>
-    @api selectedcurrencies = [];// 	"List of selected currencies." />
-    @api iscurrencydisabled = false;//	"Control to disable payment method dropdown"/>	
-    @api clearcurrencydropdown = false;// "Flag to clear or not the dropdown"/>
+    @track iscurrencydisabled = false;//	"Control to disable payment method dropdown"/>	
+    @track clearcurrencydropdown = false;// "Flag to clear or not the dropdown"/>
     
     //STATUS
-    @api selectedpaymentstatusbox = '';// 	"Selected payment status"/>    
-    @api statusdropdownlist = [];// 	"List of statuses that are displayed in the dropdown"/>
-    @api selectedstatuses = [];// "List of selected statuses." />
-    @api clearstatusdropdown = false;// "Flag to clear or not the dropdown"/>
+    @track clearstatusdropdown = false;// "Flag to clear or not the dropdown"/>
     
     //PAYMENT METHODS
-    @api paymentmethoddropdownlist =[];// "List of payment methods that are displayed in the dropdown in Single tab"/>
-    @api selectedmethod ='';//"Payment method selected"/>
-    @api ismethoddisabled = false;//	"Control to disable payment method dropdown"/>
-    @api clearmethoddropdown = false;// "Flag to clear or not the dropdown"/>
+    @track ismethoddisabled = false;//	"Control to disable payment method dropdown"/>
+    @track clearmethoddropdown = false;// "Flag to clear or not the dropdown"/>
     
     //ACCOUNTS DROPDOWN
-    @api account ={};//   "Selected account." />
-    @api accountlist = [];//    "List of accounts" />
-    @api searchedsourceaccount ='';//   "Search information placed in the source account search input." />
-    @api selectedsourceaccount = {};//    "Account selected from search dropdown." />
-    @api searcheddestinationaccount = '';//    "Search information placed in the destination account search input." />
+    @track selectedsourceaccount = {};//    "Account selected from search dropdown." />
+    @track searcheddestinationaccount = '';//    "Search information placed in the destination account search input." />
     @track accountsuggestions = [];//    "List of retrieved accounts that match the searched criteria." />
-    @api accountssourceplaceholder = this.label.PAY_Source;//    "Label pf the account searcher input text." />
-    @api accountdestinationplaceholder = this.label.PAY_Beneficiary;// "Label pf the account searcher input text." />
+    @track accountssourceplaceholder = this.label.PAY_Source;//    "Label pf the account searcher input text." />
+    @track accountdestinationplaceholder = this.label.PAY_Beneficiary;// "Label pf the account searcher input text." />
     @track showsourceaccountminilabel = false;// "Control to show the source account mini label." />
     @track showdestinationaccountminilabel = false;//  "Control to show the destination account mini label." />
     @track showdropdown = false;//     "Indicates if the dropdown must be visible." />
-    @api disabled = false;// "Indicates if the search input is read only." />
-    @api errormsg =''; //"Indicates the error when clicked on continue." />
-    @api ismodified;// 	"Indicates if the input data has been modified." />
+    @track disabled = false;// "Indicates if the search input is read only." />
+    @track errormsg =''; //"Indicates the error when clicked on continue." />
+    @track ismodified;// 	"Indicates if the input data has been modified." />
     
     //CLIENT REFERENCE
-    @api searchedstring = '';// 	"Search information placed in the payment search input." />
-    @api clientreference;// User input for client reference filter." />
+    @track searchedstring = '';// 	"Search information placed in the payment search input." />
     @track showclientreferenceminilabel = false;// 	"Control to show mini label." />
     @track isclientreferencedisabled = false;// 	"Control to disable payment reference input"/>
     
     //DESTINATION COUNTRY
-    @api destinationcountrystring = '';// 	"Search information placed in the country search input."/>
-    @api showdestinationminilabel = false;// 	"Control to show mini label."/>
-    @api isdestinationcountrydisabled = false;// 	"Control to disable destination country input"/>
-    @api countrydropdownlist =[];// 	"List of countries that are displayed in the dropdown in Single tab"/>
-    @api selectedcountry ='';// 	"Country selected from dropdown." />
-    @api clearcountrydropdown = false;// 	"Flag to clear or not the dropdown"/>
+    @track destinationcountrystring = '';// 	"Search information placed in the country search input."/>
+    @track showdestinationminilabel = false;// 	"Control to show mini label."/>
+    @track isdestinationcountrydisabled = false;// 	"Control to disable destination country input"/>
+    @track clearcountrydropdown = false;// 	"Flag to clear or not the dropdown"/>
     
     //DATES 
-    @api dates = ['', ''];// 	"List containing the selected dates" />
     @track datesplaceholders = ['', ''];// 	"List containing the selected dates, or if they are empty, the placeholder for the field" />
     @track fromdateformat = false;// 	"Show error text and styles in  Date when incorrect format input"/>
     @track todateformat = false;// 	"Show error text and styles in  Date when incorrect format input"/>
     
     
     //VALUE DATE FROM
-    @api datefromminilabel = false;// 	"Control to show mini label."/>
-    @api isdatefromdisabled = false;// "Control to disable value date from input"/>
+    @track datefromminilabel = false;// 	"Control to show mini label."/>
+    @track isdatefromdisabled = false;// "Control to disable value date from input"/>
     @track errordate = false;// "Show error text and styles in  Date"/>
     
     //VALUE DATE TO
-    @api datetominilabel = false;// 	"Control to show mini label."/>
-    @api isdatetodisabled = false;// 	"Control to disable value date to input"/>
-    
-    
+    @track datetominilabel = false;// 	"Control to show mini label."/>
+    @track isdatetodisabled = false;// 	"Control to disable value date to input"/>
     @track ismodaldataloaded = '';//	"Attribute which detemines wheather single data tab has been loaded or not"/>
-    @api isloading = false;//	"Control to show spinner when loading records"/>
     
     //NUMBER FORMATTING
-    @api locale;
-    @api decimalseparator;
-    @api thousandsseparator;     
-    @api formattedvalufrom;
-    @api formattedvalueto;
-    @api userinputfrom = '';
-    @api userinputto = '';
+    @track locale;
+    @track decimalseparator;
+    @track thousandsseparator;     
+    @track formattedvalufrom;
+    @track formattedvalueto;
+    @track userinputfrom = '';
+    @track userinputto = '';
     
     //TOAST
-    @api toasttext = this.label.B2B_Error_Problem_Loading;
-    @api toasttitle = this.label.B2B_Error_Check_Connection;
-    @api toasttype = 'Warning';// "Controls the style in toast component"/>
-    @api showtoast = false;// "Indicates if the toast is shown after searching for accounts." />
-    @api noreload = false;// "Controls whether the toast has a reload button and icon." />
-    @api reloadaccounts;//  description="Retry the call to retrieve list of accounts." />
-    
-    
-    @api applyisclicked = false;
-       
+    @track toasttext = this.label.B2B_Error_Problem_Loading;
+    @track toasttitle = this.label.B2B_Error_Check_Connection;
+    @track toasttype = 'Warning';// "Controls the style in toast component"/>
+    @track showtoast = false;// "Indicates if the toast is shown after searching for accounts." />
+    @track noreload = false;// "Controls whether the toast has a reload button and icon." />
+      
     //TEMPORARY FILTER VALUES TO REVERT TO ON CLOSING THE MODAL WITHOUT APPLYING CHANGES-->
     @track appliedsourceaccount = {};//   "Source account filter that has been applied." />
     @track appliedformattedvaluefrom;//   "From amount filter that has been applied."/>
@@ -215,7 +211,7 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
     get getlookupClass(){
         //!(and(not(empty(v.errorMSG)), empty(v.account)) ? 'error' : '') + ' slds-form-element inputLookup__single'
         var ret = 'slds-form-element inputLookup__single ';
-        if((this.errormsg != undefined && this.errormsg != null && this.errormsg != '') && (this.account == undefined || this.account == null || this.account == '')){
+        if(this.errormsg && !(this.account)){
             ret = ret + 'error';
         }
         return ret;
@@ -223,7 +219,7 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
 
     get showMiniLabelORsearchSourceNE(){
         //!or(v.showSourceAccountMiniLabel eq true, not(empty(v.searchedSourceAccount)))    
-        return (this.showsourceaccountminilabel || (this.searchedsourceaccount != undefined && this.searchedsourceaccount != null && this.searchedsourceaccount != ''));
+        return (this.showsourceaccountminilabel || this.searchedsourceaccount);
     }
 
     get showDropdownClass(){
@@ -238,22 +234,20 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
     get accountSourceValue(){
         //!(empty(v.account) ? v.searchedSourceAccount : v.account.displayNumber+' - '+v.account.alias)  
         var ret = '';            
-        if (this.account == undefined || this.account == null || this.account == ''){
-            ret = this.searchedsourceaccount;
-        }else{
+        if (this.account){
             ret = this.account.displayNumber +' - '+ this.account.alias;
+        }else{
+            ret = this.searchedsourceaccount;
         }
         return ret;
     }
 
     get searchedsourceaccountORaccountNE(){
-        //!or(!empty(v.account), !empty(v.searchedSourceAccount)) 
-        return ((this.searchedsourceaccount != undefined && this.searchedsourceaccount != null && this.searchedsourceaccount != '') || (this.account != undefined && this.account != null && this.account != ''));
+        return (this.searchedsourceaccount|| this.account);
     }
 
     get errormsgEmptyAccount(){
-        //!and(!empty(v.errorMSG), empty(v.account))   
-        return (this.errormsg && (this.account == undefined || this.account == null || this.account == ''));
+        return (this.errormsg && !(this.account));
     }
     get isEmptyAccountSuggestions(){
         //{!(empty(v.accountSuggestions) ? $Label.c.B2B_No_suggestions_for : $Label.c.B2B_Suggestions_for)}
@@ -265,16 +259,14 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
     }
 
     get isEmptyAccountSuggestions2(){
-    //{!(empty(v.accountSuggestions) ? '.&nbsp;' + $Label.c.B2B_Search_new : '')}
         var ret= '';
-        if(this.accountsuggestions == undefined || this.accountsuggestions == null || this.accountsuggestions == ''){
+        if(!(this.accountsuggestions)){
             ret = '.&nbsp;' + this.label.B2B_Search_new;
         }
         return ret;
     }      
 
     get errorAmountClass(){
-        ////'slds-form-element input' + (v.errorAmount eq true ? ' error':'')  
         var ret = 'slds-form-element input ';
         if(this.erroramount){
             ret = ret + 'error';
@@ -283,31 +275,25 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
     }
     
     get showFromMiniLabelORformattedValueFromNE(){
-        //!or(v.showFromMiniLabel eq true, not(empty(v.formattedValueFrom)))
-        return (this.showfromminilabel || (this.formattedvaluefrom != undefined && this.formattedvaluefrom != null && this.formattedvaluefrom != ''));
+        return (this.showfromminilabel || this.formattedvaluefrom);
     }
 
     get isUserInputFromNE(){
-        //!not(empty(v.userInputFrom))
         return this.userinputfrom;
     }
 
     get showToMiniLabelORformattedValueToNE(){
-        //!or(v.showToMiniLabel eq true, not(empty(v.formattedValueTo)))
-        return (this.showtominilabel || (this.formattedvalueto != undefined && this.formattedvalueto != null && this.formattedvalueto != ''));
+        return (this.showtominilabel || this.formattedvalueto);
     }
 
     get isUserInputToNE(){
-        //!not(empty(v.userInputTo))
         return this.userinputto;
     }
 
     get showCRMiniLabelORclientReferenceNE(){
-        //!or(v.showClientReferenceMiniLabel eq true, not(empty(v.clientReference)))
-        return (this.showclientreferenceminilabel || (this.clientreference != undefined && this.clientreference != null && this.clientreference != ''));
+        return (this.showclientreferenceminilabel || this.clientreference);
     }
     get isClientReferenceNE(){
-        //!not(empty(v.clientReference))
         return this.clientreference;
     }
     get errorDateFromClass(){
@@ -333,7 +319,7 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
 
     get fromDateToDateFalse(){
     //!and(v.fromDateFormat == false, v.toDateFormat == false)
-        return (this.fromdateformat == false && todateformat == false);
+        return (this.fromdateformat == false && this.todateformat == false);
     }
     get errorDateToClass(){
         //!'slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click' + (or(v.errorDate eq true, v.toDateFormat eq true) ? ' error':'')
@@ -356,25 +342,28 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
 
     connectedCallback(){
         loadStyle(this, santanderStyle + '/style.css');
+        this.doInit();
+    }
 
+    @api
+    doInit(){
         this.initNumberFormat();
         this.setFilter();
         var isOpen = this.showfiltermodal;
         if(isOpen){
             //document.querySelector(".comm-page-custom-landing-payments").style.overflow = 'hidden';
-            this.template.querySelector(".comm-page-custom-landing-payments").style.overflow = 'hidden'; 
+            //this.template.querySelector(".comm-page-custom-landing-payments").style.overflow = 'hidden'; 
             this.handleChangeDates();
 
         }
         
         let accountList = this.accountlist;
         if (accountList == undefined || accountList == null) {
-            this.showToast = true;
+            this.showtoast = true;
         }
         console.log('current user:', JSON.stringify(this.currentuser));
-    }
+    }     
 
-         
     closeFilterModal () {
         this.revertAppliedFilters();
         this.closeModal();
@@ -826,7 +815,9 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
 
     initNumberFormat() {
         var currentUser = this.currentuser;
-        var numberFormat = currentUser.numberFormat;
+        if(currentUser){
+            var numberFormat = currentUser.numberFormat;
+        }
         var decimalSeparator = '.';
         var thousandsSeparator = ',';
         if(numberFormat == '###.###.###,##'){
@@ -1080,8 +1071,10 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
           
     closeModal (){
         this.showfiltermodal = false;
+        const closemodal = new CustomEvent('closemodal');
+        this.dispatchEvent(closemodal);
         //document.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';
-        this.template.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';        
+        //this.template.querySelector(".comm-page-custom-landing-payments").style.overflow = 'auto';        
     }
            
     revertAppliedFilters(){
@@ -1292,5 +1285,9 @@ export default class Lwc_paymentsLandingFilterModal extends LightningElement {
 
     }
         
+    @api
+    setCurrentUser(currentuser){
+        this.currentuser = currentuser;
+    }
 
 }

@@ -54,3 +54,42 @@
  .slds-truncate.country .slds-media .slds-listbox__option-text.bold {
     margin-bottom: 0;
 }
+
+.slds-media {
+    align-items: center;
+    border-bottom: 1px solid #cedee7;
+	min-height: 53px;
+    padding: 16px;
+}
+.slds-listbox__option-text_entity{
+    font-family: "SantanderMicroText-Bd";
+    margin-bottom: 4px;
+    font-size: 14px;
+    line-height: 21px;
+    color: #444444;
+}
+
+.slds-box {
+    font-family: "SantanderMicroText";
+    background-color: #ffffff;
+    border: 1px solid #cedee7;
+    border-radius: 2px;
+    bottom: 0;
+    height: 24px;
+    min-width: 40px;
+    padding: 0 8px;
+    right: 0;
+    top: 0;
+}
+
+.slds-listbox__option-meta {
+    color: #444442;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

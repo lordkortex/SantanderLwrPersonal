@@ -86,6 +86,7 @@
 	padding-left: 24px;
 	margin:0;
 }
+
 .calendar .textHelp {
 	color: #444444;
 	display: inline-block;
@@ -93,6 +94,14 @@
 	height: 18px;
 	padding-left: 12px;
 }
+.textHelp {
+	color: #444444;
+	display: inline-block;
+	font-size: 12px;
+	height: 18px;
+	padding-left: 12px;
+}
+
 .calendar .slds-datepicker {
 	padding: 16px 16px;
 }
@@ -165,6 +174,11 @@
 	font-family: SantanderTextW05-Bold;
 	font-size: 12px;
 }
+
+/*pedro*/
+
+/*pedro*/
+
 .calendar .slds-datepicker td {
 	padding: 0;
 }

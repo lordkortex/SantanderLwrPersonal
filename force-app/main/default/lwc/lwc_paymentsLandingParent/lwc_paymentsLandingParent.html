@@ -23,7 +23,7 @@
                 singlenumrecords={singleNumRecords}
                 multiplenumrecords={multipleNumRecords}
                 issingletabselected={isSingleTabSelected} 
-                showmethodmodal={showMethodModal}
+                
                 onopennewpayment={openModal}>
             </c-lwc_payments-landing-header>
         </div>
@@ -40,7 +40,7 @@
                 </c-lwc_payments-landing-boxes>
             </div>
             <div>
-                
+                <!-- <template if:true={isSingleDataLoaded}> -->
                     <c-lwc_payments-landing-filters data-id="paymentsLandingFilters" 
                         showdownloadmodal={showDownloadModal} 
                         showfiltermodal={showFilterModal} 
@@ -60,12 +60,13 @@
                         isheaderoptionselected={isHeaderOptionSelected} 
                         pendingofmyauthorization={pendingOfMyAuthorization}
                         reloadaccounts={reloadAccounts}
-                        onreloadaccounts={onReloadAccounts}
-                        numberofpayments={singlePaymentList.length}
+                        numberofpayments={singlePaymentListLength}
                         availablestatuses={availableStatuses}
-                        onopendownloadmodal={onOpenDownloadModal}>
+                        onopendownloadmodal={onOpenDownloadModal}
+                        onreloadaccounts={onReloadAccounts}
+                        onsearchoperationslistfired={searchOperationsList}>
                     </c-lwc_payments-landing-filters>
-                
+                <!--</template>-->
             </div>
 
             <!-- TABLE -->
@@ -105,8 +106,9 @@
 
     <template if:true={showMethodModal}>
         <c-lwc_payments-method-modal 
-            showmethodmodal={showMethodModal}
+
             countrydropdownlist={simpleCountryDropdownList}
+            userdata={currentUser}
             onclosemodal={closeModal}>
         </c-lwc_payments-method-modal>
     </template>

@@ -1,0 +1,493 @@
+<template>
+
+        <!-- <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+        <ltng:require scripts="{!$Resource.cometd}" afterScriptsLoaded="{!c.onCometdLoaded}"/> -->
+    
+        <!-- CORE ATTRIBUTES -->
+        <!-- <aura:attribute access="public" type="Map"          name="paymentDraft"             default="{}"                description="Indicates the data of the payment" />
+        <aura:attribute access="public" type="Map"          name="userData"                 default="{}"                description="User data." />
+        <aura:attribute access="public" type="String"       name="transferType"             default=""                  description="Operation type that identify the particular operation universe" />
+        <aura:attribute access="public" type="Aura.Action"  name="handleBack" />
+        <aura:attribute access="public" type="Decimal"      name="total"                    default=""                  description="Amount to be sent plus the transfer fee" />
+        <aura:attribute access="public" type="String"       name="onwardPage"               default="landing-payments" />
+        <aura:attribute access="public" type="Map"          name="signLevel"                default="{}" />
+        <aura:attribute access="public" type="Boolean"      name="showOTP"                  default="false" />
+        <aura:attribute access="public" type="Boolean"      name="tokenOK"                  default="false" />
+        <aura:attribute access="public" type="String"       name="OTP"                      default="" />
+        <aura:attribute access="public" type="String"       name="OTPErrorMessage"          default=""                  description="Can be {!$Label.c.OTPWrongCheckSMS} or {!$Label.c.OTPExpiredRequestNew}" />
+        <aura:attribute access="public" type="Boolean"      name="reload"                   default="false" />
+        <aura:attribute access="public" type="Boolean"      name="disabledSignature"        default="false" />
+        <aura:attribute access="public" type="Boolean"      name="expiredFX"                default="false" />
+        <aura:attribute access="public" type="String"       name="FXDateTime" />
+        <aura:attribute access="public" type="Aura.Action"  name="reloadAction" />
+        <aura:attribute access="public" type="Map"          name="limitsData"               default="{}" />
+        <aura:attribute access="public" type="Boolean"      name="spinner"                  default="false" />
+        <aura:attribute access="public" type="Boolean"      name="spinnerVerificationCode"  default="false" />
+        <aura:attribute access="public" type="Boolean"      name="spinnerCountDown"         default="false" />
+        <aura:attribute access="public" type="Boolean"      name="errorSign"                default="false" />
+        <aura:attribute access="public" type="String"       name="totalAmountLabel"         default="{!$Label.c.amountToBeCharged}" />
+        <aura:attribute access="public" type="String"       name="exchangeRateLabel"        default="{!$Label.c.indicativeExchangeRate}" />
+        <aura:attribute access="public" type="Map"          name="navigatorInfo"            default="{}"/>
+        <aura:attribute access="public" type="String"       name="urgencyIndicator"         default="Standard" />
+        <aura:attribute access="public" type="Object"       name="localWindow" />
+        <aura:attribute access="public" type="String"       name="sessionId" />
+        <aura:attribute access="public" type="Object"       name="cometd" />
+        <aura:attribute access="public" type="Object[]"     name="cometdSubscriptions" />
+        <aura:attribute access="public" type="String"       name="scaUid" />
+        <aura:attribute access="public" type="String"       name="feesString"               default="" />
+        <aura:attribute access="public" type="String"       name="debitAmountString"        default="" />
+        <aura:attribute access="public" type="String"       name="exchangeRateString"       default="" />
+        <aura:attribute access="public" type="String"       name="paymentAmountString"      default="" />
+        <aura:attribute access="public" type="String"       name="valueDateString"          default="" />
+        <aura:attribute access="public" type="Boolean"      name="errorOTP"                 default="false" />
+        <aura:attribute access="public" type="List" 	    name="uploadedDocuments" 	   default="['Prueba1', 'Prueba2', 'Prueba3', 'Prueba4']" 	description="A collection of uploaded documents names"/> -->
+        
+        <!-- <aura:handler name="init"   action="{!c.initComponent}" value="{!this}" /> -->
+        <!-- <aura:handler name="change" action="{!v.reloadAction}"  value="{!v.reload}" /> -->
+    
+        <!-- <aura:registerEvent name="completeStep" type="c:EVT_B2B_CompleteStep" /> -->
+    
+        <div class="stepper_text">
+            <div class="stepper_heading slds-grid">
+                <div class="line slds-col"></div>
+                <div class="step slds-col slds-grid">
+                    <div class="step_title"><span>{label.PAY_PaymentSummary_header}</span></div>
+                </div>
+                <div class="line slds-col"></div>
+            </div>
+        </div>
+        <!-- PROCESS SUMMARY -->
+        <div class="process-summary">
+            <!-- CARD SUMMARY -->
+            <article class="slds-card card-summary">
+                <!-- CARD SUMMARY HEADER -->
+                <div class="slds-card__header">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body slds-grid">
+                            <div class="slds-col">
+                                <div class="row">
+                                    <h2 class="slds-card__header-title">{label.PAY_Summary_from}</h2>
+                                </div>
+                                <div class="row">
+                                    <div class="slds-text-title slds-truncate bold">{paymentdraft.sourceAccount.displayNumber}</div>
+                                    <div class="slds-text-title slds-truncate">{paymentdraft.sourceAccount.alias}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="slds-truncate">{paymentdraft.sourceAccount.subsidiaryName}</div>
+                                    <div><button class="slds-button button_link slds-truncate"><span class="slds-truncate">{paymentdraft.sourceAccount.bankName}</span></button></div>
+                                </div>
+                                <div class="row">
+                                    <div class="slds-media__figure">
+                                        <img class="sizeFlag" src={sourceCountryFlag}></img>
+                                        <span class="bold slds-truncate">{paymentdraft.sourceAccount.countryName}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="line"></div>
+                                <div class="icon icon-arrowUp"></div>
+                                <div class="line"></div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="row">
+                                    <h2 class="slds-card__header-title">{label.PAY_Summary_To}</h2>
+                                </div>
+                                <div class="row">
+                                    <div class="slds-text-title slds-truncate bold">{paymentdraft.destinationAccount.displayNumber}</div>
+                                    <div class="slds-text-title slds-truncate">{paymentdraft.destinationAccount.alias}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="slds-truncate">{paymentdraft.destinationAccount.subsidiaryName}</div>
+                                    <div><button class="slds-button button_link slds-truncate"><span class="slds-truncate">{paymentdraft.destinationAccount.bankName}</span></button></div>
+                                </div>
+                                <div class="row">
+                                    <div class="slds-media__figure">
+                                        <img class="sizeFlag" src={destinationCountryFlag}></img>
+                                        <span class="bold slds-truncate">{paymentdraft.destinationAccount.countryName}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                </div>
+                <!-- CARD SUMMARY BODY -->
+                <div class="slds-card__body slds-card__body_inner">
+                    <div class="row">
+                        <div class="section-title slds-truncate">{label.PAY_PaymentSummary_details}</div>
+                    </div>
+                    <div class="section-content slds-grid">
+                        <div class="slds-col">
+                            <template if:false={valueDateStringEmpty}>
+                                <div class="row">
+                                    <div class="slds-truncate">{label.valueDate}</div>
+                                    <div class="bold slds-truncate">{valueDateString}</div>
+                                </div>
+                            </template>
+                            <div class="row">
+                                <div class="slds-truncate">{label.ClientReference}</div>
+                                <div class="bold slds-truncate">{paymentdraft.reference}</div>
+                            </div>
+                            <!--Payment Reason para destino UK D&F-->
+                            <template if:false={paymentDraftReasonEmpty}>
+                                <div class="row">
+                                    <div class="slds-truncate">{label.PAY_PaymentSummary_payReason}</div>
+                                    <div class="bold slds-truncate">{paymentdraft.reason}</div>
+                                </div>
+                            </template>
+                            <template if:false={paymentDraftDescriptionEmpty}>
+                                <div class="row">
+                                    <div class="slds-truncate">{label.reference}</div>
+                                    <div class="bold slds-truncate">{paymentdraft.description}</div>
+                                </div>
+                            </template>
+                            <!--Cuenta comisiones para origen CL o PL-->
+                            <template if:false={paymentDraftExpensesAccountEmpty}>
+                                <div class="row">
+                                    <div class="slds-truncate">{label.PAY_PaymentSummary_feesHolder}</div>
+                                    <div class="bold slds-truncate">{paymentdraft.expensesAccount.subsidiaryName}</div>
+                                </div>
+                            </template>
+                        </div>
+                        <!--Comentado por css corregido incluyendo un margen para no necesitar incluir esta columna-->
+                        <!--div class="slds-col"-->
+                        <!--/div-->
+                        <div class="slds-col">
+                            <div class="row">
+                                <div class="slds-truncate">{label.PaymentMethod}</div>
+                                <template if:false={transferTypeEmpty}>
+                                    <div class="bold slds-truncate">{transfertype}</div>
+                                </template>
+                                <template if:true={transferTypeEmpty}>
+                                    <div class="bold slds-truncate"> - </div>
+                                </template>
+                            </div>
+                            <!--Payment purpose obligatorio para destino BR D&F-->
+                            <template if:true={destinationAccountEqBR}>
+                                <div class="row">
+                                    <div class="slds-truncate">{label.B2B_PaymentPurpose}</div>
+                                    <template if:false={destinationAccountEqBR}>
+                                        <div class="bold slds-truncate">{paymentdraft.purpose}</div>
+                                    </template>
+                                    <template if:true={destinationAccountEqBR}>
+                                        <div class="bold slds-truncate"> - </div>
+                                    </template>
+                                </div>
+                            </template>
+                            <template if:false={paymentDraftChargeBearerEmpty}>
+                                <div class="row">
+                                    <div class="slds-truncate">{label.charges}</div>
+                                    <div class="bold slds-truncate">{paymentdraft.chargeBearer}</div>
+                                </div>
+                            </template>
+                            <!--Cuenta comisiones para origen CL o PL-->
+                            <template if:false={paymentDraftExpensesAccountEmpty}>
+                                <div class="row">
+                                    <div class="slds-truncate">{label.B2B_Expenses_Account}</div>
+                                    <div class="bold slds-truncate">{paymentdraft.expensesAccount.displayNumber}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="slds-truncate">{label.PAY_PaymentSummary_feesBank}</div>
+                                    <div class="bold slds-truncate">{paymentdraft.expensesAccount.bankName}</div>
+                                </div>
+                            </template>
+    
+                            <!--Swift old functionality-->
+                            <!-- MIRAR ORDEN DEL ROW (DENTRO O FUERA DEL TEMPLATE IF) -->
+                                <template if:true={sourceAccountEqCL}>
+                                    <div class="row">
+                                        <div class="slds-truncate">{label.RUT}</div>
+                                        <div class="bold slds-truncate">{paymentdraft.documentNumber}</div>
+                                    </div>
+                                </template>
+                                <template if:false={sourceAccountEqCL}>
+                                    <div class="row">
+                                        <div class="slds-truncate">{label.B2B_Swift_code}</div>
+                                        <div class="bold slds-truncate">{paymentdraft.destinationAccount.codigoBic}</div>
+                                    </div>
+                                </template>
+    
+                            <!--PENDIENTE Beneficiary e-mail address para destino CL-->
+                            <!--aura:if isTrue="{! !empty(v.paymentDraft.PENDIENTE)}">
+                                <div class="row">
+                                    <div class="slds-truncate">{!$Label.c.PENDIENTE}</div>
+                                    <div class="bold slds-truncate">{!v.paymentDraft.PENDIENTE}</div>
+                                </div>
+                            </aura:if-->
+    
+                            <!--PENDIENTE Commercial code para destino CL-->
+                            <!--aura:if isTrue="{! !empty(v.paymentDraft.PENDIENTE)}">
+                                <div class="row">
+                                    <div class="slds-truncate">{!$Label.c.PENDIENTE}</div>
+                                    <div class="bold slds-truncate">{!v.paymentDraft.PENDIENTE}</div>
+                                </div>
+                            </aura:if-->
+                        </div>
+                    </div>
+                    <!--PENDIENTE: definir atributos para los document1 , document2-->
+                    <!--Uploaded documentation-->
+                    <!--aura:if isTrue="{! v.paymentDraft.documents.length gt 0}"-->
+                    <template if:true={uploadedDocumentsLengthGtZero}>
+                        <div class="row">
+                        </div>
+                        <div class="row">
+                            <div class="section-title slds-truncate">{label.PAY_PaymentSummary_upDoc}</div>
+                        </div>
+                        <div class="section-content slds-grid slds-wrap">
+                            <!--aura:iteration items="{!v.paymentDraft.documents}" var="item" indexVar="key"-->
+                            <template for:each={uploadedDocumentsIteration} for:item="item">
+                                <div key={item.index} class="slds-col">
+                                    <div class="row">
+                                        <div class="slds-truncate">{item.documentLabel}</div><!--Para probar-->
+                                        <!--div class="slds-truncate">{!$Label.c.document} {key+1}</div--><!--Con datos reales-->
+                                        <div class="bold slds-truncate">{item}</div><!--Para probar-->
+                                        <!--div class="bold slds-truncate">{!item.name}</div--><!--Con datos reales-->
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+            </article>
+            <!-- CARD AMOUNT -->
+            <!-- Añadir la calse confirm para ocultar los botones y mostrar el bloque exchange rate junto con la card de autorización -->
+            <!-- Añadir la clase simple para mostrar únicamente el <header> de la card -->
+            <article class="slds-card card-amount">
+                <!-- CARD AMOUNT HEADER -->
+                <div class="slds-card__header">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body slds-grid">
+                            <h2 class="slds-card__header-title">{label.amount}</h2>
+                            <template if:false={amountReceiveNull}>
+                            <!--PARA PROBAR h2 class="slds-card__header-title"><c:CMP_displayAmount outputString = "{!v.debitAmountString}" aura:id ="avaibleBalanceRow" amount="{!v.total}" decimalClass="slds-text-heading_small" currencyClass="slds-text-heading_small" currency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}" numberFormat="{!v.userData.numberFormat}" /></h2-->
+                                <!--ORIGINAL h2 class="slds-card__header-title">5.437<span class="slds-text-heading_small">,93 EUR</span></h2-->
+                                <h2 class="slds-card__header-title">
+                                    <c-lwc_display-amount 
+                                        outputstring={paymentAmountString}
+                                        amount={paymentdraft.amountReceive}
+                                        decimalclass="slds-text-heading_small" 
+                                        currencyclass="slds-text-heading_small" 
+                                        currency={paymentdraft.destinationAccount.currencyCodeAvailableBalance}
+                                        numberformat={userdata.numberFormat}
+                                    >
+                                    </c-lwc_display-amount>
+                                </h2>
+                            </template>
+                            <template if:false={amountReceiveNull}>
+                                <h2 class="slds-card__header-title">
+                                    <c-lwc_display-amount 
+                                        outputstring={paymentAmountString} 
+                                        amount={paymentdraft.amountSend} 
+                                        decimalclass="slds-text-heading_small" 
+                                        currencyclass="slds-text-heading_small" 
+                                        currency={paymentdraft.sourceAccount.currencyCodeAvailableBalance}
+                                        numberformat={userdata.numberFormat}
+                                    >
+                                    </c-lwc_display-amount>
+                                </h2>
+                            </template>
+                        </div>
+                    </header>
+                </div>
+                <!-- CARD AMOUNT BODY -->
+                    <div class="slds-card__body slds-card__body_inner">
+                        <template if:true={currencyCodeAvailableBalanceDiffers}>
+                            <div class="slds-grid">
+                                <div>
+                                    <div class="tooltip__content">
+                                        <div class="text">{label.exchangeRate}</div>
+                                        <div class="tooltip tooltip_right__top">
+                                            <button class="slds-button slds-button_icon" aria-describedby="help" aria-disabled="true" >
+                                                <span class="slds-button__icon icon icon-information"></span>
+                                                <span class="slds-assistive-text">{label.help}</span>
+                                            </button>
+                                            <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom" role="tooltip" data-id="help">
+                                                <div class="slds-popover__body">
+                                                    <div class="title">
+                                                        {exchangeRateLabel}
+                                                    </div>
+                                                    <div class="line"></div>
+                                                    <div class="text">
+                                                        {label.PAY_PaymentSummary_tooltip1}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <!--Formato actual: 1 EUR = 4,91 PLN-->
+                                    <template if:false={paymentDraftExchangeRateEmpty}>
+                                        <div class="text">
+                                            <!--c:CMP_displayAmount aura:id ="avaibleBalanceRow" amount="{!v.paymentDraft.exchangeRate}" decimalClass="text" wholeClass="text" currency="{!$Label.c.EUR}" numberFormat="{!v.userData.numberFormat}"  outputString = "{!v.exchangeRateString}" /> / {!$Label.c.GBP}-->
+                                            <c-lwc_display-amount 
+                                                amount="1" 
+                                                decimalclass="text" 
+                                                wholeclass="text" 
+                                                currency={paymentdraft.sourceAccount.currencyCodeAvailableBalance}
+                                                numberformat={userdata.numberFormat}
+                                            >
+                                            </c-lwc_display-amount>
+                                            = 
+                                            <c-lwc_display-amount 
+                                                data-id ="avaibleBalanceRow" 
+                                                amount={paymentdraft.exchangeRate}
+                                                decimalclass="text" 
+                                                wholeclass="text" 
+                                                currency={paymentdraft.destinationAccount.currencyCodeAvailableBalance}
+                                                numberformat={userdata.numberFormat}
+                                                outputstring={exchangeRateString}
+                                            >
+                                            </c-lwc_display-amount>
+                                        </div>
+                                    </template>
+                                    <template if:true={paymentDraftExchangeRateEmpty}>
+                                        <div class="text"> - </div>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="slds-grid">
+                                <div>
+                                    <!--Amount in ...-->
+                                    <div class="text">
+                                        <!-- {!$Label.c.amountIn + ' '}<span>{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}</span> -->
+                                        {amountInSourceAccount}
+                                    </div>
+                                </div>
+                                <div>
+                                    <template if:false={paymentDraftAmountSendEmpty}>
+                                        <div class="number">
+                                            <c-lwc_display-amount
+                                                amount={paymentdraft.amountSend}
+                                                decimalclass="number" 
+                                                wholeclass="number" 
+                                                currency={paymentdraft.sourceAccount.currencyCodeAvailableBalance}
+                                                numberformat={userdata.numberFormat}
+                                            >
+                                            </c-lwc_display-amount>
+                                        </div>
+                                    </template>
+                                    <template if:true={paymentDraftAmountSendEmpty}>
+                                        <div class="number"> - </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </template>
+    
+                        <div class="slds-grid">
+                            <div>
+                                <div class="tooltip__content">
+                                    <div class="text">{label.Fee}</div>
+                                    <div class="tooltip tooltip_right__top">
+                                        <button class="slds-button slds-button_icon" aria-describedby="help" aria-disabled="true" >
+                                            <span class="slds-button__icon icon icon-information"></span>
+                                            <span class="slds-assistive-text">{label.help}</span>
+                                        </button>
+                                        <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom" role="tooltip" data-id="help">
+                                            <div class="slds-popover__body">
+                                                <div class="title">
+                                                    {label.transferFee}
+                                                </div>
+                                                <div class="line"></div>
+                                                <div class="text">
+                                                    {label.PAY_PaymentSummary_tooltip2}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <template if:false={paymentDraftConvertedTransactionFeeEmpty}>
+                                    <div class="number">
+                                        <c-lwc_display-amount 
+                                            outputstring={feesString}
+                                            amount={paymentdraft.convertedTransactionFee}
+                                            decimalclass="number" 
+                                            wholeclass="number" 
+                                            currency={paymentdraft.convertedTransactionFeeCurrency}
+                                            numberformat={userdata.numberFormat}
+                                        >
+                                        </c-lwc_display-amount>
+                                    </div>
+                                </template>
+                                <!-- CAMBIAR userdata A MINUSCULAS -->
+                                <template if:true={paymentDraftConvertedTransactionFeeEmpty}>
+                                    <template if:false={paymentDraftTransactionFeeEmpty}>
+                                        <div class="number">
+                                            <c-lwc_display-amount  
+                                                outputstring={feesString}
+                                                amount={paymentdraft.transactionFee}
+                                                decimalclass="number" 
+                                                wholeclass="number" 
+                                                currency={paymentdraft.transactionFeeCurrency} 
+                                                numberformat={userdata.numberFormat}
+                                            >
+                                            </c-lwc_display-amount>
+                                        </div>
+                                    </template>
+                                    <template if:true={paymentDraftTransactionFeeEmpty}>
+                                            <div class="number"> - </div>
+                                    </template>
+                                </template>
+                            </div>
+                        </div>
+                        <div class="slds-grid">
+                            <div>
+                                Total amount in <span>{paymentdraft.sourceAccount.currencyCodeAvailableBalance}</span>
+                            </div>
+                            <div class="bold">
+                                <c-lwc_display-amount 
+                                    outputstring={debitAmountString}
+                                    data-id ="avaibleBalanceRow" 
+                                    amount={total}
+                                    currency={paymentdraft.sourceAccount.currencyCodeAvailableBalance}
+                                    numberformat={userdata.numberFormat}
+                                >
+                                </c-lwc_display-amount>
+                            </div>
+                        </div>
+                        
+                        <!-- EXCHANGE RATE -->
+                        <template if:true={showOTP}>
+                            <template if:true={signatory}>
+                                <c-lwc_count-down 
+                                    minutes=5 
+                                    update 
+                                    expiredfx={expiredFX}
+                                    spinner={spinnerCountDown}
+                                    onfxaction={reloadFX} 
+                                >
+                                </c-lwc_count-down>
+                            </template>
+                        </template>
+    
+                    </div>
+            </article>
+    
+            <!-- CONFIRMATION BUTTONS -->
+            <template if:true={showOTP}>
+                <template if:false={expiredFX}>
+                    <c-lwc_waiting-authorization 
+                        expired={expiredFX}
+                        localuser={localUser}
+                        errorotp={errorOTP}
+                        spinner={spinnerVerificationCode}
+                        error={errorSignOrExpiredFX}
+                        onresendaction={sendOTP_Strategic}
+                    >
+                    </c-lwc_waiting-authorization>
+                </template>
+            </template>
+            <template if:false={showOTP}>
+                    <div class="buttons">
+                        <button class="slds-button primary button_full" onclick={handleConfirm} >{label.confirmPayment}</button>
+                        <button class="slds-button secondary button_full" onclick={handleBack}>{label.editPayment}</button>
+                    </div>
+            </template>
+    
+            <c-lwc_b2b_toast data-id="errorToast" reload={reload}></c-lwc_b2b_toast>
+            <template if:true={spinner}>
+                <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+            </template>
+        </div>
+</template>

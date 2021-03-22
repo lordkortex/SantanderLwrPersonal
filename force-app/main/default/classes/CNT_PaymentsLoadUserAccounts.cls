@@ -115,10 +115,10 @@ public with sharing class CNT_PaymentsLoadUserAccounts {
             } else {
                 throw new CustomException('Transfer type is not informed.');
             }
-            if(originAccounts.isEmpty()){	
-                throw new CustomException('Origin accounts are not informed.');	
-            }else{	
-            	ServiceFilterAccounts.filterBalanceView(accountList, originAccounts);	
+            if(originAccounts.isEmpty()){   
+                throw new CustomException('Origin accounts are not informed.'); 
+            }else{  
+                ServiceFilterAccounts.filterBalanceView(accountList, originAccounts);   
             }
             Map<String, Object> value = new Map<String, Object>();
             value.put('accountList', ServiceFixByCountry.fixBicByCountry(accountList));
@@ -250,6 +250,36 @@ public with sharing class CNT_PaymentsLoadUserAccounts {
             response = new ReturnValue(false, null, e.getMessage());
         }
           return response;
+    }
+    
+    @AuraEnabled
+    public static ReturnValue getRawAccounts (WrapperUserData userData) {
+        ReturnValue response = null;
+
+        try {
+            List<WRAPPER_AccountList.AccountDetails> accountList = new List<WRAPPER_AccountList.AccountDetails>();
+            String serviceAPILine = ServiceAPILine.getAPILine (userData);
+            if(serviceAPILine == NEXUS){
+                CNT_AccountsParent.getBalanceData('lastUpdate', UserInfo.getUserId());
+                accountList = CNT_AccountsParent.accountList;
+            } else if(serviceAPILine == MULTI_ONE_TRADE|| serviceAPILine == LOCAL_BANKING){
+                CNT_AccountsParent.getBalanceData('oneTrade', UserInfo.getUserId());
+                accountList = CNT_AccountsParent.accountList;
+            }else{
+                throw new CustomException('TO-DO');
+            }
+            Map<String, Object> value = new Map<String, Object>();
+            if (accountList.isEmpty()) {
+                throw new CustomException('Error getting user accounts.');
+            } else {
+                value.put('accountList', ServiceFixByCountry.fixBicByCountry(accountList));
+            }
+            response = new ReturnValue(true, value);
+        } catch (Exception e) {
+            System.debug('CNT_PaymentsLoadUserAccounts.getRawAccounts: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            response = new ReturnValue(false, null, e.getMessage());
+        }
+        return response;
     }
 
     /* public static List<WRAPPER_AccountList.AccountDetails> formatDates (List<WRAPPER_AccountList.AccountDetails> response) {

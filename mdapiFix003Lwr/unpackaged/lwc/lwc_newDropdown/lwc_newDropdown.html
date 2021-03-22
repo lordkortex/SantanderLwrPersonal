@@ -1,0 +1,74 @@
+<template>
+    <div class={dropDownClass} aria-expanded="true" aria-haspopup="dialog" role="combobox"> 
+        <div if:false={issimpledropdown}>
+            <!-- MULTISELECT DROPDOWN -->
+            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                 <!--01/04/2020 - Account Payments Tracker - disabling -->
+              <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" title={helpText} disabled={isdisabled}>
+                    <div if:true={valueLength}>
+                        <div class="slds-border_right orderSelectedPlaceholder  selectedValue-placeholder slds-truncate">{valueplaceholder}</div> 
+                    </div>
+                    <div if:true={valueLengthEquals}>
+                        <span class="slds-border_right orderSelected slds-truncate">{getSingleselectedvalues}</span> 
+                    </div>
+                    <div if:true={valueLengthGreater}>
+                        <div class="slds-border_right orderSelected slds-truncate">{getSelectedValuesLengthSub}{getvalueMulti}</div> 
+                    </div>
+                    <div if:true={valueLengthGreaterNotSelected}>
+                        <div class="slds-border_right orderSelected slds-truncate">{getSelectedValuesLength}{getvalueMulti}</div> 
+                    </div>
+                    <div class="slds-button__icon arrow" aria-hidden="true">
+                        <div class="button-arrow icon-arrowDown_small"></div>
+                    </div>
+                    <span class="slds-assistive-text">{helpText}</span>
+                </button>
+            </div>
+             <!--01/04/2020 - Account Payments Tracker - disabling-->
+            <div class={disabledClass}>
+                
+                <lightning-checkbox-group
+                        class='fromdropdown'
+                        options={optionsO}
+                        onchange={selectOption}
+                        value={valueV}>
+                </lightning-checkbox-group>
+            </div>
+        </div> 
+        <div if:true={issimpledropdown}>
+            <!-- SIMPLE DROPDOWN -->
+            <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" title={helpText} disabled={disabled}>
+                    <div if:true={isSingleChoice}>
+                        <div class="slds-border_right orderSelectedPlaceholder  selectedValue-placeholder ">{selectedvalue}</div> 
+                    </div>
+                    <div if:true={isNotSingleChoice}>
+                        <div class="slds-border_right orderSelected selectedValue">{selectedvalue}</div>
+                    </div>
+                    <div if:true={selectedValueIsNull}>
+                        <div class="slds-border_right orderSelectedPlaceholder selectedValue-placeholder">{valueplaceholder}</div>
+                    </div>
+                    <div class="slds-button__icon arrow" aria-hidden="true">
+                        <div class="button-arrow icon-arrowDown_small"></div>
+                    </div>
+                    <span class="slds-assistive-text">{helpText}</span>
+                </button>
+            </div>
+            <div class={disabledClass}>
+                <ul class="slds-dropdown__list" role="menu" aria-label={helpText}>
+                    <template for:each={values} for:item="item">
+                        <li class={itemClass} key={item.value} data-value={item.value} role="presentation" id={item.value} onclick={selectOption}>
+                            <a class="paddingOption"  role="menuitemcheckbox" tabindex="0" aria-checked="true" >
+                                <div class="slds-truncate optionOrder" title={item.value}>
+                                    <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
+                                        <div class="button-selected icon-check"></div>
+                                    </div>
+                                    <span class="nameOrder">{item.value}</span>
+                                </div>
+                            </a>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>

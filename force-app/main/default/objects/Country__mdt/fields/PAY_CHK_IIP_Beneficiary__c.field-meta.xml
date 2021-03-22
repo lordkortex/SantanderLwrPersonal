@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>PAY_CHK_IIP_Beneficiary__c</fullName>
+    <defaultValue>false</defaultValue>
+    <description>Si es true, el pais aparece en el dropdown en el paso 2 del proceso del pago.</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <label>IIP Beneficiary</label>
+    <type>Checkbox</type>
+</CustomField>

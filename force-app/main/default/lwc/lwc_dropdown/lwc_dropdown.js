@@ -19,7 +19,7 @@ export default class Lwc_dropdown extends LightningElement {
     }
 
     @api values;//['Value 1', 'Value 2', 'Value 3'];    //description="List of values to populate the dropdown"/>
-    @api selectedvalue;                                 //MAP description="Selected option from the dropdown"/>
+    @api selectedvalue = [];                            //MAP description="Selected option from the dropdown"/>
     @api helptext="Show More";                          //description="Dropdown help text"/>
     @api issimpledropdown;                              //description="Flag to switch between simple and multiselect dropdown"/>
     @api ishiddenvaluedropdown=false;                   //description="Flag so that the dropdown can recieve a list of objects with value / displayes value"/>
@@ -50,12 +50,22 @@ export default class Lwc_dropdown extends LightningElement {
 
     get condition3(){
         //!v.selectedvalues.length == 0
-        return this.selectedvalue.length == 0;
+        if (this.selectedvalues) {
+            return this.selectedvalues.length == 0;
+        }
+        else {
+            return false;
+        }
     }
 
     get condition4(){
         //!v.selectedvalues.length == 1
-        return this.selectedvalue.length == 1;
+        if (this.selectedvalues) {
+            return this.selectedvalues.length == 1;
+        }
+        else {
+            return false;
+        }
     }
 
     get condition5(){
@@ -78,14 +88,40 @@ export default class Lwc_dropdown extends LightningElement {
         return this.ishiddenvaluedropdown == false;
     }
 
-    get condition8(){
+    get condition7(){
         //and(v.selectedValues.length > 1, v.allValuesSelected)
-        return this.selectedvalues.length > 1 && this.allvaluesselected == true;
+        if (this.selectedvalues){
+            return this.selectedvalues.length > 1 && this.allvaluesselected == true;
+        }
+        else{
+            return false;
+        }
     }
 
     get condition9(){
         //and(v.selectedValues.length > 1, not(v.allValuesSelected))
-        return this.selectedvalues.length > 1 && this.allvaluesselected == false;
+        if (this.selectedvalues){
+            return this.selectedvalues.length > 1 && this.allvaluesselected == false;
+        }
+        else{
+            return false;
+        }
+    }
+
+    get selectedValues1(){
+        return this.selectedvalues[0];    
+    }
+
+    get selectedvalues1Display(){
+        return this.selectedvalues[0].displayValue;
+    }
+
+    get selectedValuesLengthm1(){
+        return this.selectedvalues.length - 1 + ' ' + this.valueMulti;
+    }
+
+    get selectedValuesLength(){
+        return this.selectedvalues.length + ' ' + this.valueMulti;  
     }
 
     connectedCallback(){
@@ -122,9 +158,10 @@ export default class Lwc_dropdown extends LightningElement {
         var selectedValues = [];
 
         if(this.issimpledropdown) {
-            selectedValues.push(items[0]);
+            //selectedValues.push(items[0]);
+            this.selectedvalues.push(this.selectedvalue);
         } else {
-            var selectedValuesList = this.selectedvalues;
+            var selectedValuesList = JSON.parse(JSON.stringify(this.selectedvalues));
             console.log("[CMP_DropdownHelper.handleUpdateSelection] Selected Values: " + selectedValuesList);
 
             var item_aux=[]
@@ -133,19 +170,21 @@ export default class Lwc_dropdown extends LightningElement {
                 item_aux.push(items[item]);
             }
 
+            var element;
             // If the element selected is All, then select / deselect all options
             for(var item in item_aux){
-                if(item_aux.includes(selectAllValues)){
+                element = '[data-id="' + item_aux[item] + '"]';
+                if(item_aux.includes(this.selectallvalues)){
                     var allOptions = this.values;
-                    if(document.getElementById(item_aux[item]).classList.contains("slds-is-selected")){
+                    if(this.template.querySelector(element).classList.contains("slds-is-selected")){
                         for(var key in allOptions){
-                            document.getElementById(allOptions[key]).classList.remove("slds-is-selected");
+                            this.template.querySelector(allOptions[key]).classList.remove("slds-is-selected");
                             selectedValuesList.splice(selectedValuesList.indexOf(allOptions[key]),1);
                         }
                         this.allvaluesselected = false;
                     } else {
                         for(var key in allOptions){
-                            document.getElementById(allOptions[key]).classList.add("slds-is-selected");
+                            this.template.querySelector(element).classList.add("slds-is-selected");
                             if(selectedValuesList.indexOf(allOptions[key]) == -1){
                                 selectedValuesList.push(allOptions[key]);
                             }
@@ -154,26 +193,26 @@ export default class Lwc_dropdown extends LightningElement {
                     }
                 } else {
                     // If the element is selected, then unselect the option. Otherwise select the option.
-                    if(document.getElementById(item_aux[item]).classList.contains("slds-is-selected")){
-                        document.getElementById(item_aux[item]).classList.remove("slds-is-selected");
+                    if(this.template.querySelector(element).classList.contains("slds-is-selected")){
+                        this.template.querySelector(element).classList.remove("slds-is-selected");
                         // Remove the value from the list if it's still there
                         if(selectedValuesList.indexOf(item_aux[item]) != -1){
                             selectedValuesList.splice(selectedValuesList.indexOf(item_aux[item]),1);
                         }
                         // Remove 'All' if it's selected
-                        if(selectedValuesList.indexOf(this.selectAllValues) != -1){
-                            document.getElementById(this.selectAllValues).classList.remove("slds-is-selected");
-                            selectedValuesList.splice(selectedValuesList.indexOf(this.selectAllValues),1);
+                        if(selectedValuesList.indexOf(this.selectallvalues) != -1){
+                            this.template.querySelector(element).classList.remove("slds-is-selected");
+                            selectedValuesList.splice(selectedValuesList.indexOf(this.selectallvalues),1);
                         }
                     }else{
-                        document.getElementById(item_aux[item]).classList.add("slds-is-selected");
+                        this.template.querySelector(element).classList.add("slds-is-selected");
                         selectedValuesList.push(item_aux[item]);
                     }
                     this.allvaluesselected = false;
                 }
             }
 
-            this.selectedValues = selectedValuesList;
+            this.selectedvalues = selectedValuesList;
             selectedValues = selectedValuesList;        
         }
         

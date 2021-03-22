@@ -1,0 +1,158 @@
+<!--
+  @description       : 
+  @author            : Everis
+  @group             : 
+  @last modified on  : 02-19-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author   Modification
+  1.0   12-11-2020   Everis   Initial Version
+-->
+<template>
+    <p></p>
+    <li class={mainclassattribute}>
+        <!-- PROGRESS ICON -->
+        <div
+            class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon slds-progress__marker_icon-success progressBar">
+            <div class="slds-media__figure containerIcon">
+                <span class={progressicon}></span>
+            </div>
+            <span class="slds-assistive-text">{status}</span>
+        </div>
+        <!-- CARD 1 -->
+        <div class={cardClass}>
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <!-- FLAG-->
+                <div class="slds-media__body containerFlag">
+                    <div class="slds-media__figure flag">
+                        <img class="" src={countryImg} onerror={defaultImage} />
+                    </div>
+                </div>
+                <!-- BANK -->
+                <div class={colBankCss}>
+                    <div class={textBoldCss}>
+                        {itemBank}
+                    </div>
+                    <div class={classCss.textRegular}>
+                        {itemBic}
+                    </div>
+                </div>
+                <!-- CITY -->
+                <div class={colCountryCss}>
+                    <div class={textBoldCss}>
+                        {itemCity}
+                    </div>
+                    <div class={classCss.textRegular}>
+                        {itemCountryName}
+                    </div>
+                </div>
+                <!-- DATE -->
+                <div class={colArrivalTimeCss}>
+                    <div>
+                        <template if:true={isArrivalTraceable}>
+                            <div>
+                                <div class={classCss.textRegular}>{itemArrivalDate}</div>
+                                <div class={classCss.textRegular}>{itemArrivalTime}</div>
+                            </div>
+                        </template>
+                        <template if:false={isArrivalTraceable}>
+                            <div>
+                                <div class={classCss.textRegular}>{itemArrival}</div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                <!-- TIME -->
+                <div class={colDurationCss}>
+                    <div>
+                        <div class={classCss.textRegular}>{itemDurationTime}</div>
+
+                        <div class={classCss.textRegular}>{itemDurationTimeSEGANDMIN}</div>
+                    </div>
+                </div>
+                <!-- DATE -->
+                <div class={colDepartureTimeCss}>
+                    <div>
+                        <template if:true={isDepartureTraceable}>
+                            <div>
+                                <div class={classCss.textRegular}>{itemDepartureDate}</div>
+                                <div class={classCss.textRegular}>{itemDepartureTime}</div>
+                            </div>
+                        </template>
+                        <template if:false={isDepartureTraceable}>
+                            <div>
+                                <div class={classCss.textRegular}>{itemDeparture}</div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                    
+                <!-- si vienen 6 columnas pintar esto si vienen 5 no hacer nada-->
+                <template if:true={foreignexchangecard}>
+                    <div class="slds-media__body colExchangeRateTitle">
+                        <template if:true={isforeignExchangeDetails}>
+                            
+                                {itemSourceCurrency} / {itemTargetCurrency}
+                                {itemExchangeRate}
+                            
+                        </template>
+                    </div>
+                </template>
+                    
+                        <!--
+                        <template if:false={isforeignExchangeDetails}>
+                            <div class="slds-media__body colExchangeRateTitle">
+                                
+                            </div>
+                        </template>
+                        -->
+                
+                
+                
+                <!--EXCHANGE RATE
+                <template if:true={isHasForeignExchange}>
+                    <div class="slds-media__body colExchangeRateTitle">
+                        <template if:true={isforeignExchangeDetails}>
+                            <div class={classCss.textRegular}>{itemSourceCurrency} / {itemTargetCurrency}</div>
+                            <div class={classCss.textRegular}>{itemExchangeRate}</div>
+                        </template>
+                    </div>
+                </template>-->
+                <!-- FEE -->
+                <div class="colFee">
+                    <div>
+                        <template if:true={isShowFee}>
+                            <template if:true={isFeeApplied}>
+                                <span class={textBold2}>{label.APPLIED}</span>
+                            </template>
+                            <!--pgp-->
+                            <template if:false={isFeeApplied}>
+                                <span class={classCss.textRegular}>{label.NOT_APPLIED}</span>
+                            </template>
+
+                        </template>
+                        <template if:false={isShowFee}>
+                            <template if:true={isFeeApplied}>
+                                <div>
+                                
+                                <c-lwc_display-amount amount={itemStepFee} decimalclass=''
+                                    wholeclass='' currency={itemStepFeeCurrency}>
+                                </c-lwc_display-amount>
+                                <!--<c-lwc_display-amount amount={itemStepFee} decimalclass={classCss.textRegular}
+                                    wholeclass={classCss.textRegular} currency={itemStepFeeCurrency}>
+                                </c-lwc_display-amount>-->
+                                </div>
+                            </template>
+                            <template if:false={isFeeApplied}>
+                                <span class={classCss.textRegular}>{label.NOT_APPLIED}</span>
+                            </template>
+                        </template>
+                        <span class=""></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+    <!--<p></p>-->
+</template>

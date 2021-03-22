@@ -1,0 +1,967 @@
+.THIS .slds-modal__header>.slds-button {
+    margin-left: 20px;
+}
+
+.THIS .slds-modal__header>.slds-modal__close {
+    width: 24px;
+    height: 24px;
+    top: 0;
+    right: 0;
+    display: flex;
+    margin-top: 24px;
+}
+
+.THIS .textHelp {
+    padding-left: 0 !important;
+    color: red !important;
+    position: absolute;
+}
+
+.THIS .icon-close_big:before {
+    font-size: 24px;
+}
+
+.THIS .slds-modal__header>.icon-delete {
+    color: white;
+    font-size: 24px;
+}
+
+.THIS .slds-backdrop {
+    background-color: #444444;
+}
+
+.THIS .slds-button {
+    cursor: pointer;
+    border: none;
+}
+
+.THIS .slds-button:active {
+    cursor: pointer;
+    border: none;
+}
+
+.THIS .slds-button:focus {
+    cursor: pointer;
+    -webkit-box-shadow: none;
+    border: none;
+    border-color: inherit;
+    box-shadow: none;
+    outline: none;
+}
+
+.THIS .slds-modal__footer .slds-button+.slds-button {
+    margin-left: 0;
+}
+
+.THIS .slds-modal__container {
+    max-width: 808px;
+    min-width: 808px;
+    height: 707px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.THIS .slds-row {
+    margin-bottom: 36px;
+}
+
+.THIS .slds-row:last-child {
+    margin-bottom: 0;
+}
+
+.THIS .slds-modal__header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: none;
+    padding: 24px;
+    height: 76px;
+}
+
+.THIS .slds-modal__header:last-child {
+    justify-content: flex-end;
+}
+
+.THIS .slds-modal__title {
+    color: #444444;
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 20px;
+    line-height: 28px;
+}
+
+.THIS .slds-modal__content {
+    overflow: hidden;
+    padding: 0 24px;
+    height: 540px;
+}
+
+.THIS .slds-col:nth-child(even) {
+    margin-left: 24px;
+}
+
+.THIS .slds-row {
+    display: inline-flex;
+}
+
+.THIS .slds-combobox {
+    display: block;
+}
+
+.THIS .calendar>.slds-form-element {
+    display: contents;
+}
+
+.THIS .slds-form-element__label,
+.THIS .slds-form-element__legend,
+.THIS .textLabel {
+    font-family: SantanderTextW05-Regular;
+    font-weight: normal;
+    font-size: 14px;
+    color: #444444;
+    margin: 0 0 4px 0;
+    padding: 0;
+}
+
+.THIS .doblecheck .slds-form-element__label {
+    margin-bottom: 16px;
+}
+
+
+/* ESTILOS EN ACTIVO */
+
+.THIS .inputActive {
+    font-size: 16px;
+    font-family: "SantanderMicroText";
+    color: #444444;
+}
+
+
+/* DROPDOWN CHECKBOX .slds-combobox__check */
+
+.THIS .slds-combobox__check {
+    width: 368px;
+}
+
+.THIS .slds-combobox__check .button-order {
+    background-color: #f6fafc;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+    height: 48px;
+    width: 100%;
+}
+
+.THIS .slds-combobox__check .button-order .button-arrow {
+    font-size: 24px;
+}
+
+.THIS .slds-combobox__check .button-order:focus {
+    box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+
+.THIS .slds-combobox__check .button-order:hover {
+    box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+
+.THIS .slds-combobox__check .slds-popover {
+    position: absolute;
+    top: 48px;
+    border-radius: 4px;
+    background-color: #f6fafc;
+    padding: 4px;
+    width: 100%;
+    /* height: 193px; */
+    z-index: 6000;
+    box-shadow: none;
+    border-top: none;
+    border-color: none;
+    border-style: none;
+    border-width: 0;
+    border-right: 1px solid #deedf2;
+    border-left: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-image: initial;
+}
+
+.THIS .slds-combobox__check .slds-popover__body {
+    background-color: none;
+    padding: 0;
+    width: 100%;
+    max-height: 166px;
+    overflow-y: scroll;
+}
+
+.THIS .slds-combobox__check .slds-checkbox__label .slds-form-element__label {
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+    margin-left: 8px;
+}
+
+.THIS .slds-combobox__check .slds-checkbox:hover,
+.THIS .slds-combobox__check .slds-checkbox:active,
+.THIS .slds-combobox__check .slds-checkbox:focus {
+    border-radius: 4px;
+    background-color: #deedf2;
+}
+
+.THIS .slds-combobox__check .selectedValue-placeholder {
+    font-family: SantanderMicroText;
+    align-items: center;
+    border: 0;
+    color: #767676;
+    display: flex;
+    font-size: 16px;
+    height: 24px;
+    padding: 0 48px 0 12px;
+    width: 100%;
+    line-height: 24px;
+}
+
+.THIS .slds-combobox__check .slds-button_icon-border-filled {
+    line-height: 1;
+    color: #767676;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+    transition: border 0.15s linear 0s;
+    border-color: #deedf2;
+}
+
+.THIS .slds-combobox__check .slds-button__icon {
+    width: 24px;
+    height: 24px;
+    margin: 12px 16px;
+}
+
+.THIS .slds-combobox__check .optionOrder .slds-form-element {
+    margin: 0 8px 0 16px;
+}
+
+
+/* CHECK*/
+
+.THIS .slds-combobox__check section .slds-checkbox {
+    display: flex;
+    height: 36px;
+    align-items: center;
+    padding: 0 12px;
+    margin-bottom: 6px;
+}
+
+.THIS .slds-combobox__check section .slds-checkbox:first-of-type {
+    margin-top: 2px;
+}
+
+.THIS .slds-combobox__check input[type="checkbox"]:checked,
+.THIS .slds-combobox__check input[type="checkbox"]:not(:checked) {
+    height: 24px;
+    position: relative;
+    width: 24px;
+    cursor: pointer;
+}
+
+.THIS .slds-combobox__check input[type="checkbox"]:checked:after,
+.THIS .slds-combobox__check input[type="checkbox"]:not(:checked):after {
+    bottom: 2px;
+    border-bottom: 2px solid #1bb3bc;
+    ;
+    border-left: 2px solid #1bb3bc;
+    ;
+    content: "";
+    height: 6px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    line-height: 24px;
+    transform: rotate(-45deg);
+    width: 9px;
+    cursor: pointer;
+}
+
+.THIS .slds-combobox__check input[type="checkbox"]:checked:after {
+    opacity: 1;
+}
+
+.THIS .slds-combobox__check input[type="checkbox"]:not(:checked):after {
+    opacity: 0;
+}
+
+.THIS .slds-combobox__check input[type="checkbox"]:checked:before,
+.THIS .slds-combobox__check input[type="checkbox"]:not(:checked):before {
+    background: white;
+    border: 1px solid #767676;
+    border-radius: 4px;
+    content: '';
+    height: 24px;
+    left: 0;
+    position: absolute;
+    width: 24px;
+    cursor: pointer;
+}
+
+.THIS .slds-combobox__check input[type="checkbox"]:checked:before {
+    border: 2px solid #1bb3bc;
+    cursor: pointer;
+}
+
+.THIS .slds-combobox__check .slds-popover__body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS .slds-combobox__check .slds-popover__body::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.THIS .slds-combobox__check .slds-popover__body::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+.THIS .slds-combobox__check .slds-popover__body::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+
+/* CALENDAR */
+
+.THIS .calendar input {
+    background-color: #f6fafc;
+    border-color: #deedf2;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+    display: inline-block;
+    height: 48px;
+    line-height: 36px;
+    padding: 0 1rem 0 .75rem;
+    transition: none;
+    width: 172px;
+    color: #444444;
+    font-size: 16px;
+}
+ 
+ 
+.THIS .calendar input:active,
+.THIS .calendar input:focus {
+    background-color: #f6fafc;
+    border: 1px solid #deedf2;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+
+.THIS .calendar input::-webkit-input-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .calendar input::-moz-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .calendar input:-ms-input-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .calendar input:-moz-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .calendar .slds-button {
+    left: -16px;
+    bottom: 13px;
+}
+
+.THIS .calendar .slds-align-middle .slds-button {
+    left: 0;
+    bottom: 0;
+}
+
+.THIS .calendar .slds-button_icon-bare {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    height: 24px;
+    line-height: 1;
+    text-transform: none;
+    width: 24px;
+}
+
+.THIS .calendar .slds-button_icon-bare:before {
+    color: #ec0000;
+    content: "\e90b";
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.THIS .calendar .slds-button_icon-bare svg {
+    display: none;
+}
+
+.THIS .calendar .slds-input__icon.slds-input__icon_right {
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    padding: 12px 16px;
+    right: 0px;
+    top: 0;
+    width: 33px;
+}
+
+.THIS .calendar.slds-form_compound .slds-form-element__row .slds-form-element+.slds-form-element {
+    padding-left: 24px;
+    margin: 0;
+}
+
+.THIS .calendar .textHelp {
+    color: #444444 !important;
+    display: inline-block;
+    font-size: 12px;
+    height: 18px;
+    padding-left: 12px;
+}
+
+.THIS .calendar .slds-datepicker {
+    padding: 16px 16px;
+}
+
+.THIS .calendar .slds-datepicker .slds-button:focus {
+    box-shadow: none;
+}
+
+.THIS .calendar .slds-datepicker .slds-button__icon {
+    fill: #ec0000;
+}
+
+.THIS .slds-datepicker .slds-datepicker__filter.slds-grid {
+    padding: 0;
+}
+
+.THIS .calendar .slds-datepicker .slds-datepicker__month {
+    position: relative;
+    right: 9px;
+}
+
+.THIS .calendar .slds-datepicker .slds-datepicker__month thead tr {
+    text-transform: uppercase;
+}
+
+.THIS .calendar .slds-datepicker .slds-datepicker__month thead th {
+    color: #444444;
+    font-size: 12px;
+}
+
+.THIS .calendar .slds-datepicker .slds-day,
+.THIS .calendar .slds-datepicker th,
+.THIS .calendar h2,
+.THIS .calendar .slds-select {
+    font-size: 12px;
+}
+
+.THIS .calendar .slds-datepicker .slds-select {
+    font-family: SantanderTextW05-Regular;
+    height: 32px;
+}
+
+.THIS .calendar .slds-datepicker .slds-select_container {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    text-transform: none;
+}
+
+.THIS .calendar .slds-datepicker .slds-select_container:after {
+    border: none;
+    bottom: 13px;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 15px;
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+
+.THIS .calendar .slds-datepicker .slds-select_container:before {
+    border: none;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 4px;
+    top: 13px;
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+
+.THIS .calendar .slds-datepicker .slds-text-link {
+    color: #ec0000;
+    font-family: SantanderTextW05-Bold;
+    font-size: 12px;
+}
+
+.THIS .calendar .slds-datepicker td {
+    padding: 0;
+}
+
+.THIS .calendar .slds-datepicker td.slds-is-selected>.slds-day {
+    background: #444444;
+}
+
+
+/* INPUT TEXT COMBO*/
+
+.THIS .input_text__combo {
+    display: inline-flex;
+    position: relative;
+}
+
+.THIS .input_text__combo .slds-form-element__control:last-child {
+    margin-left: 24px;
+}
+
+
+/* INPUT TEXT */
+
+.THIS .input_text {
+    width: 368px;
+}
+
+.THIS .input_text .slds-form-element__label {
+    font-size: 14px;
+    color: #444444;
+}
+
+.THIS .input_text .slds-input {
+    background-color: #f6fafc;
+    border: 1px solid #deedf2;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+    height: 48px;
+    width: 100%;
+    max-width: 368px;
+    min-width: 172px;
+    color: #444444;
+    border-width: 1px 1px 0 1px;
+    border-style: solid;
+    border-image: initial;
+    border-color: #deedf2;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+}
+
+.THIS .input_text .slds-input:active,
+.THIS .input_text .slds-input:focus {
+    box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+
+.THIS .input_text input::-webkit-input-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .input_text input::-moz-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .input_text input:-ms-input-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .input_text input:-moz-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+
+/* TEXTAREA */
+
+.THIS .textarea .slds-form-element__label {
+    font-family: SantanderTextW05-Regular;
+    font-weight: normal;
+    font-size: 14px;
+    color: #444444;
+    margin: 0 0 4px 0;
+    padding: 0;
+}
+
+.THIS .textarea .slds-textarea {
+    background-color: #f6fafc;
+    border: none;
+    padding-left: 15px;
+    padding-top: 0;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+    width: 368px;
+    min-height: 77px;
+    transition: border .1s linear, background-color .1s linear;
+    -webkit-appearance: none;
+    resize: none;
+    padding: 14px 16px;
+    color: #444444;
+    font-size: 16px;
+    font-family: "SantanderMicroText";
+}
+
+.THIS .textarea .slds-textarea:active {
+    border-bottom: 1px solid #257fa4;
+}
+
+.THIS .textarea .slds-textarea:focus {
+    border-bottom: 1px solid #257fa4;
+}
+
+.THIS .textarea .slds-textarea::-webkit-input-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .textarea .slds-textarea::-moz-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .textarea .slds-textarea:-ms-input-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .textarea .slds-textarea:-moz-placeholder {
+    font-family: "SantanderMicroText";
+    color: #767676;
+    font-size: 16px;
+}
+
+.THIS .slds-modal__footer {
+    position: fixed;
+    bottom: 49px;
+    left: 0;
+    width: 808px;
+    border-top: none;
+    padding: 24px;
+}
+
+.THIS .slds-media__footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* DOBLECHECK option */
+
+.THIS .slds-form-element__doblecheck {
+    width: 368px;
+}
+
+.THIS .slds-form-element__doblecheck .slds-checkbox__label .slds-form-element__label {
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+    margin-left: 8px;
+}
+
+.THIS .slds-form-element__doblecheck>.slds-checkbox {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+}
+
+.THIS .slds-form-element__doblecheck>.slds-checkbox:last-child {
+    padding-left: 16px;
+}
+
+.THIS .slds-form-element__doblecheck input[type="checkbox"]:checked,
+.THIS .slds-form-element__doblecheck input[type="checkbox"]:not(:checked) {
+    height: 24px;
+    position: relative;
+    width: 24px;
+    cursor: pointer;
+}
+
+.THIS .slds-form-element__doblecheck input[type="checkbox"]:checked:after,
+.THIS .slds-form-element__doblecheck input[type="checkbox"]:not(:checked):after {
+    bottom: 2px;
+    border-bottom: 2px solid #1bb3bc;
+    ;
+    border-left: 2px solid #1bb3bc;
+    ;
+    content: "";
+    height: 6px;
+    left: 0;
+    margin: auto;
+    position: absolute;
+    right: 0;
+    top: 0;
+    line-height: 24px;
+    transform: rotate(-45deg);
+    width: 9px;
+    cursor: pointer;
+}
+
+.THIS .slds-form-element__doblecheck input[type="checkbox"]:checked:after {
+    opacity: 1;
+}
+
+.THIS .slds-form-element__doblecheck input[type="checkbox"]:not(:checked):after {
+    opacity: 0;
+}
+
+.THIS .slds-form-element__doblecheck input[type="checkbox"]:checked:before,
+.THIS .slds-form-element__doblecheck input[type="checkbox"]:not(:checked):before {
+    background: white;
+    border: 1px solid #767676;
+    border-radius: 4px;
+    content: '';
+    height: 24px;
+    left: 0;
+    position: absolute;
+    width: 24px;
+    cursor: pointer;
+}
+
+.THIS .slds-form-element__doblecheck input[type="checkbox"]:checked:before {
+    border: 2px solid #1bb3bc;
+    cursor: pointer;
+}
+
+.THIS .slds-form-element__doblecheck .slds-popover::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS .slds-form-element__doblecheck .slds-popover::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.THIS .slds-form-element__doblecheck .slds-popover::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+.THIS .slds-form-element__doblecheck .slds-popover::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+
+/* DROPDOWN */
+
+.THIS .slds-combobox__Rg .button-order {
+    border: 1px solid #deedf2;
+    background-color: #f6fafc;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+    height: 48px;
+    width: 100%;
+    min-width: 368px;
+}
+
+.THIS .slds-combobox__Rg .button-order .button-arrow {
+    font-size: 24px;
+}
+
+.THIS .slds-combobox__Rg .button-order:focus {
+    box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+
+.THIS .slds-combobox__Rg .button-order:hover {
+    box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+
+.THIS .slds-combobox__Rg .slds-dropdown {
+    box-shadow: inset 0 -1px 0 0 #cedee7;
+    background-color: #f6fafc;
+    border-top: none;
+    border-right: 1px solid #deedf2;
+    border-left: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 0 0 4px 4px;
+    cursor: pointer;
+    left: auto;
+    margin: 0;
+    max-width: 100%;
+    min-width: inherit;
+    overflow-y: auto;
+    padding: 6px 4px 0 4px;
+    right: auto;
+    width: 100%;
+}
+
+.THIS .slds-combobox__Rg .slds-button__icon {
+    width: 24px;
+    height: 24px;
+    margin: 12px 16px;
+}
+
+.THIS .slds-combobox__Rg .optionOrder {
+    align-items: center;
+    display: inline-flex;
+}
+
+.THIS .slds-combobox__Rg .orderSelected {
+    align-items: center;
+    border: 0;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    height: 24px;
+    padding: 0 48px 0 12px;
+    width: 100%;
+}
+
+.THIS .slds-combobox__Rg .paddingOption {
+    height: 36px;
+    margin-bottom: 12px;
+}
+
+.THIS .slds-combobox__Rg .dropdownOrder .paddingOption:hover,
+.THIS .slds-combobox__Rg .paddingOption:active,
+.THIS .slds-combobox__Rg .paddingOption:focus {
+    border-radius: 4px;
+    background-color: #deedf2;
+}
+
+.THIS .slds-combobox__Rg .dropdownOrder .slds-dropdown__item>a {
+    padding: 0 12px;
+    font-size: 16px;
+    font-family: SantanderMicroText;
+    color: #444444;
+    line-height: 24px;
+}
+
+.THIS .slds-combobox__Rg .dropdownOrder .optionOrder .slds-form-element__label {
+    margin: 0;
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+}
+
+.THIS .slds-combobox__Rg .selectedValue-placeholder {
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    color: #767676;
+}
+
+.THIS .slds-combobox__Rg .selectedValue-filled {
+    color: #444444;
+    font-size: 12px;
+}
+
+.THIS .slds-combobox__Rg .slds-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS .slds-combobox__Rg .slds-dropdown::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.THIS .slds-combobox__Rg .slds-dropdown::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+.THIS .slds-combobox__Rg .slds-dropdown::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+
+/* BUTTONS */
+
+.THIS .whiteButton {
+    background-color: #ffffff;
+    border: 1px solid #ec0000;
+    border-radius: 100px;
+    color: #ec0000;
+    font-family: "SantanderMicroText";
+    height: 40px;
+    width: 93px;
+    font-size: 16px;
+    line-height: 32px;
+    text-align: center;
+    padding: 0;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.THIS .whiteButton:hover {
+    background-color: #f6f6f6;
+    border: 1px solid #cc0000;
+    color: #ec0000;
+}
+
+.THIS .whiteButton:focus {
+    box-shadow: 2px 2px 4px 2px rgb(206, 214, 219, 0.64);
+    color: #cc0000;
+    border: 1px solid #ec0000;
+    background-color: #f6f6f6;
+}
+
+.THIS .redButton {
+    border: 1px solid #EC0000;
+    width: 72px;
+    height: 40px;
+    border-radius: 100px;
+    background-color: #ec0000;
+    color: #ffffff;
+    font-family: "SantanderMicroText-Bd";
+    line-height: 32px;
+    font-size: 16px;
+    margin: 0;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.THIS .redButton:hover {
+    background-color: #cc0000;
+    border: 1px solid #CC0000;
+}
+
+.THIS .redButton:focus {
+    box-shadow: 2px 2px 4px 2px rgb(206, 214, 219, 0.64);
+    background-color: #cc0000;
+    border: 1px solid #CC0000;
+}
+
+.THIS .slds-button[disabled] {
+    background-color: #f6f6f6;
+    border-color: #dadada;
+    cursor: not-allowed;
+    box-shadow: inset 0 -1px 0 0 #9bc3d3;
+}
+
+
+/*
+.THIS .slds-button[disabled] {
+    background-color: #f6f6f6;
+    border-color: #dadada;
+    cursor: not-allowed;
+    box-shadow: inset 0 -1px 0 0 #9bc3d3; 
+}*/

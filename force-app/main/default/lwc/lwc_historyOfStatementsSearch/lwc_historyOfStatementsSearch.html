@@ -1,41 +1,43 @@
 <template>
 
     <c-lwc_toast message={message} type={type} show={show}></c-lwc_toast> 
-    
-    <div class="slds-grid searchExtract">
-        <div class="slds-col firstCol">
-            <div class="slds-form-element slds-combobox__Rg">    
-                <!-- DROPDOWN MARKUP -->    
-                <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
-                <c-lwc_cn_dropdown 
-                    issimpledropdown="true"
-                    values={values}
-                    selectedvalue={selectedaccount} 
-                    headerdropdown={label.Account}
-                    ondropdownvalueselected={handleDropdownValueSelected}
-                >
-                </c-lwc_cn_dropdown>
-            </div>
-            <div class="slds-form-element"> 
-                <div class="slds-form slds-form_compound calendar">
-                    <label class="slds-form-element__label">{label.bookDate}</label> 
-
-                    <c-lwc_cn_calendar 
-                        simple={simpleCalendar}
-                        hasseparation
-                        dates={dates} 
-                        errormessagefrom={errorMessageFrom}
-                        errormessageto={errorMessageTo}
-                        autocomplete="off"
+    <!-- <div class="downloads_CNF">    -->
+    <div class="statementsearch">    
+        <div class="slds-grid searchExtract">
+            <div class="slds-col firstCol">
+                <div class="slds-form-element slds-combobox__Rg">    
+                    <!-- DROPDOWN MARKUP -->    
+                    <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                    <c-lwc_cn_dropdown 
+                        issimpledropdown="true"
+                        values={values}
+                        selectedvalue={selectedaccount} 
+                        headerdropdown={label.Account}
+                        ondropdownvalueselected={handleDropdownValueSelected}
                     >
-                    </c-lwc_cn_calendar>   
+                    </c-lwc_cn_dropdown>
                 </div>
-            </div>  
-        </div>
-        <div class="slds-col">
-            <div class="slds-form-element">
-                <button class="slds-button slds-button_neutral whiteButton" onclick={clearButtonClicked}>{label.clearAll}</button>
-                <button class="slds-button slds-button_brand redButton" onclick={searchButtonClicked}>{label.apply}</button>
+                <div class="slds-form-element"> 
+                    <div class="slds-form slds-form_compound calendar">
+                        <label class="slds-form-element__label">{label.bookDate}</label> 
+
+                        <c-lwc_cn_calendar 
+                            simple={simpleCalendar}
+                            hasseparation
+                            dates={dates} 
+                            errormessagefrom={errorMessageFrom}
+                            errormessageto={errorMessageTo}
+                            autocomplete="off"
+                        >
+                        </c-lwc_cn_calendar>   
+                    </div>
+                </div>  
+            </div>
+            <div class="slds-col">
+                <div class="slds-form-element">
+                    <button class="slds-button slds-button_neutral whiteButton" onclick={clearButtonClicked}>{label.clearAll}</button>
+                    <button class="slds-button slds-button_brand redButton" onclick={searchButtonClicked}>{label.apply}</button>
+                </div>
             </div>
         </div>
     </div>

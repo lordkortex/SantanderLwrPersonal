@@ -11,14 +11,33 @@ import B2B_Step_3_To from '@salesforce/label/c.B2B_Step_3_To';
 import B2B_Step_3_Indicative_Rate from '@salesforce/label/c.B2B_Step_3_Indicative_Rate';
 import EUR from '@salesforce/label/c.EUR';
 import GBP from '@salesforce/label/c.GBP';
+import B2B_Country from '@salesforce/label/c.B2B_Country';
+import B2B_Error_Problem_Loading from '@salesforce/label/c.B2B_Error_Problem_Loading';
+import B2B_Error_Enter_Amount from '@salesforce/label/c.B2B_Error_Enter_Amount';
+import B2B_Error_Amount_Exceeds_Limits from '@salesforce/label/c.B2B_Error_Amount_Exceeds_Limits';
+import B2B_Error_Amount_Exceeds_Balance from '@salesforce/label/c.B2B_Error_Amount_Exceeds_Balance';
+import B2B_Error_Check_Connection from '@salesforce/label/c.B2B_Error_Check_Connection';
+import ERROR_NOT_RETRIEVED from '@salesforce/label/c.ERROR_NOT_RETRIEVED';
+import B2B_Error_Enter_Input from '@salesforce/label/c.B2B_Error_Enter_Input';
+import B2B_Reference from '@salesforce/label/c.B2B_Reference';
+import B2B_paymentPurpose from '@salesforce/label/c.B2B_PaymentPurpose';
+import B2B_Amount_Input_Placeholder from '@salesforce/label/c.B2B_Amount_Input_Placeholder';
+import B2B_Error_Updating_Data from '@salesforce/label/c.B2B_Error_Updating_Data';
+
+
 
 //Import Apex methods
 import getExchangeRate from '@salesforce/apex/CNT_B2B_SelectAmount.getExchangeRate';
-import getTransferFees from '@salesforce/apex/CNT_B2B_SelectAmount.getTransferFees';
+//import getTransferFees from '@salesforce/apex/CNT_B2B_SelectAmount.getTransferFees';
+import processPaymentTransferFees from '@salesforce/apex/CNT_B2B_SelectAmount.processPaymentTransferFees';
 import getLimits from '@salesforce/apex/CNT_B2B_SelectAmount.getLimits';
-import accountValidation from '@salesforce/apex/CNT_B2B_SelectAmount.accountValidation';
-import updateSelectAmount from '@salesforce/apex/CNT_B2B_SelectAmount.updateSelectAmount';
+import updatePaymentInformation from '@salesforce/apex/CNT_B2B_SelectAmount.updatePaymentInformation';
+import getPaymentLine from '@salesforce/apex/CNT_B2B_SelectAmount.getPaymentLine';
+//import accountValidation from '@salesforce/apex/CNT_B2B_SelectAmount.accountValidation';
 //import updateSelectAmount from '@salesforce/apex/CNT_B2B_SelectAmount.updateSelectAmount';
+import showHideComponents from '@salesforce/apex/CNT_B2B_SelectAmount.showHideComponents';
+import checkFCCDowJones from '@salesforce/apex/CNT_B2B_PaymentInformation.checkFCCDowJones';
+
 
 export default class lwc_b2b_selectAmount extends LightningElement{
 
@@ -30,17 +49,45 @@ export default class lwc_b2b_selectAmount extends LightningElement{
         B2B_Step_3_Indicative_Rate,
         EUR,
         GBP,
+        B2B_Country,
+        B2B_Error_Problem_Loading,
+        B2B_Error_Enter_Amount,
+        B2B_Error_Amount_Exceeds_Limits,
+        B2B_Error_Amount_Exceeds_Balance,
+        B2B_Error_Check_Connection,
+        ERROR_NOT_RETRIEVED,
+        B2B_Error_Enter_Input,
+        B2B_Reference,
+        B2B_paymentPurpose,
+        B2B_Amount_Input_Placeholder,
+        B2B_Error_Updating_Data
+
     }
     
     @api paymentid = ''; //ID of the current payment
-    @api steps = {} //Data of the steps
-    @api userdata = {} //User data
+    @api steps; //Data of the steps
+    @api userdata = {}; //User data
     @api accountdata //Account data
     @api isediting = false; //Indicates if the user is editing an existing payment so field should not be reset on initialisation
     @api sourceaccountdata = {};
     @api recipientaccountdata = {};
     @api mydata = {}; 
-    @api handlecontinue 
+    @api paymentdraft = {};
+    @api transfertype = '';
+    @api step3field = {};
+    @api exchangeratetoshow
+    @api errorref = '';
+    @api errorpurpose = '';
+    @api errorpaymentreason = '';
+    @api errorcharges = '';
+    @api showbothamountinput = false;
+    @api ratecurrencies = '';
+    @api signlevel = {};
+    @api paymentpurpose = [];
+    @api ismodified;
+    @api charges =[];
+
+
 
     @track spinner = false; //Spinner loading
     @track convertedamount //Amount returned from calculation to be saved to amountReceive or amountSend
@@ -50,11 +97,45 @@ export default class lwc_b2b_selectAmount extends LightningElement{
     @track disablefrom = false; //Disable the From field for CIB user when they input a value in the To field
     @track disableto = false; //Disable the To field for CIB user when they input a value in the From field
     @track amountEnteredFrom = ''; //'source' or 'recipient' depending on which input field the user enters the amount. If no currency exchange because thw two accounts have same currency, value is 'recipient'
-    @track disabledContinue = false; 
+    @track disabledcontinue = false; 
     @track step 
-    @track amountEntered 
-    @track amountEnteredFrom  
+    @track amountentered  
+    @track isloading = true;
+   
 
+    //-------------------------------FUNCIONES PARA EL HTML---------------------------------------------------------
+
+    // get spinnertrue(){
+    //     var res;
+
+    //     if(this.spinner = true){
+    //          res = true;
+    //     }
+
+    //     return res;
+    // }
+    get elementlabelsource(){
+        var res;
+        if(this.paymentdraft.sourceAccount.alias){
+            res= (this.label.B2B_Step_3_From + ' ' + this.paymentdraft.sourceAccount.alias);
+        } else {
+            res= (this.label.B2B_Step_3_From + ' ' + this.paymentdraft.sourceAccount.displayNumber);
+        } 
+
+        return res; 
+    }
+
+    get elementlabeldestination(){
+        var res = '';
+        if(this.paymentdraft.destinationAccount.alias){
+            res= (this.label.B2B_Step_3_To + ' ' + this.paymentdraft.destinationAccount.alias);
+        } else {
+            res= (this.label.B2B_Step_3_To + ' ' + this.paymentdraft.destinationAccount.displayNumber);
+        }
+
+        return res;   
+    }
+         
     get mainClass(){
         var res = '';
         if(this.steps){
@@ -63,6 +144,16 @@ export default class lwc_b2b_selectAmount extends LightningElement{
         return res;
     }
 
+    get paymentdraftoriginzero(){
+            var res;
+            if(this.paymentdraft.fromOrigin = true){
+                res = true;
+            }
+
+        return res;
+    }
+
+
     isNotEqualCurrencyCodeofSourceAccountAndRecipientAccount(){
         var res = null;
         if(this.sourceaccountdata && this.recipientaccountdata){
@@ -70,6 +161,17 @@ export default class lwc_b2b_selectAmount extends LightningElement{
         }
         return res;
     }
+     get ratepaymentdrafttimestamp(){
+
+        return (this.label.B2B_Step_3_Indicative_Rate + ' ' + this.paymentdraft.timestamp)
+
+     }
+
+     get productidnonull(){
+      if(this.paymentdraft.productId != null)
+         return true;
+     } 
+     
 
     existSourceAccountDataAlias(){
         return (this.sourceaccountdata && this.sourceaccountdata.alias ? true : false);
@@ -79,12 +181,17 @@ export default class lwc_b2b_selectAmount extends LightningElement{
         return (this.sourceaccountdata && this.sourceaccountdata.amountAvailableBalance ? true : false);
     }
 
-    exchangeRateNotZero(){
-        return ( this.mydata && this.mydata.exchangeRate && this.mydata.exchangeRate != 0 ? true : false);
+    get amountabailablebalancenotempty(){
+        return (this.paymentdraft.sourceAccount.amountAvailableBalance);
+    }
+
+
+    get exchangeRateNotZero(){
+        return (!this.paymentdraft.exchangeRate && this.paymentdraft.exchangeRate != 0 ? true : false);
     }
 
     isCibFalseOrEmpty(){
-        return (!this.accountdata || !this.accountdata.cib || !this.accountdata.cib);
+        return (this.accountdata.cib || this.accountdata.cib == false ? true : false);
     }
 
     existBalanceOnRecipientAccount(){
@@ -108,104 +215,78 @@ export default class lwc_b2b_selectAmount extends LightningElement{
     }
 
     isStepThreeLastStepModified(){
-        return ((this.steps && this.steps.lastModifiedStep == 3) ? true : false);
+        return (this.steps.lastModifiedStep == 3 ? true : false);
+        
     }
-    
-    connectedCallback() {
-        loadStyle(this, santanderStyle + '/style.css');
-        this.initComponent();
-    } 
-    
-    initComponent(event) {
-        var steps = this.steps;
-        steps.lastModifiedStep = 3;
-        this.steps = steps;
-        let isEditing =this.isediting;
-        let data =this.mydata;
-        new Promise( (resolve, reject) => {
-            let steps =this.steps;
-            let focusStep = steps.focusStep;
-            let lastModifiedStep = steps.lastModifiedStep;
-            
-            let amount = data.amountSend;
-            
-            if (focusStep == lastModifiedStep && focusStep != 5) {
-                data.timestamp = '';
-                data.exchangeRate = 0;
-                if (!(amount)) {
-                    data.amountSend = null;
-                    data.amountReceive = null;
-                }
-            }
-            resolve('Ok');
-        }, this).then( (value) => {
-            if(!isEditing){
-                return this.handleChangeAmount(event, data.amountSend, 'source');  
-            }
-              if(isEditing){
-                this.spinner = true;
-                return this.showInformation(event);
-            } 
-        }).catch( (error) => {
-            toast().error('', error);
-        }).finally( () => {
-            this.mydata = data;
-            this.convertedAmount = '';
-            this.spinner = false;
-            this.formatUpdatedDate(event);
-        });
+
+
+//----------------------------------CONTROLLER-----------------------------------------------
+    initComponent (event) {
+  
+        this.getPaymentDetails()
+        .then(() => {
+            return this.initComponentHelper(event);
+        }).then(() => {
+            return this.ServicePaymentLine(event);
+        }).then(() => {
+            return this.formatUpdatedDate(event);
+        }).then(() => {
+            return this.showHideComponents(event);
+        }).catch((error) => {
+            console.log(error);
+            console.log('KO');
+        });      
     }
-    
-    handleCheckContinue(event) {
-        let data =this.mydata;
-        let errorMSG = '';
-        if (!(data.amountSend) || data.amountSend == 0) {
-            errorMSG = this.label.B2B_Error_Enter_Input;
-            var msg_parameter = this.label.B2B_Amount_Input_Placeholder;
-            errorMSG = errorMSG.replace('{0}', msg_parameter);
-            this.errorMSG = errorMSG;
-        } else if (this.disabledContinue) {
-            var notificationTitle =  this.label.B2B_Error_Problem_Loading;
-            var bodyText =  this.label.B2B_Error_Enter_Amount;
-            this.showToast(notificationTitle, bodyText, true);
-        } else {
-            this.errorMSG = errorMSG;
-            this.spinner = true;
-            var parametros =  this.getTransferFees(event);
-            parametros.then( (value) => {
-                return this.updatePaymentDetails(event);
-            }).then( (value) => {
-                this.completeStep(event);
-            }).catch( (error) => {
-                console.log('### lwc_b2b_selectAmount ### handleCheckContinue ::: Catch error: ' + error);
-            }).finally( () => {
-                this.spinner = false;
+
+    @api
+    handleCheckContinue() {
+        this.spinner = true;
+        this.paymentDetailsContinue()
+        .then( () => {
+            return this.updatePaymentDetails();
+	    }).then(() => {
+            return this.processPaymentTransferFees();
+        }).then(() => {
+                        
+           const accountdataevent = new CustomEvent('accountdata', {
+            detail : { 
+                paymentDraft: this.paymentdraft,
+                step: 3 
+            }
+
             });
-        }
+            this.dispatchEvent(accountdataevent);
+
+            this.completeStep();
+        }).catch((error) => {
+            console.log(error);
+        }).finally(() => {
+           this.spinner = false;
+        });
     }
 
     handleEditingProcess(event) {
-        let params = event.getParams().arguments;
+        let params = event.detail.arguments;
         let amountEntered = null;
         let amountEnteredFrom = '';
-        if (params.amountEntered) {
+        if ((params.amountEntered)) {
             amountEntered = params.amountEntered;
         }
-        if (params.amountEnteredFrom) {
+        if ((params.amountEnteredFrom)) {
             amountEnteredFrom = params.amountEnteredFrom;
         }
-        this.showInformation(event)
-        .then( (value) => {
+        this.showInformation( event)
+        .then(() => {
             this.isediting = false;
-            this.handleChangeAmount(event, amountEntered, amountEnteredFrom);
-        }).catch( (error) => {
-            console.log('### lwc_b2b_selectAmount ### handleEditingProcess ::: Catch error: ' + error);
+            // this.handleChangeAmount(even, amountEntered, amountEnteredFrom);
+        }).catch((error) => {
+            console.log(error);
         });
     }
 
-    handleChange(event) {                     
-        let params = event.getParams(); 
-        var steps =this.steps;
+    handleChange(event) {
+        let params = event.detail; 
+        var steps = this.steps;
         steps.lastModifiedStep = 3;
         steps.focusStep = 3;
         steps.shownStep = 3;
@@ -216,82 +297,78 @@ export default class lwc_b2b_selectAmount extends LightningElement{
         } else if (params.inputId == 'recipientAmountInput') {
             amountEnteredFrom = 'recipient';
         }
-        this.handleChangeAmount(event, params.amount, amountEnteredFrom);
+        this.handleChangeAmount(params.amount, amountEnteredFrom);
         this.isediting = false;
     }
 
-    completeStep(event) {
-        const completestepevent = new CustomEvent('completestepevent', {
-            confirm: true
-        });
-        this.dispatchEvent(completestepevent);
-    }
+
+//------------------------------HELPER-----------------------------------------------------
+
+    connectedCallback() {
+        loadStyle(this, santanderStyle + '/style.css');
+        this.initComponent();
+    } 
     
-    handleChangeAmount(event, amount, amountEnteredFrom) {
-        var isEditing = this.isediting;
-        var sourceAccountData = this.sourceaccountdata;
-        var recipientAccountData = this.recipientaccountdata;
+    handleChangeAmount(amount, amountEnteredFrom) {
+        var isediting = this.isediting;
+        let paymentdraft = this.paymentdraft
         if (amount) {
-            new Promise( (resolve, reject) => {
-                this.disabledContinue = false;
+            return new Promise( (resolve, reject) => {
+                this.disabledcontinue = false;
                 this.spinner = true;
                 this.errorMSG = '';
-                this.convertedAmount = '';
-                let data =this.mydata;
-                data.timestamp = '';
-                data.exchangeRate = 0;                
+                this.convertedamount = '';         
                 if (amountEnteredFrom.localeCompare('source') == 0) {
-                    this.amountEnteredFrom = amountEnteredFrom;
-                    data.amountSend = amount;
-                    data.fromOrigin = true;
-                    if(!isEditing) {
-                        data.amountReceive = null;
+                    this.paymentdraft.amountSend = amount;
+                    this.paymentdraft.fromOrigin= true;
+                    if(!isediting) {
+                        paymentdraft.amountReceive = null;
                     }
                 } else if(amountEnteredFrom.localeCompare('recipient') == 0) {
                     this.amountEnteredFrom = amountEnteredFrom;
-                    data.amountSend = null;
-                    data.fromOrigin = false;
-                    if(!isEditing) {
-                        data.amountReceive = amount;
+                    this.paymentdraft.amountSend = null;
+                    this.paymentdraft.fromOrigin = false;
+                    if(!isediting) {
+                        paymentdraft.amountReceive = null;
                     }
                 }
-                this.mydata = data;
+                this.paymentdraft = paymentdraft;
                 resolve('Ok');
-            }, this).then( (value) => {
-                
-                if (sourceAccountData.currencyCodeAvailableBalance.localeCompare(recipientAccountData.currencyCodeAvailableBalance) != 0) {
+            })
+            .then((value) => {                
+                if (paymentdraft.sourceAccount.currencyCodeAvailableBalance.localeCompare(paymentdraft.destinationAccount.currencyCodeAvailableBalance) != 0) {
                     return this.getExchangeRate('I');
                 }else{
                     return 'OK';
                 }                
-            }).then( (value) => {
+            }).then((value) => {
                 if(amountEnteredFrom.localeCompare('recipient') == 0){
-                    if (sourceAccountData.currencyCodeAvailableBalance.localeCompare(recipientAccountData.currencyCodeAvailableBalance) != 0) {
-                        var convertedAmount =this.convertedAmount;
-                        if(convertedAmount){
-                            let data =this.mydata;
-                         	data.amountSend = convertedAmount; 
-                            this.mydata = data;
+                    if (paymentdraft.sourceAccount.currencyCodeAvailableBalance.localeCompare(paymentdraft.destinationAccount.currencyCodeAvailableBalance) != 0) {
+                        var convertedamount =this.convertedamount;
+                        if(convertedamount){
+                            let paymentdraft =this.paymentdraft;
+                         	paymentdraft.amountSend = convertedamount; 
+                            this.paymentdraft = paymentdraft;
                         }
                     }
                 }
-                return this.validateAccount(event);
-            }).then( (value) => {                
+                return this.checkBalance();
+            }).then((value) => {                
                 return this.getLimits();
-            }).catch( (error) => {
+            }).catch((error) => {
                 console.log('### lwc_b2b_selectAmount ### handleChangeAmount ::: Catch error: ' + error);
-                this.disabledContinue = true;
+                this.disabledcontinue = true;
             }).finally( () => {
-                let data =this.mydata;
-                let converted =this.convertedAmount;
+                let paymentdraft =this.paymentdraft;
+                let converted =this.convertedamount;
                 if (converted) {
                     if (amountEnteredFrom.localeCompare('source') == 0) {
-                        data.amountReceive = converted;
+                        paymentdraft.amountReceive = converted;
                     } else if(amountEnteredFrom.localeCompare('recipient') == 0) {
-                        data.amountSend = converted;
+                        paymentdraft.amountSend = converted;
                     }
                 }  
-                this.mydata = data;
+                this.paymentdraft = paymentdraft;
                 this.spinner = false;
             }); 
         }
@@ -299,43 +376,36 @@ export default class lwc_b2b_selectAmount extends LightningElement{
 
     getExchangeRate(requestType) {
         return new Promise( (resolve, reject) => {
-            var paymentId =this.paymentid;
-            var paymentData =this.mydata;
-            var accountData =this.accountdata;
-            var sourceAccountData =this.sourceaccountdata;
-            var recipientAccountData =this.recipientaccountdata;
-            var notificationTitle =  this.label.B2B_Error_Problem_Loading;
-            var bodyText =  this.label.B2B_Error_Enter_Amount;
+            let paymentdraft = this.paymentdraft;
+            var notificationTitle = this.label.B2B_Error_Problem_Loading;
+            var bodyText = this.label.B2B_Error_Enter_Amount;
+            //var action = this.getExchangeRate;
             
-            getExchangeRate({
-                paymentId : paymentId,
-                requestType : requestType,
-                paymentData : paymentData,
-                accountData : accountData,
-                sourceAccountData : sourceAccountData,
-                recipientAccountData : recipientAccountData
+            getExchangeRate({  //this.
+                paymentDraft: paymentdraft
             })
             .then( (result) => {
                 var stateRV = result;
                 if (stateRV.success) {
+                    let paymentdraft = this.paymentdraft;
                     if (stateRV.value.exchangeRate) {
-                        paymentData.exchangeRate = stateRV.value.exchangeRate;
+                        paymentdraft.exchangeRate = stateRV.value.exchangeRate;
                         var num = stateRV.value.exchangeRate;
                         num = num.toString(); //If it's not already a String
                         num = num.slice(0, (num.indexOf("."))+5); 
-                        paymentData.exchangeRateToShow = num;
+                        this.exchangeratetoshow = num;
                     }  
                     if (stateRV.value.timestamp) {
-                        paymentData.timestamp = stateRV.value.timestamp;
+                        paymentdraft.timestamp = stateRV.value.timestamp;
                     }  
-                    if (stateRV.value.convertedAmount) {
-                        this.convertedAmount = stateRV.value.convertedAmount;
+                    if (stateRV.value.convertedamount) {
+                        this.convertedamount = stateRV.value.convertedamount;
                     } 
                     if (stateRV.value.output) {
-                        paymentData.exchangeRateServiceResponse = stateRV.value.output;
+                        paymentdraft.exchangeRateServiceResponse = stateRV.value.output;
                     }      
-                    // this.disabledContinue", false);
-                    this.mydata = paymentData;
+                    // this.disabledcontinue", false);
+                    this.paymentdraft = paymentdraft;
                     resolve('OK');
                 } else {
                     reject(stateRV.msg);
@@ -347,73 +417,25 @@ export default class lwc_b2b_selectAmount extends LightningElement{
                 console.log('### lwc_b2b_selectAmount ### getExchangeRate ::: Catch error: ' + errors);
                 this.showToast(notificationTitle, bodyText, true);
             })
-        }, this);
+        });
     }
 
-    getTransferFees(event) {
-        return new Promise( (resolve, reject) => {
-            var paymentId =this.paymentid;
-            var data =this.mydata;
-            var userData =this.userData;
-            var accountData =this.accountdata;
-            var sourceAccountData =this.sourceaccountdata;
-            var recipientAccountData =this.recipientaccountdata;
-            var notificationTitle =  this.label.B2B_Error_Problem_Loading;
-            var bodyText =  this.label.B2B_Error_Continue_Button;
-            getTransferFees({
-                paymentId : paymentId,
-                paymentData : data,
-                userData : userData,
-                accountData : accountData,
-                sourceAccountData : sourceAccountData,
-                recipientAccountData : recipientAccountData
-            })
-            .then( (result) => {
-                var stateRV = result;
-                if (stateRV.success) {
-                    if (stateRV.value.originalTransactionFee) {
-                        data.transactionFee = stateRV.value.originalTransactionFee;
-                        data.transactionFeeCurrency = stateRV.value.originalTransactionFeeCurrency;
-                        data.transactionFeeServiceResponse = stateRV.value.transactionFeeServiceResponse;
-                        data.convertedTransactionFee = stateRV.value.convertedTransactionFee;
-                        data.convertedTransactionFeeCurrency = stateRV.value.convertedTransactionFeeCurrency;
-                        data.convertedTransactionFeeServiceResponse = stateRV.value.exchangeRateServiceResponse;
-                    }
-                    this.mydata = data;
-                    resolve('OK');
-                } else {
-                    reject(stateRV.msg);
-                    this.spinner = false;
-                    this.showToast(notificationTitle, bodyText, true);
-                }
-            })
-            .catch( (errors) => {
-                reject('ERROR: Special Prices');
-                this.spinner = false;
-                this.showToast(notificationTitle, bodyText, true);
-            })   
-        }, this);
-    }
 
     getLimits() {
         return new Promise( (resolve, reject) => {
-            var paymentId =this.paymentid;
-            var data =this.mydata;
-            var userData =this.userData;
-            var accountData =this.accountdata;
-            var sourceAccountData =this.sourceaccountdata;
-            var recipientAccountData =this.recipientaccountdata;
-            var notificationTitle =  this.label.B2B_Error_Problem_Loading;
-            var bodyText =  this.label.B2B_Error_Enter_Amount;
-            var label = this.label.B2B_Error_Amount_Exceeds_Limits;
-            var limitsResult = '';
+
+            let paymentdraft = this.paymentdraft
+            let userdata =this.userdata;
+            let sourceaccountData =this.sourceaccountdata;
+            let recipientaccountData =this.recipientaccountdata;
+            let notificationTitle =  this.label.B2B_Error_Problem_Loading;
+            let bodyText =  this.label.B2B_Error_Enter_Amount;
+            let label = this.label.B2B_Error_Amount_Exceeds_Limits;
+            let limitsResult = '';
             getLimits({
-                paymentId : paymentId,
-                paymentData : data,
-                userData : userData,
-                accountData : accountData,
-                sourceAccountData : sourceAccountData,
-                recipientAccountData : recipientAccountData
+                userData: userdata,
+                paymentDraft: paymentdraft
+                
             })
             .then( (result) => {
                 var stateRV = result;
@@ -435,16 +457,16 @@ export default class lwc_b2b_selectAmount extends LightningElement{
                     } else {
                         reject(stateRV.msg);
                         this.spinner = false;
-                        this.showToast(component, notificationTitle, bodyText, true);
+                        this.showToast(notificationTitle, bodyText, true);
                     }
             })
             .catch((errors) => {
                 reject('ERROR: Limits');
                     this.spinner = false;
-                    this.showToast(component, notificationTitle, bodyText, true);
+                    this.showToast(notificationTitle, bodyText, true);
                     console.log('### lwc_b2b_selectAmount ### getLimits() ::: Catch error: ' + errors);
             })
-        }, this);
+        });
     }
     
 
@@ -455,69 +477,381 @@ export default class lwc_b2b_selectAmount extends LightningElement{
         }
     }
 
-    validateAccount(event) {
+    checkBalance () {
         return new Promise( (resolve, reject) => {
-            let sourceAccount =this.sourceaccountdata;
-            let data =this.mydata;
             let label = this.label.B2B_Error_Amount_Exceeds_Balance;
-            accountValidation({
-                sourceAccount : sourceAccount,
-                amount : data.amountSend
-            })
-            .then( (result) => {
-                let returnValue = result;
-                    if (!returnValue.success) {
-                        this.showToast(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true);
-                    } else {
-                		// this.disabledContinue", false);
-                        if (returnValue.value.amountResult != 'OK') {
-                            let error =this.errorMSG;
-                            if (!error.includes(label)) {
-                                this.errorMSG = error ? error + '-' + label : label;
-                            } 
+            let paymentdraft = this.paymentdraft;
+            let availablebalance = paymentdraft.sourceAccount.amountAvailableBalance;
+            let requestedamount = paymentdraft.amountSend;
+            if (availablebalance) {
+                if (availablebalance < requestedamount) {
+                    let error = this.errorMSG;
+                    if (!error.includes(label)) {
+                        if (error) {
+                            this.errorMSG = error + '-' + label;
+                        } else {
+                            this.errorMSG = label;
                         }
                     }
+                }
+            }
+            resolve('ok');
+        });
+    }
+
+    showInformation () { 
+        return new Promise( (resolve, reject) => {
+            let data =this.data;
+            let paymentdraft = this.paymentdraft;
+            let sourceAccount = paymentdraft.sourceAccountData;
+            let destinationAccount = paymentdraft.destinationAccount;
+            let CMP_amountSend = this.template.querySelector('[data-id="sourceAmountInput"]');
+            if(CMP_amountSend){
+                CMP_amountSend.setInputAmount('sourceAmountInput', data.amountSend);
+                
+            }
+            if(sourceAccount && destinationAccount){
+                if(sourceAccount.currencyCodeAvailableBalance && destinationAccount.currencyCodeAvailableBalance){
+                    if(sourceAccount.currencyCodeAvailableBalance != destinationAccount.currencyCodeAvailableBalance){
+                        let CMP_amountReceive = this.template.querySelector('[data-id="recipientAmountInput"]');  
+                        if(CMP_amountReceive){               
+                            CMP_amountReceive.setInputAmount('recipientAmountInput', data.amountReceive);
+                        }
+                    }
+                }                
+            }
+            resolve('OK');
+        });
+    }
+
+    formatUpdatedDate () {
+        var sourceAccountData =this.sourceaccountdata;
+        var recipientAccountData =this.recipientaccountdata;
+
+        if(sourceAccountData && recipientAccountData){
+            if(sourceAccountData.lastUpdateAvailableBalance){
+                console.log('Hora origen: ' + sourceAccountData.lastUpdateAvailableBalance);
+                //var issueTimeSource = $A.localizationService.formatTime(sourceAccountData.lastUpdateAvailableBalance, 'HH:mm');
+                //this.timesourcebalance = issueTimeSource;  
+            }
+            if(recipientAccountData.lastUpdateAvailableBalance){
+                console.log('Hora origen: ' + recipientAccountData.lastUpdateAvailableBalance);
+                //var issueTimeRecipient = $A.localizationService.formatTime(recipientAccountData.lastUpdateAvailableBalance, 'HH:mm');
+                //this.timerecipientbalance = issueTimeRecipient;  
+            }
+        }
+     
+    }
+    processPaymentTransferFees() {
+        return new Promise( (resolve, reject) => {
+            let paymentdraft = this.paymentdraft;
+            
+            processPaymentTransferFees({
+                paymentDraft : paymentdraft
             })
+            .then( (result) => {
+                var stateRV = result;
+                if (stateRV.success) {
+                        if (stateRV.value) {
+                            this.paymentdraft = stateRV.value.output;
+                        }
+                        resolve('OK');
+                    } else {
+                        let notificationTitle = this.label.B2B_Error_Problem_Loading;
+                        let bodyText = stateRV.msg;
+                        this.showToast(notificationTitle, bodyText, true);
+                        reject(stateRV.msg);
+                    }
+                } 
+                
+            )
             .catch( (errors) => {
                 this.showToast(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true);
                 if (errors) {
                     if (errors[0] && errors[0].message) {
                         console.log('Error message: ' + errors[0].message);
                     }
+                }else {
+                    console.log('problem updating step 3 payment details');
                 }
+                this.showToast(this.label.B2B_Error_Problem_Loading, this.B2B_Error_Check_Connection,true);
+                reject(this.label.ERROR_NOT_RETRIEVED);
             })
-            resolve('ok');
-        }, this);
+            
+        });
     }
-    
-    updatePaymentDetails (event) {
+
+    paymentDetailsContinue () { //cuando se pone event, component o helper?
         return new Promise( (resolve, reject) => {
-            var paymentId =this.paymentid;
-            var accountData =this.accountdata;
-            var sourceAccountData =this.sourceaccountdata;
-            var recipientAccountData =this.recipientaccountdata;
-            var userInputField =this.amountEnteredFrom;
-            var paymentData =this.mydata;
-            updateSelectAmount({
-                paymentId : paymentId,
-                accountData : accountData,
-                paymentData : paymentData,
-                sourceAccountData : sourceAccountData,
-                recipientAccountData : recipientAccountData,
-                userInputField : userInputField
+        let paymentdraft = this.paymentdraft;
+        let step3field =  this.step3field; 
+        let reference =  !this.paymentdraft.reference ? '' : this.paymentdraft.reference;
+        let purpose =  !paymentdraft.purpose  ? '' : paymentdraft.purpose;
+        let charge =  !(paymentdraft.chargeBearer)  ? '' : paymentdraft.chargeBearer;
+        let paymentReason = !(paymentdraft.reason)  ? '' : paymentdraft.reason;
+        let clientReference = '' ;
+        let comercialCode = paymentdraft.comercialCode;
+        let referenceMandatory = step3field.referenceMandatory;
+        let purposeMandatory = step3field.purpose;
+        let chargeMandatory = step3field.chargesMandatory;
+        let comercialCodeMandatory = step3field.commercialCodeMandatory;
+        let paymentReasonMandatory = step3field.paymentReasonMandatory
+        let clientreferenceMandatory = step3field.clientReferenceMandatory;
+        let description =  !(paymentdraft.description)  ? '' : paymentdraft.description;
+        var sourceAccountData = paymentdraft.sourceAccount;
+        let maxCharacters = 140;
+        let transfertype = !(this.transfertype) ? '' : this.transfertype;
+        let PTT_international_transfer_single = this.label.PTT_international_transfer_single;
+        //Borrar despues de la prueba
+        this.disabledcontinue = false;
+        let errorMSG = '';
+        let msgLabel = '';
+        if (!reference) {
+                msgLabel = this.label.B2B_Error_Enter_Input;
+                let paramRef = this.label.B2B_Reference;
+                msgLabel = msgLabel.replace('{0}', paramRef);
+                this.errorref = msgLabel;
+                // reject('KO');
+            }
+        if (sourceAccountData.mandatoryPurpose == true && (!purpose)) {
+                msgLabel = this.label.B2B_Error_Enter_Input;
+                let paramPurpose = this.label.c.B2B_paymentPurpose;
+                msgLabel = msgLabel.replace('{0}', paramPurpose);
+                this.errorpurpose = msgLabel;
+                reject('KO');
+            }
+            if(comercialCodeMandatory == true && (!comercialCode)){
+                //ToDo
+                msgLabel = this.label.B2B_Error_Enter_Input;
+                let paramPurpose = this.label.B2B_PaymentPurpose;
+                msgLabel = msgLabel.replace('{0}', paramPurpose);
+            // component.set('v.errorPurpose', msgLabel);
+            reject('KO');
+            }
+            if(chargeMandatory == true && (!charge)){
+                //ToDo
+                msgLabel = this.label.B2B_Error_Enter_Input;
+                let paramChanges = this.Label.c.B2B_PaymentPurpose;
+                msgLabel = msgLabel.replace('{0}', paramChanges);
+                this.errorcharges = msgLabel;
+                reject('KO');
+            }
+            if(paymentReasonMandatory == true && (!paymentReason)){
+                //ToDo
+                msgLabel = this.label.B2B_Error_Enter_Input;
+                let paramPaymentReason = this.label.c.B2B_PaymentPurpose;
+                msgLabel = msgLabel.replace('{0}', paramPaymentReason);
+                this.errorpaymentreason = msgLabel;
+                reject('KO');
+            }
+            if(comercialCodeMandatory == true && (!comercialCode)){
+                //ToDo
+                msgLabel = this.label.B2B_Error_Enter_Input;
+                let paramPaymentReason = this.label.B2B_PaymentPurpose;
+                msgLabel = msgLabel.replace('{0}', paramPaymentReason);
+                //component.set('v.errorPaymentReason', msgLabel);
+                reject('KO');
+            }
+            if((!paymentdraft.amountSend) || paymentdraft.amountSend == 0){
+                errorMSG = this.label.B2B_Error_Enter_Input;
+                var msg_parameter = this.label.B2B_Amount_Input_Placeholder;
+                errorMSG = errorMSG.replace('{0}', msg_parameter);
+                this.errorMSG = errorMSG; 
+                reject('KO');
+            }
+            if(transfertype != PTT_international_transfer_single && description.length > maxCharacters){
+                reject('KO');
+            }
+            if (this.disabledcontinue == true) {
+                var notificationTitle =  this.label.B2B_Error_Problem_Loading;
+                var bodyText =  this.Label.c.B2B_Error_Enter_Amount;
+                this.showToast(notificationTitle, bodyText, true);
+                reject('KO');
+            }
+            resolve('OK');
+            
+        
+        /*if ($A.util.isEmpty(reference) || (
+            (purposeMandatory == true && $A.util.isEmpty(purpose)) || 
+            (chargeMandatory == true && $A.util.isEmpty(charge)) || 
+            (comercialCodeMandatory == true && $A.util.isEmpty(comercialCode)) ||
+            (paymentReasonMandatory == true && $A.util.isEmpty(paymentReason)) || 
+            (clientreferenceMandatory == true && $A.util.isEmpty(clientReference)) || 
+            ($A.util.isEmpty(paymentDraft.amountSend) || paymentDraft.amountSend == 0)) && 
+            transferType != PTT_international_transfer_single || description.length > maxCharacters) {
+            
+        
+            
+            reject('KO');
+        } else if (component.get("v.disabledContinue") == true) {
+            var notificationTitle =  $A.get('$Label.c.B2B_Error_Problem_Loading');
+            var bodyText =  $A.get('$Label.c.B2B_Error_Enter_Amount');
+            this.showToast(notificationTitle, bodyText, true);
+            reject('KO');
+        }else{
+            resolve('OK');
+        }*/
+    });
+        /*else {
+            component.set('v.spinner', true);
+            this.getLimits(event).then( (value) => { 
+                return this.updatePaymentDetails(;
+            }).then( (value) => { 
+                return this.checkFCCDowJones();
+            }).then( (value) => { 
+                return this.getPaymentSignatureStructure();
+            }).then( (value) => { 
+            return this.postFraud(event);
+            }).then( (value) => {
+                return this.completeStep();
+            }).catch( (value) => {
+                if ((value.FCCError) && value.FCCError == true) {
+                    this.handleFCCError();
+                }
+                console.log(value.message);
+            }).finally( ( {
+                this.spinner = false);
+            });
+        }*/
+    }
+//SNJ_DEPRECATED
+/*
+ postFraud(event) {
+    return new Promise( (resolve, reject) => {
+        try {
+            var userData = this.userdata;
+            var navigatorInfo = this.navigatorInfo;
+            var paymentDraft = this.paymentdraft;
+            postFraud({
+                userData : userData,
+                navigatorInfo : navigatorInfo,
+                paymentDraft :paymentDraft
             })
             .then( (result) => {
-                var stateRV = result;
-                if (stateRV.success) {
-                    resolve('OK');
-                } else {
-                    var notificationTitle =  this.label.B2B_Error_Problem_Loading;
-                    var bodyText =  this.label.B2B_Error_Updating_Data;
-                    this.showToast(component, notificationTitle, bodyText, true);
-                    reject(stateRV.msg);
+                if (result.success) {
+                    resolve('ok');
+                }else{
+                    reject('ko');
                 }
             })
             .catch( (errors) => {
+                if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log('Error message: ' + errors[0].message);
+                    }
+                } else {
+                    console.log('Unknown error');
+                }
+                reject('ko');
+            })
+        } catch(e) {
+            console.error(e);
+            console.error('e.name => ' + e.name);
+            console.error('e.message => ' + e.message);
+            console.error('e.stack => ' + e.stack);
+            reject('ko');
+        }
+    }, this);
+}
+ getPaymentSignatureStructure() {
+    return new Promise( (resolve, reject) => {
+        var paymentdraft = this.paymentdraft;
+        getSignatureStructure({
+            'channel': 'WEB',
+            'navigatorInfo' : this.navigatorinfo,
+            'paymentDraft': paymentdraft
+        })
+         .then( (result) => {
+            if (result.success) {
+                    resolve('OK');
+                } else {
+                    reject({
+                        'message': $A.get('$Label.c.ERROR_NOT_RETRIEVED')
+                    });
+                    this.showToast(this.label.B2B_Error_Problem_Loading, this.Label.c.Problem_Signature_Structure, true);
+                }
+        })
+        .catch( (errors) => {
+               if (errors) {
+                    if (errors[0] && errors[0].message) {
+                        console.log('Error message: ' + errors[0].message);
+                    }
+                } else {
+                    this.showToast(this.label.B2B_Error_Problem_Loading, this.Label.c.Problem_Signature_Structure, true);
+                }
+                reject({
+                    'message': $A.get('$Label.c.ERROR_NOT_RETRIEVED')
+                });
+            })
+
+    }), this);
+},
+*/
+
+    updatePaymentDetails () {
+        return new Promise( (resolve, reject) => {
+            let clientReference = null;
+            let purpose = null;
+            let description = null;
+            let paymentId =  null;
+            let chargeBearer = null;
+            let paymentMethod = null;
+            let comercialCode = null;
+            let baseAmount = null;
+            let baseCurrency = null;
+            let processDate = null;
+            let paymentdraft = {...this.paymentdraft};
+            if ((paymentdraft)) {
+                if (paymentdraft.reference) {
+                    clientReference = paymentdraft.reference;
+                }
+                if (paymentdraft.purpose) {
+                    purpose = paymentdraft.purpose;
+                }
+                if (paymentdraft.description) {
+                    description = paymentdraft.description;
+                }
+                if (paymentdraft.comercialCode) {
+                    comercialCode = paymentdraft.comercialCode;
+                }
+                if (paymentdraft.baseAmount) {
+                    baseAmount = paymentdraft.baseAmount;
+                }
+                if (paymentdraft.baseCurrency) {
+                    baseCurrency = paymentdraft.baseCurrency;
+                }
+                if (paymentdraft.paymentId) {
+                    paymentId = paymentdraft.paymentId;
+                }
+                chargeBearer = 'OUR';
+                paymentMethod = 'book_to_book';
+            }
+            paymentdraft.chargeBearer = chargeBearer; // Siempre 'OUR' para Book To Book. Posibles valores 'OUR'-nuestro, 'SHA'-compartido, 'BEN'-recipiente
+            paymentdraft.paymentMethod = paymentMethod; // Pendiente de confirmación del valor, es el método seleccionado por el usuario en las tarjetas en este paso
+            this.paymentdraft = paymentdraft;
+            updatePaymentInformation({
+                paymentId: paymentId,
+                clientReference : clientReference,
+                purpose : purpose,
+                description : description,
+                chargeBearer : chargeBearer,
+                paymentMethod : paymentMethod,
+                commercialCode : comercialCode,
+                baseAmount : baseAmount,
+                baseCurrency  : baseCurrency
+            })
+            .then((result) => {
+                var stateRV = result;
+                    if (stateRV.success) {
+                        resolve('OK');
+                    } else {
+                        reject({
+                            message: stateRV.msg
+                        });
+                    
+                        this.showToast(this.label.B2B_Error_Problem_Loading, this.Label.c.B2B_Error_Updating_Data, true);
+                    }})
+            .catch((errors) => {
                 if (errors) {
                     if (errors[0] && errors[0].message) {
                         console.log('Error message: ' + errors[0].message);
@@ -528,49 +862,228 @@ export default class lwc_b2b_selectAmount extends LightningElement{
                 this.showToast(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true);
                 reject(this.label.ERROR_NOT_RETRIEVED);
             })
-        }, this);
+        });
     }
-    
-    showInformation (event) { 
-        return new Promise( (resolve, reject) => {
-            var data =this.mydata;
-            var sourceAccountData =this.sourceaccountdata;
-            var recipientAccountData =this.recipientaccountdata;
-            var CMP_amountSend = this.template.querySelector('[data-id="sourceAmountInput"]');
-            if(CMP_amountSend){
-                CMP_amountSend.setInputAmount('sourceAmountInput', data.amountSend);
-                
-            }
-            if(sourceAccountData && recipientAccountData){
-                if(sourceAccountData.currencyCodeAvailableBalance && recipientAccountData.currencyCodeAvailableBalance){
-                    if(sourceAccountData.currencyCodeAvailableBalance != recipientAccountData.currencyCodeAvailableBalance){
-                        var CMP_amountReceive = this.template.querySelector('[data-id="recipientAmountInput"]');  
-                        if(CMP_amountReceive){               
-                            CMP_amountReceive.setInputAmount('recipientAmountInput', data.amountReceive);
-                        }
-                    }
-                }                
-            }
-            resolve('OK');
-        }, this);
-    }
-    
-    formatUpdatedDate (event) {
-            var sourceAccountData =this.sourceaccountdata;
-            var recipientAccountData =this.recipientaccountdata;
 
-            if(sourceAccountData && recipientAccountData){
-                if(sourceAccountData.lastUpdateAvailableBalance){
-                    console.log('Hora origen: ' + sourceAccountData.lastUpdateAvailableBalance);
-                    //var issueTimeSource = $A.localizationService.formatTime(sourceAccountData.lastUpdateAvailableBalance, 'HH:mm');
-                    //this.timeSourceBalance = issueTimeSource;  
+    checkFCCDowJones() {
+        return new Promise( (resolve, reject) => {
+            var paymentdraft = this.paymentdraft;
+            checkFCCDowJones({
+                paymentDraft: paymentdraft
+            })
+            .then( (result) => {
+            
+            if (result.success) {
+                var stateRV = result;
+                if (stateRV.success) {
+                    if ((stateRV.value.passValidation) && stateRV.value.passValidation == true) {
+                        resolve('OK');
+                    } else {
+                        reject({
+                            FCCError: true,
+                            message: stateRV.msg
+                        });
+                    }
+                } else {
+                    reject({
+                        message: stateRV.msg
+                    });
+                    this.showToast(this.label.B2B_Error_Problem_Loading , this.label.B2B_Error_Updating_Data, true);
                 }
-                if(recipientAccountData.lastUpdateAvailableBalance){
-                    console.log('Hora origen: ' + recipientAccountData.lastUpdateAvailableBalance);
-                    //var issueTimeRecipient = $A.localizationService.formatTime(recipientAccountData.lastUpdateAvailableBalance, 'HH:mm');
-                    //this.timeRecipientBalance = issueTimeRecipient;  
+            } 
+            })
+            .catch( (errors) => {
+                reject({
+                    message: this.label.ERROR_NOT_RETRIEVED
+                });
+                this.showToast(this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true);
+            })
+        
+            });
+    }
+            
+    handleFCCError () {
+        var url = 'c__FFCError=true';
+        this.encrypt( url)
+        .then( (result) => {
+            let navService = this.template.queryselector('[data-id="navService"]');
+            let pageReference = {
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'landing-payments'
+                },
+                state: {
+                    params: result
                 }
             }
-         
-     }
+            navService.navigate(pageReference);
+        });
+    }   
+        
+
+    ServicePaymentLine () {
+        return new Promise( (resolve, reject) => {
+           let paymentDraft = {...this.paymentdraft};
+           let transfertype = this.transfertype;
+           getPaymentLine({
+               paymentDraft: paymentDraft,
+               transferType: transfertype
+           })
+           .then((result) => {
+               if (result.success) {
+                   var stateRV = result;
+                   if (stateRV.success) {                        
+                        paymentDraft.serviceId = stateRV.value.serviceId;
+                        paymentDraft.productId = stateRV.value.productId;
+                        this.paymentdraft = paymentDraft;
+                       
+                       resolve('OK');
+                   } else {
+                       reject(stateRV.msg);
+                       this.showToast(component, notificationTitle, bodyText, true);
+                   }
+               } else {
+                   reject('ERROR: FX');
+                   this.showToast('error', notificationTitle, bodyText, true);
+               }
+           });
+          
+       });
+   }
+
+    initComponentHelper() {
+        return new Promise( (resolve, reject) => {
+            var steps = {...this.steps};
+            steps.lastModifiedStep = 3;
+            this.steps = steps;
+            let paymentdraft = this.paymentdraft;
+            if((paymentdraft) && paymentdraft.sourceAccount != null && paymentdraft.destinationAccount != null && (paymentdraft.sourceCurrencyDominant) && (paymentdraft.exchangeRate)){
+                if((paymentdraft.sourceAccount.currencyCodeAvailableBalance) && (paymentdraft.paymentCurrency)){
+                    if (paymentdraft.sourceAccount.currencyCodeAvailableBalance != paymentdraft.paymentCurrency) {
+                        this.showbothamountinput =true;
+                    } else {
+                        this.showbothamountinput = false;
+                    }
+                    let ratecurrencies = '';
+                    if(paymentdraft.sourceCurrencyDominant == true){
+                        ratecurrencies = paymentdraft.sourceAccount.currencyCodeAvailableBalance + '/' + paymentdraft.paymentCurrency;
+                    }else{
+                        ratecurrencies = paymentdraft.paymentCurrency + '/' + paymentdraft.sourceAccount.currencyCodeAvailableBalance;
+                    }
+                    this.ratecurrencies = ratecurrencies;
+                    this.exchangeratetoshow = paymentdraft.exchangeRate; 
+                    
+                }
+            }            
+            resolve('OK');
+        });
+    }
+
+    getPaymentDetails () {
+        return new Promise( (resolve, reject) => {
+            resolve('OK');
+
+        });
+    }
+
+    showHideComponents() {
+        return new Promise( (resolve, reject) => {
+            try {
+                var paymentdraft = this.paymentdraft;
+                var productId;
+                var RecipientAccountData;
+                if((paymentdraft.productId)){
+                    productId = paymentdraft.productId;
+                }
+                
+                if((paymentdraft.destinationAccount)){
+                    RecipientAccountData = paymentdraft.destinationAccount;
+                }
+                showHideComponents({
+                    productId: productId,
+                    recipientAccountData: RecipientAccountData
+                })
+                .then( (result) => {
+                    var stateRV = result;
+                    if (stateRV.success) {                        
+                        this.step3field = stateRV.value.output;
+                        if(stateRV.value.paymentPurposeValues != null){
+                            let purposeList = [];
+                            for (let i = 0; i < stateRV.value.paymentPurposeValues.length; i++) {
+                                let purpose = stateRV.value.paymentPurposeValues[i];
+                                purposeList.push({
+                                    label: purpose,
+                                    value: purpose
+                                })
+                            }
+                            //this.createListfunction(purposeList,stateRV.value.paymentPurposeValues)
+                            this.paymentpurpose = purposeList;
+                        }
+                        if(stateRV.value.chargesValues){
+                            let chargesList = [];
+                            for (let i = 0; i < stateRV.value.chargesValues.length; i++) {
+                                let charges = stateRV.value.chargesValues[i];
+                                chargesList.push({
+                                    label: charges,
+                                    value: charges
+                                })
+                            this.charges = chargesList;
+                            }
+                        }
+                        resolve('ok');
+                    } else {
+                        reject('ko');                        
+                    }            
+                })
+                .catch( (errors) => {
+                    if (errors) {
+                        if (errors[0] && errors[0].message) {
+                        console.log('Error message: ' + errors[0].message);
+                        }
+                    } 
+                    reject('ko');
+                })
+            } catch(e) {
+                console.error(e);
+                console.error('e.name => ' + e.name );
+                console.error('e.message => ' + e.message );
+                console.error('e.stack => ' + e.stack );
+                reject('ko');
+            }
+        });
+    }
+
+    completeStep() {
+        return new Promise((resolve, reject) => {
+            const completeStep = new CustomEvent ('completestep', {
+                detail: {confirm: true}
+            });
+            this.dispatchEvent(completeStep);
+
+            this.errorMSG = '';
+            this.isModified = false;
+            resolve('ok');
+        });
+    }
+
+    @api
+    doScroll(focusStep){
+        var element = "[data-id='step-" + focusStep + "']";
+        var stepComponent = this.template.querySelector(element);
+        if (stepComponent != null) {
+            stepComponent.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            setTimeout( () => {
+                stepComponent = this.template.querySelector(element);
+                if (stepComponent != null) {
+                    stepComponent.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 10);
+        }
+    }
+
+    handleContinue(){
+        const handlecontinueevent = new CustomEvent('handlecontinue');
+        this.dispatchEvent(handlecontinueevent);
+    }
 }

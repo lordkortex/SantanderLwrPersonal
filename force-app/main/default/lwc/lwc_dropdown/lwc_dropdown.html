@@ -62,7 +62,7 @@
                         <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
                             <ul class="slds-dropdown__list" role="menu" aria-label={helptext}>
                                 <template for:each={values} for:item="item" for:index="index">
-                                    <li class="slds-dropdown__item" role="presentation" key={item} id={item} onclick={selectOption}>
+                                    <li class="slds-dropdown__item" role="presentation" key={item} data-id={item} onclick={selectOption}>
                                         <a class="paddingOption"  role="menuitemcheckbox" tabindex="0" aria-checked="true" >
                                             <div class="slds-truncate optionOrder">
                                                 <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
@@ -89,7 +89,7 @@
                                     <div if:true={condition4}>
                                         <div class="slds-border_right orderSelected">{selectedValues1}</div> 
                                     </div>
-                                    <div if:true={condition8}>
+                                    <div if:true={condition7}>
                                         <div class="slds-border_right orderSelected">{selectedValuesLengthm1}</div> 
                                     </div>
                                     <div if:true={condition9}>
@@ -103,8 +103,10 @@
                             </div>
                             <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
                                 <ul class="slds-dropdown__list" role="menu" aria-label={helptext}>
-                                    <template for:each={values} for:item='item' for:index="index">
-                                        <li class="slds-dropdown__item" role="presentation" id={item} key={item} onclick={selectOption}>
+                                    <!-- <template for:each={values} for:item='item' for:index="index"> -->
+                                        <!-- <li class="slds-dropdown__item" role="presentation" id={item} key={item} onclick={selectOption}> -->
+                                    <template for:each={values} for:item='item'>
+                                        <li class="slds-dropdown__item" role="presentation" data-id={item} key={item} onclick={selectOption}>
                                             <a class="paddingOption"  role="menuitemcheckbox" tabindex="0" aria-checked="true" >
                                                 <div class="slds-truncate optionOrder">
                                                     <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
@@ -128,7 +130,7 @@
                                     <div if:true={condition4}>
                                         <div class="slds-border_right orderSelected">{selectedvalues1Display}</div> 
                                     </div>
-                                    <div if:true={condition8}>
+                                    <div if:true={condition7}>
                                         <div class="slds-border_right orderSelected">{selectedValuesLengthm1}</div> 
                                     </div>
                                     <div if:true={condition9}>
@@ -143,7 +145,8 @@
                             <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
                                 <ul class="slds-dropdown__list" role="menu" aria-label={helptext}>
                                     <template for:each={values} for:item="item" for:index="index">
-                                        <li class="slds-dropdown__item" role="presentation" id={item} key={item} onclick={selectOption}>
+                                        <!-- <li class="slds-dropdown__item" role="presentation" id={item} key={item} onclick={selectOption}> -->
+                                        <li class="slds-dropdown__item" role="presentation" data-id={item} key={item} onclick={selectOption}>
                                             <a class="paddingOption"  role="menuitemcheckbox" tabindex="0" aria-checked="true" >
                                                 <div class="slds-truncate optionOrder">
                                                     <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">

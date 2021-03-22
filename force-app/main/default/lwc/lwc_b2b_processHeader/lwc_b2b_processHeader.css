@@ -1,4 +1,5 @@
-/* MODAL HEADER */ .slds-modal__header {
+/* MODAL HEADER */ 
+.slds-modal__header {
 	border-bottom: none;
     padding: 0px;
     width: 100%;
@@ -38,7 +39,8 @@
 	margin-left: 20px;
 }
 
-/* HEADER ICONS */ .icon.icon-close, .icon.icon-time, .icon.icon-arrowLeft_big {
+/* HEADER ICONS */ 
+.icon.icon-close, .icon.icon-time, .icon.icon-arrowLeft_big {
    color: #ec0000;
    font-family: "SantanderMicroText" !important;
    font-size: 14px;

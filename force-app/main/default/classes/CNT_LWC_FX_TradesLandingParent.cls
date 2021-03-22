@@ -1,15 +1,29 @@
 public inherited sharing class CNT_LWC_FX_TradesLandingParent {
     
-    @AuraEnabled(cacheable=true)
-    public static List<WRAPPER_FX_TradesData> searchFIlterTrades(String parameters){
-        
-        String responseAux = FX_ServiceApiTrades.searchFIlterTrades(parameters);
-        String response = responseAux.replaceAll('currency', 'currency1');
+    // @AuraEnabled
+    // public static  List<WRAPPER_FX_TradesData.TradeList> searchFIlterTrades(String parameters, Boolean onColumns){
 
-        List<WRAPPER_FX_TradesData> trades = WRAPPER_FX_TradesData.parse(response);
-        
-        return trades;
+    //         String response = FX_ServiceApiTrades.searchFIlterTrades(parameters);
 
+    //         String responseaux = response.replaceAll('currency', 'currency1'); 
+    //         system.debug('afer trades');
+    //         WRAPPER_FX_TradesData trades = WRAPPER_FX_TradesData.parse(responseaux);
+    //         system.debug('afer trades parsed');
+    //         system.debug(trades.tradeList.size());
+    //         system.debug(trades);
+    //         return trades.tradeList;
+            
+    // }
+
+    @AuraEnabled
+    public static WRAPPER_FX_TradesOnColumns searchFIlterTradesColumns(String parameters){
+
+            String response = FX_ServiceApiTrades.searchFIlterTrades(parameters);
+            system.debug('afer trades columns');
+            WRAPPER_FX_TradesOnColumns trades = WRAPPER_FX_TradesOnColumns.parse(response);
+            system.debug('afer trades columns parsed');
+            system.debug(trades);
+            return trades;
     }
 
     @AuraEnabled(cacheable=true)
@@ -40,7 +54,7 @@ public inherited sharing class CNT_LWC_FX_TradesLandingParent {
             Map<String, Object> value = new Map<String, Object>(); 
             Map<String, Object> output = new Map<String, Object>();
             if(String.isNotBlank(file)){
-                output = provisionalDownload.downloadTradesList(file, fileFormat);
+                output = downloadTradesList(file, fileFormat);
                 
                 System.debug('CNT_PaymentsLandingParent.downloadPayments: ' + fileFormat);
             }              

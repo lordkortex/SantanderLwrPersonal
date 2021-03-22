@@ -99,3 +99,21 @@
     color: #ffffff;
     border: 1px solid #990000;
 }
+.view-button {
+	color: #ec0000;
+    font-size: 16px;
+    width: 135px;
+}
+.view-button:hover {
+    color:#cc0000;
+    cursor: pointer;
+}
+.arrow-button {
+    font-size: 36px;
+	margin-top: -39px;
+	padding-left: 104px;
+}
+.header-text {
+    font-size: 20px;
+    margin-top: -5px;
+}

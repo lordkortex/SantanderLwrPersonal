@@ -14,7 +14,7 @@ export default class lwc_b2b_button extends LightningElement {
 
     connectedCallback() {
 		loadStyle(this, santanderStyle + '/style.css');
-		this.iconclass = this.iconclass + this.icon;
+		this.iconclass = this.iconclass +' ' + this.icon;
     }
   
     handleClick() {

@@ -32,6 +32,7 @@ export default class Lwc_b2b_account_suggestion extends LightningElement {
         this.dispatchEvent(selectedEvent);
     }
 
+    
     get notEmptyBalance(){
         if(this.account.currencyCodeAvailableBalance != null &&
             this.account.currencyCodeAvailableBalance != ''){

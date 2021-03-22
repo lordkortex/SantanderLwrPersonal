@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>USER_PCK_Language__c</fullName>
+    <description>Languages displayed in the My Settings section of the Community</description>
+    <externalId>false</externalId>
+    <label>USER_PCK_Language</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetName>Language</valueSetName>
+    </valueSet>
+</CustomField>

@@ -1,15 +1,22 @@
 .paymentProcessStep3 {
-    width: 808px;
+    /*width: 808px;*/
+    width: 100%;
     outline: none; /*keep*/
     /*margin-bottom: 64px; PARCHEADO
     margin-top: 56px;  */
-    padding-top: 56px;
+    /*padding-top: 56px;*/
+}
+.paymentProcessStep3 .paymentStep_body {
+    width: 808px;
+    margin: 0 auto;
 }
 
 .paymentProcessStep3 .icon-arrowDown {
     margin: 0 16px 24px 0;
     display: inline-block; 
  
+}
+.paymentProcessStep3 .slds-form-element__control .slds-box { border: 1px solid #cedee7;
 }
 
 .paymentProcessStep3 .icon-arrowDown:before {
@@ -110,4 +117,395 @@
 
 .heightTotal{
     height: 100vh;
+}
+
+
+
+
+
+
+/* DROPDOWN */
+.paymentProcessStep3 .dropdown {
+	width:392px;
+}
+.paymentProcessStep3 .dropdown .slds-form-element__label {
+    color: #767676;
+    font-family: SantanderMicroText;
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    z-index: 2;
+}
+
+.paymentProcessStep3 .dropdown .button-order {
+    display: flex;
+	border: 1px solid #deedf2;
+	background-color:#ffffff;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	height: 48px;
+	width: 100%;
+	min-width:184px;	
+}
+
+.paymentProcessStep3 .dropdown .button-order .button-arrow {
+	font-size: 24px;
+}
+
+.paymentProcessStep3 .dropdown .button-order:focus {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.paymentProcessStep3 .slds-combobox .button-order:hover {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+.paymentProcessStep3 .slds-combobox:hover .slds-button__icon .icon-arrowDown_small {
+	display: none;
+} 
+.paymentProcessStep3 .slds-combobox .slds-button__icon .icon-arrowUp_small {
+	display: none;
+}
+.paymentProcessStep3 .slds-combobox:hover .slds-button__icon .icon-arrowUp_small {
+	display: block;
+} 
+
+.paymentProcessStep3 .dropdown .slds-dropdown {
+	box-shadow: inset 0 -1px 0 0 #cedee7;
+	background-color: #ffffff;
+	border-top: none;
+	border-right: 1px solid #deedf2;
+	border-left: 1px solid #deedf2;
+	border-bottom: 1px solid #257fa4;
+	border-radius: 0 0 4px 4px;
+	cursor: pointer;
+	left: auto;
+	margin: 0;
+	max-width: 100%;
+    min-width: inherit;
+    overflow: hidden;
+	padding: 0;
+	right: auto;
+	top: 48px;
+    width: 100%;
+    z-index: 3;
+}
+
+.paymentProcessStep3 .dropdown .slds-dropdown ul {
+   overflow-y: auto;
+   max-height: 192px;
+   margin: 6px 0 6px 5px;
+}
+
+.paymentProcessStep3 .dropdown .slds-button__icon{
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+
+.paymentProcessStep3 .dropdown .optionOrder {
+	align-items: center;
+	display: inline-flex;
+    line-height: 24px;
+}
+
+
+.paymentProcessStep3 .dropdown .dropdownOrder .slds-dropdown__item > a:hover,
+.paymentProcessStep3 .dropdown .dropdownOrder .slds-dropdown__item > a:active,
+.paymentProcessStep3 .dropdown .dropdownOrder .slds-dropdown__item > a:focus{
+    border-radius: 4px;
+	background-color:#e5f1f5;
+    margin-right: 5px;
+}
+
+.paymentProcessStep3 .dropdown .dropdownOrder .slds-dropdown__item > a {
+	padding:0 12px;
+	font-size: 16px;
+	font-family: "SantanderMicroText";
+	color: #444444;
+    height: 36px;
+    line-height: 36px;
+    width:100%;
+}
+.paymentProcessStep3 .dropdown .dropdownOrder .slds-dropdown__item {
+	height:48px;
+    display: flex;
+    align-items: center;
+}
+.paymentProcessStep3 .dropdown .dropdownOrder .slds-dropdown__item:first-child {
+	margin-top:0;
+}
+.paymentProcessStep3 .dropdown .dropdownOrder .slds-dropdown__item:last-child {
+	margin-bottom:0;
+}
+
+.paymentProcessStep3 .dropdown .dropdownOrder .optionOrder .slds-form-element__label {
+	margin: 0 ;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	color: #444444;
+}
+.paymentProcessStep3 .dropdown .slds-border_right {
+	font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    align-items: center;
+    border: 0;
+    display: flex;
+ 	padding-left: 16px;
+    width: 100%;
+}
+.paymentProcessStep3 .dropdown .slds-border_right.selectedValue-placeholder {
+    color: #767676;
+}
+.paymentProcessStep3 .dropdown .selectedValue-filled {
+	color: #444444;
+    display: block;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.paymentProcessStep3 .dropdown .slds-form-element__label + .slds-combobox .slds-dropdown-trigger_click .button-order .slds-border_right {
+    padding: 19px 0px 5px 16px;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+	width: 6px;
+}
+::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+/* ERROR */
+.paymentProcessStep3 .error .slds-form-element__help {
+	display: none;
+}
+.paymentProcessStep3 .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    display: none;
+}
+.paymentProcessStep3 .error .errorText {
+	display: block;
+}
+.paymentProcessStep3 .error .slds-form-element__label {
+	color: #cc0000;
+}
+.paymentProcessStep3 .error .slds-input{
+	border-bottom: 1px solid #cc0000;
+}
+.paymentProcessStep3 .error .slds-input:active,
+.paymentProcessStep3 .error .slds-input:focus{
+	box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+.paymentProcessStep3 .error .slds-combobox .button-order {
+    border-bottom: 1px solid #cc0000;
+    box-shadow: none;
+}
+.paymentProcessStep3 .error .slds-combobox .button-order:active,
+.paymentProcessStep3 .error .slds-combobox .button-order:focus,
+.paymentProcessStep3 .error .slds-combobox .button-order:hover{
+	box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+
+::-webkit-input-placeholder { color: #767676; }
+ 
+:-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+:-ms-input-placeholder { color: #767676; }
+
+:focus::-webkit-input-placeholder{color:transparent;}
+
+/* DISABLED*/
+.paymentProcessStep3 .slds-button__icon.disabled,
+.paymentProcessStep3 .calendar.disabled .slds-input__icon{
+	display: none;
+}
+.paymentProcessStep3 .slds-button__icon.disabled {
+	margin: 14px 18px;
+    width: 20px;
+    height: 20px;
+}
+.paymentProcessStep3 .button-order[disabled] .slds-button__icon.disabled,
+.paymentProcessStep3 .slds-input[disabled] + .slds-button__icon.disabled,
+.paymentProcessStep3 .slds-textarea[disabled] + .slds-button__icon.disabled,
+.paymentProcessStep3 .calendar.disabled .slds-button__icon.disabled{
+	display: block;
+
+}
+.paymentProcessStep3 .calendar.disabled .slds-button__icon.disabled {
+	right: 18px;
+    pointer-events: auto;
+    cursor: pointer;
+    position: absolute;
+    z-index: 2;
+    top:0;
+    bottom:0;
+    margin: auto;
+}
+.paymentProcessStep3 .calendar.disabled .slds-button__icon.disabled .icon-prohibited {
+	height: 20px;
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 20px;
+}
+
+.paymentProcessStep3 .slds-input[disabled] + .slds-button__icon.disabled,
+.paymentProcessStep3 .slds-textarea[disabled] + .slds-button__icon.disabled {
+	bottom: 0;
+    height: 20px;
+    margin: 0;
+    right: 18px;
+    top: 14px;
+    width: 20px;
+    position: absolute;
+    padding: 0;
+}
+.paymentProcessStep3 .slds-input[disabled] + .slds-button__icon.disabled + .slds-button,
+.paymentProcessStep3 .slds-textarea[disabled] + .slds-button__icon.disabled + .slds-button,
+.paymentProcessStep3 .button-order[disabled] .slds-button__icon.disabled + .slds-button__icon.arrow{
+	display: none;
+}
+.paymentProcessStep3 .slds-button__icon.disabled .icon-prohibited {
+	font-size: 20px;
+    cursor: default;
+}
+.paymentProcessStep3 .slds-button__icon.disabled .icon-prohibited:before {
+	color: #767676;
+}
+.paymentProcessStep3 .slds-input[disabled],
+.paymentProcessStep3 .slds-textarea[disabled],
+.paymentProcessStep3 .button-order[disabled],
+.paymentProcessStep3 .calendar.disabled .slds-input{
+	background-color: #ececec!important;
+    border: solid 1px #cccccc!important;
+    cursor: default;
+    box-shadow: none!important;
+    color: #767676!important;
+}
+.paymentProcessStep3 .slds-input[disabled]:active, 
+.paymentProcessStep3 .slds-input[disabled]:focus,
+.paymentProcessStep3 .slds-textarea[disabled]:active,
+.paymentProcessStep3 .slds-textarea[disabled]:focus
+.paymentProcessStep3 .button-order[disabled]:hover,
+.paymentProcessStep3 .button-order[disabled]:active, 
+.paymentProcessStep3 .button-order[disabled]:focus {
+    box-shadow: none!important;
+}
+.paymentProcessStep3 .button-order[disabled] .selectedValue-filled {
+	color: #767676;
+}
+
+
+
+.paymentProcessStep3 .amountBalance {
+    display: flex;
+    margin-bottom: 24px;
+    /*min-height:172px;*/
+ }
+
+
+
+ /* INDICATIVE RATE  */
+ .paymentProcessStep3 .indicativeRate {
+    width: 184px;
+    padding: 24px 0 0 0;
+ }
+ .paymentProcessStep3 .indicativeRate .slds-text-align_center{
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: center;
+    color: #257fa4;
+ }
+ .paymentProcessStep3 .indicativeRate .slds-text-align_center.bold {
+    font-family: SantanderMicroText-Bd;   
+ }
+ .paymentProcessStep3 .indicativeRate div.icon{
+    text-align: center;
+    margin-top: 16px;
+ 
+ }
+ .paymentProcessStep3 .indicativeRate div.icon:before,
+ .paymentProcessStep3 .indicativeRate div.icon:after {
+    content:'';
+    position: relative;
+    display: block;
+    width: 100%;
+    /* height: 1px;
+    background-color:#cedee7; */
+    border-bottom: 1px solid #cedee7;;
+    z-index: 0;
+ }
+ .paymentProcessStep3 .indicativeRate div.icon:after{
+    bottom: 12px;
+    left: 108px;
+ }
+ .paymentProcessStep3 .indicativeRate div.icon:before{
+    bottom: -13px;
+    left: -108px;
+ }
+ .paymentProcessStep3 .icon-income-expenses {
+    display:block;
+    transform: scaleX(-1) rotate(-45deg);
+ }
+ .paymentProcessStep3 .indicativeRate .icon-income-expenses:before {
+    font-size:24px;
+    color: #257fa4;
+ }
+
+
+.paymentProcess-step3 .slds-text-heading_subtitle {
+    color: #444444;
+    font-family: "SantanderMicroText-Bd";
+    font-size: 18px;
+    line-height: 27px;
+    margin-bottom: 16px;
+}
+
+.paymentProcess-step3.slds-notify_container{
+    margin-bottom: 24px !important;
+}
+
+
+.paymentProcess-step3.slds-grid{
+    justify-content: space-between;
+}
+
+.paymentProcess-step3.slds-grid .slds-col{
+    flex:unset;
+}
+
+.paymentProcess-step3.slds-modal__footer {
+    border-top: none;
+    width: 808px;
+    box-shadow: none;
+    padding: 0;
+    background-color: inherit;
+    margin: 0;
+    margin-top: 40px;
+}
+
+.paymentProcess-step3.slds-media__footer {
+    display:flex;
 }

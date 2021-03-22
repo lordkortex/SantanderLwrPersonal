@@ -57,6 +57,10 @@ export default class Lwc_historyOfStatementsSearch extends LightningElement {
     }
     
     clearButtonClicked() {
+
+        if(this.template.querySelector('c-lwc_cn_calendar')){
+            this.template.querySelector('c-lwc_cn_calendar').clearData();
+        }
         if(this.dates){
             this.dates = undefined;
         }

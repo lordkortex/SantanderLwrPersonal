@@ -22,11 +22,11 @@ export default class Lwc_b2b_toast extends LightningElement {
         B2B_Error_Check_Connection
     }
     //Attributes
-    @api showtoast;                                             //description="Indicates if the toast is shown."
+    @api showtoast = false;                                             //description="Indicates if the toast is shown."
     @api action = false;                                        //description="Indicates if the toast action icon is shown (reload icon is shown if false)." 
     @api static = false;                                        //description="Indicates if the toast is static." />
     @api notificationtitle;// = this.label.B2B_Error_Problem_Loading;   //description="Toast's title (B2B_Error_Lost_Connection, B2B_Error_Problem_Loading)" />
-    @api bodytext;// = this.label.B2B_Error_Check_Connection;           //description="Toast's body text (B2B_Error_Check_Connection)" />
+    @api bodytext;//= this.label.B2B_Error_Check_Connection;           //description="Toast's body text (B2B_Error_Check_Connection)" />
     @api functiontypetext = "Error";                            //description="Indicates the function type of toast message (Information, Success, Warning, Error)." />
     @track functionTypeClass = "warning";                       //description="Indicates the function type of toast message (Information, Success, Warning, Error)." />
     @track functionTypeClassIcon = "warning";                   //description="Indicates the function type of toast message (Information, Success, Warning, Error)." />
@@ -36,8 +36,8 @@ export default class Lwc_b2b_toast extends LightningElement {
 
     connectedCallback(){
         loadStyle(this, santanderStyle + '/style.css');
-        this.notificationtitle = this.label.B2B_Error_Problem_Loading;
-        this.bodytext = this.label.B2B_Error_Check_Connection;
+        //this.notificationtitle = this.label.B2B_Error_Problem_Loading;
+        //this.bodytext = this.label.B2B_Error_Check_Connection;
         this.getFunctionTypeClass();
     }
     
@@ -76,7 +76,7 @@ export default class Lwc_b2b_toast extends LightningElement {
 
     getFunctionTypeClass () {
         var functionTypeText = this.functiontypetext ;
-        console.log(functionTypeText.localeCompare('Information'));
+        //console.log(functionTypeText.localeCompare('Information'));
         var functionTypeClass = functionTypeText.toLowerCase();
         this.functionTypeClass = functionTypeClass;
         var iconClass=functionTypeClass;

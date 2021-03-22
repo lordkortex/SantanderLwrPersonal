@@ -3,11 +3,11 @@
     <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
         <template if:true={showToast}>
                 <c-lwc_b2b_toast 
-                    showtoast={showToast} 
-                    bodytext={toastText} 
-                    notificationtitle={toastTitle} 
-                    functiontypetext={toastType} 
-                    reload={reloadAccounts}>
+                    showtoast={showtoast} 
+                    bodytext={toasttext} 
+                    notificationtitle={toasttitle} 
+                    functiontypetext={toasttype} 
+                    reload={reloadaccounts}>
                 </c-lwc_b2b_toast>
         </template>
         
@@ -203,7 +203,7 @@
                                     label={label.status} 
                                     isdisabled={isDisabledDropdown}  
                                     valuesplaceholder="" 
-                                    cleardropdown={clearStatusDropdown}
+                                    cleardropdown={clearstatusdropdown}
                                     errortext={label.IncorrectInputFormat}>
                                 </c-lwc_pay_filterdropdown>
                             </div>
@@ -217,7 +217,7 @@
                                         label={label.PAY_PaymentType} 
                                         isdisabled={isDisabledDropdown} 
                                         valuesplaceholder="" 
-                                        cleardropdown={clearMethodDropdown}
+                                        cleardropdown={clearmethoddropdown}
                                         errortext={label.IncorrectInputFormat}>                          
                                     </c-lwc_pay_filterdropdown>
                                 </div>
@@ -267,7 +267,7 @@
                                     label={label.destinationCountry} 
                                     isdisabled={isDisabledDropdown}  
                                     valuesplaceholder="" 
-                                    cleardropdown={clearCountryDropdown}
+                                    cleardropdown={clearcountrydropdown}
                                     errortext={label.IncorrectInputFormat}>
                                 </c-lwc_pay_filterdropdown>
                             </div>
@@ -299,7 +299,7 @@
                                                     <div class="slds-button__icon icon-calendar"></div>
                                                 </div>
 
-                                                <lightning:input type="date" data-id="dateField" value={datesplaceholdersZero}  class="field" formatter={currentuser.dateFormat} onchange={handleChangeDates}></lightning:input>
+                                                <lightning-input type="date" data-id="dateField" value={datesplaceholdersZero}  class="field" formatter={currentuser.dateFormat} onchange={handleChangeDates}></lightning-input>
 
                                                 <!-- value={!(empty(v.dates[0]) ? $Label.c.valueDateFrom : v.dates[0])} -->
                                                 <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
@@ -341,7 +341,7 @@
                                                     <div class="slds-button__icon icon-calendar"></div>
                                                 </div>
 
-                                                <lightning:input type="date" data-id="dateField" value={datesplaceholdersOne}  class="field"  formatter={currentuser.dateFormat} onchange={handleChangeDates}></lightning:input>
+                                                <lightning-input type="date" data-id="dateField" value={datesplaceholdersOne}  class="field"  formatter={currentuser.dateFormat} onchange={handleChangeDates}></lightning-input>
                                                 
                                                 <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
                                                 <!-- <lightning:input type="date" name="inputTo" autocomplete="off" value={dates[1]} dateStyle="short" variant="label-hidden" placeholder={!$Label.c.valueDateTo} format={currentUser.dateFormat} onfocus={handleFocusToDate} onblur={handleBlurToDate} onchange={handleChangeDate}/> -->

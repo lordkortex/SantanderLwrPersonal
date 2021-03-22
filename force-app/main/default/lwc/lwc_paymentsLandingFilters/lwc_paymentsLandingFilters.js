@@ -41,43 +41,36 @@ export default class Lwc_paymentsLandingFilters extends LightningElement {
         PAY_Status_RejectedOne
     };
 
-    @api currentuser; //"Current user data"
-    @api currencydropdownlist = []; //"List of currencies that are displayed in the dropdown"
+    @api showdownloadmodal = false;  //"Boolean to show or hide download modal (CMP_PaymentsLandingDownloadModal)"
+    @api showfiltermodal = false;  //"Boolean to show or hide advanced filter modat (CMP_PaymentsLandingFilterModal)"
+    @api isloading = false; //"Controls whether the spinner shows when records are loading"
+    @api currentuser = {}; //"Current user data"
+    @api searchedstring = '';  //"Search information placed in the account search input."
+    @api selectedstatuses = [];  //"List of selected statuses." 
+    @api selectedpaymentstatusbox = ''; //"Selected payment status"
     @api statusdropdownlist = []; //"List of statuses that are displayed in the dropdown"
+    @api selectedcurrencies = [];  //"List of selected currencies."
+    @api currencydropdownlist = []; //"List of currencies that are displayed in the dropdown"
     @api paymentmethoddropdownlist = []; //"List of payment methods that are displayed in the dropdown"
     @api countrydropdownlist = []; // "List of countries that are displayed in the dropdown"
     @api accounts = []; //"List of accounts"
-    @api searchedsourceaccount = '';  //"Search information placed in the source account search input."
-    @api selectedsourceaccount = {}; //"Source account selected from dropdown."
-    @api reloadaccounts = false;  //"Retry the call to retrieve list of accounts."
-
-    @api fromdecimal = '';  //"Search information placed in the From Amount search input."
-    @api todecimal = ''; //"Search information placed in the To Amount search input."
-
-    @api dates = "['', '']";  //"List containing the selected dates"
-
-    @api showdownloadmodal = false;  //"Boolean to show or hide download modal (CMP_PaymentsLandingDownloadModal)"
-    @api showfiltermodal = false;  //"Boolean to show or hide advanced filter modat (CMP_PaymentsLandingFilterModal)"
-    @api isLoading = false; //"Controls whether the spinner shows when records are loading"
-    @api clientreference;  //"User input for client reference filter."
-    @api searchedstring = '';  //"Search information placed in the account search input."
-    @api selectedstatuses = [];  //"List of selected statuses." 
-    @api selectedcurrencies = [];  //"List of selected currencies."
-    @api pendingofmyauthorization = false;  //"True when 'Pending of my authorization' header option is clicked."
-    @api isheaderoptionselected = false;  // "True when a header option is selected."
-
-    @api selectedpaymentstatusbox = ''; //"Selected payment status"
-
-    @api selectedmethod = ''; //"Payment method selected"
-    @api selectedcountry;  //"Country selected from dropdown."
-
     @api resetsearch = false;  //"Reset search when the button is clicked."
     @api filtercounter = 0;  //"Counts the number of types of filers selected (source account, amount, currency, status, payment method, client reference, destination country, date)"
-    @api applyisclicked = false; 
-
+    @api pendingofmyauthorization = false;  //"True when 'Pending of my authorization' header option is clicked."
+    @api isheaderoptionselected = false;  // "True when a header option is selected."
+    @api reloadaccounts = false;  //"Retry the call to retrieve list of accounts."
     @api numberofpayments = 0; //"Number of payments in the table"
     @api availablestatuses = []; //"List of status-reason pairs visible to front-end user"
-
+    
+    @track searchedsourceaccount = '';  //"Search information placed in the source account search input."
+    @track selectedsourceaccount = {}; //"Source account selected from dropdown."
+    @track fromdecimal = '';  //"Search information placed in the From Amount search input."
+    @track todecimal = ''; //"Search information placed in the To Amount search input."
+    @track dates;// = "['', '']";  //"List containing the selected dates"
+    @track clientreference;  //"User input for client reference filter."
+    @track selectedmethod = ''; //"Payment method selected"
+    @track selectedcountry;  //"Country selected from dropdown."
+    @track applyisclicked = false; 
     @track showdropdown = false;
 
     get searchedStringNotEmpty(){
@@ -104,11 +97,27 @@ export default class Lwc_paymentsLandingFilters extends LightningElement {
     }
 
 
+    
     connectedCallback(){
         loadStyle(this, santanderStyle + '/style.css');
         this.setFilters();
     }
+    
 
+    //pedro
+    @api 
+    statusFilters(status,currency){
+        this.statusdropdownlist = status;
+        this.currencydropdownlist = currency;
+        //this.setFilters();
+        this.template.querySelectorAll('[data-id="filter"]')[0].setlista(this.statusdropdownlist);
+        this.template.querySelectorAll('[data-id="filter"]')[1].setlista(this.currencydropdownlist);
+
+        
+    }
+
+
+    @api
     setFilters() {
 		let rPayemntMethodList = this.paymentmethoddropdownlist;
         let rCurrencyList = this.currencydropdownlist;
@@ -228,6 +237,8 @@ export default class Lwc_paymentsLandingFilters extends LightningElement {
 
     openFilterModal() {
         this.showfiltermodal = true;
+        //this.template.querySelector('c-lwc_payments-landing-filter-modal').setCurrentUser(this.currentuser);
+        //this.template.querySelector('c-lwc_payments-landing-filter-modal').doInit();
     }
 
     clearInput() {
@@ -344,16 +355,16 @@ export default class Lwc_paymentsLandingFilters extends LightningElement {
     }
 
     handleFilter(event) {
-        var eventDropdown = event.getParam('showDropdown');
-        var eventName = event.getParam('name');
-        var eventAction = event.getParam('action');
+        var eventDropdown = event.detail.showDropdown;
+        var eventName = event.detail.name;
+        var eventAction = event.detail.action;
         if (eventDropdown) {
-            let filters = this.template.querySelector(('[data-id="filter"]'));
+            let filters = this.template.querySelectorAll('[data-id="filter"]');
             for (let i = 0; i < filters.length; i++) {
                 if (filters[i].name == eventName) {
-                    filters[i].showDropdown = true;
+                    filters[i].showdropdown = true;
                 } else {
-                    filters[i].showDropdown = false;
+                    filters[i].showdropdown = false;
                 }
             }
         }
@@ -362,19 +373,24 @@ export default class Lwc_paymentsLandingFilters extends LightningElement {
             //Status
             if(eventName == 'status' && eventAction == 'clear'){
                 this.clearSelectedPaymentStatusBox();
+                this.selectedstatuses = [];
             }else if(eventName == 'status' && eventAction == 'apply'){
+                this.selectedstatuses = event.detail.selectedFilters;
                 if (this.selectedstatuses){ //empty  in cmp
                 }   
             }
             
             //Currency
             if(eventName == 'currency' && eventAction == 'clear'){
+                this.selectedcurrencies = [];
             }else if(eventName == 'currency' && eventAction == 'apply'){
+                this.selectedcurrencies = event.detail.selectedFilters;
                 if (this.selectedcurrencies){//empty  in cmp
                 }
             }
 
             this.applyisclicked = true;
+            this.handleApplySearch();
             this.clearSelectedPaymentStatusBox();
         }
         
@@ -707,24 +723,23 @@ export default class Lwc_paymentsLandingFilters extends LightningElement {
             //     component.set('v.resetSearch', true);
             // }
 
-
             var params = {
-                "globalUserId" : globalUserId,
-                "pendingAuthorization" : pendingAuthorization,
-                "latestOperationsFlag" : latestOperationsFlag,
-                "sourceAccountList" : sourceAccountList,
-                "destinationCountry" : destinationCountry,                
-                "statusList" : statusList,
-                "amountFrom" : amountFrom,
-                "amountTo" : amountTo,
-                "currencyList" :  currencyList,
-                "paymentMethod" : paymentMethod,
-                "clientReference" : clientReference,
-                "valueDateFrom" : valueDateFrom,
-                "valueDateTo" : valueDateTo
+                globalUserId : globalUserId,
+                pendingAuthorization : pendingAuthorization,
+                latestOperationsFlag : latestOperationsFlag,
+                sourceAccountList : sourceAccountList,
+                destinationCountry : destinationCountry,                
+                statusList : statusList,
+                amountFrom : amountFrom,
+                amountTo : amountTo,
+                currencyList :  currencyList,
+                paymentMethod : paymentMethod,
+                clientReference : clientReference,
+                valueDateFrom : valueDateFrom,
+                valueDateTo : valueDateTo
             }
 
-            const evt = new CustomEvent('searchOperationsListFired', params);
+            const evt = new CustomEvent('searchoperationslistfired',{detail : params});
             this.dispatchEvent(evt);  
         }
         
@@ -736,5 +751,23 @@ export default class Lwc_paymentsLandingFilters extends LightningElement {
         var data = list;
        	sort = data.sort((a,b) => (a.label > b.label) ? 1 : ((b.label > a.label) ? -1 : 0));
         return sort;
+    }
+
+    @api
+    setCurrentUser(currentuser){
+        this.currentuser = currentuser;
+        //this.template.querySelector('c-lwc_payments-landing-filter-modal').setCurrentUser(this.currentuser);
+        //this.template.querySelector('c-lwc_payments-landing-filter-modal').doInit();
+    }
+
+    onCloseModal(){
+        this.showfiltermodal = false;
+        this.setFilters();
+    }
+
+    @api
+    updateAccounts(accounts){
+        this.accounts = accounts;
+        this.setFilters();
     }
 }

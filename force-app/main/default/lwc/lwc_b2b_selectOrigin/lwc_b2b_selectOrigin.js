@@ -71,6 +71,7 @@ export default class Lwc_b2b_selectOrigin extends LightningElement {
     @track errorMSGExpenses
 
     _ismodified;
+   
 
     get lastModifiedStepEqOne(){
         return this.steps.lastModifiedStep == 1;
@@ -107,11 +108,9 @@ export default class Lwc_b2b_selectOrigin extends LightningElement {
         // var msg = '';
         let paymentDraft = this.paymentdraft;
         let checkedYES = this.checkedYES;
-
         
-        
-        // if (JSON.stringify(data) == JSON.stringify({})) {
-        if (paymentDraft.sourceAccount) {
+        if (JSON.stringify(paymentDraft.sourceAccount) == JSON.stringify({})) {
+        //if (!paymentDraft.sourceAccount) {
             let accountList = this.accountlist;
             if(accountList.length <= 6){
                 var title = this.label.B2B_SourceAccNotSelected;
@@ -151,18 +150,30 @@ export default class Lwc_b2b_selectOrigin extends LightningElement {
             this.errorMSG = '';
             this.errorMSGExpenses = '';
             // this.validateAccount()
-            // .then( () => {
-            //     return this.getPaymentId(component, helper);
-            // })).then($A.getCallback(function (value) {
-            //     return this.upsertPayment(component, helper);
-            // })).then($A.getCallback(function (value) {
-            this.completeStep()
-            .catch( error => {
+            // .then(() => {
+             //   return this.getPaymentId();
+            this.getPaymentId()
+            .then(() => {
+                return this.upsertPayment();
+            }).then(() => {
+                this.completeStep()
+            }).catch( error => {
                 this.isEditingStepError();
                 console.log(error);
             }).finally( () => {
                 console.log('OK');
                 this.spinner = false;
+
+                const accountdataevent = new CustomEvent('accountdata', {
+                    detail : { 
+                        account: this.paymentdraft.sourceAccount, 
+                        step: 1, 
+                        id: this.paymentdraft.paymentId
+                    }
+    
+                });
+                this.dispatchEvent(accountdataevent);
+
             });
         }
     }
@@ -174,7 +185,7 @@ export default class Lwc_b2b_selectOrigin extends LightningElement {
             let notificationTitle = this.label.B2B_Error_Problem_Loading;
             let bodyText =  this.label.B2B_Error_Check_Connection;
             
-            accountValidation({data: paymentDraft})
+            accountValidation({data: paymentDraft.sourceAccount})
             .then(actionResult => {
                 let returnValue = actionResult;
                 if (!returnValue.success) {
@@ -250,10 +261,13 @@ export default class Lwc_b2b_selectOrigin extends LightningElement {
         this.dispatchEvent(handlecontinueevent);
     }
 
-    handleAccountData(event){
+    handleAccountData(event){        
         if(event.detail){
             const accountdataevent = new CustomEvent('accountdata', {
-                detail : { account: event.detail.account, step: 1}
+                detail : { 
+                    account: event.detail.account, 
+                    step: 1, 
+                }
 
             });
             this.dispatchEvent(accountdataevent);
@@ -297,9 +311,10 @@ export default class Lwc_b2b_selectOrigin extends LightningElement {
                 if (paymentDraft.expensesAccount) {
                     expensesAccount = paymentDraft.expensesAccount;
                 }
-                let notificationTitle =  this.Label.B2B_Error_Problem_Loading;
-                let bodyText =  this.Label.B2B_Error_Continue_Button;
+                let notificationTitle =  this.label.B2B_Error_Problem_Loading;
+                let bodyText =  this.label.B2B_Error_Continue_Button;
 
+                
                 getPaymentId({
                     sourceAccount: paymentDraft.sourceAccount,
                     userData: userData,
@@ -307,28 +322,29 @@ export default class Lwc_b2b_selectOrigin extends LightningElement {
                     expensesAccount: expensesAccount
                 }).then(actionResult => {
                     let stateRV = actionResult;
+                    stateRV = {"msg":"","success":true,"value":{"paymentId":"05a1e74b058642048b0014e11eb12f96"}};
                     console.log(stateRV);
                     if (stateRV.success) {
                         if (stateRV.value) {
                             if (stateRV.value.paymentId) {
-                                let paymentDraft = this.paymentdraft;
+                                let paymentDraft = JSON.parse(JSON.stringify(this.paymentdraft));
                                 paymentDraft.paymentId = stateRV.value.paymentId;
                                 this.paymentdraft = paymentDraft;
                                 resolve('OK');
                             } else {
-                                this.showToast(notificationTitle, bodyText, true);
+                                this.doShowToast(notificationTitle, bodyText, true);
                                 reject('ERROR: empty stateRV.value.paymentId');
                             }
                         } else {
-                            this.showToast(notificationTitle, bodyText, true);
+                            this.doShowToast(notificationTitle, bodyText, true);
                             reject('ERROR: stateRV.value');
                         }
                     } else {
-                        this.showToast(notificationTitle, bodyText, true);
+                        this.doShowToast(notificationTitle, bodyText, true);
                         reject(stateRV.msg);
                     }
                 }).catch(error => {
-                    this.showToast(notificationTitle, bodyText, true);
+                    this.doShowToast(notificationTitle, bodyText, true);
                     reject('ERROR: Create Payment Id.');
                 })                
             }
@@ -347,11 +363,11 @@ export default class Lwc_b2b_selectOrigin extends LightningElement {
                 if (stateRV.success) {
                     resolve('OK');
                 } else {
-                    this.showToast(notificationTitle, bodyText, true);
+                    this.doShowToast(notificationTitle, bodyText, true);
                     reject(stateRV.msg);
                 }
             }).catch(error => {
-                this.showToast(notificationTitle, bodyText, true);
+                this.doShowToast(notificationTitle, bodyText, true);
                 reject('ERROR: Create Payment Id.');
             })
 

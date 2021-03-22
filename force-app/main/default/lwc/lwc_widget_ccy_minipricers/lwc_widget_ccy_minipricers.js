@@ -14,7 +14,7 @@ import timeZone from '@salesforce/label/c.timeZone';
 import currency from '@salesforce/label/c.currency';
 import dateFormat from '@salesforce/label/c.dateFormat';
 import numberFormat from '@salesforce/label/c.numberFormat';
-import imageFlag from '@salesforce/resourceUrl/Flags';
+import imageFlag from '@salesforce/resourceUrl/FlagsCCpair';
 
 //Calls Apex
 import getPicklistValuesApex from '@salesforce/apex/CNT_UserSettingsAux.getPicklistValues';

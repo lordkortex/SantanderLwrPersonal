@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>User_DateFormat__c</fullName>
+    <description>Date format for the user</description>
+    <externalId>false</externalId>
+    <inlineHelpText>Enter a date format.</inlineHelpText>
+    <label>Date format</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>dd/MM/yyyy</fullName>
+                <default>true</default>
+                <label>dd/MM/yyyy</label>
+            </value>
+            <value>
+                <fullName>MM/dd/yyyy</fullName>
+                <default>false</default>
+                <label>MM/dd/yyyy</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

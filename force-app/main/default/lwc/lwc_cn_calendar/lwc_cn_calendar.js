@@ -37,7 +37,7 @@ export default class Lwc_cn_calendar extends LightningElement {
     @api errormessageto = '';                          //description="String that contains the error message of the to calendar"
     @api autocomplete = "on";                          //description="String that contains the error message of the to calendar" />
     
-    @track helpText = shortFormat;                      //description="Calendar help text"/>
+    @track helpText = 'dd/mm/yyyy';//shortFormat;                      //description="Calendar help text"/>
     @track helpTextFrom = this.label.ddmmyy;             //description="Calendar help text"/>
     @track helpTextTo = this.label.ddmmyy;               //description="Calendar help text"/>  
     @track fromCMP;

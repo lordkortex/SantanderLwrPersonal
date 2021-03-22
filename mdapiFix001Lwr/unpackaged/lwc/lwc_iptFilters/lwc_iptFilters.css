@@ -1,0 +1,791 @@
+.pillContainer {
+    margin-bottom: 16px;
+    padding-right: 16px;
+    display: flex;
+}
+
+ .buttonCurrency .slds-combobox_container.slds-combobox.buttonAccounts.slds-popover {
+    width: 288px !important;
+}
+
+ .buttonAmount {
+    width: 102px;
+}
+
+ .rightIcons {
+    display: flex;
+}
+
+ .icon-filter {
+    margin-right: 4px;
+}
+
+ .icon-download,
+ .icon-filter,
+ .icon-print {
+    font-family: "SantanderMicroText"!important;
+}
+
+ .icon-download {
+    margin-right: 4px;
+}
+
+ .icon-print:before,
+ .icon-download:before,
+ .icon-filter:before {
+    font-family: 'icomoon'!important;
+    display: inline-block;
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+ .icon-download:before {
+    float: right;
+    line-height: 32px;
+}
+
+ .icon-filter:before {
+    margin-right: 4px;
+}
+
+ div:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.pillContainer .slds-popover {
+    background-color: #ffffff;
+    border: 1px solid #deedf2;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px 0 rgba(68, 68, 64, 0.24);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 4px;
+    padding: 0px;
+    position: absolute;
+    top: 32px;
+    z-index: 1;
+}
+
+.pillContainer .accountCombobox {
+    width: 392px;
+    max-height: 330px;
+}
+
+.pillContainer .amountCombobox {
+    width: 272px;
+}
+
+.pillContainer .accountCombobox .slds-popover__body {
+    padding: 14px 0px 8px 0px;
+    max-height: 264px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.pillContainer .amountCombobox .slds-popover__body {
+    padding: 16px 16px 0px 16px;
+}
+
+.pillContainer .slds-form-element {
+    padding: 0px;
+}
+
+.pillContainer .slds-popover__footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 16px 16px 16px;
+    border-top: none;
+}
+
+ .redButton {
+    border-radius: 100px;
+    font-family: "SantanderMicroText-Bd";
+    font-size: 16px;
+    height: 40px;
+    line-height: 24px;
+    padding: 0px;
+    width: 72px;
+}
+
+ .whiteButton {
+    border-radius: 100px;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 40px;
+    line-height: 24px;
+    padding: 0px;
+    width: fit-content;
+}
+
+.pillContainer .slds-button_outline-brand {
+    border: 1px solid #cedee7;
+    border-radius: 4px;
+    background-color: #eff6f9;
+    color: #444444;
+    cursor: pointer;
+    font-size: 14px;
+    height: 32px;
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+.pillContainer .slds-button_outline-brand:hover {
+    background-color: #e2eff4;
+}
+
+.pillContainer .slds-button_outline-brand:active {
+    background-color: #ffffff;
+    color: #cc0000;
+    font-family: "SantanderTextW05-Bold";
+}
+
+.pillContainer .slds-button_outline-brand.buttonSelected:hover {
+    border: 1px solid #cedee7;
+    border-radius: 4px;
+    background-color: #ffffff;
+    color: #cc0000;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "SantanderTextW05-Bold";
+    height: 32px;
+    margin-left: 0;
+    margin-right: 8px;
+}
+
+.pillContainer .slds-form-element__control {
+    display: flex;
+    position: relative;
+}
+
+.pillContainer .slds-form-element .slds-form-element__control {
+    display: flex;
+    flex-direction: column;
+}
+
+ .slds-form-element__label {
+    font-family: "SantanderMicroText";
+    line-height: 17px;
+    margin: 0 0 4px 0;
+    padding: 0;
+}
+
+ .slds-media__body {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+}
+
+ .slds-checkbox {
+    align-items: center;
+    display: flex;
+    height: 36px;
+    margin-bottom: 12px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+ .slds-checkbox:hover {
+    background-color: #e8f3f6;
+    border-radius: 4px;
+}
+
+.pillContainer .currencyCombobox .slds-popover__body {
+    padding: 14px 0px 8px 0px;
+    max-height: 264px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+ .currencyCombobox .slds-popover__body::-webkit-scrollbar {
+    width: 6px;
+}
+
+ .currencyCombobox .slds-popover__body::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+ .currencyCombobox .slds-popover__body::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+ .currencyCombobox .slds-popover__body::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+.pillContainer .currencyCombobox {
+    width: 282px;
+}
+
+ .slds-checkbox .slds-checkbox__label .slds-form-element__label.checkboxLabel {
+    color: #444444;
+    display: inline;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    vertical-align: middle;
+}
+
+ .slds-checkbox_faux {
+    border-radius: 4px;
+    color: #222222;
+    cursor: pointer;
+    height: 24px;
+    margin-left: 11px;
+    margin-right: 8px;
+    width: 24px;
+}
+
+ .slds-checkbox [type="checkbox"]:checked+.slds-checkbox__label .slds-checkbox_faux {
+    border: 2px solid #1bb3bc;
+}
+
+ .slds-checkbox [type="checkbox"]:checked+.slds-checkbox__label .slds-checkbox_faux::after {
+    border-bottom: 2px solid #1bb3bc;
+    border-left: 2px solid #1bb3bc;
+    height: 6px;
+    width: 9px;
+}
+
+ .slds-checkbox__label .slds-checkbox_faux:active {
+    border: 2px solid #1bb3bc;
+}
+
+ .slds-input {
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px;
+    background-color: #f6fafc;
+    color: #444444;
+    cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+    width: 240px;
+}
+
+ .slds-input:focus {
+    /*box-shadow: inset 0 -2px 0 0 #257fa4 !important;*/
+    color: #444444 !important;
+    border-top: 1px solid #deedf2 !important;
+    border-left: 1px solid #deedf2 !important;
+    border-right: 1px solid #deedf2 !important;
+    background-color: #f6fafc !important;
+}
+
+
+/* TEXT LINK */
+
+ .text-link {
+    font-size: 14px;
+    line-height: 32px;
+    cursor: pointer;
+}
+
+ .text-link:last-child {
+    margin-left: 16px;
+}
+
+ .textHelp {
+    align-items: center;
+    color: #444444;
+    display: flex;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    height: 21px;
+    padding-left: 12px;
+    margin-bottom: 8px;
+}
+
+ .accountCombobox .slds-popover__body::-webkit-scrollbar {
+    width: 6px;
+}
+
+ .accountCombobox .slds-popover__body::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+ .accountCombobox .slds-popover__body::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+ .accountCombobox .slds-popover__body::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+.pillContainer ::-webkit-input-placeholder {
+    color: #767676;
+}
+
+.pillContainer :-moz-placeholder {
+    /* Firefox 18- */
+    color: #767676;
+}
+
+.pillContainer ::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #767676;
+}
+
+.pillContainer :-ms-input-placeholder {
+    color: #767676;
+}
+
+.pillContainer :focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+ .slds-input:active,
+ .slds-input:focus {
+    box-shadow: none;
+}
+
+ input[type="checkbox"]:focus {
+    box-shadow: none;
+}
+
+ .slds-checkbox [type="checkbox"]:focus+.slds-checkbox__label .slds-checkbox_faux {
+    box-shadow: none;
+}
+
+.filtersContainer {
+	margin-bottom: 16px;
+    padding-right: 16px;
+    display: flex;
+    align-items: flex-end;
+}
+
+.filtersContainer .text-link {
+	cursor: pointer;
+}
+ .filtersBox{
+        margin: 0 24px 0 0;
+}
+
+ .filtersContent{
+     display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    flex-grow: 1;
+}
+/* LABEL */
+ .slds-form-element__label {
+	color: #767676;
+	font-family: "SantanderMicroText";
+	font-size: 12px;
+	line-height: 17px;
+	margin: 0 0 4px 0;
+	padding: 0;
+}
+
+
+/* FILTER BUTTONS*/
+
+.filtersContainer .slds-button_outline-brand{
+    border: 1px solid #cedee7;
+    border-radius: 4px;
+    background-color: #eff6f9;
+    color: #444444;
+    cursor: pointer;
+	font-size: 14px;
+	height: 32px;
+	margin-left: 0;
+	margin-right: 8px;
+    padding-right: 24px;
+    padding-left: 24px;
+}
+.filtersContainer .slds-button_outline-brand:hover{
+    background-color: #e2eff4;
+}
+.filtersContainer .slds-button_outline-brand:active,
+.filtersContainer .slds-button_outline-brand:focus,
+.filtersContainer .slds-button_outline-brand.buttonSelected {
+    background-color: #ffffff;
+    color: #cc0000;
+	font-family: "SantanderTextW05-Bold";
+}
+
+/* ICONS */
+/*  .text-link.download {
+	font-family: "SantanderMicroText";
+    font-size: 14px;
+	line-height: 24px;
+	cursor: pointer;
+} */
+
+/*  .text-link.download::after {
+	font-family: 'icomoon' !important;
+	content: "\e919";
+	color: #ec0000;
+	font-size: 24px;
+} */
+/* 
+ .text-link.download:hover{
+	color: #CC0000;
+} */
+
+ .rightIcons{
+    display: flex;
+}
+
+ .icon-filter{
+    font-family: "SantanderMicroText"!important;
+	cursor: pointer;
+}
+
+ .icon-print{
+    font-family: "SantanderMicroText"!important;
+    margin-right: 4px;
+}
+
+ .icon-print:before {
+	float:right;
+    line-height: 32px;
+}
+
+ .icon-download{
+    font-family: "SantanderMicroText"!important;
+    margin-right: 4px;
+}
+
+ .icon-print:before, 
+ .icon-download:before, 
+ .icon-filter:before {
+    font-family: 'icomoon'!important;
+	display: inline-block;
+	font-size: 24px;
+	vertical-align: middle;
+}
+ .icon-download:before {
+	float:right;
+    line-height: 32px;
+}
+ .icon-filter:before {
+	margin-right: 4px;
+}
+ div:focus {
+	box-shadow: none;
+	outline: none;
+}
+
+
+/* TEXT LINK */
+ .text-link {
+	font-size: 14px;
+	line-height: 32px;
+}
+
+ .text-link:last-child{
+	margin-left: 8px;
+}
+
+/* DROPDOWNS */
+.filtersContainer .slds-popover {
+	background-color: #ffffff;
+    border: 1px solid #cedee7;
+	border-radius: 4px;
+	box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-top: 4px;
+	padding: 0px;
+	position: absolute;
+	top: 32px;
+    z-index: 98000;
+}
+.filtersContainer .accountCombobox {
+    width: 392px;
+    max-height: 320px;
+}
+.filtersContainer .amountCombobox {
+    width: 288px;
+}
+
+.filtersContainer .accountCombobox .slds-popover__body {
+    padding: 14px 4px 8px 4px;
+}
+
+.filtersContainer .accountCombobox .slds-form-element{
+    max-height: 242px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.filtersContainer .amountCombobox .slds-popover__body {
+	padding: 16px 16px 4px 16px;
+}
+.filtersContainer .slds-form-element {
+	padding: 0px;
+}
+.filtersContainer .slds-popover__footer {
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 16px 16px 16px;
+    border-top: none;
+}
+ .redButton {
+	border-radius: 100px;
+	font-family: "SantanderMicroText-Bd";
+	font-size: 16px;
+	min-height: 40px;
+	line-height: 24px;
+    padding: 0px 16px;
+   
+}
+ .whiteButton {
+	border-radius: 100px;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	min-height: 40px;
+	line-height: 24px;
+    padding: 0px 16px;
+
+}
+
+.filtersContainer .slds-form-element__control {
+	display: flex;
+	position: relative;
+}
+.filtersContainer .slds-form-element .slds-form-element__control {
+	display: flex;
+	flex-direction: column;
+}
+
+ .slds-media__body {
+	align-items: flex-start;
+	display: flex;
+	justify-content: space-between;
+}
+ .slds-checkbox{
+	align-items: center;
+	display: flex;
+	height: 36px;
+	margin-bottom: 12px;
+}
+ .slds-checkbox:hover,   .slds-item:hover {
+    background-color: #e8f3f6;
+    border-radius: 4px;
+}
+ .slds-checkbox .slds-checkbox__label .slds-form-element__label.checkboxLabel {
+    cursor: pointer;
+	color: #444444;
+	display: inline;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	vertical-align: middle;
+}
+
+ .slds-checkbox_faux {
+	border-radius: 4px;
+    border-color: #767676;
+	cursor: pointer;
+	height: 24px;
+	margin-left: 12px;
+	margin-right: 8px;
+	width: 24px;
+}
+
+ .slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+	box-shadow: none;
+    border-color: #767676;
+}
+
+ .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+	border: 2px solid #1bb3bc;
+}
+
+ .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+	border-bottom: 2px solid #1bb3bc;
+	border-left: 2px solid #1bb3bc;
+	height: 6px;
+	width: 9px;
+}
+ .slds-checkbox__label .slds-checkbox_faux:active{
+	border: 2px solid #1bb3bc;
+}
+ .slds-item{
+	align-items: center;
+	display: flex;
+	height: 36px;
+    margin-bottom: 12px;
+	line-height: 24px;
+    padding: 0 12px;
+    cursor: pointer;
+}
+ .slds-item .slds-form-element__label {
+    font-family: SantanderMicroText;
+    font-size: 16px; 
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #444444;
+    margin:0;
+}
+ .accountCurrency{
+     width: 288px; 
+}
+ .accountCurrency .slds-popover__body {
+    padding:  14px 4px 8px 4px;
+}
+ .accountCurrency .slds-form-element__control{
+    flex-direction:column;
+}
+ .accountCurrency  .slds-dropdown__list{ 
+     max-height: 240px;
+    overflow-y: auto;
+}
+ .accountCurrency  .slds-dropdown__list::-webkit-scrollbar {
+	width: 6px;
+}
+ .slds-popover__body  .slds-dropdown__list::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+ .accountCurrency  .slds-dropdown__list::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+ .accountCurrency  .slds-dropdown__list::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+ .slds-input {
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+	border-radius: 4px;
+    background-color: #f6fafc;
+    color: #444444;
+	cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+	height: 48px;
+    line-height: 24px;
+}
+ .slds-input:focus {
+    border-bottom: 2px solid #257fa4;
+    color: #444444;
+}
+ .textHelp {
+    align-items: center;
+	color: #444444;
+    display: flex;
+	font-family: "SantanderMicroText";
+	font-size: 12px;
+	height: 21px;
+    padding-left: 12px;
+    margin-bottom: 8px;
+}
+
+
+.filtersContainer ::-webkit-input-placeholder { color: #767676; }
+ 
+.filtersContainer :-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+.filtersContainer ::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+.filtersContainer :-ms-input-placeholder { color: #767676; }
+
+.filtersContainer :focus::-webkit-input-placeholder{color:transparent;}
+
+ .slds-input:active,  .slds-input:focus {
+    box-shadow: none;
+}
+ input[type="checkbox"]:focus {
+	box-shadow: none;
+}
+
+
+/* DROPDOWN SCROLL */
+ .accountCombobox .slds-form-element::-webkit-scrollbar {
+	width: 6px;
+}
+
+ .accountCombobox .slds-form-element::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+ .accountCombobox .slds-form-element::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+ .accountCombobox .slds-form-element::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+
+/* BUTTON GROUP */
+ 
+ .slds-button-group .slds-button{
+    font-family: "SantanderMicroText";
+    color: #444444;
+    background-color: #eff6f9;
+    border: none;
+    box-shadow: inset 1px 1px 0 0 #cedee7, inset -1px -1px 0 0 #cedee7;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+}
+
+ .slds-button-group .slds-button:first-child {
+    border-radius: 4px 0px 0px 4px;
+}
+
+ .slds-button-group .slds-button:last-child {
+    border-radius: 0px 4px 4px 0px;
+}
+
+/* SIZES */
+ .slds-button-group.sizeS .slds-button{
+    font-size: 14px;
+    line-height: 21px;
+    min-height: 32px;
+}
+
+ .slds-button-group.sizeM .slds-button{
+    font-size: 16px;
+    line-height: 24px;
+    min-height: 40px;
+    min-width:200px;
+}
+
+ .slds-button-group.sizeL .slds-button{
+    font-size: 16px;
+    line-height: 24px;
+    min-height: 48px;
+}
+
+ .slds-button-group.optionButtons-iconText .slds-button{
+    padding: 0 48px 0 40px;
+}
+
+ .slds-button-group.optionButtons-icon .slds-button{
+    padding: 0 16px;
+}
+
+
+/* STATES */
+ .slds-button-group .slds-button:not(.selected):hover{
+	background-color: #e2eff4;
+}
+
+ .slds-button-group .slds-button:not(.selected):active{
+    font-family: "SantanderMicroText-Bd";
+    color: #cc0000;
+    background-color: #ffffff;
+}
+
+ .slds-button-group .slds-button.selected{
+    font-family: "SantanderMicroText-Bd";
+    color: #cc0000;
+    background-color: #ffffff;
+}
+
+ .filtersBox{
+    display: flex;
+    align-items: flex-end;
+}
+
+ .filtersBlock{
+    width:100%;
+}

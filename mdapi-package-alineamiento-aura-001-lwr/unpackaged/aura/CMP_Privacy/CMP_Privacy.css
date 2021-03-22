@@ -1,0 +1,75 @@
+.THIS.legalInfoContainer {
+  width: 1224px;
+}
+
+.THIS.legalInfoContainer .slds-text-heading_medium {
+  color: #444444;
+  font-family: "SantanderMicroText-Bd";
+  font-size: 18px;
+  letter-spacing: normal;
+  line-height: 27px;
+  margin-bottom: 8px;
+}
+
+.THIS .slds-text-heading_small {
+  color: #444444;
+  font-family: "SantanderMicroText-Bd";
+  font-size: 16px;
+  letter-spacing: normal;
+  line-height: 24px;
+  margin-bottom: 8px;
+}
+
+.THIS.privacyInfoContainer p {
+  color: #444444;
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  letter-spacing: normal;
+  line-height: 21px;
+}
+
+.THIS.privacyInfoContainer .slds-text-body_regular p {
+  margin-bottom: 24px;
+}
+
+.THIS.privacyInfoContainer .slds-text-body_regular ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 24px;
+}
+
+.THIS.privacyInfoContainer .slds-text-body_regular ul li{
+  text-indent: -14px;
+  line-height: 21px;
+  padding-left: 14px;
+}
+
+.THIS.privacyInfoContainer .slds-text-body_regular ul li:before {
+  content: "•";
+  padding-right: 8px;
+  color: #ec0000;
+}
+
+.THIS.privacyInfoContainer .text-bold {
+  font-family: "SantanderMicroText-Bd";
+}
+
+
+.THIS.titleContainer{
+  margin-top: 24px;
+  margin-bottom: 16px;
+}
+
+.THIS.titleContainer .slds-text-heading_medium {
+  color: #575757;
+  font-family: "SantanderHeadlineW05-Rg";
+  font-size: 28px;
+  line-height: 34px;
+  margin-bottom: 8px;
+}
+
+.THIS .text_line{
+  width: 40px;
+  border-bottom: 3px solid #ec0000;
+}

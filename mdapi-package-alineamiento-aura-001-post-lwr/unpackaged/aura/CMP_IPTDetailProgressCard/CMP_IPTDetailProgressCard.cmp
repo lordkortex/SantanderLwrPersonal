@@ -1,0 +1,159 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    This component displays the specification of a payment in a country
+History
+<Date>			<Author>		    <Description>
+19/02/2020		Laura Espinel		Design
+21/02/2020		Amanda Fernandez	Layout coding of the page
+26/02/2020		Shahad Naji     	Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_IPTDetailParent">
+    
+    <aura:attribute name="status" type="String" default=""/>
+    <aura:attribute name="countryIsoCode" type="String" default=""/>
+    <aura:attribute name="countryName" type="String" default=""/>
+    <aura:attribute name="city" type="String" default=""/>
+    <aura:attribute name="bankName" type="String" default=""/>
+    <aura:attribute name="bic" type="String" default=""/>
+    <aura:attribute name="arrivalDate" type="String" default=""/>
+    <aura:attribute name="arrivalTime" type="String" default=""/>
+    <aura:attribute name="duration" type="String" default=""/>
+    <aura:attribute name="departureDate" type="String" default=""/>
+    <aura:attribute name="departureTime" type="String" default=""/>
+    <aura:attribute name="feeApplied" type="Boolean" default="false"/>
+    <aura:attribute name="iObject" type="CNT_IPTDetailParent" description=""/>
+    <aura:attribute name="item" type="object" description=""/>
+    <aura:attribute name="mainClass" type="String" default="slds-progress__item progress__gray slds-is-completed" description=""/>
+    <aura:attribute name="cardClass" type="String" default="card"/>
+    <aura:attribute name="progressIcon" type="String" default="icon-check iconBlack"/>
+    <aura:attribute name="flagClass" type="String"/>
+    <aura:attribute name="textBold" type="String" default="textBold"/>
+    <aura:attribute name="textRegular" type="String" default="textRegular"/>
+    <aura:attribute name="FXLabel" type="String" default=''/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!--0 = do not show fees
+        1 = do not show amount
+        2 = show amount-->
+    <aura:attribute name="showFee" type="String" default="1"/>
+
+    
+    <li class="{!v.mainClass}">
+        <!-- PROGRESS ICON -->
+        <div class="slds-icon_container slds-icon-utility-success slds-progress__marker slds-progress__marker_icon slds-progress__marker_icon-success progressBar">
+            <div class="slds-media__figure containerIcon">
+                <span class="{!v.progressIcon}"></span>                
+            </div>
+            <span class="slds-assistive-text">{!v.status}</span>
+        </div>
+        <!-- CARD 1 -->
+        <div class="{!'slds-progress__item_content slds-grid slds-grid_align-spread ' + v.cardClass }" >
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <!-- FLAG-->
+                <div class="slds-media__body containerFlag">
+                    <div class="slds-media__figure flag">                         
+                        <img class="" src="{!$Resource.Flags + '/' + v.item.country +'.svg'}" onerror="{!c.defaultImage}"/>
+                    </div>
+                </div>
+                <!-- BANK -->
+                <div class="{!'slds-media__body colBank' + v.FXLabel}">
+                    <div class="{!'slds-card__header-title slds-truncate ' + v.textBold}">
+                         {!v.item.bank}
+                    </div>
+                    <div class="{!'slds-card__header-title slds-truncate ' + v.textRegular}">
+                         {!v.item.bic} 
+                    </div>
+                </div>
+                <!-- CITY -->
+                <div class="{!'slds-media__body colCountry' + v.FXLabel}">
+                    <div class="{!'slds-card__header-title slds-truncate ' + v.textBold}">
+                         {!v.item.city} 
+                    </div>
+                    <div class="{!'slds-card__header-title slds-truncate ' +  v.textRegular}">
+                         {!v.item.countryName}  
+                    </div>
+                </div>
+                <!-- DATE -->
+                <div class="{!'slds-media__body colArrivalTime' + v.FXLabel}">   
+                    <aura:if isTrue="{!v.item.arrival!=$Label.c.notTraceable}">
+
+                        <div>
+                            <div class="{!v.textRegular}">{!v.item.arrivalDate}</div>
+                            <div class="{!v.textRegular}">{!v.item.arrivalTime}</div>
+                        </div> 
+
+                        <aura:set attribute="else">
+                            <div>
+                                <div class="{!v.textRegular}">{!v.item.arrival}</div>
+                            </div> 
+                        </aura:set>
+                    </aura:if>                
+
+                </div>
+                <!-- TIME -->
+                <div class="{!'slds-media__body colDuration' + v.FXLabel}">
+                    <div>
+                        <div class="{!v.textRegular}">{!v.item.durationTime}</div>
+
+                        <div class="{!v.textRegular}">{!v.item.durationTimeSEGANDMIN}</div>
+                    </div> 
+                </div>
+                <!-- DATE -->
+                <div class="{!'slds-media__body colDepartureTime' + v.FXLabel}">
+                    <div>
+                        <aura:if isTrue="{!v.item.departure!=$Label.c.notTraceable}">
+                        <div>
+                            <div class="{!v.textRegular}">{!v.item.departureDate}</div>
+                        	<div class="{!v.textRegular}">{!v.item.departureTime}</div>
+                        </div> 
+
+                        <aura:set attribute="else">
+                            <div>
+                                <div class="{!v.textRegular}">{!v.item.departure}</div>
+                            </div> 
+                        </aura:set>
+                    </aura:if>  
+                    </div> 
+                </div>
+
+                <!--EXCHANGE RATE-->
+                <aura:if isTrue="{!and(v.iObject.hasForeignExchange)}">
+                    <div class="slds-media__body colExchangeRateTitle">
+                        <aura:if isTrue="{!and(v.item.foreignExchangeDetails.exchangeRate!=0,v.item.foreignExchangeDetails!=undefined)}">
+                            <div class="{!v.textRegular}">{!v.item.foreignExchangeDetails.sourceCurrency} / {!v.item.foreignExchangeDetails.targetCurrency}</div>
+                            <div class="{!v.textRegular}">{!v.item.foreignExchangeDetails.exchangeRate}</div>
+                        </aura:if>
+                    </div>
+                </aura:if>
+                <!-- FEE -->
+                <div class="colFee">
+                    <div>
+                        <aura:if isTrue="{!or(v.showFee=='1',v.showFee=='0')}">
+                    
+                            <aura:if isTrue="{!v.item.feeApplied}">
+                                <span class="{!v.textBold}">{!$Label.c.Applied}</span>
+                                <aura:set attribute="else">
+                                    <span class="{!v.textRegular}">{!$Label.c.NotApplied}</span>
+                                </aura:set>
+                            </aura:if>
+
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!v.item.feeApplied}">
+                                    <c:CMP_displayAmount amount="{!v.item.stepFee}" decimalClass="{!v.textRegular}" wholeClass="{!v.textRegular}" currency="{!v.item.stepFeeCurrency}"/>
+                                    <aura:set attribute="else">
+                                        <span class="{!v.textRegular}">{!$Label.c.NotApplied}</span>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:set>
+                        </aura:if>
+                        <span class=""></span>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </li>
+    
+    
+</aura:component>

@@ -3,20 +3,20 @@
         <div class="slds-truncate account">
             <span class="slds-media__body">
             <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{account.displayNumber}</span>
-            <div if:true={showmore}>
+            <template if:true={showmore}>
                 <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{account.alias}</span>
-            </div>
+            </template>
             </span>
         </div>
         <div class="slds-truncate business">
             <span class="slds-media__body">
-                <div if:true={showmore}>
+                <template if:true={showmore}>
                     <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{account.subsidiaryName}</span>
                     <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{account.bankName}</span>
-                </div>
-                <div if:false={showmore}>
+                </template>
+                <template if:false={showmore}>
                         <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{account.alias}</span>
-                </div>
+                </template>
             </span>
         </div>
         <div class="slds-truncate country">
@@ -32,7 +32,7 @@
             </span>
         </div>
         <div class="slds-truncate">
-            <div if:true={notEmptyBalance}>
+            <template if:true={notEmptyBalance}>
                 <span class="slds-media__body">
                     <span class="slds-listbox__option-text slds-listbox__option-text_entity">
                         <div class="slds-box">
@@ -40,7 +40,7 @@
                         </div>
                     </span>
                 </span>
-            </div>
+            </template>
         </div>
     </div>
 </template>

@@ -26,12 +26,12 @@
                     <thead>
                         <tr>
                             <template for:each={columns} for:item="col">
-                                <th aria-label="Contact" key={col.order} aria-sort="ascending" class="headReference" scope="col">
+                                <th aria-label="Contact" key={col.key} aria-sort="ascending" class="headReference" scope="col">
                                     <div if:true={col.sortable}>                            
-                                        <div id={col.order} style="text-transform:uppercase" onclick={handleOrderValueChange}>{col.value}<span id={col.order} class={col.styleColumn}></span></div>
+                                        <div id={col.key} style="text-transform:uppercase" onclick={handleOrderValueChange}>{col.value}<span id={col.order} class={col.styleColumn}></span></div>
                                     </div> 
                                     <div if:false={col.sortable}>
-                                        <div id={col.order} style="text-transform:uppercase">{col.value}</div>
+                                        <div id={col.key} style="text-transform:uppercase">{col.value}</div>
                                     </div>        
                                 </th>
                             </template>
@@ -133,10 +133,10 @@
                     </tbody> -->
                     <tbody>
                         <template for:each={rows} for:item="row">
-                          <tr key={row.orderScore} aria-selected="false">
-                            <template for:each={row.columnas} for:item="colrow">
+                          <tr key={row.key} aria-selected="false">
+                            <template for:each={row.columns} for:item="colrow">
                               <!--<td key={colrow.order} role="gridcell" style={colrow.style} class={colrow.css}>-->
-                              <td key={colrow.order} role="gridcell">                    
+                              <td key={colrow.key} role="gridcell">                    
                                 <!-- <lightning-formatted-rich-text data-id={colrow.order} value={colrow.value} onclick={showDetails}> </lightning-formatted-rich-text> -->
                                 <c-lwc_fx_trades-landing-table-child item={colrow} currentuser={currentUser}></c-lwc_fx_trades-landing-table-child>        
                               </td>

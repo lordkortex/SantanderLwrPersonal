@@ -45,6 +45,7 @@ import checkFCCDowJones from '@salesforce/apex/CNT_B2B_Process.checkFCCDowJones'
 import getSignatureStructure from '@salesforce/apex/CNT_B2B_Process.getSignatureStructure';
 
 
+
 // Import user info
 import Id from '@salesforce/user/Id';
 
@@ -116,6 +117,10 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
 
     get focusStepLeThree(){
         return this.steps.focusStep <= 3;
+    }
+
+    get focusStepGeFour(){
+        return this.steps.focusStep >= 4;
     }
 
     get shownStepGeOne(){
@@ -198,6 +203,9 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
                 this.nextStep()
             }).catch( (error) => {
                 console.log(error);
+            }).finally( () => {
+                //pintado barra
+                this.template.querySelector('c-lwc_b2b_process-header').changeWidthSteps(this.steps);
             });
         } else if (confirm == false) {
             this.isEditingProcess = false;
@@ -252,6 +260,8 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
                 this.steps.focusStep = focusStep;
             }
             this.steps.lastModifiedStep = focusStep;
+
+            
             resolve('Ok');
         });
     }
@@ -300,12 +310,12 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
                             this.template.querySelector('c-lwc_b2b_select-amount').doScroll(focusStep);
                             break;
                         case 4:
-                            this.template.querySelector('c-lwc_b2b_payment-information').doScroll(focusStep);
+                            this.template.querySelector('c-lwc_b2b_payment-summary').doScroll(focusStep);
                             break;
                     }
                     resolve('OK');
                 });
-            }).then( () => {
+            }).then( () => {                
                 return this.loadingEditingProcess();
             }).catch( (error) => {
                 console.log(error);
@@ -343,7 +353,8 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
                     // return this.callToBeneficiaryAccounts(user, transferType, sourceAccount, value)
 					}).then((value) => {
                         //value = [{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":0,"amountMainBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","companyIdsList":{"GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","displayNumber":"ES9900490000000000000099","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"BBA","lastUpdateAvailableBalance":"2019-04-04T22:00:00Z","lastupdateMainBalance":"2019-04-04T22:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":1730809987.25,"amountMainBalance":1730809987.25,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J101505920","companyIdsList":{"LOCAL":"J101505920","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J101505920","description":"CUENTA CORRIENTE SANTANDER PB","displayNumber":"ES1000490072012110458432","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"IBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2021-02-02T00:20:33Z","lastupdateMainBalance":"2021-02-02T00:20:33Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":0,"amountMainBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","customerId":"2938","displayNumber":"ES9900490000000000000099","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastUpdateAvailableBalance":"2019-04-04T22:00:00Z","lastupdateMainBalance":"2019-04-04T22:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":8927886.98,"amountMainBalance":8927886.98,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J001286665","companyIdsList":{"LOCAL":"J001286665","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J001286665","description":"CUENTA CORRIENTE A LA VISTA","displayNumber":"ES8100490075473000562155","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"IBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2021-02-02T00:20:33Z","lastupdateMainBalance":"2021-02-02T00:20:33Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"alias":"Alias GTS Testing","amountAvailableBalance":1000001,"amountMainBalance":1000000,"amountOverdraftLimit":1000003,"amountWithholdingBalance":1000002,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","companyIdsList":{"GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","displayNumber":"ES9000490000000000000011","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"BBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-03-03T00:00:00Z","lastupdateMainBalance":"2020-03-03T00:00:00Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"alias":"Alias GTS Testing","amountAvailableBalance":1000001,"amountMainBalance":1000000,"amountOverdraftLimit":1000003,"amountWithholdingBalance":1000002,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"2938","displayNumber":"ES9000490000000000000011","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-03-03T00:00:00Z","lastupdateMainBalance":"2020-03-03T00:00:00Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":9150962.06,"amountMainBalance":9150962.06,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J001286665","companyIdsList":{"LOCAL":"J001286665","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J001286665","description":"CUENTA CORRIENTE A LA VISTA","displayNumber":"ES8100490075473000562155","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"BBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-11-06T13:52:48Z","lastupdateMainBalance":"2020-11-06T13:52:48Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","customerId":"2938","displayNumber":"ES6000491500051234567891","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","customerId":"2938","displayNumber":"ES4800490000000000000000","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastUpdateAvailableBalance":"2020-03-03T00:00:00Z","lastupdateMainBalance":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":1731973850.05,"amountMainBalance":1731973850.05,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J101505920","companyIdsList":{"LOCAL":"J101505920","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J101505920","description":"CUENTA 1 2 3 PYMES (P.J)","displayNumber":"ES1000490072012110458432","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"BBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-11-06T13:52:48Z","lastupdateMainBalance":"2020-11-06T13:52:48Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"}];
-                        value = [{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":0,"amountMainBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","companyIdsList":{"GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","displayNumber":"ES9900490000000000000099","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"BBA","lastUpdateAvailableBalance":"2019-04-04T22:00:00Z","lastupdateMainBalance":"2019-04-04T22:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":1730809987.25,"amountMainBalance":1730809987.25,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J101505920","companyIdsList":{"LOCAL":"J101505920","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J101505920","description":"CUENTA CORRIENTE SANTANDER PB","displayNumber":"ES1000490072012110458432","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"IBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2021-02-02T00:20:33Z","lastupdateMainBalance":"2021-02-02T00:20:33Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":0,"amountMainBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","customerId":"2938","displayNumber":"ES9900490000000000000099","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastUpdateAvailableBalance":"2019-04-04T22:00:00Z","lastupdateMainBalance":"2019-04-04T22:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":8927886.98,"amountMainBalance":8927886.98,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J001286665","companyIdsList":{"LOCAL":"J001286665","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J001286665","description":"CUENTA CORRIENTE A LA VISTA","displayNumber":"ES8100490075473000562155","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"IBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2021-02-02T00:20:33Z","lastupdateMainBalance":"2021-02-02T00:20:33Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"alias":"Alias GTS Testing","amountAvailableBalance":1000001,"amountMainBalance":1000000,"amountOverdraftLimit":1000003,"amountWithholdingBalance":1000002,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","companyIdsList":{"GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","displayNumber":"ES9000490000000000000011","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"BBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-03-03T00:00:00Z","lastupdateMainBalance":"2020-03-03T00:00:00Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"alias":"Alias GTS Testing","amountAvailableBalance":1000001,"amountMainBalance":1000000,"amountOverdraftLimit":1000003,"amountWithholdingBalance":1000002,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"2938","displayNumber":"ES9000490000000000000011","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-03-03T00:00:00Z","lastupdateMainBalance":"2020-03-03T00:00:00Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":9150962.06,"amountMainBalance":9150962.06,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J001286665","companyIdsList":{"LOCAL":"J001286665","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J001286665","description":"CUENTA CORRIENTE A LA VISTA","displayNumber":"ES8100490075473000562155","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"BBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-11-06T13:52:48Z","lastupdateMainBalance":"2020-11-06T13:52:48Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","customerId":"2938","displayNumber":"ES6000491500051234567891","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","customerId":"2938","displayNumber":"ES4800490000000000000000","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastUpdateAvailableBalance":"2020-03-03T00:00:00Z","lastupdateMainBalance":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":1731973850.05,"amountMainBalance":1731973850.05,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J101505920","companyIdsList":{"LOCAL":"J101505920","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J101505920","description":"CUENTA 1 2 3 PYMES (P.J)","displayNumber":"ES1000490072012110458432","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"BBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-11-06T13:52:48Z","lastupdateMainBalance":"2020-11-06T13:52:48Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPO","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":0,"amountMainBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","companyIdsList":{"GLOBAL":"2938","NEXUS":"2938"},"country":"GB","countryName":"Great Britain","currencyCodeAvailableBalance":"USD","currencyCodeMainBalance":"EUR","displayNumber":"ES9900490000000000000099","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"BBA","lastUpdateAvailableBalance":"2019-04-04T22:00:00Z","lastupdateMainBalance":"2019-04-04T22:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"}];
+                        //value = [{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":0,"amountMainBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","companyIdsList":{"GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","displayNumber":"ES9900490000000000000099","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"BBA","lastUpdateAvailableBalance":"2019-04-04T22:00:00Z","lastupdateMainBalance":"2019-04-04T22:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":1730809987.25,"amountMainBalance":1730809987.25,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J101505920","companyIdsList":{"LOCAL":"J101505920","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J101505920","description":"CUENTA CORRIENTE SANTANDER PB","displayNumber":"ES1000490072012110458432","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"IBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2021-02-02T00:20:33Z","lastupdateMainBalance":"2021-02-02T00:20:33Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":0,"amountMainBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","customerId":"2938","displayNumber":"ES9900490000000000000099","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastUpdateAvailableBalance":"2019-04-04T22:00:00Z","lastupdateMainBalance":"2019-04-04T22:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":8927886.98,"amountMainBalance":8927886.98,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J001286665","companyIdsList":{"LOCAL":"J001286665","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J001286665","description":"CUENTA CORRIENTE A LA VISTA","displayNumber":"ES8100490075473000562155","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"IBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2021-02-02T00:20:33Z","lastupdateMainBalance":"2021-02-02T00:20:33Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"alias":"Alias GTS Testing","amountAvailableBalance":1000001,"amountMainBalance":1000000,"amountOverdraftLimit":1000003,"amountWithholdingBalance":1000002,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","companyIdsList":{"GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","displayNumber":"ES9000490000000000000011","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"BBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-03-03T00:00:00Z","lastupdateMainBalance":"2020-03-03T00:00:00Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"alias":"Alias GTS Testing","amountAvailableBalance":1000001,"amountMainBalance":1000000,"amountOverdraftLimit":1000003,"amountWithholdingBalance":1000002,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"2938","displayNumber":"ES9000490000000000000011","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-03-03T00:00:00Z","lastupdateMainBalance":"2020-03-03T00:00:00Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":9150962.06,"amountMainBalance":9150962.06,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J001286665","companyIdsList":{"LOCAL":"J001286665","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J001286665","description":"CUENTA CORRIENTE A LA VISTA","displayNumber":"ES8100490075473000562155","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"BBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-11-06T13:52:48Z","lastupdateMainBalance":"2020-11-06T13:52:48Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","customerId":"2938","displayNumber":"ES6000491500051234567891","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"2938","companyIdsList":{"LOCAL":"2938","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","customerId":"2938","displayNumber":"ES4800490000000000000000","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastUpdateAvailableBalance":"2020-03-03T00:00:00Z","lastupdateMainBalance":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"IBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":1731973850.05,"amountMainBalance":1731973850.05,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","codigoCorporate":"J101505920","companyIdsList":{"LOCAL":"J101505920","GLOBAL":"2938","NEXUS":"2938"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J101505920","description":"CUENTA 1 2 3 PYMES (P.J)","displayNumber":"ES1000490072012110458432","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"BBA","lastudpateWithholdingBalance":"2020-03-03T00:00:00Z","lastUpdateAvailableBalance":"2020-11-06T13:52:48Z","lastupdateMainBalance":"2020-11-06T13:52:48Z","lastUpdateOverdraftLimit":"2020-03-03T00:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"CORPO","type":"BBA"},{"address":{"country":"ES","streetName":"Calle GTS 234","townName":"Madrid"},"amountAvailableBalance":0,"amountMainBalance":0,"bankName":"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESM0XXX","companyIdsList":{"GLOBAL":"2938","NEXUS":"2938"},"country":"GB","countryName":"Great Britain","currencyCodeAvailableBalance":"USD","currencyCodeMainBalance":"EUR","displayNumber":"ES9900490000000000000099","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"BBA","lastUpdateAvailableBalance":"2019-04-04T22:00:00Z","lastupdateMainBalance":"2019-04-04T22:00:00Z","locatorbic":"M0","mandatoryPurpose":false,"paisbic":"ES","status":"H","subsidiaryName":"CORPORATE GTS 1 ES","type":"BBA"}];
+                        value = [{"address":{"country":"ES","streetName":"306ª, High Holborn, High Holborn","townName":"London"},"amountAvailableBalance":40001,"amountMainBalance":40000,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"J000104892","companyIdsList":{"GTS":"-1363016250","LOCAL":"J000104892","API":"J000104892"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"J000104892","description":"FINANCIACION COMERCIO EXTERIOR","displayNumber":"ES8800490072042710472885","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastUpdateAvailableBalance":"2021-02-24T13:01:56Z","lastupdateMainBalance":"2021-02-24T13:01:56Z","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"AQUANIMAQA SAGB"},{"address":{"country":"ES","streetName":"306ª, High Holborn, High Holborn","townName":"London"},"amountOverdraftLimit":1,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"4382","companyIdsList":{"GTS":"-1363016250","LOCAL":"4382","API":"4382"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","currencyCodeMainBalance":"EUR","currencycodeOverdraftLimit":"EUR","currencyCodeWithholdingBalance":"EUR","customerId":"4382","description":"CUENTA CORRIENTE SANTANDER PB","displayNumber":"ES7700490454193000541739","hasSwiftPayment":"YES","hasSwiftPayments":"YES","idType":"IBA","lastUpdateAvailableBalance":"2021-02-09T15:57:12Z","lastupdateMainBalance":"2021-02-09T15:57:12Z","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"AQUANIMAQA SAGB"},             {"address":{"country":"GB","streetName":"306ª, High Holborn, High Holborn","townName":"London"},"amountAvailableBalance":50001,"amountMainBalance":50000,"amountOverdraftLimit":0,"amountWithholdingBalance":0,"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"J000104891","companyIdsList":{"GTS":"-1363016250","LOCAL":"J000104892","API":"J000104892"},"country":"GB","countryName":"Great Britain","currencyCodeAvailableBalance":"USD","currencyCodeMainBalance":"USD","currencycodeOverdraftLimit":"USD","currencyCodeWithholdingBalance":"USD","customerId":"J000104892","description":"FINANCIACION COMERCIO EXTERIOR","displayNumber":"ES8800490072042710472885","hasSwiftPayment":"NO","hasSwiftPayments":"NO","idType":"IBA","lastUpdateAvailableBalance":"2021-02-24T13:01:56Z","lastupdateMainBalance":"2021-02-24T13:01:56Z","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"GB","status":"Open","subsidiaryName":"ANIMAQUA GB"}]
                         this.handleSaveToCache(keyCache, value)
                     }).then( (value) => {
                         resolve(value);
@@ -408,6 +419,7 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
                     // .then( value => {
                         value = [{"address":{"country":"BR","streetName":"","townName":"Belo Horizonte"},"alias":"","amountAvailableBalance":40001,"amountMainBalance":40000,"balanceAllowed":true,"bankName":"BANCO SANTANDER S.A.","bic":"BSCH","branch":"XXX","codigoBic":"BSCHESMMXXX","codigoCorporate":"J000104892","companyIdsList":{"LOCAL":"J000104892","GLOBAL":"2995","NEXUS":"2995"},"country":"ES","countryName":"Spain","currencyCodeAvailableBalance":"EUR","customerId":"J000104892","displayNumber":"00490072042710472885","hasSwiftPayments":"false","idType":"BBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-28 09:06:14","lastUpdateAvailableBalanceMain":"2021-01-28T08:06:14.455+0000","locatorbic":"MM","mandatoryPurpose":false,"paisbic":"ES","status":"Open","subsidiaryName":"TESTGTS","transactionsAllowed":true,"valueDate":"2021-01-28T08:06:14.455+0000"},{"address":{"country":"BR","streetName":"","townName":"Belo Horizonte"},"alias":"CORPORATE CURRENT ACCOUNT","amountAvailableBalance":49295.3,"amountMainBalance":49295.3,"balanceAllowed":true,"bankName":"SANTANDER UK PLC","bic":"ABBY","branch":"XXX","codigoBic":"ABBYGB2LXXX","codigoCorporate":"2995","companyIdsList":{"LOCAL":"2995","GLOBAL":"2995","NEXUS":"2995"},"country":"GB","countryName":"United Kingdom","currencyCodeAvailableBalance":"GBP","customerId":"2995","displayNumber":"09022210205660","hasSwiftPayments":"false","idType":"BBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-28 09:06:17","lastUpdateAvailableBalanceMain":"2021-01-28T08:06:17.430+0000","locatorbic":"2L","mandatoryPurpose":false,"paisbic":"GB","status":"Open","subsidiaryName":"TESTGTS","transactionsAllowed":true,"valueDate":"2021-01-28T08:06:17.430+0000"},{"address":{"country":"ES","streetName":"Calle Patones","townName":"Madrid"},"alias":"STANDARD PRODUCTS","amountAvailableBalance":144065.78,"amountMainBalance":144065.78,"balanceAllowed":true,"bankName":"SANTANDER UK PLC","bic":"ABBY","branch":"XXX","codigoBic":"ABBYGB20XXX","codigoCorporate":"4382","companyIdsList":{"LOCAL":"4382","GLOBAL":"-1363016250","NEXUS":"4382"},"country":"GB","countryName":"United Kingdom","currencyCodeAvailableBalance":"GBP","customerId":"4382","displayNumber":"GB37ABBY09072445283289","hasSwiftPayments":"false","idType":"IBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-28 09:06:20","lastUpdateAvailableBalanceMain":"2021-01-28T08:06:20.556+0000","locatorbic":"20","mandatoryPurpose":false,"paisbic":"GB","status":"Open","subsidiaryName":"M.G.M. ACCIAIERIA ITALIA","transactionsAllowed":true,"valueDate":"2021-01-28T08:06:20.556+0000"},{"address":{"country":"ES","streetName":"Calle Patones","townName":"Madrid"},"alias":"CORPORATE CURRENT ACCOUNT","amountAvailableBalance":11.48,"amountMainBalance":11.48,"balanceAllowed":true,"bankName":"SANTANDER UK PLC","bic":"ABBY","branch":"XXX","codigoBic":"ABBYGB20XXX","codigoCorporate":"4382","companyIdsList":{"LOCAL":"4382","GLOBAL":"-1363016250","NEXUS":"4382"},"country":"GB","countryName":"United Kingdom","currencyCodeAvailableBalance":"GBP","customerId":"4382","displayNumber":"GB66ABBY09022210211272","hasSwiftPayments":"false","idType":"IBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-28 09:06:20","lastUpdateAvailableBalanceMain":"2021-01-28T08:06:20.556+0000","locatorbic":"20","mandatoryPurpose":false,"paisbic":"GB","status":"Open","subsidiaryName":"M.G.M. ACCIAIERIA ITALIA","transactionsAllowed":true,"valueDate":"2021-01-28T08:06:20.556+0000"},{"address":{"country":"ES","streetName":"Calle Patones","townName":"Madrid"},"alias":"OTHER VT-2","amountAvailableBalance":9772523.92,"amountMainBalance":9772523.92,"balanceAllowed":true,"bankName":"SANTANDER UK PLC","bic":"ABBY","branch":"XXX","codigoBic":"ABBYGB20XXX","codigoCorporate":"4382","companyIdsList":{"LOCAL":"4382","GLOBAL":"-1363016250","NEXUS":"4382"},"country":"GB","countryName":"United Kingdom","currencyCodeAvailableBalance":"GBP","customerId":"4382","displayNumber":"09072322275601","hasSwiftPayments":"false","idType":"BBA","internationalPaymentsAllowed":true,"lastUpdateAvailableBalance":"2021-01-28 09:06:20","lastUpdateAvailableBalanceMain":"2021-01-28T08:06:20.556+0000","locatorbic":"20","mandatoryPurpose":false,"paisbic":"GB","status":"Open","subsidiaryName":"M.G.M. ACCIAIERIA ITALIA","transactionsAllowed":true,"valueDate":"2021-01-28T08:06:20.556+0000"}];
                         this.filterAccountsToB2BOriginByCountryAndCurrency(userData, value)
+                    // })
                     .then( value => {
                         return this.handleSaveToCache(key, value);
                     }).then( value => {
@@ -847,11 +859,12 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
             this.paymentDetails = {};
             this.transferType = '';            
             let sPageURLMain = decodeURIComponent(window.location.search.substring(1));
-            sPageURLMain = "params=caPfLuOWH8iPDXqDzyiZigBWJ3vWQE6eMo/qOcBd3T2K8ED5RaxXzswNzwsIQM2UyfcKvhDIppa2qTQ3RSsKGg==";
+            sPageURLMain = "params=%2F5DJs1wO1vCkJeawtBmuoBhdilIUaKwBIy6ZJU1s6E9pd92SEWDQtkg2d9kJTLjCKkd%2FwbrGEWcjyffoMj%2FHjg%3D%3D";
             let sURLVariablesMain = sPageURLMain.split('&')[0].split('=');
             if (sURLVariablesMain[0] == 'params' && sURLVariablesMain[1]) {
                 this.decrypt(sURLVariablesMain[1])
                     .then((results) => {
+                        results = "c__transferType=instant_transfer";
                         let paymentId = '';
                         let paymentDetails = {};
                         let reuse = false;
@@ -1002,12 +1015,14 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
                 this.isEditing = true;
                 return this.reverseLimits();                
             }else{
-               promise.resolve('ok'); 
+               resolve('ok'); 
             }
         }).catch( error => {
             console.log(error);                
         }).finally( () => {
             this.previousStep();
+            //pintado barra
+            this.template.querySelector('c-lwc_b2b_process-header').changeWidthSteps(this.steps);
             this.spinner = false;
         });
     }
@@ -1155,6 +1170,7 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
 
     loadingEditingProcess() {
         return new Promise( resolve => {
+            //this.isEditingProcess = true;
             let isEditingProcess = this.isEditingProcess;
             if (isEditingProcess == true) {
                 let paymentDetails = this.paymentDetails;
@@ -1238,13 +1254,29 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
 
     handleAccountData(event){
         if(event.detail.step == 1){
-            this.paymentDraft = event.detail.account;
+            this.paymentDraft.sourceAccount = event.detail.account;
+            this.paymentDraft.paymentId = event.detail.id;
+            this.paymentDraft.destinationAccount = {};
+            this.paymentDraft.expensesAccount = event.detail.expensesAccount ? event.detail.expensesAccount : {};
             if(this.steps.shownStep >= 2){
                 this.handleBack();
             }
         }
-        if(event.detail.step == 2){
-            this.paymentDraft = event.detail.account;
+        else if(event.detail.step == 2){
+            this.paymentDraft.destinationAccount = event.detail.account;
+            this.paymentDraft.expensesAccount = event.detail.expensesAccount ? event.detail.expensesAccount : {};
+            if(event.detail.exchange){
+                this.paymentDraft.exchangeRate = event.detail.exchange;
+            }
+            if(event.detail.dominant){
+                this.paymentDraft.sourceCurrencyDominant = event.detail.dominant;
+            }   
+            if(event.detail.currency){
+                this.paymentDraft.paymentCurrency = event.detail.currency;
+            }          
+        }
+        else if(event.detail.step == 3){
+            this.paymentDraft = event.detail.paymentDraft;
         }
 
     }
@@ -1264,7 +1296,7 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
         return new Promise((resolve, reject) => {
             let paymentDraft = this.paymentDraft;
 
-            let notificationTitle = this.Label.B2B_Error_Problem_Loading;
+            let notificationTitle = this.label.B2B_Error_Problem_Loading;
             let subtitle = null;
             let ok = 'ok';
 
@@ -1389,7 +1421,7 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
             let baseAmount = null;
             let baseCurrency = null;
             let processDate = null;
-            let paymentDraft = this.paymentDraft;
+            let paymentDraft = {...this.paymentDraft};
             if (paymentDraft) {
                 if (paymentDraft.reference) {
                     clientReference = paymentDraft.reference;
@@ -1418,41 +1450,43 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
             paymentDraft.chargeBearer = chargeBearer; // Siempre 'OUR' para Book To Book. Posibles valores 'OUR'-nuestro, 'SHA'-compartido, 'BEN'-recipiente
             paymentDraft.paymentMethod = paymentMethod; // Pendiente de confirmación del valor, es el método seleccionado por el usuario en las tarjetas en este paso
             this.paymentDraft = paymentDraft;
+
+            resolve('OK');
     
-            updatePaymentInformation({
-                paymentId: paymentId,
-                clientReference: clientReference,
-                purpose: purpose,
-                description: description,
-                chargeBearer: chargeBearer,
-                paymentMethod: paymentMethod,
-                commercialCode: comercialCode,
-                baseAmount: baseAmount,
-                baseCurrency: baseCurrency
-            }).then(actionResult => {
-                var stateRV = actionResult;
-                    if (stateRV.success) {
-                        resolve('OK');
-                    } else {
-                        reject({
-                            message: stateRV.msg
-                        });
-                        this.showToast('Error',this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Updating_Data,  true);
-                    }
-            }).catch(error =>{
-                var errors = error;
-                if (errors) {
-                    if (errors[0] && errors[0].message) {
-                        console.log('Error message: ' + errors[0].message);
-                    }
-                } else {
-                    console.log('problem updating payment details.');
-                }
-                reject({
-                    message: this.label.ERROR_NOT_RETRIEVED
-                });
-                this.showToast('Error',this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true);
-            })
+        //     updatePaymentInformation({
+        //         paymentId: paymentId,
+        //         clientReference: clientReference,
+        //         purpose: purpose,
+        //         description: description,
+        //         chargeBearer: chargeBearer,
+        //         paymentMethod: paymentMethod,
+        //         commercialCode: comercialCode,
+        //         baseAmount: baseAmount,
+        //         baseCurrency: baseCurrency
+        //     }).then(actionResult => {
+        //         var stateRV = actionResult;
+        //             if (stateRV.success) {
+        //                 resolve('OK');
+        //             } else {
+        //                 reject({
+        //                     message: stateRV.msg
+        //                 });
+        //                 this.showToast('Error',this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Updating_Data,  true);
+        //             }
+        //     }).catch(error =>{
+        //         var errors = error;
+        //         if (errors) {
+        //             if (errors[0] && errors[0].message) {
+        //                 console.log('Error message: ' + errors[0].message);
+        //             }
+        //         } else {
+        //             console.log('problem updating payment details.');
+        //         }
+        //         reject({
+        //             message: this.label.ERROR_NOT_RETRIEVED
+        //         });
+        //         this.showToast('Error',this.label.B2B_Error_Problem_Loading, this.label.B2B_Error_Check_Connection, true);
+        //     })
         });
     }
 
@@ -1471,7 +1505,7 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
             checkFCCDowJones({
                 paymentDraft: paymentDraft
             }).then(actionResult => {
-                var stateRV = actionResult.getReturnValue();
+                var stateRV = actionResult;
                 if (stateRV.success) {
                     if (stateRV.value.passValidation && stateRV.value.passValidation == true) {
                         resolve('OK');
@@ -1604,9 +1638,9 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
             let userData  = this.userData;
             let paymentDraft = this.paymentDraft;
 
-            let notificationTitle =  this.Label.B2B_Error_Problem_Loading;
-            let bodyText =  this.Label.B2B_Error_Check_Connection;
-            let label = this.Label.PAY_Error_Amount_Exceeds_Limits;
+            let notificationTitle =  this.label.B2B_Error_Problem_Loading;
+            let bodyText =  this.label.B2B_Error_Check_Connection;
+            let label = this.label.PAY_Error_Amount_Exceeds_Limits;
             let limitsResult = '';
 
             getLimits({
@@ -1616,7 +1650,7 @@ export default class Lwc_b2b_process extends NavigationMixin(LightningElement) {
                 let stateRV = actionResult;
                 if (stateRV.success) {
                     if (stateRV.value.limitsResult && !stateRV.value.errorMessage) {
-                        let paymentDraft = this.paymentDraft;
+                        let paymentDraft = {...this.paymentDraft};
                         if (stateRV.value.baseAmount) {
                             paymentDraft.baseAmount = stateRV.value.baseAmount;
                         }

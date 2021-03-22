@@ -1,18 +1,43 @@
 global with sharing class WS_TransfersBeneficiaries {
 
+    global static String queryParams;
+    global static String finalEndpoint;
+
     global static WS_TransfersBeneficiaries.OUTPUT executeGet() {
+        WS_TransfersBeneficiaries.INPUT input = new WS_TransfersBeneficiaries.INPUT();
+        return executeGet(input);
+    }
+
+    global static WS_TransfersBeneficiaries.OUTPUT executeGet(WS_TransfersBeneficiaries.INPUT input) {
         WS_TransfersBeneficiaries.OUTPUT res = null; 
         try {
             CNT_ApiConfiguration__c configWs = new CNT_ApiConfiguration__c();
             configWs = CNT_ApiConfiguration__c.getValues('WS_TransferBeneficiariesGet');
             String baseEndpoint = configWs.CNT_Endpoint__c;
             String baseMethod = configWs.CNT_HTTPMethod__c;
-            String response = Global_IntegrationWrapper.launchHTTP(null, baseEndpoint, baseMethod);
+            queryParams = '';
+            finalEndpoint = baseEndpoint;
+            getParameters('companyGlobalId', input.companyGlobalId);
+            getParameters('beneficiaryId', input.beneficiaryId);
+            getParameters('accountIdType', input.accountIdType);
+            getParameters('accountId', input.accountId);
+            getParameters('bankId', input.bankId);
+            getParameters('bankCountry', input.bankCountry);
+            //getParameters('country', input.bankCountry);
+            getParameters('alias', input.alias);
+            if (input.t_limit != null) {
+                getParameters('_limit', String.valueOf(input.t_limit));
+            }
+            if (input.offset != null) {
+                getParameters('_offset', String.valueOf(input.offset));
+            }
+            if (String.isNotBlank(queryParams)) {
+                finalEndpoint = baseEndpoint + '?' + queryParams;
+            }
+
+            String response = Global_IntegrationWrapper.launchHTTP(null, finalEndpoint, baseMethod);
             if (String.isNotBlank(response)) {
-                system.debug('BH_ response ws_transfersBeneficiaries: '+ response);
                 res = (WS_TransfersBeneficiaries.OUTPUT) JSON.deserialize(response, WS_TransfersBeneficiaries.OUTPUT.class);
-                system.debug('BH_ deserialized response ws_transfersBeneficiaries: '+ res);
-                system.debug('BH_ serialized res ws_transfersBeneficiaries: ' + JSON.serialize(res));
                 throwPossiblesErrors(res.errors);
             } else {
                 throw new CustomException('Error getting registered beneficiaries.');
@@ -199,5 +224,29 @@ global with sharing class WS_TransfersBeneficiaries {
         global String description {get;set;}
         
         global Error () {}
+    }
+
+    global with sharing class INPUT {
+        global String companyGlobalId {get;set;}
+        global String beneficiaryId {get;set;}
+        global String accountIdType {get;set;}
+        global String accountId {get;set;}
+        global String bankId {get;set;}
+        global String bankCountry {get;set;}
+        global String alias {get;set;}
+        global Integer offset {get;set;} // in json: _offset
+        global Integer t_limit {get;set;} // in json: _limit
+
+        global INPUT () {
+        }
+    }
+
+    private static void getParameters (String fieldName, String field) {
+        if (String.isNotBlank(fieldName) && String.isNotBlank(field)) {
+            if (String.isNotBlank(queryParams) && queryParams.substring(queryParams.length() - 1, queryParams.length()) != '&') {
+                queryParams = queryParams + '&';
+            }
+            queryParams = queryParams + fieldName + '=' + field;
+        }
     }
 }

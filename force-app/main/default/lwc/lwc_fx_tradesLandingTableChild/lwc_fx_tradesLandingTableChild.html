@@ -20,7 +20,7 @@
             </td>
         </template>
         <!-- AMOUNT TYPE -->
-        <template if:true={typeAmount}>
+        <template if:true={typeCurrency}>
             <td role="gridcell" class="rowSpace rowMaxSpace" onclick={handleClickRow}>
                 <!-- <div class="slds-grid flexCol"> -->
                 <div class="slds-text-align_center">
@@ -31,7 +31,7 @@
                             wholeclass=""
                             numberformat={currentuser.numberFormat}>
                         </c-lwc_display-amount>
-                        <span>{item.currency}</span>
+                        <span>{item.currency1}</span>
                     </strong>
                     </br>
                 </div>
@@ -86,7 +86,8 @@
                     <template if:true={itemPaymentStatus103}>
                         <span class="slds-badge badgeCompleted" title={item.value}>{item.value}</span>
                     </template>
-                    
+        
+
                 </div>
             </td>
         </template>

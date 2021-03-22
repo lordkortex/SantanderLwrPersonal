@@ -1,0 +1,55 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="selectedCurrency" type="String" description="contains the selected Currency" />
+    <aura:attribute name="exchangeRates" type="List" description="Contains the exchange rates" />
+    <aura:attribute name="upToDate" type="String" description="Date of the most recent currency exchange information from the BCE"/>
+    <aura:attribute name="upToHour" type="String" description="Hour of the most recent currency exchange information from the BCE"/>
+    <aura:attribute name="eRatesLastModifiedDate"  type="String" description="Most recent date of the exchange rates update in Salesforce currencies"/>
+    <aura:attribute name="eRatesLastModifiedDateMain" type="String" description="Most recent date of the exchange rates update in Salesforce currencies"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+
+    <aura:attribute name="rowsPerPage" type="Integer" default="6" description="Number of valuea that every page will contain" />
+    <aura:attribute name="pages" type="List" default="[1]" description="contains the pages for the carousel" />
+    <aura:attribute name="start" type="Integer"  description="contains the pages for the carousel" />
+    <aura:attribute name="end" type="Integer"  description="contains the pages for the carousel" />
+	
+    <!--SNJ - 22/04/2020 - doInit to format date-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler name="change" value="{!v.exchangeRates}" action="{!c.updateCarousel}"/>
+
+    <aura:handler name="change" value="{!v.eRatesLastModifiedDate}" action="{!c.displayBceTimestamp}" /> 
+
+    <div class="slds-grid title_container">
+            <div class="slds-col">
+                <div class="slds-text-heading_medium">{!$Label.c.consolidationExchangeRates}</div>
+                <div class="text_line"></div>
+                <div class="subtitle">{!$Label.c.currencyExchangeSourceBCE}</div> 
+                <aura:if isTrue="{!and(v.upToDate != undefined, v.upToHour != undefined)}">
+                	<div class="subtitle-date"> <c:CMP_displayDate aura:id="displayDate" userDateFormat="{!v.userPreferredDateFormat}" dateClass=""  date="{!v.upToDate}"/>&nbsp;</div>
+                    <aura:set attribute="else">
+                        <div class="subtitle-date">N/A</div>
+                    </aura:set>
+                </aura:if>
+            </div> 
+        </div>
+
+        
+<c:CMP_GlobalExchangeRatesSingle exchangeRates="{!v.exchangeRates}" selectedCurrency="{!v.selectedCurrency}" start="{!v.start}" end="{!v.end}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}"/>
+
+<div class="nav-carousel">
+    <a id="previous" class="slds-carousel__arrow arrow_left" href="javascript:void(0);" onclick="{!c.changePage}"><span class="icon-arrowLeft_big"></span></a>
+        
+    <ul class="slds-carousel__indicators" role="tablist">
+        <aura:iteration items="{!v.pages}" var="item" >
+
+            <li class="slds-carousel__indicator" role="presentation">
+                <a id="{!'carousel' + item}" class="slds-carousel__indicator-action slds-is-active" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="true" aria-controls="" onclick="{!c.changePage}"></a>
+            </li>
+
+        </aura:iteration>
+
+    </ul>
+    <a  id="next" class="slds-carousel__arrow arrow_right" href="javascript:void(0);" onclick="{!c.changePage}"><span class="icon-arrowRight_big" ></span></a>
+</div> 
+</aura:component>

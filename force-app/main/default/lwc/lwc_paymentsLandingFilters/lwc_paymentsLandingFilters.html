@@ -10,12 +10,12 @@
                         <!-- El siguiente button de cerrar debe estar oculto hasta que se vaya a escribir en 
                     el buscador -->
                         <!-- El movimiento de la lupa y el placeholder está hecho mediante css -->
-                        <template if:true={searchedStringNotEmpty}>
+                        <!-- <template if:true={searchedStringNotEmpty}> -->
                             <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={clearInput}>
                                 <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true"></div>
                                 <span class="slds-assistive-text">{label.clear}</span>
                             </button>
-                        </template>
+                        <!-- </template> -->
                         <!-- Cuando el input tenga un valor seleccionado se le tiene que añadir la clase filledInput -->
                         <!--disabled="true"-->
                         <input  type="search" id="text-input-id-1" placeholder={label.SearchPayments} class={searchedStringEmptyClass} name="search" value={searchedstring} onkeydown={setInputOnKeyDown} onblur={setInputOnBlur}/>
@@ -37,7 +37,8 @@
                             name="status" 
                             filterlist={statusdropdownlist} 
                             selectedfilters={selectedstatuses} 
-                            cleardropdown={resetSearch}>
+                            cleardropdown={resetSearch}
+                            onsavefilters={handleFilter}>
                         </c-lwc_b2b_filter-button-dropdown>
 
                         <c-lwc_b2b_filter-button-dropdown data-id="filter" 
@@ -46,7 +47,8 @@
                             name="currency" 
                             filterlist={currencydropdownlist} 
                             selectedfilters={selectedcurrencies} 
-                            cleardropdown={resetSearch} >
+                            cleardropdown={resetsearch} 
+                            onsavefilters={handleFilter}>
                         </c-lwc_b2b_filter-button-dropdown>
 
                         <!--PILL 3 COMBOBOX--> 
@@ -79,28 +81,29 @@
     <template if:true={showfiltermodal}> 
         <c-lwc_payments-landing-filter-modal data-id="filterModal"
             showfiltermodal={showfiltermodal} 
-            currentuser={currentUser} 
-            isloading={isLoading}                                          
+            currentuser={currentuser} 
+            isloading={isloading}                                          
             clientreference={searchedstring}
-            currencydropdownlist={currencyDropdownList} 
-            selectedcurrencies={selectedCurrencies}
-            statusdropdownlist={statusDropdownList} 
-            selectedpaymentstatusbox={selectedPaymentStatusBox} 
-            selectedstatuses={selectedStatuses}
-            paymentmethoddropdownlist={paymentMethodDropdownList} 
-            selectedmethod={selectedMethod}
-            countrydropdownlist={countryDropdownList} 
-            selectedcountry={selectedCountry}
+            currencydropdownlist={currencydropdownlist} 
+            selectedcurrencies={selectedcurrencies}
+            statusdropdownlist={statusdropdownlist} 
+            selectedpaymentstatusbox={selectedpaymentstatusbox} 
+            selectedstatuses={selectedstatuses}
+            paymentmethoddropdownlist={paymentmethoddropdownlist} 
+            selectedmethod={selectedmethod}
+            countrydropdownlist={countrydropdownlist} 
+            selectedcountry={selectedcountry}
             accountlist={accounts}
-            searchedsourceaccount={searchedSourceAccount}
-            account={selectedSourceAccount}
-            fromdecimal={fromDecimal} 
-            todecimal={toDecimal}
+            searchedsourceaccount={searchedsourceaccount}
+            account={selectedsourceaccount}
+            fromdecimal={fromdecimal} 
+            todecimal={todecimal}
             dates={dates}                                          
-            resetsearch={resetSearch}
-            filtercounter={filterCounter}
-            reloadaccounts={reloadAccounts}  
-            applyisclicked={applyIsClicked}>
+            resetsearch={resetsearch}
+            filtercounter={filtercounter}
+            reloadaccounts={reloadaccounts}  
+            applyisclicked={applyisclicked}
+            closemodal={onCloseModal}>
         </c-lwc_payments-landing-filter-modal>                                                                                      
      </template>
 </template>

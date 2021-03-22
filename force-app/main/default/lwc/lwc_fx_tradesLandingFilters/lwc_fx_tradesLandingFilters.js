@@ -77,16 +77,17 @@ export default class lwc_fx_tradesLandingFilters extends LightningElement {
 
     @api numberofpayments = 0; //"Number of payments in the table"
     @api availablestatuses = []; //"List of status-reason pairs visible to front-end user"
-
+    @api statuslist = [];
     @track showdropdown = false;
     //filters = new Object();
-    currencypairfilter = [];
-    statusfilter = [];
-    sidefilter = [];
+    @track currencypairfilter = [];
+    @track statusfilter = [];
+    @track sidefilter = [];
     //currencypairdropdownlist = [];
     currencypairdropdownlist = ['EUR/USD', 'USD/GBP', 'GBP/EUR'];
-    statuslist = ['Complete', 'Pending To Be Confirmed', 'Settlement Instruction Pending', 'Cancelled', 'Settled', 'Terminated', 'Replaced', 'Settlement Instruction Assigned'];
+    //statuslist = ['Complete', 'Pending To Be Confirmed', 'Settlement Instruction Pending', 'Cancelled', 'Settled', 'Terminated', 'Replaced', 'Settlement Instruction Assigned'];
     sidelist = ['Sell', 'Buy'];
+    showSearchIcon = true;
     
     get searchedStringNotEmpty(){
         return (this.searchedstring != undefined && this.searchedstring != null && this.searchedstring != '');
@@ -97,9 +98,12 @@ export default class lwc_fx_tradesLandingFilters extends LightningElement {
         var ret = 'slds-input';
         if (this.searchedstring){
             ret = ret+' filledInput';
+        } else {
+            ret = 'slds-input';
         }
         return ret;
     }
+
     get filterCounterGTzeroClass(){
         //((v.filterCounter > 0) ? 'slds-button buttons filterButton' : 'slds-button buttons')
         var ret = '';
@@ -127,41 +131,271 @@ export default class lwc_fx_tradesLandingFilters extends LightningElement {
             this.dispatchEvent(openDownloadModal);
     }
 
-    setFilters(){
+    @api setFilters(){
         var currencypair = this.currencypairdropdownlist;
         var status = this.statuslist;
         var side = this.sidelist;
+        
+        this.currencypairfilter=[];
         for(let index in currencypair){
             if(currencypair[index] != null ||
                currencypair[index] != undefined){
                 var currencyObj = new Object();
                 currencyObj.label = currencypair[index];
                 currencyObj.value = 'chk_' + currencypair[index];
-                console.log('Objeto ' + currencyObj);
+                //console.log('Objeto ' + currencyObj);
                 this.currencypairfilter.push(currencyObj);
             }
         }
 
+        this.statusfilter=[];
         for(let index in status){
             if(status[index] != null ||
                 status[index] != undefined){
                 var statusObj = new Object();
                 statusObj.label = status[index];
-                statusObj.value = 'chk_' + currencypair[index];
-                //console.log('Objeto ' + statusObj);
+                var labelwithoutspaces = status[index];
+                statusObj.value = 'chk_' + labelwithoutspaces.trim();
                 this.statusfilter.push(statusObj);
             }
         }
 
+        this.sidefilter=[];
         for(let index in side){
             if(side[index] != null ||
                 side[index] != undefined){
                 var sideObj = new Object();
                 sideObj.label = side[index];
                 sideObj.value = 'chk_' + side[index];
-                //console.log('Objeto ' + statusObj);
                 this.sidefilter.push(sideObj);
             }
         }
+        
+        console.log("filtro1: "+JSON.stringify(this.sidefilter));
+        console.log("filtro2: "+JSON.stringify(this.currencypairfilter));
+        console.log("filtro3: "+JSON.stringify(this.statusfilter));
+    }
+
+    openFilterModal() {
+        this.showfiltermodal = true;
+    }
+
+    closeFilterModal(){
+        this.showfiltermodal = false;
+    }
+
+    filterEvent(){
+        if(this.filters.statusSelected){
+            if(this.filters.statusSelected.length > 0){
+                for(let index in this.filters.statusSelected){
+                    if(this.filters.statusSelected[index].startsWith('chk_')){
+                        this.filters.statusSelected[index] = this.filters.statusSelected[index].substring(4);
+                    }
+                }
+            }
+        }
+        if(this.filters.currencyPairSelected){
+            if(this.filters.currencyPairSelected.length > 0){
+                for(let index in this.filters.currencyPairSelected){
+                    if(this.filters.currencyPairSelected[index].startsWith('chk_')){
+                        this.filters.currencyPairSelected[index] = this.filters.currencyPairSelected[index].substring(4);
+                    }
+                }
+            }
+        }
+        if(this.filters.directionSelected){
+            if(this.filters.directionSelected.length > 0){
+                for(let index in this.filters.directionSelected){
+                    if(this.filters.directionSelected[index].startsWith('chk_')){
+                        this.filters.directionSelected[index] = this.filters.directionSelected[index].substring(4);
+                    }
+                }
+            }
+        }
+        const sendFilters = new CustomEvent('getfilters',
+            { detail : {filters : this.filters}
+        });
+        this.dispatchEvent(sendFilters);
+    }
+
+    applyFilters(action) {
+        new Promise((resolve, reject) => {
+            resolve('Ok');
+        }).then((value) => {
+            return this.getFilters();
+        }).catch((error) => {
+            console.log('Ha ocurrido un error.');
+        })
+    }
+
+    handleFilter(event) {
+        var eventDropdown = event.detail.showDropdown;
+        var eventName = event.detail.name;
+        var eventAction = event.detail.action;
+        if (eventAction) {
+            this.applyFilters(eventAction);
+        }
+        if (eventDropdown) {
+            let filters = this.template.querySelectorAll('[data-id="filter"]');
+            for (let i = 0; i < filters.length; i++) {
+                if (filters[i].name == eventName) {
+                    filters[i].showdropdown = true;
+                } else {
+                    filters[i].showdropdown = false;
+                }
+            }
+        }
+    }
+
+    getFilters() {
+        // return new Promise(function (resolve, reject) {
+            let filters = {
+                filtersRequired: 0
+            };
+
+            let statusSelected = this.template.querySelectorAll('c-lwc_b2b_filter-button-dropdown')[0].selectedfilters;
+            //let corporatesSelected = this.corporatesSelected;
+            if (statusSelected.length > 0) {
+                filters['statusSelected'] = statusSelected;
+                filters['filtersRequired']++;
+            }
+            let currencyPairSelected = this.template.querySelectorAll('c-lwc_b2b_filter-button-dropdown')[1].selectedfilters;
+            //let currenciesSelected = this.currenciesSelected;
+            if (currencyPairSelected.length > 0) {
+                filters['currencyPairSelected'] = currencyPairSelected;
+                filters['filtersRequired']++;
+            }
+            let directionSelected = this.template.querySelectorAll('c-lwc_b2b_filter-button-dropdown')[2].selectedfilters;
+            //let countriesSelected = this.countriesSelected;
+            if (directionSelected.length > 0) {
+                filters['directionSelected'] = directionSelected;
+                filters['filtersRequired']++;
+            }
+            
+            let searchedString = this.searchedstring;
+            if (searchedString && searchedString.length >= 4) {
+                filters['searchedString'] = searchedString;
+                filters['filtersRequired']++;
+            }
+            this.filters = filters;
+            console.log('FILTERS ' + JSON.stringify(this.filters));
+            this.filterEvent();
+            // resolve(filters);
+        // }, this);
+    }
+
+    getAllFilters() {
+        // return new Promise(function (resolve, reject) {
+            let filters = {
+                filtersRequired: 0
+            };
+
+            let statusSelected = this.template.querySelectorAll('c-lwc_fx_trades-landing-filters-modal')[0].selectedfilters;
+            //let corporatesSelected = this.corporatesSelected;
+            if (statusSelected.length > 0) {
+                filters['statusSelected'] = statusSelected;
+                //filters['filtersRequired']++;
+            }
+            
+            
+            let searchedString = this.searchedstring;
+            if (searchedString && searchedString.length >= 4) {
+                filters['searchedString'] = searchedString;
+                filters['filtersRequired']++;
+            }
+            this.filters = filters;
+            console.log('FILTERS ' + JSON.stringify(this.filters));
+            this.filterEvent();
+            // resolve(filters);
+        // }, this);
+    }
+
+    setInputOnKeyDown(event) {
+        let inputValue = event.target.value;
+        let key = event.key;
+        let keyCode = event.keyCode;        
+        let searchedString = this.searchedstring;
+        if (searchedString == null || searchedString == undefined) {
+            searchedString = '';
+        }
+        if(key == 'Enter' && keyCode == 13){            
+            if (inputValue) {
+                // this.clearSelectedPaymentStatusBox();
+                this.searchedstring = inputValue;	                
+            }else{
+                this.searchedstring = '';
+            }
+            if(this.searchedstring == ''){
+                this.showSearchIcon = false;
+            }else {
+                this.showSearchIcon = true;
+            }  
+            this.getFilters();
+            // this.clearSelectedPaymentStatusBox();
+        }
+    }
+
+    setInputOnBlur(event) {        
+        let inputValue = event.target.value; 
+        this.searchedstring = inputValue;
+        this.showSearchIcon = true;
+        this.getFilters();
+    }
+
+    clearInput() {             
+        this.searchedstring = '';
+        this.getFilters();
+    }
+
+    setStyleOnClick(){
+        if(this.searchedstring != ''){
+            this.showSearchIcon = true;
+        } else {
+            this.showSearchIcon = false;
+        }    
+    }
+
+    setListFilters() {
+        return new Promise((resolve, reject) => {
+            let status = [];
+            let statusCode = [];
+            let currencyPair = [];
+            let currencyPairCodes = [];
+            let direction = [];
+            let directionCode = [];
+            var filters = {status: [], currencyPair: [], direction: []};
+
+            /*Object.keys(accountsfiltered).forEach( i => {
+                let subsidiaryName = accountsfiltered[i].subsidiaryName;
+                filters.corporates = (subsidiaryName && filters.corporates.includes(subsidiaryName)) ? 
+                                     filters.corporates : [... filters.corporates, subsidiaryName];
+                               
+                let currency = accountsfiltered[i].currencyCodeAvailableBalance;
+                filters.currencies = (currency && filters.currencies.includes(currency)) ? 
+                                     filters.currencies : [... filters.currencies, currency];
+
+                let countryName = accountsfiltered[i].countryName;
+                let country = accountsfiltered[i].country;
+                if (countryName && country) {
+                    if (!countriesCode.includes(country)) {
+                        countriesCode = [...countriesCode, country];
+
+                        filters.countries = [...filters.countries, {label: countryName, value: country}];
+                    }
+                }
+            });*/
+            this.corporates = filters.corporates.map( corp => {
+                return {label: corp, value: corp};
+            });
+            this.currencies = filters.currencies.map( curr => {
+                return {label: curr, value: curr};
+            });
+            this.countries = filters.countries;
+            resolve({
+                corporates: filters.corporates,
+                currencies: filters.currencies,
+                countries: filters.countries
+            });
+        });
     }
 }

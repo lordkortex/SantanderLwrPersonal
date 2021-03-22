@@ -8,61 +8,10 @@
     "regionName" : "header",
     "type" : "region"
   }, {
-    "components" : [ {
-      "componentAttributes" : {
-        "allowAttachments" : true,
-        "attachmentLabel" : "Upload File",
-        "buttonAlignment" : "center",
-        "buttonBgColor" : "",
-        "buttonBgHoverColor" : "",
-        "buttonBorderColor" : "",
-        "buttonMaxWidth" : "",
-        "buttonRadius" : 0,
-        "buttonTextColor" : "",
-        "buttonTextHoverColor" : "",
-        "callToAction" : false,
-        "callToActionButtonText" : "",
-        "callToActionText" : "",
-        "callToActionUrl" : "",
-        "confirmationSubtext" : "We’ll get back to you soon.",
-        "confirmationText" : "Your case was created.",
-        "guestQuickActionName" : "Select or configure a global action",
-        "headerSubtitle" : "Tell us how we can help.",
-        "headerTitle" : "Contact Customer Support",
-        "quickActionName" : "NewCase",
-        "requestSummaryText" : "Case summary"
-      },
-      "componentName" : "forceCommunity:contactSupportForm",
-      "id" : "3f05899e-75af-4e43-a84a-cc5fb8fb7b1b",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "0609aa12-fe2d-4497-9b3b-8718860c12c7",
     "regionName" : "content",
     "type" : "region"
   }, {
-    "components" : [ {
-      "componentAttributes" : {
-        "askConfirmationQuestion" : true,
-        "confirmationMessageLabel" : "Got it!",
-        "deflectionSubtitle" : "Find what you need here.",
-        "deflectionTitle" : "Need Answers Fast?",
-        "firstQuestion" : "Did this content solve your issue?",
-        "maxResults" : 6,
-        "measureDeflection" : true,
-        "redirectUrl" : "",
-        "secondQuestion" : "Stop creating your case?",
-        "showArticles" : true,
-        "showDiscussions" : false,
-        "topicId" : ""
-      },
-      "componentName" : "forceCommunity:caseDeflection",
-      "id" : "6f26a4be-eeb4-4b66-9d02-3f88cd863627",
-      "renderPriority" : "NEUTRAL",
-      "renditionMap" : { },
-      "type" : "component"
-    } ],
     "id" : "816c94fa-c91f-41bb-99d5-7989df72a39c",
     "regionName" : "sidebar",
     "type" : "region"

@@ -20,10 +20,7 @@
  
     <aura:attribute name="itemPosition" type="Integer"/>
     <aura:attribute name="item" type="Object"/>
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-
-    <lightning:navigation aura:id="navService"/> -->
-    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> -->
     <tr class="slds-hint-parent border" aria-selected="false" data-id="parentDetails">
         <td class="slds-text-align_center" role="gridcell">
             <div class={getCircleClass}></div>
@@ -80,10 +77,10 @@
 
 
 
-        <template class="hidden widthCard" data-id="details">
+        <!-- <template class="hidden widthCard" data-id="details">
                     
             <table class="slds-table slds-table_fixed-layout slds-table_resizable-cols widthCard" aria-multiselectable="true" role="grid" data-id="datailsTable"> 
-                <!-- HEADER -->        
+                <!- - HEADER - ->        
                 <tr class="slds-line-height_reset ">
                     <th class="slds-text-align_right  containerIconStatus" scope="col" style="height:0px !important;">   
                     </th>
@@ -168,7 +165,7 @@
                         <td scope="row" class="th1 ">
                             <div class="paddingSeparation">
                                 <span class="icon-doc103 downloadDoc "></span>
-                                <span ><a class="noLink " href=""  onclick={downloadMT103} data-id={itemPosition}  title={label.downloadMT103}>MT-103</a></span> 
+                                <span ><a class="noLink " href=""  onclick={downloadMT103} data-id={itemposition}  title={label.downloadMT103}>MT-103</a></span> 
                             </div>                        
                         </td>
                         
@@ -177,7 +174,7 @@
                         </td>
                         <td ></td>
                     </tr>
-                </tbody>
+                </tbody> 
             </table>
-        </template>
+        </template> -->
 </template>

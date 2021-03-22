@@ -16,6 +16,7 @@ export default class Lwc_b2b_filterButtonDropdown extends LightningElement {
     @api selectedfilters=[] //List of all the selected filters(name) of all options.
     @api selectedlabel=""   //Label of the checkbox if the user has selected only one option.
     @api cleardropdown= false//Indicates if the dropdown must be cleared
+    @api async = 'false';
 
     @track listCheckbox;
 
@@ -26,10 +27,22 @@ export default class Lwc_b2b_filterButtonDropdown extends LightningElement {
 
         var listAux = JSON.parse(JSON.stringify(this.filterlist));
         Object.keys(listAux).forEach(key => {
-            listAux[key].index = this.reservednumber + key;
+            listAux[key].index = key;
         });
         this.listCheckbox = listAux;
     }
+
+    //pedro
+    @api
+    setlista(lista){
+        this.filterlist = lista;
+        var listAux = JSON.parse(JSON.stringify(this.filterlist));
+        Object.keys(listAux).forEach(key => {
+            listAux[key].index = key;
+        });
+        this.listCheckbox = listAux;
+    }
+
 
     get class1(){
         return this.showdropdown == true ? 'icon-arrowUp_small' : 'icon-arrowDown_small';
@@ -48,6 +61,17 @@ export default class Lwc_b2b_filterButtonDropdown extends LightningElement {
     }
 
     handleDropdownButton(){
+        if(this.async == 'true'){
+            var listAux = JSON.parse(JSON.stringify(this.filterlist));
+            Object.keys(listAux).forEach(key => {
+                listAux[key].index = key;
+            });
+            if(this.listCheckbox.length == 0){
+                this.listCheckbox = listAux;
+            }
+            
+        }
+
         if (this.showdropdown == true) {
             this.showdropdown = false;
         } else {
@@ -67,7 +91,7 @@ export default class Lwc_b2b_filterButtonDropdown extends LightningElement {
                 let label = checkboxes[j].label;
                 if (selectedFilters[i] == value) {
                     checkboxes[j].ischecked = true;
-                }
+                } 
             }
         }
     }
@@ -91,11 +115,19 @@ export default class Lwc_b2b_filterButtonDropdown extends LightningElement {
     handlerApplyFilters() {
         let selectedFilters = [];
         let currentlySelected = this.getChecked();
+        this.setChecksToFalse();
         for (let i = 0; i < currentlySelected.length; i++) {
-            selectedFilters.push(currentlySelected[i]);
+            selectedFilters[i] = currentlySelected[i];
+            for(let j = 0; j < this.listCheckbox.length; j++){
+                if(this.listCheckbox[j].value == currentlySelected[i]){
+                    this.listCheckbox[j].checked = true;
+                }
+            }
         }
+
         this.selectedfilters = selectedFilters;
         this.hideDropdown();
+        this.handleSetLabel();
         if (selectedFilters.length > 0) {
             this.callEventSave('apply');
         } else {
@@ -152,11 +184,13 @@ export default class Lwc_b2b_filterButtonDropdown extends LightningElement {
     }
 
     removeFilters() {
-        let checkboxes = this.getCheckBoxes();
-        for (let i = 0; i < checkboxes.length; i++) {
-            checkboxes[i].ischecked = false;
-        }
-        this.selectedFilters = [];
+        // let checkboxes = this.getCheckBoxes();
+        // for (let i = 0; i < checkboxes.length; i++) {
+        //     checkboxes[i].ischecked = false;
+        // }
+
+        this.setChecksToFalse();
+        this.selectedfilters = [];
         this.hideDropdown();
         this.setSelectedLabel();
         this.callEventSave('clear');
@@ -167,17 +201,17 @@ export default class Lwc_b2b_filterButtonDropdown extends LightningElement {
     }
 
     setSelectedLabel(){
-        var selectedFilters =  this.selectedFilters;
+        var selectedFilters =  this.selectedfilters;
         if(selectedFilters != null && selectedFilters != undefined){
             if(selectedFilters.length == 1){
                 var obj = this.getCheckboxObject(selectedFilters[0]);
                 if(obj != null){
-                    this.selectedLabel = obj.label;
+                    this.selectedlabel = obj.label;
                 }else{
-                    this.selectedLabel = '';  
+                    this.selectedlabel = '';  
                 }
             }else{
-                this.selectedLabel = '';
+                this.selectedlabel = '';
             }
         }
     }
@@ -185,12 +219,33 @@ export default class Lwc_b2b_filterButtonDropdown extends LightningElement {
     getCheckboxObject(value){
         var filterList = this.filterlist;
         if(filterList != null && filterList != undefined){
-           var obj = filterList.find(obj => obj.value == value);
+            var obj = filterList.find(obj => obj.value == value); 
             if(obj != null && obj != undefined){
                 return obj;
             }
         }
        return null; 
+    }
+
+    handleCheck(event){
+
+        // for(let i = 0; i < this.listCheckbox.length; i++){
+        //     if(this.listCheckbox[i].value == event.detail.iden){
+        //         this.listCheckbox[i].checked = event.detail.checked;
+        //     }
+        // }
+
+    }
+
+    setChecksToFalse(){
+        this.listCheckbox = [... this.listCheckbox.map( opt => {
+            return {
+                label: opt.label,
+                iden: opt.value,
+                value: opt.value,
+                ischecked: false
+            };
+        })]
     }
 
 }

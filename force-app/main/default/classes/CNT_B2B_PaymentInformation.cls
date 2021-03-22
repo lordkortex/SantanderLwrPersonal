@@ -8,7 +8,7 @@ public with sharing class CNT_B2B_PaymentInformation {
     <Date>          <Author>            <Description>
     07/2020         Cerviño             Initial version
     ----------------------------------------------------------------------------------*/
-    @AuraEnabled
+    /*@AuraEnabled
     public static ReturnValue getSignatureStructure ( String paymentID, String service_id, String channel, WRAPPER_B2B_Data.PaymentAmount amount, WRAPPER_AccountList.AccountDetails sourceAccount, WRAPPER_AccountList.AccountDetails destinationAccount, String subject, Map<String, String> navigatorInfo) {
         ReturnValue response = null;
         try {
@@ -20,7 +20,31 @@ public with sharing class CNT_B2B_PaymentInformation {
             response = new ReturnValue(false, null, e.getMessage());
         }
         return response;
-    }
+    }*/
+
+    /*
+    Author:         Cerviño
+    Company:        Deloitte
+    Description:    Gets the signature structure of the payment
+    History:
+    <Date>          <Author>            <Description>
+    01/07/2020      Cerviño             Initial version
+    02/02/2021      Candido             Refactor with WRAPPER_PAY_PaymentDraft
+    */
+   /* @AuraEnabled
+    public static ReturnValue getSignatureStructure (String channel, Map<String, String> navigatorInfo, WRAPPER_PAY_PaymentDraft paymentDraft) {
+        ReturnValue response = null;
+        try {
+            CNT_B2B_SignatureUtilities.getSignatureStructure(channel, navigatorInfo, paymentDraft);
+            response = new ReturnValue(true, 'ok');
+            System.debug('RESPONSE: '+response);
+        } catch (Exception e) {
+            System.debug('CNT_B2B_PaymentInformation.getSignatureStructure: ' + e.getMessage() + ', in line: ' + e.getLineNumber());
+            response = new ReturnValue(false, null, e.getMessage());
+        }
+        return response;
+    }*/
+
 
     /*-------------------------------------------------------------------------------
     Author:         Bea Hill

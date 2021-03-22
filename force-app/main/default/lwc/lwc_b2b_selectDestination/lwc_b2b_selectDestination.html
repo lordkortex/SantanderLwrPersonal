@@ -1,34 +1,136 @@
 <template>
 
     <div class={shownStepClass} data-id="step-2" tabindex="-1">
-        <div class="slds-grid">
+        <!--<div class="slds-grid">
             <div class="slds-text-heading_large">{Label.B2B_Step_2_Header}</div>
-        </div>
-        <c-lwc_b2b_select-account
-            userdata={userdata} 
-            accountdata={accountdata} 
-            headerlabel={headerLabel} 
-            account={cmpdata} 
-            accountlist={accountlist} 
-            beneficiarydetails="true" 
-            headercard={Label.B2B_Recipient_information} 
-            label={Label.B2B_Recipient_account} 
-            placeholder={Label.B2B_Recipient_account} 
-            steps={steps} 
-            errormsg={errorMSG} 
-            searchedstring={searchedString} 
-            ismodified={isModified} 
-            isediting={isediting} 
-            onaccountdata={handleAccountData}>
-        </c-lwc_b2b_select-account>
-        <template if:true={spinner}>
-            <lightning-spinner alternative-text="Loading" size="medium" ></lightning-spinner>
-        </template>        
-        <template if:true={stepsEqTwo}>
-           <c-lwc_b2b_process-continue-button 
+        </div>-->
+
+        <c-cmp-pay-step-header 
+            stepnumber="2" 
+            steptitle={Label.B2B_Step_2_Header}>
+        </c-cmp-pay-step-header>
+        <div class="paymentStep_body">
+
+            <template if:true={istransferType}>
+                <c-lwc_b2b_select-account
+                    userdata={userdata} 
+                    headerlabel={headerLabel} 
+                    account={paymentdraft.destinationAccount} 
+                    accountlist={accountlist} 
+                    beneficiarydetails
+                    headercard={Label.B2B_Recipient_information} 
+                    label={Label.B2B_Recipient_account} 
+                    placeholder={Label.B2B_Recipient_account} 
+                    steps={steps} 
+                    errormsg={errorMSG} 
+                    searchedstring={searchedString} 
+                    ismodified={isModified} 
+                    isediting={isediting}
+                    enablebrowseaccount={enableBrowseAccount}
+                    cancreatebeneficiaries={istransferTypeInternational} 
+                    onaccountdata={handleAccountData}>
+                </c-lwc_b2b_select-account>
+            </template>
+            <template if:false={istransferType}>
+                <template if:true={istransferTypeInternational}>
+                    <!-- INTERNATIONAL INSTANT PAYMENT -->
+                    <div class="row countryCurrencyFx">
+                        <div class="slds-col">                            
+                            <c-lwc_pay_filterdropdown
+                                data-id="countryDropdown"
+                                values={countryList}
+                                selectedvalue={selectedCountry}
+                                helptextdropdown={Label.Show_More}
+                                issimpledropdown={issimpledropdown}
+                                label={Label.destinationCountry}
+                                isdisabled={disableCountryDropdown}
+                                valuesplaceholder=""
+                                errortext="">
+                            </c-lwc_pay_filterdropdown>
+                        </div>
+                        <div class="slds-col">    
+                            <c-lwc_pay_filterdropdown
+                                data-id="currencyDropdown"
+                                values={currencyList}
+                                selectedvalue={selectedCurrency}
+                                helptextdropdown={Label.Show_More}
+                                issimpledropdown={issimpledropdown}
+                                label={Label.B2B_Currency}
+                                isdisabled={disableCurrencyDropdown}
+                                valuesplaceholder=""
+                                errortext="">
+                            </c-lwc_pay_filterdropdown>                              
+                        </div>
+                        <div class="slds-col">
+                            <template if:true={isNotEmptyPayment}>
+                                <div>
+                                    <c-lwc_display-amount
+                                        amount={paymentdraft.exchangeRate} 
+                                        decimalclass="amount"
+                                        wholeclass="amount"
+                                        numberofdec="4"
+                                        wholedecimal = "true"
+                                        numberformat={userdata.numberFormat}>
+                                    </c-lwc_display-amount>
+                                    <template if:true={isNosourceCurrency}>
+                                        {isNosourceCurrencyText}
+                                    </template>
+                                    <template if:false={isNosourceCurrency}>
+                                        {isNosourceCurrencyTextDos}
+                                    </template>
+                                </div>
+                                <div>{Label3b3}</div>
+                            </template>    
+                            
+                        </div>
+                    </div>
+                    <template if:true={showSearch}>
+                        <div class="row includesBrowse">
+                            <c-lwc_b2b_select-individual-account
+                                label={Label.B2B_Recipient_account}
+                                isediting={isediting}
+                                searchedstring={searchedString}
+                                errormsg={errorMSG}
+                                account={paymentdraft.destinationAccount}
+                                steps={steps}
+                                userdata={userdata}
+                                ismodified={isModified}
+                                headerlabel={headerLabel}
+                                headercard={Label.B2B_Recipient_information}
+                                accountlist={accountlist}
+                                beneficiarydetails
+                                placeholder={Label.B2B_Recipient_account}
+                                enablebrowseaccount={enableBrowseAccount}
+                                cancreatebeneficiaries="true">
+                            </c-lwc_b2b_select-individual-account> 
+                        </div>
+                    </template>
+                    <!--NEW BENEFICIARY-->
+                    <template if:true={isemptydestinationAccount}>
+                        <c-cmp-pay-register-beneficiary 
+                            data-id="newBeneficiaryForm" 
+                            ibanlength={ibanLength} 
+                            simpleform={simpleForm} 
+                            draftdata={draftData}
+                            accounttype={accountTypeList}
+                            bankname={bankNameList}
+                            country={selectedCountry}
+                            onalert={newBeneficiaryAlert} 
+                            ondraftdata={handleCompletedFormData}>
+                        </c-cmp-pay-register-beneficiary>                             
+                    </template>
+                </template>
+            </template>
+
+            <template if:true={spinner}>
+                <lightning-spinner alternative-text="Loading" size="medium" ></lightning-spinner>
+            </template>        
+            <template if:true={stepsEqTwo}>
+            <c-lwc_b2b_process-continue-button 
                 onhandlecontinue={handleContinue}>
             </c-lwc_b2b_process-continue-button >
-        </template>
-        <c-lwc_b2b_toast data-id="errorToast" ></c-lwc_b2b_toast>
+            </template>
+            <c-lwc_b2b_toast data-id="errorToast" ></c-lwc_b2b_toast>
+        </div>
     </div>
 </template>

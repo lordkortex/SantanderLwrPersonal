@@ -56,7 +56,7 @@
                         </template>
                         <template if:false={showErrorScreen}>
                             <template if:true={focusStepGeFour}><!-- REVISAR ESCUCHADOR-->
-                                <!-- <c-lwc_b2b_payment-summary
+                                <c-lwc_b2b_payment-summary
                                     data-id="paymentSummary"
                                     userdata={userData}                                        
                                     signlevel={signLevel}
@@ -65,7 +65,7 @@
                                     onhandleback={handleBack}
                                     oncompletestep={handleCompleteStep}
                                 >
-                                </c-lwc_b2b_payment-summary> -->
+                                </c-lwc_b2b_payment-summary>
 
                             </template>
                             <template if:true={focusStepLeThree}>
@@ -73,6 +73,7 @@
                                     <!-- <div class="first-step"> -->
                                     <c-lwc_b2b_select-origin 
                                             data-id="selectOrigin" 
+                                            class="selectOrigin"
                                             steps={steps}                                            
                                             userdata={userData}
                                             accountlist={accountListOrigin}                                            
@@ -89,7 +90,8 @@
                                 <template if:true={shownStepGeTwo}>
                                     <!-- <div class="separation-line"></div>REVISAR ESCUCHADOR handlecontinue -->
                                     <c-lwc_b2b_select-destination 
-                                        data-id="selectDestination"                                         
+                                        data-id="selectDestination" 
+                                        class="selectDestination"                                        
                                         userdata={userData}
                                         accountlist={accountListDestination}                                       
                                         paymentdraft={paymentDraft}
@@ -97,7 +99,8 @@
                                         headerlabel={headerLabel}                                       
                                         steps={steps}
                                         reload={reload}
-                                        isediting={isEditing}                                         
+                                        isediting={isEditing}        
+                                        oncompletestep={handleCompleteStep}                                 
                                         onhandlecontinue={handleContinue}
                                         onaccountdata={handleAccountData}
                                     > 
@@ -107,15 +110,18 @@
                                 <template if:true={shownStepGeThree}>
                                     <!-- <div class="separation-line"></div>REVISAR ESCUCHADOR handlecontinue -->
                                     <c-lwc_b2b_select-amount 
-                                        data-id="selectAmount"                                         
+                                        data-id="selectAmount"
+                                        class="selectAmount"                                         
                                         userdata={userData}
                                         steps={steps} 
                                         paymentdraft={paymentDraft}
                                         transfertype={transferType}
                                         signlevel={signLevel}
-                                        handlecontinue={handleContinue}
                                         paymentid={paymentId}
                                         isediting={isEditing}
+                                        oncompletestep={handleCompleteStep}
+                                        onhandlecontinue={handleContinue}
+                                        onaccountdata={handleAccountData}
                                     >
                                     </c-lwc_b2b_select-amount>
                                     

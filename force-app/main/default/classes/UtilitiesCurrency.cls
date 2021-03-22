@@ -67,4 +67,38 @@ History
         return convertedValue;
     }
     
+    public static Decimal getExchangeAmount(String currencySend, String currencyReceive, String dominantCurrency, Decimal valueSend, Decimal valueReceive, Decimal valueDominant){
+        Decimal convertedValue = null;
+        try{
+            if(String.isBlank(currencySend) || String.isBlank(currencyReceive) || String.isBlank(dominantCurrency) || valueDominant == null){
+                 System.debug('UtilitiesCurrency.getExchangeAmount');
+                throw new customException('ERROR: UtilitiesCurrency.getExchangeAmount');
+            }
+            if((dominantCurrency.equalsIgnoreCase(currencySend) && valueSend != null && valueReceive == null) || (!dominantCurrency.equalsIgnoreCase(currencySend) && valueSend == null && valueReceive != null)){
+                if(valueDominant >  0){
+                    Decimal auxValue = valueSend;
+                    if(valueSend == null){
+                        auxValue = valueReceive;
+                    }
+                    convertedValue = auxValue / valueDominant;
+                }else{
+                    System.debug('UtilitiesCurrency.getExchangeAmount');
+                    throw new customException('ERROR: UtilitiesCurrency.getExchangeAmount');
+                }
+            }else if((dominantCurrency.equalsIgnoreCase(currencySend) && valueSend == null && valueReceive != null) || (!dominantCurrency.equalsIgnoreCase(currencySend) && valueSend != null && valueReceive == null)){
+				Decimal auxValue = valueSend;
+                if(valueSend == null){
+                    auxValue = valueReceive;
+                }
+                convertedValue = auxValue * valueDominant;                
+            }  
+        }catch(Exception e){
+            System.debug('Exception type caught: ' + e.getTypeName());    
+            System.debug('Message: ' + e.getMessage());    
+            System.debug('Cause: ' + e.getCause());    // returns null
+            System.debug('Line number: ' + e.getLineNumber());    
+            System.debug('Stack trace: ' + e.getStackTraceString()); 
+        } 
+        return convertedValue;
+    }
 }

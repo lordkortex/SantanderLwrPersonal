@@ -207,12 +207,14 @@ global class WRAPPER_TrackingPaymentOperation {
         global String commercialCode;
         global ReviewAdditionalData reviewAdditionalData;
         global RejectAdditionalData rejectAdditionalData;
+		global String serviceId;
+        global String productId;
 
         global OperationDetail(){}
 
         global OperationDetail (String paymentMethod, OperationStatus operationStatus, SourceData sourceData, DestinationData destinationData, OperationStep1Data operationStep1Data, OperationStep2Data operationStep2Data, String issueDate, String chargeBearer, OperationAmount operationAmount, CounterValueOperationAmount counterValueOperationAmount, OperationAmount sourceTotalAmount, String clientReference, String purpose, String operationDescription, String subject, operationFraudDetails operationFraudDetails, operationNominalFxDetails operationNominalFxDetails, operationFeesFxDetails operationFeesFxDetails, OperationNominalFxRollbackDetails operationNominalFxRollbackDetails, PricingDetails pricingDetails) {
             this.paymentMethod = paymentMethod;
-            this.operationStatus = operationStatus;
+			this.operationStatus = operationStatus;
             this.sourceData = sourceData;
             this.destinationData = destinationData;
             this.operationStep1Data = operationStep1Data;
@@ -319,6 +321,18 @@ global class WRAPPER_TrackingPaymentOperation {
             this.sourceData = sourceData;
             this.destinationData = destinationData;
             this.sourceFeeData = sourceFeeData;
+        }
+		global OperationDetail (String clientReference, String purpose, String subject, String chargeBearer, String paymentMethod, String commercialCode, String issueDate, OperationAmountBaseCurrency operationAmountBaseCurrency,String productId,String serviceId){
+            this.clientReference = clientReference;
+            this.purpose = purpose;
+            this.subject = subject;
+            this.chargeBearer = chargeBearer;
+            this.paymentMethod = paymentMethod;
+            this.commercialCode = commercialCode;
+            this.issueDate = issueDate;
+            this.operationAmountBaseCurrency = operationAmountBaseCurrency;
+            this.productId = productId;
+            this.serviceId = serviceId;
         }
     }
 

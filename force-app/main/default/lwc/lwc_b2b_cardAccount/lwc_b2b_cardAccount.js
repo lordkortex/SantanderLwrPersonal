@@ -37,7 +37,7 @@ export default class Lwc_b2b_card_account extends LightningElement {
     }
 
     get contentAccountClass(){
-        return this.beneficiarysetails == true ? 'content_account' : '';
+        return this.beneficiarydetails == true ? 'content_account' : '';
     }
 
     get articleClass(){

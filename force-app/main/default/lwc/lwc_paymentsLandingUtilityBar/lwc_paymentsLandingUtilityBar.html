@@ -100,10 +100,25 @@
 	</footer>
    
     <template if:true={showCancelModal}>
-        <c-lwc_b2b_discard-payment 
-            fromutilitybar={fromUtilityBar} 
-            fromdetail={fromDetail}/>
-        </c-lwc_b2b_discard-payment>
+        <c-cmp-pay-modal-remove 
+            heading-msg={label.B2B_CancelPayment} 
+            content-msg=""  
+            primary-btn={label.B2B_CancelPayment_YES} 
+            secondary-btn={label.B2B_CancelPayment_NO}
+            onsaveaction={handleCancel}
+            oncloseaction={handleCloseCancel} >
+        </c-cmp-pay-modal-remove>
+    </template>
+
+    <template if:true={showDiscardModal}>
+        <c-cmp-pay-modal-remove 
+            heading-msg={getHeadingMsgDiscardModel} 
+            content-msg={getContentMsgDiscardModel} 
+            primary-btn={label.PAY_DiscardDate2}
+            secondary-btn={label.No}
+            onsaveaction={handleDiscard} 
+            oncloseaction={handleCloseDiscard} >
+        </c-cmp-pay-modal-remove>
     </template>
 
 </template>

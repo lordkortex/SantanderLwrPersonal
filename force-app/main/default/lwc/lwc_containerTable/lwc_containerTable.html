@@ -2,9 +2,18 @@
     <template if:true={showSpinner}>
         <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
     </template>
+    
+    <c-lwc_fx_trades-landing-boxes
+    onboxesfilters={getSelectedFilters}>>
+    </c-lwc_fx_trades-landing-boxes>
+
+    <br/>
 
     <c-lwc_fx_trades-landing-filters
-        onbuttondownload={openDownloadModal}>
+        statuslist={statusValues}
+        onbuttondownload={openDownloadModal}
+        currentuser={currentUser}
+        ongetfilters={getSelectedFilters}>
     </c-lwc_fx_trades-landing-filters>
     <br/>
 
@@ -17,9 +26,6 @@
             isotfxcommunity=true>
         </c-lwc_payments-landing-download-modal>
     </template>
-
-    
-
     	
 	<!-- Tabla Dinamica -->
     <lightning-layout multiple-rows="true">

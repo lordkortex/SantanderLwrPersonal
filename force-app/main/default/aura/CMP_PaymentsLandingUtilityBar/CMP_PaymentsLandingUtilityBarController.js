@@ -217,32 +217,34 @@
     <Date>          <Author>            <Description>
     09/11/2020      Antonio Matachana       Initial version
     */
-    /*	
-    showCancelPaymentModal: function (component, event, helper) {	
-        component.set('v.fromUtilityBar', true);	
-        component.set('v.fromDetail', false);	
-        component.set('v.showCancelModal', true);	
-    },	
-    */	
-   showCancelPaymentModal : function (component, event, helper) {	
-        component.set('v.showCancelModal', true);	
-        return Promise.resolve('OK'); 	
-    	
-    },	
-    handleCancel : function (component, event, helper) {	
-        let variable= 'cancel';	
-        component.set('v.showCancelModal', false);	
-        return helper.cancel(component, event, helper)	
-        .then($A.getCallback(function (value) {	
-             helper.sendToLanding(component, event, helper, variable, true);	
-        })).catch(function (error) {	
-            console.log(error);	
-        }).finally($A.getCallback(function () {	
-            console.log('OK');	
-            component.set('v.spinner', false);	
-        }));	
-    },	
-    handleCloseCancel : function (component, event, helper) {	
+   
+   /*
+    showCancelPaymentModal: function (component, event, helper) {
+        component.set('v.fromUtilityBar', true);
+        component.set('v.fromDetail', false);
+        component.set('v.showCancelModal', true);
+    },
+    */
+
+   showCancelPaymentModal : function (component, event, helper) {
+        component.set('v.showCancelModal', true);
+        return Promise.resolve('OK'); 
+    
+    },
+    handleCancel : function (component, event, helper) {
+        let variable= 'cancel';
+        component.set('v.showCancelModal', false);
+        return helper.cancel(component, event, helper)
+        .then($A.getCallback(function (value) {
+             helper.sendToLanding(component, event, helper, variable, true);
+        })).catch(function (error) {
+            console.log(error);
+        }).finally($A.getCallback(function () {
+            console.log('OK');
+            component.set('v.spinner', false);
+        }));
+    },
+    handleCloseCancel : function (component, event, helper) {
         component.set('v.showCancelModal', false);
     },
 
@@ -295,31 +297,11 @@
   /*
 	Author:        	Julian Hoyos
     Company:        
-	Description:    Methods to handle Save for later actions.
+	Description:    Methods to handle Discard for later actions.
     History:
     <Date>          <Author>            	<Description>   
     29/12/2020		Shahad Naji				Initial version
     */
-    handleShowSaveForLaterModal : function (component, event, helper) {
-        component.set('v.showSaveForLaterModal', true);
-    },
-    handleSaveForLater : function (component, event, helper) {
-       let variable = 'save';
-        component.set('v.showSaveForLaterModal', false);
-        helper.saveForLater(component, event, helper)
-        .then($A.getCallback(function (value) {
-            helper.sendToLanding(component, event, helper, variable);
-       })).catch(function (error) {
-           console.log(error);
-       }).finally($A.getCallback(function () {
-           console.log('OK');
-           component.set('v.spinner', false);
-       }));
-    },
-    handleCloseSaveForLater : function (component, event, helper) {
-        component.set('v.showSaveForLaterModal', false);
-    },
-
     handleshowDiscardModal : function (component, event, helper) {
         var formatDate =  component.get('v.currentUser.dateFormat');
         helper.getPaymentDetails(component, event, helper)
@@ -342,7 +324,7 @@
         component.set('v.showDiscardModal', false);
         return helper.discard(component, event, helper)
         .then($A.getCallback(function (value) {
-            helper.sendToLanding(component, event, helper, variable, true);
+             helper.sendToLanding(component, event, helper, variable, true);
         })).catch(function (error) {
             console.log(error);
         }).finally($A.getCallback(function () {
@@ -352,13 +334,5 @@
     },
     handleCloseDiscard : function (component, event, helper) {
         component.set('v.showDiscardModal', false);
-    },
-    sendToLanding: function (component, event, helper) {
-        if (component.get('v.source') != 'landing-payment-details') {
-            helper.sendToLanding(component,event, helper,false);
-        } else {
-            window.history.back();
-        }
-    },
-
+    }
 })

@@ -39,13 +39,23 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
     @track currenciesSelected = [];
     @track searchedString = "";
 
+    @track _accountlist;
+
+    get accountlist(){
+        return this._accountlist;
+    }
+
+    set accountlist(accountlist){
+        this._accountlist = [... accountlist];
+    }
+
     connectedCallback() {
         loadStyle(this, santanderStyle + '/style.css');
         this.init();
     }
 
     init() {
-        let accountlist = this.accountlist;
+        let accountlist = [... this._accountlist];
         this.accountsfiltered = accountlist;
         this.setListFilters();
     }
@@ -65,9 +75,9 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
             let filters = this.template.querySelectorAll('[data-id="filter"]');
             for (let i = 0; i < filters.length; i++) {
                 if (filters[i].name == eventName) {
-                    filters[i].showDropdown = true;
+                    filters[i].showdropdown = true;
                 } else {
-                    filters[i].showDropdown = false;
+                    filters[i].showdropdown = false;
                 }
             }
         }
@@ -117,7 +127,7 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
         }).then((value) => {
             return this.getFilters();
         }).then((value) => {
-            return this.filterAccounts(this.accountlist, value);
+            return this.filterAccounts(this._accountlist, value);
         }).then((value) => {
             return this.setListFilters();
         }).catch((error) => {
@@ -136,6 +146,7 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
             let filters = {
                 filtersRequired: 0
             };
+
             let corporatesSelected = this.template.querySelectorAll('c-lwc_b2b_filter-button-dropdown')[1].selectedfilters;
             //let corporatesSelected = this.corporatesSelected;
             if (corporatesSelected.length > 0) {
@@ -180,7 +191,7 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
     filterAccounts(accountlist, filters) {
         return new Promise((resolve, reject) => {
             let accountsfiltered = [];
-            if (filters) {
+            if (filters.filtersRequired > 0) {
                 
                 for (let i = 0; i < accountlist.length; i++) {
                     let passedFilter = 0;
@@ -313,49 +324,97 @@ export default class Lwc_b2b_filterAccounts extends LightningElement {
             let countries = [];
             let countriesCode = [];
             let accountsfiltered = this.accountsfiltered;
-            for (let i = 0; i < accountsfiltered.length; i++) {
-                // Corporates
+            var filters = {corporates: [], currencies: [], countries: []};
+
+            Object.keys(accountsfiltered).forEach( i => {
                 let subsidiaryName = accountsfiltered[i].subsidiaryName;
-                if (subsidiaryName) {
-                    if (!corporatesCode.includes(subsidiaryName)) {
-                        corporatesCode.push(subsidiaryName);
-                        corporates.push({
-                            'label': subsidiaryName,
-                            'value': subsidiaryName
-                        });
-                    }
-                }
-                // Currencies
+                filters.corporates = (subsidiaryName && filters.corporates.includes(subsidiaryName)) ? 
+                                     filters.corporates : [... filters.corporates, subsidiaryName];
+                               
                 let currency = accountsfiltered[i].currencyCodeAvailableBalance;
-                if (currency) {
-                    if (!currenciesCode.includes(currency)) {
-                        currenciesCode.push(currency);
-                        currencies.push({
-                            'label': currency,
-                            'value': currency
-                        });
-                    }
-                }
-                // Countries
+                filters.currencies = (currency && filters.currencies.includes(currency)) ? 
+                                     filters.currencies : [... filters.currencies, currency];
+
                 let countryName = accountsfiltered[i].countryName;
                 let country = accountsfiltered[i].country;
+                // filters.countries = (countryName && country && countriesCode.includes(country)) ? 
+                //                      filters.countries : [... filters.countries, {label: countryName, value: country}];
                 if (countryName && country) {
                     if (!countriesCode.includes(country)) {
-                        countriesCode.push(country);
-                        countries.push({
-                            'label': countryName,
-                            'value': country
-                        });
+                        countriesCode = [...countriesCode, country];
+
+                        filters.countries = [...filters.countries, {label: countryName, value: country}];
                     }
                 }
-            }
-            this.corporates = corporates;
-            this.currencies = currencies;
-            this.countries = countries;
+            });
+            // for (let i = 0; i < accountsfiltered.length; i++) {
+            //     // Corporates
+            //     let subsidiaryName = accountsfiltered[i].subsidiaryName;
+            //     if (subsidiaryName) {
+            //         if (!corporatesCode.includes(subsidiaryName)) {
+            //             corporatesCode = [...corporatesCode, subsidiaryName]
+            //             //corporatesCode.push(subsidiaryName);
+            //             let corporates_aux = {
+            //                 label: subsidiaryName,
+            //                 value: subsidiaryName
+            //             };
+            //             corporates = [...corporates, corporates_aux];
+            //             // corporates.push({
+            //             //     label: subsidiaryName,
+            //             //     value: subsidiaryName
+            //             // });
+            //         }
+            //     }
+            //     // Currencies
+            //     let currency = accountsfiltered[i].currencyCodeAvailableBalance;
+            //     if (currency) {
+            //         if (!currenciesCode.includes(currency)) {
+            //             currenciesCode = [...currenciesCode, currency];
+            //             //currenciesCode.push(currency);
+            //             let currencies_aux = {
+            //                 label: currency,
+            //                 value: currency
+            //             };
+            //             currencies = [...currencies, currencies_aux]
+            //             // currencies.push({
+            //             //     label: currency,
+            //             //     value: currency
+            //             // });
+            //         }
+            //     }
+            //     // Countries
+            //     let countryName = accountsfiltered[i].countryName;
+            //     let country = accountsfiltered[i].country;
+            //     if (countryName && country) {
+            //         if (!countriesCode.includes(country)) {
+            //             countriesCode = [...countriesCode, country];
+            //             //countriesCode.push(country);
+
+            //             let countries_aux = {
+            //                 label: countryName,
+            //                 value: country
+            //             }
+
+            //             countries = [...countries, countries_aux];
+
+            //             // countries.push({
+            //             //     'label': countryName,
+            //             //     'value': country
+            //             // });
+            //         }
+            //     }
+            // }
+            this.corporates = filters.corporates.map( corp => {
+                return {label: corp, value: corp};
+            });
+            this.currencies = filters.currencies.map( curr => {
+                return {label: curr, value: curr};
+            });
+            this.countries = filters.countries;
             resolve({
-                'corporates': corporates,
-                'currencies': currencies,
-                'countries': countries
+                corporates: filters.corporates,
+                currencies: filters.currencies,
+                countries: filters.countries
             });
         });
     }

@@ -16,9 +16,12 @@ export default class Lwc_b2c_filteroptionscheckbox extends LightningElement {
 
     handleCheckbox(event){
         var evcheck = event.target.checked;
-        if(evcheck){
-            this.ischecked = evcheck;
-        }
+        this.ischecked = evcheck;
+
+        const valueCheckedEvent = new CustomEvent('valuechecked', {
+            detail: {checked: this.ischecked, iden: this.iden}
+        });
+        this.dispatchEvent(valueCheckedEvent);
     }
     
 }

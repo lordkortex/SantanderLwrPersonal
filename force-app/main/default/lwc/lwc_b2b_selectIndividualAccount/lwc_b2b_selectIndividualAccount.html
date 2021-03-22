@@ -2,7 +2,7 @@
     <!-- <ltng:require scripts="/resource/tostadas" /> -->
     
     <div class="slds-grid">  
-        <div class={ErrorMsgClass}>
+        <div class={errorMsgClass}>
             <template if:true={isShowMiniLabel}>
                 <label class="slds-form-element__label" for="SelectAccount">{label}</label>
             </template>
@@ -22,7 +22,7 @@
                         <div class="slds-form-element__help errorText">{errormsg}</div>
                     </template>
                 </div>
-                <div id="SelectAccountListBox" class="slds-dropdown slds-dropdown_length-6 slds-dropdown_fluid" role="listbox">
+                <div id="SelectAccountListBox" class="slds-dropdown slds-dropdown_length-6 slds-dropdown_fluid" role="listbox"> 
                     <div class="scrollable">
                         <div aria-selected="true" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">
                             <span class="slds-media__body">
@@ -32,30 +32,32 @@
                                         </template>
                                         <template if:false={lastBeneficiariesMessageNotEmpty}>
                                             <template if:true={registeredMarker}>
-                                                {accountsRegisteredLabel}<mark><q>{searchedString}</q></mark>
+                                                {accountsRegisteredLabel}<mark><q>{searchedstring}</q></mark>
                                             </template>    
                                             <template if:false={registeredMarker}>
-                                                    {suggestionsLabel}<mark><q>{searchedString}</q></mark>{accountSuggestionsLabel}{accountSuggestionsLabel2}
+                                                {suggestionsLabel}<mark><q>{searchedstring}</q></mark>{accountSuggestionsLabel}{accountSuggestionsLabel2}
                                             </template>
                                         </template>
                                 </span>
                             </span>
                         </div>
-                        <template for:each={accountSuggestions} for:item="acc" for:index="index">
-                            <c-lwc_b2b_account-suggestion 
-                                key={acc.index}
-                                account={acc} 
-                                showmore
-                                onselected={handleClickSuggestion} 
-                            >
-                            </c-lwc_b2b_account-suggestion> 
-                        </template>
+                        <template if:true={accountSuggestionsFilled}>
+                            <template for:each={accountSuggestions} for:item="acc" for:index="index">
+                                <c-lwc_b2b_account-suggestion 
+                                    key={acc.index}
+                                    account={acc} 
+                                    showmore
+                                    onselected={handleClickSuggestion} 
+                                >
+                                </c-lwc_b2b_account-suggestion> 
+                            </template>
+                        </template>                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <template if:true={enableBrowseAccount}>
+    <template if:true={enablebrowseaccount}>
         <template if:false={isAccountEmpty}>
             <div class="slds-grid align-button contentButtons"> 
                 <template if:true={beneficiaryDetails}>
@@ -75,7 +77,7 @@
                 accountdata={accountdata}
                 account={account}
                 selected
-                beneficiarydetails={beneficiaryDetails}
+                beneficiarydetails={beneficiarydetails}
                 onselectedaccount={handleSelectedAccount}
             >
             </c-lwc_b2b_card-account>

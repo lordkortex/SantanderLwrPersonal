@@ -54,6 +54,7 @@ export default class Lwc_b2b_selectIndividualAccountHelper extends LightningElem
 
     @track accountSuggestions;
     @track showDropdown;
+    @track accountSuggestionsFilled;
 
 
     // Variables que no existen en el componente Aura
@@ -91,7 +92,7 @@ export default class Lwc_b2b_selectIndividualAccountHelper extends LightningElem
     }
 
     get inputValue(){
-        let accountEmpty = JSON.stringify(this.account) == JSON.stringify({});
+        let accountEmpty = JSON.stringify(this.account) == JSON.stringify({});        
         return !accountEmpty ? this.account.displayNumber : this.searchedstring;
     }
 
@@ -101,11 +102,11 @@ export default class Lwc_b2b_selectIndividualAccountHelper extends LightningElem
     }
 
     get isAccountOrSearchedStringEmpty(){
-        return (this.account || this.searchedstring) ? true : false;
+        return JSON.stringify(this.account) != "{}" || this.searchedstring != "";
     }
     
     get isSearchedStrAccErrorEmpty(){
-        return (!this.searchedstring && !this.account && !this.errormsg) ? true : false;
+        return this.searchedstring == "" && JSON.stringify(this.account) == "{}" && !this.errormsg;
     }
 
     get isErrorMsg(){
@@ -113,21 +114,27 @@ export default class Lwc_b2b_selectIndividualAccountHelper extends LightningElem
     }
 
     get suggestionsLabel(){
-        return this.accountSuggestions ? this.Label.B2B_Suggestions_for : this.Label.B2B_No_suggestions_for;
+        if(this.accountSuggestions){
+            return this.accountSuggestions.length ? this.Label.B2B_Suggestions_for : this.Label.B2B_No_suggestions_for;
+        }
     }
 
     get accountsRegisteredLabel(){
-        return !this.accountSuggestions ? this.Label.B2B_No_accounts_registered_for : this.Label.B2B_Suggestions_for
+        if(this.accountSuggestions){
+            return !this.accountSuggestions.length ? this.Label.B2B_No_accounts_registered_for : this.Label.B2B_Suggestions_for;
+        }
     }
 
     get accountSuggestionsLabel(){
         if(this.accountSuggestions){
-            return this.accountSuggestions.length + ' ' + this.Label.results_lowercase;
+            return '(' + this.accountSuggestions.length + ' ' + this.Label.results_lowercase + ')';
         }
     }
 
     get accountSuggestionsLabel2(){
-        return this.accountSuggestions ?  '' : '. ' + this.Label.B2B_Search_new;
+        if(this.accountSuggestions){
+            return this.accountSuggestions.length ?  '' : '. ' + this.Label.B2B_Search_new;
+        }
     }
 
     get lastBeneficiariesMessageNotEmpty(){
@@ -156,7 +163,7 @@ export default class Lwc_b2b_selectIndividualAccountHelper extends LightningElem
             this.loadAccountData();
         }*/
 
-        let canCreateBeneficiaries = this.canCreateBeneficiaries;	
+        let canCreateBeneficiaries = this.cancreatebeneficiaries;	
         if (canCreateBeneficiaries === true) {	
             this.charactersBeforeSuggestions = 4;	
             this.registeredMarker = true;	
@@ -209,7 +216,7 @@ export default class Lwc_b2b_selectIndividualAccountHelper extends LightningElem
         if (accountEmpty) {
             if (inputLookupValue != "") {
                 if (showBeforeSearch) {
-                    let accountList = this.accountList;
+                    let accountList = this.accountlist;
                     let maxLength = this.maxSuggestions;
                     let accountSuggestions = [];
                     if (accountList.length) {
@@ -229,6 +236,23 @@ export default class Lwc_b2b_selectIndividualAccountHelper extends LightningElem
                 }else if (inputLookupValue.length >= minChars){
                     this.searchAccounts(inputLookupValue);
                     showDropdown = true;
+                }else if (showBeforeSearch) {
+
+                    let accountList = this.accountlist;
+                    let maxLength = this.maxSuggestions;
+                    let accountSuggestions = [];
+                    if (accountList) {
+                        for (let i = 0; i < accountList.length && accountSuggestions.length < maxLength; i++) {
+                            let account = accountList[i];
+                            accountSuggestions.push(account);
+                        }
+                    }
+                    this.accountSuggestions = accountSuggestions;
+                    let length = accountSuggestions.length;
+                    lastBeneficiaries = this.Label.c.PAY_LastBeneficiariesUsed;
+                    lastBeneficiaries = lastBeneficiaries.replace('{0}', length);
+                    showDropdown = true;
+                    
                 }
             }
             this.searchedstring = inputLookupValue;
@@ -266,6 +290,7 @@ export default class Lwc_b2b_selectIndividualAccountHelper extends LightningElem
             }
         }
         this.accountSuggestions = accountSuggestions;
+        this.accountSuggestionsFilled = true;
     }
 
     handleSelectedAccount(event) {
@@ -303,7 +328,7 @@ export default class Lwc_b2b_selectIndividualAccountHelper extends LightningElem
             //toast().error('', msg);
         }
         /******** ACTUALIZACIÓN DESPLIEGUE 25-02-2021 INICIO ********/
-        const action = new CustomEvent ('selectedaccount', { details : {country: country}})
+        const action = new CustomEvent ('selectedaccount', { detail : {account: this.account}})
         this.dispatchEvent(action);
         /******** ACTUALIZACIÓN DESPLIEGUE 25-02-2021 FIN ********/
     }
