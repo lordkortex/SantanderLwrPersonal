@@ -1,0 +1,230 @@
+<template>    
+
+    <div if:true={isopen}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.advancedFilters}</h2>
+                    <button class="slds-button" onclick={close}>
+                        <div class="icon-close_big"></div> 
+                        <span class="slds-assistive-text">{label.close}</span>
+                    </button>
+                </header>
+                <div class="slds-modal__content" id="modal-content-id-1">
+                    <template if:true={loading}>  
+                        <div class="spinnerclass">
+                            <lightning-spinner  id="spinner" variant="brand" size="large" title={label.loadingLabel} alternative-text={label.loadingLabel}></lightning-spinner>
+                        </div>
+                    </template>
+                    <div class="slds-row">
+                            <!--01/04/2020 - Account Payments Tracker-->
+                        <div if:false={isaccountfilter}>
+                            <div class="slds-row">
+                                <div class="slds-col">
+                                    <div class="slds-form-element slds-combobox__Rg">
+                                        <label class="slds-form-element__label" for="combobox-id-49">{accountLabel1}</label>
+                                        <c-lwc_new-dropdown
+                                            data-name="accountDropdown"
+                                            valueplaceholder={selectedaccountlabel}
+                                            values={accountListToDisplay} 
+                                            selectedvalues={selectedaccount}
+                                            ondropdownvalueselected={accountdropdownvalueselectedhandler}>
+                                        </c-lwc_new-dropdown>   
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="slds-form-element slds-combobox__Rg">
+                                        <!-- DROPDOWN MARKUP -->
+                                        <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                        <label class="slds-form-element__label" for="textarea-id-01">{label.currency}</label>
+                                        <c-lwc_new-dropdown
+                                            data-name="currencyDropdown"
+                                            issimpledropdown=true
+                                            values={currencylist} 
+                                            selectedvalue={selectedcurrency}
+                                            valueplaceholder={label.singleChoice}
+                                            ondropdownvalueselected={currencydropdownvalueselectedhandler}>
+                                        </c-lwc_new-dropdown>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div if:true={isaccountfilter}>
+                            <div class="slds-row">
+                                <div class="slds-col">
+                                    <div class="slds-form-element slds-combobox__Rg">
+                                        <label class="slds-form-element__label" for="combobox-id-49">{accountLabel1}</label>
+                                        <c-lwc_new-dropdown
+                                            data-name="accountDropdown"
+                                            valueplaceholder={selectedaccountlabel}
+                                            values={accountListToDisplay} 
+                                            selectedvalues={selectedaccount}
+                                            ondropdownvalueselected={accountdropdownvalueselectedhandler}
+                                            isdisabled=true>
+                                        </c-lwc_new-dropdown>                                     
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="slds-form-element slds-combobox__Rg">
+                                        <!-- DROPDOWN MARKUP -->
+                                        <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                        <label class="slds-form-element__label" for="textarea-id-01">{label.currency}</label>
+                                        <c-lwc_new-dropdown
+                                            data-name="currencyDropdown"
+                                            issimpledropdown=true
+                                            valueplaceholder={label.singleChoice}
+                                            values={currencylist}
+                                            selectedvalue={selectedcurrency}
+                                            ondropdownexchangecurrency={currencydropdownvalueselectedhandler}>
+                                        </c-lwc_new-dropdown>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="slds-row">
+                                <div class="slds-col">
+                                    <div class="slds-form-element slds-combobox__Rg">
+                                        <label class="slds-form-element__label" for="combobox-id-49">{accountLabel1}</label>
+                                        <c-lwc_new-dropdown
+                                            valueplaceholder={selectedaccountlabel}
+                                            values={accountlisttodisplay} 
+                                            selectedvalues={selectedaccount}
+                                            is-disabled>
+                                        </c-lwc_new-dropdown>
+                                        <c-lwc_new-dropdown
+                                            is-simple-dropdown=true>
+                                        </c-lwc_new-dropdown>                                            
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="slds-form-element slds-combobox__Rg">
+                                            DROPDOWN MARKUP -->
+                                        <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option
+                                        <label class="slds-form-element__label" for="textarea-id-01">{label.currency}</label>
+                                        <c-lwc_new-dropdown
+                                            is-simple-dropwdown
+                                            values={currencylist} 
+                                            selected-values={selectedCurrency}
+                                            is-disabled>
+                                        </c-lwc_new-dropdown>
+                                        <c-lwc_new-dropdown
+                                            is-simple-dropdown=true>
+                                        </c-lwc_new-dropdown>
+                                    </div>
+                                </div>
+                            </div>-->
+                        </div>
+                        
+                    </div>    
+                    <!--<div if:false={isopen}>-->
+
+
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <div class="slds-col">
+                                    <div class="slds-form-element input_text">
+                                        <label class="slds-form-element__label" for="text-input-id-1">{label.amount}</label>
+                                        <div class="input_text__combo">
+                                            <div class="slds-form-element__control">
+                                                <lightning-input type="number" value={settledfrom} class={classSettleFrom} onchange={handleAmountChangeSettledfrom} placeholder={label.from} ></lightning-input>
+                                            </div>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input type="number" value={settledto} class={classSettleTo} onchange={handleAmountChangeSettledto} placeholder={label.to} ></lightning-input>
+                                            </div>
+                                            
+                                        </div>
+                                        <div>
+                                        <span class={mensajeError}>{settledErrorTo}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <!-- DROPDOWN MARKUP -->
+                                        <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                <div class="slds-form-element slds-combobox__Rg">
+                                    <label class="slds-form-element__label" for="combobox-id-49">{label.status}</label>
+                                    <c-lwc_new-dropdown
+                                        data-name='statusDropdown'
+                                        valueplaceholder={selectedstatuslabel}
+                                        values={statuslist} 
+                                        selectedvalues={selectedstatus}
+                                        ondropdownvalueselected={statusdropdownvalueselectedhandler}>
+                                    </c-lwc_new-dropdown> 
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <div class="slds-form-element input_text">
+                                    <label class="slds-form-element__label" for="text-input-id-1">{accountLabel2}</label>
+                                    <div class="slds-form-element__control">
+                                        <input type="text" placeholder={label.writeAnAccountNumber} maxlength="34" class="slds-input inputShadow inputLarge" onkeyup={searchAccountBeneficiary} value={beneficiaryaccount}></input>   
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-form-element slds-combobox__Rg">
+                                    <label class="slds-form-element__label" for="textarea-id-01">{label.beneficiaryCountry}</label>
+                                    <c-lwc_new-dropdown
+                                        data-name='countryDropdown'
+                                        issimpledropdown=true
+                                        valueplaceholder={label.singleChoice}
+                                        values={countrylist}
+                                        selectedvalue={selectedcountry}
+                                        ondropdownvalueselected={countriesdropdownvalueselectedhandler}>
+                                    </c-lwc_new-dropdown>  
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-row">
+                            <div class="slds-col">
+                                <div class="slds-form-element"> 
+                                    <div class="slds-form slds-form_compound calendar">
+                                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{label.valueDate}</div> 
+                                        <div class="slds-form-element__control paddingInput">                        
+                                            <div class="slds-form slds-form_compound">
+                                                <fieldset class="slds-form-element">
+                                                    <c-lwc_calendar
+                                                        placeholderto={label.to}
+                                                        placeholderfrom={label.from}
+                                                        datefrom={dateFrom}
+                                                        dateto={dateTo}
+                                                        helptext="dd/MM/yyyy" 
+                                                        helptextfrom="dd/MM/yyyy" 
+                                                        helptextto="dd/MM/yyyy" 
+                                                        validity={datesValidity}
+                                                        ondatechangefrom={changedatefromhandler}
+                                                        ondatechangeto={changedatetohandler}>
+                                                    </c-lwc_calendar>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-form-element input_text">
+                                    <label class="slds-form-element__label" for="textarea-id-01">{label.thatContains}</label>
+                                    <div class="slds-form-element__control">
+                                        <input type ="text" placeholder={label.writeAWord} maxlength="155" class="slds-input inputShadow inputLarge input uiInput uiInputText uiInput--default uiInput--input" onkeyup={changeThatContains} value={thatcontains}></input>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <div class="slds-form-element">
+                                <div class="slds-media__footer">
+                                    <div onclick={clear}> <button class="slds-button slds-button_brand whiteButton">{label.clearAll}</button></div>
+                                    <div onclick={apply}> <button class="slds-button slds-button_brand redButton">{label.apply}</button></div>           
+                                </div>
+                            </div>
+                        </footer>
+                    <!-- </div>-->
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

@@ -1,0 +1,42 @@
+<template>
+
+   
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        
+        <div class="slds-modal__container sizeS"> 
+            <div class="modal-content">  
+                <!-- MODAL HEADER -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close" onclick={closeAction}>
+                        <div class="icon-close_big"></div> 
+                        <span class="slds-assistive-text">{label.close}</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{headingMsg}</h2> 
+                </header>
+
+                <!-- MODAL CONTENT -->
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <template if:true={contentMsg}>
+                         <h3>{contentMsg}</h3>
+                     </template>
+                    <!--<p></p>-->                        
+                    
+                    <!-- MODAL FOOTER -->
+                    <div class="slds-modal__footer"> 
+                        <div class="modal-footer-buttons">
+                            <button class="slds-button primary button_small button_full"  onclick={saveAction}>{primaryBtn}</button> 
+                            <button class="slds-button secondary button_small button_full" onclick={closeAction}>{secondaryBtn}</button>         
+                        </div> 
+                    </div>  
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+<div class="slds-backdrop slds-backdrop_open"></div>
+
+
+</template>

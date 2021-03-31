@@ -1,0 +1,68 @@
+<!--
+	Author:         Pablo Tejedor & Guillermo Giral
+    Company:        Deloitte
+	Description:    Table component for the Roles window
+    History
+    <Date>			<Author>			<Description>
+    26/12/2019		Pablo Tejedor   	Initial version
+    09/01/2020      Guillermo Giral     Final version
+-->
+
+<aura:component controller="CNT_AdministracionRolesController" implements="forceCommunity:availableForAllPageTypes" access="global">
+   
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- COMPONENT ATTRIBUTES-->
+    <aura:attribute name="tableData"    type="List"/>
+
+    <!-- METHODS -->
+    <aura:method name="refreshTable" action="{!c.doInit}" description="Method to refresh the roles data"/>
+
+    <!-- COMPONENT HANDLERS -->
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <!-- COMPONENT MARKUP -->
+    <!--TABLE-->
+    <div class="slds-table--header-fixed_container slds-is-relative">
+        <div class="slds-scrollable_y">
+            <table aria-multiselectable="true" class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped slds-table_fixed-layout" role="grid">
+
+                <!--HEADER-->
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th aria-label="{!$Label.c.AdminRoles_Order}" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.AdminRoles_Order}">{!$Label.c.AdminRoles_Order}</span>
+                            </div>
+                        </th>
+                        <th aria-label="{!$Label.c.AdminRoles_RolName}" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.AdminRoles_RolName}">{!$Label.c.AdminRoles_RolName}</span>
+                            </div>
+                        </th>
+                        <th aria-label="{!$Label.c.AdminRoles_RolAlias}" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.AdminRoles_RolAlias}">{!$Label.c.AdminRoles_RolAlias}</span>
+                            </div>
+                        </th>
+                        <th aria-sort="none" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title=""></span>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+
+                <!--BODY-->
+                <tbody>                   
+                    <aura:iteration items="{!v.tableData}" var="item">
+                        <c:CMP_AdministracionRolesTableRow rowData="{!item}"/>
+                    </aura:iteration>      
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

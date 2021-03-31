@@ -1,0 +1,24 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to implements the SF backfront container
+History
+<Date>			<Author>		<Description>
+06/02/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="lightning:appHomeTemplate">
+
+    <ltng:require styles="{!$Resource.NoHeaderCustomLayout}"/>
+
+    <aura:attribute name="left" type="Aura.Component[]" />
+
+    <div style="margin: 0 10%;">
+        <lightning:layout>
+            <lightning:layoutItem flexibility="grow"
+                                  class="slds-m-right_large">
+                {!v.left}
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+</aura:component>

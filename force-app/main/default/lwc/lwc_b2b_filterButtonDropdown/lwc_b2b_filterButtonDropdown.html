@@ -1,0 +1,46 @@
+<template>
+    <div class="slds-combobox_container">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+            <button class={class2} onclick={handleDropdownButton}>
+                <div if:true={condition1}>
+                    {selectedlabel}
+                </div>
+                <div if:false={condition1}>{label}
+                    <div class="numberSelected">
+                        <span>{selectedFiltersnumber}</span>
+                    </div>
+                </div>
+                
+                <div class={class1}></div>
+            </button>
+            <div if:true={showdropdown}>
+                <section aria-describedby="filterBy" aria-label="" class="slds-popover slds-popover_full-width" role="dialog">
+                    <div class="slds-popover__body" id="filterBy">
+                        <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <div class="titleOptions">{Label.filterBy}&nbsp;{label}</div>
+                                <template for:each={listCheckbox} for:item='item'>
+                                    <div key={item.index}>
+                                        <c-lwc_b2b_filter-options-checkbox
+                                            data-id="checkboxes" 
+                                            label={item.label} 
+                                            iden={item.value} 
+                                            value={item.value}
+                                            ischecked={item.checked}
+                                            onvaluechecked={handleCheck}>
+                                        </c-lwc_b2b_filter-options-checkbox>
+                                    </div>
+                                </template>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <footer class="slds-popover__footer">
+                        <button class="slds-button primary button_small" onclick={handlerApplyFilters}>{Label.apply}</button>
+                        <button class="slds-button button_link" onclick={handlerClearFilters}>{Label.clearAll}</button>
+                    </footer>
+                </section>
+            </div>
+            <!-- </aura:if> -->
+        </div>
+    </div>
+</template>

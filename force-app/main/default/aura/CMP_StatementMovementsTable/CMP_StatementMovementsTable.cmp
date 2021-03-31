@@ -1,0 +1,129 @@
+<aura:component>
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <!-- Global information -->
+    <aura:attribute name="userInfo"         type="Map"      default="{}"            description="Contains the user info" />
+    <aura:attribute name="accountInfo"      type="Map"      default="{}"            description="Contains the data of the account" />
+    <aura:attribute name="sortByCategory" type="String" default="desc"             description="Contains the order of the client ref" />
+    <aura:attribute name="sortByAmount" type="String" default="desc"              description="Contains the order of the category" />
+    <!-- Table data -->
+    <aura:attribute name="movementsList" type="List" default="[]" description="Contains the list of movements" />
+    <aura:attribute name="totalMovements" type="Integer"             description="Contains the total movements" />
+
+    <!-- Pagination attributes -->
+    <aura:attribute name="transactionsPerPage"      type="Integer"  default="50" description="Number of logs to show in each page of the table"/>
+    <aura:attribute name="currentPage"              type="Integer"  default="1"/>
+    <aura:attribute name="oldPage"                  type="Integer"  default="1"/>
+    <aura:attribute name="start"                    type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"                      type="Integer"  description="Row number of the last displayed row"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="change" value="{!v.movementsList}" action="{!c.paginationChange}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.paginationChange}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTablePage}"/>
+    <aura:attribute name="paginatedTransactions"    type="List"/>
+
+    <!-- Pagination -->
+         <c:CMP_CN_Pagination aura:id="pagination" allData="{!v.movementsList}" paymentsPerPage="{!v.transactionsPerPage}" nameListToDisplay="{!$Label.c.Movements}" maximumRecords="{!v.totalMovements}"/> 
+    <!-- TABLE -->
+    <div class="slds-table--header-fixed_container tableExtract">
+        
+        <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+            <!-- HEADER -->
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th class="containerValueDate" aria-sort="ascending" scope="col">
+                        <div class="slds-truncate" >{!$Label.c.MovementHistory_ValueDate}</div>
+                    </th>
+                    <th class="containerCategory" scope="col">
+                        <div class="slds-truncate slds-button">
+                            <span>{!$Label.c.MovementHistory_Category}</span>
+                            <aura:if isTrue="{!v.sortByCategory == 'desc'}">
+                                <div class="icon-arrowDown" id="CategoryDesc" onclick="{!c.sortBy}"></div>
+                            </aura:if>
+                            
+                            <aura:if isTrue="{!v.sortByCategory == 'asc'}">
+                                <div class="icon-arrowUp" id="CategoryAsc"  onclick="{!c.sortBy}"></div>
+                            </aura:if>
+                        </div>
+                    </th>
+                    <th class="slds-is-sortable containerClientRef" aria-sort="none" scope="col">
+                        <div class="slds-truncate" >{!$Label.c.MovementHistory_CustomerRef}</div>
+                    </th>
+                    <th class="slds-is-sortable slds-text-align_right containerAmount"  aria-sort="none" scope="col">
+                        <div class="slds-truncate slds-button">
+                            
+                            <span >{!$Label.c.amount}</span>
+                            <aura:if isTrue="{!v.sortByAmount == 'desc'}">
+                                <div class="icon-arrowDown" id="AmountDesc" onclick="{!c.sortBy}"></div>
+                            </aura:if>
+
+                            <aura:if isTrue="{!v.sortByAmount == 'asc'}">
+                                <div class="icon-arrowUp" id="AmountAsc" onclick="{!c.sortBy}"></div>
+                            </aura:if>
+                        </div>
+                    </th>
+                    <!-- <th class="slds-is-sortable slds-text-align_right containerBookBalance" aria-label="Stage" aria-sort="none" scope="col">
+                        <div class="slds-truncate " >Book Balance</div>
+                    </th> -->
+                    <th class="containerIconDetail" scope="col">
+                        <div class="slds-truncate slds-assistive-text ">{!$Label.c.actions}</div>
+                    </th>
+                </tr>
+            </thead>
+            
+            <!-- BODY -->
+            <tbody>
+                <aura:if isTrue="{!or(empty(v.movementsList), v.movementsList == undefined)}">
+                    <c:CMP_ResultsNotFound msg="{!$Label.c.noResultsFound}" showSearchAgain="false"/>  
+                </aura:if>
+
+                <aura:if isTrue="{!not(empty(v.movementsList))}">
+                    
+                    <!--Iterate here-->
+                    <!-- ROW 1 -->
+                    <aura:iteration items="{!v.movementsList}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index">
+                        <tr class="slds-hint-parent" aria-selected="false">
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{!item.obtTransacBusqueda.valueDate}</span>
+                                </div>
+                            </td>
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{!item.obtTransacBusqueda.tipoTransaccion}</span>
+                                </div>
+                            </td>
+                            <td role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{!item.obtTransacBusqueda.refCliente}</span>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" >
+                                    <div class="slds-truncate">
+                                        <span class="text amountInteger">{!item.obtTransacBusqueda.importeFormatted.entirePart_Formatted}</span>
+                                        <span class="text amountDecimals">{!item.obtTransacBusqueda.importeFormatted.decimalPart_Formatted} &nbsp; {!v.accountInfo.accountCurrency} </span>
+                                        <!-- <c:CMP_displayAmount amount="{!item.obtTransacBusqueda.importe}" numberFormat="{!v.userInfo.userNumberFormat}" wholeClass="text amountInteger" decimalClass="text amountDecimals" currency="{!v.accountInfo.accountCurrency}"/> -->
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread" id="{!index}" onclick="{!c.navigateToDetail}">
+                                    <div class="slds-truncate slds-button">
+                                        <span class="detail icon-arrowRight_big">{!$Label.c.Detail}</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </aura:iteration> 
+                </aura:if>
+
+                
+                
+            </tbody>
+        </table>
+        
+    </div>
+</aura:component>

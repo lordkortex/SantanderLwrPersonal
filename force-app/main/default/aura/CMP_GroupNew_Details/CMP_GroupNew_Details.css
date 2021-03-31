@@ -1,0 +1,80 @@
+.THIS.container-detail{
+    padding: 16px 64px 18px 64px;
+    background-color: #eff6f9;
+    color:#444;
+    margin-bottom: 16px;
+  }
+
+.THIS .input_text .slds-form-element__label {
+    width: 128px;
+    color: #444444;
+    text-align:right;
+    margin: 0 16px 0 0 ;
+    padding: 0;
+    font-size: 12px;
+    line-height: normal;
+  }
+
+.THIS .slds-form-element__label label{
+    color: #444444;
+}
+
+.THIS .slds-form-element__label .slds-required{
+    color:#1bb3bc;
+}
+
+.THIS .input_text .slds-form-element__control{
+    min-width: 368px;
+}
+
+.THIS .input_text .slds-input {
+    background-color:#fff;
+    width: 100%;
+    height:36px;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    display: inline-block;
+    line-height: 36px;
+    border-width: 0;
+    border-style: none;
+    transition: none;
+    font-size: 12px;
+    color: #444444;
+}
+
+.THIS .input_text input::-webkit-input-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+.THIS .input_text input::-moz-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+.THIS .input_text input:-ms-input-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+.THIS .input_text input:-moz-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+
+.THIS .slds-form-element{
+    display: flex;
+    align-items: center;
+  }
+  .THIS .slds-card__header-title{
+    margin-bottom: 8px;
+  }
+  
+  .THIS .slds-card__header-title span.title{
+      font-size: 16px;
+      line-height: 24px;
+      color: #444444;
+      margin-right: 8px;
+    }
+    .THIS .slds-card__header-title span.subtitle{
+      font-size: 12px;
+      line-height: 18px;
+      color: #a2a2a2;
+    }

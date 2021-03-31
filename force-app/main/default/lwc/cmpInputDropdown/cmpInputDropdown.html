@@ -1,0 +1,24 @@
+<template>
+    <div class="slds-combobox_container">
+        <!--<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="dialog" role="combobox">-->
+        <div>
+            <button class="slds-button slds-button_outline-brand buttonSelected buttonAccounts">{valuePlaceholder}</button>
+            <section data-id="button" aria-describedby="dialog-body-id-25" aria-label="" class="slds-popover slds-popover_full-width amountCombobox slds-dropdown" id="popover-unique-id-02" role="dialog">
+                <div class="slds-popover__body" id="dialog-body-id-25">
+                    <fieldset class="slds-form-element">
+                        <div class="slds-form-element__control">                            
+                            <lightning-input type="number" placeholder={from}  maxlength="17" class="slds-input" value={settledFrom} onchange={valor1} data-id="settledFrom"></lightning-input>                                                    
+                            <span class="textHelp">{settledErrorFrom}</span>                            
+                            <lightning-input type="number" placeholder={to}  maxlength="17" class="slds-input" value={settledTo} onchange={valor2} data-id="settledTo"></lightning-input>                                                     
+                            <span class="textHelp">{settledErrorTo}</span>
+                        </div>
+                    </fieldset>
+                </div>
+                <footer class="slds-popover__footer">
+                    <button class="slds-button slds-button_neutral whiteButton"  onclick={clear}>{clearAll}</button>
+                    <button class="slds-button slds-button_brand redButton" onclick={apply}>{appli}</button>
+                </footer>
+            </section>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,32 @@
+<!--
+Author:         Shahad Naji / Teresa Santos
+Company:        Deloitte
+Description:    Component to display Global Balance title and its tab set
+History
+<Date>			<Author>		    <Description>
+01/09/2019		Laura Espinel		Design
+25/10/2019		Amanda Fernandez	Layout coding of the page
+28/10/2019		Shahad Naji     	Initial version
+28/10/2019		Shahad Naji 		Interactive web pages and Back-end development
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:registerEvent name="GlobalBalanceTab" type="c:EVT_CurrentTabSelected"/>
+    <div class="slds-text-heading_medium">
+        <div>
+            <span class="title">
+                {!$Label.c.International_Treasury_Management}
+            </span>
+        </div>
+        <div class="{!v.isCashNexus == 'False' ? 'slds-hide' : 'slds-show'}">
+            <span aura:id="LastUpdateTab" name="numberOne" class="tabEnabled" onclick="{!c.LastUpdateTab}">
+                {!$Label.c.LastUpdate}
+            </span>
+            <span class="separation">|
+            </span>
+            <span aura:id="EndOfDayTab" name="numberTwo" class="tabDisabled" onclick="{!c.EndOfDayTab}">
+                {!$Label.c.EndOfDay}
+            </span>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,19 @@
+<template>
+    <!-- FULL SCREEN -->
+    <div class="contentSupport">
+        <!-- HEADER -->
+        <c-cmp-o-t-v-header-description title={label.cmpOTVHelpAndContact_1} subtitle={label.cmpOTVHelpAndContact_2}></c-cmp-o-t-v-header-description>
+        <!-- CONTENT -->
+        <div class="contentComponents slds-grid">
+            <div class="slds-col">
+                <c-cmp-o-t-v-accordion-index></c-cmp-o-t-v-accordion-index>
+            </div>
+            <div class="slds-col">
+                <c-cmp-o-t-v-accordion-content></c-cmp-o-t-v-accordion-content>
+                <!-- <c-lwc_detail_accordion_content></c-lwc_detail_accordion_content> -->
+            </div>
+        </div>
+        <c-cmp-o-t-v-footer footercontact="true"></c-cmp-o-t-v-footer>
+        <!-- <c-lwc_footer_contact></c-lwc_footer_contact> -->
+	</div>
+</template>

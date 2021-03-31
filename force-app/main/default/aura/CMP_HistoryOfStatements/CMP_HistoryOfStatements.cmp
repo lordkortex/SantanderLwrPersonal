@@ -1,0 +1,114 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access = "Global" controller="CNT_StatementHistoryController" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:handler name="buttonClickedEvent" event="c:EVT_TitleButtonClicked" action="{!c.handleButtonClicked}"/>
+
+    <!-- SPINNER ATTRIBUTE -->
+    <aura:attribute name="loading" type="Boolean" default="true" description="Indicates when the URL params have been parsed, to load the rest of components"/>
+
+    <!-- Data -->
+    <aura:attribute name="accountsList" type="List" description="Contains the list of accounts" />
+    <aura:attribute name="accountsListString" type="List" description="List of accounts as strings" />
+
+    <!-- Attributes from navigation -->
+    <aura:attribute name="comesFrom" type="String" default="None" />
+    <aura:attribute name="accountName" type="String" description="Contains the name of the account " />
+    <aura:attribute name="accountCurrency" type="String" description="Contains the currency of the account " />
+    <aura:attribute name="accountNumber" type="String"  description="Contains the account number" />
+    <aura:attribute name="bankName" type="String"  description="Contains the bank name of the account " />
+    <aura:attribute name="accountCode" type="String" description="Contains the code of the account" />
+    <aura:attribute name="subsidiaryName" type="String" description="Contains the code of the account" />
+
+    
+    <aura:attribute name="tableData" type="List" description="contains the table data" />
+
+    
+
+    <!-- SEARCH FILTERS -->
+    <aura:attribute name="selectedAccount" type="String" description="Selected option from the dropdown" />
+    <aura:attribute name="selectedAccountObject" type="Object" description="Selected account as Object" />
+    <aura:attribute name="dates"     type="List"     description="List containing the selected dates. The dates format must be yyyy/mm/dd"/>
+    <aura:attribute name="filters"  type="List" default="['Book Date']"/>
+    <!-- USER ATTRIBUTES -->
+    <aura:attribute name="userDateFormat" type="String" description="contains the running user Date format" />
+    <aura:attribute name="userNumberFormat" type="String" description="contains the running user number format" />
+    <aura:attribute name="divisaPrincipal" type="String" description="Contains the selected currency from the user" />
+    <aura:attribute name="hasSearched" type="Boolean" default="false" />
+
+    <aura:handler name="fireFilter" event="c:EVT_FilterSearch" action="{!c.filterTableData}"/>
+
+
+    <!-- Spinner -->
+    <aura:if isTrue="{!v.loading}">  
+        <div class="spinnerclass">
+            <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+        </div>
+    </aura:if> 
+
+    <aura:if isTrue="{!not(v.loading)}">
+
+        <aura:if isTrue="{!v.comesFrom == 'None'}">
+            <div class="slds-grid titleHistory">
+                <div class="slds-col title">
+                    <div class="slds-text-heading_medium">{!$Label.c.History_of_statements}</div>
+                    
+                    <div class="text_line"></div>
+                </div>
+            </div>
+        </aura:if>
+    
+        <!-- IF COMES FROM ACCOUNT ////TITLE//// -->
+        <aura:if isTrue="{!v.comesFrom == 'Accounts'}">
+            <c:CMP_CN_Title_Subtitle title="Accounts" subtitle="Statements history" />
+    
+            <div class="titleSubtitle">
+                <!-- TITLE -->
+                <div class="slds-card__header slds-grid containerInformation">
+                    <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title separation">
+                                <div class="title">{!v.accountName}</div>
+                                
+                            </div>
+                            <div class="slds-card__header-title">
+                                <div class="bankAccount">{!v.subsidiaryName}&nbsp; - &nbsp; {!v.accountNumber}</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="text_line"></div>
+            </div>
+            <c:CMP_CN_Filters   aura:id="filterComponent" 
+                                showAdvancedFilters="false" 
+                                showModal="false" 
+                                filters="{!v.filters}" 
+                                dates="{!v.dates}" 
+                                currentPage="history-of-statements"
+                                displayDropdown="false"
+                                />
+           
+            <!-- dropdownValues="{!v.timePeriods}" -->
+        </aura:if>
+    
+        <aura:if isTrue="{!v.comesFrom =='None'}">
+            <c:CMP_HistoryOfStatementsSearch hasSearched="{!v.hasSearched}" selectedAccount="{!v.selectedAccount}"
+                                             dates="{!v.dates}" values="{!v.accountsListString}"/>
+        </aura:if>
+    
+    
+        <aura:if isTrue="{!v.hasSearched}">
+            <c:CMP_HistoryOfStatementsTable statementsList="{!v.tableData}" 
+            userDateFormat="{!v.userDateFormat}" userNumberFormat="{!v.userNumberFormat}"
+             accountCurrency="{!v.accountCurrency}"
+             selectedAccountObject="{!v.selectedAccountObject}"/>
+        </aura:if>
+    </aura:if>
+
+   
+
+</aura:component>

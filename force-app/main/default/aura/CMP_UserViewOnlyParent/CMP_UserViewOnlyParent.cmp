@@ -1,0 +1,58 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="CNT_UsersController">
+    
+    <!-- Essential attributes -->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:handler name="UserButtonClicked" event="c:EVT_UserButtonClicked" action="{!c.buttonClicked}"/>
+
+
+    <!-- USER INFORMATION ATTRIBUTES -->
+    <aura:attribute name="userIdInput" type="String" description="User Id to load when edit user is clicked "/>
+    <aura:attribute name="userInfo"     type="Map"  default="{}"  description="Contains the info of the user" />
+    <aura:attribute name="showCorporates" type="boolean" default="true" description="checks if show corporates" />
+
+    <!-- TEMPORAL ATTRIBUTES -->
+    <aura:attribute name="showModal"        type="Boolean" default="false"              description="Flag to check if the modal is showing" />
+    <aura:attribute name="modalToShow"      type="String"  default=""                   description="Checks what modal is going to  be shown" />
+
+    <!-- TOAST ATTRIBUTES -->
+    <aura:attribute name="showToast"       type="Boolean"   description="Attribute show message when the user is created succesfully" />
+    <aura:attribute name="messageToast"    type="String" default="{!$Label.c.UserSuccessfullyCreated}" />
+    <aura:attribute name="typeToast"       type="String"  default="success" description="Attribute to show toast message" />
+    <aura:attribute name="selectedCorporates" type="List" default="[]" description="List of selected corporates" />
+    <aura:attribute name="typesList"            type="List"                         description="List of types of user"/>
+
+    <!-- CORPORATES ATTRIBUTES -->
+    <aura:attribute name="corporatesListBack" type="List" description="Corporates List (Back)" />
+    <aura:attribute name="corporatesListFront" type="List" description="Corporates List (Back)" />
+
+    <aura:handler name="UserButtonClicked" event="c:EVT_UserButtonClicked" action="{!c.buttonClicked}"/>
+    <aura:handler name="DeleteUserEvent" event="c:EVT_DeleteUserModalBox" action="{!c.deletionConfirmed}"/>
+
+    <div style="{!'width:' + v.maxWidth + 'px;'}">
+        <c:CMP_TitleBreadcrumb title="{!$Label.c.Users_AddUsers}" 
+            breadcrumb="['Users', 'Users_AddUsers']"/>
+
+        <c:CMP_TitleHeader title="{!$Label.c.userDetails}"/>
+
+        <!-- TOAST COMPONENT -->
+        <c:CMP_Toast type="{!v.typeToast}" show="{!v.showToast}" message="{!v.messageToast}"/>
+
+        <c:CMP_UserNewViewOnlyForm userInfo="{!v.userInfo}" renderCorporates="{!v.showCorporates}" typesList="{!v.typesList}"/>
+
+        <aura:if isTrue="{!v.showCorporates}">
+            <c:CMP_TitleHeader title="{!$Label.c.Corporates}"/>
+            <c:CMP_UserNewCorporates showDropdown="false" showModal="{!v.showModal}" selectedCorporates="{!v.selectedCorporates}"
+                                    corporatesListBack="{!v.corporatesListBack}" corporatesListFront="{!v.corporatesListFront}"/>
+        </aura:if>
+
+        <!--<c:CMP_UserNewButtons currentStageNumber="0"/>-->
+    </div>
+
+    <aura:if isTrue="{!and(v.showModal, v.modalToShow == 'ConfirmCreation')}">
+        <c:CMP_DeleteUserModalBox aura:id="ConfirmCreationModal" isShowing="{!and(v.showModal, v.modalToShow == 'ConfirmCreation')}" titleText="{!$Label.c.Users_ConfirmModify}" firstText="{!v.userInfo.userName + ' ' + v.userInfo.userSurname}" secondText="{!$Label.c.Users_WarningDuplicate}"/>
+    </aura:if>
+
+</aura:component>

@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event that fire when the step is finished." >
+    <aura:attribute type="Boolean" name="fromUtilityBar"  description="The event is fired from UtilityBAR." />
+    <aura:attribute type="Boolean" name="fromDetail"  description="The event is fired from payment detail page." />
+</aura:event>

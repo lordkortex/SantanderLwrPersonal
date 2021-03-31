@@ -1,0 +1,33 @@
+.footer{
+    
+  /*  position:fixed;*/
+    bottom:0;
+    width:100%;
+    text-align:center;
+    align-items:center;
+    background-color: #6a6a6a;
+    display: flex;
+    height: 48px;
+    justify-content: center;
+    /*margin-top: 64px;*/
+    z-index: 9;
+}
+
+
+ .link{
+    color: #ffffff;
+    cursor: pointer;
+    font-family:"SantanderTextW05-Bold";
+    font-size: 12px;
+}
+
+ .link:hover{
+    text-decoration: underline;
+}
+
+ .separation{
+    color: #ffffff;
+    font-family:"SantanderTextW05-Bold";
+    font-size: 12px;
+    padding: 0 8px;
+}

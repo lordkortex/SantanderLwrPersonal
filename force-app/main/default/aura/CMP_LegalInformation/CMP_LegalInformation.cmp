@@ -1,0 +1,224 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component for showing the legal information
+History
+<Date>			<Author>		<Description>
+13/11/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_termsFooter">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="country" default="Other" type="String"/>
+    <aura:attribute name="language" default="english" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- BRAZIL -->
+    <aura:if isTrue="{!v.country eq 'Other'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{!$Label.c.legalInformation}</div>
+            <div class="text_line"></div>
+        </div> 
+
+        <div class="privacyInfoContainer">
+            <p>Instituição Financeira autorizada a funcionar pelo Banco Central do Brasil.
+                <br></br>Banco Santander (Brasil) S.A., CNPJ: 90.400.888/0001-42
+                <br></br>Av. Presidente Juscelino Kubitscheck 2041/2235 – Vila Olímpia – São Paulo/SP.
+                <br></br>Copyright © 2020.
+                <br></br>Santander
+                <br></br>Todos os direitos reservados.
+                <br></br>Atualização: Fevereiro de 2020.
+            </p>
+        </div>
+    </aura:if>
+
+        <!-- PORTUGAL -->
+    <aura:if isTrue="{!v.country eq 'PT'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Informação legal</div>
+            <div class="text_line"></div>
+        </div> 
+
+        <div class="privacyInfoContainer">
+            <p>Banco Santander S.A. (doravante “Grupo Santander”), instituição financeira registada no Banco de Espanha com o número 0049, com sede social em Paseo de Pereda 9-12 Santander e com o número de identificação fiscal A-39000013.
+            </p>
+            <br></br>
+            <p>A informação contida neste site destina-se a pessoas, empresas, sociedades, trusts, pessoas singulares e coletivas ou qualquer outra entidade (doravante Pessoas) que isentam o Grupo Santander de qualquer responsabilidade pelo acesso de pessoas em jurisdições onde tal uso possa ser contrário à lei ou regulamento.
+            	<br></br>
+            </p>
+        </div>
+    </aura:if> 
+    
+    <!-- CASH NEXUS -->
+    <aura:if isTrue="{!v.country eq 'CN'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{!$Label.c.legalNotice}</div>
+            <div class="text_line"></div>
+        </div>
+
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.legalNexus1}</p>
+                <br></br>
+                <p>{!$Label.c.legalNexus2}</p>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- SPAIN -->
+    <aura:if isTrue="{!v.country eq 'ES'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{!$Label.c.legalNotice}</div>
+            <div class="text_line"></div>
+        </div>
+
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.legalNexus1}</p>
+                <br></br>
+                <p>{!$Label.c.legalNexus2}</p>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- GREAT BRITAIN -->
+    <aura:if isTrue="{!v.country eq 'GB'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{!$Label.c.legalNotice}</div>
+            <div class="text_line"></div>
+        </div>
+
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{!$Label.c.legalNexus1}</p>
+                <br></br>
+                <p>{!$Label.c.legalNexus2}</p>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- CHILE -->
+    <aura:if isTrue="{!v.country eq 'CL'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Información Legal</div>
+            <div class="text_line"></div>
+        </div>
+
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>Los presentes Términos y Condiciones, así como todos aquellos aspectos derivados o que estén relacionados con ellos, se regirán de conformidad con la ley -chilena.
+                    <br></br><br></br>
+                    Para todos los efectos legales, las partes fijan su domicilio en la ciudad y comuna de Santiago.
+                    <br></br><br></br>
+                    Serán los Tribunales Ordinarios de Justicia quienes tienen competencia exclusiva para resolver cualquier disputa surgida o que guarde relación con los presentes Términos y Condiciones, incluidas aquellas controversias relativas a la existencia, validez o finalización de estos Términos y Condiciones.
+                </p>
+            </div>
+        </div>
+    </aura:if>
+
+    <!-- MEXICO -->
+    <aura:if isTrue="{!v.country eq 'MX'}">
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">Información Legal</div>
+            <div class="text_line"></div>
+        </div>
+
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>
+                    El registro a “Enlace” y cuantas cuestiones se deriven de su ingreso y uso se sujetarán a la legislación federal vigente en los Estados Unidos Mexicanos. La interpretación, aplicación, cumplimiento o incumplimiento de lo establecido en los presentes Términos y Condiciones y el Aviso de Privacidad de Santander se regirá bajo esta misma legislación, siendo la jurisdicción aplicable los Tribunales Federales de la Ciudad de México, renunciando expresamente a cualquier otro fuero o jurisdicción que pudiera corresponderles en razón de sus domicilios presentes o futuros o por cualquier otra causa.
+                </p>
+            </div>
+        </div>
+    </aura:if>
+    
+    <!-- POLAND -->
+    <aura:if isTrue="{!v.country eq 'PL'}">
+        <aura:if isTrue="{!v.language eq 'polish'}">
+            <div class="slds-col titleContainer">
+                <div class="slds-text-heading_medium">{!$Label.c.legalNotice}</div>
+                <div class="text_line"></div>
+            </div>
+
+            <div class="privacyInfoContainer">
+                <div class="slds-text-body_regular">
+                    <p>{!$Label.c.legalPoland1}</p>
+                    <br></br>
+                    <p>{!$Label.c.legalPoland2}</p>
+                    <br></br>
+                    <p>Opłata za połączenie z infolinią banku zgodna z taryfą danego operatora. Słowniczek pojęć i definicji dotyczących usług reprezentatywnych, wynikających z rozporządzenia Ministra Rozwoju i Finansów z dnia 14 lipca 2017 r. w sprawie wykazu usług reprezentatywnych powiązanych z rachunkiem płatniczym, dostępny jest na stronie &nbsp;<a href="https://www.santander.pl/PAD" class="text-link">https://www.santander.pl/PAD</a>&nbsp; oraz w placówkach banku.</p>
+                    <br></br>
+                    <p>Santander Bank Polska (dawniej BZ WBK) oferuje m.in.: rachunki płatnicze: &nbsp;<a href="https://www.santander.pl/klient-indywidualny/konta" class="text-link">konta osobiste</a>&nbsp; (w tym &nbsp;<a href="https://www.santander.pl/klient-indywidualny/konta/konto-jakie-chce-dla-mlodych" class="text-link">konto dla młodych</a>), konta walutowe, konta oszczędnościowe oraz lokaty terminowe, &nbsp;<a href="https://www.santander.pl/klient-indywidualny/kredyty/kredyt-gotowkowy" class="text-link">kredyty gotówkowe</a>, &nbsp;<a href="https://www.santander.pl/klient-indywidualny/kredyty/kredyt-mieszkaniowy" class="text-link">kredyty hipoteczne</a>, 
+                        karty debetowe, &nbsp;<a href="https://www.santander.pl/klient-indywidualny/karty-platnosci-i-kantor" class="text-link">karty kredytowe</a>, a także &nbsp;<a href="https://www.santander.pl/klient-indywidualny/oszczednosci-i-inwestycje/fundusze-inwestycyjne" class="text-link">fundusze inwestycyjne</a>&nbsp; i &nbsp;<a href="https://www.santander.pl/klient-indywidualny/ubezpieczenia" class="text-link">ubezpieczenia</a>. 
+                        W ofercie dla firm znajdą Państwo m.in.: &nbsp;<a href="https://www.santander.pl/firmy/konta" class="text-link">konta firmowe</a>, kredyty na bieżącą działalność, kredyty inwestycyjne oraz usługi faktoringu i &nbsp;<a href="https://www.santander.pl/firmy/leasing" class="text-link">leasingu</a>.</p>
+                    <br></br>
+                </div>
+            </div>
+            <aura:set attribute="else">
+            <div class="slds-col titleContainer">
+                <div class="slds-text-heading_medium">{!$Label.c.legalNotice}</div>
+                <div class="text_line"></div>
+            </div>
+
+            <div class="privacyInfoContainer">
+                <div class="slds-text-body_regular">
+                    <p>{!$Label.c.legalPoland1}</p>
+                    <br></br>
+                    <p>{!$Label.c.legalPoland2}</p>
+                </div>
+            </div>
+        </aura:set>
+        </aura:if>
+    </aura:if>
+    
+    <!-- <div class="legalInfoContainer">
+        <div class="slds-text-heading_medium">{!$Label.c.termsOfUse}</div>
+        <div class="slds-text-body_regular">
+            <p>{!$Label.c.legal1}</p>
+   <p>{!$Label.c.legal2}</p>
+   <p>{!$Label.c.legal3}</p>
+   <p>{!$Label.c.legal4}</p>
+     </div>
+        
+        <div class="slds-text-heading_medium">{!$Label.c.liability}</div>
+        <div class="slds-text-heading_small">{!$Label.c.contents}</div>
+        <div class="slds-text-body_regular">
+   <p>{!$Label.c.legal5}</p>
+   <p>{!$Label.c.legal6}</p>
+   <p>{!$Label.c.legal7}</p>
+   <p>{!$Label.c.legal8}</p>
+   <p>{!$Label.c.legal9}</p>
+   <p>{!$Label.c.legal10}</p>
+   <ul>
+             <li>{!$Label.c.legal11}</li>
+             <li>{!$Label.c.legal12}</li>
+             <li>{!$Label.c.legal13}</li>
+            </ul>
+   <p>{!$Label.c.legal14}</p>
+        </div>
+        
+        <div class="slds-text-heading_small">{!$Label.c.financialMarket}</div>
+        <div class="slds-text-body_regular">
+   <p>{!$Label.c.legal15}</p>
+   <p>{!$Label.c.legal16a} <a class="text-link" data-title="http :/ / www.cnmv.es"> (http :/ / www.cnmv.es)</a> {!$Label.c.legal16b}</p>
+            <p><span class="text-bold">{!$Label.c.legal17a}</span>: {!$Label.c.legal17}</p>
+   <p>{!$Label.c.legal18}</p>
+   <p><span class="text-bold">{!$Label.c.legal20a}</span>: {!$Label.c.legal20b}</p>
+   <p>{!$Label.c.legal21}</p>
+   <p><span class="text-bold">{!$Label.c.legal22a}</span>{!$Label.c.legal22b}</p>
+        </div>
+        
+        <div class="slds-text-heading_medium">{!$Label.c.industrialIntellectualPropoerty}</div>
+        <div class="slds-text-body_regular">
+   <p>{!$Label.c.legal23}&nbsp;{!$Label.c.legal23b}</p>
+     </div>
+        
+        <div class="slds-text-heading_medium">{!$Label.c.applicableLaw}</div>
+        <div class="slds-text-body_regular">
+   <p>{!$Label.c.legal24}</p>
+     </div>
+        
+        <div class="slds-text-body_regular">{!$Label.c.legal27}</div> 
+    </div> -->
+</aura:component>

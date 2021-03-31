@@ -1,0 +1,90 @@
+.THIS div::-webkit-scrollbar {
+    width: 6px;
+}
+.THIS div::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+.THIS div::-webkit-scrollbar-track-piece{
+    background:transparent;
+}
+.THIS div::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+.THIS.slds-table--header-fixed_container {
+    background-color: #ececec;
+    border: 1px solid #ececec;
+}
+.THIS.slds-table--header-fixed_container .slds-scrollable_y {
+	max-height: 425px;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n)>td {
+	background-color: #f9fcfd;
+}
+.THIS .slds-cell-fixed {
+	background-color: #ececec;
+}
+.THIS thead .slds-truncate {
+	font-size: 14px;
+    color: #444444;
+    font-family: SantanderTextW05-Bold;
+    padding: 6px 24px;
+}
+
+.THIS tbody tr td {
+	height:34px;
+    padding: 0 24px;
+}
+.THIS tbody .slds-truncate {
+	font-size: 12px;
+    font-family: SantanderTextW05-Regular;
+    color: #444444;
+ 
+}
+.THIS tbody .slds-hint-parent {
+	border: 1px solid #ececec;
+    border-left: 0;
+}
+
+.THIS.slds-table--header-fixed_container:before {
+	border: unset;
+}
+.THIS .icon-profile:before,
+.THIS .icon-viewProfile:before,
+.THIS .icon-trash:before{
+	font-size: 24px;
+}
+
+.THIS .slds-table{
+	width: 1184px;
+}
+
+.THIS.slds-table--header-fixed_container,
+.THIS.slds-table_edit_container,
+.THIS.slds-is-relative{
+	margin-bottom: 16px;
+}
+
+.THIS thead tr th:nth-child(2),
+.THIS thead tr th:nth-child(3),
+.THIS thead tr th:nth-child(4){
+	width:32px;
+}
+.THIS thead tr th:nth-child(4) {
+	padding: 0 16px 0 0;
+    width: 42px;
+}
+.THIS tbody tr td:nth-child(2),
+.THIS tbody tr td:nth-child(3),
+.THIS tbody tr td:nth-child(4) {
+	padding:0 16px 0 0px;
+}
+.THIS .slds-button:focus {
+    box-shadow: none;
+}
+.THIS tbody .nodata{ 
+   padding: 8px 8px 8px 24px;
+}  
+.THIS tbody .nodata div{
+    color: #a2a2a2; 
+}

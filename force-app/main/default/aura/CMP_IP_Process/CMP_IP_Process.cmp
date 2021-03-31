@@ -1,0 +1,77 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="private" type="List"    name="accountListDestination" default="[]"                              description="List of available destinationaccounts" />
+    <aura:attribute access="private" type="List"    name="accountListOrigin"      default="[]"                              description="List of available origin accounts." />
+
+    <aura:attribute access="private" type="String"  name="headerLabel"            default="{!$Label.c.instantTransfer}"     description="Header label" />
+
+    <aura:attribute access="private" type="Map"     name="dataPaymentInformation" default="{}"                              description="Data of other information step." />
+    <aura:attribute access="private" type="Map"     name="dataSelectOrigin"       default="{}"                              description="Data of origin account step." />
+    <aura:attribute access="private" type="Map"     name="dataSelectDestination"  default="{}"                              description="Data of destiny account step." />
+    <aura:attribute access="private" type="Map"     name="dataSelectAmount"       default="{}"                              description="Data of amount step." />
+
+    <aura:attribute access="private" type="Integer" name="shownStep"              default="0"                               description="Indicates how many steps are being shown." />
+    <aura:attribute access="private" type="Integer" name="focusStep"              default="1"                               description="Step being focus at the moment." />
+    <aura:attribute access="private" type="Integer" name="lastModifiedStep"       default="1"                               description="Last changed step." />
+    <aura:attribute access="private" type="Integer" name="totalSteps"             default="6"                               description="Total of steps." />
+    
+    <aura:attribute access="public"  type="Boolean" name="CIB"                    default='true'                            description='check if the users is CIB or not'/>
+    <aura:attribute access="private"  type="String"  name="paymentId"             default=""                                description="ID of the current payment." />
+
+    <aura:attribute access="public"  type="Boolean" name="spinner"                default='true'/>
+
+    <aura:handler name="init" action="{!c.initComponent}" value="{!this}" />
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="headerModal" aria-modal="true" aria-describedby="contentModal">
+        <aura:if isTrue="{!v.spinner eq true}">
+            <lightning:spinner alternativeText="{!$Label.c.Loading}" size="medium" />
+        </aura:if>
+
+        <div class="slds-modal__container">
+            <c:CMP_B2B_ProcessHeader activeBy="{!v.focusStep}" hasBackButton="{!and(v.focusStep gt 1, v.focusStep le v.totalSteps)}" headerLabel="{!v.headerLabel}" totalSteps="{!v.totalSteps}" handleBack="{!c.handleBack}" />
+            <div id="topFind" tabindex="-1"/>
+            <div class="slds-modal__content" id="contentModal">
+                <div class="slds-is-relative">
+                    <div class="slds-grid__content">
+                        <aura:if isTrue="{!v.focusStep ge 6}">
+                            <c:CMP_B2B_PaymentSummary
+                                numberFormat="{!v.numberFormat}"
+                                aura:id="paymentSummary"
+                                dataSelectOrigin="{!v.dataSelectOrigin}"
+                                dataSelectDestination="{!v.dataSelectDestination}"
+                                dataSelectAmount="{!v.dataSelectAmount}"
+                                dataPaymentInformation="{!v.dataPaymentInformation}"
+                                CIB="{!v.CIB}"
+                                handleBack="{!c.handleBack}"
+                                />
+                        </aura:if>
+                        <aura:if isTrue="{!v.focusStep le 5}">
+                            <aura:if isTrue="{!v.shownStep ge 1}">
+                                <div class="first-step">
+                                    <c:CMP_B2B_SelectOrigin numberFormat="{!v.numberFormat}" focusStep="{!v.focusStep}" aura:id="selectOrigin" accountList="{!v.accountListOrigin}" data="{!v.dataSelectOrigin}" step="{!v.shownStep}" total="{!v.totalSteps}" lastModifiedStep="{!v.lastModifiedStep}"  handleContinue="{!c.handleContinue}"/>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!v.shownStep ge 2}">
+                                <div class="separation-line"></div>
+                                <c:CMP_B2B_SelectDestination aura:id="selectDestination"  numberFormat="{!v.numberFormat}" accountList="{!v.accountListDestination}" data="{!v.dataSelectDestination}" step="{!v.shownStep}" total="{!v.totalSteps}" lastModifiedStep="{!v.lastModifiedStep}" focusStep="{!v.focusStep}" handleContinue="{!c.handleContinue}"/>
+                            </aura:if>
+                            <aura:if isTrue="{!v.shownStep ge 3}">
+                                <div class="separation-line"></div>
+                                <c:CMP_B2B_SelectAmount CIB="{!v.CIB}" aura:id="selectAmount" focusStep="{!v.focusStep}" numberFormat="{!v.numberFormat}" data="{!v.dataSelectAmount}" sourceAccountData="{!v.dataSelectOrigin}" recipientAccountData="{!v.dataSelectDestination}" step="{!v.shownStep}" lastModifiedStep="{!v.lastModifiedStep}" handleContinue="{!c.handleContinue}" paymentId="{!v.paymentId}"/>
+                            </aura:if>
+                            <aura:if isTrue="{!v.shownStep ge 4}">
+                                <div class="separation-line"></div>
+                                <c:CMP_B2B_PaymentInformation  aura:id="paymentInformation" data="{!v.dataPaymentInformation}" sourceAccountData="{!v.dataSelectOrigin}" amountChangeData="{!v.dataSelectAmount}" step="{!v.shownStep}" lastModifiedStep="{!v.lastModifiedStep}" handleContinue="{!c.handleContinue}" focusStep="{!v.focusStep}" />                           
+                            </aura:if>
+                            <div class="no-border" id="endPage" tabindex="-1"> </div>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="bottomFind" tabindex="-1"/>
+
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

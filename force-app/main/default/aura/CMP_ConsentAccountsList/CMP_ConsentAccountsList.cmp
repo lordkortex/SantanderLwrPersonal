@@ -1,0 +1,78 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_consentAccountList">
+
+    <ltng:require scripts="/staticresources/Tostadas" />
+    <aura:attribute name="data" type="Object" />
+    <aura:attribute name="columns" type="List"/>
+
+    <aura:attribute name="sortedBy" type="String" default="Name"/>
+    <aura:attribute name="sortedDirection" type="String" default="asc"/>
+
+    <aura:attribute name="accountId" type="String" default="" />
+    <aura:attribute access="private" type="Boolean" name="spinner" />
+    
+    <aura:attribute name="PaginationList" type="Object"/>
+    <aura:attribute name="startPage" type="Integer" />
+    <aura:attribute name="endPage" type="Integer"/>
+    <aura:attribute name="totalRecords" type="Integer"/>
+    <aura:attribute name="pageSize" type="Integer" default="10"/>
+
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    <aura:handler name="closeModal" event="c:EVT_CloseConsentForm" action="{!c.manageNewAccountResult}"/>
+
+    <div class="slds-clearfix slds-m-bottom_large slds-p-top_large">
+        <div class="slds-media slds-no-space slds-grow">
+            <div class="slds-media__figure">
+                <span class="slds-avatar slds-avatar_medium">
+                    <lightning:icon iconName="standard:account" alternativeText="Account" title="Account" />
+                </span>
+            </div>
+            <div class="slds-media__body">
+                <p class="slds-text-title_caps slds-line-height_reset">{!$Label.c.Account}</p>
+                <h1 class="slds-page-header__title slds-m-right_small slds-align-middle slds-truncate" title="My Accounts">{!$Label.c.My_Account}</h1>
+            </div>
+            <div class="slds-float_right">
+                <lightning:button label="{!$Label.c.NewAccount}" title="{!$Label.c.NewAccount}" onclick="{!c.handleNewAccount}"/>
+            </div>
+        </div>
+    </div>
+
+    <aura:if isTrue="{!v.spinner eq true}">
+        <lightning:spinner alternativeText="Cargando lista..." size="medium" />
+    </aura:if>
+    <lightning:datatable
+            keyField="id"
+            data="{!v.PaginationList}"
+            columns="{!v.columns}"
+            hideCheckboxColumn="true"
+            onrowaction="{!c.editRecordAccount}"
+            onsort="{!c.updateColumnSorting}"
+            sortedBy="{!v.sortedBy}"  
+            sortedDirection="{!v.sortedDirection}"/>
+
+    <div class="slds-m-top_medium slds-align_absolute-center" >
+
+        <lightning:buttonGroup >
+
+            <lightning:button 
+                label="Previous" 
+                disabled="{!v.startPage == 0}" 
+                onclick="{!c.previous}" 
+                variant="brand"             
+                iconName='utility:back'/>
+
+            &nbsp; &nbsp; &nbsp;
+
+            <lightning:button 
+                label="Next" 
+                disabled="{!v.endPage >= v.totalRecords}" 
+                onclick="{!c.next}" 
+                variant="brand"
+                iconName='utility:forward' 
+                iconPosition='right'/>
+
+        </lightning:buttonGroup>
+    </div> 
+
+    <c:CMP_ConsentForm aura:id="modalNewAccount"/>
+
+</aura:component>

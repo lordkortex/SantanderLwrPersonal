@@ -1,0 +1,74 @@
+<template>
+    <div class="slds-combobox_container">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="dialog" role="combobox">
+            
+            <div class="slds-button slds-button_outline-brand buttonSelected buttonAccounts">
+                <div if:true={simple}>
+                    <div if:true={condition1}>
+                        {valuePlaceholder}&nbsp;<span class="number">  {number}</span>
+                    </div>
+                    <div if:false={condition1}>
+                        {valuePlaceholder}
+                    </div>
+                    
+                </div>
+                <div if:false={simple}>
+                    <div if:true={condition2}>
+                        {valuePlaceholder}&nbsp;<span class="number">(1)</span>
+                        
+                    </div>
+                    <div if:false={condition2}>
+                        {valuePlaceholder}
+                    </div>
+                </div>
+                
+                <div data-id="button" aria-describedby="dialog-body-id-25" aria-label="" class={clase1} id="popover-unique-id-02" role="dialog">
+                    <div class="slds-popover__body" id="dialog-body-id-25">
+                        <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <div if:true={simple}>
+                                    <template for:each={values} for:item='item' if:true={condition3}>
+                                        <div key={item.id}>
+                                            <lightning-input type="checkbox" label={item} value={selectedValues} aura:id="checkbox" class="hideCheckbox selectedOption" id={item} onchange={selectOption}></lightning-input>
+                                        </div>
+                                        
+                                    </template>
+                                    <template for:each={values} for:item='item'  if:false={condition3}>
+                                        <div key={item.id}>
+                                            <lightning-input  type="checkbox" label={item} value={selectedValues} data-id="checkbox" class="hideCheckbox" id={item} onchange={selectOption}></lightning-input>
+                                        </div>
+                                        
+                                    </template>
+                                </div>  
+                                <div if:false={simple}>
+                                    <!--<lightning-checkbox-group 
+                                            options={values}
+                                            value={selectedValues}
+                                            onchange={selectOption}>
+                                    </lightning-checkbox-group>
+                                    <p>Selectd Values are:{selectedValues}</p>-->
+                                    <template for:each={values} for:item='item'  if:false={condition3}>
+                                        <div key={item.id}>
+                                            <lightning-input  type="checkbox" label={item} data-id="checkbox" name={item} onchange={selectOption}></lightning-input>
+                                        </div>
+                                        
+                                    </template>
+                                    <!--<aura:iteration items="{!v.values}" var="item">
+                                        <ui:inputCheckbox  label="{!item}" aura:id="checkbox"  name="{!item}" change="{!c.selectOption}"/>
+                                    </aura:iteration>  -->
+                                </div>
+                                
+                            </div>
+                        </fieldset>
+                    </div>
+                    <footer class="slds-popover__footer">
+                    <button class="slds-button slds-button_neutral whiteButton" onclick={clear}>{clearAll}</button>
+                    <button class="slds-button slds-button_brand redButton" onclick={apply}>{appli}</button>
+                    </footer>
+                </div>
+            <!--</div>-->
+            </div>
+        </div>
+        
+    </div>
+</template>

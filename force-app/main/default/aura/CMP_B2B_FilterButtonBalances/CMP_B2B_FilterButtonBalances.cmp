@@ -1,0 +1,91 @@
+<aura:component>
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public"  type="Boolean" name="showDropdown"   default="false" description="Indicates if the dropdown mus be active." />
+    <aura:attribute access="public"  type="Decimal" name="minimumBalance" default=""      description="Minimum value to filter the balance." />
+    <aura:attribute access="public"  type="Decimal" name="maximumBalance" default=""      description="Maximum value to filter the balance." />
+    <aura:attribute access="private" type="Decimal" name="amountInformed" default=""      description="Total of informed Amount." />
+    <aura:attribute access="public"  type="String"  name="numberFormat"           default='###,###,###.##'                  description="User number Format" />
+    <aura:attribute access="public"  type="String"  name="locale"/>
+    <aura:attribute access="public"  type="String"  name="decimalSeparator" />
+    <aura:attribute access="public"  type="String"  name="thousandsSeparator"/>
+    <aura:attribute access="public"  type="String"  name="formattedValueFrom"/>
+    <aura:attribute access="public"  type="String"  name="formattedValueTo"/>
+    <aura:attribute access="public"  type="String"  name="userInputFrom" default =''/>
+    <aura:attribute access="public"  type="String"  name="userInputTo" default=''/>
+    <aura:attribute access="public"  type="String"       name="errorMSG"           default="{!$Label.c.toAmountLowerThanFrom}"        description="Indicates the error when clicked on continue." />
+    <aura:attribute access="public"  type="Boolean" name="errorAmounts"     default="false" description="Indicates if the dropdown has an error." />
+    
+    <aura:attribute access="private"  type="Boolean" name="showFromMiniLabel"   default="false" description="Indicates if the minilabel shows in the From field on focus" />
+    <aura:attribute access="private"  type="Boolean" name="showToMiniLabel"   default="false" description="Indicates if the minilabel shows in the To field" />
+ 	<aura:attribute access="public"  type="Boolean" name="clearBalances"   default="false" description="Indicates if the balances' input must be cleared or not" />
+
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    <!--<aura:handler name="change" value="{!v.minimumBalance}"      action="{!c.valueChanges}"/>
+    <aura:handler name="change" value="{!v.maximumBalance}"      action="{!c.valueChanges}"/>-->
+
+    <aura:registerEvent name="saveFilters" type="c:EVT_B2B_saveFilterAccounts"/>
+    <aura:handler name="change"         action="{!c.handlerClearBalances}"              value="{!v.clearBalances}" />
+
+    <div class="slds-combobox_container">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+            <!-- Añadir la clase filterButton cuando el boton esté filtrado -->
+            <button class="{!'slds-button buttons' + (v.amountInformed gt 0 ? ' filterButton' : '')}" onclick="{!c.handleDropdownButton}">{!$Label.c.B2B_Balance}
+              <!--  <div class="numberSelected">
+                    <span>
+                        {!v.amountInformed}
+                    </span>
+                </div>-->
+                <div class="{!(v.showDropdown eq true ? 'icon-arrowUp_small' : 'icon-arrowDown_small')}" />
+            </button>
+            <aura:if isTrue="{!v.showDropdown eq true}" >
+                <section aria-describedby="dialog-body-id-4" aria-label="" class="slds-popover slds-popover_full-width" id="popover-unique-id-04" role="dialog">
+                    <div class="slds-popover__body" id="dialog-body-id-4">
+                        <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <div class="titleOptions">{!$Label.c.filterBy}</div>
+                                <!-- INPUT 1-->
+                                <div class="{!'slds-form-element input' + (v.errorAmounts eq true ? ' error':'')}">
+                                    <aura:if isTrue="{!or(v.showFromMiniLabel eq true, not(empty(v.userInputFrom)))}">
+                                        <label class="slds-form-element__label amountLabel" for="from">{!$Label.c.from}</label>
+                                    </aura:if>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!--<ui:inputNumber placeholder="{!$Label.c.from}"  class="slds-input balances" value="{!v.minimumBalance}" format="#.##0,##" />-->
+                                        <input type="text" id="from"  aura:id="from"   placeholder="{!$Label.c.from}" value="{!v.formattedValueFrom}" class="{!'slds-input balances '+ (v.errorAmounts eq true ? 'error' : '') }" name="amount" onchange="{!c.valueChanges}" oninput="{!c.handleInputAmount}"  onfocus="{!c.handleFocusAmount}" onblur="{!c.handleBlurAmount}" disabled="{!v.disabled}" />
+                                    </div>
+                                </div>
+                                
+                                
+                                <!-- INPUT 2-->
+                                <div class="{!'slds-form-element input' + (v.errorAmounts eq true ? ' error':'')}">
+                                    <aura:if isTrue="{!or(v.showToMiniLabel eq true, not(empty(v.userInputTo)))}">
+                                        <label class="slds-form-element__label amountLabel" for="to">{!$Label.c.to}</label>
+                                    </aura:if>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <!--<ui:inputNumber placeholder="{!$Label.c.to}" class="slds-input balances" value="{!v.maximumBalance}" format="#.##0,##" />-->
+                                        <input type="text" id="to" aura:id="to"  placeholder="{!$Label.c.to}"  value="{!v.formattedValueTo}" class="{!'slds-input balances '+ (v.errorAmounts eq true ? 'error' : '') }" name="amount" onchange="{!c.valueChanges}" onfocus="{!c.handleFocusAmount}" oninput="{!c.handleInputAmount}" onblur="{!c.handleBlurAmount}" disabled="{!v.disabled}" />
+                                        <aura:if isTrue="{!v.errorAmounts==true}">
+                                            <div class="errorText">
+                                                <!-- {!v.errorMSG} -->
+                                                {!$Label.c.PAY_ErrorToAmount}
+                                            </div>
+    
+                                            <aura:set attribute="else">
+                                                <span class="slds-form-element__help"/>
+                                            </aura:set>
+                                        </aura:if>
+    
+                                    </div>
+                                </div> 
+                            </div>
+                        </fieldset>
+                    </div>
+                    <footer class="slds-popover__footer">
+                        <button class="slds-button slds-button_brand primary button_small" onclick="{!c.handlerApplyFilters}">{!$Label.c.apply}</button>
+                        <button class="slds-button slds-button_neutral secondary button_small" onclick="{!c.handlerClearFilters}">{!$Label.c.clearAll}</button>
+                    </footer>
+                </section>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,58 @@
+<!-- Author:       	 Diego Asis
+     Company:        Deloitte
+     Description:    Function to display only the necessary rows in the tables
+     History
+     <Date>			<Author>			<Description>
+ 	 11/02/2020		Diego Asis		     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="title" 				type="String" 	description="Modal title"/>
+    <aura:attribute name="firstDescription" 	type="String" 	description="Modal first part of the description"/>
+    <aura:attribute name="secondDescription"	type="String" 	description="Modal second part of the description"/>
+    <aura:attribute name="showModal" 			type="Boolean" 	default="false"/>
+    <aura:attribute name="authorizationId" 		type="String" 	description="AuthorizationId"/>
+    <aura:attribute name="indexAuthorization" 	type="Integer" 	description="Contains the position of the authorization to delete"/>
+    
+    <aura:registerEvent name="authorizationDelete" type="c:EVT_AuthorizationDelete" />
+    
+    <aura:if isTrue="{!v.showModal}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container modal_list">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                        <!-- <svg class="slds-button__icon slds-button__icon_large" aria-hidden="true">
+                                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                              </svg>-->
+                        <div class="slds-button button-page icon-close" data-title-top-center="{!$Label.c.T_Close}" onclick="{!c.btnClose}"></div> 
+                        <span class="slds-assistive-text">{!$Label.c.close}</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.title}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <ul>
+                        <li>
+                            <div class="circle icon-circle__blue" ></div> 
+                            <div class="text-list"> {!v.firstDescription} </div>
+                        </li>
+                        <li>
+                            <div class="circle icon-circle__blue" ></div> 
+                            <div class="text-list"> {!v.secondDescription} </div>
+                        </li>
+                    </ul> 
+                </div>
+                <footer class="slds-modal__footer">
+                    <div class="slds-form-element">
+                        <div class="slds-media__body">
+                            <div class="keypad" data-title="{!$Label.c.No}"><button class="slds-button slds-button_brand whiteButton" onclick="{!c.btnNo}">{!$Label.c.No}</button></div>
+                            <div data-title="{!$Label.c.Yes}"><button class="slds-button slds-button_brand redButton" onclick="{!c.btnYes}">{!$Label.c.Yes}</button></div>          
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+</aura:component>

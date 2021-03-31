@@ -1,0 +1,181 @@
+.THIS .container-account-config {
+	background-color: #eff6f9;
+	padding: 0 64px 24px 64px;
+}
+.THIS .slds-button:focus {
+    box-shadow: none;
+}
+.THIS .slds-dueling-list__column .slds-button:first-of-type {
+	top: 26px;
+}
+.THIS .slds-dueling-list__column .slds-button:last-of-type {
+	left: 4px;
+	position: relative;
+	top: 18px;
+}
+.THIS .slds-media__body .slds-truncate {
+	line-height: 16px;
+}
+.THIS .slds-dueling-list__column .slds-button {
+	margin-top: 0;
+}
+.THIS .icon-arrowRight, .THIS .icon-arrowLeft {
+	font-size: 16px;
+}
+
+.THIS .button-arrow[disabled]:before,
+.THIS [class^="icon-"][disabled]:before,
+.THIS [class*=" icon-"][disabled]:before{
+	cursor: not-allowed;
+	color: #cccccc;
+}
+
+.THIS .slds-dueling-list {
+	flex-direction: row;
+	justify-content: center;
+	margin-top: 16px;
+}
+
+.THIS .slds-dueling-list__options {
+	border: none;
+	max-height: 152px;
+	min-width: 504px;
+	padding-right: 8px;
+}
+.THIS .slds-listbox__option_plain {
+	color: #444444;
+	font-size: 12px;
+	line-height: 12px;
+	margin: 0;
+	padding: 6px 0;
+	padding-left: 16px;
+}
+.THIS .slds-scrollable_y::-webkit-scrollbar {
+	scroll-margin: 0 10px 0 0;
+	width: 6px;
+}
+.THIS .slds-scrollable_y::-webkit-scrollbar-track {
+	border-radius: 10px;
+	margin-top: 8px;
+}
+.THIS .slds-scrollable_y::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.THIS .slds-scrollable_y::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+.THIS .slds-button + .slds-button_icon-container:last-child {
+	margin-left: 0;
+}
+.THIS .lastPill {
+	display: flex;
+	justify-content: flex-end;
+	margin: 24px 0 0 0;
+}
+
+.THIS .redButton {
+	background-color: #ec0000;
+	border: solid 1px #ec0000;
+	transition: all 0.2s ease-in-out;
+	border-radius: 24px;
+	color: #ffffff;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	padding: 0 32px;
+	margin-left: 16px;
+}
+
+.THIS .redButton:hover {
+	background-color: #cc0000;
+	border: 1px solid #cc0000;
+}
+
+.THIS .slds-button.redButton:disabled,
+.THIS .slds-button.whiteButton:disabled {
+	background-color: #cccccc;
+	border: solid 1px #cccccc;
+	color: white;
+}
+
+.THIS .redButton:focus{
+	background-color: #cc0000;
+	border: 1px solid #cc0000;
+}
+
+.THIS .whiteButton {
+	background-color: #ffffff;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	padding: 0 32px;
+	transition: all 0.2s ease-in-out;
+}
+.THIS .whiteButton:hover {
+	background-color: #f6f6f6;
+	border: 1px solid #cc0000;
+	color: #cc0000;
+
+}
+.THIS.whiteButton:focus {
+	box-shadow: 2px 2px 4px 2px rgba(206, 214,219,0.64);
+	background-color: #f6f6f6;
+	border: 1px solid #cc0000;
+	color: #cc0000;
+}
+
+/* ARROW AND HEADER */
+.THIS .arrow {
+	align-items: center;
+	display: flex;
+}
+
+.THIS .button-arrow {
+	cursor: pointer;
+	font-size: 24px;
+}
+
+.THIS .slds-card__header-title {
+	margin: 8px 0;
+}
+
+.THIS .slds-media__figure{
+	margin: 0 16px 0 0;
+}
+
+
+.THIS .slds-card__header-title span.title {
+	color: #444444;
+	font-size: 16px;
+	line-height: 24px;
+	margin-right: 8px;
+}
+
+
+.THIS .slds-card__header-title span.subtitle {
+	color: #a2a2a2;
+	font-size: 12px;
+	font-stretch: normal;
+	font-style: normal;
+	font-weight: normal;
+	letter-spacing: normal;
+	line-height: 1.5;
+}
+
+.THIS.slds-grid__collapse {
+	margin-top: 16px;
+	box-shadow: inset 0 -1px 0 0 #c7c7c7;
+}
+
+.THIS .icon-arrowDown_big:before,
+.THIS .icon-arrowUp_big:before{
+    color: #444444;
+}
+
+.THIS .slds-form-element_horizontal:not(.slds-form-element_readonly){
+	margin-bottom: 0;
+}

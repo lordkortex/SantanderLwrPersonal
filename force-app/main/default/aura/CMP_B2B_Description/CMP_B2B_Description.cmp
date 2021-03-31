@@ -1,0 +1,47 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute access="public"         type="Boolean"      name="isModified"                                   description="Indicates if the input data has been modified." />
+    <aura:attribute access="public"         type="Boolean"      name="resetData"            default="false"                        description="Indicates if the input data has been changed." />
+ 	<aura:attribute access="public"         type="String"       name="value"                default=""              description="Text entered by user" />
+    <aura:attribute access="public"         type="Integer"      name="charactersMax"        default="140"           description="Character limit" />
+    <aura:attribute access="public"         type="Integer"      name="charactersRemaining"  default="140"           description="Characters remaining until reaching the limit" />
+    <aura:attribute access="public"         type="String"       name="placeholder"          default="{!$Label.c.reference+' ('+$Label.c.optional+')'}"     description="Text for minilabel and placeholder of input field."/>
+    <aura:attribute access="private"        type="Boolean"      name="showMiniLabel"        default="false"         description="Control to show mini label on focus or when there is input." />
+    <aura:attribute access="public"         type="Boolean"      name="grow"                 default="true"          description="Sey if the input has to grow when typing" />
+    <aura:attribute access="public"         type="String"       name="errorMSG"                                     description="Error message." />
+    <aura:attribute access="public"         type="Map"          name="steps"                                        description="Data of the steps." />
+    <aura:attribute access="public"         type="Boolean"      name="isEditing"            default="false"          description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+
+
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <div class="{!(not(empty(v.errorMSG)) ? 'error' : '') + ' slds-form-element textarea'}">
+
+        <aura:if isTrue="{!or(not(empty(v.value)), v.showMiniLabel eq true)}">
+            <label class="slds-form-element__label" for="textareaDescription">{!v.placeholder}</label>
+        </aura:if>              
+        <div class="slds-form-element__control auto-resize">            
+            <textarea id="textareaDescription" class="slds-textarea" placeholder="{!v.placeholder}" value ="{!v.value}" oninput="{!c.handleInput}" onchange="{!c.handleInput}" onfocus="{!c.handleFocus}" onblur="{!c.handleBlur}"></textarea>
+            <aura:if isTrue="{!not(empty(v.value))}">
+                <button class="slds-button slds-button_icon" onclick="{!c.handleClear}"> 
+                    <div class="slds-button__icon icon-close_filledCircle"></div>
+                    <span class="slds-assistive-text">{$Label.c.clearTheTextArea}</span>
+                </button>
+            </aura:if>           
+        </div>
+        <aura:if isTrue="{!not(empty(v.errorMSG))}">
+            <div class="errorText">{!v.errorMSG}</div>
+            <aura:set attribute="else">
+                <div class="helperText">
+                    <!-- <span>{!'Max '+v.characterMax+' characters'</span> -->
+                    <span> {!v.charactersRemaining}&nbsp;{!$Label.c.charactersRemaining}</span>
+                </div>
+            </aura:set>
+        </aura:if>
+
+        
+    </div>
+
+</aura:component>

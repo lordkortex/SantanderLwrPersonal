@@ -1,0 +1,7 @@
+<aura:event type="COMPONENT"  >
+    <aura:attribute name="toDelete" type="Map"
+    default="{
+             account : '',
+             bic : ''                          
+             }"    />  
+</aura:event>

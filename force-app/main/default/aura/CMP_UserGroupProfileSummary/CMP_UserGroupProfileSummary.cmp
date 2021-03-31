@@ -1,0 +1,87 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Summary about the user group profile
+History
+<Date>			<Author>		<Description>
+10/01/2019		Pablo Tejedor     Initial version-->
+<aura:component controller="CNT_UserNewButtonsController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+
+    <!-- DATA ATTRIBUTES -->
+    <aura:attribute name="userId" type="String" default=" " description="Id of the user"/>
+    <aura:attribute name="userName" type="String" default=" " description="name of the group"/>
+    <aura:attribute name="rolName" type="String" default=" " description="name of the group"/>
+    <aura:attribute name="groupName" type="String" default=" " description="name of the group"/>
+    <aura:attribute name="groupId" type="String" default=" " description="name of the group"/>
+    <aura:attribute name="groupAuth" type="String" default=" " description="name of the group"/>
+
+    <!-- NAVIGATION ATTRIBUTES -->
+    <aura:attribute name="onlyRetunr" type="Boolean" Description="Show only the ReturnButton"  default= "true"/>
+    <aura:attribute name="comesFromGroups" type="boolean" default="false" />
+    <aura:attribute name="comesFromUsers" type="boolean" default="true" />
+    <aura:attribute name="comesFrom" type="String" description="Checks where this component comes from" />
+
+    <aura:attribute name="dataExpanded" type="boolean" default="true" />
+
+    <!--ATTRIBUTES  FOR Profile Reports-->
+    <aura:attribute type="boolean" name="Step2dataExpanded" default="true" description="Checks if the values are expanded"/>
+    <aura:attribute name="entitlementName" type="List" description="Name of the entitlement" default = "[]"/>
+    <aura:attribute name="SummaryActivated" type="Boolean" description="hide the summary"/>
+
+    <aura:attribute name="hasProfile"     type="Boolean" default="true" description="checks if has profiling the page where this comes from" />
+
+
+    <!-- PROFILING TABLE ATTRIBUTES (STEP 3) -->
+    <aura:attribute name="profilingTableExpanded" type="Boolean" default="true" description="Expands the profiling table details"/>
+    <aura:attribute name="profilingTableInnerData" type="List" description="Data to be grouped in the table"/>
+
+
+    <!--ATTRIBUTES FOR ENTITLEMENT DATA-->
+    <aura:attribute name="countries" type="List" description="List of countries to be available for filtering"/>
+    <aura:attribute name="countriesMap" type="Map" description="Map of country name to country code"/>
+    <aura:attribute name="accounts" type="List" description="List of accounts to be available for filtering"/>
+    <aura:attribute name="entitlements" type="List" description="List of entitlements to be available for filtering"/>
+    <aura:attribute name="breadCrumbs" type="List" default="['UserGroupProfile','UserGroupProfileSummary']" description="Breadcrumbs for navigation" />
+    <!--PARAM URL ATTRIBUTTES-->
+    <aura:attribute name="selectedValueRol" type="String" description="Selected rol from the dropdown" />
+    <aura:attribute name="selectedValueGroup" type="String" description="Selected group from the dropdown" />
+
+    <!--Aura Handlers-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+<c:CMP_ServiceComponent aura:id= "Service"/>
+
+    <!--BreadCrumb Component, use to show the tittle, subtittle and the arrow to go back-->
+    <c:CMP_TitleBreadcrumb title="{!$Label.c.UserGroupProfileSummary}" 
+                breadcrumb="{!v.breadCrumbs}"/>
+
+
+    <!-- Component to show Info about the user group profile -->
+    <c:CMP_UserNew_Header userId="{!v.userId}" userName="{!v.userName}"
+            userRol="{!v.rolName}" userGroup="{!v.groupName}" currentStageNumber="3"
+            isUsers="{!v.comesFromUsers}" isGroup="{!v.comesFromGroups}"
+            groupName="{!v.groupName}"
+            />
+
+    <!-- Component to show the tabs  -->
+    <c:CMP_GroupNewS2_Tabs/>
+
+    <!-- Component to show the profile Reports  -->
+    <c:CMP_GroupNewS2_ReportsTitle dataExpanded="{!v.Step2dataExpanded}" />
+    <c:CMP_GroupNewS2_EntitlementsTable  entitlementName="{!v.entitlementName}"/>
+    <c:CMP_GroupNewS2_ProfilingTable aura:id="profilingTable" dataExpanded="{!v.Step2dataExpanded}" 
+    data="{!v.profilingTableInnerData}" isSummary="false"/>
+
+    <!-- Component to show the buttons  -->
+    <c:CMP_UserGroupProfileSummatyButtons onlyRetunr="{!v.onlyRetunr}" 
+            selectedValueRol="{!v.rolName}"
+            selectedValueGroup="{!v.groupName}"
+            userId="{!v.userId}"
+            userName="{!v.userName}"
+            comesFromUsers="{!v.comesFromUsers}"
+            comesFromGroups="{!v.comesFromGroups}"
+            hasData="{!v.hasProfile}"
+            comesFrom = "{!v.comesFrom}"/>
+
+
+</aura:component>

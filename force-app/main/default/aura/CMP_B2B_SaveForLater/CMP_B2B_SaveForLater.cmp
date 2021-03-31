@@ -1,0 +1,50 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" type="Boolean"  name="fromUtilityBar" default="false"/>
+    <aura:attribute access="public" type="Boolean"  name="fromDetail" default="false"/>
+    
+    
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalCancel" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container sizeS">  
+           <div class="  modal-content">  
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close" onclick="{!c.handleCancelNO}" >
+                    <div class="icon-close_big"></div> 
+                    <span class="slds-assistive-text">{!$Label.c.close}</span>
+                </button>
+                <div class="title">
+                    <h2 id="modal-heading-01"  class="slds-modal__title">{!$Label.c.B2B_SaveLaterQuestion}</h2>
+                    <p class="modalContent-subtitle">{!$Label.c.B2B_SaveLaterDescription}</p>
+                   <!-- <aura:if isTrue="{!or(v.fromUtilityBar eq true, v.fromDetail eq true)}">
+                        <h2 id="modal-heading-01"  class="slds-modal__title">{!$Label.c.B2B_SaveLaterQuestion}</h2>
+                        <aura:set attribute="else">
+                            <h2 id="modal-heading-01"  class="slds-modal__title">{!$Label.c.B2B_SaveLaterDescription}</h2>
+                        </aura:set>
+                    </aura:if>  
+                     -->
+                    <div class="title-line"></div>
+                </div>
+            </header>
+            <!--<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <p>If you get out of this transfer process, later you will not have the option to recover it.</p> 
+            </div>-->
+            <footer class="slds-modal__footer"> 
+                <div class="modal-footer-buttons">
+                    <aura:if isTrue="{!or(v.fromUtilityBar eq true, v.fromDetail eq true)}">
+                        <button class="slds-button primary button_small button_full" onclick="{!c.handleCancelYES}">{!$Label.c.B2B_Button_SaveIt}</button> 
+                        <button class="slds-button secondary button_small button_full" onclick="{!c.handleCancelNO}">{!$Label.c.cancel}</button>
+                        <aura:set attribute="else">
+                            <button class="slds-button primary button_small button_full" onclick="{!c.handleCancelYES}">{!$Label.c.B2B_Button_SaveIt}</button> 
+                            <button class="slds-button secondary button_small button_full" onclick="{!c.handleCancelNO}">{!$Label.c.cancel}</button>     
+                        </aura:set>
+                    </aura:if>
+                </div> 
+            </footer>  
+          </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+
+</aura:component>

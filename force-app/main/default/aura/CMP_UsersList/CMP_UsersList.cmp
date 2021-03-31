@@ -1,0 +1,160 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Component of the user table from the main user screen.
+History
+<Date>			<Author>		<Description>
+20/01/2020		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="usersList" type="List" description="List of users that the table will contain"/>
+
+
+    <!-- PAGINATION ATTRIBUTES -->
+    <aura:attribute name="usersPerPage"    type="Integer"  default="40" description="Number of rows to show in each page of the table"/>
+    <aura:attribute name="currentPage"      type="Integer"  default="1" description="current page of the pagination"/>
+    <aura:attribute name="oldPage"          type="Integer"  default="1" description="previous page of the pagination"/>
+    <aura:attribute name="start"            type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"              type="Integer"  description="Row number of the last displayed row"/>
+    <aura:attribute name="paginatedUsers"    type="List"/>
+
+    <!-- SORT FILTERS ATIBUTTES -->
+    <aura:attribute name="sortUserId" type="String" default='desc'/>
+    <aura:attribute name="sortType" type="String" default='desc'/>
+    <aura:attribute name="sortState"  type="String" default='desc'/>
+
+    <aura:handler name="change" value="{!v.usersList}" action="{!c.paginationChange}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTablePage}"/>
+
+    <!-- COMPONENT MARKUP -->
+
+    <c:CMP_Pagination allData="{!v.usersList}" paymentsPerPage="{!v.usersPerPage}" aura:id="pagination"/>
+    <aura:registerEvent name="ListClickedEvent" type="c:EVT_UsersListButtonClicked"/>
+
+
+
+    <!--TABLE-->
+    <div class="slds-table--header-fixed_container slds-table_edit_container slds-is-relative">
+        <div class="slds-scrollable_y">
+            <table aria-multiselectable="true" class="slds-table slds-table_edit slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped slds-table_fixed-layout" role="grid">
+
+                <!--HEADER-->
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th aria-label="User Id." aria-sort="ascending" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.Users_UserId}">{!$Label.c.Users_UserId}</span>
+                                <span class="{!v.sortUserId == 'desc' ? 'button-orderRight icon-alphabeticalOrderDown' : 'button-orderRight icon-alphabeticalOrderUp'}" title="{!$Label.c.T_AlphabeticalOrder}" id="UserId" onclick="{!c.sort}"></span>
+                            </div>
+                        </th>
+                        <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.GroupList_Name}">{!$Label.c.GroupList_Name}</span>
+                            </div>
+                        </th>
+                        <th aria-label="Type" aria-sort="ascending" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.Users_Type}">{!$Label.c.Users_Type}</span>
+                                <span class="{!v.sortType == 'desc' ? 'button-orderRight icon-alphabeticalOrderDown' : 'button-orderRight icon-alphabeticalOrderUp'}" title="{!$Label.c.T_AlphabeticalOrder}" id="Type" onclick="{!c.sort}"></span>
+                            </div>
+                        </th>
+                        <th aria-label="Rol" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.Users_Role}">{!$Label.c.Users_Role}</span>
+                            </div>
+                        </th>
+                        <th aria-label="Group" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.GroupNew_Group}">{!$Label.c.GroupNew_Group}</span>
+                            </div>
+                        </th>
+
+                        <th aria-label="State" aria-sort="ascending" class="slds-is-resizable slds-is-sortable" scope="col">
+                            
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" title="{!$Label.c.State}">{!$Label.c.Users_State}</span>
+                                <span class="{!v.sortState == 'desc' ? 'button-orderRight icon-alphabeticalOrderDown' : 'button-orderRight icon-alphabeticalOrderUp'}" title="{!$Label.c.T_AlphabeticalOrder}" id="State" onclick="{!c.sort}"></span>
+                            </div>
+                        </th>
+
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" title=""></div>
+                        </th>
+                    </tr>
+                </thead>
+
+                <!--BODY-->
+                <tbody>
+                    <aura:iteration items="{!v.usersList}" start="{!v.start}" end="{!v.end}" var="item" indexVar="index"> 
+                        <!--ROW2-->
+                        <tr aria-selected="false" class="slds-hint-parent">
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate" >{!item.userId}</span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate" >{!item.userName}{!item.userSurname}</span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread">
+                                    <!--<span class="slds-truncate" >{!item.type}</span>-->
+                                    <span class="slds-truncate" >{!item.type_Z}</span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate" >{!item.role}</span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate" >{!item.groupName}</span>
+                                </span>
+                            </td>
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate">{!item.state}</span>
+                                </span>
+                            </td>
+                            <td role="gridcell">
+                                <aura:if isTrue="{!item.type_Z != 'Administrator'}">
+                                    <button class="slds-button slds-button_icon icon-profile" data-title-on-right="{!$Label.c.T_Profile}" id="{!'profileButton-' + index}" onclick="{!c.handleButtonClick}"></button>
+                                </aura:if>
+                            </td>
+                            <td role="gridcell">
+                                    <button class="slds-button slds-button_icon icon-edit" data-title-on-right="{!$Label.c.T_Modify}" id="{!'modifyButton-' + index}" onclick="{!c.handleButtonClick}"></button>
+                            </td>
+                            <td role="gridcell">
+                                <aura:if isTrue="{!item.type_Z != 'Administrator'}">
+                                    <button class="slds-button slds-button_icon icon-viewProfile" data-title-on-right="{!$Label.c.T_ViewInformation}" id="{!'viewButton-' + index}" onclick="{!c.handleButtonClick}"></button>
+                                </aura:if>
+                            </td>
+                            <td role="gridcell">
+                                    <button class="slds-button slds-button_icon icon-regeneratePassword" data-title-on-right="{!$Label.c.T_ResetPassword}" id="{!'regeneratePasswordButton-' + index}" onclick="{!c.handleButtonClick}"></button>
+                            </td>
+                            <td role="gridcell">
+                                    <button class="slds-button slds-button_icon icon-trash" data-title-on-right="{!$Label.c.T_Delete}" id="{!'deleteButton-' + index}" onclick="{!c.handleButtonClick}"></button>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

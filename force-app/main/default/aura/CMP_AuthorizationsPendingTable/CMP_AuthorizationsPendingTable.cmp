@@ -1,0 +1,79 @@
+<!--
+Author:         Diego Asis
+Company:        Deloitte
+Description:    Component to show each of the rows of the Authorisations results table
+History
+<Date>			<Author>		    <Description>
+30/01/2019		Diego Asis		    Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_ViewAuthorization">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="pendingAuthorizations" type="Object[]" description="List of pending authorizations to display in the table"/>
+    <aura:attribute name="title" type="String" description="Modal title"/>
+    <aura:attribute name="question" type="String" description="Modal question"/>
+    <aura:attribute name="showDeletePopup" type="Boolean" description="Delete pop up"/>
+    <aura:attribute name="authorizationId" type="String" description="Modal AuthID"/>
+    <aura:attribute name="indexAuthorization" type="Integer" description="Modal AuthIndex"/>
+    <aura:attribute name="nomAuthorization" type="String" description="Modal - contains the name of the selected authorization" />
+    <aura:attribute name="stateAuthorization" type="String" description="Modal - contains the current state of the authorization" />
+    <aura:attribute name="actionAuthorization" type="String" description="Modal - contains the action performed" />
+    <aura:attribute name="objAuthorization" type="String" description="Modal - contains the type of object modified" />
+    
+    <!-- PAGINATION ATTRIBUTES -->
+    <aura:attribute name="authsPerPage" 	type="Integer" default="40"/>
+    <aura:attribute name="currentPage"      type="Integer"  default="1" description="current page of the pagination"/>
+    <aura:attribute name="oldPage"          type="Integer"  default="1" description="previous page of the pagination"/>
+    <aura:attribute name="start"            type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"              type="Integer"  description="Row number of the last displayed row"/>
+    <aura:attribute name="paginatedAuths"    type="List"/>
+    
+    <!-- COMPONENT HANDLERS -->
+    <aura:handler name="change" value="{!v.pendingAuthorizations}" action="{!c.paginationChange}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTableData}"/> 
+    <aura:handler name="authorizationsPending" event="c:EVT_AuthorizationsPending" action="{!c.openModal}"/>
+    
+     <!-- PAGINATION --> 
+    <c:CMP_Pagination allData="{!v.pendingAuthorizations}" paymentsPerPage="{!v.authsPerPage}" aura:id="pagination"/>
+    
+    <!-- TABLE -->  
+    <div class="slds-table--header-fixed_container pendingTable">
+        <div class="slds-scrollable_y">
+            <table class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                <!-- HEADER -->  
+                <thead>
+                    <tr class="slds-text-title_caps">
+                        <th class="administrator" scope="col">
+                            <div class="slds-truncate slds-cell-fixed slds-th__action" >{!$Label.c.Administrator}</div>
+                        </th>
+                        <th class="requestDate" scope="col">
+                            <div class="slds-truncate slds-cell-fixed slds-th__action" >{!$Label.c.Request_Date}</div>
+                        </th>
+                        <th class="authorizeAction" scope="col">
+                            <div class="slds-truncate slds-cell-fixed slds-th__action" >{!$Label.c.Authorise_Action}</div>
+                        </th>
+                        <th class="containerIcon" scope="col">
+                            <div class="slds-truncate slds-cell-fixed slds-th__action" ></div>
+                        </th>
+                        <th class="containerIcon" scope="col">
+                            <div class="slds-truncate slds-cell-fixed slds-th__action" ></div>
+                        </th>
+                        <th class="containerIcon" scope="col">
+                            <div class="slds-truncate slds-cell-fixed slds-th__action" ></div>
+                        </th>
+                    </tr>
+                </thead>
+                <!-- BODY -->  
+                <tbody>
+                    <aura:iteration items="{!v.pendingAuthorizations}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index">
+                        <c:CMP_AuthorizationsPendingRow item="{!item}" itemPosition="{!index}"/>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <c:CMP_AuthorizationsModal aura:id="authorizationsModal" title="{!v.title}" question="{!v.question}" showModal="{!v.showDeletePopup}" authorizationId="{!v.authorizationId}" indexAuthorization="{!v.indexAuthorization}" nomAuthorization="{!v.nomAuthorization}" stateAuthorization="{!v.stateAuthorization}" actionAuthorization="{!v.actionAuthorization}" objAuthorization="{!v.objAuthorization}"/>
+</aura:component>

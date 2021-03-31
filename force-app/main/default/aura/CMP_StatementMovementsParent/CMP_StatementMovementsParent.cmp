@@ -1,0 +1,74 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Parent component of the statements movements
+History
+<Date>			<Author>		<Description>
+14/05/2020		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access = "Global" controller="CNT_StatementHistoryController" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <!-- Global information -->
+    <aura:attribute name="userInfo"         type="Object"      default="{}"            description="Contains the user info" />
+
+    <!-- Account and header attributes -->
+    <aura:attribute name="accountInfo"      type="Map"      default="{}"            description="Contains the data of the account" />
+    <aura:attribute name="closeringBalance_Formatted"   type="Decimal"       default="0.0"          description="Contains the closing balance" />
+    <aura:attribute name="closeringBalanceDecimals_Formatted"   type="Decimal"       default="0.0"          description="Contains the closing balance decimals" />
+    <aura:attribute name="openingBalance_Formatted"   type="Decimal"       default="0.0"          description="Contains the opening balance" />
+    <aura:attribute name="openingBalanceDecimals_Formatted"   type="Decimal"       default="0.0"          description="Contains the opening balance decimals" />
+    <aura:attribute name="extractDate"      type="String"   default="14/05/2020"    description="Contains the date of the extract" />
+
+    <!-- Information bar attributes -->
+    <aura:attribute name="totalDebits"      type="Integer"             description="Contains the number of total debits"/>
+    <aura:attribute name="totalCredits"     type="Integer"             description="Contains the number of total debits"/>
+    <aura:attribute name="currentPage"      type="Integer"             description="Pagination current page"/>
+    
+    <aura:attribute name="balanceDebits"    type="String"             description="Contains the balance of the debits" />
+    <aura:attribute name="balanceCredits"   type="String"             description="Contains the balance of the credits" /> 
+
+    <!-- Table data -->
+    <aura:attribute name="movementsList" type="List" default="[]" description="Contains the list of movements" />
+    <aura:attribute name="totalMovements" type="Integer"             description="Contains the total movements" />
+    <!-- Handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.pageChanged}"/>
+
+    <!-- SPINNER ATTRIBUTE -->
+    <aura:attribute name="loading" type="Boolean" default="true" description="Indicates when the URL params have been parsed, to load the rest of components"/>
+
+    <!-- Spinner -->
+    <aura:if isTrue="{!v.loading}">  
+        <div class="spinnerclass">
+            <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+        </div>
+    </aura:if>  
+
+    <aura:if isTrue="{!not(v.loading)}">
+
+        <c:CMP_CN_Title_Subtitle  title="{!$Label.c.History_of_statements}" 
+                                subtitle="{!$Label.c.Statement}" />
+        
+        <!-- HEADER BLOCK -->
+                <c:CMP_StatementMovementsHeader accountInfo="{!v.accountInfo}" 
+                                        closeringBalance_Formatted="{!v.closeringBalance_Formatted}"
+                                        closeringBalanceDecimals_Formatted="{!v.closeringBalanceDecimals_Formatted}"
+                                        openingBalance_Formatted="{!v.openingBalance_Formatted}"
+                                        openingBalanceDecimals_Formatted="{!v.openingBalanceDecimals_Formatted}"
+                                        extractDate="{!v.extractDate}"
+                                        userInfo="{!v.userInfo}"/>
+
+        <!-- INFORMATION BAR BLOCK -->
+        <!-- <c:CMP_StatementMovementsInfo totalDebits="{!v.totalDebits}"
+                                        totalCredits="{!v.totalCredits}"
+                                        balanceDebits="{!v.balanceDebits}"
+                                        balanceCredits="{!v.balanceCredits}"
+                                        userInfo="{!v.userInfo}"
+                                        accountInfo="{!v.accountInfo}"/> -->
+        
+        <!-- TABLE BLOCK -->
+        <c:CMP_StatementMovementsTable totalMovements="{!v.totalMovements}" accountInfo="{!v.accountInfo}" movementsList="{!v.movementsList}"/>
+
+    </aura:if>
+</aura:component>

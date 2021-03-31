@@ -1,0 +1,45 @@
+<aura:documentation>
+    <aura:description>
+        <p style="font-weight: bold">"Payment Tracking" displays within "Payment Detail" component to show end-user where the payment is located, its status, its in/out date,  and charge(if applicable).</p>
+        
+        <h3>History</h3>
+        
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>12/11/2019</td>
+                <td>Laura Espinel</td>
+                <td>Design</td>
+            </tr>
+            <tr>
+                <td>19/11/2019</td>
+                <td>Amanda Fernandez</td>
+                <td>Layout coding of the page</td>
+            </tr>
+            <tr>
+                <td>20/10/2019</td>
+                <td>Shahad Naji</td>
+                <td>Lightning Component Initial Version</td>
+            </tr>
+            <tr>
+                <td>29/11/2019</td>
+                <td>Shahad Naji</td>
+                <td>Back-end development: Mock MuleSoft connection</td>
+            </tr>
+            <tr>
+                <td>02/12/2019</td>
+                <td>Shahad Naji</td>
+                <td>Interactive web pages</td>
+            </tr>
+            <h3>Note</h3>
+            <p>To call "CMP_PaymentTrackingItem description" component, please access its documentation and read it carefully.</p>
+        </table>
+    </aura:description>
+    <aura:example name="ExampleName" ref="c:CMP_PaymentTracking" label="Label">
+        Example Description
+    </aura:example>
+</aura:documentation>

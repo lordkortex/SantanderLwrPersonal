@@ -1,0 +1,90 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Component to show the extract page
+History
+<Date>			<Author>		    <Description>
+18/02/2020		Pablo Tejedor       Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_TransactionDetails">
+    
+    
+    <aura:attribute name="showResults" type="Boolean" default="false" description="Boolean attribute to control whether to show the search component or the results component"/>
+    <aura:attribute name="isSearching"  type="Boolean" default="false" description="List if is searching for transactions"/>
+    <aura:attribute name="hiddeAccountInfo"  type="Boolean" default="true" description="To show or hide account info"/>
+    <aura:attribute name="sourcePage" type="String" default="" description="This attribute is to know from which community page a users is accessing this component"/>    
+    <aura:attribute name="accountName" type="String" default="" description="Account name"/>
+    <aura:attribute name="accountNumber" type="String" default="" description="Account number"/>
+    <aura:attribute name="bank" type="String" default="" description="Bank name"/>
+    <aura:attribute name="availableBalance" type="String" default="" description="Main amount"/>
+    <aura:attribute name="bookBalance" type="String" default="" description="Availbale amount"/>
+    <aura:attribute name="accountCurrency" type="String" default="" description="Account currency"/>
+    <aura:attribute name="showSearch" type="Boolean" default="false" description="To show the search menu"/>
+    <aura:attribute name="transactionResults" type="Map" description="List of rows to show in the table"/>
+    <aura:attribute name="backTodetail" type="String" description="String to load table when is back"/>
+    <aura:attribute name="displayData" type="Boolean" default="false" description="Local attribute to display the data when the results are return from the server"/>
+     <!-- ATTRIBUTES TO DISPLAY ICONS -->
+    <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+    <aura:attribute name="displaySearchIcon"    type="Boolean"      default="true"   description="Flag to display the search icon"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler  name = "getDataBack" event="c:EVT_GetDataExtractBack" action = "{!c.gobackPage}" />
+    <!--<aura:handler name="openTransactionForm" event="c:EVT_OpenSearchForm" action="{!c.openCloseForm}"/> 
+    <aura:handler name="displayTransactionForm" event="c:EVT_OpenSearchForm" action="{!c.openCloseForm}"/>--> 
+    <aura:handler name="toggleTransactionForm" event="c:EVT_OpenSearchForm" action="{!c.openCloseForm}"/>
+    <aura:handler name="openTransactionForm" event="c:EVT_OpenSearchForm" action="{!c.showSearch}"/>
+    <aura:handler name="buttonClickedEvent" event="c:EVT_TitleButtonClicked" action="{!c.showSearch}"/>
+    <aura:attribute name="showPills" type="Boolean" default="false" description="Flag to show/hide pills"/>
+    <aura:attribute name="pills" type="List" description="List of pill (strings) to be displayed"/>
+  
+    <aura:handler name="change" value="{!v.backTodetail}" action="{!c.loadData}"/>
+
+    
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+ <!-- COMPONENT TO SHOW THE TITLE AND BREADCRUMBS -->
+    <aura:if isTrue="{!not(empty(v.sourcePage))}">
+        <c:CMP_TitleBreadcrumb_Icon title="{!$Label.c.Account_Transactions}" 
+        breadcrumb="['International_Treasury_Management','Account_Transactions']"
+        displayDownloadIcon ="{!v.displaySearchIcon}" displaySearchIcon="{!v.displaySearchIcon}"/>
+        <aura:set attribute="else">
+            <c:CMP_Title_Icon title="{!$Label.c.Account_Transactions}" displayDownloadIcon="{!v.displayDownloadIcon}" displaySearchIcon="{!v.displaySearchIcon}" />
+        </aura:set>
+    </aura:if>
+
+   
+    
+   <!-- COMPONENT TO SHOW OR HIDE PILLS AND SEARH MENU -->
+         <c:CMP_TransactionSearch showPills="{!v.showPills}" pills="{!v.pills}" 
+         showResults="{!v.showResults}" isSearching="{!v.isSearching}" hiddeAccountInfo="{!v.hiddeAccountInfo}"/>
+
+ 
+    <!-- If comes from global balance and doesn't search anything -->
+    <aura:if isTrue="{!and(not(v.sourcePage == ''),v.hiddeAccountInfo)}">
+        <c:CMP_MovementHistoryAccountInformation 
+        accountName="{!v.accountName}" accountNumberAndEntity ="{!v.accountNumber}"  accountNumberBank = "{!v.bank}" 
+        availableBalanceParam = "{!v.availableBalance}" bookBalanceParam ="{!v.bookBalance}" 
+        hiddeDatesFields="false" currencyTable="{!v.accountCurrency}" />
+    </aura:if>
+
+ <!-- COMPONENT TO SHOW THE TABLE ABOUT TRANSACTIONS -->
+    <aura:if isTrue="{!or(v.sourcePage != '', and(v.sourcePage == '', v.showResults))}">
+    
+        <c:CMP_TransactionTable  aura:id ="transactionTable"
+        sourcePage="{!v.sourcePage}" transactionResults="{!v.transactionResults}" 
+        displayData="{!v.displayData}"  displayDownloadIcon="{!v.displayDownloadIcon}"
+        accountName = "{!v.accountName}" accountNumber = "{!v.accountNumber}" bank = "{!v.bank}"
+        availableBalance = "{!v.availableBalance}" bookBalance ="{!v.bookBalance}" accountCurrency = "{!v.accountCurrency}"
+        showPills="{!v.showPills}" pills="{!v.pills}" isSearching="{!v.isSearching}" backTodetail="{!v.backTodetail}"/> 
+
+    </aura:if>
+
+  <!-- <c:CMP_TransactionTable  sourcePage="{!v.sourcePage}" transactionResults="{!v.transactionResults}" 
+  displayData="{!v.displayData}" displayDownloadIcon ="{!v.displayDownloadIcon}"
+  accountName = "{!v.accountName}" accountNumber = "{!v.accountNumber}" bank = "{!v.bank}"
+  availableBalance = "{!v.availableBalance}" bookBalance ="{!v.bookBalance}" accountCurrency = "{!v.accountCurrency}"/>  -->
+ 
+    
+    <!--<a class="{!v.location == '/active' ? 'selected' : ''}" href="#/active">Active</a>--> 
+    
+    
+</aura:component>

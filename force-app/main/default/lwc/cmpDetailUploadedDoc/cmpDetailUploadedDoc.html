@@ -1,0 +1,22 @@
+<template>
+    <div class="extendedDetails">
+        <div class="slds-truncate slds-text-heading_medium">{label.PAY_PaymentSummary_upDoc}</div>
+        <!--div class="container">{label.PAY_PaymentSummary_upDoc}</div-->
+        <div class="slds-grid slds-wrap">
+            <template for:each={uploadedDocuments} for:item='item'>
+                <div class="slds-col" key={item.key}>
+                    <div class="row">
+                        <!--div class="slds-truncate">{label.document} {item.index}</div>
+                        <div class="bold slds-truncate">{item.name}</div-->
+                        <p class="slds-truncate">{label.document} {item}</p>
+                        <p class="bold slds-truncate">{item}</p>
+                        <button class="slds-button button_link">
+                            <span class="icon_left icon-download"></span>
+                            {label.download}
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+</template>

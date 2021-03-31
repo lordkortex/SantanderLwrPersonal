@@ -1,0 +1,46 @@
+<template>        
+    <div aria-selected="true" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option" onclick={handleClick}>
+        <div class="slds-truncate account">
+            <span class="slds-media__body">
+            <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{account.displayNumber}</span>
+            <template if:true={showmore}>
+                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{account.alias}</span>
+            </template>
+            </span>
+        </div>
+        <div class="slds-truncate business">
+            <span class="slds-media__body">
+                <template if:true={showmore}>
+                    <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{account.subsidiaryName}</span>
+                    <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{account.bankName}</span>
+                </template>
+                <template if:false={showmore}>
+                        <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{account.alias}</span>
+                </template>
+            </span>
+        </div>
+        <div class="slds-truncate country">
+            <span class="slds-media__figure slds-listbox__option-icon">
+            <span class="slds-icon_container">
+                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                    <img class="sizeFlag" src={flagCountry}/>
+                </span>
+            </span>
+            </span>
+            <span class="slds-media__body">
+            <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{account.countryName}</span>
+            </span>
+        </div>
+        <div class="slds-truncate">
+            <template if:true={notEmptyBalance}>
+                <span class="slds-media__body">
+                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                        <div class="slds-box">
+                            <p>{account.currencyCodeAvailableBalance}</p>
+                        </div>
+                    </span>
+                </span>
+            </template>
+        </div>
+    </div>
+</template>

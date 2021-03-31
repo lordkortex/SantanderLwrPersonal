@@ -1,0 +1,44 @@
+<template>
+    <div class="slds-footer">
+        <div class="slds-grid contact" if:true={footercontact}>
+            <div class="slds-col">
+                <div class="contactContent">
+                    <span class="icon icon-mail"></span>
+                    <div class="title"> Send us an email </div>
+                    <div class="text">onetrade@santander.com</div>
+                </div>
+            </div>
+            <div class="slds-col">
+                <div class="contactContent">
+                    <span class="icon icon-phone"></span>
+                    <div class="title">Send us an email</div>
+                    <div class="text">
+                        <p>Monday to Sunday from 8:00 A.M.</p>
+                        <p>to 10:00 P.M.</p>
+                        <p>(+34) 915 605 060</p>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col">
+                <div class="contactContent">
+                    <span class="icon icon-speeches"></span>
+                    <div class="title">Chat with us</div>
+                    <div class="text">Customer service and general information</div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid default">
+         <div class="slds-col">
+             <div class="logoContent">
+                 <img class="logo-red" src={logoOneTrade}/>
+                 <div class="text">{label.cmpOTVFooter_1}</div>
+             </div>
+         </div>
+         <div class="slds-col">
+            <button class="slds-button button_link" onclick={downloadlegalInformationPDF}> {label.cmpOTVFooter_2}</button>
+            <button class="slds-button button_link" onclick={downloadprivacyPDF}>{label.cmpOTVFooter_3}</button>
+            <button class="slds-button button_link" onclick={downloadTC_PDF}>{label.cmpOTVFooter_4}</button>
+         </div>                  
+     </div> 
+ </div>
+</template>

@@ -1,0 +1,13 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+
+    <aura:attribute name="progress" type="Integer" access="global" default="0"/>
+
+    <!--<aura:registerEvent name="updateProgress" type="c:EVT_B2B_PaymentProgressBar" />-->
+
+    <lightning:button label="Update Progress" variant="brand" onclick="{!c.btnUpdateProgress}" />
+
+    <span>{!v.progress}</span>
+
+    <c:CMP_B2B_Header progress="{!v.progress}" />
+
+</aura:component>

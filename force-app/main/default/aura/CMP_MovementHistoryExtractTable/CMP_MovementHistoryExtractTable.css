@@ -1,0 +1,276 @@
+.THIS.extractTable:before {
+    display: none;
+}
+
+.THIS.extractTable {
+    background-color: #ececec;
+}
+
+.THIS.extractTable .icon-chevronRight__gray:before {
+    font-size: 24px;
+    color: #ec0000;
+}
+
+.THIS.extractTable thead .slds-truncate {
+    background-color: #ececec;
+    letter-spacing: normal;
+    color: #444444;
+    text-transform: initial;
+    font-size: 14px;
+    font-family: SantanderTextW05-Bold;
+}
+
+.THIS thead th:first-child .slds-truncate {
+    padding-left: 24px;
+}
+
+.THIS.extractTable .slds-truncate {
+    color: #444444;
+    font-size: 12px;
+    padding-right: 0;
+}
+
+.THIS td {
+    height: 34px;
+    padding: 0 0 0 8px;
+}
+
+.THIS td:first-child {
+    padding-left: 24px;
+}
+
+.THIS .valueDate {
+    width: 171px;
+}
+
+.THIS .category {
+    width: 183px;
+}
+
+.THIS .amount,
+.THIS .bookBalance {
+    width: 252px;
+}
+
+.THIS .amount .slds-truncate,
+.THIS .bookBalance .slds-truncate {
+    display: flex;
+    justify-content: flex-end;
+    min-width: 252px;
+}
+
+.THIS .containerIcon {
+    width: 64px;
+}
+
+.THIS.extractTable .icon-arrowDown_small {
+    font-size: 24px;
+}
+
+.THIS.extractTable .icon-arrowDown_small:before {
+    color: #000000;
+}
+
+.THIS .slds-button:focus {
+    box-shadow: none;
+}
+
+.THIS.extractTable .icon-alphabeticalOrderDown__gray:before,
+.THIS.extractTable .icon-alphabeticalOrderUp__gray:before,
+.THIS.extractTable .icon-orderDown__gray:before,
+.THIS.extractTable .icon-orderUp__gray:before {
+    color: #444444;
+}
+
+.THIS.extractTable .slds-scrollable_y {
+    max-height: 346px;
+}
+
+.THIS .balanceInteger,
+.THIS .balanceDecimals {
+    font-family: SantanderTextW05-Bold;
+}
+
+.THIS .amountDecimals,
+.THIS .balanceDecimals {
+    font-size: 10px;
+}
+
+.THIS .slds-text-align_center {
+    padding-right: 24px;
+    padding-left: 16px;
+}
+
+.THIS .button-orderLeft,
+.THIS .button-orderRight {
+    font-size: 16px;
+    margin: 0 8px;
+}
+
+.THIS .slds-table_striped tbody tr:nth-of-type(2n)>td,
+.THIS .slds-table_striped tbody tr:nth-of-type(2n)>th,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n)>td,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n)>th {
+    background-color: #f9fcfd;
+}
+
+.THIS .border {
+    border: 1px solid #ececec;
+    border-right: 2px solid #ececec;
+}
+
+
+/* width */
+
+.THIS div::-webkit-scrollbar {
+    width: 6px;
+}
+
+
+/* Track */
+
+.THIS div::-webkit-scrollbar-track {
+    /*box-shadow: inset 0 0 5px #dadada;*/
+    border-radius: 10px;
+}
+
+
+/*Track-piece*/
+
+.THIS div::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+
+/* Handle */
+
+.THIS div::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+
+/* TOOLTIPS DIV*/
+
+.THIS div[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+.THIS div[data-title]:after {
+    background-color: #ffffff;
+    bottom: -1.6em;
+    border-radius: 5px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    color: #444444;
+    content: attr(data-title);
+    font-family: "SantanderTextW05-Regular";
+    font-size: 12px;
+    height: 24px;
+    right: 80%;
+    opacity: 0;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    visibility: hidden;
+    white-space: nowrap;
+    width: auto;
+    z-index: 99999;
+}
+
+.THIS div[data-title] {
+    position: relative;
+}
+
+
+/* TOOLTIPS DIV*/
+
+.THIS td[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+.THIS td[data-title]:after {
+    background-color: #ffffff;
+    bottom: -1.6em;
+    border-radius: 5px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    color: #444444;
+    content: attr(data-title);
+    font-family: "SantanderTextW05-Regular";
+    font-size: 12px;
+    height: 24px;
+    left: 25%;
+    opacity: 0;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    visibility: hidden;
+    white-space: nowrap;
+    width: auto;
+    z-index: 99999;
+}
+
+.THIS td[data-title] {
+    position: relative;
+}
+
+
+/*************PRUEBA*****************/
+
+.THIS td.slds-text-align_right[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+.THIS td.slds-text-align_right[data-title]:after {
+    background-color: #ffffff;
+    bottom: -1.6em;
+    border-radius: 5px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -moz-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    color: #444444;
+    content: attr(data-title);
+    font-family: "SantanderTextW05-Regular";
+    font-size: 12px;
+    height: 24px;
+    left: 50%;
+    opacity: 0;
+    padding: 5px 8px 5px 8px;
+    position: absolute;
+    visibility: hidden;
+    white-space: nowrap;
+    width: auto;
+    z-index: 99999;
+}
+
+.THIS td.slds-text-align_right[data-title] {
+    position: relative;
+}
+
+.THIS .icon-arrowRight_small {
+    font-size: 24px;
+}
+
+.THIS .icon-alphabeticalOrderDown:before, .THIS .icon-alphabeticalOrderUp:before, .THIS .icon-orderDown:before, .THIS .icon-orderUp:before {
+    color: #444444;
+}
+
+.THIS.spinnerclass{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    height:300px;
+}

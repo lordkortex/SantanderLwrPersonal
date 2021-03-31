@@ -1,0 +1,3 @@
+<aura:component >
+    <ltng:require scripts="{!$Resource.SheetJS}" afterScriptsLoaded="{!c.generateXlsFile}"></ltng:require>
+</aura:component>

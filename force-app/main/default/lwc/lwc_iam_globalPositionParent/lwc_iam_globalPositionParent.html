@@ -1,0 +1,133 @@
+<template>
+    <template if:true={isIE}>
+            <!--Message if the Browser is IE-->
+        <c-lwc_ipt-browser-message>
+        </c-lwc_ipt-browser-message>
+    </template> 
+    <template if:false={isIE}>
+        <!-- Component markup -->
+        <c-lwc_service-component
+            data-id="Service" 
+            onsuccesscallback={successcallback}>
+        </c-lwc_service-component>
+
+        <!-- Show error if user has no access to Payments Tracker -->
+        <template if:true={showNoAccessError}>
+            <c-lwc_cn_scope-notification
+                notificationclass="slds-scoped-notification_error"
+                notificationicon="icon-close_emptyCircle"
+                title={label.ERROR}
+                notificationtitle={label.ERROR}
+                notificationbody={label.ERROR_NO_ACCESS_GP}>
+            </c-lwc_cn_scope-notification>
+        </template>
+        <template if:true={showTermsisFalse}>
+            <template if:true={loadDataUserInfo}>
+                <template if:true={firstTimeLoading}>
+                    <c-lwc_global-position-skeleton>
+                    </c-lwc_global-position-skeleton>
+                </template>
+               <template if:false={firstTimeLoading}>
+                    <div class="spinnerclass">
+                        <lightning-spinner alternative-text={spinnerText} size="large" variant="brand"></lightning-spinner>
+                    </div> 
+               </template>
+            </template>
+            <template if:false={loadDataUserInfo}>
+                <template if:true={dataisloaded}>
+                    <div class="slds-grid slds-wrap slds-medium-nowrap slds-large-nowrap">
+                        <div class="slds-col--padded slds-size--12-of-12 slds-medium-size--8-of-12 slds-large-size--8-of-12 comm-layout-column column-content">
+                            <c-lwc_global-title-tabs
+                                showonlylastupdate="true" 
+                                title={title}
+                                lastupdateselected="true" 
+                                lastinfodate={lastinfodate}
+                                showdateinfo={dataisloaded}>
+                            </c-lwc_global-title-tabs>
+                            <!--SNJ - 21/04/2020 - Adding CMP_Toast-->
+                            <c-lwc_toast
+                                type={typetoast}
+                                show={showtoast}
+                                message={msgtoast}>
+                            </c-lwc_toast> 
+                            <div if:true={groupResponseIsEmpty}>
+                                <c-lwc_global-consolidated-amount
+                                    totalbookbalance={totalbookbalance} 
+                                    avaiblebookbalance={avaiblebookbalance} 
+                                    dropdownselectedvalue={selectedgrouping}
+                                    lastupdateselected="true" 
+                                    selectedcurrency={selectedcurrency}
+                                    dataisloaded={dataisloaded}
+                                    disabledropdown="true" 
+                                    userpreferrednumberformat={userpreferrednumberformat}>
+                                </c-lwc_global-consolidated-amount>
+                            </div>
+                            <div if:false={groupResponseIsEmpty}>
+                                <c-lwc_global-consolidated-amount
+                                    totalbookbalance={totalbookbalance} 
+                                    avaiblebookbalance={avaiblebookbalance} 
+                                    dropdownselectedvalue={selectedgrouping}
+                                    lastupdateselected="true" 
+                                    selectedcurrency={selectedcurrency}
+                                    isdataloaded={dataisloaded}
+                                    disabledropdown="false" 
+                                    userpreferrednumberformat={userpreferrednumberformat}
+                                    ondropdownvalueselected={handledropdownvalueselected}>
+                                </c-lwc_global-consolidated-amount>
+                            </div>
+                            <div if:true={countryIsSelectedGrouping}>
+                                <c-lwc_global-account-card-table
+                                    lastupdateselected="true"
+                                    countrygroupresponse={countrygroupresponse} 
+                                    selectedcurrency={selectedcurrency}
+                                    selectedgrouping={selectedgrouping}
+                                    userpreferrednumberformat={userpreferrednumberformat}
+                                    isonetrade={isonetrade}>
+                                </c-lwc_global-account-card-table> 
+                            </div>
+                            <div if:true={selectedGroupingIsCorporate}>
+                               <c-lwc_global-account-card-table
+                                    lastupdateselected="true"
+                                    countrygroupresponse={corporateGroupResponse} 
+                                    selectedcurrency={selectedcurrency}
+                                    selectedgrouping={selectedgrouping}
+                                    userpreferrednumberformat={userpreferrednumberformat}
+                                    isonetrade={isonetrade}>
+                                </c-lwc_global-account-card-table>
+                            </div>  
+                        </div>
+                        <div class="slds-col--padded slds-size--12-of-12 slds-medium-size--4-of-12 slds-large-size--4-of-12 comm-layout-column column-sidebar">    
+                            <c-lwc_global-currency-dropdown
+                                currencylist={currencylist}
+                                selectedcurrency={selectedcurrency}
+                                ondropdownvalueselected={handledropdownvalueselectedcurrency}>
+                            </c-lwc_global-currency-dropdown> 
+                            <c-lwc_global-exchange-rates-table
+                                selectedcurrency={selectedcurrency}
+                                exchangerates={exchangeratestoshow}
+                                erateslastmodifieddate={erateslastmodifieddate}
+                                userpreferrednumberformat={userpreferrednumberformat} 
+                                userpreferreddateformat={userpreferreddateformat}
+                                erateslastmodifieddatemain={erateslastmodifieddatemain}>
+                            </c-lwc_global-exchange-rates-table>  
+                            <c-lwc_global-balance-by-currency-table
+                                lastupdateselected="true"
+                                currenciesexchange={currenciesexchange}
+                                selectedcurrency={selectedcurrency}
+                                cardgrouping={selectedgrouping}
+                                userpreferrednumberformat={userpreferrednumberformat}>
+                            </c-lwc_global-balance-by-currency-table>  
+                        </div>
+                    </div>
+                </template>
+            </template> 
+        </template> 
+        <template if:true={countryNotNull}>
+            <c-lwc_terms-conditions
+                showmodal={showterms}
+                country={country}>
+            </c-lwc_terms-conditions>
+        </template>     
+    </template>             
+   <!-- </template>    -->
+</template>

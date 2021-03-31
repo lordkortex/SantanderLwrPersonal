@@ -1,0 +1,26 @@
+<template>    
+    <div class={classError}>
+
+        <template if:true={ifValueEmptyOrShowLabel}>
+            <label class="slds-form-element__label" for="textareaDescription">{placeholder}</label>
+        </template>              
+        <div class="slds-form-element__control auto-resize">            
+            <textarea data-id="textareaDescription" class="slds-textarea" placeholder={placeholder} oninput={handleInput} onchange={handleInput} onfocus={handleFocus} onblur={handleBlur}>{value}</textarea>
+            <template if:true={ifValueEmpty}>
+                <button class="slds-button slds-button_icon" onclick={handleClear}> 
+                    <div class="slds-button__icon icon-close_filledCircle"></div>
+                    <span class="slds-assistive-text">{label.clearTheTextArea}</span>
+                </button>
+            </template>           
+        </div>
+        <template if:true={ifErrorMSG}>
+            <div class="errorText">{errormsg}</div>
+        </template>
+        <template if:false={ifErrorMSG}>
+            <div class="helperText">
+                <!-- <span>{!'Max '+v.characterMax+' characters'</span> -->
+                <span> {charactersremaining}&nbsp;{label.charactersRemaining}</span>
+            </div>
+        </template>
+    </div>
+</template>

@@ -1,0 +1,37 @@
+.contentSupport {
+    position:absolute;
+    left: 0;
+    margin-top: -24px;
+    width: 100%;
+}
+.contentComponents{
+    margin:0 auto;
+    width: 1224px;
+    max-width: 1224px;
+    height: 100%;
+    margin-top: 24px;
+}
+
+.contentComponents .slds-col:first-child{
+    margin-right: 24px;
+    max-width: 392px;
+    min-height: calc( 100vh - 558px);
+}
+
+.contentComponents .slds-col:last-child{
+    max-width: 808px;
+}
+
+.contentSupport .contentComponents {
+	padding-top: 24px;
+	margin-top:0;
+}
+.contentSupport .footerContact{
+    margin-top:343px;
+}
+.contentSupport .footer{
+   	margin-top:120px;
+}
+.contentSupport .footerContact .cFooter, .contentSupport .footer .cFooter_Contact{
+    display:none;
+}

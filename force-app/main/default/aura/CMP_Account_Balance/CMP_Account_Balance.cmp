@@ -1,0 +1,44 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_Account_Balance" >
+    
+    <aura:attribute name="cmpId" type="String" default="N/A" description="Component Id"/>
+    <aura:attribute name="country" type="String" default="N/A" description="Account Country"/>
+    <aura:attribute name="currency" type="String" default="N/A" description="Account Currency"/>
+    <aura:attribute name="accountItem" type="Object" description="Account Information"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <lightning:navigation aura:id="navService"/>
+
+    <div class="slds-card__header slds-grid contentAccount">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div id="{!'options_'+v.cmpId}" class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-close" >
+                <c:CMP_Account_Balance_Options accountItem="{!v.accountItem}"/> 
+            </div>
+            <!--<lightning:button label="PRUEBA ALEX" title="PRUEBA ALEX" onclick="{! c.goToSwiftTracking }"/>-->
+            <div class="slds-media__figure icon" onclick="{!c.showHideOptionsAction}" >
+                <!-- MENU OPTIONS -->
+                <div class="button-options icon-options" ></div>
+            </div>
+            <div class="slds-media__body">
+                <div class="slds-card__header-title identity">
+                    <span class="subsidiary">{!v.accountItem.alias}</span>
+                    <span class="balanceUpdated">{!$Label.c.Balance_Updated}:&nbsp;{!v.accountItem.lastUpdateAvailableBalance}</span>
+                </div>
+                <div class="slds-card__header-title accountNumber">
+                    <span>{!v.accountItem.displayNumber}&nbsp;|&nbsp;{!v.accountItem.bankName}</span>
+                </div>
+            </div>
+            <aura:if isTrue="{!and(v.accountItem.amountMainBalance != 0, v.accountItem.amountAvailableBalance != 0)}">
+                <div class="slds-media__body balanceAccount">
+                    <div class="slds-card__header-title availableAccount">
+                        <span class="bbName">{!$Label.c.Book_Balance}</span> 
+                        <c:CMP_displayAmount amount="{!v.accountItem.amountMainBalance}" decimalClass="bbDecimalsAccount" wholeClass="bbIntegerAccount" currency="{!v.currency}"/>
+                    </div>
+                    <div class="slds-card__header-title bookAccount">
+                        <span class="avName">{!$Label.c.Available_Balance}</span>
+                        <c:CMP_displayAmount amount="{!v.accountItem.amountAvailableBalance}" decimalClass="avDecimalsAccount" wholeClass="avIntegerAccount" currency="{!v.currency}"/>
+                    </div>
+                </div>
+            </aura:if>
+        </header>
+    </div>
+</aura:component>

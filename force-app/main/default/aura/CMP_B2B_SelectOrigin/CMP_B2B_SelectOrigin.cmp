@@ -1,0 +1,70 @@
+<aura:component controller="CNT_B2B_SelectOrigin" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- CORE ATTRIBUTES -->
+    <aura:attribute access="public"  type="Map"         name="paymentDraft"           default="{}" />
+    <aura:attribute access="public"  type="Map"         name="userData"                                                     description="User data." />
+    <aura:attribute access="public"  type="String"      name="transferType"           default="" />
+    <aura:attribute access="public"  type="Map"         name="steps"                                                        description="Data of the steps." />
+    <aura:attribute access="public"  type="List"        name="accountList"            default="[]"                          description="List of accounts" />
+    <aura:attribute access="public"  type="Aura.Action" name="handleContinue" />
+    <aura:attribute access="private" type="Boolean"     name="spinner"                default="false"                       description="Spinner loading." />
+    <aura:attribute access="public"  type="Boolean"     name="reload"                                                       description="Indicates if the conection with the service should be retried." />
+
+    <!-- SELECT ACCOUNT -->
+    <aura:attribute access="private" type="Boolean"     name="isModified"             default=""                            description="Indicates if the input data has been modified." />
+    <aura:attribute access="public"  type="String"      name="headerLabel"            default="{!$Label.c.instantTransfer}" description="Header label" />
+    <aura:attribute access="public"  type="String"      name="errorMSG"                                                     description="Error message when clicked continue." />
+    <aura:attribute access="private" type="String"      name="searchedString"                                               description="Entered string." />
+    <aura:attribute access="public"  type="Boolean"     name="isEditing"                                                    description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+    <aura:attribute access="public"  type="Boolean" 	name="isEditingProcess"       default="false"                       description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+    <aura:attribute access="public"  type="Boolean"     name="checkedYES"             default="false"                       description="Indicates if the payment second card selection should be shown." />
+    <aura:attribute access="public"  type="String"      name="searchedStringExpenses" default=""                            description="Search information placed in the account search input." />
+    <aura:attribute access="public"  type="String"      name="errorMSGExpenses"                                             description="Error message when clicked continue." />
+
+	<aura:method access="public" name="checkContinue" action="{!c.handleCheckContinue}">
+		<aura:attribute type="Integer" name="step" />
+    </aura:method>
+
+    <aura:handler name="init"   action="{!c.initComponent}"  value="{!this}" />
+    <aura:handler name="change" action="{!c.handleModified}" value="{!v.isModified}" />
+
+    <aura:registerEvent name="completeStep" type="c:EVT_B2B_CompleteStep" />
+    
+    <div class="modal-container__firstStep slds-is-relative" id="step-1" tabindex="-1">
+        <c:cmpPayStepHeader stepNumber="1" stepTitle="{!$Label.c.B2B_Step_1_Header}"/>
+       <!-- <div class="slds-grid">
+            <div class="slds-text-heading_large">{!$Label.c.B2B_Step_1_Header}</div>
+            <c:cmpPayStepHeader number="1" headmessage="{!$Label.c.B2B_Step_1_Header}"/>
+        </div>-->
+        <div class="paymentStep_body">
+        <c:CMP_B2B_SelectAccount
+            userData="{!v.userData}"
+            headerLabel="{!v.headerLabel}"
+            account="{!v.paymentDraft.sourceAccount}"
+            accountList="{!v.accountList}"
+            beneficiaryDetails="false"
+            headerCard="{!$Label.c.B2B_Source_acc_info}"
+            label="{!$Label.c.B2B_Source_account}"
+            placeholder="{!$Label.c.B2B_Source_account}"
+            steps="{!v.steps}"
+            errorMSG="{!v.errorMSG}"
+            searchedString="{!v.searchedString}"
+            isModified="{!v.isModified}"
+            isEditing="{!v.isEditing}"
+            canSelectExpenses="true"
+            enableBrowseAccount="true"
+            checkedYES="{!v.checkedYES}"
+            expensesAccount="{!v.paymentDraft.expensesAccount}"
+            searchedStringExpenses="{!v.searchedStringExpenses}"
+            errorMSGExpenses="{!v.errorMSGExpenses}" />
+        <aura:if isTrue="{!v.spinner eq true}">
+            <lightning:spinner alternativeText="Loading" size="medium" />
+        </aura:if>
+        <aura:if isTrue="{!v.steps.lastModifiedStep eq 1}">
+            <c:CMP_B2B_ProcessContinueButton handleContinue="{!v.handleContinue}" />
+        </aura:if>
+        <c:CMP_B2B_Toast aura:id="errorToast" reload="{!v.reload}" />
+    </div>
+    </div>
+</aura:component>

@@ -1,0 +1,435 @@
+/* INPUT AMOUNT BALANCE */
+ .THIS.inputAmount{
+   width: 312px;
+   border-radius: 4px;
+   height:fit-content;
+   z-index: 1;
+ }
+ .THIS.inputAmount .slds-form-element {
+    min-height:172px;
+}
+ .THIS.inputAmount .slds-form-element__label {
+   color: #444444;
+	font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 18px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 24px;
+    z-index: 2;
+ }
+ .THIS.inputAmount .slds-form-element__label + .slds-form-element__control .slds-input {
+   padding: 44px 60px 22px 16px;
+ }
+.THIS .slds-form-element__control {
+    font-size: 0;
+    box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.08);
+    border-radius: 0 4px 4px 0;
+}
+.THIS .inputInformation {
+    position:relative;
+}
+ .THIS.inputAmount .slds-input{
+   border: 1px solid #deedf2;
+   border-bottom: 1px solid #257fa4;
+   border-radius: 4px 4px 0 0;
+   color: #444444;
+   font-family: SantanderHeadlineW05-Bold;
+   font-size: 24px;
+   height: 96px;
+   line-height: 30px;
+   padding: 0 70px 0 16px;
+ }
+ .THIS.inputAmount .slds-input:active,
+ .THIS.inputAmount .slds-input:focus {
+   box-shadow: inset 0 -1px 0 0 #257fa4;
+ }
+ .THIS.inputAmount ::-webkit-input-placeholder { color: #767676; }
+ .THIS.inputAmount :-moz-placeholder { color: #767676; } 
+ .THIS.inputAmount ::-moz-placeholder {  color: #767676; } 
+ .THIS.inputAmount :-ms-input-placeholder { color: #767676; }
+ .THIS.inputAmount :focus::-webkit-input-placeholder{color:transparent;} 
+
+ /*BOX INFORMATION*/
+.THIS .slds-form-element__control .slds-box.information {
+    border: solid 1px #cedee7;
+    border-radius: 2px;
+    bottom: 0;
+    height: 24px;
+    padding: 2px 8px 4px;
+    right: 16px;
+    min-width: 38px;
+    position: absolute;
+    bottom: 24px;
+}
+.THIS .slds-form-element__control .slds-box.information p{
+    color: #444444;
+  	font-family: "SantanderMicroText";
+  	font-size: 12px;
+  	line-height: 18px;
+  	text-align: center;
+}
+
+ /*BOX BALANCE*/
+ .THIS.inputAmount .slds-box.balance {
+    display: flex;
+    justify-content: space-between;
+    background-color: #eff6f9;
+    border: 1px solid #deedf2;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+	padding: 6px 16px 6px 16px;
+    height:48px;
+ }
+ 
+ .THIS.inputAmount .slds-box.dropdown {
+    background-color: #ffffff;
+    width:auto;
+    min-height: 48px;
+    padding: 6px 56px 6px 16px;
+ }
+ 
+ .THIS.inputAmount .slds-box.balance .slds-text-heading_small {
+   font-family: SantanderMicroText;
+   font-size: 12px;
+   line-height: 18px;
+   color: #257fa4;
+ }
+ .THIS .slds-box.balance p.bold {
+   font-family: "SantanderMicroText-Bd";
+    font-size: 14px;
+   line-height: 21px;
+   color: #257fa4;
+ }
+ .THIS.inputAmount .slds-box.balance p.small{
+   font-family: SantanderMicroText;
+   font-size: 12px; 
+   line-height: 18px;
+   height:18px;
+   color: #257fa4;
+ }
+
+ .THIS.inputAmount .slds-box.balance .timeText div.small {
+    display:flex;
+    align-items: center;
+    margin-bottom: 2px;
+ }
+
+ .THIS.inputAmount .timeText .icon-time {
+   margin: 0 4px 0 0;
+ }
+ .THIS.inputAmount .timeText .icon-time:before {
+   color: #257fa4;
+   font-size: 16px;
+ }
+
+ .THIS.inputAmount .slds-box.dropdown .slds-form-element__label{
+   position:inherit;
+   font-family: SantanderMicroText;
+   font-size: 12px;
+   line-height: 1.42;
+   color: #767676;
+ }
+ 
+ .THIS .inputAmount .slds-box.dropdown .selectedValue-filled{
+   font-family: SantanderMicroText;
+   font-size: 16px;
+   line-height: 1.5;
+   margin-top:-4px;
+   color: #444444;
+ }
+ 
+ 
+/*ERROR*/
+ .THIS.inputAmount .errorText{
+   color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+    margin:4px 16px 0px;
+    max-width: 568px;
+    display: none;
+ }
+.THIS .error .errorText {
+	display: block;
+}
+ .THIS.inputAmount .error .slds-form-element__label {
+   color: #cc0000;
+ }
+ .THIS.inputAmount .error .slds-input{
+   border-bottom: 1px solid #cc0000;
+ }
+ .THIS.inputAmount .error .slds-input:active,
+ .THIS.inputAmount .error .slds-input:focus{
+   box-shadow: inset 0 -1px 0 0 #cc0000;
+ }
+.THIS .input .slds-input  {
+    box-shadow: none;
+}
+
+/* INPUTS SINGLE AMOUNT*/
+.THIS .slds-form-element.singleAmount {
+    display: flex;
+    width: fit-content;
+    min-height: 124px;
+}
+.THIS .slds-form-element.singleAmount .slds-form-element__control {
+    height: 96px;
+    font-size: 0;
+    display: flex;
+    box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.08);
+    border-radius: 0 4px 4px 0;
+}
+.THIS .slds-form-element.singleAmount .slds-form-element__label {
+    color: #444444;
+	font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 18px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 24px;
+    z-index: 2;
+}
+.THIS .slds-form-element.singleAmount .slds-form-element__label + .slds-form-element__control .slds-input {
+	padding: 44px 70px 22px 16px;
+}
+.THIS .slds-form-element.singleAmount .inputInformation {
+    position:relative;
+}
+.THIS .slds-form-element.singleAmount .slds-input{
+	border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 0 0 0;
+    color: #444444;
+    font-family: SantanderHeadlineW05-Bold;
+    font-size: 24px;
+    height: 96px;
+    line-height: 30px;
+    padding: 0 70px 0 16px;
+    min-width: 392px;
+    width: 600px;
+}
+
+.THIS .slds-form-element.singleAmount .slds-input:active,
+.THIS .slds-form-element.singleAmount .slds-input:focus {
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+
+.THIS .slds-form-element.singleAmount ::-webkit-input-placeholder { color: #767676; }
+ 
+.THIS .slds-form-element.singleAmount :-moz-placeholder { color: #767676; } 
+ 
+.THIS .slds-form-element.singleAmount ::-moz-placeholder {  color: #767676; } 
+ 
+.THIS .slds-form-element.singleAmount :-ms-input-placeholder { color: #767676; }
+
+.THIS .slds-form-element.singleAmount :focus::-webkit-input-placeholder{color:transparent;} 
+
+.THIS .slds-form-element.singleAmount .slds-form-element__control .slds-box.information {
+    border: solid 1px #cedee7;
+    border-radius: 2px;
+    bottom: 0;
+    height: 24px;
+    padding: 2px 8px 4px;
+    right: 16px;
+    min-width: 38px;
+    position: absolute;
+    bottom: 24px;
+}
+.THIS .slds-form-element.singleAmount .slds-form-element__control .slds-box.information p{
+    color: #444444;
+  	font-family: "SantanderMicroText";
+  	font-size: 12px;
+  	line-height: 18px;
+  	text-align: center;
+}
+.THIS .slds-form-element.singleAmount .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0;
+    margin:4px 16px 0px;
+    max-width: 568px;
+    display: none;
+}
+.THIS .slds-form-element.singleAmount .error .errorText {
+	display: block;
+}
+.THIS .slds-form-element.singleAmount .error .slds-form-element__label {
+	color: #cc0000;
+}
+.THIS .slds-form-element.singleAmount .error .slds-input{
+	border-bottom: 1px solid #cc0000;
+}
+.THIS .slds-form-element.singleAmount .error .slds-input:active,
+.THIS .slds-form-element.singleAmount .error .slds-input:focus{
+	box-shadow: inset 0 -1px 0 0 #cc0000;
+
+}
+
+/* NOTIFICATION */
+.THIS .slds-form-element.singleAmount .slds-box.availableBalance {
+  /*   box-shadow: inset -1px 1px 0 0 #deedf2, inset -1px -1px 0 0 #deedf2;*/
+    background-color: #eff6f9;
+	border: 1px solid #deedf2;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    height: 96px;
+    padding: 16px 16px 12px 16px;
+    min-width: 208px;
+}
+.THIS .slds-form-element.singleAmount .slds-box.availableBalance .slds-text-heading_small, 
+.THIS .slds-form-element.singleAmount .slds-box.availableBalance p {
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #257fa4;
+}
+.THIS .slds-form-element.singleAmount .slds-box.availableBalance p.bold {
+	font-family: "SantanderMicroText-Bd";
+}
+.THIS .slds-form-element.singleAmount .slds-box.availableBalance p.small{
+    font-family: SantanderMicroText;
+    font-size: 12px; 
+    line-height: 18px;
+}
+.THIS .slds-form-element.singleAmount .timeText {
+    display:flex;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.THIS .slds-form-element.singleAmount .timeText .icon-time {
+	margin: 0 4px 0 0;
+}
+.THIS .slds-form-element.singleAmount .timeText .icon-time:before {
+	color: #257fa4;
+    font-size: 16px;
+}
+
+/* INPUTS */
+/*
+.THIS .slds-form-element.input {
+    margin-right:24px;
+    width: 392px;
+    min-height: 72px;
+}
+.THIS .slds-form-element__control .slds-box {
+    border: 1px solid #cedee7;
+    border-radius: 2px;
+    bottom: 0;
+    height: 24px;
+    margin: 12px 16px;
+    padding: 0 8px;
+    right: 0;
+    top: 0;
+    min-width: 39px;
+    position: absolute;
+}
+.THIS .slds-form-element__control .slds-box p{
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    line-height: 21px;
+    text-align: center;
+}
+.THIS .slds-form-element__label {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    z-index: 2;
+}
+.THIS .slds-form-element__label + .slds-form-element__control .slds-input {
+    padding: 19px 70px 5px 16px;
+}
+.THIS .slds-input{
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+    padding: 0 70px 0 16px;
+    min-width: 392px;
+}
+.THIS .slds-input:active,
+.THIS .slds-input:focus {
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+.THIS .slds-form-element__help {
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 16px;
+    margin-top: 0;
+}*/
+/* ERROR INPUT */
+/*
+.THIS .error .slds-form-element__help {
+    display: none;
+}
+.THIS .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    display: none;
+}
+.THIS .error .errorText {
+    display: block;
+}
+.THIS .error .slds-form-element__label {
+    color: #cc0000;
+}
+.THIS .error .slds-input{
+    border-bottom: 1px solid #cc0000;
+}
+.THIS .error .slds-input:active,
+.THIS .error .slds-input:focus{
+    box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+*/
+/* DISABLED INPUT */
+/*
+.THIS .slds-input[disabled] {
+    background-color: #ffffff;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    color: #767676;
+}
+.THIS .slds-input[disabled] + .slds-box {
+    cursor: not-allowed;
+}
+.THIS .slds-input[disabled]:active, 
+.THIS .slds-input[disabled]:focus {
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}
+
+.THIS ::-webkit-input-placeholder { color: #767676; }
+ 
+.THIS :-moz-placeholder {  color: #767676; } 
+ 
+.THIS ::-moz-placeholder { color: #767676; } 
+ 
+.THIS :-ms-input-placeholder { color: #767676; }
+
+.THIS :focus::-webkit-input-placeholder{color:transparent;}
+*/

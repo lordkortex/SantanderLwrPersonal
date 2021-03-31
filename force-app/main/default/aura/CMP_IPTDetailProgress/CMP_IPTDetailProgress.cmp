@@ -1,0 +1,235 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    This component displays the payment tracking over the different countries
+History
+<Date>			<Author>		    <Description>
+19/02/2020		Laura Espinel		Design
+21/02/2020		Amanda Fernandez	Layout coding of the page
+26/02/2020		Shahad Naji     	Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_IPTDetailParent">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="iObject" type="CNT_IPTDetailParent" description=""/>
+    <aura:attribute name="totalElapsed" type="List" description="[0,0,0]"/>
+    <!--<aura:attribute name="totalElapsedFinal" type="String" description=""/>
+
+    <aura:registerEvent name="paymentDetailEvent" type="c:EVT_IPTPaymentDetail"/>-->
+    <aura:attribute name="backfront" type="Boolean" default="false"/>
+    
+    <aura:handler name="change" value="{!v.iObject.stepList}" action="{!c.getDateDifference}"/>
+    <!--<aura:handler name="change" value="{!v.totalElapsedFinal}" action="{!c.runTotalElapsed}"/>-->
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="FXLabel" type="String" default=''/>
+    
+    
+    <!--0 = do not show fees
+        1 = do not show amount
+        2 = show amount-->
+    <aura:attribute name="showFee" type="String" default="1"/>
+    
+    <aura:if isTrue="{!v.iObject.stepList.length > 0}">
+        <div class="slds-progress slds-progress_vertical trackingPayment">
+            <ol class="slds-progress__list">
+                <!-- TITLES -->
+                <aura:if isTrue="{!!v.backfront}">
+                    <li>
+                        <div class="slds-grid slds-grid_align-spread cardTitles">
+                            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="{!'slds-media__body colBankTitle' + v.FXLabel}">
+                                    <div class="slds-card__header-title titleCaps">
+                                        <!--{!$Label.c.Bank} &amp; {!$Label.c.BICFlow}-->
+                                        {!$Label.c.TrackerBank_BIC}
+                                    </div>
+                                </div>
+                                <div class="{!'slds-media__body colCountryTitle' + v.FXLabel}">
+                                    <div class="slds-card__header-title titleCaps">
+                                        {!$Label.c.Country}
+                                    </div>
+                                </div>
+                                <div class="{!'slds-media__body colArrivalTimeTitle' + v.FXLabel}">
+                                    <div class="slds-card__header-title titleCaps">
+                                        {!$Label.c.arrivalTime}
+                                    </div>
+                                </div>
+                                <div class="{!'slds-media__body colDurationTitle' + v.FXLabel}">
+                                    <div class="slds-card__header-title titleCaps">
+                                        {!$Label.c.duration}
+                                    </div>
+                                </div>
+                                <div class="{!'slds-media__body colDepartureTimeTitle' + v.FXLabel}">
+                                    <div class="slds-card__header-title titleCaps">
+                                        {!$Label.c.departureTime}
+                                    </div>
+                                </div>
+                                <aura:if isTrue="{!v.iObject.hasForeignExchange}">
+                                    <div class="slds-media__body colExchangeRateTitle">
+                                        <div class="slds-card__header-title titleCaps">
+                                            {!$Label.c.exchangeRate}
+                                        </div>
+                                    </div>
+                                </aura:if>
+                                
+                                <div class="slds-media__body colFeeTitle">
+                                    <div class="slds-card__header-title titleCaps">
+                                        {!$Label.c.feeApplied}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </aura:if>
+                <aura:iteration items="{!v.iObject.stepList}" var="item" indexVar="index">
+                    <!--Paints the card which is inmidiately before the last one
+                <aura:if isTrue="{!and(or(item.departure == '',item.departure == null), index == v.iObject.stepList.length-2)}">    --> 
+                    <aura:if isTrue="{!and(and(v.iObject.status != 'ACSC',v.iObject.status != 'ACCC'),v.iObject.status != 'RJCT')}">
+                        <aura:if isTrue="{!v.iObject.stepList.length>2}">
+                            
+                            
+                            <aura:if isTrue="{!index == v.iObject.stepList.length-2}">
+                                
+                                <aura:if isTrue="{!or(v.iObject.status == 'ACSC',v.iObject.status == 'ACCC')}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__completed" progressIcon="iconComplete" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.iObject.status == 'RJCT'}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__rejected" progressIcon="iconRejected" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}" />
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.iObject.status == 'ACSP', or(v.iObject.reason=='G000',v.iObject.reason=='G001'))}">
+                                    <aura:if isTrue="{!item.lastStep}">
+                                        <c:CMP_IPTDetailProgressCard item="{!item}" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!item.lastStep != true}">
+                                        <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__inProgress" progressIcon="iconInProgress" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                    </aura:if>
+                                    
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.iObject.status == 'ACSP', or(or(v.iObject.reason=='G002',v.iObject.reason=='G003'),v.iObject.reason=='G004'))}">
+                                    <aura:if isTrue="{!item.lastStep}">
+                                        <c:CMP_IPTDetailProgressCard item="{!item}" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!item.lastStep != true}">
+                                    	<c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__onHold" progressIcon="iconOnHold" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                    </aura:if>
+                                </aura:if>
+                            </aura:if>
+                        </aura:if>
+                        
+                        
+                        <aura:if isTrue="{!v.iObject.stepList.length==2}">
+                            <aura:if isTrue="{!index == 1}"> 
+                                <aura:if isTrue="{!or(v.iObject.status == 'ACSC',v.iObject.status == 'ACCC')}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__completed" progressIcon="iconComplete" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!v.iObject.status == 'RJCT'}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__rejected" progressIcon="iconRejected" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.iObject.status == 'ACSP', or(v.iObject.reason=='G000',v.iObject.reason=='G001'))}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__inProgress" progressIcon="iconInProgress" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.iObject.status == 'ACSP', or(or(v.iObject.reason=='G002',v.iObject.reason=='G002'),v.iObject.reason=='G004'))}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__onHold" progressIcon="iconOnHold" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>
+                            </aura:if>             
+                        </aura:if>
+                        
+                    </aura:if>
+                    
+                    <!--Paints the card which is inmidiately before the last one. Pago terminado por completo  -->
+                    
+                    <aura:if isTrue="{!or(v.iObject.status == 'ACSC',v.iObject.status == 'ACCC')}">
+                        <aura:if isTrue="{!v.iObject.stepList.length>2}">
+                            
+                            <aura:if isTrue="{!index == v.iObject.stepList.length-2}">  
+                                <c:CMP_IPTDetailProgressCard item="{!item}" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                            </aura:if>
+                        </aura:if>
+                    </aura:if>
+                    
+                    <!--Paints the card which is inmidiately before the last one. Pago rechazado  -->
+                    <aura:if isTrue="{!v.iObject.status == 'RJCT'}">
+                        <aura:if isTrue="{!v.iObject.stepList.length>2}">
+                            <aura:if isTrue="{!index == v.iObject.stepList.length-2}"> 
+                                <aura:if isTrue="{!item.lastStep != true}"> 
+                                	<c:CMP_IPTDetailProgressCard item="{!item}" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!item.lastStep == true}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__rejected" progressIcon="iconRejected" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>
+                            </aura:if>
+                        </aura:if>
+                    </aura:if>
+                    
+                    <!--Paints the card (first card)-->
+                    <aura:if isTrue="{!v.iObject.stepList.length==2}">
+                        <aura:if isTrue="{!and(or(item.arrival == '',item.arrival == null), and(item.departure != '',item.departure != null), (index > 0), (v.iObject.stepList.length-1 > index))}">                   
+                            <c:CMP_IPTDetailProgressCard item="{!item}" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                        </aura:if>
+                    </aura:if>
+                    <!--Paints the card (first card)-->
+                    <aura:if isTrue="{!v.iObject.stepList.length>2}">
+                        <aura:if isTrue="{!and(or(item.arrival == '',item.arrival == null), and(item.departure != '',item.departure != null), (index > 0), (v.iObject.stepList.length-1 > index))}">                   
+                            <c:CMP_IPTDetailProgressCard item="{!item}" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                        </aura:if>
+                    </aura:if>
+                    <!--Paints the card (visited point of payment transaction) -->
+                    <aura:if isTrue="{!and(and(item.departure != '',item.departure != null), and(item.arrival != '',item.arrival != null))}">
+                        <aura:if isTrue="{!and(index != v.iObject.stepList.length-1,index != v.iObject.stepList.length-2 )}">
+                            <c:CMP_IPTDetailProgressCard item="{!item}" iObject="{!v.iObject}" showFee="{!v.showFee}"/>                        
+                        </aura:if>                    
+                    </aura:if>
+                    
+                    <!--Paints the last card taking into consideration its status
+                <aura:if isTrue="{!and(or(item.departure == '',item.departure == null),and(item.arrival != '',item.arrival != null))}">  -->
+                    <aura:if isTrue="{!or(or(v.iObject.status == 'ACSC',v.iObject.status == 'ACCC'),v.iObject.status == 'RJCT')}">
+                        <aura:if isTrue="{!(index == v.iObject.stepList.length-1)}">
+                            <aura:if isTrue="{!or(v.iObject.status == 'ACSC',v.iObject.status == 'ACCC')}">
+                                <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__completed" progressIcon="iconComplete" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                            </aura:if>
+                            <aura:if isTrue="{!v.iObject.status == 'RJCT'}">
+                                <aura:if isTrue="{!item.lastStep2 != true}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__rejected" progressIcon="iconRejected" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>
+                                <aura:if isTrue="{!item.lastStep2 == true}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}" mainClass="slds-progress__item" progressIcon="iconIncomplete" flagClass="flagDisabled" textBold="textBold__disabled" textRegular="textRegular__disabled" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>
+                            </aura:if>
+                            <!-- <aura:if isTrue="{!and(v.iObject.status == 'ACSP', or(v.iObject.reason=='G000',v.iObject.reason=='G001'))}">
+                            <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__inProgress" progressIcon="iconInProgress" flagClass=""/>
+                        </aura:if>
+                        <aura:if isTrue="{!and(v.iObject.status == 'ACSP', or(or(v.iObject.reason=='G002',v.iObject.reason=='G002'),v.iObject.reason=='G004'))}">
+                                <c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__onHold" progressIcon="iconOnHold" flagClass=""/>
+                        </aura:if>-->
+                        </aura:if>                
+                    </aura:if>
+                    
+                    <!--Paints the last card (destination not visited)-->
+                    
+                    <aura:if isTrue="{!and(and(v.iObject.status != 'ACSC',v.iObject.status != 'ACCC'),v.iObject.status != 'RJCT')}">
+                        <aura:if isTrue="{!item.lastStep2 != true}">
+                            <aura:if isTrue="{!and(or(item.arrival == '',item.arrival == null),or(item.departure == '',item.departure == null))}">
+                                <aura:if isTrue="{!(index == v.iObject.stepList.length-1)}">
+                                    <c:CMP_IPTDetailProgressCard item="{!item}"  mainClass="slds-progress__item" progressIcon="iconIncomplete" flagClass="flagDisabled" textBold="textBold__disabled" textRegular="textRegular__disabled" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                </aura:if>                    
+                            </aura:if>
+                        </aura:if>
+                        <aura:if isTrue="{!item.lastStep2 == true}">
+                            <aura:if isTrue="{!and(and(item.arrival != null, item.arrival !='' ),or(item.departure == '',item.departure == null))}">
+                                <aura:if isTrue="{!(index == v.iObject.stepList.length-1)}">
+                                    <aura:if isTrue="{!or(or(v.iObject.reason=='G002',v.iObject.reason=='G003'),v.iObject.reason=='G004')}">
+                                    	<c:CMP_IPTDetailProgressCard item="{!item}" cardClass="card__onHold" progressIcon="iconOnHold" flagClass="" iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!and(v.iObject.status == 'ACSP', or(v.iObject.reason=='G000',v.iObject.reason=='G001'))}">
+                                    	<c:CMP_IPTDetailProgressCard item="{!item}"  mainClass="slds-progress__item" cardClass="card__inProgress" progressIcon="iconInProgress" flagClass="flagDisabled"  iObject="{!v.iObject}" showFee="{!v.showFee}"/>
+                                    </aura:if>
+                                </aura:if>                    
+                            </aura:if>
+                        </aura:if>
+                    </aura:if>
+                </aura:iteration>
+                
+            </ol>
+        </div>
+    </aura:if>
+</aura:component>

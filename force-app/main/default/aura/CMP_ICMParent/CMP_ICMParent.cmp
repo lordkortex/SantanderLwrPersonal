@@ -1,0 +1,53 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"  controller="CNT_InstantCashManagementController">
+    
+    <!-- PARENT ATTRIBUTES-->
+    <aura:attribute name="numberOfSteps"                 type="Integer" default="4"/>  
+    <aura:attribute name="maxWidth"                      type="Integer" default="1184"  description="Default width for the page container"/>
+    <aura:attribute name="currentStageNumber"            type="Integer" default="1"/>
+    <aura:attribute name="currentStagePercent"           type="Integer" default="0"/>
+    
+    <!--STEPS 1 Y 2-->
+    <aura:attribute name="originValue"                   type="Object"/>
+    <aura:attribute name="destinationValue"              type="Object"/>
+
+     <!--STEP 3 ATTRIBUTES-->
+    <aura:attribute name="Amount"                        type="String"  default="" />
+    <aura:attribute name="Concept"                       type="String"  default=""/>
+    <aura:attribute name="Date"                          type="String"  />
+
+    <!-- HANDLER -->
+
+    <!-- COMPONENT MARKUP -->
+    <div style="{!'width:' + v.maxWidth + 'px;'}">
+        <!-- TITLE BLOCK TODO - Pasar a label porque puede ser ICM o Instant funds transfer-->
+        <div class="slds-text-body_regular">{!$Label.c.ICM_paymentProcess}</div>
+
+        <!-- STAGE BAR BLOCK-->
+        <c:CMP_ICMProgressBar aura:id="barraProgreso" currentStageNumber = "{!v.currentStageNumber}"
+                                originValue="{!v.originValue}" 
+                                destinationValue="{!v.destinationValue}"
+                                amount="{!v.Amount}"/>
+        
+        <!--ORIGIN BLOCK-->
+        <aura:if isTrue="{!or(v.currentStageNumber == 1, v.currentStageNumber == 2)}">
+                <c:CMP_ICMOriginDestination currentStageNumber="{!v.currentStageNumber}"  nextStep = "{!c.nextStep}" backStep = "{!c.previousStep}" 
+                originValue = "{!v.originValue}"  destinationValue = "{!v.destinationValue}"/>
+            
+        </aura:if>
+        <!-- End of ORIGIN block-->
+        <!-- Start of AMOUNT block-->
+        <aura:if isTrue="{!v.currentStageNumber == 3}">
+            <c:CMP_ICMAmount Amount="{!v.Amount}" Concept="{!v.Concept}" nextStep = "{!c.nextStep}"  backStep = "{!c.previousStep}"
+            destinationValue = "{!v.destinationValue}"/>
+        </aura:if>
+        <!-- End of AMOUNT block-->
+        <!-- Start of DETAILS block-->
+        <aura:if isTrue="{!v.currentStageNumber == 4}">
+            <c:CMP_ICMSignature OriginAccount="{!v.originValue}" DestinationAccount="{!v.destinationValue}" Amount="{!v.Amount}"
+                                Concept="{!v.Concept}" Date="{!v.Date}" backStep = "{!c.previousStep}" />
+        </aura:if>
+        <!-- End of DETAILS block-->
+    
+    </div>
+
+</aura:component>

@@ -1,0 +1,310 @@
+/* CARD AUTHORIZATION */
+.THIS .cardAuthorization{
+    width: 392px;
+    padding: 40px;
+    border: 0;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px #1bb3bc, 2px 2px 6px 2px rgba(0, 0, 0, 0.08);
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    margin: 0;
+}
+
+.THIS .cardAuthorization.errorClass {
+    box-shadow: inset 0 0 0 1px #cc0000, 2px 2px 6px 2px rgba(0, 0, 0, 0.08);
+}
+
+.THIS .cardAuthorization header:nth-child(2),
+.THIS .cardAuthorization header:nth-child(3),
+.THIS .cardAuthorization.counter header:nth-child(1),
+.THIS .cardAuthorization.counter header:nth-child(3),
+.THIS .cardAuthorization.error header:nth-child(1),
+.THIS .cardAuthorization.error header:nth-child(2){
+    display: none;
+}
+
+.THIS .cardAuthorization.counter header:nth-child(2),
+.THIS .cardAuthorization.error header:nth-child(3){
+    display: block;
+}
+
+
+/* CARD SIZE */
+.THIS .card_s{
+    width: 856px;
+    padding: 64px 128px 66px 128px;
+}
+
+/* CARD AUTHORIZATION HEADER */
+.THIS .cardAuthorization .slds-card__header{
+	margin: 0;
+    padding: 0;
+}
+
+.THIS .cardAuthorization .slds-card__header .slds-media__body{
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width:600px;
+}
+
+.THIS .cardAuthorization .slds-card__header .slds-media__figure{
+	position: absolute;
+    top: 24px;
+    right: 24px;
+    margin: 0;
+    width: 16px;
+    height: 16px;
+    display: none;
+}
+
+
+/* SEPARATION LINE */
+.THIS .cardAuthorization .card-line{
+    width: 392px;
+    border-bottom: 1px solid #cedee7;
+    margin: 24px 0;
+}
+
+.THIS .cardAuthorization.error .card-line{
+    visibility: hidden;
+}
+
+/* CARD AUTHORIZATION FOOTER */
+.THIS .cardAuthorization .slds-card__footer{
+    display: flex;
+    justify-content: center;
+ 	margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.THIS .cardAuthorization.error .slds-card__footer{
+    visibility: hidden;
+}
+
+/* CARD AUTHORIZATION TEXT STYLE */
+.THIS .cardAuthorization .slds-card__header-title {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 20px;
+    line-height: 28px;
+    color: #137e84;
+    text-align: center;
+}
+
+.THIS .cardAuthorization .card_subtitle{
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    color: #444444;
+    margin-top: 4px;
+    text-align: center;
+}
+
+.THIS .cardAuthorization .slds-text-body_regular{
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    color: #767676;
+    text-align: center;
+}
+
+.THIS .text-bold{
+    font-family: "SantanderMicroText-Bd";
+    color: #444444;
+}
+
+
+/* CARD ICON */
+.THIS .card_icon{
+    margin-bottom: 16px;
+    width: 56px;
+    height: 56px;
+}
+
+
+/* PROGRESS RING  */
+
+.THIS .slds-progress-ring,
+.THIS .slds-progress-ring__progress{
+    height: 56px;
+    width: 56px;
+    border-radius: 50%;
+
+}
+
+.THIS .slds-progress-ring__progress {
+    transform: rotateZ(45deg);
+}
+
+.THIS .slds-progress-ring__content {
+    top: 4.2px;
+    right: 4.2px;
+    bottom: 4.2px;
+    left: 4.2px;
+}
+
+/* PROGRESS RING AVAILABLE & NOT AVAILABLE  */
+.THIS .available .progress-ring_text,
+.THIS .notAvailable .progress-ring_text  {
+    max-width: 272px;
+    margin: 0 0 0 16px;
+}
+
+.THIS .available .progress-ring_text p,
+.THIS .notAvailable .progress-ring_text p {
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 21px;
+    color: #444444;
+}
+
+.THIS .available .progress-ring_text p > span,
+.THIS .notAvailable .progress-ring_text p  > span {
+    font-family: SantanderMicroText-Bd;
+}
+
+.THIS .available .slds-progress-ring{
+    background-color: #cccccc;
+}
+
+/*.THIS .available .slds-progress-ring__content{
+    background-color: #f6fafc;
+}*/
+
+.THIS .available .slds-progress-ring__progress__25 {
+    border-top: solid 4.2px #137e84;
+    border-right: solid 4.2px transparent;
+    border-bottom:  solid 4.2px transparent;
+    border-left: solid 4.2px transparent;
+ }
+
+ .THIS .available .slds-progress-ring__progress__50 {
+    border-top: solid 4.2px #137e84;
+    border-right: solid 4.2px #137e84;
+    border-bottom:  solid 4.2px transparent;
+    border-left: solid 4.2px transparent;
+
+ }
+
+ .THIS .available .slds-progress-ring__progress__75 {
+    border-top: solid 4.2px #137e84;
+    border-right: solid 4.2px #137e84;
+    border-bottom:  solid 4.2px #137e84;
+    border-left: solid 4.2px transparent;
+ }
+
+ .THIS .available .slds-progress-ring__progress__100 {
+    border-top: solid 4.2px #137e84;
+    border-right: solid 4.2px #137e84;
+    border-bottom:  solid 4.2px #137e84;
+    border-left:  solid 4.2px #137e84;
+ }
+
+ .THIS .available .slds-progress-ring__content p{
+    font-family: SantanderMicroText-Bd;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+    color: #444444;
+}
+
+.THIS .notAvailable .icon-information{
+    font-size: 32px;
+    margin: 12px;
+}
+
+.THIS .notAvailable .icon-information:before{
+    color: #137e84;
+}
+
+.THIS .notAvailable .slds-progress-ring__progress,
+.THIS .notAvailable .slds-progress-ring,
+.THIS .notAvailable .slds-progress-ring__content{
+    background-color:  #e8f3f6;
+}
+
+/* PROGRESS RING UPDATE  */
+.THIS .progress-ring_container__update{
+    padding: 22px 0;
+    border-radius: 4px;
+    background-color: #f6fafc;
+}
+
+.THIS .progress-ring_container__update p{
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 21px;
+    color: #767676;
+    text-align: center;
+    margin-bottom: 8px;
+}
+.THIS .progress-ring_container__update .icon-reload {
+     font-size: 24px;
+     margin-left: 4px;
+}
+
+.THIS .progress-ring_container__update .slds-button.secondary:hover .icon-reload::before {
+   color: white;
+}
+
+.THIS .progress-ring_container__update .slds-button.secondary {
+    display: flex; 
+    cursor: pointer;
+    margin: auto;
+}
+
+.THIS .progress-ring_container__update .slds-button.secondary {
+    font-size: 16px;
+    line-height: 24px;
+    font-family: "SantanderMicroText";
+    height:32px;
+}
+
+
+
+/* CARD AUTORIZACIÓN */
+.THIS.container_lastStep .authorization_card{
+    margin-top: 24px;
+}
+
+/* CARD CONTACTO */
+.THIS .cardProcessExit{
+    background-color: transparent;
+}
+
+.THIS .cardProcessExit{
+    /*width: 808px;
+    max-width: 808px;*/
+    background-color: #f6fafc;
+    /*background-color: transparent;*/
+    border: none;
+    border-radius: 0;
+    padding: 0px;
+    box-shadow: none;
+    margin: 0px 0px 0px 0px;
+}
+.THIS .cardProcessExit .slds-card__header{
+    text-align: center;
+    padding: 40px 24px;
+    margin: 0;
+}
+.THIS .cardProcessExit .slds-card__header .slds-text-heading_small{
+    font-family: SantanderMicroText-Bd;
+    font-size: 14px; 
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #444444;
+}
+
+.THIS .cardProcessExit .slds-card__header .slds-text-heading_small > .slds-button{
+    margin-left: 5px;
+}
+
+.THIS .cardAuthorization .icon-signature-pending:before {
+    color: #137e84;
+	font-size: 56px;
+}

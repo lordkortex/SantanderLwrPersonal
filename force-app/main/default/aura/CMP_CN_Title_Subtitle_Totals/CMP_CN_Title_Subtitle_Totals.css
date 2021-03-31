@@ -1,0 +1,190 @@
+.THIS.titleAccount{
+	width: 100%;
+	margin: 0 0 16px 0;  
+}
+.THIS.titleAccount .firstRow{
+	height: 38px;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 4px;
+}
+.THIS.titleAccount .slds-col:last-child{
+    align-items: baseline;
+    justify-content: flex-end;
+}
+.THIS.titleAccount .slds-col.account{
+    display: flex;
+}
+.THIS.titleAccount .slds-col.title {
+    display: block;
+    /*display: flex;
+    justify-content: space-between;
+    position: relative;*/
+}
+.THIS.titleAccount .bookBalanceNumber {
+	display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+/*.THIS.titleAccount .bookBalanceNumber .slds-card__header-title.numberSubtitle {
+	padding-left: 33px
+}
+.THIS.titleAccount .bookBalance .slds-card__header-title.textSubtitle:first-child {
+	padding-right: 33px
+}*/
+.THIS.titleAccount .bookBalance {
+    margin-right: 24px;
+}
+
+/* ICONOS Y LINKS */
+
+.THIS.titleAccount .icon {
+	display: inline-flex;
+    cursor: pointer;
+}
+
+.THIS.titleAccount .icon-copy,
+.THIS.titleAccount .icon-details {
+    margin-left: 16px;
+}
+
+.THIS.titleAccount .icon-copy:before,
+.THIS.titleAccount .icon-details:before {
+	font-size:24px;
+    margin-right: 4px;
+   
+}
+
+.THIS.titleAccount .icon-copy:hover:before,
+.THIS.titleAccount .icon-details:hover:before,
+.THIS.titleAccount .icon-copy:hover .text-link,
+.THIS.titleAccount .icon-details:hover .text-link{
+ color:#cc0000;
+}
+
+.THIS.titleAccount .text-link {
+	font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 24px;
+}
+
+
+
+
+/* ESTILOS DE TEXTO */
+
+.THIS.titleAccount .numberSubtitle,
+.THIS.titleAccount .textSubtitle {
+    color: #444444;
+    font-size: 14px;
+    font-family: "SantanderMicroText";
+    line-height: 21px;
+}
+.THIS.titleAccount .numberTitle > .bookDecimals {
+    color: #444444;
+    font-size: 24px;
+    font-family:"SantanderHeadlineW05-Bold";
+    line-height: 29px;
+}
+.THIS.titleAccount .numberTitle > .bookInteger{
+    color: #444444;
+    font-size: 32px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 38px;
+}
+.THIS.titleAccount .title .slds-text-heading_medium {
+	color: #444444;
+	font-family:"SantanderHeadlineW05-Rg";
+	font-size: 28px;
+	line-height: 34px;
+    letter-spacing: normal;
+}
+.THIS.titleAccount .title .slds-text-heading_subtitle{
+    color: #444444;
+    /*display: inline-flex;*/
+	font-family: "SantanderMicroText";
+	font-size: 14px;
+	line-height: 21px;
+    letter-spacing: normal;
+}
+
+.THIS.titleAccount .title .secondRow{
+    height: 21px;
+    display: flex;
+/*
+.THIS.titleAccount .title .slds-text-body_regular{
+    color: #767676;
+	font-family: "SantanderMicroText";
+	font-size: 14px;
+	line-height: 20px;
+    letter-spacing: normal;
+}
+
+.THIS .slds-button.primary.button_icon {
+	height: 40px;
+    position: relative;
+    right: 0;
+}
+
+.THIS .slds-button.primary {
+	background-color: #ec0000;
+    border-radius: 100px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    padding: 8px 24px;
+}
+
+
+
+
+.THIS .slds-button.primary:hover {
+    background-color: #cc0000;
+    color: #ffffff;
+    border: 1px solid #cc0000;
+}
+
+.THIS .slds-button.primary:active {
+    background-color: #990000;
+    color: #ffffff;
+    border: 1px solid #990000;
+}
+
+.THIS.titleAccount .icon-income-expenses:before{
+    font-size: 24px;
+    color: #ffffff;
+    margin-left: 4px;
+    float: right;*/
+}
+
+/* LINEA */
+
+.THIS.titleAccount .title .text_line{
+	border-bottom: solid 3px #ec0000;
+    width:40px;
+    margin-top: 8px;
+}
+
+@media print {
+    .THIS.titleAccount { 
+        flex-direction: column;
+    }
+    .THIS.titleAccount .slds-col:last-child { 
+        justify-content: flex-start;
+    }
+     .THIS.titleAccount .numberTitle>.bookInteger{
+		font-size: 19px; 
+         line-height: 1.4;
+    }
+     .THIS.titleAccount .numberTitle>.bookDecimals { 
+        font-size: 14px; 
+        line-height: 1.5;
+    }
+}
+
+.THIS.titleAccount .eburySymbol{
+    margin-left: 8px;
+}

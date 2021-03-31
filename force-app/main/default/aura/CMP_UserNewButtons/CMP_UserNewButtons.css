@@ -1,0 +1,120 @@
+.THIS {
+}
+.THIS .firstPillBig{
+    width:11.3%;
+}
+.THIS .firstPillSmall{
+    width:12.3%;
+}
+
+.THIS .lastPillBig{
+    width: 87.7%;
+    display: flex;
+    justify-content: flex-end;
+}
+.THIS .lastPillSmall{
+    width: 86.4%;
+    display: flex;
+    justify-content: flex-end;
+}
+.THIS .lastRow{
+    margin: 0;
+}
+.THIS .paddingInput{
+    padding: 0;
+}
+.THIS.containerPopUp{
+    width: 1184px;
+    background-color: /*#eff6f9*/ white;
+    border: 0px;
+    padding: 16px 24px 16px 16px;
+}
+
+.THIS.containerAdmin{
+    width: 1184px;
+    background-color: /*#eff6f9*/ transparent;
+    border: 0px;
+    padding: 24px 0 24px 10px;
+}
+.THIS.containerSearch{
+    width: 1184px;
+    background-color: #eff6f9;
+    border: 0px;
+    padding: 34px 64px 24px 64px;
+}
+
+/*		BOTON BLANCO GRANDE		*/
+.THIS .whiteButtonBig1{
+    padding: 0 32px;
+    height: 40px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #ec0000;
+    font-family: "SantanderTextW05-Bold";
+    margin-right: 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+.THIS .whiteButtonBig1:hover{
+    background-color: #f6f6f6;
+    border: 1px solid #cc0000;
+    color: #cc0000;
+}
+.THIS .whiteButtonBig1:focus{
+    box-shadow: 2px 2px 4px 2px rgba(206,214,219,0.64);
+    background-color: #f6f6f6;
+    border: 1px solid #cc0000;
+}
+
+
+/*		BOTON BLANCO GRANDE ALARGADO		*/
+.THIS .whiteButtonBig2{
+    padding: 0 32px;
+    height: 40px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #ec0000;
+    font-family: "SantanderTextW05-Bold";
+    margin-right: 16px;
+    transition: all 0.2s ease-in-out;
+}
+.THIS .whiteButtonBig2:hover{
+    background-color: #f6f6f6;
+    border: 1px solid #cc0000;
+    color: #cc0000;
+}
+.THIS .whiteButtonBig2:focus{
+    box-shadow: 2px 2px 4px 2px rgba(206,214,219,0.64);
+    background-color: #f6f6f6;
+    border: 1px solid #cc0000;
+}
+
+
+/*       UN BOTON GRANDE ROJO             */
+.THIS .redButtonBig{
+    padding: 0 32px;
+    height: 40px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ec0000;
+    transition: all 0.2s ease-in-out;
+    font-size: 14px;
+    font-family: "SantanderTextW05-Bold";
+    color: #ffffff;
+    margin:0;
+}
+.THIS .redButtonBig:hover{
+    background-color: #cc0000;
+    border: 1px solid #cc0000;
+    color: #ffffff;
+}
+.THIS .redButtonBig:focus{
+    background-color: #cc0000;
+    border: 1px solid #cc0000;
+    color: #ffffff;
+    box-shadow: 2px 2px 4px 2px rgba(206,214,219,0.64);
+}

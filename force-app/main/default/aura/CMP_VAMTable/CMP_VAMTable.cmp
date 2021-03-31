@@ -1,0 +1,143 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+
+	<!--DATA-->
+    <aura:attribute access="public" name="VAMAccounts" type="Map"  default="{}"/>
+    <aura:attribute access="public" name="selectedVAMAccount" type="String"  default="{}"/>
+    <aura:attribute access="public" name="showDetail" type="Boolean"  default="false"/>
+
+    <!--SPINNER-->
+    <aura:attribute access="public" name="showSpinner" type="Boolean"  default="false"/>
+    
+    <!--SORT FUNCTIONALITY-->
+    <aura:attribute     name="arrowDirection"                       type="String"   default="arrowup"       description="Use for change arrow sign direction on header based on click"/>
+    <aura:attribute     name="isAsc"                                type="Boolean"  default="true"          description="Boolean flag for pass sorting condition to apex class"/>
+    <aura:attribute     name="selectedTabsoft"                      type="String"   default=""              description="Use for show/hide arrow sign on header based on conditions"/>
+
+    <!--PAGINATION FUNCTIONALITY-->
+    <aura:attribute access="private" 	type="List" 	name="values"  				default="['10','20','40']" 			description="List of values to populate the dropdown" />
+    <aura:attribute access="private" 	type="Integer"  name="selectedValue" 											description="Number of cards displayed per page." />
+    <aura:attribute access="private" 	type="Integer"  name="paymentsNumber"                             				description="Number of payments to be displayed." />
+    <aura:attribute access="private" 	type="Integer"  name="finalItem"                                  				description="Last page of the view." />
+    <aura:attribute access="private" 	type="Integer"  name="firstItem"       		default="1"               			description="First page of the view." />
+    <aura:attribute access="private" 	type="List"     name="pagesNumbers"                               				description="List of possible pages." />
+    <aura:attribute access="private" 	type="List"     name="paginationList"                             				description="List of accounts displayed per page." />
+    <aura:attribute access="private" 	type="Integer"  name="currentPage" />
+                    
+	<aura:handler name="change" value="{!v.VAMAccounts}" action="{!c.changeVAM}"/>
+
+    <div class="slds-large-size--1-of-1 slds-medium-size--1-of-1 slds-small-size--1-of-1 slds-wrap slds-is-relative" id="customersTable">
+        <aura:if isTrue="{!v.showSpinner eq true}">
+            <lightning:spinner alternativeText="Loading" size="large" variant="brand" />
+        </aura:if>
+
+        <div class="slds-text-heading_medium slds-text-align_left slds-p-top_medium buttonContainer ">
+            {!$Label.c.virtualAccountsList} <c:CMP_InfosysRedirect/>
+        	
+        </div>
+
+        <div class="slds-text-body_regular slds-p-top_small text">{!$Label.c.Displaying}&nbsp;<strong>{!v.VAMAccounts.length}</strong>&nbsp;{!$Label.c.virtualAccounts}</div>
+        <table class="slds-table slds-table_bordered slds-table--cell-buffer">
+            
+            <thead>
+                <tr class="slds-text-title_caps" >
+                    <th scope="col" class="slds-is-sortable" style="cursor: pointer;" onclick="{!c.sortBy}" id="vamId" >
+                        <span id="vamId" class="slds-truncate ">{!$Label.c.virtualAccountId}</span>
+                        <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'vamId')}">  
+                            <lightning:icon iconName="utility:arrowdown"  size="xx-small" title="xx-small size" />
+                        </aura:if>
+                        <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'vamId')}">
+                            <lightning:icon iconName="utility:arrowup"  size="xx-small" title="xx-small size" />
+                        </aura:if>
+                    </th>
+                    
+                    <th scope="col" class="slds-is-sortable" style="cursor: pointer;" onclick="{!c.sortBy}" >
+                        <span  id="country" class="slds-truncate" >{!$Label.c.Country}</span>
+                        <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'country')}">  
+                            <lightning:icon iconName="utility:arrowdown"  size="xx-small" title="xx-small size" />
+                        </aura:if>
+                        <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'country')}">
+                            <lightning:icon iconName="utility:arrowup"  size="xx-small" title="xx-small size" />
+                        </aura:if>
+                    </th>
+                    
+                    <th scope="col" class="slds-is-sortable" style="cursor: pointer;" onclick="{!c.sortBy}">
+                        <span  class="slds-truncate" id="entity">{!$Label.c.Entity}</span>
+                        
+                        <aura:if isTrue="{! and(v.arrowDirection == 'arrowdown', v.selectedTabsoft == 'entity')}">  
+                            <lightning:icon iconName="utility:arrowdown"  size="xx-small" title="xx-small size" />
+                        </aura:if>
+                        <aura:if isTrue="{! and(v.arrowDirection != 'arrowdown', v.selectedTabsoft == 'entity')}">
+                            <lightning:icon iconName="utility:arrowup"  size="xx-small" title="xx-small size" />
+                        </aura:if>
+                    </th>
+
+                    <th scope="col" class="">
+                        <div class="slds-truncate slds-align_absolute-center" title="{!$Label.c.MoreDetail}">
+                            <span  id="moreDetail">{!$Label.c.MoreDetail}</span>
+                            
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.paginationList}" var="item">
+                    <tr>
+                        <th data-label="{!$Label.c.virtualAccountId}" >
+                            <div class="slds-truncate">{!item.vamAccount}</div>
+                        </th>
+                        
+                        <th data-label="{!$Label.c.Country}" class="">
+                            <div class="slds-truncate">{!item.country}</div>
+                        </th>
+                        
+                        <th data-label="{!$Label.c.Entity}" class="">
+                            <div class="slds-truncate">{!item.entityName}</div>
+                        </th>
+                                                
+                        <th data-label="{!$Label.c.MoreDetail}" class="">
+                            
+                            <div class="slds-button slds-truncate slds-align_absolute-center" style="cursor: pointer;" onclick="{!c.goToDetail}" id="{!item.vamAccount}">
+                                <lightning:icon iconName="utility:layers"  alternativeText="" title="" size="small"/>                                    
+                            </div> 
+                        </th>
+                    </tr>
+                    
+                    
+                </aura:iteration>
+            </tbody>
+            
+        </table>
+        
+        <div class="slds-clearfix">
+            <div class="slds-p-top_medium slds-float_right">
+                
+                <button class="slds-button slds-button_brand slds-truncate" id="previousPage" onclick='{!c.handlePreviousPage}' disabled="{!and(v.currentPage ne 1, v.VAMAccounts.length gt 0) ? 'false' : 'true'}">
+                    {!$Label.c.previousPage}
+                </button>                  
+                
+                <button class="slds-button slds-button_brand slds-truncate" id="nextPage" onclick='{!c.handleNextPage}' disabled="{!and(v.currentPage ne v.pagesNumbers.length, v.VAMAccounts.length gt 0) ? 'false' : 'true'}">
+                    {!$Label.c.T_NextPage}
+                </button>
+                <aura:if isTrue="{!v.VAMAccounts.length gt 0}">
+                    <div class="text slds-p-top_small">{!$Label.c.PAY_Page}: {!v.currentPage}/{!v.pagesNumbers.length}</div>
+                    <div class="">{!v.firstItem + ' ' + $Label.c.toMinus + ' ' + v.finalItem + ' ' + $Label.c.of}&nbsp;<strong>{!v.VAMAccounts.length+' '+$Label.c.virtualAccounts}</strong></div>
+                    <aura:set attribute="else">
+                        <div class="text slds-p-top_small"></div>
+                        <div class=""></div>
+                    </aura:set>
+                </aura:if>
+            </div>
+            <div class="slds-p-top_medium slds-float_left">
+                <lightning:select aura:id="select" name="select" label="{!$Label.c.B2B_Items_displayed}" onchange="{! c.onChangeSelect}" >
+                    <aura:iteration items="{!v.values}" var="item">
+                        <option text="{!item}"></option>
+                    </aura:iteration>
+                </lightning:select>
+            </div>
+        </div>
+    </div>
+	<aura:if isTrue="{!v.showDetail}">
+    	<c:CMP_VAMDetail VAMAccount="{!v.selectedVAMAccount}" showDetail="{!v.showDetail}"/>
+    </aura:if>
+
+</aura:component>

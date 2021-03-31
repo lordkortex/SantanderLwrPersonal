@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event fired when a tab is clicked">
+    <aura:attribute name="activateTabId" type="String" description="The id of the clicked tab"/>
+    <aura:attribute name="deactivateTabs" type="List" description="The id of all tabs to be deactivated"/>
+</aura:event>

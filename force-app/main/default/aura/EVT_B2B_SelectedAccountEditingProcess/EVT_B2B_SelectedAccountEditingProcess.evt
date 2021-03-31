@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event that fire when the step is finished.">
+    <aura:attribute type="Map"      name="account"          description="Selected account by the user." />
+    <aura:attribute type="Boolean"  name="isEditingProcess"    description="Indicates if is from edit payment process." />
+</aura:event>

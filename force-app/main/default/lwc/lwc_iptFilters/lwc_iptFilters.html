@@ -1,0 +1,94 @@
+<template>
+        <c-lwc_ipt-advanced-filters 
+            ongetfilter={filterData}
+            onupdatefilter={updateFilterDataAndUpdateFiltering}
+            isopen={isopen}
+            inoutindicator={selectedPaymentType}
+            accountfilter={accountFilter}
+            from-detail={fromDetail} 
+            accountlist={accountlist} 
+            currencylist={currencyList}
+            isaccountfilter={isaccountfilter}
+            selectedaccount={selectedAccounts}
+            selectedcurrency={currency}
+            apiselectedstatus={selectedStatus}
+            settledfrom={settledFrom}
+            settledto={settledTo}
+            count={countadvancedfilters}
+            selectedcountry={selectedCountry}
+            date-from={valueDateFrom}
+            date-to={valueDateTo}
+            thatcontains={searchText}
+            beneficiaryaccount={beneficiaryAccount}>
+        </c-lwc_ipt-advanced-filters>
+
+
+    <div if:true={ready}>
+        <div class="pillContainer">
+            <div class="filtersBox">
+                <!-- OPTION BUTTONS ONLY TEXT -->
+                <div> 
+                    <div class="slds-button-group sizeM" role="group">
+                        <!-- Añadir la clase selected para que el botón se muestre seleccionado -->
+                        <button data-name="outPayments" class={selectedPaymentOutClass} onclick={updatePaymentsType}>{Label.OutgoingPayments}</button>
+                        <button data-name="inPayments" class={selectedPaymentInClass} onclick={updatePaymentsType}>{Label.IncomingPayments}</button> 
+                    </div>
+                </div>
+            </div>
+            <div class="filtersBlock">
+                <label class="slds-form-element__label" for="text-input-id-1">{Label.filterBy}</label>
+                <div class="slds-media__body">
+                    <div class="slds-form-element__control">
+                        <c-lwc_filter-dropdown 
+                            valueplaceholder={Label.Account} 
+                            values={accountListToDisplay}
+                            bodyclass="accountCombobox"
+                            selectedvalues={selectedAccounts}
+                            onupdatefilterdropdownmulti={updateFilterData}>
+                        </c-lwc_filter-dropdown>
+                        <!--c-lwc_filter-dropdown >
+                        </c-lwc_filter-dropdown -->
+                        <div class="buttonCurrency">
+                        <c-lwc_filter-dropdown 
+                            valueplaceholder={Label.currencyLabel} 
+                            bodyclass="currencyCombobox"
+                            values={currencylist}
+                            issimpledropdown=true
+                            selectedvalue={currency} 
+                            onupdatefilterdropdownsimple={updateFilterData}
+                            valuesingle={Label.singleChoice}>   
+                        </c-lwc_filter-dropdown>
+                        </div>
+                        <c-lwc_input-dropdown   
+                            valueplaceholder={Label.amount} 
+                            settledfrom={settledFrom}
+                            settledto={settledTo}
+                            onupdatefilterdropdowninput={updateFilterData}>   
+                        </c-lwc_input-dropdown>
+                        
+                        <div class="text-link" onclick={showAdvancedFilters}>
+                            <div if:true={getCount}>
+                                <span class="icon icon-filter">{Label.advancedFilters}</span>
+                            </div>
+                            <div if:false={getCount}>
+                                <span class="icon icon-filter">{Label.advancedFilters} ({count})</span>
+                            </div>   
+                        </div>
+                    </div> 
+                    <!--DOWNLOAD-->
+                    <div class="rightIcons">
+                        <!--PRINT-->
+                        <!-- <div class="text-link">         
+                        <span class="icon icon-print">Print</span>
+                    </div>  -->
+                        
+                        <!--DOWNLOAD-->
+                        <div class="text-link" onclick={download}>         
+                            <span class="icon icon-download">{Label.download}</span>
+                        </div>  
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

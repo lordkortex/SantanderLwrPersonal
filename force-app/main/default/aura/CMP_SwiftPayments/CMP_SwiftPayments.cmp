@@ -1,0 +1,34 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to show the swift payments
+History
+<Date>			<Author>		<Description>
+13/11/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_SwiftPayment">
+    
+    <aura:attribute name="accountNumber" type="String"/>
+    <aura:attribute name="bank" type="String"/>
+    <aura:attribute name="mainAmount" type="String"/>
+    <aura:attribute name="availableAmount" type="String"/>
+    <aura:attribute name="currentCurrency" type="String"/>
+    <aura:attribute name="subsidiaryName" type="String"/>
+    <aura:attribute name="agent" type="String"/>
+
+    <aura:attribute name="ready" type="boolean" default="false"/>
+    <aura:attribute name="filters" type="String" default=""/>
+
+    <aura:handler name="getFilter" event="c:EVT_searchFilter" action="{!c.getFilters}"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <c:CMP_TitleBreadcrumb title="{!$Label.c.SwiftPaymentsTitle}" breadcrumb="['International_Treasury_Management','SwiftPaymentsTitle']"/>
+    
+    <c:CMP_SwiftPaymentAccountInfo subsidiaryName="{!v.subsidiaryName}" accountNumber="{!v.accountNumber}" bank="{!v.bank}" mainAmount="{!v.mainAmount}" availableAmount="{!v.availableAmount}" currentCurrency="{!v.currentCurrency}"/>
+
+    <aura:if isTrue="{!v.ready==True}">
+        <c:CMP_SwiftPaymentSearch accountNumber="{!v.accountNumber}"/>
+        <c:CMP_SwiftPaymentTable filters="{!v.filters}" agent="{!v.agent}"/>
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,24 @@
+<aura:component controller="CNT_CaseRefundButtons" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute 	access="public" 	type="Case" 	name="currentCase"   									description="Current case data"/>
+    <aura:attribute 	access="private"	type="Boolean" 	name="loaded"			default="false" />
+    <aura:attribute 	access="public"		type="Map" 		name="paymentDetails"		default="{}"/>
+    
+    <aura:handler 	name="init" 	value="{!this}" 						action="{!c.doInit}"/>
+    
+    
+    <aura:if isTrue="{! v.loaded }">
+        <!--Pending of Authorization-->
+        <!--{!and(and( v.currentCase.CASE_PCK_Record_Type__c == 'Payment Parent Case', v.currentCase.Status == 'Pending of Authorization'), v.currentCase.CASE_CHK_Reverse_ordering_debit__c == false) } -->
+        <aura:if isTrue="{!and(v.currentCase.CASE_PCK_Record_Type__c == 'Payment Parent Case',  v.currentCase.CASE_CHK_Reverse_ordering_debit__c == false) }">           
+            <lightning:button class="slds-size_full" variant="brand" label="{!$Label.c.CASE_ReverseOrderingDebit}" title="{!$Label.c.CASE_ReverseOrderingDebit}" onclick="{! c.handleReverseOrderingDebit }" />
+        </aura:if>
+        <!--{!and( v.currentCase.CASE_PCK_Record_Type__c == 'Payment Child Case', v.currentCase.Status == 'Pending of Authorization',v.currentCase.CASE_CHK_ReverseBeneficiaryCredit__c == false) }-->
+        <aura:if isTrue="{!and(v.currentCase.CASE_PCK_Record_Type__c == 'Payment Child Case', v.currentCase.CASE_CHK_ReverseBeneficiaryCredit__c == false)}">           
+            <lightning:button class="slds-size_full" variant="brand" label="{!$Label.c.CASE_ReverseBeneficiaryCredit}" title="{!$Label.c.CASE_ReverseBeneficiaryCredit}" onclick="{! c.handleReverseBeneficiaryCredit}" />
+        </aura:if>
+        
+        <aura:set attribute="else">
+            <lightning:spinner alternativeText="Loading" />            
+        </aura:set>
+    </aura:if>
+</aura:component>

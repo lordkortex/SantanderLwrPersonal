@@ -1,0 +1,46 @@
+<aura:component controller="Global_Utilities">
+    
+    <lightning:navigation aura:id="navService"/>
+
+    <aura:method name="callApex" action="{!c.onCallApex}">
+        <aura:attribute name="component" type="Aura.Component" />
+        <aura:attribute name="controllerMethod" type="String" />
+        <aura:attribute name="actionParameters" type="Object" />
+        <aura:attribute name="successCallback" type="Object" />
+    </aura:method>
+
+    <aura:method name="callApex2"                   action="{!c.onCallApex2}">
+        <aura:attribute name="component"            type="Aura.Component" />
+        <aura:attribute name="helper"               type="Object" />
+        <aura:attribute name="controllerMethod"     type="String" />
+        <aura:attribute name="actionParameters"     type="Object" />
+        <aura:attribute name="successCallback"      type="Object" />
+    </aura:method>
+
+    <aura:method name="redirect" action="{!c.redirect}">
+        <!-- <aura:attribute name="component"    type="Aura.Component" /> -->
+        <aura:attribute name="page"         type="String" />
+        <aura:attribute name="urlParams"          type="String" />
+    </aura:method>
+
+    <aura:method name="dataDecryption" action="{!c.dataDecryption}">
+        <!-- <aura:attribute name="component"    type="Aura.Component" /> -->
+        <aura:attribute name="component"            type="Aura.Component" />
+        <aura:attribute name="helper"               type="Object" />
+        <aura:attribute name="dataURI"         type="String" />
+        <aura:attribute name="controllerMethod"      type="Object" />
+    </aura:method>
+
+    <aura:method name="saveToCache" action="{!c.saveToCache}" description="Method to save data in the cache">
+        <aura:attribute name="key"          type="String"         description="Reference to the current component, to allow the callback to work properly"/>
+        <aura:attribute name="data"         type="Object"         description="Data to be saved to the cache"/>
+    </aura:method>
+
+    <aura:method name="retrieveFromCache" action="{!c.retrieveFromCache}" description="Method to retrieve data from the cache">
+        <aura:attribute name="component"                 type="Aura.Component"   description="Reference to the caller component"/>
+        <aura:attribute name="helper"                    type="Object"           description="Reference to the helper of the caller component"/>
+        <aura:attribute name="key"                       type="String"           description="Key to pass the encrypted value to the cache"/>
+        <aura:attribute name="successCallback"           type="Object"           description="Function which is called upon successful data retrieval"/>
+    </aura:method>
+    
+</aura:component>

@@ -1,0 +1,93 @@
+<template>
+
+    <div class="drag-and-drop-t01">
+        <div class={manageFrontMain}>
+            <!-- DEFAULT CONTENT -->
+            <template if:true={defaultUpload}>
+                <div class="default slds-grid">
+                    <span class="icon icon-upload"></span>
+                    <div class="text-informative">
+                        <div class="slds-text-heading_small">{label.PAY_chooseOrDragAndDrop}</div>
+                        <div class="slds-text-body_regular">{label.PAY_validFormatDragAndDrop}</div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- VALIDATING -->
+            <template if:true={validatingUpload}>
+                <div class="validating slds-grid">
+                    <div role="status" class="slds-spinner">
+                        <img src={spinner} alt={label.PAY_validatingFiles}></img>
+                    </div>
+                    <template if:true={uploadSeveralFiles}>
+                        <span class="slds-text-heading_small spinner-text">{label.PAY_validatingFiles}</span>
+                    </template> 
+                    <template if:false={uploadSeveralFiles}>
+                        <span class="slds-text-heading_small spinner-text">{label.PAY_validatingFile}<span
+                            class="slds-text-body_regular">{fileName}</span></span>
+                    </template> 
+                    
+                </div>
+            </template>
+
+            <!-- SUCCESS -->
+            <template if:true={successUpload}>
+                <div class="success slds-grid">
+                    <div class="slds-grid">
+                        <span class="icon icon-check_circle"></span>
+                        <template if:true={uploadSeveralFiles}>
+                            <span class="slds-text-heading_small">{label.PAY_filesUploadSuccessfully}</span>
+                        </template> 
+                        <template if:false={uploadSeveralFiles}>
+                            <span class="slds-text-heading_small success-text">{label.PAY_fileUploadSuccessfully}<span
+                                class="slds-text-body_regular">{fileName}</span></span>
+                        </template> 
+                    </div>
+                </div>  
+            </template>
+
+            <!-- ERROR -->
+            <template if:true={errorUpload}>
+                <div class="error slds-grid">
+                   <!-- <div class="slds-grid">-->
+                        <span class="icon icon-upload"></span>
+                        <span class="slds-text-heading_small">{label.PAY_chooseOrDragAndDrop}</span>
+                    </div>
+               <!-- </div> --> 
+            </template>
+        </div>
+        <template if:true={errorUpload}>
+            <div class="error-text">{label.PAY_errorIncorrectFile}</div>
+        </template>
+
+        
+        <lightning-input  name="file uploader" label={label.PAY_chooseOrDragAndDrop}  oninput={startValidating} onchange={handleFilesChange} type="file" multiple></lightning-input>
+
+    </div>
+
+    <div class="slds-grid slds-wrap">
+        <template for:each={currentFiles} for:item='item'>
+            <div class="slds-col" key={item.key}>
+                <!--CARD INFORMATIVE -->
+                <article class="slds-card cardInfo"> 
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-has-flexi-truncate">
+                            <div class="slds-media__body">
+                                <h2 class="slds-card__header-title slds-truncate">{label.PAY_document} {item.index}</h2>
+                                <div class="slds-text-heading_small slds-truncate">{item.name}</div>
+                            </div>
+                        </header>
+                    </div>
+                    <footer class="slds-card__footer slds-grid">
+                        <span class="icon icon-document"></span>
+                        <button class="slds-button button_link" id={item.key} name={item.name} onclick={openRemoveModal}><span
+                                class="icon_left icon-remove"></span>{label.remove}</button>
+                    </footer>
+                </article>
+            </div>
+        </template>
+    </div>
+    <template if:true={showRemoveModal}>
+        <c-cmp-pay-modal-remove heading-msg={label.PAY_removeFile} content-msg={removeModalContentLabel} primary-btn={label.yes} secondary-btn={label.cancel} onsaveaction={removeFile} oncloseaction={closeRemoveModal}></c-cmp-pay-modal-remove>
+    </template>
+</template>

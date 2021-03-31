@@ -1,0 +1,108 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to show the IPT filters
+History
+<Date>			<Author>		<Description>
+27/02/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_MRTrackerSearch">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="currencyList" type="List" default="['EUR','GBP','USD','BRL','MXN']"/>
+    <aura:attribute name="accountList" type="List"/>
+    <aura:attribute name="accountListToDisplay" type="List"/>
+    <aura:attribute name="accountFilter" type="String"/>
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:attribute name="selectedAccounts" type="List"/>
+    <aura:attribute name="selectedPaymentType" type="String" default="OUT" />
+    <aura:attribute name="selectedStatus" type="List"/>
+    <aura:attribute name="count" type="Integer" default="0"/>
+    <aura:attribute name="fromDetail" type="Boolean" default="false" description="Check if comes from detail"/>
+    <aura:attribute name="amountFrom" type="String"/>
+    <aura:attribute name="amountTo" type="String"/>
+    <aura:attribute name="selectedCountry" type="String"/>
+    <aura:attribute name="valueDateFrom" type="String"/>
+    <aura:attribute name="valueDateTo" type="String"/>
+    <aura:attribute name="searchText" type="String"/>
+    <aura:attribute name="beneficiaryAccount" type="String" default="" />
+    
+    <aura:attribute name="settledFrom" type="String" default=""/>
+    <aura:attribute name="settledTo" type="String" default=""/>
+    <aura:attribute name="currency" type="String" default=""/>
+    <aura:attribute name="ready" type="Boolean" default="false"/>
+    
+    
+    <aura:attribute name="isOpen" type="Boolean" default="false"/>
+    
+    <!--01/04/2020 - Account Payments Tracker-->
+    <aura:attribute name="isAccountFilter" type="Boolean" default="false"/>
+    
+    <aura:handler name="getFilter" event="c:EVT_searchFilter" action="{!c.filterData}"/>
+    <aura:handler name="updateFilter" event="c:EVT_updateFilter" action="{!c.updateFilterData}"/>
+    <aura:handler name="updateFilterDropdown" event="c:EVT_updateFilter" action="{!c.updateFiltering}"/>
+    <aura:attribute name="fromCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="isOneTrade" type="Boolean" default="False" description="True if current user is a One Trade user, else, false"/>
+    <aura:registerEvent name="getFilterParent" type="c:EVT_searchFilter" />
+    
+    <!--01/04/2020 - Account Payments Tracker-->
+    <c:CMP_IPTAdvancedFilters isOpen="{!v.isOpen}" inOutIndicator="{!v.selectedPaymentType}" accountFilter="{!v.accountFilter}" aura:id="advancedFilter" fromDetail="{!v.fromDetail}" accountList="{!v.accountList}" currencyList="{!v.currencyList}" isAccountFilter="{!v.isAccountFilter}" selectedAccount="{!v.selectedAccounts}" selectedCurrency="{!v.currency}" selectedStatus="{!v.selectedStatus}" settledFrom="{!v.amountFrom}" settledTo="{!v.amountTo}" selectedCountry="{!v.selectedCountry}" dateFrom="{!v.valueDateFrom}" dateTo="{!v.valueDateTo}" thatContains="{!v.searchText}" beneficiaryAccount="{!v.beneficiaryAccount}"/>
+    
+    <aura:if isTrue="{!v.ready}">
+        
+        
+        
+        
+        
+        <div class="pillContainer">
+            <div class="filtersBox">
+                <!-- OPTION BUTTONS ONLY TEXT -->
+                <div> 
+                    <div class="slds-button-group sizeM" role="group">
+                        <!-- Añadir la clase selected para que el botón se muestre seleccionado -->
+                        <button id="outPayments" class="{!v.selectedPaymentType == 'OUT' ? 'slds-button slds-button_neutral selected' : 'slds-button slds-button_neutral'}" onclick="{!c.updatePaymentsType}">{!$Label.c.OutgoingPayments}</button>
+                        
+                        <button id="inPayments" class="{!v.selectedPaymentType == 'IN' ? 'slds-button slds-button_neutral selected' : 'slds-button slds-button_neutral'}" onclick="{!c.updatePaymentsType}">{!$Label.c.IncomingPayments}</button> 
+                    </div>
+                </div>
+            </div>
+            <div class="filtersBlock">
+                <label class="slds-form-element__label" for="text-input-id-1">{!$Label.c.filterBy}</label>
+                <div class="slds-media__body">
+                    <div class="slds-form-element__control">
+                        <!--01/04/2020 - Account Payments Tracker
+                    <aura:if isTrue="{!v.isAccountFilter == false}"> -->
+                        <c:CMP_FilterDropdown valuePlaceholder="{!$Label.c.Account}" values="{!v.accountListToDisplay}" isSimpleDropdown="false" selectedValues="{!v.selectedAccounts}"/>
+                        <div class="buttonCurrency">
+                            <c:CMP_FilterDropdown valuePlaceholder="{!$Label.c.currency}" bodyClass="currencyCombobox" values="{!v.currencyList}" selectedValue="{!v.currency}" valueSingle="{!$Label.c.singleChoice}"/>
+                        </div>
+                        <!-- </aura:if> -->
+                        <c:CMP_InputDropdown valuePlaceholder="{!$Label.c.amount}" settledFrom="{!v.amountFrom}" settledTo="{!v.amountTo}"/>
+                        
+                        <div class="text-link" onclick="{!c.showAdvancedFilters}">
+                            <aura:if isTrue="{!v.count==0}">
+                                <span class="icon icon-filter">{!$Label.c.advancedFilters}</span>
+                                <aura:set attribute="else">
+                                    <span class="icon icon-filter">{!$Label.c.advancedFilters} ({!v.count})</span>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div> 
+                    <!--DOWNLOAD-->
+                    <div class="rightIcons">
+                        <!--PRINT-->
+                        <!-- <div class="text-link">         
+                        <span class="icon icon-print">Print</span>
+                    </div>  -->
+                        
+                        <!--DOWNLOAD-->
+                        <div class="text-link" onclick="{!c.download}">         
+                            <span class="icon icon-download">{!$Label.c.download}</span>
+                        </div>  
+                    </div>   
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    
+</aura:component>

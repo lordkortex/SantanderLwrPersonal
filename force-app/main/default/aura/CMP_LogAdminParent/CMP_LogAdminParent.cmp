@@ -1,0 +1,22 @@
+<!--
+	Author:         Guillermo Giral
+    Company:        Deloitte
+	Description:    Parent component for the Log Admin window
+    History
+    <Date>			<Author>			<Description>
+	26/12/2019		Guillermo Giral   	Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="displayData" type="Boolean" default="false" description="Flag to indicate to the c:CMP_LogAdminSearch component whether to display the data or search form"/>
+
+    <!-- COMPONENT HANDLER -->
+    <aura:handler name="buttonClickedEvent" event="c:EVT_TitleButtonClicked" action="{!c.goBackToSearch}"/>
+    <aura:handler name="change" value="{!v.displayData}" action="{!c.updateSearchStyle}"/>
+
+    <!-- COMPONENT MARKUP -->
+    <c:CMP_Title title="{!$Label.c.LogAdmin_Title}" subtitle="{!$Label.c.LogAdmin_Subtitle}" displaySearchIcon="true"/>
+    <c:CMP_LogAdminSearch displayData="{!v.displayData}"/>
+</aura:component>

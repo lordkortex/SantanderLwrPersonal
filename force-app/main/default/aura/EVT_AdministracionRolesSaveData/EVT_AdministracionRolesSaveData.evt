@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event template" >
+ 	<aura:attribute name="isDeleted" type="Boolean" description="Variable for kwon if is use the even for erase or for add new data"/>
+    <aura:attribute name="data" type="List" description="List of data to keep or erase"/> 
+</aura:event>

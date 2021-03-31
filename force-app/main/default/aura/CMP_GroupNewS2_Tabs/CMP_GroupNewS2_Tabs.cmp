@@ -1,0 +1,27 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Tabs component for new group creation (Step 2)
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component>
+    <div class="slds-tabs_default">
+        <ul class="slds-tabs_default__nav" role="tablist">
+            <li class="slds-tabs_default__item tab"  role="presentation">
+                <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="true" aria-controls="tab-default-1" id="tab-default-1__item">{!$Label.c.GroupNew_Payments}</a>
+            </li>
+            <li class="slds-tabs_default__item slds-is-active tab"  role="presentation">
+                <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="0" aria-selected="false" aria-controls="tab-default-2" id="tab-default-2__item">{!$Label.c.GroupNew_Reports}</a>
+            </li>
+            <li class="slds-tabs_default__item tab"  role="presentation">
+                <a class="slds-tabs_default__link" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-3" id="tab-default-3__item">{!$Label.c.GroupNew_OtherServices}</a>
+            </li>
+        </ul>
+        <!--
+        <div id="tab-default-1" class="slds-tabs_default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-1__item">Payments Content</div>
+        <div id="tab-default-2" class="slds-tabs_default__content slds-show" role="tabpanel" aria-labelledby="tab-default-2__item">Reports Content</div>
+        <div id="tab-default-3" class="slds-tabs_default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-3__item">Other services Content</div>
+        -->
+    </div>
+</aura:component>

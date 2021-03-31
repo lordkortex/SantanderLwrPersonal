@@ -1,0 +1,81 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Parent profile for the Service Profiling screen
+History
+<Date>			<Author>		    <Description>
+27/01/2020		Guillermo Giral     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_profileServiceController">
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="profilingTableExpanded" type="Boolean" default="false" description="Expands the profiling table details"/>
+    <aura:attribute name="profile" type="Map" description="Map containing all the profile information of the entity (user/group)"/>
+    <aura:attribute name="profileTree" type="Map" description="Map containing the user/group profile tree, to populate the tree table"/>
+    <aura:attribute name="adminProfile" type="Map" description="Map containing all the profile information of the admin user"/>
+    <aura:attribute name="countries" type="List" description="List of countries to be available for filtering"/>
+    <aura:attribute name="countriesMap" type="Map" description="Map of country name to country code"/>
+    <aura:attribute name="accounts" type="List" description="List of accounts to be available for filtering"/>
+    <aura:attribute name="defaultAccounts" type="List" description="List of accounts to be displayed when clicking the Reset button"/>
+    <aura:attribute name="entitlements" type="List" description="List of entitlements to be available for filtering"/>
+    <aura:attribute name="entitlementsMap" type="Map" description="Map to store the label - transalations pair for each entitlement"/>
+    <aura:attribute name="defaultEntitlements" type="List" description="List of entitlements to be displayed when clicking the Reset button"/>
+    <aura:attribute name="profilingTableInnerData" type="List" description="Data to be grouped in the table"/>
+    <aura:attribute name="urlParams" type="Map" default="{}" description="Parameters received from the previous screen"/>
+    <aura:attribute name="entitlementsWithoutAccount" type="List" default="[]" description="List to store the entitlements associated with no account"/>
+    <aura:attribute name="profilingTableContainsData" type="Boolean" description="Attribute bound to CMP_GroupNewS2_ProfilingTable to check whether the profiling table contains data"/>
+    <aura:attribute name="showTrashIcon" type="Boolean" description="Attribute bound to CMP_GroupNewS2_ReportsTitle to toggle the trash icon visibility"/>
+
+    <!-- Entitlement modal attributes -->
+    <aura:attribute name="displayEntitlementModal" type="Boolean" default="false" description="Flag to show / hide the entitlements modal"/>
+    <aura:attribute name="selectedEntitlements" type="List" description="List of entitlements associated with the given account"/>
+    <aura:attribute name="currentAccount" type="String" description="Selected which is being modified to update its entitlements"/>
+    <aura:attribute name="updateEntitlements" type="Boolean" default="false" description="Flag activated when the selected entitlements are ready to be assigned to the corresponding account"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="updateProfileEvent" event="c:EVT_ServiceProfilingUpdateProfile" action="{!c.updateProfilingTable}"/>
+    <aura:handler name="resetProfileEvent" event="c:EVT_ServiceProfingResetProfile" action="{!c.clearMultipicklist}"/>
+    <aura:handler name="rowDisplayChange" event="c:EVT_ServiceProfilingDisplayChange" action="{!c.handleEntitlementsUpdate}"/>
+    <aura:handler name="entitlementUpdateEvent" event="c:EVT_ServiceProfilingDisplayChange" action="{!c.updateAccountEntitlements}"/>
+    <aura:handler name="change" value="{!v.entitlementsWithoutAccount}" action="{!c.checkDataContent}"/>
+    <aura:handler name="change" value="{!v.profilingTableContainsData}" action="{!c.checkDataContent}"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    
+    <!-- COMPONENT MARKUP -->
+    <c:CMP_ServiceComponent aura:id="service"/>
+
+    <!-- Breadcrumbs -->
+    <aura:if isTrue="{!and(v.urlParams.source == 'Profile-Group', v.urlParams.service != undefined)}">
+        <c:CMP_TitleBreadcrumb title="{!$Label.c.GroupNewConfigProfiling_Profile}" breadcrumb="['GroupNewConfigProfiling_NewUserGroup','GroupNewConfigProfiling_Profile']"/>
+    </aura:if>
+    <aura:if isTrue="{!and(v.urlParams.source == 'Profile-User', v.urlParams.service != undefined)}">
+        <c:CMP_TitleBreadcrumb title="{!$Label.c.GroupNewConfigProfiling_Profile}" breadcrumb="['UserProfile','GroupNewConfigProfiling_Profile']"/>
+    </aura:if>
+
+    <!-- User / Group Info -->
+    <aura:if isTrue="{!and(v.urlParams.source == 'Profile-Group', v.urlParams.service != undefined)}">
+        <c:CMP_GroupNewS2_NameInfo groupName="{!v.urlParams.userGroup}" serviceName="{!v.urlParams.service}"/>
+    </aura:if>
+    <aura:if isTrue="{!and(v.urlParams.source == 'Profile-User', v.urlParams.service != undefined)}">
+        <c:CMP_GroupNewS2_NameInfo groupName="{!v.urlParams.userName}" serviceName="{!v.urlParams.service}"/>
+    </aura:if>
+    
+    <!-- Filters, multipicklist and table -->
+    <c:CMP_GroupNewProfileConfiguration countries="{!v.countries}"/>
+    <c:CMP_GroupNewProfileAccEntConfig aura:id="multipicklist" accounts="{!v.accounts}" entitlements="{!v.entitlements}" countryMap="{!v.countriesMap}"/>
+    <c:CMP_GroupNewProfileFilter aura:id="profilingFilter"/>
+    <c:CMP_GroupNewS2_ReportsTitle dataExpanded="{!v.profilingTableExpanded}" showDownloadIcon="false" showTrashIcon="{!v.showTrashIcon}"/>
+    <c:CMP_GroupNewS2_EntitlementsTable entitlementName="{!v.entitlementsWithoutAccount}" isSummary="false"/>
+    <c:CMP_GroupNewS2_ProfilingTable aura:id="profilingTable" dataExpanded="{!v.profilingTableExpanded}" data="{!v.profilingTableInnerData}" countryMap="{!v.countriesMap}" tableContainsData="{!v.profilingTableContainsData}"/>
+
+    <!-- Buttons -->
+    <c:CMP_GroupNewProfileButtons source="{!v.urlParams.source}"/>
+
+    <!-- Modal -->
+    <c:CMP_GroupNewEntitlementModal displayModal="{!v.displayEntitlementModal}" availableEntitlements="{!v.defaultEntitlements}" 
+                                        selectedEntitlements="{!v.selectedEntitlements}" account="{!v.currentAccount}"/>
+    
+</aura:component>

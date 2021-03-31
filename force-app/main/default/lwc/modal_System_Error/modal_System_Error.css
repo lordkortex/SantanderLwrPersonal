@@ -1,0 +1,309 @@
+/* MODAL FULL SCREEN */
+.modalFullScreen .slds-modal__container {
+    min-width: 100% !important;
+    height: 100% !important;
+    justify-content: flex-start !important;
+    align-items: center !important;
+    background-color: #f6f6f6 !important;
+    padding: 0px !important;
+}
+
+/* MODAL HEADER */
+.modalFullScreen .slds-modal__header {
+	border-bottom: none !important;
+    padding: 0px !important;
+    width: 100% !important;
+    z-index: 15 !important;
+}
+
+.modalFullScreen .slds-modal__header .row:first-child{
+    padding: 12px 24px !important;
+    margin: 0px !important;
+    width: 100% !important;
+    height: 72px !important;
+    background-color: #ffffff !important;
+}
+.modalFullScreen .slds-modal__header .slds-progress-bar {
+    height: 4px !important;
+    background-color: #deedf2 !important;
+}
+
+.modalFullScreen .slds-modal__header .slds-progress-bar__value {
+    background-color: #ec0000 !important;
+}
+.modalFullScreen .slds-modal__header .slds-col{
+    display: flex !important;
+    align-items: center !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.modalFullScreen .slds-modal__header .slds-col:nth-child(2){
+    justify-content: center !important;
+}
+.modalFullScreen .slds-modal__header .slds-col:last-child{
+    justify-content: flex-end !important;
+}
+.modalFullScreen .slds-modal__header .slds-modal__title {
+	color: #444444 !important;
+    font-family: "SantanderHeadlineW05-Bold" !important;
+	font-size: 20px !important;
+	line-height: 28px !important;
+}
+
+.modalFullScreen .slds-modal__header .logo-red{
+    width: 48px !important;
+    height: 48px !important;
+    margin-right: 12px !important;
+}
+
+.modalFullScreen .slds-modal__header .slds-col:last-child .slds-button {
+	margin-left: 20px !important;
+}
+
+/* ONE STEP */
+.modalFullScreen .slds-modal__header.oneStep .row .slds-col:last-child{
+    visibility: hidden !important;
+}
+.modalFullScreen .slds-modal__header.oneStep .slds-progress-bar{
+    height: 4px !important;
+    background-color: #ffffff !important;
+    box-shadow: inset 0 -1px 0 0 #cedee7 !important;
+}
+
+.modalFullScreen .slds-modal__header.oneStep .slds-progress-bar .slds-progress-bar__value{
+    display: none !important;
+}
+
+/* ERROR STEP */
+.modalFullScreen .slds-modal__header.errorStep .row .slds-col:first-child,
+.modalFullScreen .slds-modal__header.errorStep .row .slds-col:last-child{
+	visibility: hidden !important;
+}
+
+.modalFullScreen .slds-modal__header.errorStep .slds-progress-bar .slds-progress-bar__value{
+    display: none !important;
+}
+
+
+/* HEADER ICONS */
+.modalFullScreen .icon.icon-close,
+.modalFullScreen .icon.icon-time,
+.modalFullScreen .icon.icon-arrowLeft_big {
+   color: #ec0000 !important;
+   font-family: "SantanderMicroText" !important;
+   font-size: 14px !important;
+   line-height: 24px !important;
+   cursor: pointer !important;
+}
+
+.modalFullScreen .icon.icon-arrowLeft_big:before{
+   font-family: 'icomoon' !important;
+   font-size: 24px !important;
+   float: left !important;
+   margin-right: 4px !important;
+   height: 24px !important;
+}
+
+.modalFullScreen .icon.icon-close:before,
+.modalFullScreen .icon.icon-time:before {
+   font-family: 'icomoon' !important;
+   font-size: 24px !important;
+   float: right !important;
+   margin-left: 4px !important;
+}
+
+.modalFullScreen .icon.icon-close:hover,
+.modalFullScreen .icon.icon-time:hover,
+.modalFullScreen .icon.icon-arrowLeft_big:hover,
+.modalFullScreen .icon.icon-close:hover:before,
+.modalFullScreen .icon.icon-time:hover:before,
+.modalFullScreen .icon.icon-arrowLeft_big:hover:before{
+   color: #cc0000 !important;
+}
+
+.modalFullScreen .icon.icon-close:active,
+.modalFullScreen .icon.icon-time:active,
+.modalFullScreen .icon.icon-arrowLeft_big:active,
+.modalFullScreen .icon.icon-close:active:before,
+.modalFullScreen .icon.icon-time:active:before,
+.modalFullScreen .icon.icon-arrowLeft_big:active:before{
+   color: #990000 !important;
+}
+
+
+/* MODAL CONTENT */
+.modalFullScreen .slds-modal__content {
+    background-color: #f6fafc !important;
+    margin-top: 76px !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.modalFullScreen .slds-modal__content:last-child {
+	box-shadow: none !important;
+}
+
+.modalFullScreen .slds-modal__content .slds-grid__content{
+    padding: 56px 0 0 0 !important; 
+    max-width: 808px !important;
+    margin: 0 auto !important;
+}
+
+/* TOAST */
+ .slds-notify_container {
+    padding-top: 108px !important;
+}
+
+ .slds-notify_toast {
+    width: 600px !important;
+    min-height: 80px !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    border-radius: 4px !important;
+    box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08) !important;
+}
+
+ .slds-notify__content{
+	display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+ .slds-notify__content .slds-text-heading_small{
+	font-family: SantanderMicroText-Bd !important;
+    font-size: 16px !important; 
+    line-height: 1.5 !important; 
+    color: #444444 !important;
+    margin:0 !important;
+}
+ .slds-notify__content .notifyText { 
+    font-family: SantanderMicroText !important;
+    font-size: 16px !important; 
+    line-height: 1.5 !important; 
+    color: #444444 !important; 
+}
+
+ .slds-notify__content .action{ 
+    font-family: SantanderMicroText-Bd !important;
+    font-size: 14px !important;
+    line-height: 1.43 !important;
+}
+
+/* ICONOS */
+ .slds-notify__close { 
+    height: 24px !important; 
+    right:16px !important;
+    top: 16px !important;
+    width: 24px !important;
+}
+ .slds-notify__close .slds-button.slds-button_icon {
+    display: flex !important;
+    text-decoration: none !important;
+}
+ .slds-notify__close .slds-button.slds-button_icon:before {
+    font-size: 24px !important;
+}
+ .button-selected{
+    margin-right:8px !important;
+    pointer-events: none !important; 
+}
+ .button-selected:before{
+    font-size: 24px !important;
+}
+ .slds-notify__content .slds-button.slds-button_icon:before { 
+    font-size: 24px !important;
+    margin-right: 8px !important;
+}
+
+/* ERROR TOAST */
+ .slds-theme_error { 
+    border: solid 1px #990000 !important; 
+  	background-color: #fcf2f2 !important;  
+}
+
+ .icon-warning:before{
+   color: #990000 !important; 
+}
+ .slds-theme_error .icon-close_big:before,
+ .slds-theme_error .slds-notify__content button,
+ .slds-theme_error .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #990000 !important;
+}
+
+/* TOAST STATIC */
+ .slds-notify_container.toast_static {
+    padding: 0 !important;
+    display: block !important;
+    height: auto !important;
+    position: static !important;
+}
+
+ .toast_static .slds-theme_info,
+ .toast_static .slds-theme_success,
+ .toast_static .slds-theme_warning,
+ .toast_static .slds-theme_error { 
+    width: 100% !important;
+    box-shadow: none !important;
+}
+
+ .toast_static .slds-theme_info .icon-close_big:before,
+ .toast_static .slds-theme_success .icon-close_big:before,
+ .toast_static .slds-theme_warning .icon-close_big:before,
+ .toast_static .slds-theme_error .icon-close_big:before{ 
+    display: none !important;
+}
+
+/* MOSTRAR ACTION */
+ .slds-theme_info .slds-notify__content button,
+ .slds-theme_success .slds-notify__content button,
+ .slds-theme_warning .slds-notify__content button,
+ .slds-theme_error .slds-notify__content button{ 
+    display: none !important; 
+}
+
+ .slds-theme_info.action .slds-notify__content button,
+ .slds-theme_success.action .slds-notify__content button,
+ .slds-theme_warning.action .slds-notify__content button,
+ .slds-theme_error.action .slds-notify__content button{ 
+    display: flex !important;
+    align-self: flex-end !important;
+    align-items: center !important;
+    border: none !important;
+}
+
+/* CONTACT  */
+ .slds-modal__content.activation .slds-grid__content .slds-grid__contact  {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+/* PROCESS EXIT */
+ .cardProcessExit{
+    width: 808px !important;
+    max-width: 808px !important;
+    background-color: transparent !important;
+    border: none !important;
+}
+ .cardProcessExit .slds-card__header{
+    text-align: center !important;
+    padding: 40px 24px !important;
+    margin: 0 !important;
+}
+ .cardProcessExit .slds-card__header .slds-text-heading_small{
+    font-family: SantanderMicroText-Bd !important;
+    font-size: 14px !important; 
+    line-height: 1.5 !important;
+    letter-spacing: normal !important;
+    color: #444444 !important;
+}
+
+ .cardProcessExit .slds-card__header .slds-text-heading_small > .slds-button{
+    margin-left: 5px !important;
+}
+
+/* BUTTON  */
+ .slds-modal__content.activation .slds-grid__content .slds-grid__button {
+    justify-content: center !important;
+}

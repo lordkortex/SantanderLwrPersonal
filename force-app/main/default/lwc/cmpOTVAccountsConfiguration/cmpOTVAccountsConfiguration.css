@@ -1,0 +1,259 @@
+.slds-grid__content{
+    position: absolute;
+    left: 0;
+    top: -24px;
+    width: 100%;
+}
+
+/* SCROLLBAR */
+ ::-webkit-scrollbar {
+	width: 6px;
+}
+ ::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+ ::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+ ::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+/* FOOTER */
+ .footerContact{
+	margin-top:343px;
+}
+ .footerContact .cFooter, 
+ .footer .cFooter_Contact{
+	display:none;
+}
+.welcomingHeader {
+    background-color: #ffffff;
+    width:100%;
+}
+
+.welcomingHeader .slds-grid{
+    max-width: 1224px;
+    margin: 0 auto;
+}
+
+.welcomingHeader .slds-image {
+    width:600px;
+    height:400px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcomingHeader .text{
+    margin: 0;
+    max-width: 392px;
+    min-width: 392px;
+}
+
+.welcomingHeader .text .slds-text-heading {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 36px;
+    line-height: 43px;
+    color: #444444;
+    margin: 0 0 24px 0;
+}
+
+.welcomingHeader .text .slds-text-body {
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    line-height: 34px;
+    color: #444444;
+    margin: 0 0 32px 0;
+}
+
+.welcomingHeader .slds-button{
+    display:block;
+}
+
+.welcomingHeader .slds-button.primary.button_icon {
+    margin: 0;
+}
+
+.welcomingHeader .slds-col:first-child{
+    padding:168px 167px 130px 108px;
+}
+
+
+.welcomingHeader .slds-col:last-child{
+    padding: 136px 108px 80px 0;
+}
+
+.welcomingHeader .slds-button.button_link {
+    margin:0;
+    text-align: left;
+}
+
+.welcomingHeader .slds-button.button_link .icon_right:before{
+    margin: 0;
+}
+
+.welcomingContent {
+    width:100%;
+    background-color:#f6fafc;
+}
+
+.welcomingContent > .slds-grid {
+    max-width: 1224px;
+    margin: 0 auto;
+}
+
+.welcomingContent > .slds-grid > .slds-col{
+    flex: 1 1;
+    padding: 72px 72px 80px 0;
+}
+
+ .slds-text-heading {
+    font-family: "SantanderHeadlineW05-Bold";
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 1.19;
+    color: #444444;
+    margin-bottom: 16px;
+    max-width: 392px;
+}
+
+ .slds-text-body {
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 20px;
+    line-height: 1.4;
+    color: #444444;
+    max-width: 392px;
+}
+
+/* CARD INFORMATIVE SUBSIDARIES  */
+
+.welcomingContent  .slds-card + .slds-card {
+    margin-top: 24px;
+}
+
+.welcomingContent .slds-card.subsidaries  {
+    width: 576px;
+    border-radius: 4px;
+    background-color: #ffffff;
+    border:none;
+    padding:24px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__body {
+    padding: 0 0 24px 0;
+    margin:0px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-media__figure {
+    margin: 0px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__body .slds-media__figure .sizeFlag {
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__body .slds-media__figure .slds-text-body_regular {
+    font-family: SantanderMicroText-Bd;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #444444;
+}
+
+.welcomingContent .slds-card.subsidaries  .line-card {
+    width: 100%;
+    height: 1px;
+    background-color: #cedee7;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer {
+    padding: 16px 0 0 0;
+    margin:0px;
+    text-align: unset;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col .slds-text-body_regular{
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: normal;
+    color: #444444;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid {
+    margin-bottom: 16px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid:last-child {
+    margin-bottom: 0px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even){
+    display: flex;
+    justify-content: flex-end;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure {
+    height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon{
+    margin-right: 8px;
+    font-size: 24px;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon.icon-check_circle,
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid.confirmed .slds-col:nth-child(even) .slds-media__figure .icon.icon-refresh {
+    display:none;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid.confirmed .slds-col:nth-child(even) .slds-media__figure .icon.icon-check_circle,
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon.icon-refresh {
+    display:block;
+}
+
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon-check_circle:before{
+    color: #3a8340;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .icon-refresh:before {
+    color: #946f00;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure .slds-text-body_regular{
+    line-height: 20px;
+    color: #946f00;
+}
+
+.welcomingContent .slds-card.subsidaries  .slds-card__footer .slds-grid.confirmed .slds-col:nth-child(even) .slds-media__figure .slds-text-body_regular{
+    line-height: 20px;
+    color: #3a8340;
+}
+.slds-grid__minibanner {
+    width:100%;
+ padding:16px 0;
+}
+.slds-grid__minibanner.sky {
+ background-color:#F6FAFC;
+}
+ p {
+ font-family: SantanderMicroText;
+ font-size: 14px;
+ line-height: 21px;
+ height:21px;
+ color: #444444;
+ margin: 0 auto;
+ max-width: 1224px;
+}
+ p .bold{
+ font-family: SantanderMicroText-Bd;
+}
+.slds-grid__minibanner .slds-button +.slds-button {
+ margin-left:0;
+}

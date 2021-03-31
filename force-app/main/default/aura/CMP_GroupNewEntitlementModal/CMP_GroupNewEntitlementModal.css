@@ -1,0 +1,75 @@
+.THIS {
+}
+
+.THIS .button-page{
+    cursor: pointer;
+}
+
+.THIS .icon-delete{
+    font-size: 24px;
+    color:white;
+}
+.THIS .slds-modal__header .slds-button{
+    right: 2px;
+    bottom: -5px;  
+}
+
+.THIS .slds-modal__container{
+    min-width: 784px;
+}
+
+.THIS .slds-modal__header{
+    border: none;
+}
+
+
+.THIS .slds-modal__content{
+    background-color: #eff6f9;
+    height:200px;
+    width:100%;
+}
+
+.THIS .slds-media__body > .slds-truncate{
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #444444;
+}
+
+.THIS .slds-modal__footer{
+    border: none;
+}
+
+.THIS .lastPill{
+    display:flex;
+    justify-content: flex-end; 
+}
+
+.THIS .redButton{
+    width: 105px;
+    height: 32px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ec0000;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.THIS .whiteButton{
+    width: 105px;
+    height: 32px;
+    border-radius: 24px;
+    border: solid 1px #ec0000;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #ec0000;
+    font-weight: bold;
+}
+
+.THIS .slds-dueling-list__options {
+	min-width: 320px;
+}

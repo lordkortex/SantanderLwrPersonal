@@ -1,0 +1,11 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="title" type="String"/>
+    <aura:attribute name="subtitle" type="String"/>
+	    
+    <div class="container">
+        <div class="title">{!v.title}</div>
+        <div class="subtitle">{!v.subtitle}</div>
+    </div>
+</aura:component>

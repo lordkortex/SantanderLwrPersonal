@@ -1,0 +1,80 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Component for searching for account and date.
+History
+<Date>			<Author>		<Description>
+18/11/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component controller ="CNT_MovementHistoryParentController" implements="forceCommunity:availableForAllPageTypes" access="global">
+
+    <!-- DATA ATIBUTTES -->  
+    <aura:attribute name="AccountList" type="List" description="List of accounts that comes from Salesforce"/>
+    <aura:attribute name="SelectedAccount" type="String" description ="Selected Account"/>
+    <aura:attribute name="startDate" type="Date" default="" description ="Start date of where historic is shown"/>
+    <aura:attribute name="endDate" type="Date" default="" description ="End date of where historic is sown "/>
+    <aura:attribute name="accountInfoDataSearch" type="Object" description="List of accounts to compare and print data into info when apply the search"/>
+    <aura:attribute name="accountNumberAndEntity" type="String" description="account number"/>
+    <aura:attribute name="accountNumberBank" type="String" description="bank of the account"/>
+    <aura:attribute name="accountName" type="String" description="subsidiary name account"/> 
+    <aura:attribute name="dateFrom" type="Date"  description="Field to fill with the date from"/>
+    <aura:attribute name="dateTo" type="Date" description="Field to fill with the date to"/>
+    <aura:attribute name="isSearched"  type="Boolean" default="false" description="attribute for kwon if the search go well and show the table"/>
+    <aura:attribute name="finalAvailableDate" type="String" description="Final available date value"/>
+    <aura:attribute name="source" type="String" description="Source screen, either 'globalBalance' or ''"/>
+    
+    <aura:attribute name="availableBalanceParam" type="String" description="Avaiable balance field value of the account information component"/>
+    <aura:attribute name="dateParam" type="String" description="Book date and available date field value of the account information component"/>
+    <aura:attribute name="bookBalanceParam" type="String" description="Book balance field value of the account information component"/>
+
+    <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+    <aura:attribute name="doneRenderingParent" type="Boolean" description="Flag to indicate that the parent component has finished rendering"/>
+    <aura:attribute name="displayNoResultsMessage" type="Boolean" description="Flag activated when no results are returned from the server, for the given search"/>
+    <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+    
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+
+    <!-- EVENTS -->
+    <aura:registerEvent name="onSearchData" type="c:EVT_MovementHistorySearchData"/>
+
+    <!-- AURA HANDLER  -->
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <aura:handler name="change" value="{!v.doneRenderingParent}" action="{!c.updateSearchDates}"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+     
+       <div class="slds-form pillContainer" role="list">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-2" role="listitem">
+                <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                    <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.Account}</div>
+                    <div class="slds-form-element">
+                        <!-- DROPDOWN MARKUP -->
+                        <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                        <c:CMP_Dropdown values="{! v.AccountList }" selectedValue="{!v.SelectedAccount}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2" role="listitem">
+                <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                <div class="slds-form-element__label slds-form-element__legend textLabel">{!$Label.c.ExtractSearch_BookDate}</div>
+                    <div class="slds-form-element">
+                            <c:CMP_Calendar simple="false" placeholderTo="{!$Label.c.to}" 
+                            placeholderFrom="{!$Label.c.from}"
+                            dateFrom="{!v.dateFrom}"
+                            dateTo="{!v.dateTo}"
+
+                            />
+                    </div>      
+                </div>
+                </div>
+            <div class="slds-col slds-grid slds-wrap slds-align-bottom slds-size_1-of-1">
+                <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                    <div class="slds-media__body lastPill">
+                        <button class="slds-button slds-button_brand whiteButton" title="{!$Label.c.clear}" onclick="{!c.clearButtonClicked}">{!$Label.c.clear}</button>
+                        <button class="slds-button slds-button_brand redButton" title="{!$Label.c.ExtractSearch_Apply}" onclick="{!c.searchButtonClicked}">{!$Label.c.ExtractSearch_Apply}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

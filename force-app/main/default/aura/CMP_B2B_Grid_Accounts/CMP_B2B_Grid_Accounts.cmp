@@ -1,0 +1,105 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+	<ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public"  type="List"     name="accountsFiltered"                           description="List of filtered accounts." />
+    <aura:attribute access="private" type="Integer"  name="selectedValue"                              description="Number of cards displayed per page." />
+    <aura:attribute access="private" type="List"     name="paginationList"                             description="List of accounts displayed per page." />
+    <aura:attribute access="private" type="Integer"  name="accountsNumber"                             description="Number of account to be displayed." />
+    <aura:attribute access="private" type="Integer"  name="firstItem"        default="1"               description="First page of the view." />
+    <aura:attribute access="private" type="Integer"  name="finalItem"                                  description="Last page of the view." />
+    <aura:attribute access="private" type="List"     name="pagesNumbers"                               description="List of possible pages." />
+    <aura:attribute access="private" type="List"     name="values"           default="['9','30','60']" description="List of values to populate the dropdown" />
+    <aura:attribute access="private" type="Integer"  name="currentPage"                                description="Number of the currently displayed page." />
+    <aura:attribute access="public"  type="Map"      name="userData"                                   description="User data." />
+    <aura:attribute access="public"  type="List"    name="filters"           default="[]" description="List offilter." />
+
+    <aura:handler name="init"           action="{!c.init}"              value="{!this}" />
+    <aura:handler name="change"         action="{!c.changePagination}"  value="{!v.selectedValue}" />
+    <aura:handler name="change"         action="{!c.changePage}"        value="{!v.currentPage}" />
+    <aura:handler name="change"         action="{!c.init}"              value="{!v.accountsFiltered}" />
+
+    <aura:if isTrue="{!empty(v.accountsFiltered)}">
+        <div class="container_browseAccounts">
+           <!--<div class="slds-text-heading_large">
+                {!$Label.c.B2B_Grid_Allmyaccounts}
+            </div>
+            <div class="slds-text-heading_small">
+                {!$Label.c.B2B_No_results}
+            </div>-->
+           <!-- <c:CMP_B2B_SpinnerNoResults title="{!$Label.c.B2B_NoAccountsFound}" subtitle="{!$Label.c.CheckSpellingSearch}" resetSearch="{!v.resetSearch}"/> -->
+           <c:CMP_PaymentsLandingSpinnerNoResults title="{!$Label.c.B2B_NoAccountsFound}" subtitle="{!$Label.c.PAY_checkFilters}"/>
+        </div>
+        <aura:set attribute="else">
+            <div class="container_browseAccounts">
+                
+                <aura:if isTrue="{!v.filters.length != 0}">
+                <div class="slds-text-body_regular">{!$Label.c.Displaying}
+                    <strong>
+                        &nbsp;{!v.accountsFiltered.length}&nbsp;{!$Label.c.Accounts}
+                    </strong>
+                    &nbsp;{!$Label.c.PAY_accordingTo}<strong>&nbsp;{!$Label.c.PAY_selectedFilters}</strong>
+                </div>
+                <aura:set attribute="else">
+                    <div class="slds-text-heading_large">
+                        {!$Label.c.B2B_Grid_Allmyaccounts}
+                    </div>
+                </aura:set>
+
+            </aura:if>
+                <div class="slds-grid slds-wrap cardsAccount-grid">
+                    <aura:iteration items="{!v.paginationList}" var="account">
+                        <div class="slds-col">
+                            <c:CMP_B2B_Card_Account userData="{!v.userData}" account="{!account}" selected="false" beneficiaryDetails="false" />
+                        </div>
+                    </aura:iteration>
+                </div>
+            </div>
+            <div>
+                <div class="slds-grid slds-gutters pagination">
+                    <div class="slds-form-element infoPage">
+                        <aura:if isTrue="{!v.accountsNumber gt v.values[0]}">
+                            <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                    <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" data-title-right="Show More">
+                                        <div class="slds-border_right orderSelected selectedValue-placeholder">{!v.selectedValue}</div>
+                                        <div class="slds-button__icon arrow" aria-hidden="true">
+                                            <div class="button-arrow icon-arrowDown_small"></div>
+                                        </div>
+                                        <span class="slds-assistive-text">{!$Label.c.Show_More}</span>
+                                    </button>
+                                </div>
+                                <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
+                                    <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                                        <aura:iteration items="{!v.values}" var="item">
+                                            <c:CMP_B2B_SelectPaginationDropdown paginationSelection="{!v.selectedValue}" item="{!item}"/>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                            </div> 
+                            <span class="slds-text-body_regular">{!$Label.c.B2B_Items_displayed}</span>
+                        </aura:if>
+                    </div>
+                    <div class="slds-grid navigationPage">   
+                        <div class="slds-text-body_regular">
+                            <aura:if isTrue="{!v.selectedValue le v.accountsNumber}">
+                                {!v.firstItem + ' ' + $Label.c.toMinus}
+                            </aura:if>
+                            {!' ' + v.finalItem + ' ' + $Label.c.of}<strong>{!v.accountsNumber + ' ' + $Label.c.B2B_Items}</strong>
+                        </div> 
+                        <aura:if isTrue="{!v.selectedValue le v.accountsNumber}">
+                            <aura:if isTrue="{!v.currentPage != 1}">
+                                <a class="button-page " data-title-left="Prev page" onclick="{!c.handlePreviousPage}"><span class="icon-arrowLeft_big"></span> {!$Label.c.B2B_PREV}</a> 
+                            </aura:if>
+                            <aura:iteration items="{!v.pagesNumbers}" var="number">
+                                <c:CMP_B2B_NumberPagination number="{!number}" currentPage="{!v.currentPage}" />
+                            </aura:iteration>
+                            <aura:if isTrue="{!v.currentPage != v.pagesNumbers.length}">
+                                <a class="button-page" data-title-left="Next page" onclick="{!c.handleNextPage}">{!$Label.c.B2B_NEXT} <span class="icon-arrowRight_big"></span></a> 
+                            </aura:if>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </aura:set>     
+    </aura:if>
+</aura:component>

@@ -1,0 +1,13 @@
+<aura:event type="COMPONENT" description="Event used to accept or reject an authorization in the pending table">
+    <aura:attribute name="title" type="String" description="title of delete pop-up" />
+    <aura:attribute name="question" type="String" description="first bullet of delete pop-up" />
+    <aura:attribute name="showDeletePopup" type="Boolean" description="to show pop-up" />
+    <aura:attribute name="isYesSelected" type="Boolean" description="contains the response of the modal" />
+    <aura:attribute name="idAuthorization" type="String" description="contains the ID of the selected authorization" />
+    <aura:attribute name="indexAuthorization" type="Integer" description="index of the Authorization in the list" />
+    <aura:attribute name="nomAuthorization" type="String" description="contains the name of the selected authorization" />
+    <aura:attribute name="stateAuthorization" type="String" description="contains the current state of the authorization" />
+    <aura:attribute name="actionAuthorization" type="String" description="contains the action performed" />
+    <aura:attribute name="objAuthorization" type="String" description="contains the type of object modified" />
+    <aura:attribute name="approvalComments" type="String" description="contains the approval comments" />
+</aura:event>

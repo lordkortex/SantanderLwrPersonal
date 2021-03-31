@@ -1,0 +1,30 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+ <!-- ATTRIBUTES TO DISPLAY ICONS -->
+ <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+ <aura:attribute name="displaySearchIcon"    type="Boolean"      default="false"   description="Flag to display the search icon"/>
+
+ <!-- COMPONENT EVENTS -->
+ <aura:registerEvent name="buttonClickedEvent" type="c:EVT_TitleButtonClicked"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <aura:attribute name="title" type="String" default="N/A" description="A sentence provided by parent component to be displayed as a page title"/>
+    <aura:registerEvent name="displayTransactionForm" type="c:EVT_OpenSearchForm"/>
+    <div class="slds-grid container">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title text">
+                    {!v.title}
+                </div>
+            </div>
+            <div class="actions">   
+                <aura:if isTrue="{!v.displayDownloadIcon}">
+                    <div class="button-download icon-download iconSize" title="Download"></div> 
+                </aura:if> 
+                <aura:if isTrue="{!v.displaySearchIcon}"> 
+                    <div class="button-search icon-search" data-title="{!$Label.c.search}"  onclick="{!c.onButtonClick}"></div>  
+                </aura:if>               
+            </div>
+        </header>
+    </div>
+</aura:component>

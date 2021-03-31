@@ -1,0 +1,125 @@
+.THIS {
+}
+.THIS.slds-backdrop {
+	background-color: #444444;
+	opacity: 0.52;
+}
+.THIS .button-page {
+	cursor: pointer;
+}
+.THIS .slds-button:focus {
+	-webkit-box-shadow: none;
+	border: none;
+	border-color: inherit;
+	box-shadow: none;
+	outline: none;
+}
+.THIS .slds-button:active {
+	border: none;
+}
+.THIS .icon-close {
+	color: white;
+	font-size: 24px;
+	margin-right: 24px;
+}
+.THIS .icon-close:before {
+	color: #ffffff;
+}
+
+.THIS .slds-modal__header {
+	border-bottom: 1px solid #dadada;
+	padding: 16px 0;
+}
+.THIS .slds-modal__header .slds-button {
+	bottom: -5px;
+}
+.THIS .slds-modal__container {
+	max-width: 584px;
+	top:-162px;
+}
+
+.THIS  .slds-modal__footer {
+	border-top: 1px solid #dadada;
+}
+.THIS .slds-modal__content {
+	min-height: 193px;
+}
+.THIS .slds-modal__title {
+	color: #444444;
+	font-family: "SantanderHeadlineW05-Rg";
+	line-height: 28px;
+	font-size: 20px;
+}
+.THIS .slds-p-around_medium {
+	padding: 16px 24px 0 24px;
+}
+.THIS .slds-modal__content > p {
+	color: #444444;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.THIS .slds-modal__content > p:last-child {
+	margin-bottom: 42px;
+}
+
+.THIS .slds-media__body {
+	color: #444444;
+	display: flex;
+	justify-content: flex-end;
+}
+.THIS .slds-modal__footer {
+	padding: 16px 24px 16px 0;
+}
+.THIS .slds-modal__footer .slds-button+.slds-button {
+	margin-left: 0;
+}
+
+.THIS .redButton {
+	background-color: #ec0000;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ffffff;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	margin: 0;
+	padding: 0 32px;
+	transition: all 0.2s ease-in-out;
+}
+
+.THIS .redButton:hover {
+	background-color: #cc0000;
+	border: solid 1px #cc0000;
+}
+
+.THIS .redButton:focus {
+	background-color: #CC0000;
+	box-shadow: 2px 2px 4px 2px rgba(206,214,219,0.64);
+	border: 1px solid #cc0000 ;
+}
+
+.THIS .whiteButton {
+	background-color: #ffffff;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	margin-right: 16px;
+	padding: 0 32px;
+	transition: all 0.2s ease-in-out;
+}
+
+.THIS .whiteButton:hover {
+	background-color: #f6f6f6;
+	border: 1px solid #cc0000;
+	color: #cc0000;
+}
+
+.THIS .whiteButton:focus {
+	box-shadow: 2px 2px 4px 2px rgba(206,214,219,0.64);
+	background-color: #f6f6f6;
+	border: #cc0000;
+}

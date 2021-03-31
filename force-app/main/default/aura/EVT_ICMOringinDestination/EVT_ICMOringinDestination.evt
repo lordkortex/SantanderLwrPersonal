@@ -1,0 +1,10 @@
+<aura:event type="COMPONENT">
+    <aura:attribute name="originAccountChild"                 type="String"/>
+    <aura:attribute name="destinationAccountChild"            type="String"/>
+    <aura:attribute name="originCountryChild"                 type="String" description="Origin Country ISO Code"/>
+    <aura:attribute name="destinationCountryChild"            type="String" description="Destination Country ISO Code"/>
+    <aura:attribute name="originCurrencyChild"                type="String"/>
+    <aura:attribute name="destinationCurrencyChild"           type="String"/>
+    <aura:attribute name="originAliasAccountChild"            type="String"/>
+    <aura:attribute name="destinationAliasAccountChild"       type="String"/>
+</aura:event>

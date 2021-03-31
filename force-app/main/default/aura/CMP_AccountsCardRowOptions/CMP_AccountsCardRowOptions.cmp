@@ -1,0 +1,32 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_AccountBalanceOptions">
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="iAccount" type="Object" description="Account Information"/>
+    <aura:attribute name="iTabSelected" type="String"  description="Current selected tab"/>
+    
+    <lightning:navigation aura:id="navService"/>
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+ <!-- MENU CONTEXTUAL -->
+ <section aria-describedby="dialog-body-id-97" aria-labelledby="dialog-heading-id-5" class="slds-popover slds-popover_prompt contextualMenu " role="dialog">
+    <div class="slds-popover__body" id="dialog-body-id-97">
+        <div class="slds-media">
+            <div class="slds-media__body">
+                <ul class="slds-dropdown__list " role="menu" aria-label="{!$Label.c.MoreOptions}">
+                    <li class="slds-dropdown__item" role="presentation"  onclick="{!c.goToAccountTransactions}">
+                        <a class="slds-button">{!$Label.c.Account_Transactions}</a>
+                    </li>
+                    <li class="{!(v.isCashNexus == 'False' || v.iTabSelected == 'EndOfDayTab')? 'slds-dropdown__item slds-hide' : 'slds-dropdown__item slds-show'}" role="presentation" onclick="{!c.goToSwiftTracking}">
+                        <a class="slds-button" >{!$Label.c.PaymentsTracker}</a>
+                    </li>
+                    <li class="{!(v.isCashNexus == 'False' || v.iTabSelected == 'LastUpdateTab')? 'slds-dropdown__item slds-hide' : 'slds-dropdown__item slds-show'}" role="presentation" onclick="{!c.goToHistoryOfExtracts}">
+                        <a class="slds-button">{!$Label.c.History_of_statements}</a>
+                    </li>
+                    <li class="slds-dropdown__item" role="presentation" onclick="{!c.goToAccountDetails}">
+                        <a class="slds-button">{!$Label.c.Account_details}</a>
+                    </li>
+                </ul> 
+            </div>
+        </div>
+    </div>
+</section>
+</aura:component>

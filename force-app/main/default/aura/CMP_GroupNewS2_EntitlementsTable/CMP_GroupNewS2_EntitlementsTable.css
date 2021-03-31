@@ -1,0 +1,112 @@
+.THIS .backgroundHeader {
+	background-color: #ececec;
+}
+
+.THIS .containerIcon {
+	padding-right: 24px;
+	width: 32px;
+}
+
+.THIS div::-webkit-scrollbar {
+	width: 6px;
+}
+.THIS div::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.THIS div::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.THIS div::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+.THIS .slds-button_icon {
+	font-size: 24px;
+}
+
+.THIS .slds-button{
+	width: 24px;
+}
+
+.THIS .slds-table{
+	width: 1184px;
+}
+
+.THIS.slds-table--header-fixed_container,
+.THIS.slds-table_edit_container,
+.THIS.slds-is-relative{
+	margin-bottom: 16px;
+}
+
+.THIS.slds-table--header-fixed_container {
+	background-color: #ececec;
+	margin-bottom: 16px;
+	overflow: hidden;
+	padding-top: 32px;
+	position: relative;
+}
+
+.THIS.slds-table--header-fixed_container:before {
+	border-bottom: unset;
+
+}
+.THIS.slds-table--header-fixed_container .slds-scrollable_y { 
+	max-height: 240px;
+}
+
+.THIS .slds-table_striped tbody tr:nth-of-type(even)>td,
+.THIS.slds-table_striped tbody tr:nth-of-type(even)>th,
+.THIS .slds-table--striped tbody tr:nth-of-type(even)>td,
+.THIS .slds-table--striped tbody tr:nth-of-type(even)>th {
+	background-color: #f9fcfd;
+}
+
+.THIS .slds-text-title_caps th:first-child {
+	padding-left: 24px;
+} 
+
+.THIS .containerIcon {
+	width: 40px;
+	margin-right: 16px;
+}
+
+.THIS .slds-truncate {
+	color: #444444;
+	font-size: 12px;
+}
+
+.THIS tbody .nodata{ 
+   padding: 8px 8px 8px 0;
+   color: #a2a2a2
+}  
+
+.THIS tbody tr {
+	border: 1px solid #ececec;
+}
+
+.THIS tbody tr td {
+	height: 34px;
+    padding: 0 8px;
+}
+.THIS tbody tr td:first-child {
+	padding-left: 24px;
+}
+
+.THIS tbody tr td:last-child {
+	padding: 0 16px 0 0;
+}
+
+.THIS tbody tr:last-child td {
+	border-bottom: 0;
+}
+
+ 
+
+.THIS thead .slds-truncate {
+	font-family: SantanderTextW05-Bold;
+	font-size: 14px;
+	letter-spacing: normal;
+	line-height: 32px;
+	text-transform: initial;
+}

@@ -1,0 +1,148 @@
+<template>
+    <!-- FULL SCREEN MODAL -->
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+ 
+        <div class="slds-modal__container"> 
+            <!-- MODAL HEADER -->
+            <!-- Añadir la clase oneStep en la etiqueta <header> cuando la barra de progreso tenga un único paso -->
+            <!-- Añadir la clase errorStep en la etiqueta <header> cuando se haya producido un error de sistema -->
+            <header class="slds-modal__header slds-is-fixed">
+                 <div class="row slds-grid">
+                    <div class="slds-col slds-size_1-of-3">
+                        <div if:true={type1}>
+                            <!-- BACK BUTTON -->
+                            <button class="slds-button button_link" onclick={goBack}> 
+                                <span class="icon-arrowLeft_big icon_left"></span>{label.back}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <img class="logo-red" src={logoSymbolRed}/>
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.cmpOTVActivationCompleted_1}</h2>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+
+                        <!-- CANCEL BUTTON -->
+                        <button class="slds-button button_link" onclick={cancelProcess} if:true={type1}> 
+                            {label.cancelProcess}<span class="icon-close icon_right"></span>
+                        </button>
+
+                    </div>                    
+                 </div>
+               
+                 <div class="row">
+                    <!-- PROGRESS BAR -->
+                    <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar">
+                        <!-- PROGRESS 2/3 -->
+                        <span class="slds-progress-bar__value" style="width:50%" if:true={type1}>
+                            <span class="slds-assistive-text">{label.progress}: 50%</span>
+                        </span>
+                        <span class="slds-progress-bar__value" style="width:100%" if:true={type2}>
+                            <span class="slds-assistive-text">{label.progress}: 100%</span>
+                        </span>
+                        <span class="slds-progress-bar__value" style="width:100%" if:true={type3}>
+                            <span class="slds-assistive-text">{label.progress}: 100%</span>
+                        </span>
+                    </div>
+                 </div>
+                
+            </header>
+            
+            <!-- MODAL CONTENT -->
+            <div class="slds-modal__content" id="modal-content-id-1">
+                <div class="slds-grid__content">
+                    
+                    <!-- CARD TYPE - MATRIZ - TERMS & CONDITIONS COMPLETED -->
+                    <div if:true={type1}>
+                        <article class="slds-card type1">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-has-flexi-truncate">
+                                    <div class="slds-media__figure">
+                                        <span class="icon icon-ok"></span>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title">{label.cmpOTVActivationCompleted2_1}</h2>
+                                        <div class="slds-card__header-body">
+                                            <p>{label.cmpOTVActivationCompleted2_2}</p>
+                                        </div> 
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="slds-grid__button">
+                                <button class="slds-button primary button_full" onclick={continueProcess}>{label.cmpOTVActivationCompleted2_3}</button>
+                            </div>
+                        </article>
+                    </div>
+
+                    <!-- CARD TYPE - MATRIZ - ALL STEPS COMPLETED -->
+                    <div if:true={type2}>
+                        <article class="slds-card type1">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-has-flexi-truncate">
+                                    <div class="slds-media__figure">
+                                        <span class="icon icon-ok"></span>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title">{label.cmpOTVActivationCompleted1_1}</h2>
+                                        <div class="slds-card__header-body">
+                                            <p>{label.cmpOTVActivationCompleted1_2}</p>
+                                            <!-- <p>{label.cmpOTVActivationCompleted1_3}</p> -->
+                                        </div> 
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="slds-grid__button">
+                                <button class="slds-button primary button_full"   onclick={goToOneTrade}>   {label.cmpOTVActivationCompleted1_4}</button>
+                                <button class="slds-button secondary button_full" onclick={goToUsers}>      {label.cmpOTVActivationCompleted1_5}</button>
+                            </div>
+                        </article>     
+                    </div>
+                    
+                    <!-- CARD TYPE - SUBSIDIARIA - ALL STEPS COMPLETED -->
+                    <div if:true={type3}>
+                        <article class="slds-card type1">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-has-flexi-truncate">
+                                    <div class="slds-media__figure">
+                                        <span class="icon icon-ok"></span>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title">{label.cmpOTVActivationCompleted3_1}</h2>
+                                        <div class="slds-card__header-body">
+                                            <p>{label.cmpOTVActivationCompleted3_2}</p>
+                                        </div> 
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="slds-grid__button">
+                                <button class="slds-button primary button_full"   onclick={goToOneTrade}>   {label.cmpOTVActivationCompleted1_4}</button>
+                            </div>
+                        </article>
+                    </div>
+                    <!-- CARD TYPE - MATRIZ - ALL STEPS COMPLETED -->
+                    <div if:true={type4}>
+                        <article class="slds-card type1">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-has-flexi-truncate">
+                                    <div class="slds-media__figure">
+                                        <span class="icon icon-ok"></span>
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title">{label.cmpOTVActivationCompleted4_1}</h2>
+                                        <div class="slds-card__header-body">
+                                            <p>{label.cmpOTVActivationCompleted4_2}</p>
+                                        </div> 
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="slds-grid__button">
+                                <button class="slds-button primary button_full" onclick={goToOneTrade}>{label.cmpOTVActivationCompleted1_4}</button>
+                            </div>
+                        </article>     
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

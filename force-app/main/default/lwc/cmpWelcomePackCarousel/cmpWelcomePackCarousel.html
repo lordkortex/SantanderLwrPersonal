@@ -1,0 +1,56 @@
+<template>
+    <div if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open welcomePack">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header slds-modal__header_empty">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={closeModal}>
+                        <div class="slds-button button-page icon-close"></div>
+                    </button>
+                </header>
+                <div>
+                    <lightning-carousel disable-auto-refresh="false" disable-auto-scroll="false" scroll-duration="8"> 
+                        <lightning-carousel-image  src = {image1}
+                                        header = {welcomeHeader1}
+                                        description = {welcomeDes1}
+                                        alternative-text = {welcomeHeader1}
+                                        href="">
+                        </lightning-carousel-image>
+                        <lightning-carousel-image  src = {image2}
+                                        header = {welcomeHeader2}
+                                        description = {welcomeDes2}
+                                        alternative-text = {welcomeHeader2}
+                                        href="">
+                        </lightning-carousel-image>
+                        <lightning-carousel-image  src = {image3}
+                                        header = {welcomeHeader3}
+                                        description = {welcomeDes3}
+                                        alternative-text = {welcomeHeader3}
+                                        href="">
+                        </lightning-carousel-image>
+                        <lightning-carousel-image  src = {image4}
+                                        header = {welcomeHeader4}
+                                        description = {welcomeDes4}
+                                        alternative-text = {welcomeHeader4}
+                                        href="">
+                        </lightning-carousel-image>
+                        <lightning-carousel-image  src = {image5}
+                                        header = {welcomeHeader5}
+                                        description = {welcomeDes5}
+                                        alternative-text = {welcomeHeader5}
+                                        href="">
+                        </lightning-carousel-image>
+                    </lightning-carousel>
+                    <div class="slds-form-element carousel-footer">
+                        <div class="slds-form-element__control">
+                            <div class="slds-checkbox" data-title="Check">
+                                <lightning-input type="checkbox" label={welcomeCheckbox} data-id="checkbox-unique-id-73" value="checkbox-unique-id-73">   
+                                </lightning-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+</template>

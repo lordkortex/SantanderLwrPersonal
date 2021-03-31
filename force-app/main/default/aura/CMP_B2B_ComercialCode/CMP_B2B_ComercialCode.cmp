@@ -1,0 +1,59 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_B2B_ComercialCode">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public"         type="Boolean"      name="isModified"                                               description="Indicates if the input data has been modified." />
+    <aura:attribute access="public"         type="List"         name="values"                default="[]"                       description="List of values to populate the dropdown" />
+    <aura:attribute access="public"         type="String"       name="selectedValue"                                            description="Code corresponding to the selected option from the dropdown" />
+    <aura:attribute access="public"         type="String"       name="selectedValueLabel"                                       description="Selected option from the dropdown" />
+    <aura:attribute access="public"         type="String"       name="helpTextDropdown"      default="{!$Label.c.Show_More}"    description="Dropdown help text" /> 
+    <aura:attribute access="public"         type="String"       name="name"                                                     description="Name of the filter." />
+    <aura:attribute access="public"         type="Boolean"      name="showMiniLabel"         default="false"                    description="Show mini label in niput box" /> 
+    <aura:attribute access="public"         type="Boolean"      name="showDropdown"                                             description="Show dropdown and control up/down arrow icon" /> 
+    <aura:attribute access="public"  		type="Map"          name="steps"                                                    description="Data of the steps." />
+    <aura:attribute access="public"         type="Boolean"      name="isEditing"             default="false"                    description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+
+
+    <aura:handler name="init" action="{!c.initComponent}" value="{!this}" />
+    <aura:registerEvent name="handleDropdown" type="c:EVT_B2B_handleDropdownsInformation" />
+
+    <div class="slds-form-element dropdown">    
+        <aura:if isTrue="{!v.showMiniLabel eq true || not(empty(v.selectedValue)) || v.showDropdown eq true}">
+            <label class="slds-form-element__label" for="text-input-id-1">{!$Label.c.PAY_CommercialCode}</label>
+        </aura:if>       
+        <div class="slds-combobox" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+            <div class="slds-dropdown-trigger_click">
+                <button class="slds-button button-order" aria-haspopup="true" title="{!v.helpTextDropdown}" onclick="{!c.handleDropdownButton}">
+                    <aura:if isTrue="{!not(empty(v.selectedValue))}" >
+                        <div class="slds-border_right orderSelected selectedValue-filled">{!v.selectedValueLabel}</div>
+                    </aura:if> 
+                    <aura:if isTrue="{!and((empty(v.selectedValue) eq true), (v.showDropdown eq false))}">
+                        <div class="slds-border_right orderSelected selectedValue-placeholder">{!$Label.c.PAY_CommercialCode}</div>
+                    </aura:if>
+                    <aura:if isTrue="{!and((empty(v.selectedValue) eq true), (v.showDropdown eq true))}">
+                        <div class="slds-border_right orderSelected selectedValue-placeholder">{!$Label.c.selectAnOption}</div>
+                    </aura:if>           
+                    <div class="slds-button__icon arrow" aria-hidden="true">
+                        <div class="{!'button-arrow '+(v.showDropdown eq true ? 'icon-arrowUp_small' : 'icon-arrowDown_small')}"></div>
+                    </div>
+                    <span class="slds-assistive-text">{!v.helpTextDropdown}</span>
+                </button>
+            </div>
+            <aura:if isTrue="{!v.showDropdown eq true}" >
+                <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                    <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                        <aura:iteration items="{!v.values}" var="item">
+                            <li class="{!item.label == v.selectedValueLabel ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item.value}" onclick="{!c.handleClick}">
+                                <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                    <div class="slds-truncate optionOrder" title="{!item.label}" >{!item.label}</div>
+                                </a>
+                            </li>
+                        </aura:iteration>
+                    </ul>
+                </div>
+            </aura:if>
+            
+        </div>
+    </div>
+
+</aura:component>

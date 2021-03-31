@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event that fire when the step is finished.">
+    <aura:attribute type="Boolean" name="confirm"  description="Confirm that the step is completed." />
+</aura:event>

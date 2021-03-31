@@ -1,0 +1,47 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    <aura:attribute name="currentStageNumber" type="Integer" default="1"/>
+    <aura:attribute name="numberOfSteps" type="Integer" default="3"/>
+
+    <aura:attribute name="stage1Finished" type="boolean"/>
+    <aura:attribute name="stage2Finished" type="boolean"/>
+    <aura:method name="changeStage" action="{!c.changeStage}" access="PUBLIC"/>
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+
+    <!--### PROGRESS BAR - 3 STEPS ###-->
+    <div class="slds-progress progressIndicator">
+        <ol class="slds-progress__list margin3Steps">
+            <!--### START OF THE STEP 1 ###-->
+            <li id="LiStage1" class="{!v.currentStageNumber == 1 ? 'slds-progress__item slds-is-active step'  : 'slds-progress__item slds-is-completed step'}">
+                <div class="{!v.stage1Finished ? 'labelStep__completed': 'labelStep__active' }">{!$Label.c.UserProfiling_GroupRole}</div>
+                <button id="ButtonStage1" class="{!v.stage1Finished ?'slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__completed': ' slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__active ' }" title="{!$Label.c.UserProfiling_GroupRole}" onclick="{!c.buttonClicked}">
+                    <div class="button-check icon-check"></div>
+                </button>
+            </li>
+            <!-- ### END OF THE STEP 1 BLOCK ###-->
+            <!--### START OF THE STEP 2 ###-->
+            <li id="LiStage2" class="{!v.currentStageNumber >1 ? v.currentStageNumber > 2 ? 'slds-progress__item slds-is-completed step' : 'slds-progress__item slds-is-active step' : 'slds-progress__item step'}">
+                <div class="{!v.stage1Finished ? v.stage2Finished ? 'labelStep__completed' : 'labelStep__active' : 'labelStep__inactive'}">{!$Label.c.UserProfiling_Configure}</div>
+                <button id="ButtonStage2" class="{!v.stage1Finished ? v.stage2Finished ? 'slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__completed' : 'slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__active' : 'slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__inactive'}" title="{!$Label.c.UserProfiling_Configure}" onclick="{!c.buttonClicked}">
+                    <div class="button-check icon-check"></div>
+                </button>
+            </li>
+            <!-- ### END OF THE STEP 2 BLOCK ###-->
+            <!--### START OF THE STEP 3 ###-->
+            <li id="LiStage2" class="{!v.currentStageNumber == 3 ? 'slds-progress__item slds-is-active step' : 'slds-progress__item step'}">
+                <div class="{!v.stage2Finished ? ' labelStep__active ': 'labelStep__inactive'}">{!$Label.c.UserProfiling_Confirm}</div>
+                <button id="ButtonStage3" class="{!v.stage2Finished ? ' slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__active ' : 'slds-button slds-button_icon slds-progress__marker slds-progress__marker_icon button button__inactive'}" title="{!$Label.c.UserProfiling_Confirm}" onclick="{!c.buttonClicked}">
+                    <div class="button-check icon-check"></div>
+                </button>
+            </li>
+            <!-- ### END OF THE STEP 3 BLOCK ###-->
+        </ol>
+        <!--### START OF THE PROGRESS BAR INDICATOR ###-->
+        <div class="slds-progress-bar slds-progress-bar_x-small progressBar" aria-valuemin="0" aria-valuemax="99" aria-valuenow="0" role="progressbar">
+            <span id="ProgressBar" class="{!v.stage1Finished ? v.stage2Finished ? 'slds-progress-bar__value progress_3steps_step2' : 'slds-progress-bar__value progress_3steps_step1' : 'slds-progress-bar__value progress_3steps_step0'}">
+                <span class="slds-assistive-text"></span>
+            </span>
+        </div>
+    </div>
+</aura:component>

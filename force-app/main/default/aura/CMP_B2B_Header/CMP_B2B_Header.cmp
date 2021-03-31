@@ -1,0 +1,9 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" access="global" >
+
+    <aura:attribute name="progress" type="Integer" access="global" />
+
+    <!--<aura:handler name="updateProgress" event="c:EVT_B2B_PaymentProgressBar" action="{!c.manageProgressBar}"/>-->
+
+    <span>header: {!v.progress}</span>
+
+</aura:component>

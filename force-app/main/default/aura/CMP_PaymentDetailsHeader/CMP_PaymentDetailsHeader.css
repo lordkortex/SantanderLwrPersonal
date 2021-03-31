@@ -1,0 +1,172 @@
+.THIS .amount{
+   height: 23px;
+   line-height: 1;
+}
+
+.THIS .bank{
+    color: #444444;
+    font-size: 16px;
+    height: 23px;
+}
+
+.THIS .slds-card__header-title {
+    display: block;
+}
+.THIS .slds-card__header-title.transaction { 
+    align-items: flex-end;
+    margin-bottom: 4px;
+} 
+.THIS .slds-card__header-title.fees{
+    justify-content: space-between;
+}
+
+.THIS .slds-card__header-title.space{
+    font-size: 14px;
+    margin-right: 24px;
+    line-height: 1.6;
+    font-family: "SantanderMicroText";
+}
+.THIS .slds-card__header-title.spaceFee{
+    font-size: 14px;
+    margin-right: 50px;
+    line-height: 1.6;
+    font-family: "SantanderMicroText";
+}
+
+.THIS .body{
+    color: #444444;
+}
+
+.THIS.card{
+    background-color: #ffffff;
+    border: solid 1px #ececec;
+    border-radius: 4px;
+    padding: 13px 0 16px 0;
+}
+
+.THIS .circle{
+    font-size: 32px;
+    margin-right: 8px;  
+}
+
+.THIS .col1{
+    width: 62px;
+}
+
+.THIS .col2{
+    width: 133px !important;
+}
+
+.THIS .col3{
+    width:171px;
+}
+
+.THIS .col4{
+    width:81px; 
+}
+
+.THIS .col5{
+    width: 192px;
+}
+
+.THIS .col6{
+    width: 160px;
+}
+
+.THIS .col7{
+    width: 76px;
+}
+
+.THIS .col8{
+    padding: 0 !important;
+    text-align: right;
+    width: 42px;  
+}
+
+.THIS .containerDetail{
+    margin: 0;
+    padding: 12px 24px 0 48px;
+}
+
+.THIS .containerInformation{
+    margin: 0;
+    padding: 0 24px 0 8px;
+}
+
+.THIS .contentTable{
+    font-size: 12px; 
+}
+
+.THIS .currency{
+   font-size: 10px;
+}
+
+.THIS .date{
+    color: #a2a2a2;
+    font-size: 12px; 
+}
+
+.THIS .decimals{
+    font-family:"SantanderTextW05-Bold";
+    font-size: 16px;   
+}
+
+.THIS .fees{
+   color: #cc0000;
+    font-size: 12px;
+    height: 20px;
+    line-height: 1.5; 
+}
+
+.THIS .hidden{
+    display: none
+}
+
+.THIS .integer{
+    font-family:"SantanderHeadlineW05-Bold";
+    font-size: 20px; 
+}
+
+.THIS .last{
+    padding: 0 !important;
+    width: 42px;
+}
+
+.THIS .payment{
+    text-align: right;
+}
+
+.THIS .row{
+    height: 18px;
+}
+
+.THIS .slds-table_cell-buffer tr > th:first-child, 
+.THIS .slds-table_cell-buffer tr > td:first-child, 
+.THIS .slds-table--cell-buffer tr > th:first-child, 
+.THIS .slds-table--cell-buffer tr > td:first-child {
+    padding: 0 32px 0 0;
+}
+
+.THIS .slds-table thead th,
+.THIS .slds-table td {
+    padding: 0 32px 0 0;
+}
+
+.THIS .space{
+   margin-right: 4px;
+}
+
+.THIS .status{
+    color: #1bb3bc;
+    font-size: 14px; 
+    margin-right: 8px;
+}
+
+.THIS .text{
+    color: #a2a2a2;
+    font-weight: normal;
+}
+
+.THIS .tracking{
+    height: 20px; 
+}

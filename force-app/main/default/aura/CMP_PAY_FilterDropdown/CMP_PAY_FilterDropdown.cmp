@@ -1,0 +1,152 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+    
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute access="public" 	type="List"  	name="values" 															description="List of values to populate the dropdown" />
+    <aura:attribute access="public" 	type="String" 	name="selectedValue" 													description="Selected option from the dropdown" />
+    <aura:attribute access="public" 	type="List" 	name="selectedValues"  													description="Selected option from the dropdown" />
+    <aura:attribute access="public" 	type="String" 	name="selectedValuesText"  												description="Selected values String"/>
+    <aura:attribute access="public" 	type="String" 	name="helpTextDropdown"  	default="{!$Label.c.Show_More}" 			description="Dropdown help text" /> 
+    <aura:attribute access="public" 	type="boolean" 	name="isSimpleDropdown"  	default="true" 								description="Flag to switch between simple and multiselect dropdown"/>
+    <aura:attribute access="public" 	type="String" 	name="label"  				default="" 									description="Dropdown label"/>
+    <aura:attribute access="public" 	type="Boolean" 	name="isDisabled"  			default="false" 							description="Attribute to indicate if the dropdown is disabled" />
+    <aura:attribute access="public" 	type="Boolean" 	name="isFirstLoad"  		default="true" 							description="Attribute to indicate if the dropdown is disabled" />
+    <aura:attribute access="public" 	type="String" 	name="valuesPlaceholder" 	default=""									description="Placeholder value when values are selected"/>
+    <aura:attribute access="public"		type="String" 	name="errorText" 	 		default="{!$Label.c.IncorrectInputFormat}" 	description="Text to show when an error ocurred"/>
+    <aura:attribute access="public"		type="Boolean" 	name="clearDropdown" 		default="false" 							description="Flag to clear or not the dropdown"/>
+    <aura:attribute access="public"		type="Boolean" 	name="deselectOption" 		default="true" 								description="Deselect currently selected option on click"/>
+     
+    
+    <!--<aura:handler name="init"           action="{!c.doInit}"   value="{!this}" />-->
+    <aura:handler name="render" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:handler name="change"         action="{!c.handleReset}"   value="{!v.clearDropdown}" />
+    <aura:handler name="selectValue" event="c:EVT_PAY_DropdownSelectValue" action="{!c.handleSelectValue}"/>
+     
+    
+    <aura:method name="setSelectedValues" 	action="{!c.doInit}" 			description="">
+        <aura:attribute access="public" 	type="List" 	name="auxiliarList"   	default="[]" 	description="List of elements that are displayed in the dropdown"/>
+    </aura:method>
+    
+    <aura:if isTrue="{!v.isSimpleDropdown}">
+        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+        <!--<div class="{!v.isWhite ? 'slds-form-element dropdown'  : 'white slds-form-element dropdown'}">-->
+        <div class="slds-form-element dropdown">
+            <!-- DROPDOWN MARKUP -->
+            <!-- ESTADO 1: (Hasta que no se selecciona una opción | ENABLE): LA LABEL DEBE ELIMINARSE -->
+            <!-- ESTADO 2: (Se activa | FILLED): LA LABEL DEBE APARECER -->
+            <!-- ESTADO 3: (Se abre | OPEN): LA LABEL DEBE APARECER, EL ICONO pasa a ser icon-arrowUp_small (Se descomenta la línea comentada con  icon-arrowUp_small y se comenta la de icon-arrowDown_small ) -->
+            <!-- ESTADO 4: Opción seleccionada: LA LABEL DEBE APARECER, EL ICONO vuelve a ser icon-arrowDown_small  -->
+            <aura:if isTrue="{!not(empty(v.selectedValue))}">
+                <label class="slds-form-element__label" for="text-input-id-1">{!v.label}</label>
+            </aura:if>
+            <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                    
+                    <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                    <button class="slds-button button-order" aria-haspopup="true" disabled="{!v.isDisabled}">
+                        
+                        <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por
+                                                        selectedValue-filled -->
+                        <aura:if isTrue="{!not(empty(v.selectedValue))}">
+                            <div class="slds-border_right selectedValue-filled">{!v.selectedValuesText}</div>
+                            <aura:set attribute="else">
+                                <div class="slds-border_right selectedValue-placeholder">{!v.label}</div>
+                            </aura:set>
+                        </aura:if>
+                        
+                        <div class="slds-button__icon arrow" aria-hidden="true">
+                            <div class="button-arrow icon-arrowDown_small"></div>
+                            <div class="button-arrow icon-arrowUp_small"></div>
+                        </div>
+                        <span class="slds-assistive-text">{!v.helpTextDropdown}</span>
+                        
+                    </button>
+                    
+                    <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                    <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                    
+                    <!-- Cuando tenga que aparecer un mensaje de error -->
+                    <div class="errorText">{!v.errorText}</div>
+                </div>
+                
+                <!-- Cuando el button esté disabled el dropdown se oculta -->
+                <aura:if isTrue="{!not(v.isDisabled)}">
+                    <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                        <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                            
+                            <aura:iteration items="{!v.values}" var="item">
+                                
+                                <li class="{!item.label == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item.value}" onclick="{!c.selectOption}">
+                                    <a role="menuitemcheckbox" tabindex="0" aria-checked="true" >
+                                        <div class="slds-truncate optionOrder">{!item.label}</div>
+                                    </a>
+                                </li>
+                            </aura:iteration>
+                        </ul>
+                    </div>
+                </aura:if>                
+            </div>            
+        </div>
+        
+        <aura:set attribute="else">
+            <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+            <div class="slds-form-element">
+                <!-- Escribir la clase show para verlo abierto-->
+                <div class="slds-combobox status">
+                    <aura:if isTrue="{!not(empty(v.selectedValuesText))}">
+                        <label class="slds-form-element__label" for="combobox-id-49">{!v.label}</label>
+                    </aura:if>
+                    <div class="slds-combobox__check slds-dropdown-trigger">
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                            <button class="slds-button button-order" aria-haspopup="true" disabled="{!v.isDisabled}">
+                                <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca -->
+                                <aura:if isTrue="{!not(empty(v.selectedValuesText))}">
+                                    <div class="slds-border_right selectedValue-filled">{!v.selectedValuesText}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-border_right selectedValue-placeholder">{!v.label}</div>
+                                    </aura:set>
+                                </aura:if>
+                                
+                                <div class="slds-button__icon arrow" aria-hidden="true">
+                                    <div class="button-arrow icon-arrowDown_small"></div>
+                                    <div class="button-arrow icon-arrowUp_small"></div>
+                                </div>
+                                <span class="slds-assistive-text"></span>
+                            </button>
+                        </div>
+                        <section aria-describedby="dialog-body-id-25" aria-label="Language Options" class="slds-popover" id="popover-unique-id-04" role="dialog">
+                            <div class="slds-popover__body" id="dialog-body-id-25">
+                                <fieldset class="slds-form-element">
+                                    <div class="slds-form-element__control">
+                                        <aura:iteration items="{!v.values}" var="item">
+                                            <c:CMP_PAY_FilterDropdownCheckbox aura:id="PAY_Checkbox"
+                                                                              checkId="{!'OPT_'+item.value}"
+                                                                              checkValue="{!item.value}"
+                                                                              isChecked="false"
+                                                                              checkLabel="{!item.label}"/>
+                                           <!-- <div class="slds-checkbox">
+
+                                                <label class="slds-checkbox__label" for="{!'OPT_'+item.value}">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label">{!item.label} </span>
+                                                </label>
+                                            </div>-->
+                                        </aura:iteration>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </section> 
+                    </div>
+                </div>
+                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                
+                <!-- Cuando tenga que aparecer un mensaje de error -->
+                <div class="errorText">{!v.errorText}</div>
+            </div>
+        </aura:set>
+    </aura:if>
+    
+    
+</aura:component>

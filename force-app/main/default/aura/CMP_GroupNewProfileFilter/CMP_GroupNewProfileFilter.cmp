@@ -1,0 +1,94 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Profile filter section
+History
+<Date>			<Author>		    <Description>
+27/01/2020		Guillermo Giral     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="isExpandedSection" type="Boolean" default="false" description="Flag to indicate whether to collapse or expand the section"/>
+    <aura:attribute name="accounts" type="List" description="List of accounts to be displayed in the filter dropdown"/>
+    <aura:attribute name="entitlements" type="List" description="List of entitlements to be displayed in the filter dropdown"/>
+    <aura:attribute name="countries" type="List" description="List of countries to be displayed in the filter dropdown"/>
+    <aura:attribute name="selectedAccount" type="String" description="Gets the selected account from the dropdown, to clear it when clicking the 'Reset' button"/>
+    <aura:attribute name="selectedEntitlement" type="String" description="Gets the selected entitlement from the dropdown, to clear it when clicking the 'Reset' button"/>
+    <aura:attribute name="selectedCountry" type="String" description="Gets the selected country from the dropdown, to clear it when clicking the 'Reset' button"/>
+
+    <!-- METHODS -->
+    <aura:method name="populateDropdownData" action="{!c.populateDefaultValues}" description="Populates the dropdowns and add the default values">
+        <aura:attribute name="accountList" type="List" description="List of accounts to be displayed in the filter dropdown"/>
+        <aura:attribute name="entitlementList" type="List" description="List of entitlements to be displayed in the filter dropdown"/>
+        <aura:attribute name="countryList" type="List" description="List of countries to be displayed in the filter dropdown"/>
+    </aura:method>
+
+    <!-- EVENTS -->
+    <aura:registerEvent name="filterTableData" type="c:EVT_ServiceProfilingFilter"/> 
+    <aura:handler event="c:EVT_ServiceProfilingUpdateProfileOnClick" action="{!c.expandSection}"/>
+
+    <!-- COMPONENT MARKUP -->
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <div class="slds-grid slds-grid__collapse">
+        <div class="slds-col">
+            <div class="slds-card__header-title">
+                <span class="title">
+                    {!$Label.c.ServiceProfiling_ProfileFilter}
+                </span>
+            </div>
+        </div>
+        <div class="slds-media__figure arrow">
+            <aura:if isTrue="{!not(v.isExpandedSection)}">
+                <div class="button-arrow icon-arrowDown_big" data-title="{!$Label.c.T_Expand}" onclick="{!c.expandSection}"></div>
+            </aura:if>
+            <aura:if isTrue="{!v.isExpandedSection}">
+                <div class="button-arrow icon-arrowUp_big" data-title="{!$Label.c.T_Collapse}" onclick="{!c.collapseSection}"></div>
+            </aura:if>
+        </div>
+    </div>
+
+    <aura:if isTrue="{!v.isExpandedSection}">
+        <div class="slds-grid SearchProfile" role="list">
+            <div class="slds-row">
+                <div class="slds-col" role="listitem">
+                    <div class="slds-form-element" >
+                        <div class="slds-form-element__label">{!$Label.c.Country}</div>
+                        <div class="slds-form-element__control">
+                            <c:CMP_Dropdown aura:id="countryDropdown" isSimpleDropdown="true" isHiddenValueDropdown="true" values="{!v.countries}" selectedValue="{!v.selectedCountry}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col" role="listitem">
+                    
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__label">{!$Label.c.Account}</div>
+                        <div class="slds-form-element__control">
+                            <c:CMP_Dropdown aura:id="accountDropdown" isSimpleDropdown="true" isHiddenValueDropdown="true" values="{!v.accounts}" selectedValue="{!v.selectedAccount}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-row">
+                <div class="slds-col" role="listitem">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__label">{!$Label.c.ServiceProfiling_Entitlement}</div>
+                        <div class="slds-form-element__control">
+                            <c:CMP_Dropdown aura:id="entitlementDropdown" isSimpleDropdown="true" isHiddenValueDropdown="true" values="{!v.entitlements}" selectedValue="{!v.selectedEntitlement}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col" role="listitem"></div>
+            </div>
+            <div class="slds-form containerSearch"> 
+                <div class="slds-form__row">
+                    <button class="slds-button slds-button_brand whiteButtonSmall" onclick="{!c.resetDropdownValues}">{!$Label.c.Reset}</button>
+                    <button class="slds-button slds-button_brand redButtonSmall" onclick="{!c.fireFilterDataEvent}">{!$Label.c.ServiceProfiling_Filter}</button>              
+                </div>
+                
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

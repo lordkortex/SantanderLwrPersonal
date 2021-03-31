@@ -1,0 +1,147 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Component to show the search box and the results table
+History
+<Date>			<Author>		    <Description>
+26/12/2019		Guillermo Giral     Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" controller="CNT_LogAdminSearchController" access="global" >
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="searchData"   type="Map"      default="{}"     description="Map with the data to be sent to the search service"/>
+    <aura:attribute name="tableData"    type="List"     description="List of row data to be displayed in the table"/>
+    <aura:attribute name="displayData"  type="Boolean"  default="false"  description="Flag to indicate whether to show the search box or the results table"/>
+    <aura:attribute name="userId"       type="String"   description="User Id to filter the results"/> 
+    <aura:attribute name="keyWords"     type="String"   description="Key words to filter the results"/> 
+    <aura:attribute name="typeLogs"     type="List"     description="List of options for 'Action On' picklist"/>   
+    <aura:attribute name="selectedLog"  type="String"   description="Type of log to be searched"/>
+    <aura:attribute name="dates"        type="List"     description="Range of dates selected to search"/>
+
+    <aura:attribute name="dateFrom" type="date" default=""/>
+    <aura:attribute name="dateTo" type="date" default=""/>
+    
+    <!-- PAGINATION ATTRIBUTES -->
+    <aura:attribute name="logsPerPage"      type="Integer"  default="40" description="Number of logs to show in each page of the table"/>
+    <aura:attribute name="currentPage"      type="Integer"  default="1"/>
+    <aura:attribute name="oldPage"          type="Integer"  default="1"/>
+    <aura:attribute name="start"            type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"              type="Integer"  description="Row number of the last displayed row"/>
+    <aura:attribute name="paginatedLogs"    type="List"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+
+    <!-- COMPONENT HANDLERS -->
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTableData}"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <c:CMP_ServiceComponent aura:id="service"/>
+  
+    <!-- COMPONENT MARKUP -->
+    <aura:if isTrue="{!not(v.displayData)}">
+        <!-- SEARCH BOX -->
+        <div class="container__log">
+            <div class="slds-grid">
+                <div class="slds-col slds-no-flex">
+                    <div class="slds-form-element input_text">
+                        <div class="slds-form-element__label">
+                            <label  for="text-input-id-1">{!$Label.c.LogAdmin_UserId}</label>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" id="text-input-id-1" aura:id="userId" placeholder="" required=""  />
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-no-flex">
+                    <div class="slds-form-element input_text">
+                        <div class="slds-form-element__label">
+                            <label  for="text-input-id-2">{!$Label.c.LogAdmin_Text}</label>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <input class="slds-input" type="text" id="text-input-id-2" aura:id="keyWords" placeholder="{!$Label.c.LogAdmin_TextPlaceholder}" required=""  />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-no-flex">
+                    <div class="slds-form-element  dropdownOrder actionOn">
+                        <div class="slds-form-element__label">
+                            <label  for="text-input-id-3">{!$Label.c.LogAdmin_ActionOn}</label>
+                        </div>
+                        <div class="slds-form-element__control">
+                            <!-- DROPDOWN MARKUP -->
+                            <c:CMP_Dropdown aura:id="typeLogDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                                            values="{!v.typeLogs}" selectedValue="{!v.selectedLog}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-no-flex">
+                    <div class="slds-form-element calendar">
+                        <div class="slds-form-element__label">
+                            <label  for="text-input-id-4">{!$Label.c.LogAdmin_Date}</label>
+                        </div>
+                        
+                        <div class="slds-form-element">
+                            <!-- DOUBLE CALENDAR -->
+                            <c:CMP_Calendar aura:id="calendarBetweenDates" simple="false" placeholderFrom="{!$Label.c.from}" placeholderTo="{!$Label.c.to}" dates="{!v.dates}" dateFrom="{!v.dateFrom}" dateTo="{!v.dateTo}"/> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <div class="slds-form-element noMargin">
+                        <div class="slds-media__body lastPill">
+                            <button class="slds-button slds-button_brand redButton" title="{!$Label.c.LogAdmin_Search}" onclick="{!c.searchLogs}">{!$Label.c.LogAdmin_Search}</button>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.displayData}">
+        <!-- PAGINATION -->
+        <c:CMP_Pagination allData="{!v.tableData}" paymentsPerPage="{!v.logsPerPage}"  aura:id="pagination"/>
+        <!-- RESULTS TABLE -->
+        <div class="slds-table--header-fixed_container logTable">
+            <div class="slds-scrollable_y">
+                <table class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped" aria-multiselectable="true" role="grid">
+                    <!-- COLUMNS -->
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th aria-sort="ascending" scope="col" class="">
+                                <div class="slds-truncate slds-cell-fixed">
+                                    <span class="slds-truncate " title="{!$Label.c.LogAdmin_Date}">{!$Label.c.LogAdmin_Date}</span>
+                                </div>
+                            </th>
+                            <th aria-sort="ascending" scope="col" class="">
+                                <div class="slds-truncate slds-cell-fixed">
+                                    <span class="slds-truncate " title="{!$Label.c.LogAdmin_UserId}">{!$Label.c.LogAdmin_UserId}</span>
+                                </div>
+                            </th>
+                            <th aria-sort="ascending" scope="col" class="">
+                                <div class="slds-truncate slds-cell-fixed">
+                                    <span class="slds-truncate " title="{!$Label.c.LogAdmin_Name}">{!$Label.c.LogAdmin_Name}</span>
+                                </div>
+                            </th>
+                            <th aria-sort="ascending" scope="col" class="">
+                                <div class="slds-truncate slds-cell-fixed">
+                                    <span class="slds-truncate " title="{!$Label.c.LogAdmin_Action}">{!$Label.c.LogAdmin_Action}</span>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <!-- ROWS -->
+                    <tbody>
+                        <aura:iteration items="{!v.tableData}" start="{!v.start}" end="{!v.end}" var="item" indexVar="index"> 
+                            <c:CMP_LogAdminSearchRow rowData="{!item}"/>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

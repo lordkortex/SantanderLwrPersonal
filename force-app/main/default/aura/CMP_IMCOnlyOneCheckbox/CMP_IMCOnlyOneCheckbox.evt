@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event only one checkbox" >
+        <aura:attribute name="data" type="Object"/>
+        <aura:attribute name="checked" type="Boolean"/>
+</aura:event>

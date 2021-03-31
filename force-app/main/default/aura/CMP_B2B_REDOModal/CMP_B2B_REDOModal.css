@@ -1,0 +1,572 @@
+/* MODAL CONTAINER*/
+.THIS.slds-modal {
+    background: rgba(68,68,68,0.7);
+    overflow-y: auto;
+    padding: 108px 0;
+    display:flex;
+}
+.THIS .slds-modal__container{
+    padding: 0;
+    height: auto;
+    margin: auto;
+}
+.THIS .modal-content{
+	display: flex;
+    flex-direction: column;
+    position: relative;
+    height: auto;
+    box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+    max-height: 100%;
+    background:#fff;
+    border-radius: 4px;
+}
+.THIS .slds-modal__close{
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    font-size: 18px; 
+	width: 24px;
+    height: 24px;
+}
+.THIS .slds-modal__close .icon-close_big{
+    font-size:24px
+}
+
+/* MODAL SIZE */
+.THIS .slds-modal__container.modal_s{
+    min-width: 520px;
+    max-width: 520px;
+}
+
+.THIS .slds-modal__container.modal_m{
+    min-width: 936px;
+    max-width: 936px;
+}
+
+/* MODAL HEADER */
+.THIS .slds-modal__header{ 
+    box-shadow: none;
+    border: none; 
+    text-align: left;
+    padding:40px 64px 43px 64px;
+}
+.THIS .modal-content .slds-modal__title{
+    font-family:"SantanderHeadlineW05-Rg";
+	font-size: 28px; 
+    line-height: 1.21; 
+    color: #444444;     
+    position: relative; 
+    overflow: hidden;
+	display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; 
+    padding: 0;
+	margin-bottom: 8px;
+}
+ 
+.THIS .modal-content .slds-modal__header:after{
+    position:absolute;
+    content:"";
+    width: 40px;
+    height: 3px;
+    background-color: #ec0000;
+    bottom: auto;
+    left: 64px;
+}
+
+/* MODAL CONTENT  */
+.THIS .modal-content .slds-modal__content{ 
+    background: #ffffff;
+    padding:0 64px 40px 64px;
+    overflow: visible;
+}
+
+.THIS .modal-content .slds-modal__content .modalContent-title{ 
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 20px; 
+    line-height: 1.4; 
+    color: #444444;
+    margin-bottom: 4px;
+}
+
+.THIS .modal-content .slds-modal__content .modalContent-subtitle{
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 1.5;
+    color: #767676;
+    margin-bottom: 24px;
+}
+
+/* MODAL FOOTER  */
+.THIS .slds-modal__footer {
+    box-shadow: none;
+    border-top: none;
+    padding: 0;
+    margin-top: 40px;
+    text-align: left;
+}
+
+.THIS .slds-modal__footer .slds-button + .slds-button {
+    margin-left: 24px;
+}
+
+
+/* INPUTS */
+.THIS .inputContainer .slds-form-element {
+    display: inline-block;
+    min-height: calc(48px + 24px);
+    width: 100%;
+}
+.THIS .slds-form-element__label {
+    color: #767676;
+	font-family: SantanderMicroText;
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    z-index: 2;
+}
+.THIS .slds-form-element .slds-input__icon {
+	bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+}
+.THIS .slds-form-element .slds-button__icon {
+    height: 24px;
+    margin: 0;
+    padding: 2px;
+    width: 24px;
+}
+.THIS .slds-form-element .icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;
+}
+.THIS .slds-form-element__label + .slds-form-element__control .slds-input {
+	padding: 19px 70px 5px 16px;
+}
+.THIS .inputContainer .slds-form-element__control  {
+	height:48px;
+}
+.THIS .inputContainer .slds-input{
+	border: 1px solid #deedf2;
+    background-color: #f6fafc;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+    padding: 0 70px 0 16px;
+    min-width: 392px;
+}
+.THIS .slds-form-element__help {
+    color: #767676;
+	font-family: "SantanderMicroText";
+  	font-size: 14px;
+  	line-height: 20px;
+    margin-left: 16px;
+  	margin-top: 0;
+}
+
+
+.THIS .inputContainer ::-webkit-input-placeholder { color: #767676;}
+ 
+.THIS .inputContainer :-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+.THIS .inputContainer ::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+.THIS .inputContainer :-ms-input-placeholder { color: #767676; }
+
+.THIS .inputContainer :focus::-webkit-input-placeholder{color:transparent;}
+
+.THIS .inputContainer .slds-input:focus, .THIS.paymentProcess-step4 .slds-input:active {
+	box-shadow: none;
+    border-bottom: 2px solid #257fa4;
+}
+
+
+/* TEXTAREA */
+.THIS .textareaContainer .slds-form-element {
+    /* min-height: calc(88px + 40px);*/
+    min-height:88px;
+    width: 100%;
+ 
+   /* height:48px; */
+
+}
+.THIS .textareaContainer .slds-textarea {
+    background-color: #f6fafc;
+    width: 100%;
+    min-height: 88px;
+    -webkit-appearance: none;
+    resize: none;
+    border-width: 1px;
+    border-style: solid;
+    border-color:  #deedf2;
+    border-image: initial;
+    border-radius: 4px 4px 0 0;
+    transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+    padding: 12px 56px 12px 16px; 
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    overflow: hidden;
+    
+   /* height:48px; */
+}
+
+.THIS .textareaContainer .slds-textarea:focus, 
+.THIS .textareaContainer .slds-textarea:active {
+    background-color: #f6fafc;
+    box-shadow:none;
+    outline: 0px;
+    box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+
+.THIS .icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;
+}
+
+.THIS .textareaContainer .slds-button{
+    position: absolute;
+    right: 12px;
+    top: 14px;
+    height: 24px;
+    right: 16px;
+    width: 24px;
+}
+
+.THIS .slds-button__icon{
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+    justify-content: center;
+}
+
+.THIS .textareaContainer div.slds-form-element__control{
+    font-size: 0;
+}
+
+.THIS .textareaContainer .helperText{
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 16px;
+    margin-top: 0;
+}
+
+.THIS .textareaContainer .slds-form-element__label + .slds-form-element__control .slds-textarea {
+    padding: 19px 56px 12px 16px;
+}
+
+.THIS textarea::-webkit-input-placeholder { 
+    color: #767676;
+} 
+  
+/* Firefox 18- */ 
+.THIS textarea:-moz-placeholder { 
+    color: #767676;
+} 
+  
+/* Firefox 19+ */ 
+.THIS textarea::-moz-placeholder { 
+    color: #767676;
+} 
+
+.THIS textarea:-ms-input-placeholder { 
+    color: #767676;
+} 
+
+.THIS textarea::placeholder { 
+    color: #767676;
+} 
+
+.THIS textarea:focus::-webkit-input-placeholder{color:transparent;}
+
+
+/* FORM ERROR */
+.THIS .error .slds-form-element__help {
+	display: none;
+}
+.THIS .slds-form-element .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+}
+.THIS .slds-form-element.error .errorText {
+	display: block;
+}
+.THIS .textareaContainer .error .helperText {
+    display: none;
+}
+.THIS .textareaContainer .helperText + .errorText {
+    display: none;
+}
+.THIS .textareaContainer .error .errorText {
+    display: block;
+}
+
+.THIS .error .slds-form-element__label{
+	color: #cc0000;
+}
+
+.THIS .error .slds-form-element__control .slds-input,
+.THIS .error .slds-combobox .button-order,
+.THIS .error .slds-form-element__control .slds-textarea {
+	border-bottom: 1px solid #cc0000;
+    box-shadow: none;
+}
+.THIS .error .slds-form-element__control .slds-input:active,
+.THIS .error .slds-form-element__control .slds-input:focus,
+.THIS .error .slds-combobox .button-order:active,
+.THIS .error .slds-combobox .button-order:focus,
+.THIS .error .slds-combobox .button-order:hover,
+.THIS .error .slds-form-element__control .slds-textarea:active,
+.THIS .error .slds-form-element__control .slds-textarea:focus{
+	box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+
+/* DISABLED */
+.THIS .slds-input[disabled]{
+	background-color: #f6f6f6;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    cursor: not-allowed;
+    color: #767676;
+}
+.THIS .slds-input[disabled]:active, 
+.THIS .slds-input[disabled]:focus{
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}
+.THIS .textareaContainer .slds-textarea[disabled]{
+	background-color: #f6f6f6;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    cursor: not-allowed;
+    box-shadow: none;
+    color: #767676;
+}
+.THIS .textareaContainer .slds-textarea[disabled]:hover{
+    box-shadow: none;
+}
+.THIS .textareaContainer .slds-textarea[disabled]:active,
+.THIS .textareaContainer .slds-textarea[disabled]:focus{
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}
+
+/* TOAST */
+.THIS .slds-notify_container {
+    padding: 108px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.THIS .slds-notify_toast {
+    width: 600px;
+    min-height: 80px;
+    margin: 0;
+    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+}
+
+.THIS .slds-notify__content{
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.THIS .slds-notify__content .slds-text-heading_small{
+	font-family: SantanderMicroText-Bd;
+    font-size: 16px; 
+    line-height: 1.5; 
+    color: #444444;
+    margin:0;
+}
+.THIS .slds-notify__content .notifyText { 
+    font-family: SantanderMicroText;
+    font-size: 16px; 
+    line-height: 1.5; 
+    color: #444444; 
+}
+
+.THIS .slds-notify__content .action{ 
+    font-family: SantanderMicroText-Bd;
+    font-size: 14px;
+    line-height: 1.43;
+}
+
+/* ICONS TOAST */
+.THIS .slds-notify__close { 
+    height: 24px; 
+    right:16px;
+    top: 16px;
+    width: 24px;
+}
+.THIS .slds-notify__close .slds-button.slds-button_icon {
+    display: flex;
+    text-decoration: none;
+}
+.THIS .slds-notify__close .slds-button.slds-button_icon:before {
+    font-size: 24px;
+}
+.THIS .button-selected{
+    margin-right:8px;
+    pointer-events: none; 
+}
+.THIS .button-selected:before{
+    font-size: 24px;
+}
+.THIS .slds-notify__content .slds-button.slds-button_icon:before { 
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+/* INFO TOAST */
+.THIS .slds-theme_info { 
+    border: solid 1px #257fa4 ; 
+  	background-color: #f5f9fb;  
+}
+
+.THIS .slds-theme_info .icon-information:before { 
+    color: #257fa4 ;  
+}
+
+.THIS .slds-theme_info .icon-close_big:before,
+.THIS .slds-theme_info .slds-notify__content button,
+.THIS .slds-theme_info .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #257fa4;
+}
+
+/* INFO STATIC TOAST */
+.THIS .slds-notify_container.toast_static {
+    padding: 0;
+    display: block;
+    height: auto;
+    position: static;
+    margin-top:40px;
+}
+
+.THIS .toast_static .slds-theme_info { 
+    width: 100%;
+    box-shadow: none;
+}
+
+.THIS .toast_static .slds-theme_info .icon-close_big:before { 
+    visibility: hidden; 
+}
+
+/* MOSTRAR ACTION TOAST */
+.THIS .slds-theme_info .slds-notify__content button,
+.THIS .slds-theme_success .slds-notify__content button,
+.THIS .slds-theme_warning .slds-notify__content button,
+.THIS .slds-theme_error .slds-notify__content button{ 
+    display: none; 
+}
+
+.THIS .slds-theme_info.action .slds-notify__content button,
+.THIS .slds-theme_success.action .slds-notify__content button,
+.THIS .slds-theme_warning.action .slds-notify__content button,
+.THIS .slds-theme_error.action .slds-notify__content button{ 
+    display: flex;
+    align-self: flex-end;
+    margin-top: 2px;
+    align-items: center;
+    border: none;
+}
+
+
+
+/* INPUTS */
+.THIS .inputContainer .slds-form-element {
+    display: inline-block;
+    min-height: calc(48px + 24px);
+    width: 100%;
+}
+
+
+.THIS .inputContainer .slds-form-element__control  {
+	height:48px;
+}
+.THIS .inputContainer .slds-textarea{
+	border: 1px solid #deedf2;
+    background-color: #f6fafc;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    line-height: 24px;
+    padding: 0 70px 0 16px;
+    min-width: 392px;
+}
+.THIS .slds-form-element__help {
+    color: #767676;
+	font-family: "SantanderMicroText";
+  	font-size: 14px;
+  	line-height: 20px;
+    margin-left: 16px;
+  	margin-top: 0;
+}
+
+.THIS .inputContainer ::-webkit-input-placeholder { color: #767676;}
+ 
+.THIS .inputContainer :-moz-placeholder { /* Firefox 18- */ color: #767676; } 
+ 
+.THIS .inputContainer ::-moz-placeholder { /* Firefox 19+ */ color: #767676; } 
+ 
+.THIS .inputContainer :-ms-input-placeholder { color: #767676; }
+
+.THIS .inputContainer :focus::-webkit-input-placeholder{color:transparent;}
+
+.THIS .inputContainer .slds-input:focus, .THIS.paymentProcess-step4 .slds-input:active {
+	box-shadow: none;
+    border-bottom: 2px solid #257fa4;
+}
+
+
+
+.THIS .inputContainer .slds-form-element {
+    min-height: calc(48px + 40px) !important;
+    width: 100%;
+}
+.THIS .inputContainer .slds-textarea {
+    background-color: #f6fafc;
+    width: 100%;
+    min-height: 0 !important;
+    -webkit-appearance: none;
+    resize: none;
+    border-width: 1px;
+    border-style: solid;
+    border-color:  #deedf2;
+    border-image: initial;
+    border-radius: 4px 4px 0 0;
+    transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+    padding: 12px 56px 12px 16px; 
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 24px;
+    overflow: hidden;
+}

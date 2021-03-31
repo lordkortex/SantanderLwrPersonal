@@ -1,0 +1,59 @@
+<template>
+    <c-lwc_service-component></c-lwc_service-component>
+    <div class="slds-grid bookBalance_container">
+        <div class="slds-col">
+                <div class="slds-form-element slds-combobox__Rg"> 
+                    <!-- DROPDOWN MARKUP -->
+                    <c-lwc_cn_dropdown 
+                        issimpledropdown = "true"
+                        values={dropdownValues}
+                        selectedvalue={dropdownselectedvalue}
+                        headerdropdown={label.TotalConsolidatedBy}
+                        isdisabled={disableDropdown}
+                        ondropdownvalueselected={handledropdownvalueselected}>  
+                    </c-lwc_cn_dropdown>
+                </div>
+        </div>
+        <div class="slds-col">
+           <div class="bookBalance">
+                <div class="slds-card__header-title textSubtitle">
+                    <div> {label.TotalBookBalance} </div>
+                    <div> {label.TotalAvailableBalance} </div>
+                </div>
+            </div>
+            <div class="bookBalance">
+                <div class="slds-card__header-title numberTitle">
+                    <div if:true={totalBookBalanceNotNull}>
+                        <c-lwc_display-amount
+                            amount={totalbookbalance}
+                            wholeclass="numberTitle bookInteger"
+                            decimalclass="numberTitle bookDecimals"
+                            currencyclass="numberTitle bookDivisa"
+                            currency={selectedcurrency}
+                            numberformat={userpreferrednumberformat}>
+                        </c-lwc_display-amount>
+                    </div>
+                </div>
+                <div class="slds-card__header-title numberSubtitle">
+                    <div if:true={avaibleBookBalanceNotNull}>
+                       <c-lwc_display-amount
+                            amount={avaiblebookbalance}
+                            wholeclass="bookInteger"
+                            decimalclass="bookDecimals"
+                            currencyclass="bookDivisa"
+                            currency={selectedcurrency}
+                            numberformat={userpreferrednumberformat}>
+                        </c-lwc_display-amount>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="link_container">
+        <div class="link" onclick={goToAccounts}>
+            <a class="text-link" href="" data-title={label.ViewAllAccounts}>
+                {label.ViewAllAccounts} <span class="icon-arrowRight_big" data-title={label.ViewAllAccounts}></span>
+            </a>
+        </div>
+    </div>    
+</template>

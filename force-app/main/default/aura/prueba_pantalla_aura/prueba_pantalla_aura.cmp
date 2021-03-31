@@ -1,0 +1,1602 @@
+<!--<aura:component>-->
+    <!--<aura:attribute access="public"         type="List"         name="values"                default="[]"                       description="List of values to populate the dropdown" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    <!--<c:CMP_B2B_ComercialCode aura:id="dropdown" name="comercialCode" selectedValue="{!v.value}" showDropdown="false" />-->
+    <!--<c:CMP_PAY_CalendarInput userData="{!v.userData}" isDisabled="{!v.isCalendarDisabled}" dateValue="{!v.processDate}" datePlaceholder="{!v.calendarPlaceholder}"/>-->
+<!--</aura:component>-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="values" type="List" default="['Charitable Aid','Payment for identifiable goods','Salary/Payroll','Travel cost','Travel cost']" description="List of values to populate the dropdown" />
+    <aura:attribute name="currency" type="List" default="['EUR','EUR','EUR','EUR','EUR']" description="List of values to populate the dropdown" />
+    <aura:attribute name="selectedValue" type="String" description="Selected option from the dropdown" />
+    <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text" />
+    
+    <!-- STEPPER -->
+    <div class="stepper">
+        
+        <div class="stepper_heading slds-grid"> 
+            <div class="line slds-col"></div>
+            <div class="step slds-col slds-grid">
+                <div class="step_number"><span>2</span></div>
+                <div class="step_title"><span>Which account will receive your payment?</span></div>
+            </div>
+            <div class="line slds-col"></div>
+        </div>
+        
+        <!--<div class="stepper_subtitle">
+            <p class="step_subtitle">Description subtitle</p>
+        </div>-->
+        
+    </div>
+    
+    <!-- PAYMENT PROCESS SECOND STEP: DO AND FOLLOW-->
+    <div class="modal-container__secondStep">
+        
+        <div class="row">
+            
+            <div class="slds-col">
+                <!-- DROPDOWN SINGLE CHOICE -->
+                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                <div class="slds-form-element dropdown">
+                    <label class="slds-form-element__label" for="text-input-id-1">Destination country</label>
+                    
+                    <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                            
+                            <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                            <button class="slds-button button-order" aria-haspopup="true">
+                                
+                                <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
+                                <div class="slds-border_right selectedValue-filled">Brazil</div>
+                                
+                                <!-- Icono que aparecerá cuando este disabled -->
+                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                    <div class="button icon-prohibited"></div>
+                                </div>
+                                
+                                <div class="slds-button__icon arrow" aria-hidden="true">
+                                    <div class="button-arrow icon-arrowDown_small"></div>
+                                    <div class="button-arrow icon-arrowUp_small"></div>
+                                </div>
+                                <span class="slds-assistive-text"></span>
+                                
+                            </button>
+                            
+                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                            <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                            
+                            <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
+                            <div class="errorText">Error! Incorrect.</div>
+                        </div>
+                        
+                        <!-- Cuando el button esté disabled el dropdown se oculta -->
+                        <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                            <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                <aura:iteration items="{!v.values}" var="item">
+                                    <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}">
+                                        <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                            <div class="slds-truncate optionOrder">{!item}</div>
+                                        </a>
+                                    </li>
+                                </aura:iteration>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slds-col">                
+                <!-- DROPDOWN SINGLE CHOICE -->
+                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                <div class="slds-form-element dropdown">
+                    <label class="slds-form-element__label" for="text-input-id-1">Currency</label>
+                    
+                    <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                            
+                            <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                            <button class="slds-button button-order" aria-haspopup="true">
+                                
+                                <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
+                                <div class="slds-border_right selectedValue-filled">BRL</div>
+                                
+                                <!-- Icono que aparecerá cuando este disabled -->
+                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                    <div class="button icon-prohibited"></div>
+                                </div>
+                                
+                                <div class="slds-button__icon arrow" aria-hidden="true">
+                                    <div class="button-arrow icon-arrowDown_small"></div>
+                                    <div class="button-arrow icon-arrowUp_small"></div>
+                                </div>
+                                <span class="slds-assistive-text"></span>
+                                
+                            </button>
+                            
+                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                            <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                            
+                            <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
+                            <div class="errorText">Error! Incorrect.</div>
+                        </div>
+                        
+                        <!-- Cuando el button esté disabled el dropdown se oculta -->
+                        <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                            <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                <aura:iteration items="{!v.currency}" var="item">
+                                    <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}">
+                                        <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                            <div class="slds-truncate optionOrder">{!item}</div>
+                                        </a>
+                                    </li>
+                                </aura:iteration>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="slds-col">
+                <!-- INDICATIVE RATE -->
+                <div>4,91 GBP/BRL</div>
+                <div>Indicative rate 11:00</div>
+            </div>
+        </div>
+        
+        
+        <div class="row">
+            <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+            <!-- Esto hará que desaparezca el helpText y aparezca el errorText -->
+            <div class="slds-form-element inputLookup__double">
+                <!-- La label solo se mostrará en el momento en el que se vaya a escribir en el input -->
+                <label class="slds-form-element__label" for="combobox-id-14">Source account</label>
+                
+                <!-- Añadir la clase slds-is-open al div siguiente para mostrar el desplegable -->
+                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        
+                        <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                        
+                        <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id-14" aria-autocomplete="list" aria-controls="listbox-id-11" autoComplete="off" role="textbox" placeholder="Source account" value=""/>
+                        
+                        <!-- Icono que aparecerá cuando este disabled -->
+                        <div class="slds-button__icon disabled" aria-hidden="true">
+                            <div class="button icon-prohibited"></div>
+                        </div>
+                        
+                        <!-- Icono de cruz para eliminar una vez seleccionada una opción -->
+                        
+                        <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                            <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                            <span class="slds-assistive-text">Clear the text input</span>
+                        </button>
+                        <div class="slds-form-element__help">Alias or account number</div>
+                        <div class="errorText">Error! Incorrect user input format.</div> 
+                    </div>
+                    <div id="listbox-id-11" class="slds-dropdown slds-dropdown_length-6 slds-dropdown_fluid" role="listbox">
+                        <div class="scrollable">
+                            <!-- Esto debe mostrar el resultado de busqueda según lo que se ha escrito -->
+                            <!-- Añadir la clase newBeneficiary en este div para mostrar el link que permite crear un nuevo beneficiario y ocultar el listado de sugerencias -->
+                            <div aria-selected="true" id="option0" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">
+                                <span class="slds-media__body">
+                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">Suggestions for<mark>“ES21 0049”</mark>(5 results)</span>
+                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">No accounts are registered for<mark>“ES34 5342 2352 0824 1420 5416”</mark></span>                            
+                                </span>
+                                <!--NEW BENEFICIARY-->
+                                <div>
+                                    <div class="text">This account number is not saved</div>
+                                    <button class="slds-button button_link">Please introduce a new beneficiary</button> 
+                                </div>
+                            </div>
+                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                              
+                                <li role="presentation" class="slds-listbox__item ">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                               <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            
+                               
+                                <li role="presentation" class="slds-listbox__item">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                              
+                                            </span>
+                                        </div>
+                                        
+                                    </div>
+                                </li>
+                                  
+                                
+                                <li role="presentation" class="slds-listbox__item">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                              
+                                            </span>
+                                        </div>
+                                        
+                                    </div>
+                                </li>
+                                     
+                                <li role="presentation" class="slds-listbox__item">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                              
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                   
+                                
+                                <li role="presentation" class="slds-listbox__item">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                              
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li role="presentation" class="slds-listbox__item ">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li role="presentation" class="slds-listbox__item ">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li role="presentation" class="slds-listbox__item ">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li role="presentation" class="slds-listbox__item ">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                
+                                <li role="presentation" class="slds-listbox__item ">
+                                    
+                                    <!-- Añadir la clase "registered" para una cuenta registrada-->
+                                    <div aria-selected="true" id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                        
+                                        <!-- COLUMNA 1 -->
+                                         <div class="slds-truncate account">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">PT50 0002 0123 1234 5678 9015 4</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Lisbon supplies</span>
+                                                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Registered</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 2 -->
+                                        <div class="slds-truncate business">
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Inktec</span>
+                                              <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">Banco Santander Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- COLUMNA 3 -->
+                                        <div class="slds-truncate country">
+                                            <span class="slds-media__figure slds-listbox__option-icon">
+                                              <span class="slds-icon_container">
+                                                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                                                    <img class="sizeFlag" src="/sfsites/c/resource/1585309271000/Flags/PT.svg"></img>
+                                                </span>
+                                              </span>
+                                            </span>
+                                            <span class="slds-media__body">
+                                              <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">Portugal</span>
+                                            </span>
+                                        </div>
+                                        
+                                         <!-- COLUMNA 4 -->
+                                        <div class="slds-truncate">
+                                            <span class="slds-media__body">
+                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                    <div class="slds-box">
+                                                        <p>EUR</p>
+                                                    </div>
+                                                </span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                 
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        
+        
+        
+        </div>
+        
+        <!-- BUTTON -->
+        <div class="row contentButtons">
+            <button class="slds-button secondary button_small">Browse beneficiaries</button>
+        </div>
+        
+        <!-- ACCORDION -->
+        <div class="row">
+            <!-- Añadir la clase local_format para mostrar los campos de formulario correspondientes a esta opción -->
+            <ul class="slds-accordion">
+                
+                <li class="slds-accordion__list-item">
+                    <!-- Añadir la clase slds-is-open para mostrar el contenido -->
+                    <!-- Al abrir el formulario para crear un nuevo beneficiario se deberá ocultar el inputLookup y el botón anteriores -->
+                    <section class="slds-accordion__section slds-is-open">
+                        
+                        <div class="slds-accordion__summary">
+                            <h2 class="slds-accordion__summary-heading">
+                                <button class="slds-button slds-button_reset slds-accordion__summary-action" aria-controls="referenceId-36" aria-expanded="true">
+                                    <span class="slds-accordion__summary-content">New Beneficiary</span>
+                                    <div class="containerIcon">
+                                        <!-- ICONO FLECHA: MENÚ DESPLEGADO -->
+                                        <span class="icon icon-arrowUp_small"></span>
+                                        <!-- ICONO FLECHA: MENÚ PLEGADO -->
+                                        <span class="icon icon-arrowDown_small"></span>
+                                    </div>
+                                </button>
+                            </h2>
+                        </div>
+                        
+                        <!-- NEW BENEFICIARY WITH IBAN -->
+                        <div class="slds-accordion__content ib" id="referenceId-36">
+                            <!-- OPTION BUTTONS -->
+                            <div class="slds-button-group sizeS" role="group">
+                                <!-- Añadir la clase selected para que el botón se muestre seleccionado -->
+                                <button class="slds-button slds-button_neutral selected">IBAN</button>
+                                <button class="slds-button slds-button_neutral">Local format</button>
+                            </div>
+                            
+                            <!-- FORM ELEMENTS -->
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Beneficairy IBAN</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Beneficiary IBAN" class="slds-input" name="Retention Certificate" value="BR18 0036 0305 0000 1000 9795 493C 1"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Account holder</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Account holder" class="slds-input" name="Retention Certificate" value="Adriana Meyer"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-col">
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">BIG code</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="BIG code" class="slds-input" name="Retention Certificate" value="INGBPLPW"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Tax ID</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Tax ID" class="slds-input" name="Retention Certificate" value="999-88-9999"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- BENEFICIARY ADRESS -->
+                            <div class="beneficiary_adress">
+                                <span class="subtitle">Beneficiary adress</span>
+                            </div>
+                            
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <!-- DROPDOWN SINGLE CHOICE -->
+                                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                    <div class="slds-form-element dropdown">
+                                        <label class="slds-form-element__label" for="text-input-id-1">Province</label>
+                                        
+                                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                
+                                                <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                                                <button class="slds-button button-order" aria-haspopup="true">
+                                                    
+                                                    <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
+                                                    <div class="slds-border_right selectedValue-filled">Amazonas</div>
+                                                    
+                                                    <!-- Icono que aparecerá cuando este disabled -->
+                                                    <div class="slds-button__icon disabled" aria-hidden="true">
+                                                        <div class="button icon-prohibited"></div>
+                                                    </div>
+                                                    
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                                        <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                                                        <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                                                        <div class="button-arrow icon-arrowUp_small"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                    
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                                
+                                                <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect.</div>
+                                            </div>
+                                            
+                                            <!-- Cuando el button esté disabled el dropdown se oculta -->
+                                            <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                                                <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                                    <aura:iteration items="{!v.values}" var="item">
+                                                        <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}">
+                                                            <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                                <div class="slds-truncate optionOrder">{!item}</div>
+                                                            </a>
+                                                        </li>
+                                                    </aura:iteration>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Street and number</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Street and number" class="slds-input" name="Retention Certificate" value="Av. Max Teixeira, 1800"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-col">
+                                    <!-- DROPDOWN SINGLE CHOICE -->
+                                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                    <div class="slds-form-element dropdown">
+                                        <label class="slds-form-element__label" for="text-input-id-1">City</label>
+                                        
+                                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                
+                                                <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                                                <button class="slds-button button-order" aria-haspopup="true">
+                                                    
+                                                    <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
+                                                    <div class="slds-border_right selectedValue-filled">Manaos</div>
+                                                    
+                                                    <!-- Icono que aparecerá cuando este disabled -->
+                                                    <div class="slds-button__icon disabled" aria-hidden="true">
+                                                        <div class="button icon-prohibited"></div>
+                                                    </div>
+                                                    
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                                        <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                                                        <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                                                        <div class="button-arrow icon-arrowUp_small"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                    
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                                
+                                                <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect.</div>
+                                            </div>
+                                            
+                                            <!-- Cuando el button esté disabled el dropdown se oculta -->
+                                            <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                                                <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                                    <aura:iteration items="{!v.values}" var="item">
+                                                        <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}">
+                                                            <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                                <div class="slds-truncate optionOrder">{!item}</div>
+                                                            </a>
+                                                        </li>
+                                                    </aura:iteration>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Floor/Door/etc (Optional)</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Floor/Door/etc" class="slds-input" name="Retention Certificate" value="1º B"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- SAVE -->
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <fieldset class="slds-form-element checkbox">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox slds-truncate">
+                                                <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-20" value="checkbox-unique-id-20" />
+                                                <label class="slds-checkbox__label" for="checkbox-unique-id-20">
+                                                    <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label checkboxLabel">Save as beneficiary</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="slds-col">
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Account alias</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Account alias" class="slds-input" name="Retention Certificate" value="Brazil provider"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        
+                        <!-- NEW BENEFICIARY LOCAL FORMAT -->
+                        <div class="slds-accordion__content local" id="referenceId-36">
+                            <!-- OPTION BUTTONS-->
+                            <div class="slds-button-group sizeS" role="group">
+                                <!-- Añadir la clase selected para que el botón se muestre seleccionado -->
+                                <button class="slds-button slds-button_neutral">IBAN</button>
+                                <button class="slds-button slds-button_neutral selected">Local format</button>
+                            </div>
+                            
+                            <!-- FORM ELEMENTS -->
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <!-- DROPDOWN SINGLE CHOICE -->
+                                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                    <div class="slds-form-element dropdown">
+                                        <label class="slds-form-element__label" for="text-input-id-1">Bank</label>
+                                        
+                                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                
+                                                <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                                                <button class="slds-button button-order" aria-haspopup="true">
+                                                    
+                                                    <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
+                                                    <div class="slds-border_right selectedValue-placeholder">Bank</div>
+                                                    
+                                                    <!-- Icono que aparecerá cuando este disabled -->
+                                                    <div class="slds-button__icon disabled" aria-hidden="true">
+                                                        <div class="button icon-prohibited"></div>
+                                                    </div>
+                                                    
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                                        <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                                                        <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                                                        <div class="button-arrow icon-arrowUp_small"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                    
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                                
+                                                <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect.</div>
+                                            </div>
+                                            
+                                            <!-- Cuando el button esté disabled el dropdown se oculta -->
+                                            <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                                                <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                                    <aura:iteration items="{!v.values}" var="item">
+                                                        <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}">
+                                                            <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                                <div class="slds-truncate optionOrder">{!item}</div>
+                                                            </a>
+                                                        </li>
+                                                    </aura:iteration>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Account number</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Account number" class="slds-input" name="Retention Certificate" /> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Account holder</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Account holder" class="slds-input" name="Retention Certificate" /> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-col">
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Branch</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Branch" class="slds-input" name="Retention Certificate"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- DROPDOWN SINGLE CHOICE -->
+                                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                    <div class="slds-form-element dropdown">
+                                        <label class="slds-form-element__label" for="text-input-id-1">Account type</label>
+                                        
+                                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                
+                                                <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                                                <button class="slds-button button-order" aria-haspopup="true">
+                                                    
+                                                    <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
+                                                    <div class="slds-border_right selectedValue-placeholder">Account type</div>
+                                                    
+                                                    <!-- Icono que aparecerá cuando este disabled -->
+                                                    <div class="slds-button__icon disabled" aria-hidden="true">
+                                                        <div class="button icon-prohibited"></div>
+                                                    </div>
+                                                    
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                                        <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                                                        <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                                                        <div class="button-arrow icon-arrowUp_small"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                    
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                                
+                                                <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect.</div>
+                                            </div>
+                                            
+                                            <!-- Cuando el button esté disabled el dropdown se oculta -->
+                                            <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                                                <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                                    <aura:iteration items="{!v.values}" var="item">
+                                                        <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}">
+                                                            <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                                <div class="slds-truncate optionOrder">{!item}</div>
+                                                            </a>
+                                                        </li>
+                                                    </aura:iteration>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Tax ID</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Tax ID" class="slds-input" name="Retention Certificate"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- BENEFICIARY ADRESS -->
+                            <div class="beneficiary_adress">
+                                <span class="subtitle">Beneficiary adress</span>
+                            </div>
+                            
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <!-- DROPDOWN SINGLE CHOICE -->
+                                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                    <div class="slds-form-element dropdown">
+                                        <label class="slds-form-element__label" for="text-input-id-1">Province</label>
+                                        
+                                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                
+                                                <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                                                <button class="slds-button button-order" aria-haspopup="true">
+                                                    
+                                                    <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
+                                                    <div class="slds-border_right selectedValue-placeholder">Province</div>
+                                                    
+                                                    <!-- Icono que aparecerá cuando este disabled -->
+                                                    <div class="slds-button__icon disabled" aria-hidden="true">
+                                                        <div class="button icon-prohibited"></div>
+                                                    </div>
+                                                    
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                                        <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                                                        <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                                                        <div class="button-arrow icon-arrowUp_small"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                    
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                                
+                                                <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect.</div>
+                                            </div>
+                                            
+                                            <!-- Cuando el button esté disabled el dropdown se oculta -->
+                                            <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                                                <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                                    <aura:iteration items="{!v.values}" var="item">
+                                                        <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}">
+                                                            <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                                <div class="slds-truncate optionOrder">{!item}</div>
+                                                            </a>
+                                                        </li>
+                                                    </aura:iteration>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Street and number</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Street and number" class="slds-input" name="Retention Certificate"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-col">
+                                    <!-- DROPDOWN SINGLE CHOICE -->
+                                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                    <div class="slds-form-element dropdown">
+                                        <label class="slds-form-element__label" for="text-input-id-1">City</label>
+                                        
+                                        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                            <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                
+                                                <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                                                <button class="slds-button button-order" aria-haspopup="true">
+                                                    
+                                                    <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
+                                                    <div class="slds-border_right selectedValue-placeholder">City</div>
+                                                    
+                                                    <!-- Icono que aparecerá cuando este disabled -->
+                                                    <div class="slds-button__icon disabled" aria-hidden="true">
+                                                        <div class="button icon-prohibited"></div>
+                                                    </div>
+                                                    
+                                                    <div class="slds-button__icon arrow" aria-hidden="true">
+                                                        <div class="button-arrow icon-arrowDown_small"></div>
+                                                        <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                                                        <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                                                        <div class="button-arrow icon-arrowUp_small"></div>
+                                                    </div>
+                                                    <span class="slds-assistive-text"></span>
+                                                    
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+                                                
+                                                <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect.</div>
+                                            </div>
+                                            
+                                            <!-- Cuando el button esté disabled el dropdown se oculta -->
+                                            <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                                                <ul class="slds-dropdown__list" role="menu" aria-label="{!v.helpTextDropdown}">
+                                                    <aura:iteration items="{!v.values}" var="item">
+                                                        <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}">
+                                                            <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                                <div class="slds-truncate optionOrder">{!item}</div>
+                                                            </a>
+                                                        </li>
+                                                    </aura:iteration>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Floor/Door/etc (Optional)</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Floor/Door/etc (Optional)" class="slds-input" name="Retention Certificate"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- SAVE -->
+                            <div class="slds-grid">
+                                <div class="slds-col">
+                                    <fieldset class="slds-form-element checkbox">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-checkbox slds-truncate">
+                                                <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                                                <input type="checkbox" name="options" id="checkbox-unique-id-21" value="checkbox-unique-id-21" />
+                                                <label class="slds-checkbox__label" for="checkbox-unique-id-21">
+                                                    <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                                    <span class="slds-checkbox_faux"></span>
+                                                    <span class="slds-form-element__label checkboxLabel">Save as beneficiary</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="slds-col">
+                                    <!-- TEXT INPUT SIMPLE -->
+                                    <div class="textInput_simple">
+                                        <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                        <div class="slds-form-element input"> 
+                                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                            <label class="slds-form-element__label" for="text-input-id-1">Account alias</label> 
+                                            
+                                            <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                
+                                                <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                <input type="text" id="text-input-id-11" placeholder="Account alias" class="slds-input" name="Retention Certificate"/> 
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                    <span class="slds-assistive-text">Clear the text input</span>
+                                                </button>
+                                                
+                                                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                
+                                                <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                <div class="errorText">Error! Incorrect user input format.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </section>
+                </li>
+            </ul>
+        </div>
+        
+        
+        <!-- FOOTER FIRST STEP -->
+        <footer class="slds-modal__footer">
+            <div class="slds-form-element">
+                <div class="slds-media__footer">
+                    <!-- El botón se mostrará activo cuando se haya seleccionado una cuenta. 
+                    Para que este disabled poner la clase button_disabled -->
+                     <button class="slds-button primary button_full">Continue</button>        
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+</aura:component>

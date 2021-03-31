@@ -1,0 +1,629 @@
+.THIS {
+}
+.THIS.listItems{
+    width: 1224px;  
+    margin:16px auto 0;
+}
+.THIS.listItems .slds-text-body_regular{ 
+    font-family: SantanderMicroText;
+    font-size: 12px; 
+    line-height: 1.42;
+    letter-spacing: normal;
+    color: #767676;
+}
+.THIS.listItems .slds-text-body_regular strong{ 
+    margin:0 2px;
+    font-family: SantanderMicroText-Bd;
+}
+.THIS.tablePaymentsContent {
+    display: flex;
+    justify-content: center;
+    margin: 4px 0 0 0;
+    width: 100%;
+}
+.THIS.tablePaymentsContent >.slds-grid {
+    width: 1224px; 
+}
+
+/* TABLE */
+.THIS .tablePayment {
+    padding-top: 0;
+    padding-bottom: 37px;
+    overflow: initial;
+        width: 1224px;
+}
+.THIS .tablePayment:before {
+    display: none;
+}
+
+/* HEAD */
+.THIS thead{
+    border-radius: 4px;   
+    display: block;
+}
+.THIS thead tr{ 
+    border:0; 
+}
+.THIS thead th{
+    margin-right:32px;
+    width:auto;
+    height: 40px;
+    font-family: SantanderMicroText-Bd;
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #444444;
+    background-color: #ececec; 
+    padding:0;
+    box-shadow: inset 0 -1px 0 0 #cedee7!important;
+}
+.THIS thead th >div{
+    padding-right:28px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    /*cursor:pointer;*/
+}
+
+.THIS thead th>div>span:hover,
+.THIS thead th>div span:hover + span {
+    cursor: pointer;
+    opacity: 1;
+}
+
+.THIS thead th >div>span:hover .button-orderRight,
+.THIS thead th >div.orderActive .button-orderRight{  
+    opacity:1
+}
+
+.THIS .headCheck{
+    width: 48px;  
+    border-radius: 4px 0  0 0;
+}
+.THIS .headCheck >div{
+    padding-left: 8px;
+    padding-right: 16px;
+}
+.THIS .headReference{
+    width: 187px;
+    max-width: 187px;
+    min-width: 187px;
+}
+ 
+.THIS .headStatus{
+    width: 148px;
+    max-width: 148px;
+    min-width: 148px;
+    text-align:center;
+}
+.THIS .headStatus >div{
+       justify-content: center;
+}
+.THIS .headSource{
+    width: 216px;
+    max-width: 216px;
+    min-width: 216px;
+}
+.THIS .headBeneficiary{
+    width: 216px;
+    max-width: 216px;
+    min-width: 216px;
+}
+.THIS .headAmount{
+    width: 176px;
+    max-width: 176px;
+    min-width: 176px;
+    text-align: right;
+}
+.THIS .headAmount >div{ 
+    justify-content: flex-end;
+}
+.THIS .headCurrency{
+    width: 118px;
+    max-width: 118px;
+    min-width: 118px;
+}
+.THIS .headDate{
+    width: 115px;
+    max-width: 115px;
+    min-width: 115px;
+    border-radius: 0 4px 0 0;
+}
+ .THIS .headDate >div{
+    padding-right: 16px;
+}
+.THIS .button-orderRight{ 
+    width: 16px;
+    height: 16px; 
+    font-size: 16px;
+    top: 3px; 
+    margin-left:4px;
+    opacity:0;
+    transition: all 0.2s linear;
+}
+.THIS .button-orderRight:before{
+    color: #257fa4;
+} 
+.THIS thead th >div.orderActive.orderReverse .button-orderRight{ 
+    transform: rotate(-180deg); 
+}
+.THIS thead th.slds-is-sortable {
+    cursor:pointer;
+}
+.THIS thead th >div:hover .button-orderRight,
+.THIS thead th >div.orderActive .button-orderRight{  
+    opacity:1
+}
+
+
+/* BODY */
+.THIS tbody tr{ 
+    border:0; 
+    position: relative;
+    display: block;
+    background-color: #fff;
+    cursor: pointer;
+    /*border: solid 1px transparent;*/
+}
+.THIS tbody tr:nth-child(odd){  
+    background-color: #ffffff;
+}
+.THIS tbody tr:nth-child(even){  
+    background-color: #f9fcfd;
+}
+/*
+.THIS tbody tr:after{  
+    content: "";
+    width: 100%;
+    position: absolute;
+    height: 64px; 
+    left: 0;
+    top: 0px;
+    z-index: 0;
+    bottom: 0px;
+    transition: all 0.5s ease;
+}*/
+.THIS tbody tr:hover{
+    z-index: 1;
+    transform: translate(0px, 0px);
+    background-color: #e2eff4;
+}
+/*
+.THIS tbody tr:hover:after{ 
+    box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.08);
+}*/
+.THIS tbody tr.selected{
+    border: solid 1px #1bb3bc;
+}
+.THIS tbody tr.selected + tr.selected{
+    border-top: 0;
+}
+.THIS tbody tr.selected .slds-checkbox_faux {
+    border: 2px solid #1bb3bc;
+}
+.THIS tbody tr.selected .slds-checkbox_faux:after {
+    display: block;
+    content: "";
+    height: 0.25rem;
+    width: 0.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0px) rotate(-45deg);
+    border-bottom: 2px solid #1bb3bc;
+    border-left: 2px solid #1bb3bc;
+    height: 6px;
+    width: 9px;
+}
+ .THIS tbody tr.active{
+    background-color: #f0f8f0;
+}
+
+.THIS tbody tr.active td{
+    border-bottom: none!important;
+}
+
+.THIS tbody td{ 
+    width:auto;
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing:  normal;
+    color: #444444;
+    padding: 0;
+    border-bottom: 1px solid #cedee7!important;
+    background-color: transparent!important;
+}
+.THIS tbody td >div{
+    padding-right: 48px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    position:relative;
+    z-index:1;
+}
+.THIS tbody td.infoCheck   {
+    width: 48px;
+    max-width: 48px;
+    min-width: 48px;
+    z-index: 2;
+} 
+.THIS tbody td.infoReference {
+    width: 187px;
+    max-width: 187px;
+    min-width: 187px;
+	height: 65px;
+}
+.THIS tbody td.infoStatus {
+    width: 148px;
+    max-width: 148px;
+    min-width: 148px;
+    text-align:center;
+}
+.THIS tbody td.infoSource {
+    width: 216px;
+    max-width: 216px;
+    min-width: 216px;
+} 
+.THIS tbody td.infoBeneficiary {
+    width: 216px;
+    max-width: 216px;
+    min-width: 216px;
+} 
+.THIS tbody td.infoAmount {
+    width: 176px;
+    max-width: 176px;
+    min-width: 176px;
+} 
+.THIS tbody td.infoCurrency {
+    width: 118px;
+    max-width: 118px;
+    min-width: 118px;
+} 
+.THIS tbody td.infoValue {
+    width: 115px;
+    max-width: 115px;
+    min-width: 115px;
+} 
+.THIS tbody .infoCheck >div{
+    padding-left: 8px;
+    padding-right: 16px;
+}
+.THIS tbody .infoAmount >div{
+    justify-content: flex-end;
+}
+.THIS tbody .infoCurrency >div{
+    justify-content: center;
+} 
+.THIS tbody .infoReference >div{
+     padding-right: 47px;
+}
+.THIS tbody td.infoReference .text {
+    white-space: normal;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    padding-bottom: 2px;
+}
+.THIS tbody .infoValue >div{
+    padding-right: 40px;
+}
+.THIS tbody .flexCol{
+    flex-direction: column; 
+}
+.THIS tbody .strong{ 
+    font-family: SantanderMicroText-Bd;
+}
+.THIS tbody .textBox{
+    border-radius:2px;
+    border:1px solid #cedee7;
+    padding: 0 4px;
+    color: #444444;
+    font-family: SantanderMicroText;
+    font-size: 12px; 
+    line-height: 1.5;
+    letter-spacing: normal;  
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: 24px;
+    min-width: 39px; 
+    background-color:#fff;
+}
+.THIS tbody .textBox.textBoxBlue{
+    border-color: #cedee7;
+    background-color: #eff6f9;
+    min-width:  58px; 
+}
+.THIS tbody .slds-badge{
+    display: block;
+    border-radius: 100px;
+    border: solid 1px #979797;
+    background-color: #f6f6f6;
+    font-family: SantanderMicroText-Bd;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #444444;
+    padding: 2px 4px;
+    width: 100px;
+    min-width: 100px;
+    height: 24px;
+    max-width: 100px; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center; 
+}
+.THIS tbody .slds-badge.badgeDraft{
+    border-color: #767676;
+    background-color: #ececec;
+}
+.THIS tbody .slds-badge.badgePending,
+.THIS tbody .slds-badge.badgeDelayed,
+.THIS tbody .slds-badge.badgeHold{
+    border-color: #ffcc33;
+    background-color: #fff5d7;
+}
+.THIS tbody .slds-badge.badgeReview{
+    border-color: #9e3667;
+    background-color: #ecd7e1;
+}
+.THIS tbody .slds-badge.badgeNotAuthorized,
+.THIS tbody .slds-badge.badgeCanceled,
+.THIS tbody .slds-badge.badgeDenied,
+.THIS tbody .slds-badge.badgeRejected{
+    border-color: #cc0000;
+    background-color: #fccccc;
+}
+.THIS tbody .slds-badge.badgeScheduled,
+.THIS tbody .slds-badge.badgeReleased,
+.THIS tbody .slds-badge.badgeInProgress{
+    border-color: #1bb3bc;
+    background-color: #d2f0f2;
+}
+.THIS tbody .slds-badge.badgeAuthorized,
+.THIS tbody .slds-badge.badgeProcessed,
+.THIS tbody .slds-badge.badgeCompleted{
+    border-color: #63ba68;
+    background-color: #e0f2e1;
+}
+ 
+.THIS tbody .text.textLight{
+      color:  #767676; 
+}
+/* checkbox */
+.THIS .checkboxContainer .slds-checkbox_faux{
+    border-radius: 4px;
+    border-color: #767676;
+    cursor: pointer;
+    height: 24px; 
+    width: 24px;
+}
+.THIS .checkboxContainer .slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+    box-shadow: none;
+    border-color: #767676;
+}
+.THIS .checkboxContainer .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+    border: 2px solid #1bb3bc;
+}
+.THIS .checkboxContainer .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+    border-bottom: 2px solid #1bb3bc;
+    border-left: 2px solid #1bb3bc;
+    height: 6px;
+    width: 9px;
+}
+.THIS .checkboxContainer .slds-checkbox__label .slds-checkbox_faux:active {
+    border: 2px solid #1bb3bc;
+}
+
+
+
+/* PAGINATION */
+.THIS .pagination {
+    width: 1224px !important;
+    justify-content: space-between;
+}
+
+.THIS .navigationPage {
+    border: none;
+    padding: 0;
+    align-items: center;
+    width: unset !important; /* CPC_PARCHE */
+}
+.THIS .navigationPage .slds-text-body_regular {
+    font-family:"SantanderMicroText-Bd";
+    font-size: 12px; 
+    letter-spacing: 0.5px;
+    color: #767676;
+    margin-right:16px;
+}
+
+.THIS .navigationPage .slds-text-body_regular strong {
+    color: #444444;
+    margin-left: 4px;
+}
+
+.THIS .navigationPage .button-page {
+	font-family:"SantanderMicroText-Bd";
+    font-size: 12px; 
+    letter-spacing: 0.5px; 
+    color: #ec0000;
+    display: flex;
+    align-items: center;
+    text-decoration:none;
+    height: 18px;
+}
+
+.THIS .navigationPage .button-page .icon-arrowLeft_big {
+    font-size:16px;
+    margin-right:4px;
+}
+
+.THIS .navigationPage .button-page .icon-arrowRight_big {
+    font-size:16px;
+    margin-left:4px;
+}
+
+.THIS .navigationPage ul {
+    display: flex;
+    padding: 0 8px 0  16px  ;
+}
+
+.THIS .navigationPage .number a {
+    font-family:"SantanderMicroText";
+    font-size: 12px; 
+    margin-right: 8px;
+    text-align: center;
+    width: 16px;
+    color: #767676;
+    text-decoration:none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration:none;
+    height: 18px;
+}
+
+.THIS .navigationPage .number a.active,
+.THIS .navigationPage .number a:active {
+    font-family:"SantanderMicroText-Bd";
+    color: #444444;
+}
+
+.THIS .navigationPage .number a:hover {
+    font-family:"SantanderMicroText-Bd";
+    color: #cc0000;
+}
+
+.THIS .infoPage {
+    display: flex;
+	align-items: center;
+}
+
+.THIS .infoPage .slds-text-body_regular {
+    font-family: SantanderMicroText-Bd;
+    font-size: 12px;
+    line-height: 1.42;
+    letter-spacing: normal;
+    color: #767676;
+    margin-left:16px;
+}
+
+/* COMBO */
+.THIS .infoPage .slds-combobox {
+    position: relative;
+}
+
+.THIS .infoPage .slds-combobox .button-order {
+    border: 1px solid #deedf2;
+    background-color: #ffffff; 
+    border-radius: 4px 4px 0 0;
+    box-shadow: none;
+    height: 28px;
+    width: 64px; 
+}
+
+.THIS .infoPage .slds-combobox .button-order .arrow {
+    border-left: 1px solid #cedee7;
+    bottom: 6px;
+    display: inline-block;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: auto;
+    width: 28px;
+}
+
+.THIS .infoPage .slds-combobox .button-order .button-arrow {
+    font-size: 20px;
+    line-height: 20px;
+}
+
+.THIS .infoPage .slds-combobox .orderSelected {
+    align-items: center;
+    border: 0;
+    color: #767676;
+    display: flex;
+    font-size: 12px;
+    height: 24px;
+    padding: 0 40px 0 10px;
+    width: 100%;
+    line-height: 1.42;
+    font-family: SantanderMicroText; 
+}
+
+.THIS .infoPage .slds-combobox .slds-dropdown {
+    border: 1px solid #deedf2;
+    background-color: #ffffff;  
+    box-shadow: none;
+    border-radius: 0 0 4px 4px; 
+    cursor: pointer;
+    left: auto;
+    margin-top: 0;
+    max-height: 192px;
+    max-width: 100%;
+    min-width: inherit;
+    overflow-y: auto;
+    padding: 0;
+    right: auto;
+    width: 100%;
+}
+
+
+/* PRINT  */
+@media print and (orientation: portrait) {
+        .THIS.tablePaymentsContent{
+            margin: 10px 40px 0 40px!important;
+        }
+
+ 
+
+        .THIS thead tr,
+        .THIS thead th,
+        .THIS thead th>div  {
+               box-shadow:none!important;
+        }
+        .THIS .headSource,
+        .THIS tbody td.infoSource {
+            width: 190px!important;
+            max-width: 190px!important;
+            min-width: 190px!important;
+        }
+ 
+
+        .THIS .headBeneficiary,
+        .THIS tbody td.infoBeneficiary {
+            width: 180px!important;
+            max-width: 180px!important;
+            min-width: 180px!important;
+        }
+        .THIS .headAmount,
+        .THIS tbody td.infoAmount {
+            width: 160px!important;
+            max-width: 160px!important;
+            min-width: 160px!important;
+        } 
+
+     .THIS .pagination{
+  
+        padding: 0 100px 0 0!important;
+    }
+
+    }
+
+ 
+
+@media print and (orientation: landscape) {
+      .THIS thead tr,
+      .THIS thead th,
+      .THIS thead th>div  {
+               box-shadow:none!important;
+        }
+      .THIS .pagination{
+     
+        padding: 0 50px 0 0!important;
+    }
+}

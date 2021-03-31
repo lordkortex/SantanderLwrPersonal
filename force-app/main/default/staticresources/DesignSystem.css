@@ -1,0 +1,185 @@
+:root {
+    --color-santander: #ec0000; /* Santander */
+    --color-boston: #cc0000; /* Boston */
+    --color-ruby: #990000; /* Ruby */
+    --color-dark-grey: #444444; /* Dark Grey */
+    --color-darker-grey: #222222; /* Darker Grey */
+    --color-medium-grey: #767676; /* Medium Grey */
+    --color-light-grey: #cccccc; /* Light Grey */
+    --color-lighter-grey: #f0f0f0; /* Lighter Grey */
+    --color-light-sky: #deedf2; /* Light Sky */
+    --color-medium-sky: #cedee7; /* Medium Sky */
+    --color-dark-sky: #9bc3d3; /* Dark Sky */
+    --color-white: #ffffff; /* White */
+    --color-black: #000000; /* Black */
+    --color-yellow: #ffcc33; /* Yellow */
+    --color-green: #63ba68; /* Green */
+    --color-turquoise: #1bb3bc; /* Turquoise */
+    --color-blue: #3366ff; /* Blue */
+    --color-purple: #9e3667; /* Purple */
+    --color-lighter-sky: #f5f9fb; /* Lighter Sky */
+    --color-dark-yellow: #946f00; /* Dark Yellow */
+    --color-dark-green: #008437; /* Dark Green */
+    --color-dark-turquoise: #137e84; /* Dark Turquoise */
+    --color-dark-blue: #0032e6; /* Dark Blue */
+    --color-dark-purple: #732645; /* Dark Purple */
+    --color-darker-sky: #257fa4; /* Accesssible Sky */
+    --color-neutral-10: #f6f6f6; /* 09 Medium Grey at 5% */
+    --color-neutral-20: #ececec; /* 08 Medium Grey at 10% */
+    --color-neutral-30: #dadada; /* 07 Medium Grey at 20% */
+    --color-neutral-40: #c7c7c7; /* 06 Medium Grey at 30% */
+    --color-neutral-50: #b5b5b5; /* 05 Medium Grey at 40% */
+    --color-neutral-60: #a2a2a2; /* 04 Medium Grey at 50% */
+    --color-neutral-70: #8f8f8f; /* new */
+    --color-neutral-80: #7c7c7c; /* 03 Medium Grey at 70% */
+    --color-neutral-90: #6a6a6a; /* 02 Medium Grey at 80% */
+    --color-neutral-100: #575757; /* 01 Medium Grey at 90% */
+    --color-error-base: #cc0000; /* Error Base */
+    --color-error-darker: #990000; /* Error Dark */
+    --color-error-lighter: #fee5e5; /* Error Light */
+    --color-success-base: #63ba68; /* Success Base */
+    --color-success-darker: #3a8340; /* Success Dark */
+    --color-success-lighter: #f0f8f0; /* Success Light */
+    --color-warning-base: #ffcc33; /* Warning Base */
+    --color-warning-darker: #946f00; /* Warning Dark */
+    --color-warning-lighter: #fffaeb; /* Warning Light */
+    --color-info-base: #9bc3d3; /* Info Base */
+    --color-info-darker: #257fa4; /* Info Dark */
+    --color-info-lighter: #f9fcfd; /* Info Light */
+    --color-dropbox: #0061ff; /* Dropbox */
+    --color-facebook: #3b5998; /* Facebook */
+    --color-google-plus: #d34836; /* Google Plus */
+    --color-instagram: #4c5fd7; /* Instagram */
+    --color-linkedin: #0077b5; /* Linkedin */
+    --color-skype: #00b6f1; /* Skype */
+    --color-spotify: #1ed760; /* Spotify */
+    --color-twitter: #00aff0; /* Twitter */
+    --color-santander-10: #fee5e5; /* Santander-10 */
+    --color-santander-20: #fccccc; /* Santander-20 */
+    --color-santander-30: #fab2b2; /* Santander-30 */
+    --color-santander-40: #f89999; /* Santander-40 */
+    --color-santander-50: #f67f7f; /* Santander-50 */
+    --color-santander-60: #f46666; /* Santander-60 */
+    --color-santander-70: #f24c4c; /* Santander-70 */
+    --color-santander-80: #f03333; /* Santander-80 */
+    --color-santander-90: #ee1919; /* Santander-90 */
+    --color-santander-05: #fff2f2; /* Santander-05 */
+    --color-sky-10: #fcfefe; /* Sky-10 */
+    --color-sky-20: #f9fcfd; /* Sky-20 */
+    --color-sky-30: #f6fafc; /* Sky-30 */
+    --color-sky-40: #f2f8fa; /* Sky-40 */
+    --color-sky-50: #eff6f9; /* Sky-50 */
+    --color-sky-60: #ecf5f8; /* Sky-60 */
+    --color-sky-70: #e8f3f6; /* Sky-70 */
+    --color-sky-80: #e5f1f5; /* Sky-80 */
+    --color-sky-90: #e2eff4; /* Sky-90 */
+    --color-purple-10: #f6ebf0; /* Purple-10 */
+    --color-purple-20: #ecd7e1; /* Purple-20 */
+    --color-purple-30: #e2c3d2; /* Purple-30 */
+    --color-purple-40: #d9afc3; /* Purple-40 */
+    --color-purple-50: #cf9bb3; /* Purple-50 */
+    --color-purple-60: #c587a4; /* Purple-60 */
+    --color-purple-70: #bb7295; /* Purple-70 */
+    --color-purple-80: #b25f86; /* Purple-80 */
+    --color-purple-90: #a84a76; /* Purple-90 */
+    --color-purple-05: #fbf5f8; /* Purple-05 */
+    --color-blue-10: #ebf0ff; /* Blue-10 */
+    --color-blue-20: #d7e1ff; /* Blue-20 */
+    --color-blue-30: #c2d1ff; /* Blue-30 */
+    --color-blue-40: #aec2ff; /* Blue-40 */
+    --color-blue-50: #99b3ff; /* Blue-50 */
+    --color-blue-60: #85a4ff; /* Blue-60 */
+    --color-blue-70: #7094ff; /* Blue-70 */
+    --color-blue-80: #5c85ff; /* Blue-80 */
+    --color-blue-90: #4775ff; /* Blue-90 */
+    --color-blue-05: #f5f8ff; /* Blue-05 */
+    --color-green-10: #f0f8f0; /* Green-10 */
+    --color-green-20: #e0f2e1; /* Green-20 */
+    --color-green-30: #d0ebd2; /* Green-30 */
+    --color-green-40: #c1e4c3; /* Green-40 */
+    --color-green-50: #b1ddb4; /* Green-50 */
+    --color-green-60: #a2d6a5; /* Green-60 */
+    --color-green-70: #92cf96; /* Green-70 */
+    --color-green-80: #83c887; /* Green-80 */
+    --color-green-90: #73c177; /* Green-90 */
+    --color-green-05: #f8fcf8; /* Green-05 */
+    --color-turquoise-10: #e8f8f9; /* Turquoise-10 */
+    --color-turquoise-20: #d2f0f2; /* Turquoise-20 */
+    --color-turquoise-30: #bbe9eb; /* Turquoise-30 */
+    --color-turquoise-40: #a4e1e5; /* Turquoise-40 */
+    --color-turquoise-50: #8dd9de; /* Turquoise-50 */
+    --color-turquoise-60: #77d2d7; /* Turquoise-60 */
+    --color-turquoise-70: #5fcad0; /* Turquoise-70 */
+    --color-turquoise-80: #49c3ca; /* Turquoise-80 */
+    --color-turquoise-90: #32bbc3; /* Turquoise-90 */
+    --color-turquoise-05: #f3fcfc; /* Turquoise-05 */
+    --color-yellow-10: #fffaeb; /* Yellow-10 */
+    --color-yellow-20: #fff5d7; /* Yellow-20 */
+    --color-yellow-30: #fff0c2; /* Yellow-30 */
+    --color-yellow-40: #ffebae; /* Yellow-40 */
+    --color-yellow-50: #ffe699; /* Yellow-50 */
+    --color-yellow-60: #ffe185; /* Yellow-60 */
+    --color-yellow-70: #ffdc70; /* Yellow-70 */
+    --color-yellow-80: #ffd75c; /* Yellow-80 */
+    --color-yellow-90: #ffd147; /* Yellow-90 */
+    --color-yellow-05: #fffdf5; /* Yellow-05 */
+    --size-font-10: 2.625rem; /* 42px / heading1 */
+    --size-font-11: 3rem; /* 48px / display3 */
+    --size-font-12: 3.375rem; /* 54px / display2 */
+    --size-font-13: 3.75rem; /* 60px / display1 */
+    --size-font-01: 0.75rem; /* 12px / xs */
+    --size-font-02: 0.875rem; /* 14px / s */
+    --size-font-03: 1rem; /* 16px / m */
+    --size-font-04: 1.125rem; /* 18px / l */
+    --size-font-05: 1.25rem; /* 20px / heading6 */
+    --size-font-06: 1.5rem; /* 24px / heading5 */
+    --size-font-07: 1.75rem; /* 28px / heading4 */
+    --size-font-08: 2rem; /* 32px / heading3 */
+    --size-font-09: 2.25rem; /* 36px / heading2 */
+    --size-line-height-10: 3.25rem; /* 52px */
+    --size-line-height-11: 3.75rem; /* 60px */
+    --size-line-height-12: 4rem; /* 64px */
+    --size-line-height-12: 4.5rem; /* 72px */
+    --size-line-height-01: 1rem; /* 16px */
+    --size-line-height-02: 1.125rem; /* 18px */
+    --size-line-height-03: 1.5rem; /* 24px */
+    --size-line-height-04: 1.5rem; /* 24px */
+    --size-line-height-05: 1.5rem; /* 24px */
+    --size-line-height-06: 2rem; /* 32px */
+    --size-line-height-07: 2rem; /* 32px */
+    --size-line-height-08: 2.25rem; /* 36px */
+    --size-line-height-09: 2.75rem; /* 44px */
+    --size-spacing-10: 4rem; /* space-64 / 64px */
+    --size-spacing-11: 4.5rem; /* space-72 / 72px */
+    --size-spacing-12: 5rem; /* space-80 / 80px */
+    --size-spacing-13: 5.5rem; /* space-88 / 88px */
+    --size-spacing-14: 6rem; /* space-96 / 96px */
+    --size-spacing-01: 0.25rem; /* space-4 / 4px */
+    --size-spacing-02: 0.5rem; /* space-8 / 8px */
+    --size-spacing-03: 0.75rem; /* space-12 / 12px */
+    --size-spacing-04: 1rem; /* space-16 / 16px */
+    --size-spacing-05: 1.5rem; /* space-24 / 24px */
+    --size-spacing-06: 2rem; /* space-32 / 32px */
+    --size-spacing-07: 2.5rem; /* space-40 / 40px */
+    --size-spacing-08: 3rem; /* space-48 / 48px */
+    --size-spacing-09: 3.5rem; /* space-56 / 56px */
+    --size-border-radius-01: 0rem; /* 0px (squared) */
+    --size-border-radius-02: 0.25rem; /* rounded 4px */
+    --size-border-radius-03: 0.5rem; /* rounded 8px */
+    --size-border-radius-04: 0.75rem; /* rounded 12px */
+    --size-border-radius-05: 3.125rem; /* full rounded */
+    --size-border-radius-06: 0.125rem; /* rounded 2px */
+    --size-border-width-01: 0.063rem; /* 1px */
+    --size-border-width-02: 0.125rem; /* 2px */
+    --point-motion-easing-in: cubic-bezier(0,0,0.2,1); /* ease-in-01 */
+  --point-motion-easing-in-out: cubic-bezier(0.6,0,0.2,1); /* ease-in-out-01 */
+  --point-motion-easing-out: cubic-bezier(0.6,0,0,0); /* ease-out-01 */
+  --transform-scale-01: scale(0,1); /* 0 to 100% scale for small components */
+  --transform-scale-02: scale(.6,1); /* 60% to 100% scale for bigger components */
+  --transform-scale-03: scale(1,.95); /* feedback on buttons click/tap */
+  --time-motion-duration-01: 0.10s; /* superfast micro interactions duration */
+  --time-motion-duration-02: 0.20s; /* fast micro interactions duration */
+  --time-motion-duration-03: 0.40s; /* medium micro interactions duration */
+  --time-motion-duration-04: 0.50s; /* slow micro interactions duration */
+  }
+  

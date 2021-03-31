@@ -1,0 +1,180 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_DownloadBalanceMovementsController">
+<ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+<!-- COMPONENT ATTRIBUTES -->
+<aura:attribute name="dates"                type="List"                               description="List containing the selected dates"/>
+<aura:attribute name="singleDate"           type="List"                               description="List containing the selected date"/>
+<aura:attribute name="simple"               type="Boolean"  default="true"            description="Flag to indicate whether the calendar is simple or compounded (From-To)"/>
+<aura:attribute name="helpText"             type="String"   default="dd/mm/yyyy"      description="Calendar help text"/>
+<aura:attribute name="placeholderSingle"    type="String"   default="Select a date"   description="Date placeholder for single calendar"/>
+<aura:attribute name="placeholderFrom"      type="String"   default="From"            description="Calendar 'From' placeholder"/>
+<aura:attribute name="placeholderTo"        type="String"   default="To"              description="Calendar 'To' placeholder"/>
+<aura:attribute name="extractType"          type="String"   default=""                description="Extract type"/>
+
+<aura:attribute name="showClearAll"     type="boolean" default="false"  description="Indicates whether the clear all icon must be displayed"/>
+<aura:attribute name = "fileFormatList"     type = "List"      			description = "Selected file format"/> <!-- SIC Contingencia / PDF - Extractos / MT940-->
+<aura:attribute name = "accounts"           type = "List"      			description = "Selected file format"/>
+<aura:attribute name = "accountsListString" type="List"                 description="List of accounts as strings" />
+<aura:attribute name = "keepAccList"        type="List"                 description="List of accounts as strings" />
+<aura:attribute name = "accountCode"        type="List"                 description="List of account codes as strings" />
+<aura:attribute name = "selectedAccounts"   type = "List"      			description = "Selected file format"/>
+<aura:attribute name = "codeList"           type = "List"      			description = "Account codes"/>
+<aura:attribute name = "accountCountryList" type = "List"      			description = "Account countries"/>
+<aura:attribute name = "fileDate"           type = "String"             description = "Selected file date"  default="lastStatement"/>
+<aura:attribute name = "isFileForDay"         type = "String"           description = "Select report type"  default = "N"/>
+<aura:attribute name = "corporateCodeList"    type = "List"      	    description = "Corp codes"/>
+<aura:attribute name = "corporateNameList"    type = "List"             description = "Corp names"/>
+<aura:attribute name = "fromCashNexus"    type = "Boolean"  default="true" />
+
+<aura:attribute name="show" type="Boolean" default='test'/>
+<aura:attribute name="message" type="String"/>
+<aura:attribute name="type" type="String"/>
+
+<!-- Spinner attributes -->
+<aura:attribute name="loadingUserInfo" type="Boolean" default="false" description="Flag to indicate whether the user info has completely loaded"/>
+
+
+<!-- DROPDOWN ATTRIBUTES -->
+<aura:attribute name="countries" type="List" description="List of values to populate the dropdown"/>
+<aura:attribute name="selectedCountries" type="List" description="Selected option from the dropdown"/>
+<aura:attribute name="fileFormat" type="String" description="Selected option from the dropdown"/>
+<aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text"/>
+
+<aura:handler name="change" value="{!v.selectedCountries}" action="{!c.selectedCountry}"/>
+
+<aura:handler name="accountChange" event="c:EVT_DownloadsNexusEvent" action="{!c.updateAccountSelection}"/>
+<aura:registerEvent name="accountChange" type="c:EVT_DownloadsNexusEvent"/>
+
+<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+<c:CMP_ServiceComponent aura:id="service"/>
+<!--<aura:registerEvent name="showToast" type="c:EVT_Toast"/>-->
+
+<aura:if isTrue="{!v.loadingUserInfo}">  
+    <div class="spinnerclass">
+        <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+    </div>
+    <aura:set attribute="else">
+    <c:CMP_CN_TitleSubtitleGray title="{!$Label.c.DownloadBalance_DocumentDownload}" subtitle="{!$Label.c.DownloadBalance_DocumentDownloadSubtitle}"/>
+
+    <div class="downloads_CNF">
+        <div class="slds-form" role="list">
+            <div class="slds-row radioButtons fileDate">
+                <fieldset class="slds-form-element">
+                    <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.DownloadBalance_FileDate}</legend>
+                    <div class="slds-form-element__control">
+                        <span class="slds-radio">
+                            <label class="slds-radio__label" for="radio-42">
+                                <!-- <span class="slds-radio_faux"></span>-->
+                                <span class="slds-form-element__label">{!$Label.c.DownloadBalance_Online}</span>
+                            </label>
+                        </span>
+                    </div>
+                </fieldset>
+            </div>
+            
+            <div class="slds-row">
+                <div class="slds-form-element slds-combobox__Rg country">
+                    <c:CMP_CN_Dropdown aura:id="dropdownCountries" headerDropdown="{!$Label.c.Country}" values="{!v.countries}" selectedValues="{!v.selectedCountries}" isSimpleDropdown="false" selectAllValues="{!$Label.c.AllCountries}"/>
+                </div>
+                <div class="account">
+                    <c:CMP_CN_Dropdown aura:id="dropdownAccounts" headerDropdown="{!$Label.c.Account}" values="{!v.accountsListString}" selectedValues="{!v.selectedAccounts}" isSimpleDropdown="false" selectAllValues="{!$Label.c.AllAccounts}"/>
+                </div>
+            </div>
+            <div class="slds-row typeOfFile">
+                <div class="slds-form-element slds-combobox__Rg ">
+                    <c:CMP_CN_Dropdown headerDropdown="{!$Label.c.DownloadBalance_FileFormat}" values="{!v.fileFormatList}" selectedValue="{!v.fileFormat}" isSimpleDropdown="true"/>
+                </div>
+                <div class="radioButtons typeofFileDate ">
+                    <fieldset class="slds-form-element radioCalendarSingle">
+                        <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.DownloadBalance_FileDate}</legend>
+                        <div class="slds-form-element__control">
+                            <aura:if isTrue="{!v.fileFormat != 'SIC Contingency'}">
+                                <span class="slds-radio">
+                                    <input type="radio" id="radio-52" value="lastStatement" name="date" checked="true" onchange="{!c.getFileDate}"/>
+                                    <label class="slds-radio__label" for="radio-52">
+                                        <span class="slds-radio_faux"></span>
+                                        <span class="slds-form-element__label">{!$Label.c.DownloadBalance_LastStatement}</span>
+                                    </label>
+                                </span>
+                                <aura:set attribute="else">
+                                    <div class="calendarSIC">
+                                        <c:CMP_CN_Calendar aura:id="calendarDay" simple="true" placeholderSingle="{!$Label.c.Day}" dates="{!v.singleDate}"/>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        
+                            <span class="slds-radio">
+                                <input type="radio" id="radio-53" value="statementFor" name="date" checked="" onchange="{!c.getFileDate}"/>
+                                <label class="slds-radio__label" for="radio-53">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label">{!$Label.c.DownloadBalance_UniqueDate}</span>
+                                </label>
+                            </span>
+                            <aura:if isTrue="{!v.fileFormat != 'SIC Contingency'}">
+                                <span class="slds-radio">
+                                    <input type="radio" id="radio-54" value="betweenDates" name="date" onchange="{!c.getFileDate}"/>
+                                    <label class="slds-radio__label" for="radio-54">
+                                        <span class="slds-radio_faux"></span>
+                                        <span class="slds-form-element__label">{!$Label.c.DownloadBalance_BetweenDates}</span>
+                                    </label>
+                                </span>
+
+            
+                                <div class="radioCalendarDoble">
+                                    <aura:if isTrue="{!v.fileDate != 'statementFor'}">
+                                        <aura:if isTrue="{!v.fileDate == 'lastStatement'}">
+                                            <aura:set attribute="else">
+                                            <div class="comboCalendars">
+                                                <c:CMP_CN_Calendar aura:id="calendarBetweenDates" simple="false" placeholderFrom="{!$Label.c.from}" placeholderTo="{!$Label.c.to}" 
+                                                dateTo="{!v.dates[1]}" dateFrom="{!v.dates[0]}" dates="{!v.dates}"/>
+                                            </div>
+                                            </aura:set>
+                                        </aura:if>
+                                        <aura:set attribute="else">
+                                            <div class="unicCalendar">
+                                                <c:CMP_CN_Calendar aura:id="calendarDay" simple="true" placeholderSingle="{!$Label.c.Day}" dates="{!v.singleDate}"/>
+                                            </div> 
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
+            <aura:if isTrue="{!v.fileFormat == $Label.c.pdfStatement}">
+                <aura:if isTrue="{!v.fileDate == 'statementBetween'}">
+                    <div class="slds-row radioButtons reportType">
+                        <fieldset class="slds-form-element">
+                            <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.DownloadBalance_TypeOfReport}</legend>
+                            <div class="slds-form-element__control">
+                                <span class="slds-radio">
+                                    <input type="radio" id="radio-61" value="fileForDay" name="secondGroup" checked="true" onchange="{!c.getReportType}"/>
+                                    <label class="slds-radio__label" for="radio-61">
+                                        <span class="slds-radio_faux"></span>
+                                        <span class="slds-form-element__label">{!$Label.c.Downloads_fileForDay}</span>
+                                    </label>
+                                </span>
+                                <span class="slds-radio">
+                                    <input type="radio" id="radio-62" value="groupedEveryDay" name="secondGroup" onchange="{!c.getReportType}"/>
+                                    <label class="slds-radio__label" for="radio-62">
+                                        <span class="slds-radio_faux"></span>
+                                        <span class="slds-form-element__label">{!$Label.c.DownloadBalance_EverydayGroupedFile}</span>
+                                    </label>
+                                </span>
+                            </div>
+                        </fieldset>
+                    </div>
+                </aura:if>
+            </aura:if> 
+            <div class="pill-button">
+                <button class="slds-button slds-button_neutral whiteButton" data-aura-rendered-by="504:2;a" onclick="{!c.cleanData}">{!$Label.c.clearAll}</button>
+                <button class="slds-button slds-button_brand redButton" data-aura-rendered-by="506:2;a" onclick="{!c.download}">{!$Label.c.DownloadBalance_Download}</button>
+            </div>
+            <c:CMP_Toast type="{!v.type}" show="{!v.show}" message="{!v.message}"/>
+        </div>
+    </div>
+    </aura:set>
+</aura:if>
+</aura:component>

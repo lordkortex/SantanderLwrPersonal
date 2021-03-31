@@ -1,0 +1,32 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Component to show each of the rows of the Log Admin results table
+History
+<Date>			<Author>		    <Description>
+27/12/2019		Guillermo Giral     Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" access="global" >
+    
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="rowData" type="Map"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- ROW MARKUP -->
+    <tr class="slds-hint-parent border" aria-selected="false">
+        <td class="containerBookDate" role="gridcell">
+            <div class="slds-truncate" title="{!v.rowData.logDate}">{!v.rowData.logDate}</div>
+        </td>
+        <td class="containerBookDate" role="gridcell">
+            <div class="slds-truncate" title="{!v.rowData.userId}">{!v.rowData.userId}</div>
+        </td>
+        <td class="containerBookDate" role="gridcell">
+            <div class="slds-truncate" title="{!v.rowData.name}">{!v.rowData.name}</div>
+        </td>
+        <td class="containerBookDate" role="gridcell">
+            <div class="slds-truncate" title="{!v.rowData.action}">{!v.rowData.action}</div>
+        </td>
+    </tr>	
+</aura:component>

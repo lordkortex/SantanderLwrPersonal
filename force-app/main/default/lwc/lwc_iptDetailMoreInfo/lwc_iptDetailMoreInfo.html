@@ -1,0 +1,139 @@
+<!--
+  @description       : 
+  @author            : Everis
+  @group             : 
+  @last modified on  : 12-10-2020
+  @last modified by  : Everis
+  Modifications Log 
+  Ver   Date         Author   Modification
+  1.0   12-10-2020   Everis   Initial Version
+-->
+<template>
+    <div class="cardContainerGPI_detail">
+        <!-- EXPAND: OPEN CARD -->
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-row">
+                    <div class="slds-card__header-title">
+                        <div class="title">{label.ORDER_INFORMATION}</div>
+                    </div>
+                </div>
+                <div class="slds-row">
+                    <div class="slds-card__header slds-col_GPI">
+                        <div class="slds-card__header-title">
+                            <div class="name"> {label.NAME} </div>
+                            <div class="information">
+                                <template if:true={isBlankOriginAccountName}>
+                                    {label.UNDEFINED}
+                                </template>
+                                <template if:false={isBlankOriginAccountName}>
+                                    {originAccountName}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card__header slds-col_GPI">
+                        <div class="slds-card__header-title">
+                            <div class="name"> {label.ACCOUNT} </div>
+                            <div class="information">
+                                <template if:true={isBlankOriginAccountNumber}>
+                                    {label.UNDEFINED}
+                                </template>
+                                <template if:false={isBlankOriginAccountNumber}>
+                                    {originAccountNumber}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card__header slds-col_GPI">
+                        <div class="slds-card__header-title">
+                            <div class="name"> {label.BANK} </div>
+                            <div class="information">
+                                <template if:true={isBlankOriginAccountBank}>
+                                    {label.UNDEFINED}
+                                </template>
+                                <template if:false={isBlankOriginAccountBank}>
+                                    {originAccountBank}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card__header slds-col_GPI">
+                        <div class="slds-card__header-title">
+                            <div class="name"> {label.BIC} </div>
+                            <div class="information">
+                                <template if:true={isBlankOriginAccountBic}>
+                                    {label.UNDEFINED}
+                                </template>
+                                <template if:false={isBlankOriginAccountBic}>
+                                    {originAccountBic}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-row">
+                    <div class="slds-card__header-title">
+                        <div class="title">{label.BENEFICIARY_INFORMATION}</div>
+                    </div>
+                </div>
+
+                <div class="slds-row">
+                    <div class="slds-card__header slds-col_GPI">
+                        <div class="slds-card__header-subTitle">
+                            <div class="name"> {label.NAME} </div>
+                            <div class="information">
+                                <template if:true={isBlankBeneficiaryAccountName}>
+                                    {label.UNDEFINED}
+                                </template>
+                                <template if:false={isBlankBeneficiaryAccountName}>
+                                    {beneficiaryAccountName}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card__header slds-col_GPI">
+                        <div class="slds-card__header-subTitle">
+                            <div class="name"> {label.ACCOUNT} </div>
+                            <div class="information">
+                                <template if:true={isBlankBeneficiaryAccountNumber}>
+                                    {label.UNDEFINED}
+                                </template>
+                                <template if:false={isBlankBeneficiaryAccountNumber}>
+                                    {beneficiaryAccountNumber}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card__header slds-col_GPI">
+                        <div class="slds-card__header-subTitle">
+                            <div class="name"> {label.BANK} </div>
+                            <div class="information">
+                                <template if:true={isBlankBeneficiaryAccountBank}>
+                                    {label.UNDEFINED}
+                                </template>
+                                <template if:false={isBlankBeneficiaryAccountBank}>
+                                    {beneficiaryAccountBank}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-card__header slds-col_GPI">
+                        <div class="slds-card__header-title">
+                            <div class="name"> {label.BIC} </div>
+                            <div class="information">
+                                <template if:true={isBlankBeneficiaryAccountBic}>
+                                    {label.UNDEFINED}
+                                </template>
+                                <template if:false={isBlankBeneficiaryAccountBic}>
+                                    {beneficiaryAccountBic}
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

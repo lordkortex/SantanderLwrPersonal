@@ -1,0 +1,210 @@
+.THIS.pagination{
+    background-color: #dadada;
+    height: 40px;
+    margin: 0;
+    padding: 0 16px 0 24px;
+}
+.THIS.pagination .button-pageLeft{
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    margin-right: 4px; 
+}
+.THIS.pagination .label{
+    font-size: 12px;
+    line-height: 18px;
+    text-align: right;
+    color: #444444;
+    margin-right: 16px;
+}
+
+.THIS.pagination .button-pageRight{
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    font-size: 12px;
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+}
+
+.THIS.pagination .button-selected {
+    font-size: 16px;
+}
+
+.THIS.pagination .iconMargin {
+    margin-right: 8px;
+}
+
+.THIS.pagination .navigationPage{
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 16px;
+    text-align: right;
+    align-items: center;
+}
+
+.THIS.pagination .number__black{
+    align-items: center;
+    background-color: white;
+    border-radius: 50%;
+    color: #444444;
+    /* cursor: pointer; */
+    display: flex;
+    font-family:"SantanderHeadlineW05-Bold";
+    font-size: 12px;
+    height: 24px;
+    justify-content: center;
+    width: 24px;
+}
+
+.THIS.pagination .number__gray{
+    align-items: center;
+    border-radius: 50%;
+    color: #a2a2a2;
+    /* cursor: pointer; */
+    display: flex;
+    font-family:"SantanderTextW05-Bold";
+    font-size: 12px;
+    height: 24px;
+    justify-content: center;
+    width: 24px;
+}
+
+.THIS.pagination .results{
+    align-items: center;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    height: 18px; 
+}
+
+.THIS.pagination .slds-dropdown__item > a:hover, 
+.THIS.pagination .slds-dropdown__item > a:focus,
+.THIS.pagination .slds-dropdown__item > a:active {
+    background-color: #f6f6f6;
+}
+.THIS.pagination .slds-combobox .button-order {
+    border: transparent;
+    border-radius: 4px 4px 0 0;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    height: 28px;
+    width: 72px;
+}
+
+.THIS.pagination .slds-combobox .button-order .arrow {
+    border-left: 1px solid #d2f0f2;
+    bottom: 4px;
+    display: inline-block;
+    height: calc(100% - 8px);
+    position: absolute;
+    right: 0;
+    top: 4px;
+    width: 33px;
+}
+
+.THIS.pagination .slds-combobox .button-order .button-arrow {
+    font-size: 24px;
+    line-height: 1;
+}
+
+.THIS.pagination .slds-combobox .button-order:focus {
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+.THIS.pagination .slds-combobox .button-order:hover {
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+.THIS.pagination.slds-combobox .button-selected {
+    font-size: 16px;
+}
+
+.THIS.pagination .slds-combobox .button-selected.icon-check:before {
+    color: #63ba68;
+}
+.THIS.pagination .slds-combobox .nameOrder {
+    color: #444444;
+    font-size: 12px;
+}
+.THIS.pagination .slds-combobox .optionOrder {
+    align-items: center;
+    display: inline-flex;
+}
+
+.THIS.pagination .slds-combobox .orderSelected {
+    align-items: center;
+    border: 0;
+    color: #444444;
+    display: flex;
+    font-size: 12px;
+    height: 24px;
+    padding: 0 48px 0 12px;
+    width: 100%;
+}
+
+.THIS.pagination .slds-combobox .paddingOption {
+    height: 32px;
+    margin-top: 4px;
+    padding-left: 8px;
+}
+.THIS.pagination .slds-combobox .paddingOption:hover {
+    background-color: #f6f6f6;
+}
+.THIS.pagination .slds-combobox .selectedValue-filled {
+    color: #444444;
+    font-size: 12px;
+}
+
+.THIS.pagination .slds-combobox .selectedValue-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+.THIS.pagination .slds-combobox .slds-dropdown {
+    border: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 2px 3px 0 rgba(68, 68, 68, 0.24);
+    cursor: pointer;
+    left: auto;
+    margin-top: 2px;
+    max-height: 192px;
+    max-width: 100%;
+    min-width: inherit;
+    overflow-y: auto;
+    padding: 4px 0 8px 0;
+    right: auto;
+    width: 100%;
+}
+
+.THIS.pagination .slds-combobox .slds-icon {
+    margin-right: 8px;
+}
+
+.THIS.pagination .textPage{
+    align-items: center; 
+    color: #444444;
+    display: flex; 
+    font-size: 12px;
+    margin-right: 16px; 
+}
+
+
+/* SCROLL */
+.THIS .slds-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.THIS .slds-dropdown::-webkit-scrollbar-track {
+    /*box-shadow: inset 0 0 5px #dadada;*/
+    border-radius: 10px;
+}
+
+.THIS .slds-dropdown::-webkit-scrollbar-track-piece{
+    background:white;
+}
+
+.THIS .slds-dropdown::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}

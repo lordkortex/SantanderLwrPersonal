@@ -1,0 +1,21 @@
+<aura:documentation>
+    <aura:description>
+        <p style="font-weight: bold">Global utilities component to perform repetitive tasks</p>
+        <p>How to use --> call the below function from the parent's helper, where "service" is the aura:id of the component set in the parent</p>
+        <code>component.find("service").callApex(component, apexMethod, params, successCallbackFunction)</code>
+        <h3>History</h3>
+        
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Author</th>
+                <th>Description</th>
+            </tr>
+            <tr>
+                <td>02/12/2019</td>
+                <td>Guillermo Giral</td>
+                <td>Initial version</td>
+            </tr>           
+        </table>
+    </aura:description>
+</aura:documentation>

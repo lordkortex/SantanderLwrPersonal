@@ -1,0 +1,30 @@
+<aura:component>
+
+    <aura:attribute name="selectedCurrency" type="String" description="contains the selected Currency" />
+    <aura:attribute name="exchangeRates" type="List" description="Contains the exchange rates" />
+    <aura:handler name="change" value="{!v.exchangeRates}" action="{!c.doInit}"/>
+    <aura:attribute name="start" type="Integer"  description="contains the pages for the carousel" />
+    <aura:attribute name="end" type="Integer"  description="contains the pages for the carousel" />
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <div class="list-exchange">
+        <div class="exchange"><span class="icon-fx"></span> 1 {!v.selectedCurrency} =</div>
+        <ul>
+            <aura:iteration items="{!v.exchangeRates}" var="item" start="{!v.start}" end="{!v.end}">
+                <aura:if isTrue="{!item.divisa != v.selectedCurrency}">
+              <!-- <li>{!item.divisa} <strong>{!item.value}</strong></li> -->
+                  <li>{!item.divisa} <strong>  <c:CMP_displayAmount aura:id ="sigleRate"
+                                                                      amount="{!item.value}" 
+                                                                      decimalClass="" 
+                                                                      wholeClass="" wholeDecimal="true" numberOfDec='5'
+                                                                      numberFormat="{v.userPreferredNumberFormat}"/></strong></li>
+                        
+                </aura:if>
+            </aura:iteration>
+        </ul>
+    </div>
+
+</aura:component>

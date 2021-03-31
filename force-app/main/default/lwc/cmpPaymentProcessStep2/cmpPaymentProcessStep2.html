@@ -1,0 +1,158 @@
+<template>
+        <!-- <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+            <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" /> -->
+            
+            <!-- MODAL PAYMENT PROCESS FIRST STEP-->
+            <div class="modal-container__secondStep">
+                
+                <!-- TEXT HEADING -->
+                <div class="row">
+                    <div class="slds-text-heading_large">{label.PAY_whichAccountReceivePayment}</div>
+                </div>
+            
+                <!-- INPUT -->
+                <div class="row"> 
+                    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                    <!-- Esto hará que desaparezca el helpText y aparezca el errorText -->
+                    <div class="slds-form-element inputLookup__double">
+                        <!-- La label solo se mostrará en el momento en el que se vaya a escribir en el input -->
+                        <label class="slds-form-element__label" for="combobox-id-14">{label.beneficiaryAccount}</label>
+                        
+                        <!-- Añadir la clase slds-is-open al div siguiente para mostrar el desplegable -->
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                
+                                <!-- Cuando el input esté disabled se le añade la disabled="true" y la label anterior debe estar oculta -->
+                                
+                                <!--<input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id-14" aria-autocomplete="list" aria-controls="listbox-id-11" autoComplete="off" role="textbox" placeholder="Source account" value=""/> -->
+                                <input type="text" class="slds-input slds-combobox__input slds-combobox__input-value" id="combobox-id-14" aria-autocomplete="list" aria-controls="listbox-id-11" role="textbox" placeholder="Source account" value=""/>
+
+                                <!-- Icono que aparecerá cuando este disabled -->
+                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                    <div class="button icon-prohibited"></div>
+                                </div>
+                                
+                                <!-- Icono de cruz para eliminar una vez seleccionada una opción -->
+                                
+                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                    <span class="slds-assistive-text">{label.B2B_Clear_text_input}</span>
+                                </button>
+                                <div class="slds-form-element__help">{label.PAY_AliasOrAccountNumber}}</div>
+                                <div class="errorText">{label.PAY_ErrorIncorrectInput}</div> 
+                            </div>
+                            <div id="listbox-id-11" class="slds-dropdown slds-dropdown_length-6 slds-dropdown_fluid" role="listbox">
+                                <div class="scrollable">
+                                    <!-- Esto debe mostrar el resultado de busqueda según lo que se ha escrito -->
+                                    <!-- Añadir la clase newBeneficiary en este div para mostrar el link que permite crear un nuevo beneficiario y ocultar el listado de sugerencias -->
+                                    <div aria-selected="true" id="option0" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_term slds-has-focus" role="option">
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">{label.B2B_Suggestions_for}<mark>{label.PAY_ES210049}</mark>{label.PAY_5Results}</span>
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">{label.PAY_NoAccountsRegistered}<mark>{label.PAY_ES53422352082414205416}</mark></span>                            
+                                        </span>
+                                        
+                                        <!--NEW BENEFICIARY-->
+                                        <button class="slds-button button_link">{label.newBeneficiary}}    
+                                            <span class="icon_right icon-more"></span>
+                                        </button>
+                                    </div>
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                    
+                                        <template for:each={accountList} for:item='account'>
+                                            <c-cmp-pay-account-suggestion account={account} key={account.displayNumber}>
+                                            </c-cmp-pay-account-suggestion>
+                                        </template>
+                                        
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                
+                <!-- BUTTON -->
+                <div class="row contentButtons">
+                    <button class="slds-button secondary button_small">{label.BrowseAccounts}</button>
+                </div> 
+                
+                <!-- ACCOUNT INFORMATION -->
+                <div class="row slds-grid accountInformation">
+                    <div class="slds-text-title">{label.RecipientInformation}</div> 
+                    
+                    <div class="content_account">
+                        <!--CARD-->
+                        <!-- Añadiendo o quitando la clase 'card-selected' indicamos si la tarjeta está seleccionada o no -->
+                        <article class="cardAccount slds-card card-selected">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-has-flexi-truncate">
+                                    <div class="slds-media__body slds-grid">
+                                        <h2 class="slds-card__header-title slds-truncate">{label.Balance42362762736251452631}</h2>
+                                        <!-- ICON FAVOURITE -->
+                                        <!--<span class="icon icon-profile"></span>-->
+                                        <div class="slds-text-heading_small slds-truncate">{label.GreenMex}</div>
+                                    </div>
+                                    <!-- ICON CHECK -->
+                                    <!-- Este icono se muestra cuando la card está seleccionada -->
+                                    <div class="slds-media__figure">
+                                        <span class="icon icon-check_circle"></span>
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="slds-card__body">
+                                <div class="slds-grid">
+                                    <div class="slds-col slds-grid slds-has-flexi-truncate">
+                                        <p class="slds-truncate slds-text-body_regular">{label.GreenMexSA}</p>
+                                    </div> 
+                                </div> 
+                            </div>
+                            <footer class="slds-card__footer">
+                                <div class="slds-media__figure">
+                                    <img class="sizeFlag" src={MX}></img>
+                                    <span class="slds-text-body_regular text-bold slds-truncate">{label.Mexico}</span>
+                                </div>
+                                <div class="slds-box">
+                                    <p class="slds-text-body_small">{label.MXN}</p>
+                                </div>
+                            </footer> 
+                        </article>
+                        
+                        <div class="info_account">
+                            <h5 class="slds-truncate">{label.B2B_Beneficiary_details}</h5>
+                            <div class="slds-grid ">
+                                <div class="slds-col">
+                                    <div class="slds-truncate slds-text-body_small">{label.PAY_AccountHolder}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{label.RobertoFernandezGreenMex}</div>
+                                </div>
+                            </div>
+                            <div class="slds-grid two-col">
+                                <div class="slds-col">
+                                    <div class="slds-truncate slds-text-body_small">{label.RecipientBank}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{label.SantanderMexico}</div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="slds-truncate slds-text-body_small">{label.B2B_Swift_code}</div>
+                                    <div class="slds-truncate slds-text-body_regular">{label.BMSXMXMMXXX}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FOOTER FIRST STEP -->
+                <footer class="slds-modal__footer">
+                    <div class="slds-form-element">
+                        <div class="slds-media__footer">
+                            <!-- El botón se mostrará activo cuando se haya seleccionado una cuenta. 
+                            Para que este disabled poner la clase button_disabled -->
+                            <button class="slds-button primary button_full">{label.B2B_Button_Continue}</button>        
+                        </div>
+                    </div>
+                </footer>
+            </div>
+            
+            <!-- STEPS DIVISION -->
+            <div class="separation-line"></div>
+            
+            <!--</aura:component>-->
+        </template>

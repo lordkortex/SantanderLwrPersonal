@@ -1,0 +1,61 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Profile configuration section for the Service Profiling screen
+History
+<Date>			<Author>		    <Description>
+27/01/2020		Guillermo Giral     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="isExpandedSection" type="Boolean" default="true" description="Flag to indicate whether to collapse or expand the section"/>
+    <aura:attribute name="countries" type="List" description="List of countries to be displayed in the dropdown"/>
+    <aura:attribute name="filterCountry" type="String" description="Country by which the accounts should be filtered"/>
+
+    <!-- EVENTS -->
+    <aura:registerEvent name="filterDisplayedAccountsByCountryEvent" type="c:EVT_ServiceProfilingFilter"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="change" value="{!v.countries}" action="{!c.addBlankCountry}"/>
+    <aura:handler event="c:EVT_ServiceProfilingUpdateProfileOnClick" action="{!c.collapseSection}"/>
+
+    <!-- MARKUP -->
+    <div class="slds-grid slds-grid__collapse">
+        <div class="slds-col">
+            <div class="slds-card__header-title">
+                <span class="title">
+                    {!$Label.c.ServiceProfiling_ProfileConfiguration}
+                </span>
+            </div>
+        </div>
+        <div class="slds-media__figure arrow">
+            <aura:if isTrue="{!not(v.isExpandedSection)}">
+                    <div class="button-arrow icon-arrowDown_big" data-title="{!$Label.c.T_Expand}" onclick="{!c.expandSection}"></div>
+            </aura:if>
+            <aura:if isTrue="{!v.isExpandedSection}">
+                    <div class="button-arrow icon-arrowUp_big" data-title="{!$Label.c.T_Collapse}" onclick="{!c.collapseSection}"></div>
+            </aura:if>
+        </div>
+    </div>
+    <aura:if isTrue="{!v.isExpandedSection}">
+        <div class="container-detail">
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <div class="slds-form-element input_text">
+                        <div class="slds-form-element__label">
+                            <label for="text-input-id-2">{!$Label.c.DownloadBalance_Country}</label>
+                        </div>
+                        <div class="slds-form-element dropdown">
+                            <c:CMP_Dropdown isSimpleDropdown="true" isHiddenValueDropdown="true" values="{!v.countries}" selectedValue="{!v.filterCountry}"/>
+                        </div>
+                        <button class="slds-button slds-button_brand redButtonSmall" onclick="{!c.filterAccountsByCountry}">
+                            {!$Label.c.ServiceProfiling_Filter}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

@@ -1,0 +1,81 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    Component to display the title of the page and go back to previous page
+History
+<Date>			<Author>		    <Description>
+19/02/2020		Laura Espinel		Design
+21/02/2020		Amanda Fernandez	Layout coding of the page
+26/02/2020		Shahad Naji     	Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="title" type="String" default="" description="A sentence provided by parent component to display as a page title"/>
+    <aura:attribute name="headerTitle" type="String" description="Header title"/>
+    <aura:attribute name="rightText" type="String" description="Text on the right side of the title header"/>
+    <aura:attribute name="rightText2" type="String" description="Second text on the right side of the title header"/>
+    <aura:attribute name="bankAccount" type="String" description="Bank account"/>
+    <aura:attribute name="bankName" type="String" description="Bank account"/>
+    <aura:attribute name="amount" type="String" description="Amount use to print amount or book balance"/>
+    <aura:attribute name="amount2" type="String" description="Second amount use to print avaible balance"/>
+    <aura:attribute name="currency" type="String" description="Currency"/>
+    <aura:attribute name="sourcePage" type="String" default="" description="This attribute is to know from which community page a users is accessing this component"/>
+    
+    <div class="breadcrumbs" onclick="{!c.goBack}">
+        <div class="slds-text-heading_medium">
+            <div class="button-back icon-arrowLeft_big" data-title="Go back"></div>
+            <!--International Transactions Tracking -->
+            <span>{!v.title}</span>
+        </div>
+    </div>
+    
+    <aura:if isTrue="{!v.headerTitle}">
+        <div class="cardTitleDetail">
+            <!-- TITLE -->
+            <div class="slds-card__header slds-grid containerInformation">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__body">
+                        <div class="slds-card__header-title separation">
+                            <div class="title">{!v.headerTitle}</div>
+                            <div class="slds-card__header-title col-amount">
+                                <span class="space">{!v.rightText}</span>
+                                <div class="">
+                                    <c:CMP_displayAmount  
+                                    amount="{!v.amount}" 
+                                    decimalClass="number" 
+                                    wholeClass="number" 
+                                    currency="{!v.currency}"/>
+                                    <!-- <span class="number">{!v.amount}</span>
+                                    <span class="currency">{!v.currency}</span> -->
+                                </div>
+                            </div>
+                        </div>
+                    <aura:if isTrue="{!v.sourcePage == accountTransactions}">
+                        <div class="slds-card__header-title separation">
+                            <div class="title"> </div>
+                            <div class="slds-card__header-title col-amount">
+                                <span class="space">{!v.rightText2}</span>
+                                <div class="">
+                                        <c:CMP_displayAmount  
+                                        amount="{!v.amount2}" 
+                                        decimalClass="number" 
+                                        wholeClass="number" 
+                                        currency="{!v.currency}"/>
+                                    <!-- <span class="number">{!v.amount}</span>
+                                    <span class="currency">{!v.currency}</span> -->
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+                        <div class="slds-card__header-title">
+                            <div class="bankAccount">{!v.bankAccount} - {!v.bankName}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text_line"></div>
+        </div>  
+    </aura:if>
+</aura:component>

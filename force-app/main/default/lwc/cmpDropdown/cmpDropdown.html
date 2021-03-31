@@ -1,0 +1,68 @@
+<template>
+    <!-- DROPDOWN SINGLE CHOICE -->
+    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+    <div class="slds-form-element dropdown">
+        <template if:true={showLabel}>
+            <label class="slds-form-element__label" for="text-input-id-1">{label}</label>
+        </template>
+        <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true"
+            aria-haspopup="dialog" role="combobox">
+            <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+
+                <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                <button class="slds-button button-order" aria-haspopup="true">
+
+                    <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por selectedValue-filled -->
+                    <div class="slds-border_right selectedValue-placeholder">{value}</div>
+
+                    <!-- Icono que aparecerá cuando este disabled -->
+                    <div class="slds-button__icon disabled" aria-hidden="true">
+                        <div class="button icon-prohibited"></div>
+                    </div>
+
+                    <div class="slds-button__icon arrow" aria-hidden="true">
+                        <div class="button-arrow icon-arrowDown_small"></div>
+                        <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                        <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                        <div class="button-arrow icon-arrowUp_small"></div>
+                    </div>
+                    <span class="slds-assistive-text"></span>
+
+                </button>
+
+                <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                <!--<div class="slds-form-element__help">Texto de ayuda</div>-->
+
+                <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá un mensaje de error -->
+                <template if:true={showError}>
+                    <template if:true={errormsg}>
+                        <div class="errorText">{errormsg}{label}.</div>
+                    </template>
+                </template>
+            </div>
+
+            <!-- Cuando el button esté disabled el dropdown se oculta -->
+            <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                <ul class="slds-dropdown__list" role="menu">
+
+                    <template for:each={valuelist} for:item="item">
+                        <li class={selectedClass} key={item.value} role="presentation" data-item={item.label} data-id={item} >
+                            <a role="menuitemcheckbox" tabindex="0" aria-checked="true" data-item={item.label} data-id={item} onclick={conditions}>
+                                <div class="slds-truncate optionOrder" data-item={item.label} onclick={conditions}>{item.label}</div>
+                            </a>
+                        </li>
+                    </template>
+
+                    <!--<aura:iteration items="{!v.values}" var="item">
+                        <li class="{!item == v.selectedValue ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}"
+                            role="presentation" id="{!item}">
+                            <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                <div class="slds-truncate optionOrder">{!item}</div>
+                            </a>
+                        </li>
+                    </aura:iteration>-->
+                </ul>
+            </div>
+        </div>
+    </div>
+</template>

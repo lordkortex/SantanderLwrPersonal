@@ -1,0 +1,181 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component for the swift payments table row
+History
+<Date>			<Author>		<Description>
+19/11/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_SwiftPaymentTableRow">
+    
+    <aura:attribute name="paymentId" type="String" description="Identification code of a payment" />
+    <aura:attribute name="status" type="String"/>
+    <aura:attribute name="statusUpdate" type="String"/>
+    <aura:attribute name="instructed" type="String"/>
+    <aura:attribute name="valueDate" type="String"/>
+    <aura:attribute name="beneficiaryName" type="String"/>
+    <aura:attribute name="beneficiaryEntity" type="String"/>
+    <aura:attribute name="settledAmount" type="String"/>
+    <aura:attribute name="currentCurrency" type="String"/>
+    <aura:attribute name="agent" type="String"/>
+    <aura:attribute name="statusClass" type="String" default="icon-circle__red"/>
+    <aura:attribute name="statusLabel" type="String" default="{!$Label.c.payment_statusOne}"/>
+
+    <aura:attribute name="beneficiaryEntityName" type="String"/>
+    <aura:attribute name="beneficiaryAccount" type="String"/>
+    <aura:attribute name="beneficiaryCountry" type="String"/>
+    <aura:attribute name="reasonRejection" type="String"/>
+    <aura:attribute name="backfront" type="Boolean" default="false"/>
+ 
+    <aura:attribute name="itemPosition" type="Integer"/>
+    <aura:attribute name="item" type="Object"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:navigation aura:id="navService"/>
+    
+    <tr class="slds-hint-parent border" aria-selected="false" aura:id="parentDetails">
+        <td class="slds-text-align_center" role="gridcell">
+            <div class="{!'circle '+v.statusClass}"></div>
+        </td>
+        <th scope="row">
+            <div class="slds-truncate" >
+                <div class="status">{!v.statusLabel}</div>
+            </div>
+        </th>
+        <th scope="row">
+            <div class="slds-truncate payment">
+                <div class="circle icon-tracking" onclick="{!c.openPaymentDetails}"></div>
+            </div>
+        </th>
+        <td role="gridcell">
+            <div class="slds-truncate">{!v.item.paymentDetail.statusDate}</div>
+        </td>
+        <td role="gridcell">
+            <aura:if isTrue="{!v.backfront}">
+                <div class="slds-truncate">{!v.item.paymentDetail.originatorData.originatorAccount.accountId}</div>
+            <aura:set attribute="else">
+                <div class="slds-truncate">{!v.item.paymentDetail.issueDate}</div>
+            </aura:set>
+            </aura:if>
+        </td>
+        <td role="gridcell">
+            <div class="slds-truncate">{!v.item.paymentDetail.valueDate}</div>
+        </td>
+        <td role="gridcell">
+            <div class="slds-truncate">{!v.item.paymentDetail.beneficiaryData.beneficiaryName}</div>
+        </td>
+        <td role="gridcell">
+            <div class="slds-truncate">{!v.item.paymentDetail.beneficiaryData.creditorAgent.agentCode}</div>
+        </td>
+        <td class="slds-text-align_right" role="gridcell">
+            <c:CMP_displayAmount fromGPI="true" numberFormat="{!v.item.paymentDetail.paymentAmount.numberFormat}"  amount="{!v.item.paymentDetail.paymentAmount.amount}" decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.item.paymentDetail.paymentAmount.tcurrency}"/>
+        </td>
+        <td class="slds-text-align_center" role="gridcell">   
+            <div class="button-arrow icon-arrowDown_small" title="See detail" onclick="{!c.showHideDetails}" aura:id="icon"></div>
+        </td>
+    </tr>   
+
+
+
+        <div class="hidden widthCard" aura:id="details">
+                    
+            <table class="slds-table slds-table_fixed-layout slds-table_resizable-cols widthCard" aria-multiselectable="true" role="grid" aura:id="datailsTable"> 
+                <!-- HEADER -->        
+                <tr class="slds-line-height_reset ">
+                    <th class="slds-text-align_right  containerIconStatus" scope="col" style="height:0px !important;">   
+                    </th>
+                    <th class=" noHeight slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_asc containerStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                    </th>
+                    <th class="noHeight slds-text-align_right containerTracking" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Account Name" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Close Date" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Stage" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Confidence" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Amount" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Contact" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight containerIconDetail" scope="col">
+                    </th>
+                </tr>
+                
+                
+                <tbody class="fontBody">
+                        <tr ><td class="noSuperiorBorder borderLeft"><div class="titleTrack" >{!$Label.c.trackingDetails}</div></td> <td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder borderRight"></td></tr>                   
+                        <tr></tr>
+                        <tr class="th1 ">
+                        <td class="th1 borderLeft" scope="row">   
+                        </td>
+                        <td class="th1" scope="row">
+                            <div class="slds-truncate titleDetail firstCell algo">{!$Label.c.beneficiaryAccount}</div>
+                        </td>
+                        <td class="slds-text-align_right  containerTracking  th1" scope="row">
+                            
+                        </td>
+                        <td class="slds-text-align_right  containerStatus th1" scope="row">
+                            
+                        </td>
+                        <td class="th1" scope="row">
+                            <div class="slds-truncate titleDetail">{!$Label.c.beneficiaryEntityName}</div>
+                        </td>
+                        <td class="th1" scope="row">
+                            <div class="slds-truncate titleDetail">{!$Label.c.beneficiaryCountry}</div>
+                        </td>
+                        <td class="th1" scope="row">
+                            <aura:if isTrue="{!v.item.status==$Label.c.payment_statusOne}">
+                                <div class="slds-truncate titleDetail">{!$Label.c.reasonForRejection}</div>
+                            </aura:if>
+                        </td>
+                        <td class="th1" scope="row">
+                            <div class="slds-truncate titleDetail">{!$Label.c.document}</div>
+                        </td>
+                        <td class="th1" scope="row">
+                            <div></div>
+                        </td>
+                        <td class="borderRight"></td>
+                    </tr>
+                    <tr></tr>
+                    <tr class="slds-hint-parent">
+                        <td class="th1 noIconContainer borderLeft" scope="row">
+                        </td>
+                        <td scope="row " class="th1">
+                            <div class="slds-truncate firstCell algo paddingSeparation">{!v.item.paymentDetail.beneficiaryData.creditorCreditAccount.accountId}</div>         
+                        </td>
+                        <td scope="row " class="th1">
+                        </td>
+                        <td scope="row " class=" containerStatus th1">
+                            
+                        </td>
+                        <td scope="row" class="th1">
+                            <div class="slds-truncate  paddingSeparation">{!v.item.paymentDetail.beneficiaryData.creditorAgent.agentName}</div>
+                        </td>
+                        <td scope="row" class="th1">
+                            <div class="slds-truncate paddingSeparation">{!v.item.paymentDetail.beneficiaryData.creditorAgent.agentCountry}</div>
+                        </td>
+                        <td scope="row" class="th1">
+                            <aura:if isTrue="{!v.item.status==$Label.c.payment_statusOne}">
+                                <div class="slds-truncate paddingSeparation">{!v.item.paymentDetail.transactionStatus.reason}</div>
+                            </aura:if>
+                        </td>
+                        <td scope="row" class="th1 ">
+                            <div class="paddingSeparation">
+                                <span class="icon-doc103 downloadDoc "></span>
+                                <span ><a class="noLink " href=""  onclick="{!c.downloadMT103}" id="{!v.itemPosition}"  title="{!$Label.c.downloadMT103}">MT-103</a></span> 
+                            </div>                        
+                        </td>
+                        
+                        <td scope="row" class="th1">
+                            
+                        </td>
+                        <td ></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </div>
+</aura:component>

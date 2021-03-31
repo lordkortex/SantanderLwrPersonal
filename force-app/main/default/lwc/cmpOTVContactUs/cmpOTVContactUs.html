@@ -1,0 +1,24 @@
+<template>
+    <div class="contactUs">
+        <c-cmp-o-t-v-header-description title={title} subtitle={subtitle}></c-cmp-o-t-v-header-description>
+        <div class="content_contactUs">
+            <div class="section_title">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.</div>
+            <div class="selectTopic">
+                <c-cmp-dropdown-l-w-c class="dropdown_single small sky" data-id="topic" arrayoptions={arrayOptionsTopic} title={titleTopic} placeholder={topicPlaceholder} onchangeoption={changeTopic}></c-cmp-dropdown-l-w-c>
+                <c-cmp-dropdown-l-w-c if:true={isTopicSelected} class="dropdown_single small sky" data-id="detail" arrayoptions={arrayOptionsDetail} title={titleDetail} placeholder={detailPlaceholder} onchangeoption={changeDetail}></c-cmp-dropdown-l-w-c>
+            </div>
+            <div if:true={isIssueSelected}>
+                <div class="section_title">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.</div>
+                <div class="aditional_text_16">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.</div>
+                <c-cmp-l-w-c-text-area class="sky" data-id='description' onchangedescription={changeDescription}></c-cmp-l-w-c-text-area>
+                <!-- <c-text-area-l-w-c class="sky"></c-text-area-l-w-c> -->
+                <div class="section_title">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt.</div>
+                <c-cmp-o-t-v-drag-and-drop class="drag-and-drop-t01 sky" onchangefiles={changeFiles}></c-cmp-o-t-v-drag-and-drop>
+            </div>
+                <div class="buttons">
+                    <button class="slds-button primary button_full" onclick={submitCase}>{label.cmpOTVContactUsActivation_22}</button>
+                </div>
+        </div>  
+        <c-cmp-o-t-v-footer></c-cmp-o-t-v-footer>
+    </div>
+</template>

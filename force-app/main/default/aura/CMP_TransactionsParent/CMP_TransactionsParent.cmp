@@ -1,0 +1,35 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Parent component of transactions screen.
+History
+<Date>			<Author>		<Description>
+20/01/2020		Pablo Tejedor   Initial version-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" >
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}"/>
+    <lightning:navigation aura:id="navService"/>
+    <c:CMP_ServiceComponent aura:id="Service"/>
+
+    <!-- ATTRIBUTES FOR SEARCH COMPONENT AND FOR SHOW BREADCRUMBS/TITLES -->
+    <aura:attribute name="isSearching"  type="boolean"  default="false"    description="List if is searching for transactions"/>
+    <aura:attribute name="hasSearched" type="boolean" default="false"   description="Attribute to set if the pills container is showing" />
+    <aura:attribute name="source" type="String" default="globalBalance" description="This variable is used to kwon from where is navigate"/>
+    <aura:attribute  name="hasDownload" type="boolean"  default="false" description="List if is readit to download transactions"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- START OF THE BODY -->
+    <div style="{!'width:' + v.maxWidth + 'px;'}">
+        
+        <c:CMP_Title title="{!$Label.c.Users}"  displaySearchIcon="true" displayDownloadIcon="{v.hasDownload}"  isSearching="{!v.isSearching}" />
+
+        <aura:if isTrue="{!v.source == 'globalBalance'}">
+            <c:CMP_TitleBreadcrumb title="{!$Label.c.MovementHistory_Extract}" 
+             breadcrumb="['International_Treasury_Management', 'MovementHistory_Extract']"/>
+             <c:CMP_Title title="" displaySearchIcon="true" displayDownloadIcon="{v.hasDownload}"  isSearching="{!v.isSearching}" />
+        </aura:if>
+
+    </div>
+	
+</aura:component>

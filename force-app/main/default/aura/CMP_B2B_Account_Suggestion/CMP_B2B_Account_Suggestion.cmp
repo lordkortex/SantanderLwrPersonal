@@ -1,0 +1,53 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" type="Map" 		name="account" 	default="{}" 	description="Account suggestion." />
+    <aura:attribute access="public" type="Boolean"	name="showMore" default="true" description="Flag to show more details if its required" />
+
+    <aura:registerEvent name="onclick" type="c:EVT_B2B_SuggestionEvent" />
+    
+    <div aria-selected="true" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option" onclick="{!c.handleClick}">
+        <div class="slds-truncate account">
+            <span class="slds-media__body">
+            <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{!v.account.displayNumber}</span>
+            <aura:if isTrue="{!v.showMore eq true}">
+                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{!v.account.alias}</span>
+             </aura:if>
+            </span>
+        </div>
+        <div class="slds-truncate business">
+            <span class="slds-media__body">
+                <aura:if isTrue="{!v.showMore eq true}">
+                    <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{!v.account.subsidiaryName}</span>
+                    <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{!v.account.bankName}</span>
+                    <aura:set attribute="else">
+                        <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{!v.account.alias}</span>
+                    </aura:set>
+                </aura:if>
+            </span>
+        </div>
+        <div class="slds-truncate country">
+            <span class="slds-media__figure slds-listbox__option-icon">
+            <span class="slds-icon_container">
+                <span class="slds-icon slds-icon_small" aria-hidden="true">
+                    <img class="sizeFlag" src="{!$Resource.Flags + '/' + v.account.country + '.svg'}"/>
+                </span>
+            </span>
+            </span>
+            <span class="slds-media__body">
+            <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{!v.account.countryName}</span>
+            </span>
+        </div>
+        <div class="slds-truncate">
+            <aura:if isTrue="{! !empty(v.account.currencyCodeAvailableBalance)}">
+                <span class="slds-media__body">
+                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                        <div class="slds-box">
+                            <p>{!v.account.currencyCodeAvailableBalance}</p>
+                        </div>
+                    </span>
+                </span>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

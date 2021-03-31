@@ -1,0 +1,137 @@
+.slds-form-element:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    outline: 0px;
+    border-radius: 4px;
+    border: 2px dashed #cedee7;
+    width:808px;
+    max-width: 808px;
+    height: 108px;
+}
+
+.slds-form-element {
+    background-color: #ffffff;
+    width:808px;
+    max-width: 808px;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 108px;
+}
+
+ .slds-form-element__label {
+    font-family: "SantanderMicroText-Bd";
+    font-size: 14px;
+    line-height: 20px;
+    color: #444444;
+    display: flex;
+    align-items: center;
+    padding:0;
+    margin: 0;
+    height: 32px;
+    display: flex;
+    align-items: flex-start;
+}
+
+ .slds-form-element__label:before {
+    font-family: "icomoon";
+    content: "\e95e";
+    font-size: 32px;
+    color: #257fa4;
+    margin-right: 16px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+/* .slds-form-element__label:after {
+    font-family: "SantanderMicroText";
+    content: "Your files should not exceed 10MB. Valid phormates: .JPG .JPEG .PNG .GIF .PDF .DOC .DOCX .XLS .XLSX .PPTX .MSG .TX";
+    font-size: 14px;
+    line-height: 20px;
+    color: #444444;
+    position: absolute;
+    top: calc(24px + 20px);
+    left: calc(32px + 32px + 16px);
+    max-width: 500px;
+}*/
+
+ .text {
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    color: #444444;
+    position: absolute;
+    top: calc(24px + 20px);
+    left: calc(32px + 32px + 16px);
+    max-width: 500px;
+}
+
+ .slds-form-element__control{
+    align-self: center;
+}
+
+ .slds-file-selector__dropzone {
+    border: 0px;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+}
+
+ .slds-file-selector__text {
+    display: none;
+}
+
+ .slds-button__icon{
+    display: none;
+}
+
+ .slds-file-selector__button {
+ 	display: inline-flex;
+    justify-content: center;
+    border: none;
+    background-color: #ffffff;
+	box-shadow: inset 0 0 0 1px #ec0000;
+    border-radius: 100px;
+	color: #ec0000;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+	/*padding: 8px 16px;*/
+	cursor: pointer;
+    min-width: 184px;
+    padding: 4px 16px;
+    z-index: 2;
+}
+
+ .slds-file-selector__input:focus ~ .slds-file-selector__body > .slds-file-selector__button{
+    box-shadow: inset 0 0 0 1px #ec0000;
+}
+
+ .slds-file-selector__button:hover {
+    background-color: #cc0000;
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px #cc0000;
+}
+
+ .slds-file-selector__button:active {
+    background-color: #990000;
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px #990000;
+}
+
+ .slds-file-selector__button[disabled],
+ .slds-file-selector__button[disabled]:hover,
+ .slds-file-selector__button[disabled]:active,
+ .slds-file-selector__input:focus ~ .slds-file-selector__body > .slds-file-selector__button[disabled]{
+ 	font-family: "SantanderMicroText";
+    background-color: #ffffff;
+	box-shadow: inset 0 0 0 1px #cccccc;
+	color: #767676;
+    cursor: auto;
+}

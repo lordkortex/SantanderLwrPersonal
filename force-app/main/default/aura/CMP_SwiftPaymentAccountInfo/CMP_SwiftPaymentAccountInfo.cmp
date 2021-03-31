@@ -1,0 +1,54 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to show the swift payments Account Data
+History
+<Date>			<Author>		<Description>
+13/11/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global">
+    
+    <aura:attribute name="accountNumber" type="String" default='' description="Account number"/>
+    <aura:attribute name="bank" type="String"  default="" description="Bank of the account"/>
+    <aura:attribute name="mainAmount" type="String" description="Book balance value"/>
+    <aura:attribute name="availableAmount" type="String" description="Available balance value"/>
+    <aura:attribute name="currentCurrency" type="String" description="Amount currency"/>
+    <aura:attribute name="subsidiaryName" type="String"/>    
+    <aura:attribute name="bookBalance" type="Integer" description="N/A"/>
+    <aura:attribute name="availableBalance" type="Integer" description="N/A"/>
+        
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <article class="slds-card accountCard">
+        <div class="slds-card__header slds-grid selectedAccount">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title identity">
+                        {!v.subsidiaryName}
+                    </div>
+                    <div class="slds-card__header-title accountNumber">
+                        {!v.accountNumber} | {!v.bank}
+                    </div>
+                </div>
+                <aura:if isTrue="{!and(v.mainAmount != undefined, v.availableAmount != undefined)}">
+                    <div class="availableBalance">
+                        <div class="slds-card__header-title availableText">
+                            {!$Label.c.Available_Balance}
+                        </div>
+                        <div class="slds-card__header-title availableNumber">
+                            <c:CMP_displayAmount amount="{!v.availableAmount}" decimalClass="availableDecimals" wholeClass="availableInteger" currency="{!v.currentCurrency}"/>
+                        </div>
+                    </div>
+                    <div class="bookBalance">
+                        <div class="slds-card__header-title bookText">
+                            {!$Label.c.Book_Balance}
+                        </div>
+                        <div class="slds-card__header-title bookNumber">
+                            <c:CMP_displayAmount amount="{!v.mainAmount}" decimalClass="bookDecimals" wholeClass="bookInteger" currency="{!v.currentCurrency}"/>
+                        </div>
+                    </div>
+                </aura:if>
+            </header>
+        </div>
+    </article>
+</aura:component>

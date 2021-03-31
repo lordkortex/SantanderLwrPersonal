@@ -1,0 +1,118 @@
+<template>
+    <c-cmp-service-component></c-cmp-service-component>
+    <div if:true={isIE}>
+        <!--Message if the Browser is IE-->
+        <c-cmp-ipt-browser-message></c-cmp-ipt-browser-message>
+    </div>
+        
+    <div if:false={isIE}> <!--<aura:set attribute="else">-->
+        <!-- Show error if user has no access to Payments Tracker -->
+        <div if:true={showNoAccessError}>
+            <!--Error if Account service fails-->
+            <c-cmp-cn-scope-notification
+                notification-class="slds-scoped-notification_error"
+                notification-icon="icon-close_emptyCircle"
+                title={label.error}
+                notification-title={label.error}
+                notification-body={label.errorNoAccess}>
+            </c-cmp-cn-scope-notification>
+        </div>
+        <!-- Spinner -->
+        <div if:true={loading}>
+            <div class="spinnerclass">
+                <lightning-spinner 
+                    variant="brand" 
+                    size="large" 
+                    title={label.loading} 
+                    alternative-text={label.loading}>
+                </lightning-spinner>
+            </div>
+        </div>
+        <div if:false={loading}>
+            <div if:false={showNoAccessError}>
+                <div if:true={condition1}>
+                    <!-- Title and subtitle with totals -->
+                    <!--01/04/2020 - Account Payments Tracker-->
+                    <c-cmp-cn-title-subtitle
+                        title={label.accounts}
+                        subtitle={label.paymentsTracker}
+                        fire-navigation-event="false">
+                    </c-cmp-cn-title-subtitle>
+
+                    <!--<c-cmp-cn-title-subtitle-totals
+                        account-details={accountObj}
+                        account-to-copy={accountObj.accountNumber}
+                        show-totals="false"
+                        source="fromIPTParent"
+                        show-account-detail-link="false"
+                        from-cash-nexus={fromCashNexus}
+                        show-account-payment={showAccountPayment}>
+                    </c-cmp-cn-title-subtitle-totals> -->  
+                    <!--<button class="slds-button primary button_icon" role="option" tabindex="0" aria-selected="true">
+                            Track by UETR
+                            <span class="icon-income-expenses"></span>
+                        </button>-->
+                </div>
+                <div if:false={condition2}><!--<aura:set attribute="else">-->
+                    <!--Title-->
+                    <c-cmp-ipt-title></c-cmp-ipt-title>
+                </div>
+                <div if:false={errorAccount}>
+                    <div if:true={condition2}>
+                        <!--First filters-->
+                        <div if:true={showAccountPayment}>
+                            <!--01/04/2020 - Account Payments Tracker-->
+                            <!--<c-cmp-ipt-filters
+                                is-one-trade={isOneTrade}
+                                from-cash-nexus={fromCashNexus}
+                                currency-list={currencyList}
+                                account-list={accountList}
+                                filters={filters}
+                                is-open={isOpen}
+                                is-account-filter={showAccountPayment}>
+                            </c-cmp-ipt-filters> 
+                        </div>
+                        <div if:false={showAccountPayment}>
+                            <c-cmp-ipt-filters
+                                is-one-trade={isOneTrade}
+                                from-cash-nexus={fromCashNexus}
+                                currency-list={currencyList}
+                                account-list={accountList}
+                                filters={filters}
+                                is-open={isOpen}>
+                            </c-cmp-ipt-filters>-->
+                        </div>
+                        <!--Table-->
+                        <!--<c-cmp-ipt-table
+                            is-one-trade={isOneTrade}
+                            filters={filters}
+                            from-cash-nexus={fromCashNexus}
+                        ></c-cmp-ipt-table>-->
+                    </div>
+                </div>
+                <div if:true={errorAccount}><!--<aura:set attribute="else">-->
+                    <!--Error if Account service fails-->
+                    <c-cmp-cn-scope-notification
+                        notification-class="slds-scoped-notification_error"
+                        notification-icon="icon-close_emptyCircle"
+                        title={label.error}
+                        notification-title={label.error}
+                        notification-body={label.errorNotRetrieved}>
+                    </c-cmp-cn-scope-notification>
+                </div>
+            </div>
+        </div>
+        <!--Terms and conditions-->
+        <!--<c-cmp-terms-conditions
+            show-modal={showTerms}
+            country={country}>
+        </c-cmp-terms-conditions>
+        <div if:true={condition3}>
+            <c-cmp-welcome-pack-carousel
+                show-modal={showWelcome}
+            ></c-cmp-welcome-pack-carousel>
+        </div>-->
+        <!--Terms and conditions
+            <c:cmp_termsconditions aura:id="termsConditions" showmodal={showTerms} country={country}></c:cmp_termsconditions>-->
+    </div>
+</template>

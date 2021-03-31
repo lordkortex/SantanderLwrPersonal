@@ -1,0 +1,13 @@
+<aura:component >
+
+    <aura:attribute access="public" type="Integer" name="paginationSelection"   description="Selected items per page."/>
+    <aura:attribute access="public" type="Integer" name="item"                  description="Number currently displayed."/>
+
+	<li class="{!v.item == v.paginationSelection ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" onclick="{!c.handleSelectPagination}">
+        <a class="paddingOption" role="menuitemcheckbox" tabindex="0" aria-checked="true">
+            <div class="slds-truncate optionOrder" data-title-right="{!v.item}"  >
+                <span class="nameOrder">{!v.item}</span>
+            </div>
+        </a>
+    </li>
+</aura:component>

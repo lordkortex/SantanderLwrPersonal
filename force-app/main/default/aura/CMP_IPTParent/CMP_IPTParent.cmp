@@ -1,0 +1,132 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to show the IPT
+History
+<Date>			<Author>		<Description>
+27/02/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_MRTrackerSearch">
+    
+    <aura:attribute name="ready" type="boolean" default="false"/>
+    <aura:attribute name="isIE" type="boolean" default="true"/>
+    <aura:attribute name="isOpen" type="Boolean" default="false"/>
+    <aura:attribute name="accountList" type="List" default="[]"/>
+    <aura:attribute name="currencyList" type="List" default="[]"/>
+    <aura:attribute name="errorAccount" default="false" type="Boolean"/>
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:attribute name="loading" type="Boolean" default="true" description="Flag to show/hide the table spinner"/>
+    <aura:attribute name="fromDetail" type="Boolean" default="false" description="Check if comes from detail"/>
+    <aura:attribute name="fullAccountList" type="String" default=""/>
+    
+    <!--WelcomePack-->
+    <aura:attribute name="showWelcome" default="false" type="Boolean" description="Show welcome pack"/>
+    <aura:attribute name="showTerms" default="false" type="Boolean" description="Show terms and conditions"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="agreedTerms" type="Boolean" default="False" description="True if current user is has agreed terms, else, false"/>
+    <aura:attribute name="isBIC" type="Boolean" default="False" description="True if current user is has agreed terms, else, false"/>
+    <aura:attribute name="isGB" type="Boolean" default="False" description="True if current user's BIC is from Great Britain"/>
+    <aura:attribute name="isES" type="Boolean" default="False" description="True if current user's BIC is from Spain"/>
+    <aura:attribute name="isPL" type="Boolean" default="False" description="True if current user's BIC is from Poland"/>
+    <aura:attribute name="isCL" type="Boolean" default="False" description="True if current user's BIC is from Chile"/>
+    <aura:attribute name="isMX" type="Boolean" default="False" description="True if current user's BIC is from Mexico"/>
+    <aura:attribute name="isPT" type="Boolean" default="False" description="True if current user's BIC is from Portugal"/>
+    <aura:attribute name="isOther" type="Boolean" default="False" description="True if current user's BIC is from other country"/>
+    <aura:attribute name="country" type="String" description="Terms and conditions country"/>
+    <aura:attribute name="fromCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="isOneTrade" type="Boolean" default="False" description="True if current user is a One Trade user, else, false"/>
+    <!--01/04/2020 - Account    <aura:attribute name="fromCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+ Payments Tracker-->
+    <aura:attribute name="showAccountPayment" type="Boolean" default="True" description="User has accessed this component by clicking on an account"/>
+    <aura:attribute name="accountObj" type="Map" default="{ country:'', bank:'', accountNumber:'',  bic:'', bankAlias:'', bookBalance:'', availableBalance:'',  accountAlias: '', currency:'', accountName: '', iIdType:'', iSource:'', dateValue:'', hourValue:'', lastUpdate: ''}" />
+    <aura:attribute name="showNoAccessError" type="Boolean" default="false" description="Flag which indicates whether the user has access to Payments Tracker"/>
+    
+    <aura:handler name="getFilterParent" event="c:EVT_searchFilter" action="{!c.getFilters}"/>
+    <aura:handler name="openAdvancedFilters" event="c:EVT_OpenModal" action="{!c.openSearch}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="termsConditionsEvent" event="c:EVT_TermsConditions" action="{!c.checkTerms}"/>
+    <!--01/04/2020 - Account Payments Tracker-->
+    <aura:handler name="change" value="{!v.showAccountPayment}" action="{!c.doInitAuxiliar}"/>
+    <!--04/04/2020 GG - Navigate a back to Accounts page -->
+    <aura:handler name="navigateBack" event="c:EVT_TitleSubtitleNavigate" action="{!c.navigateToAccounts}"/>
+
+    <c:CMP_ServiceComponent aura:id="service"/>
+
+    <aura:if isTrue="{!v.isIE}">
+        <!--Message if the Browser is IE-->
+        <c:CMP_IPTBrowserMessage/> 
+
+        <aura:set attribute="else">
+            <!-- Show error if user has no access to Payments Tracker -->
+            <aura:if isTrue="{!v.showNoAccessError}">
+                <!--Error if Account service fails-->
+                <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.ERROR_NO_ACCESS}"/>
+            </aura:if>
+
+            <!-- Spinner -->
+            <aura:if isTrue="{!v.loading}">  
+                <div class="spinnerclass">
+                    <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!not(v.loading)}"> 
+                <aura:if isTrue="{!not(v.showNoAccessError)}">
+                    
+                    <aura:if isTrue="{!and(v.fromCashNexus == true, v.showAccountPayment == false)}">
+                    
+                        <!-- Title and subtitle with totals -->
+                        <!--01/04/2020 - Account Payments Tracker-->
+                        <c:CMP_CN_Title_Subtitle title="{!$Label.c.Accounts}" subtitle="{!$Label.c.PaymentsTracker}" fireNavigationEvent="false"/>
+                        <c:CMP_CN_Title_Subtitle_Totals accountDetails="{!v.accountObj}" accountToCopy="{!v.accountObj.accountNumber}" showTotals="false" source="fromIPTParent" showAccountDetailLink="false" fromCashNexus="{!v.fromCashNexus}" showAccountPayment="{!v.showAccountPayment}"/>
+
+                        <aura:set attribute="else">
+                            <!--Title-->
+                            <c:CMP_IPTTitle/>
+						 
+                        </aura:set>
+
+                        <!--<button class="slds-button primary button_icon" role="option" tabindex="0" aria-selected="true">
+                            Track by UETR
+                            <span class="icon-income-expenses"></span>
+                        </button>-->																														   
+					</aura:if>
+                    <!-- AB - 12/03/2021 - Banner to access One Trade View -->
+					<c:cmpOTVBannerAccess type3="true"/> 
+                    <aura:if isTrue="{!v.errorAccount==false}">
+                        <aura:if isTrue="{!v.accountList.length>0}">
+                            <!--First filters-->
+                            <aura:if isTrue="{!v.showAccountPayment == True}">
+                                <!--01/04/2020 - Account Payments Tracker-->
+                                <c:CMP_IPTFilters isOneTrade="{!v.isOneTrade}" fromCashNexus="{!v.fromCashNexus}" currencyList="{!v.currencyList}" accountList="{!v.accountList}" filters="{!v.filters}" isOpen="{!v.isOpen}" isAccountFilter="{!v.showAccountPayment}" fromDetail="{!v.fromDetail}"/>
+                                <aura:set attribute="else">
+                                    <c:CMP_IPTFilters isOneTrade="{!v.isOneTrade}" fromCashNexus="{!v.fromCashNexus}" currencyList="{!v.currencyList}" accountList="{!v.accountList}" filters="{!v.filters}" isOpen="{!v.isOpen}"/>
+                                </aura:set>
+                            </aura:if>
+                            <!--Table-->
+                            <c:CMP_IPTTable aura:id="paymentsTable" isOneTrade="{!v.isOneTrade}" filters="{!v.filters}" fromCashNexus="{!v.fromCashNexus}" fromDetail="{!v.fromDetail}" fullAccountList="{!v.accountList}"/>
+                        
+                        </aura:if>
+                          
+                        <aura:set attribute="else">
+                            <!--Error if Account service fails-->
+                            <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.ERROR_NOT_RETRIEVED}"/>
+                        </aura:set>
+                    </aura:if>
+                </aura:if>
+            </aura:if>
+            
+            <!--Terms and conditions-->
+            <c:CMP_TermsConditions aura:id="termsConditions" showModal="{!v.showTerms}" country="{!v.country}"/>
+            
+            <aura:if isTrue="{!and(v.agreedTerms, v.isCashNexus == false)}">
+            	<c:CMP_WelcomePackCarousel aura:id="welcomePack" showModal="{!v.showWelcome}"/>
+            </aura:if>
+            <!--Terms and conditions
+            <c:CMP_TermsConditions aura:id="termsConditions" showModal="{!v.showTerms}" country="{!v.country}"/>-->
+
+        </aura:set> 
+
+    </aura:if>
+    
+</aura:component>

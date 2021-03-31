@@ -1,0 +1,20 @@
+<template>
+    <div>
+        <div class="accountInformation sixAccounts">
+            <div class="slds-text-title">{label.All_my_accounts}</div>
+                <div class="slds-grid slds-wrap cardsAccount-grid">
+                <template for:each={accountList} for:item="accountItem">
+                    <div key={accountItem.displayNumber} class="slds-col">
+                        <c-cmp-pay-sixaccounts-item
+                            account-selected={accountSelected}
+                            account-item={accountItem}
+                            account-data={accountData}
+                            beneficiary-details={beneficiaryDetails}
+                            user-data={userData}>
+                        </c-cmp-pay-sixaccounts-item>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

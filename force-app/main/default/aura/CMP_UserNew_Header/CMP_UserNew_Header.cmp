@@ -1,0 +1,157 @@
+<!--
+Author:         Teresa Santos Navarro
+Company:        Deloitte
+Description:    Header component for user creation
+History
+<Date>			<Author>		<Description>
+16/01/2019		Teresa Santos Navarro     Initial version-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="userId" type="String" description="Id of the user"/>
+    <aura:attribute name="userName" type="String"  description="name of the user"/>
+    <aura:attribute name="userRol" type="String" description="rol of the user"/>
+    <aura:attribute name="userGroup" type="String" description="group of the user"/>
+    <aura:attribute name="currentStageNumber" type="Integer" description="Current stage of the group creation"/>
+    <aura:attribute name="groupName" type="String" default=" " description="Name of the group" />
+    <aura:attribute name="isUsers" type="boolean" default="true" />
+    <aura:attribute name="isGroup" type="boolean" default="false" />
+    <aura:attribute name="stage1Finished" type="boolean"/>
+
+
+    <lightning:navigation aura:id="navService"/>
+    <aura:handler name="change" value="{!v.isGroup}" action="{!c.changeIsFrom}"/>
+
+    <aura:if isTrue="{!v.isGroup}">
+        <article class="slds-card">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="userId">  
+                        <div class="slds-card__header-title name">
+                            {!$Label.c.GroupList_Name}
+                        </div>
+                            <div class="slds-card__header-title information">
+                            {!v.groupName}
+                        </div>
+                    </div>
+                </header>
+            </div>
+        </article>
+    </aura:if>
+
+
+<aura:if isTrue="{!v.isUsers}">
+        <article class="slds-card">
+            <aura:if isTrue="{!v.currentStageNumber == 1}">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <aura:if isTrue="{!v.userId != null}">
+                            <div class="userId">  
+                                <div class="slds-card__header-title name">
+                                    {!$Label.c.UserNew_UserId}
+                                </div>
+                                    <div class="slds-card__header-title information">
+                                    {!v.userId}
+                                </div>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.userName != null}">
+                            <div class="name">
+                                <div class="slds-card__header-title name">
+                                    {!$Label.c.UserNew_Name}
+                                </div>
+                                <div class="slds-card__header-title information">
+                                    {!v.userName}
+                                </div>
+                            </div>
+                        </aura:if>
+                    </header>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.currentStageNumber == 2}">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <aura:if isTrue="{!v.userId != null}">
+                            <div class="userId">
+                                <div class="slds-card__header-title name">
+                                    {!$Label.c.UserNew_UserId}
+                                </div>
+                                <div class="slds-card__header-title information">
+                                    {!v.userId}
+                                </div>
+                            </div>
+                        </aura:if>   
+                        <aura:if isTrue="{!v.userName != null}"> 
+                            <div class="name">
+                                <div class="slds-card__header-title name">
+                                    {!$Label.c.UserNew_Name}
+                                </div>
+                                <div class="slds-card__header-title information">
+                                    {!v.userName}
+                                </div>
+                            </div>
+                        </aura:if> 
+                        <aura:if isTrue="{!v.userRol != null}">     
+                            <div class="rol">
+                                <div class="slds-card__header-title name">
+                                    {!$Label.c.UserNew_Rol}
+                                </div>
+                                <div class="slds-card__header-title information">
+                                    {!v.userRol}
+                                </div>
+                            </div>
+                        </aura:if>     
+                    </header>
+                </div>
+            </aura:if>
+            <aura:if isTrue="{!v.currentStageNumber == 3}">
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <aura:if isTrue="{!v.userId != null}">
+                            <div class="userId">
+                                <div class="slds-card__header-title name">
+                                    {!$Label.c.UserNew_UserId}
+                                </div>
+                                <div class="slds-card__header-title information">
+                                    {!v.userId}
+                                </div>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.userName != null}">   
+                            <div class="name">
+                                <div class="slds-card__header-title name">
+                                    {!$Label.c.UserNew_Name}
+                                </div>
+                                <div class="slds-card__header-title information">
+                                    {!v.userName}
+                                </div>
+                            </div>
+                        </aura:if> 
+                        <aura:if isTrue="{!v.userRol != null}">  
+                            <div class="rol">
+                                <div class="slds-card__header-title name">
+                                    {!$Label.c.UserNew_Rol}
+                                </div>
+                                <div class="slds-card__header-title information">
+                                    {!v.userRol}
+                                </div>
+                            </div>
+                        </aura:if>  
+                        <aura:if isTrue="{!v.userGroup != null}">  
+                            <div class="group">
+                                <div class="slds-card__header-title name">
+                                    {!$Label.c.UserNew_Group}
+                                </div>
+                                <div class="slds-card__header-title information">
+                                    {!v.userGroup}
+                                </div>
+                            </div>
+                        </aura:if>    
+                    </header>
+                </div>
+            </aura:if>
+        </article>
+    </aura:if>
+
+</aura:component>

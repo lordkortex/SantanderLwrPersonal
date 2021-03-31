@@ -1,0 +1,341 @@
+.THIS.filter_container{
+    margin-bottom: 36px;
+}
+.THIS.filter_container .slds-col{
+    display: flex;
+}
+
+.THIS.filter_container .slds-col:nth-child(2){
+    justify-content: flex-end;
+	align-items: flex-end;
+}
+
+/* DROPDOWN */
+.THIS.filter_container .slds-col > .slds-form-element,
+.THIS.filter_container .slds-combobox__Rg{
+    width: 184px;
+} 
+
+.THIS.filter_container .slds-combobox__Rg .slds-form-element__label {
+    margin: 0 0 4px 0;
+    padding: 0;
+	font-family:"SantanderMicroText";
+	font-size: 14px;
+	line-height: 21px;
+	color: #444444;
+}
+
+.THIS.filter_container .slds-combobox__Rg .button-order {
+	border: 1px solid #deedf2;
+	background-color:#f6fafc;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	height: 48px;
+	width: 100%;
+	min-width:184px;	
+}
+
+.THIS.filter_container .slds-combobox__Rg .button-order .button-arrow {
+	font-size: 24px;
+}
+
+.THIS.filter_container .slds-combobox__Rg  .button-order:focus {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.THIS.filter_container .slds-combobox__Rg  .button-order:hover {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.THIS.filter_container .slds-combobox__Rg  .slds-dropdown {
+	box-shadow: inset 0 -1px 0 0 #cedee7;
+	background-color: #f6fafc;
+	border-top: none;
+	border-right: 1px solid #deedf2;
+	border-left: 1px solid #deedf2;
+	border-bottom: 1px solid #257fa4;
+	border-radius: 0 0 4px 4px;
+	cursor: pointer;
+	left: auto;
+	margin: 0;
+
+	max-width: 100%;
+	min-width: inherit;
+	/* overflow-y: auto; */
+	padding: 8px 4px 6px 4px;
+	right: auto;
+	top: 72px;
+	width: 100%;
+}
+
+.THIS .slds-combobox__Rg ul{
+	max-height: 240px;
+	overflow-y: scroll;
+}
+
+
+
+.THIS.filter_container .slds-combobox__Rg  .slds-button__icon{
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+
+.THIS.filter_container .slds-combobox__Rg  .optionOrder {
+	align-items: center;
+	display: inline-flex;
+}
+
+.THIS.filter_container .slds-combobox__Rg  .orderSelected {
+	align-items: center;
+	border: 0;
+	color: #444444;
+	display: flex;
+	font-size: 12px;
+	height: 24px;
+	padding: 0 0 0 16px;
+	width: 100%;
+}
+
+.THIS.filter_container .slds-combobox__Rg  .paddingOption {
+	height: 36px;
+	margin-bottom: 12px;
+}
+
+.THIS.filter_container .slds-combobox__Rg  .dropdownOrder .paddingOption:hover,
+.THIS.filter_container .slds-combobox__Rg .paddingOption:active,
+.THIS.filter_container .slds-combobox__Rg  .paddingOption:focus {
+	border-radius: 4px;
+	background-color:#deedf2;
+}
+
+.THIS.filter_container .slds-combobox__Rg .dropdownOrder .slds-dropdown__item > a {
+	padding:0 12px;
+	font-size: 16px;
+	font-family: SantanderMicroText;
+	color: #444444;
+	line-height: 24px;
+}
+
+.THIS.filter_container .slds-combobox__Rg .selectedValue-placeholder {
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	color: #767676;
+}
+
+.THIS.filter_container .slds-combobox__Rg  .selectedValue-filled {
+	color: #444444;
+	font-size: 12px;
+}
+.THIS.filter_container .slds-combobox__Rg ul::-webkit-scrollbar {
+	width: 6px;
+}
+.THIS.filter_container .slds-combobox__Rg ul::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.THIS.filter_container .slds-combobox__Rg ul::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.THIS.filter_container .slds-combobox__Rg ul::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+/* FILTERS */
+.THIS.filter_container .filtersRow{
+    display: flex;
+    flex-direction: column;
+    margin-left: 24px;
+    margin-top: 20px;
+}
+.THIS.filter_container .filtersRow .slds-combobox_container{
+    align-self: flex-end;
+}
+
+.THIS.filter_container .filtersRow .slds-form-element__label{
+    font-family: "SantanderTextW05-Regular";
+    font-size: 12px;
+    line-height: 17px;
+    color: #767676;
+    padding: 0;
+    margin-bottom:4px;
+}
+
+/* ICON */
+
+.THIS.filter_container .icon{
+	cursor: pointer;
+	padding-bottom: 5px;
+}
+
+.THIS.filter_container .icon-download{
+    margin-left: 4px;
+    margin-right: 16px;
+}
+
+.THIS.filter_container .icon-download:before {
+	display: inline-block;
+	font-size: 24px;
+	vertical-align: middle;
+}
+
+.THIS .text-link{
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 21px;
+}
+
+/* FILTER BUTTONS */
+.THIS.filter_container .slds-combobox .slds-button_outline-brand{
+    border: 1px solid #cedee7;
+    border-radius: 4px;
+    background-color: #eff6f9;
+    color: #444444;
+    cursor: pointer;
+	font-size: 14px;
+    font-family: "SantanderTextW05-Regular"; 
+	line-height: 1.5;
+	height: 32px;
+	margin-left: 0;
+	margin-right: 8px;
+    min-width: 113px;
+	padding-right: 30px;
+    padding-left: 30px;
+}
+.THIS.filter_container .slds-combobox .slds-button_outline-brand:hover{
+    background-color: #e2eff4;
+}
+.THIS.filter_container .slds-combobox .slds-button_outline-brand:active,
+.THIS.filter_container .slds-combobox_container .slds-button_outline-brand:focus,
+.THIS.filter_container .slds-button_outline-brand.buttonSelected {
+    background-color: #ffffff;
+    color: #cc0000;
+	font-family: "SantanderTextW05-Bold";
+}
+
+/*COMBOBOX CHECKBOX*/
+.THIS .slds-popover {
+	background-color: #ffffff;
+    border: 1px solid #cedee7;
+	border-radius: 4px;
+	box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin-top: 4px;
+	padding: 0px;
+	position: absolute;
+	top: 32px;
+    width: 392px;
+    max-height: 320px;
+}
+
+.THIS .slds-popover__body {
+    padding: 14px 4px 8px 4px;
+}
+
+.THIS .filtersRow .slds-form-element{
+    max-height: 242px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.THIS .slds-checkbox {
+	align-items: center;
+	display: flex;
+	height: 36px;
+	margin-bottom: 12px;
+}
+.THIS .slds-checkbox:hover {
+    background-color: #e8f3f6;
+    border-radius: 4px;
+}
+.THIS .slds-checkbox .slds-checkbox__label .slds-form-element__label.checkboxLabel {
+    cursor: pointer;
+	color: #444444;
+	display: inline;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	vertical-align: middle;
+}
+.THIS .slds-checkbox_faux {
+	border-radius: 4px;
+    border-color: #767676;
+	cursor: pointer;
+	height: 24px;
+	margin-left: 12px;
+	margin-right: 8px;
+	width: 24px;
+}
+
+.THIS .slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+	box-shadow: none;
+    border-color: #767676;
+}
+
+.THIS .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+	border: 2px solid #1bb3bc;
+}
+
+.THIS .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+	border-bottom: 2px solid #1bb3bc;
+	border-left: 2px solid #1bb3bc;
+	height: 6px;
+	width: 9px;
+}
+.THIS .slds-checkbox__label .slds-checkbox_faux:active{
+	border: 2px solid #1bb3bc;
+}
+
+/* COMBOBOX CHECKBOX FOOTER */
+.THIS .slds-popover__footer {
+	display: flex;
+	justify-content: space-between;
+	padding: 0px 16px 16px 16px;
+    border-top: none;
+}
+
+.THIS.filter_container .slds-popover__footer .redButton {
+	border-radius: 100px;
+	font-family: "SantanderMicroText-Bd";
+	font-size: 16px;
+	height: 40px;
+	line-height: 24px;
+    padding: 0px;
+    min-width: 72px;
+}
+
+.THIS.filter_container .slds-popover__footer .whiteButton {
+    border-radius: 100px;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	height: 40px;
+	line-height: 24px;
+    padding: 0px;
+    min-width: 93px;
+}
+
+/* COMBOBOX CHECKBOX SCROLL*/
+.THIS .slds-form-element::-webkit-scrollbar {
+	width: 6px;
+}
+.THIS .slds-form-element::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.THIS .slds-form-element::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.THIS .slds-form-element::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+
+.THIS.filter_container .slds-combobox__Rg .orderSelected {
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+	color: #767676; 
+}

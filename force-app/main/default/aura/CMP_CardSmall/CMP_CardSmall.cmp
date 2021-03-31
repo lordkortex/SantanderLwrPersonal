@@ -1,0 +1,72 @@
+<!--
+Author:         Diego Asis
+Company:        Deloitte
+Description:    Small card that shows in the training screen
+History
+<Date>			<Author>		    <Description>
+27/01/2020		Diego Asis     		Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+	<ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="title" type="String"/>
+    
+    <article class="slds-card slds-size_1-of-3">
+        <div class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-card__body slds-card__body_inner">
+                <span class="icon-copy icon" data-title="{!$Label.c.T_Copy}"></span>
+                <div class="slds-media__body">{!v.title}</div>
+                <span class="icon-download icon" data-title="{!$Label.c.T_Download}"></span>
+            </div>  
+        </div>
+    </article>
+    
+    <!-- <div class="slds-grid slds-wrap firstRow">
+        <div class="first">           
+            <article class="slds-card slds-size_1-of-3">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <span class="icon-copy icon" data-title="Doc"></span>
+                        <div class="slds-media__body"> Upload_Manual_M_ES.pdf</div>
+                        <span class="icon-download icon" data-title="Download"></span>
+                    </div>  
+                </div>
+            </article>
+        </div>
+        <div class="first">           
+            <article class="slds-card slds-size_1-of-3">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <span class="icon-copy icon" data-title="Doc"></span>
+                        <div class="slds-media__body">Manual_del_Administrador.pdf</div>
+                        <span class="icon-download icon" data-title="Download"></span>
+                    </div>  
+                </div>
+            </article>
+        </div>
+        <div >
+            <article class="slds-card slds-size_1-of-3">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">
+                        <span class="icon-copy icon" data-title="Doc"></span>
+                        <div class="slds-media__body">Manual_del_Usuario_M_ES.pdf</div>
+                        <span class="icon-download icon" data-title="Download"></span>
+                    </div>  
+                </div>
+            </article>
+        </div>
+    </div>
+    <div class="slds-grid slds-wrap">
+        <div class="first">           
+            <article class="slds-card slds-size_1-of-3">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-card__body slds-card__body_inner">                        
+                        <span class="icon-copy icon" data-title="Doc"></span>                        
+                        <div class="slds-media__body">Protocolo_TLS1.1_M_ES.pdf</div>                        
+                        <span class="icon-download icon" data-title="Download"></span>                        
+                    </div>                    
+                </div>
+            </article>
+        </div>        
+    </div> -->
+</aura:component>

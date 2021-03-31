@@ -1,0 +1,25 @@
+.slds-dropdown__item {
+    padding:5px;
+}
+
+ .nameOrder {
+    color: #767676;
+    font-family: SantanderMicroText; 
+    font-size: 12px;
+}
+
+ .optionOrder { 
+    display: inline-flex;
+    width: 100%; 
+}
+
+ .paddingOption {
+    margin-top: 0;
+    padding: 5px 11px; 
+    display: block;
+}
+
+ .paddingOption:hover {
+	border-radius: 4px;
+  	background-color: #e5f1f5;
+}

@@ -1,0 +1,26 @@
+<template>
+    <template if:true={_show}>
+        <div>
+            <div class="slds-notify_container slds-is-fixed">
+                <div class={classBody} role="status">
+                    <span class="slds-assistive-text">{_type}</span>
+                    <span class={classIcon} data-title={_type}></span>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small">{_title}</h2>
+                        <p class="notifyText">{_body}</p>
+                        <template if:true={_action.show}>
+                            <button class={classActionButton} onclick={clickAction}>
+                                <span class="action">
+                                    {_action.text}
+                                </span>
+                            </button>
+                        </template>
+                    </div>
+                    <div class="slds-notify__close">
+                        <button class="slds-button slds-button_icon icon-close_big" onclick={clickClose}></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template> 
+</template>

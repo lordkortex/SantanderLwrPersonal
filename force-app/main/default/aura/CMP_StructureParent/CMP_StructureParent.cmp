@@ -1,0 +1,5 @@
+<aura:component implements="lightning:isUrlAddressable,lightning:hasPageReference,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <c:CMP_B2B_Toast aura:id="errorToast"/>
+    <c:cmpStructureOptions onclosetab="{!c.closeTab}" onshowtoast="{!c.showToast}"/>
+</aura:component>

@@ -1,0 +1,107 @@
+/* MODAL CONTAINER*/
+.slds-modal {
+    background: rgba(68,68,68,0.7);
+    overflow-y: auto;
+}
+
+/* MODAL SIZE */
+ .modalCancel .slds-modal__container.sizeS{
+    width: 520px;
+    max-width: 520px;
+    min-width: 520px;
+}
+
+ .slds-modal__container.sizeM{
+    width: 936px;
+    min-width: 936px;
+    max-width: 936px;
+}
+
+/* MODAL SCROLL */
+ .slds-modal__container.scroll {
+    padding: 108px 0;
+    height: auto;
+}
+
+/*MODAL CONTENT */
+ .modal-content{
+    box-shadow: 4px 4px 12px 4px rgba(206, 214, 219, 0.4);
+    border-radius: 4px 4px 4px 4px;
+}
+
+
+.slds-modal.modalCancel .slds-modal__close{
+    position: absolute;
+    right: 24px;
+    top: 24px;
+    font-size: 18px; 
+    width: 24px;
+    height: 24px;
+}
+.slds-modal.modalCancel .slds-modal__close .icon-close_big{
+    font-size:24px
+}
+
+/* Header */
+.slds-modal.modalCancel  .slds-modal__header{ 
+    box-shadow: none;
+    border: none; 
+    text-align: left;
+    padding:40px 64px 20px 64px;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.slds-modal.modalCancel .modal-content .title .slds-modal__title{
+    font-family:"SantanderHeadlineW05-Rg";
+    font-size: 28px; 
+    line-height: 1.21; 
+    color: #444444;     
+    position: relative; 
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; 
+    padding: 0;
+    margin-bottom: 8px;
+}
+.slds-modal.modalCancel .modal-content .title .title-line{
+    width: 40px;
+    height: 3px;
+    background-color: #ec0000;
+}
+
+/* Content */
+ .modal-content .slds-modal__content{ 
+    background: #ffffff;
+    padding:0 64px;
+    overflow: visible;
+}
+
+ .modal-content .slds-modal__content:last-child {
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    box-shadow: none;
+}
+
+ .modal-content .slds-modal__content p {
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 1.5;
+    color: #767676;
+}
+
+/* Footer */
+.slds-modal.modalCancel .modal-content .slds-modal__footer{
+    box-shadow: none;
+    border: none; 
+    padding:20px 64px 40px 64px;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+.slds-modal.modalCancel .modal-content .modal-footer-buttons{
+    display:flex;
+}
+.slds-modal.modalCancel .modal-content .modal-footer-buttons .slds-button{
+    margin-right:24px;
+        margin-left: 0;
+}

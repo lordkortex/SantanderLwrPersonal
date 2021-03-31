@@ -1,0 +1,70 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute     access="public"     name="showToast"                type="Boolean"                                                      description="Indicates if the toast is shown." />
+    <aura:attribute     access="public"     name="action"                   type="Boolean"    default="false"                                   description="Indicates if the toast action icon is shown (reload icon is shown if false)." />
+    <aura:attribute     access="public"     name="static"                   type="Boolean"    default="false"                                   description="Indicates if the toast is static." />
+    <aura:attribute     access="public"     name="notificationTitle"        type="String"     default="{!$Label.c.B2B_Error_Problem_Loading}"   description="Toast's title (B2B_Error_Lost_Connection, B2B_Error_Problem_Loading)" />
+    <aura:attribute     access="public"     name="bodyText"                 type="String"     default="{!$Label.c.B2B_Error_Check_Connection}"  description="Toast's body text (B2B_Error_Check_Connection)" />
+    <aura:attribute     access="public"     name="functionTypeText"         type="String"     default="Error"                                   description="Indicates the function type of toast message (Information, Success, Warning, Error)." />
+    <aura:attribute     access="private"    name="functionTypeClass"        type="String"     default="warning"                                 description="Indicates the function type class of toast message (info, success, warning, error)." />   
+    <aura:attribute     access="private"    name="functionTypeClassIcon"    type="String"     default="warning"                                 description="Indicates the function type class of toast message (info, success, warning, error)." />   
+    <aura:attribute     access="public"     name="noReload"                 type="Boolean"    default="false"                                   description="Indicates if neither action nor reload icon are shown." />
+    <aura:attribute     access="public"     name="reload"                   type="Boolean"                                                      description="Confirm that the action must be reloaded or executed."/>
+    <aura:attribute     access="private"    name="landing"                  type="Boolean"                                       				description="Confirm that the action must be done in the langing or B2B page." />
+    <aura:attribute     access="public"     name="method"                   type="String"                                                      description="Method to be executed on clicking the action button"/>
+    <aura:attribute 	access="public"  	name="paymentId"  				type="String"  														description="Payment id"/>
+
+    <aura:handler name="init" action="{!c.initComponent}" value="{!this}" />
+
+    <aura:method name="openToast" action="{!c.openToast}" access="public">
+        <aura:attribute type="Boolean"  name="action"  />
+        <aura:attribute type="Boolean"  name="static" />
+        <aura:attribute type="String"   name="notificationTitle"  />
+        <aura:attribute type="String"   name="bodyText" />
+        <aura:attribute type="String"   name="functionTypeText" />
+        <aura:attribute type="String"   name="functionTypeClass" />   
+        <aura:attribute type="String"   name="functionTypeClassIcon" />  
+        <aura:attribute type="Boolean"  name="noReload" /> 
+        <aura:attribute type="Boolean"  name="landing" /> 
+        <aura:attribute type="String"   name="method" />
+        <aura:attribute type="String"   name="paymentId" />
+
+    </aura:method>
+
+    <aura:registerEvent name="reloadAccounts" type="c:EVT_B2B_ReloadGetData" />
+    <aura:registerEvent name="goToPaymentDetail" type="c:EVT_PAY_GoToPaymentDetail" />
+
+    <aura:if isTrue="{!v.showToast}">
+        <div class="demo-only">
+            <!-- añadir la clase toast_static para evitar que el toast flote en medio de la pantalla -->
+            <div class="{! 'slds-notify_container slds-is-fixed ' + (v.static eq true ? 'toast_static' : '')}">
+                <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                <div class="{! 'slds-notify slds-notify_toast' + (v.noReload eq true ? ' ' : ' action') + ' slds-scrollable_y slds-theme_' + v.functionTypeClass}" role="status">
+                    <span class="slds-assistive-text">{!v.functionTypeText}</span>
+                    <span class="{! 'slds-icon_container slds-m-right_small slds-no-flex slds-align-top button-selected slds-icon-utility-' + v.functionTypeClassIcon + ' icon-' + v.functionTypeClassIcon}" data-title="{!v.functionTypeText}"></span>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small">{!v.notificationTitle}</h2>
+                        <p class="notifyText">{!v.bodyText}</p>
+                        <!-- ACTION BUTTON --> 
+                        <button class="{! 'slds-button slds-button_icon icon-' + (v.action eq true ? 'action': 'reload')}" onclick="{!c.handleActionToast}">
+                            <span class="action">
+                                <aura:if isTrue="{!and(v.action eq true, v.method != null)}">
+                                    <aura:if isTrue="{!v.method == 'goToPaymentDetail'}">
+                                        {!$Label.c.PAY_goToPaymentDetail}
+                                    </aura:if>
+                                    <aura:set attribute="else">
+                                        {!$Label.c.Reload}
+                                    </aura:set>
+                                </aura:if>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="slds-notify__close">
+                        <button class="slds-button slds-button_icon icon-close_big" onclick="{!c.handleCloseToast}"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

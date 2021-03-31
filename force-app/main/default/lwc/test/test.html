@@ -1,0 +1,20 @@
+<!-- helloForEach.html -->
+<template>
+    <lightning-card title="HelloForEach">
+            <template for:each={accounts} for:item="account">
+                <li key={account} data-item={account.Id} onclick={enrollmentAcct}>
+                    {account.Name}
+                    <br>
+                    {account.ACC_TXT_DocumentType__c}: {account.ACC_TXT_DocumentNumber__c}
+                    <br>
+                    {account.Consent_Country__c}
+                </li>
+                <!--<lightning-card key={account} data-item={account} onclick={enrollmentAcct}>
+                   
+                </lightning-card>-->
+            </template>
+            <button onclick={aceptar}>
+                Aceptar
+            </button>
+    </lightning-card>
+</template>

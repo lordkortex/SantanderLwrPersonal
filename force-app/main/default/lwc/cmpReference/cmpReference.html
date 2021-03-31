@@ -1,0 +1,23 @@
+<template>
+
+
+    <div class="slds-form-element input">
+     
+        <div if:true={function1}> 
+            <label class="slds-form-element__label" for="reference-input">hola</label>
+        </div>   
+        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+            <input autocomplete="off" type="text" id="reference-input" placeholder={input1} class="slds-input" name="User input text" value={value} onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}/>           
+            <div if:true={function2}>
+                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={handleClear}>
+                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                    <span class="slds-assistive-text">{clearTheTextArea}</span>
+                </button>
+            </div>            
+            <div if:true={function3}>
+                <div class="errorText">{errorMSG}</div>
+            </div>                        
+        </div>
+    </div>
+</aura:component>
+</template>

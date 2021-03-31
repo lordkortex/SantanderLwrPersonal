@@ -1,0 +1,6 @@
+<aura:event type="COMPONENT" description="Event template" >
+    <aura:attribute name="selectedFilters" type="List" description="The same list created in the CMP_CN_Filters component is filtered to fire the selected ones"/>
+    <aura:attribute name="filterName" type="String" description="The same list created in the CMP_CN_Filters component is filtered to fire the selected ones"/>
+    <aura:attribute name="buttonClicked" type="String" description="Contains the id of the button clicked that fires the event" />
+    <aura:attribute name="button" type="String" description="Button pressed to fire the event, can be either 'clear' or 'filter'"/>
+</aura:event>

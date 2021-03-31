@@ -1,0 +1,251 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="isExpanded1" type="Boolean" default="false" description="Expands the pending authorizations table when true"/>
+    <aura:attribute name="isExpanded2" type="Boolean" default="false" description="Expands the pending authorizations table when true"/>
+    <aura:attribute name="isExpanded3" type="Boolean" default="false" description="Expands the pending authorizations table when true"/>
+    <aura:attribute name="isExpanded4" type="Boolean" default="false" description="Expands the pending authorizations table when true"/>
+    <aura:attribute name="isExpanded5" type="Boolean" default="false" description="Expands the pending authorizations table when true"/>
+    <aura:attribute name="isExpanded6" type="Boolean" default="false" description="Expands the pending authorizations table when true"/>
+    <aura:attribute name="isExpanded7" type="Boolean" default="false" description="Expands the pending authorizations table when true"/>
+
+    <aura:attribute name="isPublic" type="Boolean" default="false" description="Check if is public web"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <div class="cardContainerHelp">
+        <!-- HEADER -->   
+        <div class="titleHelp">{!$Label.c.HelpHeader}</div>
+        
+        <!-- CARD 1 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <span class="">{!$Label.c.HelpTitle1}</span>
+                            </div>
+                        </div>
+                        
+                        <aura:if isTrue="{!not(v.isExpanded1)}">
+                            <div class="button-arrow icon-arrowDown_small" title="{!$Label.c.Expand}" onclick="{!c.expand1}"></div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isExpanded1}">
+                            <div class="button-arrow icon-arrowUp_small" title="{!$Label.c.Collapse}" onclick="{!c.expand1}"></div>
+                        </aura:if>
+                        
+                    </header>
+                </div>
+                
+                <aura:if isTrue="{!v.isExpanded1}">
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        {!$Label.c.HelpText1_1}&nbsp;<span class="bold">{!$Label.c.HelpTextBold1}</span>{!$Label.c.HelpText1_2}
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        
+        <!-- CARD 2: EXPAND -->
+        <div class="cardExpand">
+            <div class="slds-card">
+                
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <span class="">{!$Label.c.HelpTitle2}</span>
+                            </div>
+                        </div>
+                        
+                        <aura:if isTrue="{!not(v.isExpanded2)}">
+                            <div class="button-arrow icon-arrowDown_small" title="{!$Label.c.Expand}" onclick="{!c.expand2}"></div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isExpanded2}">
+                            <div class="button-arrow icon-arrowUp_small" title="{!$Label.c.Collapse}" onclick="{!c.expand2}"></div>
+                        </aura:if>
+                        
+                    </header>
+                </div>
+                
+                <aura:if isTrue="{!v.isExpanded2}">
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        {!$Label.c.HelpText2_1}&nbsp;<span class="bold">{!$Label.c.HelpTextBold2}</span>{!$Label.c.HelpText2_2}
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        
+        <!-- CARD 3 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <span class="">{!$Label.c.HelpTitle3}</span>
+                            </div>
+                        </div>
+                        
+                        <aura:if isTrue="{!not(v.isExpanded3)}">
+                            <div class="button-arrow icon-arrowDown_small" title="{!$Label.c.Expand}" onclick="{!c.expand3}"></div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isExpanded3}">
+                            <div class="button-arrow icon-arrowUp_small" title="{!$Label.c.Collapse}" onclick="{!c.expand3}"></div>
+                        </aura:if>  
+                        
+                    </header>
+                </div>
+                
+                <aura:if isTrue="{!v.isExpanded3}">
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        <aura:if isTrue="{!$Locale.language != 'pl'}">
+                            <span>{!$Label.c.HelpText3_1}&nbsp;</span>
+                        </aura:if>
+                        <span class="bold">{!$Label.c.HelpTextBold3_1}&nbsp;</span>
+                        {!$Label.c.HelpText3_2}&nbsp;
+                        <span class="bold">{!$Label.c.HelpTextBold3_2}&nbsp;</span>
+                        {!$Label.c.HelpText3_3}  
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        
+        <!-- CARD 4 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <span class="">{!$Label.c.HelpTitle4}</span>
+                            </div>
+                        </div>
+                        
+                        <aura:if isTrue="{!not(v.isExpanded4)}">
+                            <div class="button-arrow icon-arrowDown_small" title="{!$Label.c.Expand}" onclick="{!c.expand4}"></div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isExpanded4}">
+                            <div class="button-arrow icon-arrowUp_small" title="{!$Label.c.Collapse}" onclick="{!c.expand4}"></div>
+                        </aura:if> 
+                        
+                    </header>
+                </div>
+                
+                <aura:if isTrue="{!v.isExpanded4}">
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        <ul>
+                            <li><span class="bold">{!$Label.c.HelpTextBold4_1}&nbsp;</span>{!$Label.c.HelpText4_1}</li>
+                            <li><span class="bold">{!$Label.c.HelpTextBold4_2}&nbsp;</span>{!$Label.c.HelpText4_2}</li>
+                            <li><span class="bold">{!$Label.c.HelpTextBold4_3}&nbsp;</span>{!$Label.c.HelpText4_3}</li>
+                            <li><span class="bold">{!$Label.c.HelpTextBold4_4}&nbsp;</span>{!$Label.c.HelpText4_4}</li>
+                        </ul>
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        
+        <!-- CARD 5 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <span class="">{!$Label.c.HelpTitle5}</span>
+                            </div>
+                        </div>
+                        
+                        <aura:if isTrue="{!not(v.isExpanded5)}">
+                            <div class="button-arrow icon-arrowDown_small" title="{!$Label.c.Expand}" onclick="{!c.expand5}"></div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isExpanded5}">
+                            <div class="button-arrow icon-arrowUp_small" title="{!$Label.c.Collapse}" onclick="{!c.expand5}"></div>
+                        </aura:if> 
+                        
+                    </header>
+                </div>
+                
+                <aura:if isTrue="{!v.isExpanded5}">
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        {!$Label.c.HelpText5}
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+        
+        <!-- CARD 6 -->
+        <aura:if isTrue="{!v.isPublic == false}">   
+            <div class="cardExpand">
+                <div class="slds-card">
+                    <div class="slds-card__header slds-grid containerInformation">
+                        <!-- TITLE -->
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            <div class="slds-media__body">
+                                <div class="slds-card__header-title">
+                                    <span class="">{!$Label.c.HelpTitle6}</span>
+                                </div>
+                            </div>
+                            
+                            <aura:if isTrue="{!not(v.isExpanded6)}">
+                                <div class="button-arrow icon-arrowDown_small" title="{!$Label.c.Expand}" onclick="{!c.expand6}"></div>
+                            </aura:if>
+                            <aura:if isTrue="{!v.isExpanded6}">
+                                <div class="button-arrow icon-arrowUp_small" title="{!$Label.c.Collapse}" onclick="{!c.expand6}"></div>
+                            </aura:if>   
+                            
+                        </header>
+                    </div>
+                    
+                    <aura:if isTrue="{!v.isExpanded6}">
+                        <!-- DETAILS -->
+                        <div class="slds-card__body slds-card__body_inner containerInformation">
+                            {!$Label.c.HelpText6_1}&nbsp;<span class="bold">{!$Label.c.HelpTextBold6}&nbsp;</span> {!$Label.c.HelpText6_2} 
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+        </aura:if>
+        
+        <!-- CARD 7 -->   
+        <div class="cardExpand">
+            <div class="slds-card">
+                <div class="slds-card__header slds-grid containerInformation">
+                    <!-- TITLE -->
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title">
+                                <span class="">{!$Label.c.HelpTitle7}</span>
+                            </div>
+                        </div>
+                        
+                        <aura:if isTrue="{!not(v.isExpanded7)}">
+                            <div class="button-arrow icon-arrowDown_small" title="{!$Label.c.Expand}" onclick="{!c.expand7}"></div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.isExpanded7}">
+                            <div class="button-arrow icon-arrowUp_small" title="{!$Label.c.Collapse}" onclick="{!c.expand7}"></div>
+                        </aura:if> 
+                        
+                    </header>
+                </div>
+                
+                <aura:if isTrue="{!v.isExpanded7}">
+                    <!-- DETAILS -->
+                    <div class="slds-card__body slds-card__body_inner containerInformation">
+                        {!$Label.c.HelpText7}
+                    </div>
+                </aura:if>
+            </div>
+        </div>
+    </div>
+</aura:component>

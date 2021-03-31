@@ -1,0 +1,108 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    Component to display more information of "International Payments Detail"
+History
+<Date>			<Author>		    <Description>
+19/02/2020		Laura Espinel		Design
+21/02/2020		Amanda Fernandez	Layout coding of the page
+26/02/2020		Shahad Naji     	Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    
+    <!-- RESOURCES-->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- ATTRIBUTES-->
+    <aura:attribute name="totalElapsedTime" type="String" default=''/>
+    <aura:attribute name="iObject" type="CNT_IPTDetailParent" description=""/>
+    <aura:attribute name="UETRSearchResult" type="Object"/>
+    <aura:attribute name="isExpanded" type="Boolean" default="false" description="Expands more payment information when this attribute is true"/>
+    <aura:attribute name="valueDate" type="String" default=''/>
+    <aura:attribute name="comesFromTracker" type="Boolean" description="check if user comes from tracker" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="cardContainerGPI">
+        <div class="cardCollapse">
+            <div class="slds-card">
+                
+                <!-- DETAILS -->
+                <div class="containerDetail_GPI">
+                    <table class="slds-table slds-table_cell-buffer slds-no-row-hover">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <aura:if isTrue="{!and(v.iObject.valueDate!=undefined, v.iObject.valueDate!='')}">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate ">{!$Label.c.MovementHistory_ValueDate}</div>
+                                    </th>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.totalElapsedTime!='',v.totalElapsedTime!=undefined)}">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate">{!$Label.c.totalElapsedTime}</div>
+                                    </th>
+                                </aura:if>
+                                <aura:if isTrue="{!v.iObject.charges!=undefined}">
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate">{!$Label.c.charges}</div>
+                                    </th>
+                                </aura:if>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">{!$Label.c.uert}</div>
+                                </th>
+                                <th class="" scope="col">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="body">
+                            <tr class="slds-hint-parent">
+                                <aura:if isTrue="{!and(v.iObject.valueDate!='', v.iObject.valueDate!=undefined)}">
+                                    <td data-label="Value Date" scope="row">
+                                        <div class="slds-truncate">{!v.valueDate}</div>
+                                    </td>
+                                </aura:if>
+                                <aura:if isTrue="{!and(v.totalElapsedTime!='',v.totalElapsedTime!=undefined)}">
+                                    <td data-label="Total Elapsed Time">
+                                        <div class="slds-truncate">{!v.totalElapsedTime}</div>
+                                    </td>
+                                </aura:if>
+                                <aura:if isTrue="{!v.iObject.charges!=undefined}">
+                                    <td data-label="Ordering Account">
+                                        <div class="slds-truncate">{!v.iObject.charges}</div>
+                                    </td>
+                                </aura:if>
+                                <td data-label="Beneficiary Account">
+                                    <div class="slds-truncate">{!v.iObject.uetr}</div>
+                                </td>
+                                <td class="" data-label="" onclick="{!c.moreInfoSection}">                                    
+                                    <aura:if isTrue="{!or(v.UETRSearchResult == undefined, v.UETRSearchResult == null)}">
+                                        <aura:if isTrue="{!v.isExpanded}">
+                                            <!-- LESS DETAILS -->                                            
+                                            <div class="text-link">{!$Label.c.LessDetail}</div>
+                                            <div class="slds-button__icon">
+                                                <div class="button-arrow icon-arrowUp_small"></div>
+                                            </div>
+                                        <aura:set attribute="else">
+                                            <!--MORE DETAILS-->
+                                            <div class="text-link">{!$Label.c.MoreDetail}</div>
+                                            <div class="slds-button__icon">
+                                                <div class="button-arrow icon-arrowDown_small"></div>
+                                            </div>
+                                        </aura:set>
+                                        </aura:if>
+                                    </aura:if>                                   
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <aura:if isTrue="{!v.isExpanded}">
+        <c:CMP_IPTDetailMoreInfo iObject="{!v.iObject}" />
+    </aura:if>
+    
+</aura:component>

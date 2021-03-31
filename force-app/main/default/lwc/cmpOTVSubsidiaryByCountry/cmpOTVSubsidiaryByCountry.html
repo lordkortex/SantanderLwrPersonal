@@ -1,0 +1,29 @@
+<template>
+    <footer class="slds-card__footer"  if:true={isshow}>
+        <!-- Elminar la clase confirm para para el estado to be confirmed o añadir la clase confirm para el estado confirm -->
+        <div if:true={subsidiary.enrolado} class="slds-grid confirmed" data-id="subsidiaryStatus" data-item={subsidiary.statusActivation}>
+            <div class="slds-col">
+                <span class="slds-text-body_regular slds-truncate">{subsidiary.companyName}</span>
+            </div>
+            <div class="slds-col confirmed"> 
+                <div class="slds-media__figure">
+                    <span class="icon icon-check_circle"></span>
+                    <span class="icon icon-refresh"></span>
+                    <span class="slds-text-body_regular slds-truncate">{subsidiary.statusActivation}</span>
+                </div>
+            </div>
+        </div>
+        <div if:false={subsidiary.enrolado} class="slds-grid" data-id="subsidiaryStatus" data-item={subsidiary.statusActivation}>
+            <div class="slds-col">
+                <span class="slds-text-body_regular slds-truncate">{subsidiary.companyName}</span>
+            </div>
+            <div class="slds-col"> 
+                <div class="slds-media__figure">
+                    <span class="icon icon-check_circle"></span>
+                    <span class="icon icon-refresh"></span>
+                    <span class="slds-text-body_regular slds-truncate">{subsidiary.statusActivation}</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+</template>

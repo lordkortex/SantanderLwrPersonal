@@ -1,0 +1,73 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Component to show the filter to search extracts
+History
+<Date>			<Author>		    <Description>
+26/12/2019		Pablo Tejedor       Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    
+<!--DATA ATTRIBUTES-->
+<aura:attribute name="hasSearched" type="Boolean" default="false" description="It's uses to kwon if the users do a search" />
+<aura:attribute name="AccountList" type="List" description="List of accounts that comes from Salesforce" />
+<!--aura:attribute name="SelectedAccount" type="String" description ="Selected Account"/-->
+<aura:attribute name="SelectedAccount" type="String" description ="Selected Account"/>
+<aura:attribute name="simple" type="Boolean"  default="true" description="Variable for show 1 input in the calendar component"/>
+<aura:attribute name="startDate" type="Date" default="" description ="Start date of where historic is shown"/>
+<aura:attribute name="dates" type="List" description="It's use to store a list of dates"/>
+<aura:attribute name="accountNumberAndEntity" type="String" description="account number"/>
+<aura:attribute name="accountNumberBank" type="String" description="bank of the account"/>
+<aura:attribute name="accountName" type="String" description="subsidiary name account"/> 
+<aura:attribute name="accountInfoDataSearch" type="Object" description="List of accounts to compare and print data into info when apply the search"/>
+<aura:attribute name="debit" type="String"  description="Total ammount of the debits"/>
+<aura:attribute name="debitNumber" type="String" description="Total number of debits"/>
+<aura:attribute name="creditNumber" type="String" description="Total number of credits"/>
+<aura:attribute name="credit" type="String" description="Total ammount of the credits"/>
+<aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+<aura:attribute name="displayNoResultsMessage" type="Boolean" description="Flag activated when no results are returned from the server, for the given search"/>
+<aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+
+<!-- EVENTS -->
+<aura:registerEvent name="onSearchData" type="c:EVT_MovementHistorySearchData"/>
+
+<ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+<div class="slds-form pillContainer" role="list"> 
+  <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-2" role="listitem">
+                <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                    <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.ExtractSearch_Account}</div>
+                    <div class="slds-form-element">
+
+
+                        <!-- DROPDOWN MARKUP -->
+                        <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                         <c:CMP_Dropdown values="{! v.AccountList }" selectedValue="{!v.SelectedAccount}"/>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-2" role="listitem">
+                <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                    <div class="slds-form-element calendar">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel">{!$Label.c.ExtractSearch_BookDate}</div>
+                        <div class="slds-form-element">
+
+                            <!-- SIMPLE CALENDAR -->
+                            <c:CMP_Calendar simple="true" 
+                            placeholderTo="{!$Label.c.to}" 
+                            placeholderFrom="{!$Label.c.from}" 
+                            dates="{!v.dates}"/>
+                        </div>
+                    </div>
+                    <div class="slds-form-element button">
+                        <div class="slds-media__body lastPill">
+                            <button class="slds-button slds-button_brand redButton" title="{!$Label.c.ExtractSearch_Apply}" onclick="{!c.searchButton}">{!$Label.c.ExtractSearch_Apply}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>   
+</aura:component>

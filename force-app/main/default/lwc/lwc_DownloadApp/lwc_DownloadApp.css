@@ -1,0 +1,189 @@
+/* MODAL CONTAINER*/
+.slds-modal {
+    background: rgba(68,68,68,0.7) !important;
+    overflow-y: auto !important;
+    padding: 108px 0;
+    display:flex;
+}
+
+.slds-modal__container {
+    height:auto;
+    padding:0;
+    margin: auto;
+}
+
+/* MODAL SIZE */
+ .slds-modal__container.sizeS{
+    width: 520px !important;
+    max-width: 520px !important;
+    min-width: 520px !important;
+    justify-content: center !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+}
+
+ .slds-modal__container.sizeM{
+    width: 936px !important;
+    min-width: 936px !important;
+    max-width: 936px !important;
+    justify-content: center !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+}
+
+/* MODAL SCROLL */
+ .slds-modal__container.scroll {
+    padding: 108px 0 !important;
+    height: auto !important;
+}
+
+/*MODAL CONTENT */
+ .modal-content{
+    width: 100% !important;
+    box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 4px 4px 4px 4px !important;
+}
+
+.modalStepBack .slds-modal__close{
+    position: absolute !important;
+    right: 24px !important;
+    top: 24px !important;
+    font-size: 18px !important; 
+	width: 24px !important;
+    height: 24px !important;
+}
+.modalStepBack .slds-modal__close .icon-close_big{
+    font-size:24px
+}
+.modalStepBack .modal-content .slds-modal__content{ 
+    background: #fff !important;
+    padding:0 64px 40px !important;
+    height: auto !important;
+    margin-top: 0 !important;
+}
+
+.modalStepBack .modal-content .slds-modal__content .slds-p-around_medium{
+    padding:0 0 24px 0 !important;
+}
+
+.modalStepBack .modal-content .slds-modal__content .slds-p-around_medium p:first-child{
+    font-size: 20px !important;
+   font-family: "SantanderHeadlineW05-Rg" !important;
+   line-height: 1.4 !important;
+   color: #444444 !important;
+   margin-bottom: 4px !important;
+}
+
+.modalStepBack .modal-content .slds-modal__content .slds-p-around_medium p{
+    font-family: SantanderMicroText !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    color: #767676 !important;
+}
+
+ .modal-content .slds-modal__content:last-child {
+    border-bottom-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+    box-shadow: none !important;
+}
+
+ .image_conainer{
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+ .image_conainer a:hover{
+    text-decoration: unset !important;
+    box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.08) !important;
+}
+
+ .image_conainer a:focus {
+    text-decoration: unset !important;
+    color: var(--lwc-brandTextLinkActive,#135F90) !important;
+}
+
+ a .slds-image{
+    width: 392px !important;
+    height: 172px !important;
+    padding: 40px 0 !important;
+    border-radius: 4px !important;
+    background-color: #000000 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow:hidden !important;
+}
+
+ a .slds-image:after{
+    content:url(/sfsites/c/resource/1604578013000/Images/apple_icon_transparent.svg) !important;
+    position: relative !important;
+    left: -43px !important;
+    bottom: 106px !important;
+}
+
+ a:last-child .slds-image:after{
+    content:url(/sfsites/c/resource/1604578013000/Images/googlePlay_icon_transparent.svg) !important;
+    position: relative !important;
+    left: -78px !important;
+    bottom: 107px !important;
+}
+
+ a:last-child .slds-image{
+    background-color: #f6f6f6 !important;
+}
+
+ a .slds-image img{
+    width:48px !important;
+    height:48px !important;
+    margin: auto !important;
+    margin-bottom: 16px !important;
+}
+
+ a .slds-image span{
+    font-family: SantanderHeadlineW05-Bold !important;
+    font-size: 20px !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    color: #ffffff !important;
+}
+
+ a:last-child .slds-image span{
+    color: #444444 !important;
+}
+
+/* Header */
+.modalStepBack .slds-modal__header{ 
+    box-shadow: none !important;
+    border: none !important; 
+    text-align: left !important;
+    padding:40px 64px !important;
+    border-top-right-radius: 4px !important;
+    border-top-left-radius: 4px !important;
+}
+.modalStepBack .modal-content .title .slds-modal__title{
+    font-family:"SantanderHeadlineW05-Rg" !important;
+	font-size: 28px !important; 
+    line-height: 1.21 !important; 
+    color: #444444 !important;     
+    position: relative !important; 
+    overflow: hidden !important;
+	display: -webkit-box !important;
+    -webkit-line-clamp: 3 !important;
+    -webkit-box-orient: vertical !important; 
+    padding: 0 !important;
+	margin-bottom: 8px !important;
+}
+
+.modalStepBack .modal-content .title .title-line{
+    width: 40px !important;
+    height: 3px !important;
+    background-color: #ec0000 !important;
+}
+
+
+
+/* QR CODE */
+.modal-content .code{
+    margin-top: 48px !important;
+    display: flex !important;
+    justify-content: center !important;
+}

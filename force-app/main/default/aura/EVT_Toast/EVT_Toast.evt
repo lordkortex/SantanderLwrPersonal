@@ -1,0 +1,11 @@
+<!--Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Event to communicate with toast message
+History
+<Date>			<Author>		<Description>
+16/01/2020		R. Alexander Cervino     Initial version-->
+<aura:event type="APPLICATION" description="CMP_Toast"> 
+    <aura:attribute name="message" type="String"/>
+    <aura:attribute name="type" type="String"/>
+    <aura:attribute name="show" type="Boolean"/>
+</aura:event>

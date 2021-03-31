@@ -1,0 +1,52 @@
+<!-- Author:       Teresa Santos
+    Company:        Deloitte
+    Description:    Function to display only the necessary rows in the tables
+    History
+    <Date>			<Author>			<Description>
+	10/02/2020		Teresa Santos		     Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="modalInfo"    type="Map"                      description="Show the info of the pop-up"/>
+
+
+    <aura:if isTrue="{!v.modalInfo.showModal}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="{!$Label.c.T_Close}" onclick="{!c.closeButton}">
+                <div class="slds-button button-page icon-close" title="Remove"></div> 
+                <span class="slds-assistive-text">{!$Label.c.close}</span>
+                </button>
+                <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{!v.modalInfo.title}</h2>
+                </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <ul>
+                    <li>
+                        <div class="circle icon-circle__blue" ></div> 
+                        {!v.modalInfo.groupName}
+                    </li>
+                    <li>
+                        <div class="circle icon-circle__blue" ></div> 
+                        {!v.modalInfo.description}
+                    </li>
+
+                </ul>
+            </div>
+            <footer class="slds-modal__footer">
+                    <div class="slds-form-element">
+                        <div class="slds-media__body">
+                            <button class="slds-button slds-button_brand whiteButton" title="{!$Label.c.No}" onclick="{!c.noButton}">{!$Label.c.No}</button>
+                            <button class="slds-button slds-button_brand redButton" title="{!$Label.c.Yes}" onclick="{!c.yesButton}">{!$Label.c.Yes}</button>              
+                        </div>
+                    </div>
+            </footer>
+            </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+
+</aura:component>

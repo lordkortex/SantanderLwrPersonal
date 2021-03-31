@@ -1,0 +1,72 @@
+<template>
+    <!--lightning:navigation aura:id="navService"/>-->
+
+    <lightning-navigation data-id="navService"></lightning-navigation>
+
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}" />-->
+    <tr class="slds-hint-parent" aria-selected="false">
+        <td class="slds-text-align_center status" role="gridcell">
+            <div class={clase1}></div>
+        </td>
+        <td role="gridcell" class="statusInfo">
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate text status">{statusLabel}</span>
+            </div>
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="text">{item.paymentDetail.statusDate}</span>
+            </div>
+        </td>
+        <td role="gridcell" class="originInfo">
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate text">{item.paymentDetail.originatorData.originatorName}</span
+                >
+            </div>
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate text">{item.paymentDetail.originatorData.originatorAccount.accountId}</span
+                >
+            </div>
+        </td>
+        <td role="gridcell" class="beneficiaryInfo">
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate text">{item.paymentDetail.beneficiaryData.beneficiaryName}</span
+                >
+            </div>
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate text">{item.paymentDetail.beneficiaryData.creditorCreditAccount.accountId}</span
+                >
+            </div>
+        </td>
+        <td role="gridcell" class="valueDateInfo">
+            <div class="slds-grid slds-grid_align-spread">
+                <span class="slds-truncate text">{item.paymentDetail.valueDate}</span>
+            </div>
+        </td>
+        <td class="slds-text-align_right" role="gridcell">
+            <div class="slds-grid slds-grid_align-spread">
+                <c-cmp-display-amount
+                    from-gpi="true"
+                    amount={item.paymentDetail.paymentAmount.amount}
+                    number-format={item.paymentDetail.paymentAmount.numberFormat}
+                    decimal-class="slds-truncate amountDecimals"
+                    whole-class="slds-truncate amountInteger"
+                    currency={item.paymentDetail.paymentAmount.tcurrency}
+                ></c-cmp-display-amount>
+            </div>
+        </td>
+        <td class="slds-text-align_center tracking" role="gridcell">
+            <div
+                class="icon-tracking"
+                data-title={tracking}
+                onclick={openPaymentDetails}>
+            </div>
+        </td>
+        <td class="slds-text-align_left doc" role="gridcell">
+            <div
+                class="icon-doc103"
+                data-title-left={downloadMt103}
+                id={item.paymentDetail.paymentId}
+                onclick={downloadMT103}>
+            </div>
+        </td>
+    </tr>
+</template>

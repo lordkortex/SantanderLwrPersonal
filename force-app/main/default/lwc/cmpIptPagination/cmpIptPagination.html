@@ -1,0 +1,86 @@
+<template>
+    <!--<ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute name="allData" type="List"/>
+    <aura:attribute name="currentPage" type="String" default="1"/>
+    <aura:attribute name="currentPageInt" type="Integer" default="1"/>
+    <aura:attribute name="pageList" type="List" default="['1']"/>
+    <aura:attribute name="start" type="Integer" default="0"/>
+    <aura:attribute name="end" type="Integer"/>
+    <aura:attribute name="pagesToShow" type="Integer" default="3"/>
+    <aura:attribute name="totalRetrieved" type="Integer"/>
+    <aura:attribute name="retrievedSeen" type="Integer"/>
+    <aura:attribute name="paymentsPerPage" type="Integer"/>
+    <aura:attribute name="dropdownCurrentPage" type="String" default="1"/>
+
+    <aura:registerEvent name="getPageEvent" type="c:EVT_SwiftPaymentTablePagination" />
+
+    <aura:handler name="change" value="{dropdownCurrentPage}" action="{selectedCurrentPage}"/>
+
+    <aura:handler name="change" value="{currentPage}" action="{buildData}"/>
+
+    <aura:method name="buildData" action="{reInitPagination}">
+        <aura:attribute name="currentPage" type="String"/>
+    </aura:method>
+
+    <aura:method name="initPagination" action="{initPagination}">
+        <aura:attribute name="allDataReceived" type="List"/>
+    </aura:method>-->
+
+    <div class="slds-card__header slds-grid pagination">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title results">
+                    <div if:true={condition1}>
+                        {viewing}&nbsp;<span class="number">{span1}</span>&nbsp;{of}&nbsp;<span class="number">{totalRetrieved}</span>&nbsp;{payments}                        
+                    </div>
+                    <div if:false={condition1}>
+                        {viewing}&nbsp;<span class="number">{span2}</span>&nbsp;{of}&nbsp;<span class="number">{totalRetrieved}</span>&nbsp;{payments}
+                    </div>
+                </div>
+            </div>
+            <!--
+            <div class="label">
+                {goToPage}
+            </div>
+
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container">
+                    <c:CMP_Dropdown aura:id="paginationDropdown" isSimpleDropdown="true" values="{pageList}" selectedValue="{dropdownCurrentPage}"/>
+                </div>
+            </div>-->
+
+            <div class="navigationPage">
+                <div if:true={condition2}>
+                    <div class="button-pageLeft icon-arrowLeft_big" title={previousPage} onclick={previousPage}></div>
+                </div>
+                <div if:true={condition3}>
+                    <div class="number__gray">1</div>
+                    <div if:true={condition4}>
+                        <div class="number__gray">...</div>
+                    </div>
+                </div>
+
+                <template for:each={pageList} for:item="item"> <!--start="{!v.start}" end="{!v.end}"-->
+                        <div key={item.id} if:true={condition5}>
+                                <div class="number__gray selected">{item}</div>
+                        </div>
+                        <div key={item.id} if:false={condition5}>
+                            <div class="number__gray">{item}</div>
+                        </div>
+                </template>
+
+                <div if:true={condition6}>
+                    <div if:true={condition7}>
+                        <div class="number__gray ellipsis">...</div>
+                    </div>
+                    <div class="number__gray">{pageList.length}</div>
+                </div>
+
+                <div if:true={condition8}>
+                    <div class="button-pageRight icon-arrowRight_big" title={nextPage} onclick={nextPage}></div>
+                </div>
+            </div>
+        </header>
+    </div>
+</template>

@@ -1,0 +1,48 @@
+<!--
+Author:         Pablo Tejedor
+Company:        Deloitte
+Description:    Component to show the extract table row.
+History
+<Date>			<Author>		    <Description>
+26/12/2019		Pablo Tejedor       Initial version
+-->
+<aura:component controller="CNT_MovementHistoryParentController">
+    <aura:attribute name="ExtractObject" type="Object" description="Attributte to fill the rows with the extracts data"/> 
+    <aura:attribute name="itemPosition" type="Integer" description="Attribute to kwnow the row position"/>
+    <aura:attribute name="currencyTable" type="String" description="Currency of the account"/>
+    <aura:attribute name="source" type="String" default="" description="This variable is used to kwon from where is navigate"/>
+    <aura:attribute name="accountNumberAndEntity" type="String" description="Account number"/>
+    <aura:attribute name="dates" type="List" description="book date selected" />
+    <aura:attribute name="accountNumberBank" type="String" description="Account bank"/>
+    <aura:attribute name="SelectedAccount" type="String" description="Account selected of the dropdown"/>
+    <aura:attribute name="accountName" type="String" description="Subsidiary name of the account"/> 
+    <aura:attribute name="dateFrom" type="Date" description="Attribute to store the date from"/> 
+    <aura:attribute name="dateTo" type="Date" description="Field to fill with the date to"/>			
+    <aura:attribute name="availableBalanceParam" type="String" description="Avaiable balance field value of the account information component"/>
+    <aura:attribute name="bookBalanceParam" type="String" description="Book balance field value of the account information component"/>
+
+    <lightning:navigation aura:id="navService"/>
+    <tr class="slds-hint-parent border" aria-selected="false">
+        <td role="gridcell">
+            <div class="slds-truncate" title="ValueDate">{!v.ExtractObject.valueDate}</div>
+        </td>
+        <td role="gridcell">
+            <div class="slds-truncate" title="Category">{!v.ExtractObject.category}</div>
+        </td>
+        <td role="gridcell">
+            <div class="slds-truncate" title="ClientRef">{!v.ExtractObject.refCliente}</div>
+        </td>
+        <td class="slds-text-align_right" role="gridcell">
+            <!-- <c:CMP_displayAmount amount="{!v.ExtractObject.amount}" decimalClass="slds-truncate" wholeClass="slds-truncate" currency="{!v.ExtractObject.currencyExtract}"/> -->
+            <c:CMP_displayAmount amount="{!v.ExtractObject.amount}" decimalClass="amountDecimals" wholeClass="amountInteger" currency="{!v.currencyTable}"/>
+        </td>
+        <td class="slds-text-align_right" role="gridcell">
+            <!-- <c:CMP_displayAmount amount="{!v.ExtractObject.bookBalance}" decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.ExtractObject.currencyExtract}"/> -->
+            <c:CMP_displayAmount amount="{!v.ExtractObject.bookBalance}" decimalClass="balanceDecimals" wholeClass="balanceInteger" currency="{!v.currencyTable}"/>
+        </td>
+        <td class="slds-text-align_center" role="gridcell">
+            <div class="button-arrow icon-arrowRight_small" title="See detail" onclick="{!c.navigateToExtractDetail}"></div>
+        </td>
+
+    </tr>
+</aura:component>

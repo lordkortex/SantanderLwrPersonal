@@ -1,0 +1,147 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" 
+                access="global" controller="CNT_ICMOriginDestinationTable">
+    
+    <!-- NEW ORIGINDESTINATION VARIABLES-->
+    
+    <aura:attribute name="currentStageNumber"       type="Integer"/>
+    <aura:attribute name="originData"               type="List" />
+    <aura:attribute name="destinationData"          type="List"/>
+    <aura:attribute name="countryList"              type="List"/>
+    <aura:attribute name="nextStep"                 type="Aura.action"/>
+    <aura:attribute name="backStep"                 type="Aura.action"/>
+    <aura:attribute name="countryName"              type="List"/>
+    <aura:attribute name="countryListAux"           type="List"/>
+    <aura:attribute name="selectedValue"            type="Object"/>
+    <aura:attribute name="originValue"              type="Object"/>
+    <aura:attribute name="destinationValue"         type="Object"/>
+    <aura:attribute name="countryFlagMap"           type="Map"/>
+    <!--Country selected into the filter-->
+    
+    <aura:attribute name="countryFilter"            type="String"/>
+    
+    
+    <!--Launch the Init Method when the component is loaded-->
+    
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="CheckChanged" event="c:EVT_ICMOriginDestinationCheckChanged" action="{!c.CheckChanged}" />
+    <aura:handler name="change" value="{!v.currentStageNumber}" action="{!c.onstepChange}"/> 
+
+    <!-- ###START OF COUNTRIES FILTER###-->
+    <div>
+        <aura:iteration items="{!v.countryList}" var="currentCountry" >
+            <button  id="{!currentCountry.key}" class="{!and(v.countryFilter == currentCountry.key,v.countryFilter != null) ? 'button' : 'button button_disabled'}" onclick ="{!c.filterByCountry}" title="ES" > 
+                <img  aura:id="countryImage" class="flag" src="{!$Resource.Flags + '/' + currentCountry.key + '.svg'}"  onerror="{!c.defaultImage}" />   
+                {!currentCountry.label}
+            </button>           
+        </aura:iteration>
+        
+    </div> 
+    
+    
+    <!-- TABLE --> 
+    <table class="slds-table slds-table_resizable-cols slds-no-row-hover slds-table_bordered" aria-multiselectable="true" role="grid"> 
+        <!-- HEADER TABLE --> 
+        <div class="slds-card__header slds-grid headerTable">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title titleTable"> 
+                        <aura:if isTrue="{!v.currentStageNumber == 1}">
+                            {!$Label.c.ICM_orginAccount}
+                        </aura:if>  
+                        <aura:if isTrue="{!v.currentStageNumber == 2}">
+                            {!$Label.c.ICM_destinationAccount}
+                        </aura:if> 
+                    </div>
+                </div> 
+                
+            </header>
+        </div> 
+        <!-- HEADER -->        
+        <thead class="textHeader">
+            <tr class="slds-line-height_reset">
+                <th class="slds-text-align_right header containerIconCheck"> </th>
+                <th class="slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_asc header colorHeader containerStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="{!$Label.c.ICM_alias}">{!$Label.c.ICM_alias}</span>       
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-568" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Close Date" aria-sort="none" scope="col">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="{!$Label.c.ICM_accountNumber}">{!$Label.c.ICM_accountNumber}</span>  
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-569" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <aura:if isTrue="{!v.currentStageNumber == 1}">
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Close Date" aria-sort="none" scope="col">
+                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="{!$Label.c.ICM_balance}">{!$Label.c.ICM_balance}</span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-570" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                </aura:if>
+                <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Stage" aria-sort="none" scope="col">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="{!$Label.c.ICM_currency}">{!$Label.c.ICM_currency}</span>
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Stage column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-571" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <th class="header colorHeader containerIconDetail" scope="col">
+                    <div class="slds-truncate slds-assistive-text" title="{!$Label.c.ICM_prueba}">{!$Label.c.ICM_prueba}</div>
+                </th>
+            </tr>
+        </thead>
+        
+        <!-- BODY -->  
+        <tbody class="fontBody">
+              
+            <!--IF STAGE NUMBER IS 1 IT WILL ITERATE ORIGIN DATA, IF IT IS 2, IT WILL ITERATE IN DESTINATION DATA-->
+            <aura:if isTrue="{!v.currentStageNumber == 1}">
+                <aura:iteration items="{!v.originData}" var="item"> 
+                    <aura:if isTrue="{!or(and(v.countryFilter != null, item.value.countryCode == v.countryFilter), v.countryFilter == null)}">  
+                    <c:CMP_ICMOriginDestinationTableRow data="{!item}"
+                                                            currentStageNumber="{!v.currentStageNumber}"
+                                                            checked ="{!v.originValue.key == item.key }"/>
+                    </aura:if>
+                </aura:iteration>  
+                
+            </aura:if>
+            
+            <aura:if isTrue="{!v.currentStageNumber == 2}">
+                <aura:iteration items="{!v.destinationData}" var="item"> 
+                    <aura:if isTrue="{!or(and(v.countryFilter != null, item.value.countryCode == v.countryFilter), v.countryFilter == null)}">
+                        <c:CMP_ICMOriginDestinationTableRow data="{!item}"
+                                                            currentStageNumber="{!v.currentStageNumber}"
+                                                            checked ="{!v.destinationValue.key == item.key }"/>
+                    </aura:if>
+                </aura:iteration>   
+            </aura:if>
+        </tbody>
+    </table>  
+    <div>
+        <th>
+            <aura:if isTrue="{!v.currentStageNumber == 2}">
+                <button type="button" class="slds-button slds-button_brand textButton" label="Go Back" title="{!$Label.c.ICM_GoBack}" onclick="{!c.previousStep}">{!$Label.c.ICM_GoBack}
+                    <div class="icon-chevronLeft"></div>
+                </button>
+                <button type="button" class="slds-button slds-button_brand redButton" label="Choose amount" title="{!$Label.c.ICM_chooseAmount}" onclick="{!c.nextStep}" disabled="{!not(or(and(v.currentStageNumber == 1, v.originValue != null),and(v.currentStageNumber == 2, v.destinationValue != null)))}">{!$Label.c.ICM_chooseAmount}
+                    <div class="icon-chevronLeft"></div>
+                </button>
+            </aura:if>
+            <aura:if isTrue="{!v.currentStageNumber == 1}">
+                <button type="button" class="slds-button slds-button_brand redButton" label="Choose destination" title="{!$Label.c.ICM_choosedestination}" onclick="{!c.nextStep}" disabled="{!not(or(and(v.currentStageNumber == 1, v.originValue != null),and(v.currentStageNumber == 2, v.destinationValue != null)))}">{!$Label.c.ICM_choosedestination}
+                    <div class="icon-chevronLeft"></div>
+                </button>
+            </aura:if>
+        </th>
+    </div>  
+</aura:component>

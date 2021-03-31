@@ -1,0 +1,70 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    
+    <aura:attribute name="itabSelected" type="String" default="LastUpdateTab" description="Current selected tab"/>
+    <aura:attribute name="isLastUpdate" type="Boolean" default="true" description="Flag to indicate whether to show Last Update / End of day"/>
+    <aura:attribute name="sortSelected" type="String" default="{!$Label.c.Country}" description="Accounts display order"/>
+    <aura:attribute name="isLoading" type="Boolean" description="Used to show the spinner if the data is loading"/>
+    
+    <aura:handler name="change" value="{!v.isLastUpdate}" action="{!c.collapseAll}"/>
+    <aura:handler name="change" value="{!v.sortSelected}" action="{!c.collapse}"/>
+    
+    
+    
+    <div class="slds-progress slds-progress_vertical headerCards">
+        <ol class="slds-progress__list">
+            
+            <!-- HEADER -->
+            <li>
+                <div class="slds-grid slds-grid_align-spread">
+                    <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body country">
+                            <div class="slds-card__header-title">
+                                {!$Label.c.Country}
+                            </div>
+                        </div>
+                        <div class="slds-media__body accountAlias">
+                            <div class="slds-card__header-title">
+                                {!$Label.c.Account} &amp; {!$Label.c.Alias}
+                            </div>
+                        </div>
+                        <div class="slds-media__body subsidiaryBank">
+                            <div class="slds-card__header-title">
+                                {!$Label.c.Subsidiary} &amp; {!$Label.c.Bank}
+                            </div>
+                        </div>
+                        <div class="slds-media__body updated">
+                            <div class="slds-card__header-title">
+                                {!$Label.c.Updated}
+                            </div>
+                        </div>
+                        <div class="slds-media__body currency">
+                            <div class="slds-card__header-title">
+                                {!$Label.c.currency}
+                            </div>
+                        </div>
+                        <div class="slds-media__body availableBalance">
+                            <div class="slds-card__header-title">
+                                {!$Label.c.Available_Balance}
+                            </div>
+                        </div>
+                        <div class="slds-media__body bookBalance">
+                            <div class="slds-card__header-title">
+                                {!$Label.c.Book_Balance}
+                            </div>
+                        </div>
+                        <aura:if isTrue="{!not(v.isLoading)}">
+                            <div class="slds-media__body iconContainer">                            
+                                <!-- ICONO EXPANDIR -->
+                                <div id="thisExpand" class="{!v.itabSelected + '_iAll button-arrow icon-expand slds-show'}" data-title="{!$Label.c.T_ExpandAll}" onclick="{!c.expandAll}"></div> 
+                                <!-- ICONO COLAPSAR -->
+                                <div id="thisCollapse" class="{!v.itabSelected + '_iAll button-arrow icon-collapse slds-hide'}" data-title="{!$Label.c.T_CollapseAll}" onclick="{!c.collapseAll}"></div>
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</aura:component>

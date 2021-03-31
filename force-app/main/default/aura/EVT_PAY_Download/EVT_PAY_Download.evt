@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Event fired to download payments ">
+    <aura:attribute type="String" name="format" description="File format the user has selected for the download"/>
+</aura:event>

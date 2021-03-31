@@ -1,0 +1,228 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Table component for the transactions screen
+History
+<Date>			<Author>		    <Description>
+17/02/2020      Guillermo Giral     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_MovementHistoryExtracController">
+    <!-- ATTRIBUTES --> 
+    <aura:attribute name="transactionResults" type="Map" description="List of rows to show in the table"/>
+    <aura:attribute name="displayData" type="Boolean" default="false" description="Local attribute to display the data when the results are return from the server"/>
+    <aura:attribute name="backTodetail" type="String" description="String to load table when is back"/>
+    <aura:attribute name="sourcePage" type="String" default="" description="This attribute is to know from which community page a users is accessing this component"/>    
+    <!-- SORT FILTERS ATTRIBUTES -->
+	<aura:attribute name="sortbookDate" type="String" default='desc' description="Attributte to sort the Book date column"/>
+    <aura:attribute name="sortcategory" type="String" default='desc' description="Attributte to sort the Category column"/>
+    <aura:attribute name="sortamount"  type="String" default='desc' description="Attributte to sort the Amount column"/>
+    <aura:attribute name="displayDownloadIcon"  type="Boolean"      default="false"   description="Flag to display the download icon"/>
+    <!-- Pagination attributes -->
+    <aura:attribute name="transactionsPerPage"      type="Integer"  default="40" description="Number of logs to show in each page of the table"/>
+    <aura:attribute name="currentPage"              type="Integer"  default="1"/>
+    <aura:attribute name="oldPage"                  type="Integer"  default="1"/>
+    <aura:attribute name="start"                    type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"                      type="Integer"  description="Row number of the last displayed row"/>
+    <aura:attribute name="paginatedTransactions"    type="List"/>
+
+    <!--ATTRIBUTES TO PASS FOR REDIRECTION-->
+    <aura:attribute name="accountName" type="String" default="" description="Account name"/>
+    <aura:attribute name="accountNumber" type="String" default="" description="Account number"/>
+    <aura:attribute name="bank" type="String" default="" description="Bank name"/>
+    <aura:attribute name="availableBalance" type="String" default="" description="Main amount"/>
+    <aura:attribute name="bookBalance" type="String" default="" description="Availbale amount"/>
+    <aura:attribute name="accountCurrency" type="String" default="" description="Account currency"/>
+    <aura:attribute name="showPills" type="Boolean" default="false" description="Flag to show/hide pills"/>
+    <aura:attribute name="pills" type="List" description="List of pill (strings) to be displayed"/>
+    <aura:attribute name="isSearching"  type="Boolean"  description="List if is searching for transactions"/>
+    <aura:attribute name="isSpinner"  type="Boolean" default="true"  description="Show or hide spinner"/>
+  
+
+    
+
+    <!-- HANDLERS -->
+    <aura:handler event="c:EVT_TransactionSearchEvent" action="{!c.retrieveTransactionData}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTableData}"/>
+    <aura:handler name="change" value="{!v.backTodetail}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:method name="loadData" action="{!c.populateTable}" 
+        description="To load table if it's comes from globalbalance"> 
+        <aura:attribute name="accountNumber" type="String" description="AccountNumber param to load data"/> 
+        <aura:attribute name="bookDate" type="String" description="BookDate param to load data" /> 
+    </aura:method>
+    
+    <!-- COMPONENT MARKUP -->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <c:CMP_ServiceComponent aura:id="service"/>
+        <aura:if isTrue="{!v.isSpinner}">
+            <lightning:spinner alternativeText="Loading" size="medium" />
+        </aura:if>
+    <aura:if isTrue="{!v.displayData}">
+        <!-- Pagination -->
+        <c:CMP_Pagination allData="{!v.transactionResults}" paymentsPerPage="{!v.transactionsPerPage}"  aura:id="pagination"/> 
+        <!-- Table --> 
+        <table style="margin-bottom: 30px" class="slds-table slds-table_fixed-layout slds-table_resizable-cols slds-table_striped" aria-multiselectable="true" role="grid"> 
+            <!-- HEADER -->        
+            <thead class="textHeader">
+                <tr class="slds-line-height_reset">
+                    <th class="slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_asc header colorHeader containerAccount" aria-label="{!$Label.c.name}" aria-sort="ascending" scope="col">
+                        <span class="slds-assistive-text">EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE{!$Label.c.sortBy + ':'} </span>
+                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate ">
+                            <span class="slds-truncate " title="">{!$Label.c.Account}</span>
+                            <!-- Icono Orden descendente -->     
+                            <!--<span class="button-orderRight icon-orderDown__gray" title="{!$Label.c.sortBy} {!$Label.c.valueDate}"></span>-->
+                            <!-- Icono Orden ascendente 
+                            <span class="button-orderRight icon-orderUp__gray" title="{!$Label.c.sortBy} Instructed on"></span>
+                            -->
+                        </div>
+                        
+                        <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">{!$Label.c.sortedAscending}</span>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-568" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader containerBookDate" aria-label="Account Name" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{!$Label.c.sortBy + ':'} </span>
+                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="Status Update">{!$Label.c.ExtractSearch_BookDate}</span>
+                            <!-- Icono Orden descendente -->     
+                            <aura:if isTrue="{!v.sortbookDate == 'desc'}">
+                                <span class="button-orderRight icon-orderDown" title="{!$Label.c.sortByValueDate}" id="bookDate" onclick="{!c.sortBy}"></span>
+                                <aura:set attribute="else">
+                                    <span class="button-orderRight icon-orderUp" title="{!$Label.c.sortByValueDate}" id="bookDate" onclick="{!c.sortBy}"></span>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-569" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader containerValueDate" aria-label="Account Name" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{!$Label.c.sortBy + ':'} </span>
+                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="Status Update">{!$Label.c.valueDate}</span>
+                            <span class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true"></span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-569" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader containerCategory" aria-label="Close Date" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{!$Label.c.sortBy + ':'} </span>
+                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="Category">{!$Label.c.MovementHistory_Category}</span>
+                            <!-- Icono Orden descendente -->  
+                            <aura:if isTrue="{!v.sortcategory == 'desc'}">
+                                <span class="button-orderRight icon-alphabeticalOrderDown" title="{!$Label.c.sortBy + 'Instructed on'}" id="category" onclick="{!c.sortBy}"></span>
+                                <aura:set attribute="else">
+                                    <span class="button-orderRight icon-alphabeticalOrderUp" title="{!$Label.c.sortBy + 'Instructed on'}" id="category" onclick="{!c.sortBy}"></span>
+                                </aura:set>
+                            </aura:if>
+                                    <!-- Icono Orden ascendente 
+                            <span class="button-orderRight icon-orderUp__gray" title="{!$Label.c.sortBy} Instructed on"></span>
+                            -->
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-570" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader containerClientRef" aria-label="Confidence" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{!$Label.c.sortBy + ':'} </span>
+                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                            <span class="slds-truncate" title="Beneficiary Name">{!$Label.c.MovementHistory_CustomerRef}</span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Confidence column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-572" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader containerAmount paddingAmountHeader" aria-label="Amount" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{!$Label.c.sortBy + ':'} </span>
+                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate ">
+                            <!-- Icono Orden descendente -->
+                            <aura:if isTrue="{!v.sortamount == 'desc'}">
+                                <span class="button-orderLeft icon-orderDown" title="{!$Label.c.sortBy + 'Settled Amount'}" id="amount" onclick="{!c.sortBy}"></span>
+                                <aura:set attribute="else">
+                                        <span class="button-orderLeft icon-orderUp" title="{!$Label.c.sortBy + 'Settled Amount'}" id="amount" onclick="{!c.sortBy}"></span>
+                                    </aura:set>
+                                </aura:if>
+                                    <span class="slds-truncate" title="Beneficiary Entity">{!$Label.c.MovementHistory_Amount}</span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Amount column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-573" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader containerBookBalance" aria-label="Contact" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{!$Label.c.sortBy + ':'} </span>
+                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate alignRight">
+                        
+                            <!-- Icono Orden ascendente 
+                            <span class="button-orderRight icon-orderUp__gray" title="{!$Label.c.sortBy} Instructed on"></span>
+                            -->
+                            <span class="slds-truncate" title="Settled Amount">{!$Label.c.Book_Balance}</span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Contact column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-574" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="header colorHeader containerIcon" scope="col">
+                        <div class="slds-truncate slds-assistive-text" title="{!$Label.c.actions}">{!$Label.c.actions}</div>
+                    </th>
+                </tr>
+            </thead>
+            
+            <!-- BODY --> 
+            <tbody class="fontBody">
+                <aura:iteration items="{!v.transactionResults.movements}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index">
+                    <c:CMP_TransactionTableRow transactionRow="{!item}" sourcePage="{!v.sourcePage}"
+                    accountName = "{!v.accountName}" accountNumber = "{!v.accountNumber}" bank = "{!v.bank}"
+                    availableBalance = "{!v.availableBalance}" bookBalance ="{!v.bookBalance}" accountCurrency = "{!v.accountCurrency}"
+                    showPills="{!v.showPills}" pills="{!v.pills}" isSearching="{!v.isSearching}"/>
+                </aura:iteration>
+                <!--<tr class="slds-hint-parent border" aria-selected="false">
+                    
+                    
+                    
+                    <td role="gridcell" class="containerAccount">
+                        <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                    </td>
+                    <td role="gridcell" class="containerBookDate">
+                        <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                    </td>
+                    <td role="gridcell" class="containerValueDate">
+                        <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                    </td>
+                    <td role="gridcell"  class="containerCategory">
+                        <div class="slds-truncate" title="BNK">BNK</div>
+                    </td>
+                    <td role="gridcell"  class="containerClientRef">
+                        <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                    </td>
+                    <td class="slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                        <span class="slds-truncate " title="330,00">
+                            -330
+                        </span>
+                        <span class="slds-truncate " title="8.045.086,17 EUR">
+                            ,00 EUR
+                        </span>
+                    </td>
+                    <td class="slds-text-align_right" role="gridcell">
+                        <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                            8.045.086
+                        </span>
+                        <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                            ,17 EUR
+                        </span>
+                    </td>
+                    <td class="slds-text-align_center " role="gridcell">   
+                        <div class="button-arrow icon-arrowDown_small arrowDownFormat" title="See detail"></div>
+                    </td>
+                    
+
+                </tr>-->
+            </tbody>
+        </table>
+    </aura:if>
+</aura:component>

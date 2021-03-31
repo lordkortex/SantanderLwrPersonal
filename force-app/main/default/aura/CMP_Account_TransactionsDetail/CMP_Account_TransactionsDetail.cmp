@@ -1,0 +1,385 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Component used in the Transaction Detail View page
+History
+<Date>			<Author>		    <Description>
+02/03/2020		Guillermo Giral     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="Global_Utilities">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute name="transactionDetails" type="Map" default="{}" description="Map with the values to show as transaction details"/>
+    <aura:attribute name="source" type="String" description="Indicates the source screen, to display the breadcrumbs accordingly"/>
+    <aura:attribute name="doneLoadingScreen" type="Boolean" default="false" description="Flag to show the screen data only when it's loaded"/>
+    <aura:attribute name="filters" type="List" description="List with the filters from the previous screen (account transactions / transactions)"/>
+    <aura:attribute name="formFilters" type="Map" default="{}" description="Map to store some advanced filters from the modal"/>
+    <aura:attribute name="accountsData"    type="List"     description="List returned by the Balances webservice. It contains data related to the user"/>
+    <aura:attribute name="accountCodesToSearch" type="List" default="[]" description="List of account codes to send to the LU transaction search webservice"/>
+    <aura:attribute name="accountCodeToInfo"    type="Map"     description="Map storing the account code and its related data (country, currency and bank)"/>
+    <aura:attribute name="selectedTimeframe" type="String" default="{!$Label.c.last7Days}" description="Default selected timeframe for the dropdown"/>
+    <aura:attribute name="dates" type="List" description="List containing the selected dates" />
+    <aura:attribute name="selectedFilters" type="List" description="Filters captured from the 'Apply filters' event"/>
+    <aura:attribute name="accountCodigoBic" type="String"  default=''/>
+    <aura:attribute name="accountCodigoCorporate" type="String"  default=''/> <!-- DA - 07/11/2020 - Ebury accounts -->
+    
+    <!--JOAQUIN VERA-->
+    <aura:attribute name="isIAM"    type="Boolean" default="true" />
+
+    <!-- AM - 28/09/2020 - Ebury Accounts -->
+    <aura:attribute name="dataProvider" type="String" description="String to determinate what is the origin of the data"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.getTransactionDetails}"/>
+    <aura:handler name="navigateBack" event="c:EVT_TitleSubtitleNavigate" action="{!c.gobackPage}"/>
+    
+    <!-- <c:CMP_CN_Title title="{!$Label.c.Accounts}" headerTitle="Transaction detail" rightText="{!$Label.c.amount}"  bankAccount="{!v.accountNumber}" bankName="{!v.accountNumberBank}" amount="{!v.transactionDetails.amount}" currency=""/> -->
+    <c:CMP_ServiceComponent aura:id="Service"/>
+    <aura:if isTrue="{!v.doneLoadingScreen}">
+        <aura:if isTrue="{!v.source == 'accountTransactions'}">
+            <c:CMP_CN_Title_Subtitle title="{!$Label.c.Accounts}"  subtitle ="{!$Label.c.TransactionDetail}" fireNavigationEvent="true"/>
+            <aura:set attribute="else">
+                <c:CMP_CN_Title_Subtitle title="{!$Label.c.SearchTransactions}"  subtitle ="{!$Label.c.TransactionDetail}" fireNavigationEvent="true"/>
+            </aura:set>
+        </aura:if>
+        <c:CMP_CN_Title_Subtitle_Amount amount="{!v.transactionDetails.amount}" resultingAmount="{!v.transactionDetails.balanceResultAmount}" accountBank="{!v.transactionDetails.bank}" accountNumber="{!v.transactionDetails.account}" 
+                                        accountAlias="{!v.transactionDetails.alias}" currencyAcc="{!v.transactionDetails.currency}" country="{!v.transactionDetails.country}"/>
+
+        
+        <!-- AM - 28/09/2020 - Ebury Accounts -->
+        <aura:if isTrue="{!v.transactionDetails.country == $Label.c.Ebury}">
+            
+            <!-- BASIC DETAILS -->
+            <article class="slds-card cardAccountDetail">
+                <!-- HEADER -->
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__body">
+                        <span class="slds-text-heading_small">{!$Label.c.basicDetails}</span>
+                    </div>
+                    </header>
+                </div>
+                
+                <!-- BODY -->
+                <div class="slds-card__body slds-card__body_inner">
+                    <div class="slds-grid">
+                        
+                        <!-- COLUMNA 1 -->
+                        <div class="slds-col firstCol">
+                            
+                            <!-- FILA 1 -->
+                            <div class="textRow">
+                                <div class="slds-grid" data-title="Book date">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.MovementHistory_BookDate}</span>
+                                </div>
+                                <div class="slds-grid" data-title="15/01/2020">
+                                    <c:CMP_displayDate dateClass="" date="{!v.transactionDetails.bookDate}"/>
+                                </div>
+                            </div>
+                            
+                            <!-- FILA 2 -->
+                            <div class="textRow">
+                                <div class="slds-grid" data-title="Type of transaction">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.TypeOfTransacction}</span>
+                                </div>
+                                <div class="slds-grid" data-title="Credit">
+                                    <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.transactionType}</span>
+                                </div>
+                            </div>
+                            
+                            <!-- FILA 3 -->
+                            <div class="textRow">
+                                <div class="slds-grid" data-title="Additional information">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.AdditionalInformation}</span>
+                                </div>
+                                <div class="slds-grid" data-title="Value">
+                                    <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.customerAdditionalInformation}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- COLUMNA 2 -->
+                        <div class="slds-col secondCol">
+                            <!-- FILA 1 -->
+                            <div class="textRow">
+                                <div class="slds-grid" data-title="Value date">
+                                    <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.valueDate}</span>
+                                </div>
+                                <div class="slds-grid" data-title="16/01/2020">
+                                    <c:CMP_displayDate dateClass="" date="{!v.transactionDetails.valueDate}"/>
+                                </div>
+                            </div>
+                            
+                            <!-- FILA 2 -->                        
+                            <div class="textRow slds-grid">
+                                <div class="slds-col">
+                                    <div class="slds-grid" data-title="Transaction reference">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.transactionBatchReference}</span>
+                                    </div>
+                                    <div class="slds-grid" data-title="234987947239ssf9837249827sdf284793">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.transactionBatchReference}</span>
+                                    </div>  
+                                </div>
+                            </div>
+                            
+                            <!-- FILA 3 -->
+                            <div class="textRow slds-grid">
+                                <div class="slds-col">
+                                    <div class="slds-grid" data-title="Description">
+                                        <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.localTransactionDescription}</span>
+                                    </div>
+                                    <div class="slds-grid" data-title="/LTC/0891-Cash deposit /HTC/CHK/AIN/00000002355">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.description}</span>
+                                    </div>
+                                </div>
+                                <div class="slds-col">
+                                    <div class="iconLink" data-title="{!$Label.c.T_Copy}">
+                                        <span class="icon-copy" onclick="{!c.copy}"></span>
+                                        <span class="text-link" onclick="{!c.copy}">{!$Label.c.T_Copy}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <!-- DEBIT / CREDIT TRANSACTION DETAIL -->
+            <aura:if isTrue="{!and(v.transactionDetails.accountDetails != undefined, v.transactionDetails.accountDetails != null)}">
+                <article class="slds-card cardAccountDetail ebury">
+                    
+                    <!-- HEADER -->
+                    <div class="slds-card__header slds-grid">
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <aura:if isTrue="{!v.transactionDetails.transactionType != 'credit'}">
+                                    <span class="slds-text-heading_small">{!$Label.c.CreditTransactionDetail}</span>
+                                <aura:set attribute="else">
+                                    <span class="slds-text-heading_small">{!$Label.c.DebitTransactionDetail}</span>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                        </header>
+                    </div>
+                    
+                    <!-- BODY -->
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div class="slds-grid">
+
+                            <!-- COLUMNA 1 -->
+                            <div class="slds-col firstCol">
+
+                                <!-- FILA 1 -->
+                                <div class="textRow">
+                                    <aura:if isTrue="{!v.transactionDetails.transactionType != 'credit'}">
+                                    	<div class="slds-grid" data-title="{!$Label.c.CreditorName}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.CreditorName}</span>
+                                        </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-grid" data-title="{!$Label.c.DebtorName}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.DebtorName}</span>
+                                        </div>
+                                    </aura:set>
+                                    </aura:if>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.accountDetails.name}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- FILA 2 -->
+                                <div class="textRow">
+                                    <aura:if isTrue="{!v.transactionDetails.transactionType != 'credit'}">
+                                    	<div class="slds-grid" data-title="{!$Label.c.CreditorAccount}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.CreditorAccount}</span>
+                                        </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-grid" data-title="{!$Label.c.DebtorAccount}">    
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.DebtorAccount}</span>
+                                        </div>
+                                    </aura:set>
+                                    </aura:if>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.accountDetails.accountName}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- FILA 3 -->
+                                <div class="textRow">
+                                    <aura:if isTrue="{!v.transactionDetails.transactionType != 'credit'}">
+                                        <div class="slds-grid" data-title="{!$Label.c.CreditorBank}">
+                                        	<span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.CreditorBank}</span>
+                                        </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-grid" data-title="{!$Label.c.DebtorBank}">
+                                        	<span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.DebtorBank}</span>
+                                        </div>
+                                    </aura:set>
+                                    </aura:if>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.accountDetails.bankId}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- COLUMNA 2 -->
+                            <div class="slds-col secondCol">
+                                
+                                <!-- FILA 1 -->
+                                <div class="textRow">
+                                	<aura:if isTrue="{!v.transactionDetails.transactionType != 'credit'}">
+                                    	<div class="slds-grid" data-title="{!$Label.c.CreditorSwift}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.CreditorSwift}</span>
+                                        </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-grid" data-title="{!$Label.c.DebtorSwift}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.DebtorSwift}</span>
+                                        </div>
+                                    </aura:set>
+                                    </aura:if>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.accountDetails.swift}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- FILA 2 -->                        
+                                <div class="textRow">
+                                    <aura:if isTrue="{!v.transactionDetails.transactionType != 'credit'}">
+                                    	<div class="slds-grid" data-title="{!$Label.c.CreditorAccountIBAN}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.CreditorAccountIBAN}</span>
+                                        </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-grid" data-title="{!$Label.c.DebtorAccountIBAN}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.DebtorAccountIBAN}</span>
+                                        </div>
+                                    </aura:set>
+                                    </aura:if>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.accountDetails.iban}</span>
+                                    </div>
+                                </div>
+                                
+                                
+                                <!-- FILA 3 -->
+                                <div class="textRow">
+                                	<aura:if isTrue="{!v.transactionDetails.transactionType != 'credit'}">
+                                    	<div class="slds-grid" data-title="{!$Label.c.CreditorBankCode}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.CreditorBankCode}</span>
+                                        </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-grid" data-title="{!$Label.c.DebtorBankCode}">
+                                            <span class="slds-truncate slds-text-body_regular text-grey">{!$Label.c.DebtorBankCode}</span>
+                                        </div>
+                                    </aura:set>
+                                    </aura:if>
+                                    <div class="slds-grid" data-title="Value">
+                                        <span class="slds-truncate slds-text-body_regular">{!v.transactionDetails.accountDetails.bankCode}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </aura:if>
+
+        <!-- DEFAULT SCREEN -->
+        <aura:set attribute="else">
+            <div class="slds-card cardTransactionDetail">
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.MovementHistory_BookDate}</div>
+                        <div class="information">
+                            <c:CMP_displayDate dateClass="" date="{!v.transactionDetails.bookDate}"/>
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.valueDate}</div>
+                        <div class="information">
+                            <c:CMP_displayDate dateClass="" date="{!v.transactionDetails.valueDate}"/>
+                        </div>
+                    </div>
+                </div> 
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.MovementHistory_Category}</div>
+                        <div class="information">
+                            {!v.transactionDetails.category}
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.ClientReference}</div>
+                        <div class="information">
+                            {!v.transactionDetails.clientRef}
+                        </div>
+                    </div>
+                </div>  
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.MovementHistory_BankReference}</div>
+                        <div class="information">
+                            {!v.transactionDetails.bankRef}
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.MovementHistory_Description}</div>
+                        <div class="information">
+                            <span>{!v.transactionDetails.description}</span>
+                            <div class="iconLink" data-title="{!$Label.c.T_Copy}">
+                                <span class="icon-copy" onclick="{!c.copy}"></span>
+                                <span class="text-link" onclick="{!c.copy}">{!$Label.c.T_Copy}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.status}</div>
+                        <div class="information">
+                            {!v.transactionDetails.accountStatus}
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.localTransactionCode}</div>
+                        <div class="information">
+                            {!v.transactionDetails.localTransactionCode}
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.localTransactionDescription}</div>
+                        <div class="information">
+                            {!v.transactionDetails.localTransactionDescription}
+                        </div>
+                    </div>
+                    <div class="slds-card__header-title">
+                        <div class="name">{!$Label.c.transactionBatchReference}
+                        </div>
+                        <div class="information">
+                            {!v.transactionDetails.transactionBatchReference}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AM - 11/11/2020 - US6421: Campos Nuevos Nexus -->
+                <aura:if isTrue="{!or(!v.isIAM, v.isIAM == 'false')}">
+                    <div class="slds-card__header slds-grid">
+                        <div class="slds-card__header-title">
+                            <div class="name">{!$Label.c.AdditionalInformation}</div>
+                            <div class="information">
+                                {!v.transactionDetails.aditionalInformation}
+                            </div>
+                        </div>
+                        <div class="slds-card__header-title">
+                            <div class="name">{!$Label.c.customerAdditionalInformation}
+                            </div>
+                            <div class="information">
+                                {!v.transactionDetails.customerAditionalInformation}
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+        </aura:set>
+        </aura:if>
+    </aura:if>
+</aura:component>

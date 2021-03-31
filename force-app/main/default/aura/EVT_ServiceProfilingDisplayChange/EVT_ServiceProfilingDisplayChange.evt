@@ -1,0 +1,17 @@
+<aura:event type="COMPONENT" description="Event fired the user interacts with the profiling table">
+    <!-- Attributes associated with the collapse / expand arrow -->
+    <aura:attribute name="arrowClicked" type="Boolean" description="Flag to indicate the collapse / expand arrow has been clicked"/>
+
+    <!-- Attributes associated with the country deletion action -->
+    <aura:attribute name="countryDeleteClicked" type="Boolean" description="Flag to indicate the delete button has been clicked in the country row"/>
+    <aura:attribute name="countryDeleted" type="String" description="Country to be removed from the data table"/>
+
+    <!-- Attributes associated with the account deletion action -->
+    <aura:attribute name="accountDeleteClicked" type="Boolean" description="Flag to indicate the delete button has been clicked in the account row"/>
+    <aura:attribute name="accountDeleted" type="String" description="Account to be removed from the data table"/>
+
+    <!-- Attributes associated with the entitlement edit acton -->
+    <aura:attribute name="entitlementEditClicked" type="Boolean" description="Flag to indicate the entitlement edit button has been clicked in the account row"/>
+    <aura:attribute name="currentAccount" type="String" description="Account associated with the entitlements to be edited"/>
+    <aura:attribute name="currentEntitlements" type="List" description="Entitlements currently associated with currentAccount"/>
+</aura:event>

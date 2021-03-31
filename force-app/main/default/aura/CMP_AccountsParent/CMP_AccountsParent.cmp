@@ -1,0 +1,240 @@
+<!--
+Author:         Teresa Santos
+Company:        Deloitte
+Description:    Main component of Accounts community page
+History
+<Date>			<Author>		    <Description>
+28/02/2020		Teresa Santos     	Initial version
+04/05/2020      Shahad Naji         Do not diplay a CMP_AccountsCard when there is no elements in its list
+05/05/2020		Shahad Naji			Show error message when service data could not be retrieved.
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_International_Treasury_Management">
+    
+    <!--ATTRIBUTES -->
+    <aura:attribute name="currencies" type="List" default="['BRA','DEU','IND','MEX','PHL','Value 6']" description="List of values to populate the dropdown" />
+    <aura:attribute name="selectedCurrency" type="String" description="Selected option from the dropdown" />
+    <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text" />
+    <aura:attribute name="thisTest" type="List"/>
+    <aura:attribute name="dropdownHeader" type="String" default="{!$Label.c.GroupBy}" description="Title for the dropdown"/>
+    <aura:attribute name="globalBookBalance" type="String" default="0.0" description="The sum of book balance value of all accounts"/>
+    <aura:attribute name="globalAvailableBalance" type="String" default="0.0" description="The sum of available balance value of all accounts"/>
+    
+    <aura:attribute name="rGlobalBalance" type="CNT_International_Treasury_Management" description="Last Update Global Balance Information"/>
+    <aura:attribute name="tGlobalBalance" type="CNT_International_Treasury_Management" description="Yesterday Global Balance Information"/>
+    
+    <aura:attribute name="firstAccountCountryList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="accountCountryList" type="List"  access="global" description="Each register of this list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="firstAccountCurrencyList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Currency and Value: List of Accounts" />
+    <aura:attribute name="accountCurrencyList" type="List" description="Each register of this list contains two attributes --> Key: Currency and Value: List of Accounts"/>
+    <aura:attribute name="firstAccountSubsidiaryList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Corporate and Value: List of Accounts" />
+    <aura:attribute name="accountSubsidiaryList" type="List" description="Each register of this list contains two attributes --> Key: Susidiary and Value: Lsit of Accounts"/>
+    
+    <aura:attribute name="firstTAccountCountryList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="tAccountCountryList" type="List"  access="global" description="Each register of this list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="firstTAccountCurrencyList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="tAccountCurrencyList" type="List" description="Each register of this list contains two attributes --> Key: Currency and Value: List of Accounts"/>
+    <aura:attribute name="firstTAccountSubsidiaryList" type="List"  access="global" description="Each register of this first list contains two attributes --> Key: Country and Value: List of Accounts" />
+    <aura:attribute name="tAccountSubsidiaryList" type="List" description="Each register of this list contains two attributes --> Key: Susidiary and Value: Lsit of Accounts"/>
+    <aura:attribute name="accountLastUpdate" type="String" description="Last update of account list"/>
+    
+    <aura:attribute name="selectedTimeframe" type="String" default="{!$Label.c.Country}" description="Default selected groupby for the dropdown"/>
+    
+    <aura:attribute name="currentUserCurrency" type="String" default="" description="User currency for default tab"/>
+    <aura:attribute name="tCurrentUserCurrency" type="String" default="" description="User currency for 'End of day' tab"/>
+    <aura:attribute name="rCurrentUserCurrency" type="String" default="" description="User currency for 'End of day' tab"/>
+    <aura:attribute name="currentUserLanguage" type="String" default="N/A" description="Community user language"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="sortSelected" type="String" default="{!$Label.c.Country}" description="Accounts display order"/>
+    <aura:attribute name="tabSelected" type="String" default="LastUpdateTab" description="Current selected tab"/>
+    <aura:attribute name="tabLabel" type="String" default="{!$Label.c.LastUpdate}" description="Name of the tab. Global variable to be used in the helper"/>
+    <aura:attribute name="isLastUpdate" type="Boolean" default="true" description="Flag to indicate whether to show Last Update / End of day"/>
+    <aura:attribute name="filters"    type="List"     description="List passed to the CMP_CN_Filters components to populate the filters"/>
+    <aura:attribute name="initialFilters"    type="List"     description="List of the intial values passed to the CMP_CN_Filters components to populate the filters"/>
+    <aura:attribute name="timePeriods" type="List"  description="List of options to show in the 'Group by' dropdown"/>
+    <aura:attribute name="sourcePage" type="String" default="" description="This attribute is to know from which community page a users is accessing this component"/>
+    <aura:attribute name="filterParams" type="List"  description="Attribute to store the filter params"/>
+    <aura:attribute name="source" type="String" description="Source page to know where to navigate to and from"/>
+    <aura:attribute name="heritagedFilters" type="Boolean" default="false" description="Flag to indicate whether to show Last Update / End of day"/>
+    <aura:attribute name="heriFilters"    type="List"     description="List of the intial values passed to the CMP_CN_Filters components to populate the filters"/>
+    <aura:attribute name="countryMap" type="List" description="contains the list of countries with their names" />
+    <aura:attribute name="tabsChange" type="Boolean" default="false"/>
+    <aura:attribute name="backfront" type="Boolean" default="false"/>
+    <aura:attribute name="userPreferredDateFormat" type="String" description="User preferred time format"/>
+    <aura:attribute name="userPreferredNumberFormat" type="String" description="User preferred number format"/>
+    <aura:attribute name="dynamicSelectedFilters" type="Map" description="Selected filters of the current Account"/>
+    
+    
+    
+    <!-- TOAST Attributes -->
+    <aura:attribute name="message" type="String" description="Message of the toast"/>
+    <aura:attribute name="type" type="String" description="Type of the toast"/>
+    <aura:attribute name="show" type="Boolean" description="Used to show or hide the toast"/>
+    <aura:attribute name="toBeHiddenToast" type="Boolean" description="Hide Toast after a while"/>
+    <!-- SPINNER ATRIBUTTE -->
+    <aura:attribute name="isLoading" type="Boolean"   default="true" description="Used to show the spinner if the data is loading"/>
+    
+    <!--SNJ - 29/04/2020 - CURRENCY LIST-->
+    <aura:attribute name="tCurrencyList" type="List" description="Currency list of 'End of day' tab"/>
+    <aura:attribute name="rCurrencyList" type="List" description="Currency list of 'Last update' tab"/>
+    <aura:attribute name="exchangeRatesString"  type="String" description="Contains the string of the exchange rates" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="AccountsTab" event="c:EVT_SelectedTab" action="{!c.ischangeTab}"/>
+    <!-- <aura:handler name="Currency_Exchanger" event="c:EVT_Currency_Exchange" action="{!c.exchangeCurrency}"/> -->
+    <aura:handler name="GlobalBalanceSort" event="c:EVT_GlobalBalanceSort" action="{!c.doSort}"/>
+    <aura:handler name="GlobalBalanceTab" event="c:EVT_CurrentTabSelected" action="{!c.showHideContent}"/>
+    <aura:handler name="GlobalBalanceDownload" event="c:EVT_Download" action="{!c.download}"/>
+    <aura:handler name="fireFilter" event="c:EVT_FilterSearch" action="{!c.filterSearch}"/>
+    <aura:handler name="change" value="{!v.selectedTimeframe}" action="{!c.orderCards}"/>
+    <aura:handler name="change" value="{!v.rCurrentUserCurrency}" action="{!c.updateGlobalBalance}"/>
+    <aura:handler name="change" value="{!v.tCurrentUserCurrency}" action="{!c.updateGlobalBalance}"/>
+    <aura:handler name="clearAllFilters" event="c:EVT_ClearAllFilters" action="{!c.clearAllFilters}"/>
+    
+    <aura:handler name="change" value="{!v.selectedCurrency}" action="{!c.exchangeCurrency}"/>
+    <aura:handler name="launchToast" event="c:EVT_ShowToast" action="{!c.fillToastAttributes}"/>
+    <aura:handler name="navigateBack" event="c:EVT_TitleSubtitleNavigate" action="{!c.navigateToPreviousScreen}"/>
+    <aura:handler name="launchDonwload" event="c:EVT_DownloadFile" action="{!c.fileToDonwload}"/>
+    <aura:handler name="onOptionSelection" event="c:EVT_AdvancedFilterSelectOption" action="{!c.filterChanged}"/>
+    
+    <ltng:require scripts="{!$Resource.SheetJS}"/>
+    <c:CMP_ServiceComponent aura:id="service"/>
+
+    <!--AB - 12/11/2020 - INC773 -->
+    <c:CMP_DownloadAccountsLU aura:id="downloadAccounts" 
+                            sortSelected="{!v.sortSelected}" 
+                            accountCountryList="{!v.isLastUpdate ? v.accountCountryList : v.tAccountCountryList}" 
+                            accountCurrencyList="{!v.isLastUpdate ? v.accountCurrencyList : v.tAccountCurrencyList}" 
+                            accountSubsidiaryList="{!v.isLastUpdate ? v.accountSubsidiaryList : v.tAccountSubsidiaryList}" 
+                            consolidationCurrency="{!v.selectedCurrency}"
+                            globalBookBalance="{!v.globalBookBalance}"
+                            globalAvailableBalance="{!v.globalAvailableBalance}"
+                            currenciesExchange="{!v.isLastUpdate ? v.rCurrencyList : v.tCurrencyList}"
+                            exchangeRatesString="{!v.exchangeRatesString}"
+                            countryMap="{!v.countryMap}"
+                            userPreferredDateFormat="{!v.userPreferredDateFormat}"
+    />
+     
+    <div class="spinnercontainer">
+        <aura:if isTrue="{!v.isLoading == true}">  
+            <div class="spinnerclass">
+                <lightning:spinner aura:id="spinner" variant="brand" size="large" title="{!$Label.c.Loading+ '...'}" alternativeText="{!$Label.c.Loading+ '...'}"/>
+            </div> 
+        </aura:if>  
+        <aura:if isTrue="{!and(not(empty(v.rGlobalBalance.currencyList)), v.isLastUpdate )}"> 
+            <c:CMP_AccountsTitleDropdown  aura:id="accountTitleDropdown_one" thisTest="{!v.thisTest}" isLastUpdate="{!v.isLastUpdate}" selectedCurrency="{!v.selectedCurrency}" helpTextDropdown="{!v.helpTextDropdown}" accountCurrencies="{!v.rGlobalBalance.currencyList}" fireNavigationEvent="true" source="{!v.sourcePage}" selectedTimeframe="{!v.selectedTimeframe}" accountLastUpdate="{!v.accountLastUpdate}" userPreferredDateFormat="{!v.userPreferredDateFormat}"/>
+        </aura:if> 
+        <aura:if isTrue="{!and(empty(v.rGlobalBalance.currencyList), v.isLastUpdate )}"> 
+            <c:CMP_AccountsTitleDropdown  thisTest="{!v.thisTest}" isLastUpdate="{!v.isLastUpdate}" selectedCurrency="{!v.selectedCurrency}" helpTextDropdown="{!v.helpTextDropdown}"  fireNavigationEvent="true" source="{!v.sourcePage}" selectedTimeframe="{!v.selectedTimeframe}" accountLastUpdate="{!v.accountLastUpdate}" userPreferredDateFormat="{!v.userPreferredDateFormat}"/>
+        </aura:if> 
+        
+        <aura:if isTrue="{!and(not(empty(v.tGlobalBalance.currencyList)), not(v.isLastUpdate))}"> 
+            <c:CMP_AccountsTitleDropdown aura:id="accountTitleDropdown_two" thisTest="{!v.thisTest}" isLastUpdate="{!v.isLastUpdate}" selectedCurrency="{!v.selectedCurrency}" helpTextDropdown="{!v.helpTextDropdown}" accountCurrencies="{!v.tGlobalBalance.currencyList}" fireNavigationEvent="true" source="{!v.sourcePage}" selectedTimeframe="{!v.selectedTimeframe}" accountLastUpdate="{!v.accountLastUpdate}" userPreferredDateFormat="{!v.userPreferredDateFormat}"/>
+        </aura:if>
+        <aura:if isTrue="{!and(empty(v.tGlobalBalance.currencyList), not(v.isLastUpdate))}">        
+            <c:CMP_AccountsTitleDropdown thisTest="{!v.thisTest}" isLastUpdate="{!v.isLastUpdate}" selectedCurrency="{!v.selectedCurrency}" helpTextDropdown="{!v.helpTextDropdown}" fireNavigationEvent="true" source="{!v.sourcePage}" selectedTimeframe="{!v.selectedTimeframe}" accountLastUpdate="{!v.accountLastUpdate}" userPreferredDateFormat="{!v.userPreferredDateFormat}"/>
+        </aura:if>
+        
+        <!--<aura:if isTrue="{!and(empty(v.rGlobalBalance.accountList), v.isLastUpdate)}">
+            <c:CMP_CN_Filters aura:id='filtering' showAdvancedFilters="false" filters="{!v.filters}" 
+                              dropdownHeader="{!v.dropdownHeader}" dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}" displayDownloadIcon="{!not(v.isLastUpdate)}" isDropdownDisabled="true"/>
+        </aura:if>-->
+
+        <c:CMP_CN_Filters aura:id='filtering' showAdvancedFilters="false" filters="{!v.filters}" 
+        dropdownHeader="{!v.dropdownHeader}" dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}" displayDownloadIcon="true" isDropdownDisabled="{!or(and(empty(v.rGlobalBalance.accountList), v.isLastUpdate),and(empty(v.tGlobalBalance.accountList), not(v.isLastUpdate)))}"/>
+        <!-- {!not(v.isLastUpdate)} -->
+        <!--<aura:if isTrue="{!and(empty(v.tGlobalBalance.accountList), not(v.isLastUpdate))}">
+            <c:CMP_CN_Filters aura:id='filtering' showAdvancedFilters="false" filters="{!v.filters}" 
+                              dropdownHeader="{!v.dropdownHeader}" dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}" displayDownloadIcon="{!not(v.isLastUpdate)}" isDropdownDisabled="true"/>
+        </aura:if>
+        
+        <aura:if isTrue="{!and(not(empty(v.rGlobalBalance.accountList)), v.isLastUpdate)}">
+            <c:CMP_CN_Filters aura:id='filtering' showAdvancedFilters="false" filters="{!v.filters}" 
+                              dropdownHeader="{!v.dropdownHeader}" dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}" displayDownloadIcon="{!not(v.isLastUpdate)}"/>
+        </aura:if>
+        <aura:if isTrue="{!and(not(empty(v.tGlobalBalance.accountList)), not(v.isLastUpdate))}">
+            <c:CMP_CN_Filters aura:id='filtering' showAdvancedFilters="false" filters="{!v.filters}" 
+                              dropdownHeader="{!v.dropdownHeader}" dropdownValues="{!v.timePeriods}" dropdownSelectedValue="{!v.selectedTimeframe}" displayDownloadIcon="{!not(v.isLastUpdate)}"/>
+        </aura:if>-->
+        
+        
+        <c:CMP_Toast type="{!v.type}" show="{!v.show}" message="{!v.message}" toBeHidden="{!v.toBeHiddenToast}"/>
+        <c:CMP_AccountsHeader isLastUpdate="{!v.isLastUpdate}" sortSelected="{!v.sortSelected}" isLoading="{!v.isLoading}"/>
+        
+        
+        
+        <aura:if isTrue="{!not(v.isLoading)}">
+            <aura:if isTrue="{!v.isLastUpdate}">  
+                <aura:if isTrue="{!v.sortSelected == $Label.c.Country}">
+                    <aura:iteration items="{!v.accountCountryList}" var="item" indexVar="key">   
+                        <aura:if isTrue="{!item.value.length > 0}">         
+                            <c:CMP_AccountsCard iRegister="{!item}" iKey="{!key}"  iCurrency="{!v.rCurrentUserCurrency}" iSortSelected="{!v.sortSelected}"
+                                                iTabSelected="LastUpdateTab" index="{!key}"  tabsChange="{!v.tabsChange}" firstAccountCountryList="{!v.firstAccountCountryList}"
+                                                isLastUpdate="{!v.isLastUpdate}" filters="{!v.filters}" source="{!v.sourcePage}" iCurrencyList="{!v.rCurrencyList}"
+                                                userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" isLoading="{!v.isLoading}"/>
+                        </aura:if>
+                    </aura:iteration>
+                </aura:if>
+                <aura:if isTrue="{!v.sortSelected == $Label.c.currency}">
+                    <aura:iteration items="{!v.accountCurrencyList}" var="item" indexVar="key">                         
+                        <aura:if isTrue="{!item.value.length > 0}">
+                            <c:CMP_AccountsCard iRegister="{!item}"  iKey="{!key}"  iCurrency="{!v.rCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" 
+                                                iTabSelected="LastUpdateTab" index="{!key}"  tabsChange="{!v.tabsChange}" firstAccountCountryList="{!v.firstAccountCountryList}"
+                                                isLastUpdate="{!v.isLastUpdate}" filters="{!v.filters}" source="{!v.sourcePage}" iCurrencyList="{!v.rCurrencyList}"
+                                                userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" isLoading="{!v.isLoading}"/>      
+                        </aura:if>    
+                    </aura:iteration>
+                </aura:if>
+                <aura:if isTrue="{!v.sortSelected == $Label.c.Corporate}">
+                    <aura:iteration items="{!v.accountSubsidiaryList}" var="item" indexVar="key">
+                        <aura:if isTrue="{!item.value.length > 0}">
+                            <c:CMP_AccountsCard iRegister="{!item}"  iKey="{!key}"  iCurrency="{!v.rCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" 
+                                                iTabSelected="LastUpdateTab" index="{!key}"  tabsChange="{!v.tabsChange}" firstAccountCountryList="{!v.firstAccountCountryList}"
+                                                isLastUpdate="{!v.isLastUpdate}" filters="{!v.filters}" source="{!v.sourcePage}" iCurrencyList="{!v.rCurrencyList}"
+                                                userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" isLoading="{!v.isLoading}"/>
+                        </aura:if>
+                    </aura:iteration>        
+                </aura:if>
+            </aura:if>
+            
+            
+            <aura:if isTrue="{!not(v.isLastUpdate)}"> 
+                <aura:if isTrue="{!v.sortSelected == $Label.c.Country}">
+                    <aura:iteration items="{!v.tAccountCountryList}" var="item" indexVar="key"> 
+                        <aura:if isTrue="{!item.value.length > 0}">           
+                            <c:CMP_AccountsCard iRegister="{!item}"  iKey="{!key}" iCurrency="{!v.tCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" 
+                                                iTabSelected="EndOfDayTab" tabsChange="{!v.tabsChange}" firstTAccountCountryList="{!v.firstTAccountCountryList}" 
+                                                isLastUpdate="{!v.isLastUpdate}" filters="{!v.filters}" source="{!v.sourcePage}" iCurrencyList="{!v.tCurrencyList}"
+                                                userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" isLoading="{!v.isLoading}"/>
+                        </aura:if>
+                    </aura:iteration>
+                </aura:if>
+                <aura:if isTrue="{!v.sortSelected == $Label.c.currency}">
+                    <aura:iteration items="{!v.tAccountCurrencyList}" var="item" indexVar="key">  
+                        <aura:if isTrue="{!item.value.length > 0}">  
+                            <c:CMP_AccountsCard iRegister="{!item}"  iKey="{!key}" iCurrency="{!v.tCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" 
+                                                iTabSelected="EndOfDayTab" tabsChange="{!v.tabsChange}" firstTAccountCountryList="{!v.firstTAccountCountryList}" 
+                                                isLastUpdate="{!v.isLastUpdate}" filters="{!v.filters}" source="{!v.sourcePage}" iCurrencyList="{!v.tCurrencyList}"
+                                                userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" isLoading="{!v.isLoading}"/>     
+                        </aura:if>
+                    </aura:iteration>
+                </aura:if>
+                <aura:if isTrue="{!v.sortSelected == $Label.c.Corporate}">
+                    <aura:iteration items="{!v.tAccountSubsidiaryList}" var="item" indexVar="key">
+                        <aura:if isTrue="{!item.value.length > 0}">
+                            <c:CMP_AccountsCard iRegister="{!item}"  iKey="{!key}"  iCurrency="{!v.tCurrentUserCurrency}" iSortSelected="{!v.sortSelected}"
+                                                iTabSelected="EndOfDayTab"  tabsChange="{!v.tabsChange}" firstTAccountCountryList="{!v.firstTAccountCountryList}" 
+                                                isLastUpdate="{!v.isLastUpdate}" filters="{!v.filters}" source="{!v.sourcePage}" iCurrencyList="{!v.tCurrencyList}"
+                                                userPreferredDateFormat="{!v.userPreferredDateFormat}" userPreferredNumberFormat="{!v.userPreferredNumberFormat}" isLoading="{!v.isLoading}"/>
+                        </aura:if>
+                    </aura:iteration>        
+                </aura:if>
+            </aura:if>
+        </aura:if>
+        
+        
+        
+    </div>
+    
+    
+</aura:component>

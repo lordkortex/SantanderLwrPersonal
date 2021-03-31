@@ -1,0 +1,34 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    MR Tracker component
+History
+<Date>			<Author>		<Description>
+21/01/2019		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable" access="global" controller="CNT_MRTracker">
+    
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:attribute name="showTable" type="Boolean" default="false"/>
+    <aura:handler name="getFilter" event="c:EVT_searchFilter" action="{!c.getFilters}"/>
+    <aura:attribute name="tabApp" type="String" default=""/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <c:CMP_Pain002Search showTable="{!v.showTable}"/>
+
+    <aura:if isTrue="{!v.filters != ''}">
+        <div class="hidden" aura:id="table">
+            <aura:if isTrue="{!v.tabApp == 'Pain0021'}">
+                <c:CMP_BackFrontPain002Table filters="{!v.filters}"/>
+            </aura:if>
+            <aura:if isTrue="{!v.tabApp == 'One_Trade_View_Users'}">
+                <c:cmpOTVParentUsersLanding filters="{!v.filters}" isBackfront = "true"/>
+            </aura:if>
+            <aura:if isTrue="{!v.tabApp == 'One_Trade_View_Accounts'}">
+                <c:cmpOTVBackfrontAccountsParent filters="{!v.filters}"/>
+            </aura:if>
+        </div>
+    </aura:if>
+    
+</aura:component>

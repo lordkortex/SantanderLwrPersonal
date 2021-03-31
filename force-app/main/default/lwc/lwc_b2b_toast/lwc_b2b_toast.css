@@ -1,0 +1,191 @@
+.slds-notify_container {
+    margin-top: 108px;
+}
+
+.toast_static{
+    margin-top: 5px;
+}
+
+.slds-notify_toast {
+    width: 600px;
+    min-height: 80px;
+    margin: 0;
+    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08);
+}
+
+.slds-notify__content{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.slds-notify__content .slds-text-heading_small{
+    font-family: SantanderMicroText-Bd;
+    font-size: 16px; 
+    line-height: 1.5; 
+    color: #444444;
+    margin:0;
+}
+.slds-notify__content .notifyText { 
+    font-family: SantanderMicroText;
+    font-size: 16px; 
+    line-height: 1.5; 
+    color: #444444; 
+}
+
+.slds-notify__content .action{ 
+    font-family: SantanderMicroText-Bd;
+    font-size: 14px;
+    line-height: 1.43;
+}
+
+/* ICONOS */
+.slds-notify__close { 
+    height: 24px; 
+    right:16px;
+    top: 16px;
+    width: 24px;
+}
+.slds-notify__close .slds-button.slds-button_icon {
+    display: flex;
+    text-decoration: none;
+}
+.slds-notify__close .slds-button.slds-button_icon:before {
+    font-size: 24px;
+}
+.button-selected{
+    margin-right:8px;
+    pointer-events: none; 
+}
+.button-selected:before{
+    font-size: 24px;
+}
+.slds-notify__content .slds-button.slds-button_icon:before { 
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+
+/* INFO */
+.slds-theme_info { 
+    border: solid 1px #257fa4 ; 
+    background-color: #f5f9fb;
+}
+
+.slds-theme_info .icon-info:before { 
+    color: #257fa4 ;  
+}
+
+.slds-theme_info .icon-close_big:before,
+.slds-theme_info .slds-notify__content button,
+.slds-theme_info .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #257fa4;
+}
+
+/* SUCCESS */
+.slds-theme_success { 
+    border: solid 1px #3a8340; 
+    background-color: #f7fbf7;  
+}
+
+.icon-success:before{
+   color: #3a8340; 
+}
+.slds-theme_success .icon-close_big:before,
+.slds-theme_success .slds-notify__content button,
+.slds-theme_success .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #3a8340;
+}
+
+/* WARNING */
+.slds-theme_warning { 
+    border: solid 1px #946f00; 
+    background-color: #fffcf5;  
+}
+.slds-theme_warning button{ 
+    text-decoration: none;
+    box-shadow: none;
+}
+.slds-theme_warning .slds-notify__close button:focus{ 
+    border: 1px solid #fffcf5;
+}
+.icon-warning:before{
+   color: #946f00; 
+}
+.slds-theme_warning .icon-close_big:before,
+.slds-theme_warning .slds-notify__content button,
+.slds-theme_warning .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #946f00;
+}
+
+/* ERROR */
+.slds-theme_error { 
+    border: solid 1px #990000; 
+    background-color: #fcf2f2;  
+}
+.icon-error:before{
+   color: #990000; 
+}
+.slds-theme_error .icon-close_big:before,
+.slds-theme_error .slds-notify__content button,
+.slds-theme_error .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #990000;
+}
+
+
+/* TOAST STATIC */
+.slds-notify_container.toast_static {
+    padding: 0;
+    display: block;
+    height: auto;
+    position: static;
+}
+
+.toast_static .slds-theme_info,
+.toast_static .slds-theme_success,
+.toast_static .slds-theme_warning,
+.toast_static .slds-theme_error { 
+    width: 100%;
+    box-shadow: none;
+}
+
+.toast_static .slds-theme_info .icon-close_big:before,
+.toast_static .slds-theme_success .icon-close_big:before,
+.toast_static .slds-theme_warning .icon-close_big:before,
+.toast_static .slds-theme_error .icon-close_big:before{ 
+    display: none; 
+}
+
+/* MOSTRAR ACTION */
+.slds-theme_info .slds-notify__content button,
+.slds-theme_success .slds-notify__content button,
+.slds-theme_warning .slds-notify__content button,
+.slds-theme_error .slds-notify__content button{ 
+    display: none; 
+}
+
+.slds-theme_info.action .slds-notify__content button,
+.slds-theme_success.action .slds-notify__content button,
+.slds-theme_warning.action .slds-notify__content button,
+.slds-theme_error.action .slds-notify__content button{ 
+    display: flex;
+    align-self: flex-end;
+    margin-top: 2px;
+    align-items: center;
+    border: none;
+}
+.icon-check_circle:before{
+    color: #3a8340; 
+}
+.icon-caution:before{
+    color: #946f00; 
+}
+.icon-close_emptyCircle:before{
+    color: #990000; 
+}
+.slds-theme_info .icon-information:before { 
+    color: #257fa4 ;  
+}

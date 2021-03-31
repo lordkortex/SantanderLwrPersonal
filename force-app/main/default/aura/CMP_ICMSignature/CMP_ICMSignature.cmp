@@ -1,0 +1,114 @@
+<aura:component controller = "CNT_InstantCashManagementController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+
+    <!--COMPONENT 1 AND 2 DATA-->
+    <aura:attribute name="OriginAccount" type="Object" />
+    <aura:attribute name="DestinationAccount" type="Object" />
+    <!--COMPONENT 3 DATA-->
+    <aura:attribute name="Amount" type="Decimal" />
+    <aura:attribute name="Date" type="String" />
+    <aura:attribute name="Concept" type="String" />
+
+    <!--THIS COMPONENT DATA -->
+    <aura:attribute name="Commission" type="Decimal" default="0" />
+    <aura:attribute name="Charge" type="Decimal" />
+    <aura:attribute name="backStep" type="Aura.action" />
+
+    <c:CMP_ServiceComponent aura:id= "Service"/>
+    <!--HANDLE INIT-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+ 
+    <div class="slds-box">
+        <div class="slds-box">
+            <table class="slds-table slds-table_fixed-layout slds-no-row-hover slds-table_resizable-cols" aria-multiselectable="true" role="grid">
+                <tbody>
+                    <tr class="slds-hint-parent border" aria-selected="false">
+                        <td role="gridcell">
+                            <div class="slds-truncate" title="PAYMENT DETAILS">PAYMENT DETAILS</div>
+
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Origin account">Origin Account</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-media__figure icon">
+                                <img aura:id="countryImage" class="flag" src="{!$Resource.Flags + '/' + v.OriginAccount.value.countryCode +'.svg'}" onerror="{!c.defaultImage}" />
+                            </div>
+                            <div class="slds-truncate" title="{!v.OriginAccount}">{!v.OriginAccount.value.alias}</div>
+                            <div class="text"> {!v.OriginAccount.value.accountNumber}</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Destination Account">Destination account</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-media__figure icon">
+                                <img aura:id="countryImage" class="flag" src="{!$Resource.Flags + '/' + v.DestinationAccount.value.countryCode +'.svg'}" onerror="{!c.defaultImage}" />
+                            </div>
+                            <div class="slds-truncate" title="{!v.DestinationAccount}">{!v.DestinationAccount.value.alias} </div>
+                            <div class="text"> {!v.DestinationAccount.value.accountNumber}</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Amount">Amount</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate number" title="{!v.Amount}">{!v.Amount}</div>
+                        </td>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Commission">Commission</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate number" title="{!v.Commission}">{!v.Commission}</div>
+                                <div class="slds-truncate">{!v.OriginAccount.value.ObjectCurrency }</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Charge">Charge</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate number" title="{!v.Charge}">{!v.Charge}</div>
+                            <div class="slds-truncate">{!v.OriginAccount.value.ObjectCurrency }</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Concept">Concept</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate" title="{!v.Concept}">{!v.Concept}</div>
+                        </td>
+                    </tr>
+
+                    <tr class="slds-hint-parent">
+                        <td data-label="Key">
+                            <div class="slds-truncate" title="Date">Date</div>
+                        </td>
+                        <td data-label="Value">
+                            <div class="slds-truncate" title="{!v.Date}">{!v.Date}</div>
+                        </td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="slds-button slds-button_brand textButton" label="Go Back" title="Go Back" onclick="{!c.previousStep}">Go Back
+        <div class="icon-chevronLeft"></div>
+      </button>
+        <button type="button" class="slds-button slds-button_brand redButton" label="Send" title="Send" onclick="{!c.sendToMuleSoft}"> Send
+</button>
+    </div>
+
+</aura:component>

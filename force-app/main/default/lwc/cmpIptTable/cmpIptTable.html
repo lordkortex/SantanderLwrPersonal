@@ -1,0 +1,146 @@
+<template>
+    <lightning-navigation data-id="navService"></lightning-navigation>
+
+    <!--<c-cmp-ipt-pagination all-data={receivedList} payments-per-page={paymentsPerPage} id="pagination"></c-cmp-ipt-pagination>-->
+    <!-- TABLE -->
+    <div class="slds-table--header-fixed_container tableGPI">
+    <div if:true={showSpinner}>
+        <lightning-spinner id="spinnerTable" variant="brand" size="large"></lightning-spinner>
+    </div>
+
+    <div class="slds-scrollable_y">
+        <table class="slds-table slds-table--header-fixed slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+            <!-- HEADER -->
+            <thead>
+                <tr class="slds-text-title_caps">
+                    <th class="containerIconStatus" scope="col">
+                        <div class="slds-truncate slds-cell-fixed"></div>
+                    </th>
+                    <th class="containerStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                        <div class="slds-truncate slds-cell-fixed" >{status}</div>
+                    </th>
+                    
+                    <th class="containerOrigen" scope="col">
+                        <div class="slds-truncate slds-cell-fixed" >{originAccount}</div>
+                    </th>
+                    <th class="containerBeneficiary" scope="col">
+                        <div class="slds-truncate slds-cell-fixed">{beneficiaryAccount}</div>
+                    </th>
+                    <th class="slds-is-sortable containerValue" aria-label="Stage" aria-sort="none" scope="col">
+                        <div class="slds-truncate slds-cell-fixed" >
+                            <div if:true={condition1}>
+                                <span class="button-orderRight icon-arrowDown" data-title-left={adminRolesOrder}  id="valueDate" onclick={sortBy}></span>
+                            </div>
+                            <div if:false={condition1}>
+                                <span class="button-orderRight icon-arrowUp" data-title-left={tReverseOrder}  data-id="valueDate" onclick={sortBy}></span>
+                            </div>
+                            <span>{valueDate}</span>
+                        </div>
+                    </th>
+                    <th class="slds-is-sortable containerSettled" aria-label="Confidence" aria-sort="none" scope="col">
+                        <div class="slds-truncate slds-cell-fixed" >
+                            <div if:true={condition2}>
+                                <span class="button-orderRight icon-arrowDown" data-title-left={adminRolesOrder}  id="settledAmount" onclick={sortBy}></span>                            
+                            </div> 
+                            <div if:false={condition2}>
+                                <span class="button-orderRight icon-arrowUp" data-title-left={tReverseOrder} data-id="settledAmount" onclick={sortBy}></span>
+                            </div> 
+                            <span>{settledAmount}</span>
+                        </div>
+                    </th>
+                    <th class="containerIconDetail" scope="col">
+                        <div class="slds-truncate slds-assistive-text slds-cell-fixed">{actions}</div>
+                    </th>
+                    <th class="containerIconDetail" scope="col">
+                        <div class="slds-truncate slds-assistive-text slds-cell-fixed">{actions}</div>
+                    </th>
+                </tr>
+            </thead>
+
+            <!-- BODY -->
+            <tbody>
+                <!--NO DATA -->
+                <template if:true={condition4}>
+                    <template for:each={jsonArray} for:item='item'>
+                        <!-- <c:CMP_IPTTableRow item="{!item}" fromCashNexus="{!v.fromCashNexus}"/> -->
+                        <tr key={item} aria-selected="false">
+                            <td class="slds-text-align_center status" role="gridcell">
+                                <div class={class1}></div>
+                            </td>
+                            <td role="gridcell" class="statusInfo">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text status">{item.paymentDetail.statusLabel}</span>
+                                    <!-- <span class="slds-truncate text status">{!v.statusLabel}</span> -->
+                                </div>
+                                <div class="slds-grid slds-grid_align-spread" >
+                                    <span class="text">{item.paymentDetail.statusDate}</span>
+                                </div>
+                            </td>
+                            
+                            <td role="gridcell" class="originInfo">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{item.paymentDetail.originatorData.originatorName}</span>
+                                </div>
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{item.paymentDetail.originatorData.originatorAccount.accountId}</span>
+                                </div>
+                            </td>
+                            
+                            <td role="gridcell" class="beneficiaryInfo">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{item.paymentDetail.beneficiaryData.beneficiaryName}</span>
+                                </div>
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{item.paymentDetail.beneficiaryDatareditorCreditAccount.accountId}</span>
+                                </div>
+                            </td>
+                            
+                            <td role="gridcell" class="valueDateInfo">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <span class="slds-truncate text">{item.paymentDetail.valueDate}</span>
+                                </div>
+                            </td>
+                            
+                            <!-- <td class="slds-text-align_right" role="gridcell" >
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <c:CMP_displayAmount fromGPI="true" amount="{!v.item.paymentDetail.paymentAmount.amount}" numberFormat="{!v.item.paymentDetail.paymentAmount.numberFormat}"  decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.item.paymentDetail.paymentAmount.tcurrency}"/>
+                                </div>
+                            </td> -->
+
+                            <td class="slds-text-align_right" role="gridcell">
+                                <div class="slds-grid slds-grid_align-spread">
+                                    <div class="slds-truncate" >
+                                        <span class="text amountInteger">{item.paymentDetail.paymentAmount.paymentAmount_FormattedEntirePart}</span>
+                                        <span class="text amountDecimals">{item.paymentDetail.paymentAmount.paymentAmount_FormattedDecimalPart} {item.paymentDetail.paymentAmounturrency_X}</span>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="slds-text-align_center tracking" role="gridcell">
+                                <div class="icon-tracking" id={index} data-title={tracking} onclick={openPaymentDetails}></div>
+                            </td>
+                            <td class="slds-text-align_left doc" role="gridcell">
+                                <div class="icon-doc103" data-title-left={downloadMt103} id={item.paymentDetail.paymentId} onclick={downloadMT103}></div>
+                            </td>
+                        </tr>
+                    </template>
+
+                </template>                    
+            </tbody>
+        </table>
+        <div if:true={condition3}>
+
+        <div class="container_noResults image results-background">
+            <div class="slds-media__figure"><div class="icon-warning"></div></div>
+            <div class="slds-text-title">{noResultsFound}</div>
+            <div class="text_container">
+                <div class="slds-text-align_center">{noResultsLabel}</div>
+            </div>
+            <div class="pill-button">
+                <button class="slds-button slds-button_brand redButton" onclick={openSearch}>{searchLabel}</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+</template>

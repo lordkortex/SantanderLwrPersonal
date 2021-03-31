@@ -1,0 +1,111 @@
+.THIS .button-page{
+    cursor: pointer;
+}
+
+.THIS .icon-delete:before {
+    color: #444444;
+    content: "\e913";
+    font-size: 16px;
+}
+
+.THIS .icon-deleteAll:before {
+    color: #444444;
+    content: "\e913";
+    font-size: 24px;
+}
+
+.THIS .fillPill{
+    border: none;
+    display: inline-flex;
+    height: 32px;
+    margin-left: 0;
+    margin: 4px 4px 0 0;  
+    padding: 5px 8px 7px 12px;
+}
+
+.THIS .fillPill:hover{
+    background-color: #ffffff;
+}
+
+.THIS .lastPill{
+    display: flex;
+    font-size: 24px;
+    justify-content: flex-end;
+    margin: 8px 0 0 0;
+}
+
+.THIS.pillContainer{
+   	background-color:#eff6f9;
+    border: 0px;
+    border-radius:4px;
+    height: auto;
+    margin-bottom: 8px;
+    padding: 4px 24px 8px 16px;
+  	width: 1184px;
+}
+
+.THIS .sizeXPill{
+    font-size: 16px;
+}
+
+.THIS .slds-button{
+    border:0;
+}
+.THIS .slds-media__body:focus{
+    outline: none;
+}
+.THIS .slds-media__figure:focus{
+    outline:none;
+}
+
+.THIS .slds-pill__remove{
+    margin:0;
+}
+
+.THIS .slds-pill:focus{
+    box-shadow:none;
+}
+.THIS .textPill{
+    color: #7c7c7c;
+    font-size: 14px;
+    margin-right: 8px;
+    height: 20px;
+}
+
+/* TOOLTIPS */
+
+.THIS div[data-title]:hover:after {
+    opacity: 1;
+    transition: all 0.1s ease 0.5s;
+    visibility: visible;
+}
+
+.THIS div[data-title]:focus:after{
+    box-shadow:none;
+}
+
+.THIS div[data-title]:after {
+    background: #ffffff;
+    border-radius: 4px;
+    bottom: -1.6em;
+    box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+    color: #444444;
+    content: attr(data-title);
+    font-family:"SantanderTextW05-Regular";
+    font-size:12px;
+    left: 100%;
+    opacity: 0;
+    padding: 4px 8px 6px 8px;
+    position: absolute;
+    visibility: hidden;
+    z-index: 99999;
+    white-space: nowrap; 
+    -moz-border-radius: 4px; 
+    -webkit-border-radius: 4px;  
+    -moz-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);
+    -webkit-box-shadow: 1px 1px 2px 0 rgba(68, 68, 68, 0.16), 1px 1px 4px 0 rgba(0, 0, 0, 0.15);  
+}
+
+.THIS div[data-title] {
+    position: relative;
+}

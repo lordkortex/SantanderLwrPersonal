@@ -1,0 +1,55 @@
+<aura:component>
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" type="List"    name="filterList"      default="[]"    description="List of possible filters(name) for the current option." />
+    <aura:attribute access="public" type="String"  name="label"           default=""      description="Combobox filter label." />
+    <aura:attribute access="public" type="String"  name="name"            default=""      description="Name of the filter." />
+    <aura:attribute access="public" type="Boolean" name="showDropdown"    default="false" description="Indicates if the dropdown must be open." />
+    <aura:attribute access="public" type="List"    name="selectedFilters" default="[]"    description="List of all the selected filters(name) of all options." />
+    <aura:attribute access="public" type="String"   name="selectedLabel"  default=""      description="Label of the checkbox if the user has selected only one option." />
+    <aura:attribute access="public" type="Boolean" 	name="clearDropdown" default="false" description="Indicates if the dropdown must be cleared"/>
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+
+    <aura:registerEvent name="saveFilters" type="c:EVT_B2B_saveFilterAccounts" />
+    <aura:handler name="change"         action="{!c.handleClearDropdown}"              value="{!v.clearDropdown}" />
+    <aura:handler name="change"			action="{!c.handleSetLabel}" 				value="{!v.selectedFilters}"/>
+ 
+    <div class="slds-combobox_container">
+        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+            <button class="{!'slds-button buttons' + (v.selectedFilters.length gt 0 ? ' filterButton' : '')}" onclick="{!c.handleDropdownButton}">
+                <aura:if isTrue="{!v.selectedFilters.length eq 1}">{!v.selectedLabel}
+                    <aura:set attribute="else">{!v.label}
+                        <div class="numberSelected">
+                            <span>{!v.selectedFilters.length}</span>
+                        </div>
+                    </aura:set>
+                </aura:if>
+
+                
+                <div class="{!(v.showDropdown eq true ? 'icon-arrowUp_small' : 'icon-arrowDown_small')}" />
+            </button>
+            <aura:if isTrue="{!v.showDropdown eq True}">
+                <section aria-describedby="filterBy" aria-label="" class="slds-popover slds-popover_full-width" role="dialog">
+                    <div class="slds-popover__body" id="filterBy">
+                        <fieldset class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <div class="titleOptions">{!$Label.c.filterBy}&nbsp;{!v.label}</div>
+                                <aura:iteration items="{!v.filterList}" var="elementFilter">
+                                    <c:CMP_B2B_FilterOptionsCheckbox aura:id="checkboxes"
+                                        label="{!elementFilter.label}"
+                                        iden="{!elementFilter.value}"
+                                        isChecked="false"
+                                        value="{!elementFilter.value}" /> 
+                                </aura:iteration>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <footer class="slds-popover__footer">
+                        <button class="slds-button primary button_small" onclick="{!c.handlerApplyFilters}">{!$Label.c.apply}</button>
+                        <button class="slds-button button_link" onclick="{!c.handlerClearFilters}">{!$Label.c.clearAll}</button>
+                    </footer>
+                </section>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

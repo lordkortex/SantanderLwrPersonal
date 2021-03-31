@@ -1,0 +1,35 @@
+<template> <!-- controller="CNT_OBD_Controller"-->
+
+    <div if:true={isLoading}>
+        <!--Temporal - Sustituir por pantalla de carga final-->
+        <div class="contentMotion"> 
+            <div class="navBar">
+                <div class="box_gray_dark navPrimary"></div>
+                <div class="box_gray_medium30 navSecondary"></div>
+            </div>
+            <div class="slds-grid">
+                <div class="sliderLoading">
+                    <div class="backgroundLoading"> 
+                    </div>
+                    <div class="sliderText">
+                        <div class="cabecera">
+                            <img class="logo-red" src={logoSource}/>
+                            <div class="pretitle">{Label.GPSkeleton_didYouKnow}</div>
+                        </div>  
+                        <!--<div class="title title1">International payments between Santander <br></br> bank accounts are instantaneous</div>-->
+                        <div class="title title1">{Label.GPSkeleton_internationalPayments} <br></br>{Label.GPSkeleton_internationalPayments2}</div>
+                        <div class="title title2">{Label.GPSkeleton_balancesAccounts} <br></br> {Label.GPSkeleton_balancesAccounts2}</div>
+                        <div class="title title3">{Label.GPSkeleton_trackPayments} <br></br> {Label.GPSkeleton_trackPayments2}</div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <!--Temporal-->
+    </div>
+
+    <div if:false={isLoading}>
+        <!--Aquí mostrar pantalla de selección de compañías-->
+        <p>Pantalla de selección de compañías</p>
+    </div>
+
+</template>

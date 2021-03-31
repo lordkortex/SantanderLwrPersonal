@@ -1,0 +1,59 @@
+.slds-scoped-notification {
+    width: 100%;
+    height: 80px;
+    margin: 0 0 16px 0;
+    padding: 16px 16px 18px 16px;
+    border-radius: 4px;
+    align-items: center;
+}
+.slds-media__body h2 {
+    font-family: SantanderMicroText-Bd;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #444444;
+    margin: 0;
+}
+.slds-media__body p {
+    font-family: SantanderMicroText;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #444444;
+}
+
+.button-selected {
+    margin-right: 8px;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+}
+.button-selected:before {
+    font-size: 24px;
+}
+
+/* SUCCESS */
+.icon-success::before {
+    color: #3a8340;
+}
+
+.slds-scoped-notification_succes {
+    border: solid 1px #3a8340;
+    background-color: #f7fbf7;
+}
+
+/* WARNING */
+.icon-caution::before {
+    color: #946f00;
+}
+.slds-scoped-notification_warning {
+    border: solid 1px #946f00;
+    background-color: #fffcf5;
+}
+
+/* ERROR */
+.icon-close_emptyCircle:before {
+    color: #990000;
+}
+.slds-scoped-notification_error {
+    border: solid 1px #990000;
+    background-color: #fcf2f2;
+}

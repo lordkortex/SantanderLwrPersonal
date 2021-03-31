@@ -1,0 +1,72 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute access="public"     type="Integer"       name="minutesInit" default='0'/>
+    <aura:attribute access="public"     type="Integer"       name="secondsInit" default='0'/>
+	<aura:attribute access="public"     type="Integer"       name="minutes" default='0'/>
+    <aura:attribute access="public"     type="Integer"       name="seconds" default='0'/>
+    <aura:attribute access="public"     type="String"       name="evolution" default=''/>
+    <aura:attribute access="public"     type="Boolean"       name="update" default='false'/>
+    <aura:attribute access="public"     type="Boolean"       name="expiredFX" default='false'/>
+    <aura:attribute access="public"     type="Boolean"      name="spinner"              default="false"/>
+    <aura:attribute access="public"     type="Aura.Action"       name="FXAction"/>
+
+    <aura:handler name="init"   action="{!c.init}" value="{!this}" />
+
+    <aura:handler name="change" action="{!c.setStartTimeOnUI}" value="{!v.seconds}" />
+    <aura:handler name="change" action="{!c.restart}" value="{!v.expiredFX}" />
+
+    <aura:if isTrue="{!v.expiredFX == false}">
+        
+        <!-- PROGRESS RING AVAILABLE -->
+        <div class="progress-ring_container available">
+            <div class="slds-progress-ring"> 
+                    <div class="{!'slds-progress-ring__progress slds-progress-ring__progress'+v.evolution}" role="progressbar" ></div>  
+                    <div class="slds-progress-ring__content">
+                        <p>{!v.minutes}:{!v.seconds}</p>
+                    </div>
+                </div>
+            <div class="progress-ring_text">
+                <p>{!$Label.c.ExchangeRateLocked}&nbsp;<span>{!v.minutesInit}&nbsp;{!$Label.c.minutes}</span>.</p>
+            </div>
+            <aura:if isTrue="{!v.spinner eq true}">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:if>
+        </div>
+        <!--Ends PROGRESS RING AVAILABLE  -->
+
+        <aura:set attribute="else">
+
+        <!-- PROGRESS RING NOT AVAILABLE -->
+        <aura:if isTrue="{!v.update}">
+            <div class="progress-ring_container__update">
+                <aura:if isTrue="{!v.spinner eq true}">
+                    <lightning:spinner alternativeText="Loading" size="medium" />
+                </aura:if>
+                <p>{!$Label.c.theExchangeRateExpired}</p>
+                <button class="slds-button secondary button_icon button_small" onclick="{!v.FXAction}">
+                    {!$Label.c.UpdateExchangeRate}&nbsp;<span class="icon icon-reload"></span>
+                </button>
+            </div>
+
+            <aura:set attribute="else">
+                <div class="progress-ring_container notAvailable">
+                    <div class="slds-progress-ring"> 
+                            <div class="slds-progress-ring__progress" role="progressbar" ></div> 
+                        
+                        <div class="slds-progress-ring__content">
+                            <span class="icon-information" data-aura-rendered-by="186:2;a"></span>
+                        </div>
+                    </div>
+        
+                    <div class="progress-ring_text">
+                        <p>{!$Label.c.ExchangeRateExpired}&nbsp;<span>{!$Label.c.cantBeUpdated}</span>&nbsp;{!$Label.c.again}.</p>
+                    </div>
+                </div> 
+            </aura:set>
+        </aura:if>
+         
+        <!-- Ends PROGRESS RING NOT AVAILABLE -->
+
+        </aura:set>
+    </aura:if>
+    
+</aura:component>

@@ -1,0 +1,138 @@
+<template>
+    <c-lwc_service-component>
+    </c-lwc_service-component>
+    <div class="slds-grid titleAccount">
+        <!-- Left column -->
+        <div class="slds-col title">
+            <div>
+                <!-- Row 1: Title -->
+                <div if:true={isAccountAliasNotUndefined}>
+                    <div class="slds-text-heading_medium firstRow">{accountdetails.accountAlias}</div>
+                </div>
+                <!-- Row 2: Subtitle -->
+                <div class="slds-text-heading_subtitle">
+                    <div if:true={isAccountNameNotUndefined}>
+                        <span>{getAccountDetails}</span>
+                    </div>
+                    <div if:true={isAccountNameUndefined}>
+                        <span>{getAccountNumber}</span>
+                    </div>
+                    <div class="icon icon-copy" onclick={copy}>
+                        <span class="text-link">{Label.copy}</span>
+                    </div>
+                    <div if:true={showaccountdetaillink}>
+                        <div class="icon icon-details">
+                            <span class="text-link" onclick={navigateToAccountDetails}>{Label.Account_details}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Row 3: Text -->
+                <div if:true={showlatestinformationtimestamp}>
+                    <!--10/10/2020, 10:35-->
+                    <div if:true={isNotAccountTransactions}>
+                        <div class="slds-text-body_regular">   
+                            <span>{Label.Accounts_Updated}&nbsp;
+                                <c-lwc_display-date 
+                                    dateclass="" 
+                                    date={accountdetails.dateValue}>
+                                </c-lwc_display-date>&nbsp;{accountdetails.hourValue}</span>
+                        </div>
+                    </div>
+                    <div if:false={isNotAccountTransactions}>
+                            <!-- GGS 20/04/2020-->
+                            <div if:true={bookDateNotNull}>
+                                <div if:true={lastupdate}>
+                                    <div class="slds-text-body_regular">   
+                                        <span>{Label.Accounts_Updated}&nbsp;
+                                            <c-lwc_display-date 
+                                                dateclass="" 
+                                                date={accountdetails.bookDate}>
+                                            </c-lwc_display-date>&nbsp;{accountdetails.updatedHour} </span>
+                                    </div>
+                                </div>
+                                <div if:false={lastupdate}>
+                                        <div class="slds-text-body_regular">   
+                                            <span>{Label.Accounts_Updated}&nbsp;
+                                                <c-lwc_display-date 
+                                                    converttousertimezone="false" 
+                                                    dateclass="" 
+                                                    date={accountdetails.bookDate}>
+                                                </c-lwc_display-date> </span>
+                                        </div>
+                                </div>
+                            </div>
+                            <div if:false={bookDateNotNull}>
+                                    <div class="slds-text-body_regular">   
+                                        <span>{getDateValue}</span>
+                                    </div>
+                            </div>
+                    </div>
+                </div>
+                <!-- Row 4: Line -->
+                <div class="text_line"></div>
+            </div>
+            
+            <!--JVV-->
+            <div if:true={showAccountPaymentFromCashNexus}>
+                <button class="slds-button primary button_icon" role="option" tabindex="0" aria-selected="true" onclick={openPaymentUETRTrack}>
+                    {Label.TrackByUETR}<span class="icon-income-expenses"></span>
+                </button>
+            </div>         	
+        </div>
+        
+        <!-- Right column -->
+        <div if:true={showtotals}>
+            
+            <table>
+                <!--<div class="slds-col account">-->
+                <th>
+                    <!-- Column 1: Text-->
+                    <div class="bookBalance" data-aura-rendered-by="63:2;a">
+                                                        
+                        <!-- Row 1: Book Balance -->
+                        <div class="slds-card__header-title textSubtitle firstRow">
+                            <span>{Label.TotalBookBalance}</span>
+                        </div>
+                        
+                        <!-- Row 2: Total Available Balance -->
+                        <div class="slds-card__header-title textSubtitle">
+                            <span>{Label.TotalAvailableBalance}</span>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <!-- Column 2: Numbers -->
+                    <div class="bookBalanceNumber">
+                        <!-- Row 1 -->
+                        <div class="slds-card__header-title numberTitle firstRow">
+                            
+                                <c-lwc_display-amount 
+                                    data-id="bookBalance" 
+                                    amount={accountdetails.bookBalance}
+                                    decimalclass="numberTitle bookDecimals" 
+                                    wholeclass="numberTitle bookInteger" 
+                                    currency={accountdetails.accountCurrency}>
+                                </c-lwc_display-amount> 
+                        
+                        </div>
+                        <!-- Row 2 -->
+                        <div class="slds-card__header-title numberSubtitle">
+                            
+                            <c-lwc_display-amount 
+                                data-id="valueBalance" 
+                                amount={accountdetails.availableBalance} 
+                                decimalclass="bookDecimals" 
+                                wholeclass="bookInteger" 
+                                currency={accountdetails.accountCurrency}>
+                            </c-lwc_display-amount>
+                            
+                        </div>
+                        
+                    </div>
+                </th>    
+                <!--</div>  -->
+            </table> 
+        </div>   
+    </div>    
+</template>

@@ -1,0 +1,44 @@
+<template>
+<div class="calendar">
+                <div class="slds-form slds-form_compound">
+                    <div class="slds-form-element__row">
+                        <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                            <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                            <label class="slds-form-element__label">Value date from</label>
+                            <div
+                                class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+
+                                <!-- Icono que aparecerá cuando este disabled -->
+                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                    <div class="button icon-prohibited"></div>
+                                </div>
+
+                                <!-- Icono de cruz que aparece cuando seleccionas una fecha -->
+                                <button
+                                    class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close">
+                                    <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                    <span class="slds-assistive-text">Clear the text input</span>
+                                </button>
+
+                                <div class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                    aria-hidden="true">
+                                    <div class="slds-button__icon icon-calendar"></div>
+                                </div>
+
+                                <!-- Cuando se abre dropdown añadir la clase inputActive para que se oscurezca 
+                                <lightning:input type="date" name="inputFrom" autocomplete="off" dateStyle="short" placeholder="10/04/2020" /> -->
+                                <!--<ui-inputDate aura:id="dateField" value="Value date from" class="field"
+                                    displayDatePicker="true" format="MM/dd/yyyy" />-->
+                                <lightning-input id="dateField" class="field" type="date" name="input2" value="Value date from"></lightning-input>
+                                <!--<lightning-formatted-date value="1547250828000" year="2-digit" month="2-digit" day="2-digit" ></lightning-formatted-date>-->
+                            </div>
+                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                            <!-- <div class="slds-form-element__help helperText">dd/mm/yyyy</div>  -->
+                            <!-- Cuando el texto introducido sea erronea saldrá un mensaje de error -->
+                            <div class="errorText">Error! Incorrect user input format.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+</template>

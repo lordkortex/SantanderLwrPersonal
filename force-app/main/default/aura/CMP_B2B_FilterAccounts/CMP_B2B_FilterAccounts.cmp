@@ -1,0 +1,58 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+	<ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public"  type="List"    name="accountList"           default="[]" description="List of account to filter." />
+    <aura:attribute access="public"  type="List"    name="accountsFiltered"      default="[]" description="List of account's filtered." />
+    <aura:attribute access="public"  type="Decimal" name="minimumBalance"        default=""   description="Minimum value to filter the balance." />
+    <aura:attribute access="public"  type="Decimal" name="maximumBalance"        default=""   description="Maximum value to filter the balance." />
+    <aura:attribute access="private" type="List"    name="corporates"            default="[]" description="List of corporates filters." />
+    <aura:attribute access="private" type="List"    name="corporatesSelected"    default="[]" description="List of selected corporates." />
+    <aura:attribute access="private" type="List"    name="countries"             default="[]" description="List of countries filters." />
+    <aura:attribute access="private" type="List"    name="countriesSelected"     default="[]" description="List of selected countries." />
+    <aura:attribute access="private" type="List"    name="currencies"            default="[]" description="List of currencies filters." />
+    <aura:attribute access="private" type="List"    name="currenciesSelected"    default="[]" description="List of selected currencies." />
+    <aura:attribute access="private" type="String"  name="searchedString"        default=""   description="Search information placed in the account search input." />
+    <aura:attribute access="public"  type="String"  name="numberFormat"          default='###,###,###.##'                  description="User number Format" />
+    <aura:attribute access="public"  type="Boolean" name="resetSearch" 	         default="false" 	description="Reset search when the button is clicked." />
+    <aura:attribute access="public"  type="List"    name="filters"           default="[]" description="List offilter." />
+
+    <aura:handler name="init"        action="{!c.init}"         value="{!this}" />
+    <aura:handler name="saveFilters" action="{!c.handleFilter}" event="c:EVT_B2B_saveFilterAccounts" />
+    <aura:handler name="change"         action="{!c.handleResetSearch}"              value="{!v.resetSearch}" />
+
+    <div class="searchFiltersAccounts">
+        <div class="slds-grid">
+            <div class="searchFilters">
+                <!-- Añadir la clase "error" en el siguiente div para mostrar el mensaje errorText -->
+                <div class="slds-form-element search">
+                    <div class="slds-form-element__control slds-input-has-icon">
+                        <aura:if isTrue="{! !empty(v.searchedString)}">
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" title="Clear" onclick="{!c.handleClearInput}">
+                                <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true" />
+                                <span class="slds-assistive-text">{!$Label.c.clear}</span>
+                            </button>
+                        </aura:if>
+                        <!-- Cuando el input tenga un valor seleccionado se le tiene que añadir la clase filledInput -->
+                        <input type="search" placeholder="{!$Label.c.search}" class="{!'slds-input' + (!empty(v.searchedString) ? ' filledInput' : '')}" name="search" value="{!v.searchedString}" oninput="{!c.handleInputSearch}" onclick="handleSearchInputClicked"/>
+                        <div class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true" />
+                    </div>
+                    <!-- Mensaje de error oculto por defecto -->
+            		<div class="errorText">Error! Incorrect user input format.</div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{!$Label.c.filterBy}</label>
+                    <div class="slds-form-element__control filters">
+                        <!--PILL 1 COMBOBOX--> 
+                        <c:CMP_B2B_FilterButtonDropdown aura:id="filter" showDropdown="false" label="{!$Label.c.B2B_Country}"    name="country"    filterList="{!v.countries}"  selectedFilters="{!v.countriesSelected}" clearDropdown="{!v.resetSearch}"/>
+                        <!--PILL 2 COMBOBOX--> 
+                        <c:CMP_B2B_FilterButtonDropdown aura:id="filter" showDropdown="false" label="{!$Label.c.B2B_Corporates}" name="corporates" filterList="{!v.corporates}" selectedFilters="{!v.corporatesSelected}" clearDropdown="{!v.resetSearch}"/>
+                        <!--PILL 3 COMBOBOX--> 
+                        <c:CMP_B2B_FilterButtonDropdown aura:id="filter" showDropdown="false" label="{!$Label.c.B2B_Currency}"   name="currency"   filterList="{!v.currencies}" selectedFilters="{!v.currenciesSelected}" clearDropdown="{!v.resetSearch}"/>
+                        <!--PILL 4 COMBOBOX--> 
+                        <c:CMP_B2B_FilterButtonBalances aura:id="filter" numberFormat='{!v.numberFormat}' showDropdown="false" minimumBalance="{!v.minimumBalance}" maximumBalance="{!v.maximumBalance}" clearBalances="{!v.resetSearch}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

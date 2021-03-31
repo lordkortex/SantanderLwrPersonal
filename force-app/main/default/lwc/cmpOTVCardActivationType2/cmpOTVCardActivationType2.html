@@ -1,0 +1,26 @@
+<template>
+    <div>
+        <!-- CARD TYPE 2 -->
+        <article class="slds-card type2">
+            <div class="slds-card__header slds-grid">
+                <header class="slds-media slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <span class="icon icon-ok"></span>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">{label.cmpOTVActivationCompleted2_1}</h2>
+                        <div class="slds-card__header-body">
+                            <p>
+                                {label.cmpOTVActivationCompleted2_2}
+                            </p>
+                        </div> 
+                    </div>
+                </header>
+            </div>
+            <div class="slds-grid__button">
+                <button class="slds-button primary button_full" onclick={accept}>{label.cmpOTVActivationCompleted2_3}</button>
+                <c-cmp-o-t-v-subsidiaries-selection if:true={showSubsidiaries}></c-cmp-o-t-v-subsidiaries-selection>
+            </div>
+        </article>
+    </div>
+</template>

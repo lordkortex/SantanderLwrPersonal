@@ -1,0 +1,9 @@
+<aura:event type="COMPONENT" description="Event used to delete a row in the request authorization table">
+    <aura:attribute name="title" type="String" description="title of delete pop-up" />
+    <aura:attribute name="firstDescription" type="String" description="first bullet of delete pop-up" />
+    <aura:attribute name="secondDescription" type="String" description="second bullet of delete pop-up" />
+    <aura:attribute name="showDeletePopup" type="Boolean" description="to show pop-up" />
+    <aura:attribute name="isYesSelected" type="Boolean" description="if the yes button has been selected" />
+    <aura:attribute name="idAuthorization" type="String" description="id of the authorization" />
+    <aura:attribute name="indexAuthorization" type="Integer" description="index of the Authorization in the list" />
+</aura:event>

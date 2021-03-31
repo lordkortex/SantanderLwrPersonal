@@ -1,0 +1,58 @@
+<!-- Author:       	 Diego Asis
+     Company:        Deloitte
+     Description:    Function to display only the necessary rows in the tables
+     History
+     <Date>			<Author>			<Description>
+ 	 06/02/2020		Diego Asis		     Initial version
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_ViewAuthorization">
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:attribute name="itemPosition" type="Integer"/>
+    <aura:attribute name="item" type="Object"/>  
+    
+    <aura:registerEvent name="authorizationDelete" type="c:EVT_AuthorizationDelete" />
+    
+    <tr class="slds-hint-parent border" aria-selected="false">
+        
+        <td role="gridcell" data-title="{!v.item.autorizacion.fecPett}">
+            <div class="slds-truncate" >{!v.item.autorizacion.fecPett}</div>
+        </td >
+        <td role="gridcell" data-title="{!v.item.autorizacion.accio}">
+            <div class="slds-truncate" >{!v.item.autorizacion.accio}</div>
+        </td>
+        <td role="gridcell" data-title="{!v.item.autorizacion.estapeti}">
+            <div class="slds-truncate" >{!v.item.autorizacion.estapeti}</div>
+        </td >
+        <td role="gridcell" data-title="{!v.item.autorizacion.nombusua}">
+            <div class="slds-truncate" >{!v.item.autorizacion.nombusua}</div>
+        </td>
+        <td role="gridcell" data-title="{!v.item.autorizacion.fapro}">
+            <div class="slds-truncate" >{!v.item.autorizacion.fapro}</div>
+        </td >
+        <td role="gridcell" data-title="{!v.item.autorizacion.comenta5}">
+            <div class="slds-truncate" >{!v.item.autorizacion.comenta5}</div>
+        </td >
+        <td role="gridcell" data-title="{!$Label.c.T_Modify}">
+            <aura:if isTrue="{!v.item.autorizacion.estaPeti!='R'}">
+            	<button class="slds-button slds-button_icon icon-edit" onclick="{!c.goToEdit}"></button>
+            </aura:if>
+        </td>
+        <td role="gridcell" data-title="{!$Label.c.T_ViewInformation}">
+            <button class="slds-button slds-button_icon icon-viewProfile" onclick="{!c.goToView}"></button>
+        </td>
+        <td role="gridcell" data-title="{!$Label.c.T_ViewDetail}">
+            <button class="slds-button slds-button_icon icon-document" onclick="{!c.goToDetail}"></button>
+        </td>
+        <td role="gridcell" data-title="Reissue">
+            <aura:if isTrue="{!v.item.autorizacion.estaPeti=='R'}">
+                <button class="slds-button slds-button_icon icon-settings" onclick="{!c.goToEdit}"></button>
+            </aura:if>
+        </td>
+        <td role="gridcell" data-title="{!$Label.c.T_Delete}">
+            <button class="slds-button slds-button_icon icon-trash" onclick="{!c.modalDelete}"></button>
+        </td>
+    </tr>
+    
+</aura:component>

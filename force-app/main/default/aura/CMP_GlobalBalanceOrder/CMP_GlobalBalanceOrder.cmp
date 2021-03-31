@@ -1,0 +1,65 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute  name="sortSelected" type="String" default="{!$Label.c.GlobalBalanceOrderOne}" description="Accounts display order"/>
+    <aura:attribute name="sortList" type="List" description="Global Balance Accounts availbale display order"/>
+    <aura:attribute name="itabSelected" type="String" default="LastUpdateTab" description="Current selected tab"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:registerEvent name="GlobalBalanceSort" type="c:EVT_GlobalBalanceSort"/>
+    <aura:registerEvent name="GlobalBalanceDownload" type="c:EVT_Download"/>
+    
+    <div class="slds-card__header slds-grid displayOrder">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <!-- ETIQUETA -->
+            <div class="slds-card__header-title label">
+                {!$Label.c.DisplayOrder}
+            </div>  
+            
+            
+            <div class="slds-form-element__control paddingInput">
+                <div class="slds-combobox_container inputSize">
+                    <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox" style="display:block !Important;">
+                        
+                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                            <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" title="{!$Label.c.Show_More}">
+                                <div class="slds-border_right orderSelected">{!v.sortSelected}</div> 
+                                <div class="slds-button__icon arrow" aria-hidden="true">
+                                    <div class="button-arrow icon-arrowDown_small"></div>
+                                </div>
+                                <span class="slds-assistive-text">{!$Label.c.Show_More}</span>
+                            </button>
+                        </div>
+                        <div class="slds-dropdown slds-dropdown_left slds-dropdown_small dropdownOrder">
+                            <ul class="slds-dropdown__list" role="menu" aria-label="{!$Label.c.Show_More}">
+                                <aura:iteration items="{!v.sortList}" var="item">
+                                    <li class="{!item == v.sortSelected ? 'slds-dropdown__item slds-is-selected' : 'slds-dropdown__item'}" role="presentation" id="{!item}" onclick="{!c.selectSort}">
+                                        <a class="paddingOption"  role="menuitemcheckbox" tabindex="0" aria-checked="true" >
+                                            <div class="slds-truncate optionOrder" title="{!item}">
+                                                <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
+                                                    <div class="button-selected icon-check"></div>
+                                                </div>
+                                                <span class="nameOrder">{!item}</span>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </aura:iteration>  
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+   
+            <!-- ACCIONES -->
+            <div class="slds-media__body actions">
+                <div class="button-download icon-download" title="{!$Label.c.download}" onclick="{!c.download}"></div>
+                <!-- BOTÓN EXPANDIR -->
+                <div class="{!v.itabSelected + '_iAll button-expand icon-expand slds-show'}" title="{!$Label.c.ExpandAll}" onclick="{!c.expandAll}"></div>   
+                <!-- BOTÓN CONTRAER   --> 
+                <div class="{!v.itabSelected + '_iAll button-expand icon-collapse slds-hide'}" title="{!$Label.c.ContractAll}" onclick="{!c.collapseAll}"></div>
+                
+            </div>
+        </header>
+    </div>
+</aura:component>

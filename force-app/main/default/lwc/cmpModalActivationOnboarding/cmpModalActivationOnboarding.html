@@ -1,0 +1,53 @@
+<template>
+    <div if:true={showModal} >
+        <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container sizeM">
+                <!--<header class="slds-modal__header slds-modal__header_empty">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse">
+                <div class="slds-button button-page icon-close"></div> 
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>-->
+                
+                <!-- Eliminar la clase oneSlide para mostrar tanto la slide de activación como de configuración -->
+                <div class="oneSlide">
+                    <!-- En este componente no se debe mostrar el title de <a class="slds-carousel__indicator-action">-->
+                    <!-- Para ello pegar la siguiente línea en el doInit utilizando el id correspondiente: document.getElementById("indicator-id-03").removeAttribute("title"); -->
+
+                    <!-- CAROUSEL -->
+                    <lightning-carousel disable-auto-refresh="true" disable-auto-scroll	="true">
+                        <lightning-carousel-image
+                                                src = {imagesLanding}
+                                                header = "How to select other administrators"
+                                                description = 'Select one user from the list to open its user information side bar.
+                                                                Then, set the role field to "Administrator" and click on "Save changes".'
+                                                alternative-text = "How to select other administrators" > 
+                        </lightning-carousel-image>
+                        <lightning-carousel-image
+                        src = {imagesConfiguration}
+                                                header = "How to configure user profiles"
+                                                description = "Select one user form the list to open its information side bar.
+                                                                Here, you can assign and manage permissions to the confirmed accounts." 
+                                                alternative-text = "How to configure user profiles"> 
+                        </lightning-carousel-image>     
+                    </lightning-carousel>
+                    
+                    <!-- FOOTER -->
+                    <div class="slds-form-element carousel-footer">
+                        <div class="slds-form-element__control">
+                            <div class="slds-checkbox">
+                                <input type="checkbox" name="options" id="checkbox-unique-id-73" value="checkbox-unique-id-73" onchange={selectCheckBox}/>
+                                <label class="slds-checkbox__label" for="checkbox-unique-id-73">
+                                    <span class="slds-checkbox_faux"></span>
+                                    <span class="slds-form-element__label checkboxLabel" >Don't show this again</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button class="slds-button primary button_small button_full" onclick={closeModal}>Skip</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</template>

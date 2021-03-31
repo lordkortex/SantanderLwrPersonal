@@ -1,0 +1,34 @@
+<template>
+    <!-- Spinner -->
+    <div if:true={loading}>
+        <div class="spinnerclass">
+            <lightning-spinner 
+            variant="brand" 
+            size="large" >
+            </lightning-spinner>
+        </div>
+    </div>
+            <!-- MODAL CONTENT -->
+            <div class="slds-modal__content activation" id="modal-content-id-1" if:false={loading}>
+                <!-- GRID CONTENT -->
+                <div class="slds-grid__content">
+                    <div class="cardContent">
+                        <div class="slds-grid__card" for:each={filas} for:item="fila" key={fila}>
+                            <div class="slds-col" for:each={lstExternalURL} for:item="ExternalURL" key={ExternalURL} data-item={ExternalURL.url} if:true={condition}>
+                                <!--CARD-->
+                                <article class="cardBeneficiary slds-card" onclick={goExternalSite} data-item={ExternalURL.url}>
+                                    <div class="slds-card__header slds-grid" data-item={ExternalURL.url}>
+                                        <header class="slds-media slds-has-flexi-truncate" data-item={ExternalURL.url}>
+                                            <div class="slds-media__body slds-grid" data-item={ExternalURL.url}>
+                                                <h2 class="slds-card__header-title slds-truncate" data-item={ExternalURL.url}>{ExternalURL.externalName}</h2>
+                                                <!-- <div class="slds-truncate card_subtitle" >{ExternalURL.image}</div> -->
+                                            </div>
+                                        </header>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</template>

@@ -1,0 +1,201 @@
+.THIS .calendar input {
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(255, 255, 255);
+    border-image: initial;
+    border-radius: 4px 4px 0 0;
+    border-style: none;
+    border-width: 0;
+    box-shadow: inset 0 -1px 0 0 #8dd9de;
+    display: inline-block;
+    font-size: 12px;
+    height: 36px;
+    line-height: 36px;
+    padding: 0 1rem 0 .75rem;
+    transition: none;
+    width: 176px;
+}
+
+.THIS .calendar input:focus {
+    box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+
+.THIS .error {
+    color:#ec0000;
+}
+
+
+.THIS .calendar input::-webkit-input-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+.THIS .calendar input::-moz-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+.THIS .calendar input:-ms-input-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+.THIS .calendar input:-moz-placeholder {
+    color: #a2a2a2;
+    font-size: 12px;
+}
+
+.THIS .calendar .slds-button_icon-bare {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    height: 24px;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    width: 24px;
+}
+
+.THIS .calendar .slds-button_icon-bare:before {
+    color: #ec0000;
+    content: "\e90b";
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.THIS .calendar .slds-button_icon-bare svg {
+    display: none;
+}
+
+.THIS .calendar .slds-input__icon.slds-input__icon_right {
+    bottom: 0;
+    height: 24px;
+    margin: auto;
+    padding: 0 4px;
+    right: 0px;
+    top: 0;
+    width: 33px;
+}
+
+.THIS .calendar.slds-form_compound .slds-form-element__row .slds-form-element+.slds-form-element {
+    padding-left: 16px;
+}
+
+.THIS .textHelpError {
+    color: #ec0000 !important;
+    display: inline-block;
+    font-size: 12px;
+    height: 18px;
+    padding-left: 0px;
+}
+
+.THIS .slds-datepicker {
+    padding: 16px 16px;
+}
+
+.THIS .slds-datepicker .slds-button:focus {
+    box-shadow: none;
+}
+
+.THIS .slds-datepicker .slds-button__icon {
+    fill: #ec0000;
+}
+
+.THIS .slds-datepicker .slds-datepicker__filter.slds-grid {
+    padding: 0;
+}
+
+.THIS .slds-datepicker .slds-datepicker__month thead tr {
+    text-transform: uppercase;
+}
+
+.THIS .slds-datepicker .slds-datepicker__month thead th {
+    color: #444444;
+    font-size: 12px;
+}
+
+.THIS .slds-datepicker .slds-day,
+.THIS .slds-datepicker th,
+.THIS h2,
+.THIS .slds-select {
+    font-size: 12px;
+}
+
+.THIS .slds-datepicker .slds-select {
+    font-family: SantanderTextW05-Regular;
+    height: 32px;
+}
+
+.THIS .slds-datepicker .slds-select_container {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+}
+
+.THIS .slds-datepicker .slds-select_container:after {
+    border: none;
+    bottom: 13px;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 15px;
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+ 
+.THIS .calendar .datePicker-openIcon {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'icomoon'!important;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    height: 24px;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    width: 24px;
+    bottom: 11px;
+        background: none;
+}
+.THIS .calendar .datePicker-openIcon:before {
+    color: #ec0000;
+    content: "\e90b";
+    cursor: pointer;
+    font-size: 24px;
+}
+.THIS .slds-datepicker .slds-select_container:before {
+    border: none;
+    color: #ec0000;
+    content: "\e904";
+    font-size: 19px;
+    height: 8px;
+    right: 4px;
+    top: 13px;
+    transform: rotate(180deg);
+    transform-origin: 50% 50%;
+    width: 8px;
+}
+
+.THIS .slds-datepicker .slds-text-link {
+    color: #ec0000;
+    font-family: SantanderTextW05-Bold;
+    font-size: 12px;
+}
+
+.THIS .slds-datepicker td {
+    padding: 0;
+}
+
+.THIS .slds-datepicker td.slds-is-selected>.slds-day {
+    background: #444444;
+}

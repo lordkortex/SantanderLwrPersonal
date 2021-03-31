@@ -1,0 +1,16 @@
+<aura:component>
+    
+    <aura:attribute name="currencyList" type="List" description="List of currencies" />
+    <aura:attribute name="selectedCurrency"  type="String" description="Selected dropdown value" />
+    <aura:if isTrue="{!empty(v.currencyList)}">
+        <c:CMP_CN_Dropdown isSimpleDropdown="true" values="{!v.currencyList}"
+                           selectedValue="{!$Label.c.selectOne}"  headerDropdown="{!$Label.c.ConsolidationCurrency}" isDisabled="true"/>
+        <aura:set attribute="else">
+            <c:CMP_CN_Dropdown isSimpleDropdown="true" values="{!v.currencyList}"
+                               selectedValue="{!v.selectedCurrency}"  headerDropdown="{!$Label.c.ConsolidationCurrency}"/>
+        </aura:set>
+        
+    </aura:if>
+    
+    
+</aura:component>

@@ -1,0 +1,177 @@
+/* TEXTAREA */
+
+.slds-form-element.textarea {
+    min-height: 112px;
+    width:100%;
+}
+
+.slds-form-element__label {
+    color: #767676;
+	font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    z-index: 2;
+}
+.slds-form-element__control .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    position: absolute;
+}
+.slds-form-element .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    position: absolute;
+    display: block;
+
+}
+
+.slds-form-element.error .errorText {
+	display: block;
+}
+
+ .slds-textarea {
+    background-color: #ffffff;
+    width: 100%;
+    min-height: 88px;
+    -webkit-appearance: none;
+    resize: none;
+    border-width: 1px;
+    border-style: solid;
+    border-color:  #deedf2;
+    border-image: initial;
+    border-radius: 4px 4px 0 0;
+    transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+    padding: 12px 56px 12px 16px; 
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    overflow: hidden;
+}
+
+ .slds-textarea:focus, 
+ .slds-textarea:active {
+    background-color: rgb(255, 255, 255);
+    box-shadow:none;
+    outline: 0px;
+    box-shadow: inset 0 -2px 0 0 #257fa4;
+}
+
+.icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;
+}
+
+.slds-button{
+    position: absolute;
+    right: 12px;
+    top: 14px;
+    height: 24px;
+    right: 16px;
+    width: 24px;
+}
+
+.slds-button__icon{
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
+    justify-content: center;
+}
+
+ div.slds-form-element__control{
+    font-size: 0;
+}
+
+
+.helperText{
+    color: #767676;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 16px;
+    margin-top: 0;
+}
+
+.slds-form-element__label + .slds-form-element__control .slds-textarea {
+    padding: 19px 70px 5px 16px;
+}
+
+textarea::-webkit-input-placeholder { 
+    color: #767676;
+} 
+  
+/* Firefox 18- */ 
+textarea:-moz-placeholder { 
+    color: #767676;
+} 
+  
+/* Firefox 19+ */ 
+textarea::-moz-placeholder { 
+    color: #767676;
+} 
+
+textarea:-ms-input-placeholder { 
+    color: #767676;
+} 
+
+textarea::placeholder { 
+    color: #767676;
+} 
+
+textarea:focus::-webkit-input-placeholder{color:transparent;}
+
+/*AUTO-RESIZE*/
+/*
+.auto-resize{
+    height:45px;
+    display: block; 
+    overflow: hidden; 
+    resize: none;
+}
+.textarea:focus{
+   outline:none
+}
+*/
+/*DISABLED*/
+
+.slds-textarea[disabled] + .slds-button{
+	cursor: not-allowed;
+}
+.slds-textarea[disabled]{
+	background-color: #ffffff;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    cursor: not-allowed;
+    box-shadow: none;
+    color: #767676;
+}
+.slds-textarea[disabled]:hover{
+    box-shadow: none;
+}
+
+.slds-textarea[disabled]:active,
+.slds-textarea[disabled]:focus{
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}
+
+/*ERROR*/
+
+
+.error .slds-form-element__control .slds-textarea {
+	border-bottom: 1px solid #cc0000;
+    box-shadow: none;
+}

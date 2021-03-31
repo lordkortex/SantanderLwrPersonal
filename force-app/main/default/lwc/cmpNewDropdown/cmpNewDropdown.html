@@ -1,0 +1,78 @@
+<template>
+    <!-- DROPDOWN MARKUP --> 
+    <!--<div class="slds-form-element__control paddingInput">
+        <div class="slds-combobox_container inputSize">-->
+			<!--01/04/2020 - Account Payments Tracker - disabling-->
+            <div class={clase1} aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                <div if:true={isSimpleDropdown}>
+                    <!-- SIMPLE DROPDOWN -->
+                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                        <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" title={helpText} disabled={disabled1}>
+                            <div if:true={condition1}>
+                                <div class="slds-border_right orderSelectedPlaceholder  selectedValue-placeholder ">{selectedValue}</div> 
+                            </div>
+                            <div if:true={condition2}>
+                                <div class="slds-border_right orderSelected selectedValue">{selectedValue}</div>
+                            </div>
+                            <div if:true={condition3}>
+                                <div class="slds-border_right orderSelectedPlaceholder selectedValue-placeholder">{valuePlaceholder}</div>
+                            </div>
+                            <div class="slds-button__icon arrow" aria-hidden="true">
+                                <div class="button-arrow icon-arrowDown_small"></div>
+                            </div>
+                            <span class="slds-assistive-text">{helpText}</span>
+                        </button>
+                    </div>
+                    <div class={clase2}>
+                        <ul class="slds-dropdown__list" role="menu" aria-label={helpText}>
+                            <template for:each={values} for:item='item'>
+                                <li key={item} class={clase3} role="presentation" id={item} onclick={selectOption}>
+                                    <a class="paddingOption"  role="menuitemcheckbox" tabindex="0" aria-checked="true" >
+                                        <div class="slds-truncate optionOrder" title={item}>
+                                            <div class="slds-icon slds-icon_selected slds-icon_x-small slds-icon-text-default slds-m-right_x-small iconMargin">
+                                                <div class="button-selected icon-check"></div>
+                                            </div>
+                                            <span class="nameOrder">{item}</span>
+                                        </div>
+                                    </a>
+                                </li>
+                            </template>  
+                        </ul>
+                    </div>
+                </div>
+                <div if:false={isSimpleDropdown}>
+                    <!-- MULTISELECT DROPDOWN -->
+                    <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                        <!--01/04/2020 - Account Payments Tracker - disabling -->
+                        <button class="slds-button slds-button_icon slds-button_icon-border-filled button-order" aria-haspopup="true" title={helpText} disabled={disabled1}>
+                            <div if:true={condition4}>
+                                <div class="slds-border_right orderSelectedPlaceholder  selectedValue-placeholder slds-truncate">{valuePlaceholder}</div> 
+                            </div>
+                            <div if:true={condition5}>
+                                <span class="slds-border_right orderSelected slds-truncate">{contenido1}</span> 
+                            </div>
+                            <div if:true={condition6}>
+                                <div class="slds-border_right orderSelected slds-truncate">{contenido2}</div> 
+                            </div>
+                            <div if:true={condition7}>
+                                <div class="slds-border_right orderSelected slds-truncate">{contenido3}</div> 
+                            </div>
+                            <div class="slds-button__icon arrow" aria-hidden="true">
+                                <div class="button-arrow icon-arrowDown_small"></div>
+                            </div>
+                            <span class="slds-assistive-text">{helpText}</span>
+                        </button>
+                    </div>
+                    <!--01/04/2020 - Account Payments Tracker - disabling-->
+                    <div class={clase2}>
+
+                        <lightning-checkbox-group options={valuesObject} value={selectedValues}></lightning-checkbox-group>
+                        <!--<aura:iteration items="{!v.values}" var="item">
+                            <lightning:input type="checkbox" label="{!item}" aura:id="checkbox" id="{!item}" onchange="{!c.selectOption}"/>
+                        </aura:iteration>  -->
+                    </div>
+                </div>
+            </div>
+        <!--</div>
+    </div>-->   
+</template>

@@ -1,0 +1,215 @@
+<!--
+Author:         Guillermo Giral / Teresa Santos
+Company:        Deloitte
+Description:    Component to allow the download of historical data
+History
+<Date>			<Author>		    <Description>
+17/12/2019		Guillermo Giral     Initial version
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="CNT_DownloadBalanceMovementsController" access="global">
+    
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name = "typeOfInfo"                type = "Boolean"     default = "true"/> 
+    <aura:attribute name = "dates"                     type = "List"        description = "Array of dates selected in the component options"/>    
+    <aura:attribute name = "singleDate"                type = "List"        description = "Array of dates selected in the component options"/>                                                         
+    <aura:attribute name = "countries"                 type = "Map"         description = "Map containing all the countries and their ISO code"/>
+    <aura:attribute name = "countryNameList"           type = "List"        description = "List of countries shown in the picklist"/>
+    <aura:attribute name = "selectedCountries"         type = "List"        description = "Countries selected in the picklist. They all are shown as pills below the dropdown"/>
+    <aura:attribute name = "countryPills"              type = "List"        description = "List of abbreviated country names for the pills"/>
+    <aura:attribute name = "accounts"                  type = "List"        description = "List of accounts shown in the picklist"/>
+    <aura:attribute name = "selectedAccounts"          type = "List"        description = "Accounts selected in the picklist. They all are shown as pills below the dropdown"/>
+    <aura:attribute name = "accountPills"              type = "List"        description = "List of abbreviated accounts for the pills"/>
+    <aura:attribute name = "fileFormatList"            type = "List"        description = "List of file formats shown in the picklist"/>
+    <aura:attribute name = "fileFormat"                type = "String"      description = "Selected file format"/> <!-- SIC Contingencia / PDF - Extractos / MT940-->
+    <aura:attribute name = "fileDate"                  type = "String"      description = "Selected file date" default="lastStatement"/> 
+    
+    
+    <!-- COMPONENT HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.selectedCountries}" action="{!c.updateCountryPills}"/>
+    <!--aura:handler name="change" value="{!v.selectedAccounts}" action="{!c.updateAccountPills}"/-->
+    <aura:handler name="clearConcretePill" event="c:EVT_ClearConcretePill" action="{!c.removePill}"/>
+    
+    <!-- COMPONENT MARKUP -->
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <c:CMP_ServiceComponent aura:id="service"/>
+    
+    <aura:registerEvent name="showToast" type="c:EVT_Toast"/>
+    
+    <!-- COMPONENT MARKUP -->
+    <div class="slds-form" role="list">
+        <div class="slds-form__row">
+            <fieldset class="slds-form-element">
+                <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.DownloadBalance_TypeOfInfo}</legend>
+                <span class="slds-radio">
+                    <input type="radio" id="{!$Label.c.DownloadBalance_Consolidated}" value="{!$Label.c.DownloadBalance_Consolidated}" name="options" aria-describedby="error_01"
+                           checked="true" onchange="{!c.getTypeOfFile}"/>
+                    <label class="slds-radio__label" for="{!$Label.c.DownloadBalance_Consolidated}">
+                        <span class="slds-radio_faux"></span>
+                        <span class="slds-form-element__label">{!$Label.c.DownloadBalance_Consolidated}</span>
+                    </label>
+                </span>
+                <span class="slds-radio">
+                    <input type="radio" id="{!$Label.c.DownloadBalance_Online}" value="{!$Label.c.DownloadBalance_Online}" name="options" aria-describedby="error_01" onchange="{!c.getTypeOfFile}"/>
+                    <label class="slds-radio__label" for="{!$Label.c.DownloadBalance_Online}">
+                        <span class="slds-radio_faux"></span>
+                        <span class="slds-form-element__label">{!$Label.c.DownloadBalance_Online}</span>
+                    </label>
+                </span>
+            </fieldset>
+        </div>
+        <div class="slds-form__row">
+            
+            <!-- COUNTRIES -->
+            <!--
+            <div class="slds-form__item" role="listitem">
+                <span class="slds-form-element__label alignRight">{!$Label.c.DownloadBalance_Country}</span>
+                <div class="slds-form-element" id="form-element__country">
+                    COUNTRIES DROPDOWN 
+                    <c:CMP_Dropdown aura:id="countryDropdown" isSimpleDropdown="false" selectAllValues="All Countries" valuePlaceholder="All Countries"  
+                                        valueSingle="country selected" valueMulti="countries selected" values="{!v.countryNameList}" selectedValues="{!v.selectedCountries}"/>
+                    
+                    COUNTRY PILLS CONTAINER
+                    <div class="slds-pill_container slds-wrap" id="country-pills">
+                        <c:CMP_Pill aura:id="pillsCountries" pillsContainer="{!v.countryPills}"/>
+                    </div>
+                </div>
+            </div>
+            -->
+            
+            <!-- ACCOUNTS -->
+            
+            <div class="slds-form__item">
+                <span class="slds-form-element__label">{!$Label.c.Account}</span>
+                <div class="slds-form-element" id="form-element__accounts">
+                    <!-- ACCOUNTS DROPDOWN --> 
+                    <c:CMP_Dropdown aura:id="accountDropdown" isSimpleDropdown="false" selectAllValues="{!$Label.c.DownloadBalance_AllAccounts}" valuePlaceholder="{!$Label.c.DownloadBalance_MultipleChoice}"  
+                                    valueSingle="{!$Label.c.DownloadBalance_AccountSelected}" valueMulti="{!$Label.c.DownloadBalance_AccountsSelected}" values="{!v.accounts}" selectedValues="{!v.selectedAccounts}"/>
+                    
+                    <!-- ACCOUNT PILLS CONTAINER--> 
+                    <!--
+                    <div class="slds-pill_container slds-wrap" id="accounts-pills">
+                        <c:CMP_Pill aura:id="pillsAccounts" pillsContainer="{!v.accountPills}"/>
+                    </div>
+                    -->
+                </div>
+            </div>
+            <!--</div>-->
+            
+            
+            <!-- FILE FORMAT -->
+            <!--<div class="slds-form__row marginRow">-->
+            <div class="slds-form__item statement" role="listitem">
+                <span class="slds-form-element__label">{!$Label.c.DownloadBalance_FileFormat}</span>
+                <div class="slds-form-element" id="form-element__country">
+                    <!-- FILE FORMAT DROPDOWN -->
+                    <c:CMP_Dropdown aura:id="fileFormatDropdown" isSimpleDropdown="true" values="{!v.fileFormatList}" 
+                                    selectedValue="{!v.fileFormat}" valuePlaceholder="{!$Label.c.DownloadBalance_SelectOne}"/>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        <!--SIC CONTINGENCIA - UNIQUE DATE -->
+        <div class="slds-form__row">
+            <fieldset class="slds-form-element calendar">
+                <legend class="slds-form-element__legend slds-form-element__label">{!$Label.c.DownloadBalance_FileDate}</legend>
+                <aura:if isTrue="{!v.fileFormat != 'SIC Contingency'}">
+                    <span class="slds-radio lastStatement">
+                        <input type="radio" id="radio-45" value="{!$Label.c.DownloadBalance_LastStatement}" name="date" aria-describedby="error_01"
+                               checked="true" onchange="{!c.getFileDate}"/>
+                        <label class="slds-radio__label" for="radio-45">
+                            <span class="slds-radio_faux"></span>
+                            <span class="slds-form-element__label">{!$Label.c.DownloadBalance_LastStatement}</span>
+                        </label>
+                    </span>                                             
+                </aura:if>
+                <!-- CALENDAR - UNIQUE DATE -->
+                
+                <div class="uniqueDate">
+                    <aura:if isTrue="{!v.fileFormat != 'SIC Contingency'}"> 
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-46" value="{!$Label.c.DownloadBalance_UniqueDate}" name="date" aria-describedby="error_01" onchange="{!c.getFileDate}"/>
+                            <label class="slds-radio__label" for="radio-46">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{!$Label.c.DownloadBalance_UniqueDate}</span>
+                            </label>
+                        </span>
+                        
+                        <aura:set attribute="else">
+                            <c:CMP_Calendar aura:id="calendarDay" simple="true" placeholderSingle="{!$Label.c.Day}" dates="{!v.singleDate}"/>
+                        </aura:set>
+                    </aura:if>
+                </div>
+                
+                
+                <!--aura:if isTrue="{!v.fileFormat == 'SIC Contingency'}">
+                        <c:CMP_Calendar aura:id="calendarDay" simple="true" placeholderSingle="{!$Label.c.Day}" dates="{!v.singleDate}"/>
+            </!aura:if-->
+                
+                
+                <!-- BETWEEN TWO DATES -->
+                <aura:if isTrue="{!v.fileFormat != 'SIC Contingency'}">
+                    <div class="doubleDate">
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-47" value="{!$Label.c.DownloadBalance_BetweenDates}" name="date" aria-describedby="error_01" onchange="{!c.getFileDate}"/>
+                            <label class="slds-radio__label" for="radio-47">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{!$Label.c.DownloadBalance_BetweenDates}</span>
+                            </label>
+                        </span>
+                        <aura:if isTrue="{!v.fileDate != 'statementFor'}">
+                            <aura:if isTrue="{!v.fileDate == 'lastStatement'}">
+                                <aura:set attribute="else">
+                                    <c:CMP_Calendar aura:id="calendarBetweenDates" simple="false" placeholderFrom="{!$Label.c.from}" placeholderTo="{!$Label.c.to}" 
+                                                    dateTo="{!v.dates[1]}" dateFrom="{!v.dates[0]}" dates="{!v.dates}"/>
+                                </aura:set>
+                            </aura:if>
+                            <aura:set attribute="else">
+                                <c:CMP_Calendar aura:id="calendarDay" simple="true" placeholderSingle="{!$Label.c.Day}" dates="{!v.singleDate}"/>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </aura:if>
+            </fieldset>
+        </div>
+        
+        
+        <!-- REPORT TYPE -->
+        <aura:if isTrue="{!v.fileFormat == 'PDF-Statement'}">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing">
+                        
+                        <span class="slds-form-element__label">{!$Label.c.DownloadBalance_TypeOfReport}</span>
+                        <span class="slds-radio"> 
+                            <input type="radio" id="radio-49" value="radio-49" name="informe" aria-describedby="error_01"
+                                   checked="true" />
+                            <label class="slds-radio__label" for="radio-49">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{!$Label.c.DownloadBalance_FilePerDay}</span>
+                            </label>
+                        </span>
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-50" value="radio-50" name="informe" aria-describedby="error_01" />
+                            <label class="slds-radio__label" for="radio-50">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{!$Label.c.DownloadBalance_EverydayGroupedFile}</span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        
+        <!-- BUTTONS -->
+        <div class="slds-form__row slds-grid_align-end" id="wrapper-buttons">
+            <button class="slds-button slds-button_brand whiteButton" onclick="{!c.cleanData}">{!$Label.c.DownloadBalance_Clean}</button>
+            <button class="slds-button slds-button_brand redButton" onclick="{!c.download}">{!$Label.c.DownloadBalance_Download}</button>
+        </div>
+    </div>
+    
+</aura:component>

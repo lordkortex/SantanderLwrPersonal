@@ -1,0 +1,37 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    Component to display the title of the page and go back to previous page
+History
+<Date>			<Author>		    <Description>
+19/02/2020		Laura Espinel		Design
+21/02/2020		Amanda Fernandez	Layout coding of the page
+26/02/2020		Shahad Naji     	Initial version
+25/03/2020      Guillermo Giral     Added EVT_TitleSubtitleNavigate to improve the navigation
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_AccountBalance">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <!-- COMPONENT ATTRIBUTES -->
+    <aura:attribute name="title" type="String" default="" description="A sentence provided by parent component to display as a page title"/>
+    <aura:attribute name="subtitle" type="String" default="" description="A sentence provided by parent component to display as a page subtitle"/>
+    <aura:attribute name="fireNavigationEvent" type="Boolean" default="false" description="Flag to make the component fire an event on breadcrumb click"/>
+    <aura:attribute name="comesFromTracker" type="Boolean" default="false"/>
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:attribute name="fullAccountList" type="List"/>
+
+    <lightning:navigation aura:id="navService"/>
+
+    <!-- Events -->
+    <aura:registerEvent name="navigateBack" type="c:EVT_TitleSubtitleNavigate"/>
+    
+    <div class="breadcrumbs">
+        <div class="slds-text-heading_medium">
+            <div class="button-back icon-arrowLeft_big" onclick="{!c.goBack}"></div>
+            <span class="text-link" onclick="{!c.goBack}">{!v.title}</span>
+        </div>
+        <div class="slds-text-heading_medium subtitle">
+            {!v.subtitle}
+        </div>
+    </div>
+</aura:component>

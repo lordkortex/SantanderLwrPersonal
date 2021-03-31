@@ -1,0 +1,226 @@
+/* GENERAL */
+
+.THIS.slds-form-element {
+	display:inline-block;
+    min-height:72px;
+    width: 392px;
+}
+
+/* DROPDOWN */
+.THIS .slds-form-element__label {
+    color: #767676;
+    font-family: SantanderMicroText;
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 6px;
+    z-index: 2;
+}
+
+.THIS .button-order {
+    display: flex;
+	border: 1px solid #deedf2;
+	background-color:#ffffff;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #257fa4;
+	height: 48px;
+	width: 100%;
+	min-width:392px;	
+}
+
+.THIS .button-order .button-arrow {
+	font-size: 24px;
+}
+
+.THIS .button-order:focus {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.THIS .button-order:hover {
+	box-shadow: inset 0 -2px 0 0  #257fa4;
+}
+
+.THIS .slds-dropdown {
+	box-shadow: inset 0 -1px 0 0 #cedee7;
+	background-color: #ffffff;
+	border-top: none;
+	border-right: 1px solid #deedf2;
+	border-left: 1px solid #deedf2;
+	border-bottom: 1px solid #257fa4;
+	border-radius: 0 0 4px 4px;
+	cursor: pointer;
+	left: auto;
+	margin: 0;
+	max-width: 100%;
+    min-width: inherit;
+    overflow: hidden;
+	padding: 0;
+	right: auto;
+	top: 48px;
+    width: 100%;
+    z-index: 3;
+}
+
+.THIS .slds-dropdown ul {
+	overflow-y: auto;
+	max-height: 192px;
+	margin: 6px 0 6px 5px;
+ }
+
+ .THIS .slds-button__icon {
+	width: 24px;
+	height: 24px;
+	margin: 12px 16px;
+}
+
+.THIS .optionOrder {
+	align-items: center;
+	display: inline-flex;
+    line-height: 24px;
+}
+
+
+.THIS .dropdownOrder .slds-dropdown__item > a:hover,
+.THIS .dropdownOrder .slds-dropdown__item > a:active,
+.THIS .dropdownOrder .slds-dropdown__item > a:focus{
+    border-radius: 4px;
+	background-color:#e5f1f5;
+	margin-right: 5px;
+}
+
+.THIS .dropdownOrder .slds-dropdown__item > a {
+	padding:0 12px;
+	font-size: 16px;
+	font-family: "SantanderMicroText";
+	color: #444444;
+    height: 36px;
+    line-height: 36px;
+    width:100%;
+}
+
+.THIS .dropdownOrder .slds-dropdown__item {
+	height:48px;
+    display: flex;
+    align-items: center;
+}
+.THIS .dropdownOrder .slds-dropdown__item:first-child {
+	margin-top:0;
+}
+.THIS .dropdownOrder .slds-dropdown__item:last-child {
+	margin-bottom:0;
+}
+.THIS .dropdownOrder .optionOrder .slds-form-element__label {
+	margin: 0 ;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	color: #444444;
+}
+.THIS .slds-border_right {
+	font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    align-items: center;
+    border: 0;
+    display: flex;
+	 /* padding: 0 48px 0 16px; */
+	padding-left: 16px;
+    width: 100%;
+}
+.THIS .slds-border_right.selectedValue-placeholder {
+    color: #767676;
+}
+.THIS .selectedValue-filled {
+	color: #444444;
+    display: block;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.THIS .slds-form-element__label + .slds-combobox .slds-dropdown-trigger_click .button-order .slds-border_right {
+    padding: 19px 70px 5px 16px;
+}
+
+/* SCROLLBAR */
+.THIS .slds-dropdown ul::-webkit-scrollbar {
+	width: 6px;
+}
+.THIS .slds-dropdown ul::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.THIS .slds-dropdown ul::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.THIS .slds-dropdown ul::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+} 
+
+/*ERROR*/
+
+.THIS.error .slds-form-element__help {
+	display: none;
+}
+
+.THIS.slds-form-element .errorText{
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    position: absolute;
+    display: none;
+}
+.THIS.error .helperText {
+    display: none;
+}
+.THIS.slds-form-element.error .errorText {
+    display: block;
+}
+
+.THIS.error .slds-form-element__label{
+    color: #cc0000;
+}
+
+.THIS.error .slds-combobox .button-order {
+    border-bottom: 1px solid #cc0000;
+    box-shadow: none;
+}
+
+.THIS.error .slds-combobox .button-order:active,
+.THIS.error .slds-combobox .button-order:focus,
+.THIS.error .slds-combobox .button-order:hover{
+	box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+
+/*DISABLED*/
+.THIS .button-order[disabled] .button-arrow.icon-arrowDown_small:before,
+.THIS .button-order[disabled] .button-arrow.icon-arrowUp_small:before {
+	color: #cccccc;
+}
+
+.THIS .button-order[disabled]{
+	background-color: #ffffff;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    cursor: not-allowed;
+    box-shadow: none;
+    color: #767676;
+}
+.THIS .button-order[disabled] .selectedValue-filled {
+	color: #767676;
+}
+.THIS .button-order[disabled]:hover{
+    box-shadow: none;
+}
+.THIS .button-order[disabled]:active, 
+.THIS .button-order[disabled]:focus{
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}

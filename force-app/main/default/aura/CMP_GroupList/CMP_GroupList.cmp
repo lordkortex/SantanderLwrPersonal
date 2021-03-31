@@ -1,0 +1,87 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Contains the table of the groups screen
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_GroupController">
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- List of attributes that the table is going to have -->
+    <aura:attribute name="groupList" type="List"/>
+    <aura:attribute name="groupValues" type="Object"/>
+
+    <!-- PAGINATION ATTRIBUTES -->
+    <aura:attribute name="groupsPerPage"    type="Integer"  default="14" description="Number of rows to show in each page of the table"/>
+    <aura:attribute name="currentPage"      type="Integer"  default="1" description="current page of the pagination"/>
+    <aura:attribute name="oldPage"          type="Integer"  default="1" description="previous page of the pagination"/>
+    <aura:attribute name="start"            type="Integer"  default="0" description="Row number of the first displayed row"/>
+    <aura:attribute name="end"              type="Integer"  description="Row number of the last displayed row"/>
+    <aura:attribute name="paginatedGroups"    type="List"/>
+
+    <!--ROW ATTRIBUTES-->
+    <lightning:navigation aura:id="navService"/>
+    <aura:attribute name="dataObject" type="Object" description="object that the table is going to have"/>
+    <aura:registerEvent name="groupNewDelete" type="c:EVT_GroupNew_Delete" />
+    <!---->
+
+    <aura:handler name="change" value="{!v.groupList}" action="{!c.paginationChange}"/>
+    <aura:handler name="getPageEvent" event="c:EVT_SwiftPaymentTablePagination" action="{!c.buildTablePage}"/>
+
+    <!-- COMPONENT MARKUP -->
+
+    <c:CMP_Pagination allData="{!v.groupList}" paymentsPerPage="{!v.groupsPerPage}" aura:id="pagination"/>
+    <!--TABLE-->
+    <div class="slds-table--header-fixed_container slds-table_edit_container slds-is-relative">
+        <div class="slds-scrollable_y">
+            <table aria-multiselectable="true" class="slds-table slds-table_edit slds-table--header-fixed slds-no-row-hover slds-table_resizable-cols slds-table_striped slds-table_fixed-layout" role="grid">
+
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th aria-label="{!$Label.c.GroupList_Name}" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col">
+                            <div class="slds-cell-fixed slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                <span class="slds-truncate" data-title-on-right="{!$Label.c.GroupList_Name}">{!$Label.c.GroupList_Name}</span>
+                            </div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" data-title-on-right=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" data-title-on-right=""></div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate slds-assistive-text" data-title-on-right=""></div>
+                        </th>
+                    </tr>
+                </thead>
+
+                <!--BODY-->
+                <tbody>
+                    <aura:iteration items="{!v.groupList}" start="{!v.start}" end="{!v.end}" var="item" indexVar="index">      
+                        <!--<c:CMP_GroupListRow dataObject="{!item.datosGrupos}"/>-->
+                        <!--ROW1-->
+                        <tr aria-selected="false" class="slds-hint-parent">
+                            <td class="" role="gridcell">
+                                <span class="slds-grid slds-grid_align-spread">
+                                <span class="slds-truncate">{!item.datosGrupos.nomgruus}</span>
+                                </span>
+                            </td>
+                            <td role="gridcell">
+                                <button value="{!item.datosGrupos.codgrupr}" class="slds-button slds-button_icon icon-profile" data-title-left="{!$Label.c.T_Profile}" onclick="{!c.navigateToProfile}"></button>
+                            </td>
+                            <td role="gridcell">
+                                <button value="{!item.datosGrupos.codgrupr}" class="slds-button slds-button_icon icon-viewProfile" data-title-left="{!$Label.c.T_ViewInformation}" onclick="{!c.navigateToView}"></button>
+                            </td>
+                            <td role="gridcell">
+                                <button value="{!item.datosGrupos.codgrupr}" class="slds-button slds-button_icon icon-trash" data-title-left="{!$Label.c.T_Delete}" onclick="{!c.deleteGroup}"></button>
+                            </td>
+                        </tr>
+                        <c:CMP_GroupNew_DeleteService aura:id="authorizationsDelete"/>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

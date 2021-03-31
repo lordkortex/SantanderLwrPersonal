@@ -1,0 +1,19 @@
+<template>
+     <!-- MODAL DOWNLOAD IT HERE -->
+	<c-lwc_-download-app show={showDownload} onhidemodal={showDownloadFalse}></c-lwc_-download-app>
+    <div>
+        <div>
+            <!-- CLICK iD button -->
+            <button onclick={goCompletedSignature}>Test</button>
+        </div>
+        <div>
+            <p class="step_subtitle">{label.cmpOTVSignGlobalID_1}
+            <!-- CLICK DOWNLOAD IT HERE -->
+            <a onclick={showDownloadTrue}>&nbsp;{label.cmpOTVSignGlobalID_2}</a></p>
+        </div>
+        <div>
+            <!-- CLICK RESENT AUTHORIZATION REQUEST -->
+            <a onclick={resentRequest}>&nbsp;{label.cmpOTVSignGlobalID_3}</a></p>
+        </div>
+    </div>
+</template>

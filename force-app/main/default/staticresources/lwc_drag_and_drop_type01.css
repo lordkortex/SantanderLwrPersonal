@@ -1,0 +1,314 @@
+.drag-and-drop-t01{
+    position: relative;
+    height: 108px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container{
+    background-color: #ffffff;
+    width: 808px;
+    padding: 24px 32px;
+}
+
+.drag-and-drop-t01.sky .drag-and-drop_container{
+    background-color: #f6fafc;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container:after{
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    outline: 0px;
+    border-radius: 4px;
+    border: 2px dashed #cedee7;
+    width: 808px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container .validating,
+.drag-and-drop-t01 .drag-and-drop_container .success,
+.drag-and-drop-t01 .drag-and-drop_container .error,
+.drag-and-drop-t01 .drag-and-drop_container + .error-text{
+    display: none;
+}
+
+
+/* DEFAULT CONTENT */
+.drag-and-drop-t01 .drag-and-drop_container .default{
+    width: 536px;
+    z-index: 1;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container .icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 16px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container .icon:before {
+    color: #257fa4;
+    font-size: 32px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container .slds-text-heading_small {
+    font-family: "SantanderMicroText-Bd";
+    font-size: 14px;
+    line-height: 20px;
+    color: #444444;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container .slds-text-body_regular {
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    color: #444444;
+}
+
+/* VALIDATING */
+.drag-and-drop-t01 .drag-and-drop_container.validating-file {
+    padding: 38px 32px;
+}
+.drag-and-drop-t01 .drag-and-drop_container.validating-file:after {
+    border: 1px solid #cedee7;
+}
+.drag-and-drop-t01 .drag-and-drop_container.validating-file .validating {
+    z-index: 1;
+    display: flex;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.validating-file .validating > span {
+    height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.validating-file .default,
+.drag-and-drop-t01 .drag-and-drop_container.validating-file .success,
+.drag-and-drop-t01 .drag-and-drop_container.validating-file .error {
+    display: none;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.validating-file ~ .slds-form-element .slds-file-selector__button{
+    display: none;
+}
+
+
+/* SPINNER */
+.drag-and-drop-t01 .drag-and-drop_container .slds-spinner{
+    left: calc(24px - 8px);
+}
+
+.drag-and-drop-t01 .drag-and-drop_container .slds-spinner img{
+    width: 32px;
+    height: 32px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container .spinner-text{
+    margin-left: 48px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container .spinner-text > span{
+    margin-left: 4px;
+}
+
+
+/* SUCCESS */
+.drag-and-drop-t01 .drag-and-drop_container.success-file {
+    background-color: #F8FCF8;
+    padding: 38px 32px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.success-file:after {
+    border: 1px solid #3a8340;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.success-file .success {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 1;  
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.success-file .success > .slds-grid{
+    align-items: center;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.success-file .success .icon:before {
+    color: #3a8340;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.success-file ~ .slds-form-element .slds-file-selector__button{
+    color: #3a8340;
+    font-family: "SantanderMicroText-Bd";
+    display: inline-flex;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+	box-shadow: none;
+    font-size: 14px;
+    line-height: 24px;
+	cursor: pointer;
+    min-width: auto;
+    padding: 0;
+    margin-right: 32px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.success-file ~ .slds-form-element .slds-file-selector__button:before{
+    content:"\e95e";
+    font-family: "icomoon";
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    color: #3a8340;
+    margin-right: 8px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.success-file .default,
+.drag-and-drop-t01 .drag-and-drop_container.success-file .validating,
+.drag-and-drop-t01 .drag-and-drop_container.success-file .error {
+    display: none;
+}
+
+
+/* ERROR */
+.drag-and-drop-t01 .drag-and-drop_container.error-file {
+    padding: 38px 32px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.error-file:after {
+    border: 1px solid #cc0000;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.error-file .error {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    z-index: 1;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.error-file + .error-text {
+    display: block;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+    color: #cc0000;
+    padding-left: 16px;
+}
+
+.drag-and-drop-t01 .drag-and-drop_container.error-file .default,
+.drag-and-drop-t01 .drag-and-drop_container.error-file .validating,
+.drag-and-drop-t01 .drag-and-drop_container.error-file .success {
+    display: none;
+}
+
+
+/* LWC COMPONENT */
+.drag-and-drop-t01 .slds-form-element {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.drag-and-drop-t01 .slds-form-element__control{
+    max-height: 108px;
+}
+
+.drag-and-drop-t01 .slds-form-element__label{
+    display: none;
+}
+
+.drag-and-drop-t01 .slds-file-selector__dropzone{
+    background-color: transparent;
+    width: 808px;
+    height: 108px;
+    border: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding:0;
+}
+
+.drag-and-drop-t01 .slds-file-selector__dropzone.slds-has-drag-over{
+    background-color: rgba(246, 250, 252, 0.48);
+    box-shadow: inset 0 0 0 2px #9bc3d3;
+}
+
+.drag-and-drop-t01 .slds-file-selector__dropzone.slds-has-drag-over .slds-file-selector__button{
+    background-color: transparent;
+    color: rgba(204, 0, 0, 0.48);
+    box-shadow: inset 0 0 0 1px rgba(204, 0, 0, 0.48);
+    cursor: auto;
+}
+
+.drag-and-drop-t01 .slds-file-selector__dropzone.slds-has-drag-over .slds-file-selector__button:hover,
+.drag-and-drop-t01 .slds-file-selector__dropzone.slds-has-drag-over .slds-file-selector__button:active {
+    background-color: transparent;
+    color: rgba(204, 0, 0, 0.48);
+    box-shadow: inset 0 0 0 1px rgba(204, 0, 0, 0.48);
+    cursor: auto;
+}
+
+.drag-and-drop-t01.sky .slds-file-selector__dropzone.slds-has-drag-over {
+    background-color: rgba(255, 255, 255, 0.48);
+}
+
+.drag-and-drop-t01 .slds-file-selector__dropzone > slot{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.drag-and-drop-t01 .slds-file-selector__text {
+    display: none;
+}
+
+.drag-and-drop-t01 .slds-button__icon{
+    display: none;
+}
+
+.drag-and-drop-t01 .slds-file-selector__button {
+ 	display: inline-flex;
+    justify-content: center;
+    border: none;
+    background-color: #ffffff;
+	box-shadow: inset 0 0 0 1px #ec0000;
+    border-radius: 100px;
+	color: #ec0000;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+	cursor: pointer;
+    min-width: 184px;
+    padding: 4px 16px;
+    margin-right: 32px;
+}
+
+.drag-and-drop-t01 .slds-file-selector__input:focus ~ .slds-file-selector__body > .slds-file-selector__button{
+    box-shadow: inset 0 0 0 1px #ec0000;
+}
+
+.drag-and-drop-t01 .slds-file-selector__button:hover {
+    background-color: #cc0000;
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px #cc0000;
+}
+
+.drag-and-drop-t01 .slds-file-selector__button:active {
+    background-color: #990000;
+    color: #ffffff;
+    box-shadow: inset 0 0 0 1px #990000;
+}
+
+.drag-and-drop-t01 .slds-file-selector__button[disabled],
+.drag-and-drop-t01 .slds-file-selector__button[disabled]:hover,
+.drag-and-drop-t01 .slds-file-selector__button[disabled]:active,
+.drag-and-drop-t01 .slds-file-selector__input:focus ~ .slds-file-selector__body > .slds-file-selector__button[disabled]{
+ 	font-family: "SantanderMicroText";
+    background-color: #ffffff;
+	box-shadow: inset 0 0 0 1px #cccccc;
+	color: #767676;
+    cursor: auto;
+}

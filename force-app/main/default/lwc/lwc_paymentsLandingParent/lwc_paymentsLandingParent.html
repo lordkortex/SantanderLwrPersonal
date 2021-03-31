@@ -1,0 +1,118 @@
+<!--
+  @description       : 
+  @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+  @group             : 
+  @last modified on  : 03-02-2021
+  @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+  Modifications Log 
+  Ver   Date         Author                               Modification
+  1.0   03-02-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+-->
+<template>
+    <c-lwc_service-component data-id='Service'></c-lwc_service-component>
+    <c-lwc_b2b_toast reload={reload}></c-lwc_b2b_toast>
+
+    <!-- FULL SCREEN -->
+    <!--<div class="{showSpinner == true ? 'contentPayments slds-is-relative' : 'contentPayments'}">-->
+    <div class={getClassFullScreen}>
+        
+        <!-- HEADER -->
+        <div>           
+            <c-lwc_payments-landing-header 
+                userfirstname={currentUser.firstName}
+                singlenumrecords={singleNumRecords}
+                multiplenumrecords={multipleNumRecords}
+                issingletabselected={isSingleTabSelected} 
+                
+                onopennewpayment={openModal}>
+            </c-lwc_payments-landing-header>
+        </div>
+
+        <!-- CONTENT -->
+        <template if:true={isSingleTabSelected}>
+            <div>
+                <c-lwc_payments-landing-boxes 
+                    paymentstatusboxes={singlePaymentStatusBoxes} 
+                    selectedpaymentstatusbox={selectedPaymentStatusBox} 
+                    resetsearch={resetSearch}
+                    onchangeselectedpaymentstatusbox={onChangeSelectedPaymentStatusBox}
+                    onreloadaccounts={reloadAccounts}>
+                </c-lwc_payments-landing-boxes>
+            </div>
+            <div>
+                <!-- <template if:true={isSingleDataLoaded}> -->
+                    <c-lwc_payments-landing-filters data-id="paymentsLandingFilters" 
+                        showdownloadmodal={showDownloadModal} 
+                        showfiltermodal={showFilterModal} 
+                        isloading={isLoading}
+                        currentuser={currentUser}
+                        searchedstring={searchedString}
+                        selectedstatuses={selectedStatuses} 
+                        selectedpaymentstatusbox={selectedPaymentStatusBox} 
+                        statusdropdownlist={singleStatusDropdownList}
+                        selectedcurrencies={selectedCurrencies} 
+                        currencydropdownlist={singleCurrencyDropdownList} 
+                        paymentmethoddropdownlist={singlePaymentMethodDropdownList}
+                        countrydropdownlist={singleCountryDropdownList} 
+                        accounts={accounts}
+                        resetsearch={resetSearch}
+                        filtercounter={filterCounter}    
+                        isheaderoptionselected={isHeaderOptionSelected} 
+                        pendingofmyauthorization={pendingOfMyAuthorization}
+                        reloadaccounts={reloadAccounts}
+                        numberofpayments={singlePaymentListLength}
+                        availablestatuses={availableStatuses}
+                        onopendownloadmodal={onOpenDownloadModal}
+                        onreloadaccounts={onReloadAccounts}
+                        onsearchoperationslistfired={searchOperationsList}>
+                    </c-lwc_payments-landing-filters>
+                <!--</template>-->
+            </div>
+
+            <!-- TABLE -->
+            <div>
+                <c-lwc_payments-landing-table data-id="paymentsLandingTable" 
+                    currentuser={currentUser}
+                    selectedpaymentstatusbox={selectedPaymentStatusBox} 
+                    searchedstring={searchedString} 
+                    hassearched={hasSearched}
+                    showfiltermodal={showFilterModal} 
+                    isloading={isLoading} 
+                    resetsearch={resetSearch}
+                    filtercounter={filterCounter} 
+                    selectedrows={selectedRows} 
+                    isallselected={isAllSelected}
+                    noservice={noService}>
+                </c-lwc_payments-landing-table>
+            </div>           
+        </template>
+
+        <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+    </div>
+    
+    <template if:true={showDownloadModal}>
+        <c-lwc_payments-landing-download-modal 
+            showdownloadmodal={showDownloadModal} 
+            selectedrows={selectedRows} 
+            filtercounter={filterCounter} 
+            listlength={singlePaymentList.length}
+            isallselected={isAllSelected}
+            onbuttoncancel={onCloseDownloadModal}
+            onapplydownload={onApplyDownload}>
+        </c-lwc_payments-landing-download-modal>
+    </template>
+
+    <template if:true={showMethodModal}>
+        <c-lwc_payments-method-modal 
+
+            countrydropdownlist={SimpleCountryDropdownList}
+            userdata={currentUser}
+            onclosemodal={closeModal}>
+        </c-lwc_payments-method-modal>
+    </template>
+
+  
+    
+</template>

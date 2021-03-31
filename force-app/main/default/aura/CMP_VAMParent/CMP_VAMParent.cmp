@@ -1,0 +1,20 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_VAMParent" >
+
+    <!--DATA-->
+    <aura:attribute access="public" name="VAMAccounts" type="Map"  default="{}"/>
+
+    <!--SPINNER-->
+    <aura:attribute access="public" name="showSpinner" type="Boolean"  default="false"/>
+    
+    <!--TOAST-->
+    <aura:attribute access="public" name="reload" type="Boolean" default="false"/>
+    <aura:attribute access="public" name="reloadAction" type="Aura.Action" />
+    
+    <c:CMP_B2B_Toast aura:id="toast" reload="{!v.reload}" action="{!v.reloadAction}" />
+
+    <!--ACTIONS-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+        
+    <c:CMP_VAMTable showSpinner="{!v.showSpinner}" VAMAccounts="{!v.VAMAccounts}" />
+
+</aura:component>

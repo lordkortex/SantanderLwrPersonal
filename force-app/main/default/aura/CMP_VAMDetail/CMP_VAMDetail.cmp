@@ -1,0 +1,294 @@
+<aura:component implements="lightning:isUrlAddressable,lightning:hasPageReference,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_VAMDetail" >
+
+    <!--DATA-->
+    <aura:attribute access="public" name="VAMAccount" type="String"  default=""/>
+    <aura:attribute access="public" name="VAMDetail" type="String"  default=""/> 
+    <aura:attribute access="public" name="showDetail" type="Boolean"  default="false"/>
+    <aura:attribute access="public" name="caseAmount" type="String"  default=""/> 
+    <aura:attribute access="public" name="caseCurrency" type="String"  default=""/> 
+    <aura:attribute access="public" name="casePriority" type="String"  default=""/> 
+    <aura:attribute access="public" name="caseSubject" type="String"  default=""/> 
+    <aura:attribute access="public" name="caseDescription" type="String"  default=""/> 
+    <aura:attribute access="public" name="currencyList" type="List" /> 
+    <aura:attribute access="public" name="priorityList" type="List"  /> 
+    <aura:attribute access="public"  type="Map"     name="userData" default="{}"  description="User data." />
+    <aura:attribute access="public" name="displayNewCaseButton" type="Boolean"  default="false" />
+    <aura:attribute access="public" name="editCase" type="Boolean"  default="false"/>
+    <aura:attribute access="public" name="caseId" type="String"  default=""/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    <!--SPINNER-->
+    <aura:attribute access="public" name="showSpinner" type="Boolean"  default="false"/>
+    
+    <!--TOAST-->
+    <aura:attribute access="public" name="reload" type="Boolean" default="false"/>
+    <aura:attribute access="public" name="reloadAction" type="Aura.Action" />
+    
+    <!--ACTIONS-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <c:CMP_B2B_Toast aura:id="toast" reload="{!v.reload}" action="{!v.reloadAction}" />
+    
+        
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large ">
+     
+        <div class="slds-modal__container ">
+           
+           
+            
+            <header class="slds-modal__header">               
+                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">            
+                    <aura:if isTrue="{!!v.editCase}">
+						{!$Label.c.virtualAccountDetail}
+                    <aura:set attribute="else">
+                        {!$Label.c.editCase}
+                        </aura:set>
+                    </aura:if>
+                    </h2>
+            </header>
+            
+            <div class="slds-modal__content slds-p-around_medium slds-is-relative" id="modal-content-id-1">
+                
+                <aura:if isTrue="{!v.showSpinner eq true}">
+                	<lightning:spinner alternativeText="Loading" size="large" variant="brand" />
+            	</aura:if>
+             
+                <div class="slds-section slds-is-open" aura:id="virtualAccount">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="basicInformationContent" class="slds-button slds-section__title-action">
+                            <span onclick="{!c.toggleSection}" data-auraId="virtualAccount">
+                                <lightning:icon iconName="utility:switch"
+                                                size="x-small"
+                                                class="slds-section__title-action-icon slds-button__icon_left"
+                                                alternativeText="button icon" 
+                                                />
+                            </span>
+                            <span class="slds-truncate" title="{!$Label.c.accountDetail}">{!$Label.c.virtualAccountDetail}</span>
+                        </button>
+                    </h3>
+                    
+                    <div class="slds-section__content" id="accountDetail">
+                        <div class="slds-form" role="list">
+                            
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.virtualAccount}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.VAMDetail.vamAccount}</div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.name}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.VAMDetail.vamName}</div> 
+                                        </div>
+                                    </div>
+                                </div>
+                             
+                            </div>
+                            <div class="slds-form__row">
+                                
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.B2B_Balance}</span>
+                                        <div class="slds-form-element__control">                                
+                                            <div class="slds-form-element__static"><lightning:formattedNumber value="{!v.VAMDetail.balance.amount}" minimumFractionDigits="2"/> &nbsp;{!v.VAMDetail.balance.tcurrency}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.maximumLimit}</span>                                       
+                                        
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static"><lightning:formattedNumber value="{!v.VAMDetail.tlimit.limitMax.amount}" minimumFractionDigits="2"/>&nbsp; {!v.VAMDetail.tlimit.limitMax.tcurrency}</div>
+                                        </div>
+                                    </div>
+                                </div>   
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.minimumLimit}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static"><lightning:formattedNumber value="{!v.VAMDetail.tlimit.limitMin.amount}" minimumFractionDigits="2"/>&nbsp; {!v.VAMDetail.tlimit.limitMin.tcurrency}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                </div>
+                
+                 <div class="slds-section slds-is-open" aura:id="linkedAccount">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="accountsContent" class="slds-button slds-section__title-action">
+                            <span onclick="{!c.toggleSection}" data-auraId="linkedAccount">
+                                <lightning:icon iconName="utility:switch"
+                                                size="x-small"
+                                                class="slds-section__title-action-icon slds-button__icon_left"
+                                                alternativeText="button icon" 
+                                                />
+                            </span>
+                            <span class="slds-truncate" title="{!$Label.c.Accounts}">{!$Label.c.linkedAccountDetail}</span>
+                        </button>
+                    </h3>
+                    
+                    <div class="slds-section__content" id="accountsContent">
+                        
+                        <div class="slds-form" role="list">
+                          
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.Country}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.VAMDetail.linkedAccountDataDetails.country}</div>
+                                        </div>
+                                    </div>
+                                </div>                          
+                                
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.Entity}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.VAMDetail.linkedAccountDataDetails.entityName}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.BankId}</span>
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">{!v.VAMDetail.linkedAccountDataDetails.bankId}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-form__row">
+
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                    <span class="slds-form-element__label">{!$Label.c.ICM_destinationAccount}</span>                   
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">{!v.VAMDetail.linkedAccountDataDetails.destinationAccountId}</div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                    <span class="slds-form-element__label">{!$Label.c.destinationEntity}</span>
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">{!v.VAMDetail.linkedAccountDataDetails.destinationEntityDetails.destinationEntityName}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                    <span class="slds-form-element__label">{!$Label.c.destinationBic}</span>
+                                    
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">{!v.VAMDetail.linkedAccountDataDetails.destinationEntityDetails.destinationEntityBic}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-form__item" role="listitem">
+                                <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                    <span class="slds-form-element__label">{!$Label.c.liquidityBufferManagementScheme}</span>
+                                    
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-form-element__static">{!v.VAMDetail.linkedAccountDataDetails.liquidityBufferManagementScheme}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="slds-section slds-is-open" aura:id="caseData">
+                    <h3 class="slds-section__title">
+                        <button aria-controls="basicInformationContent" class="slds-button slds-section__title-action">
+                            <span onclick="{!c.toggleSection}" data-auraId="caseData">
+                                <lightning:icon iconName="utility:switch"
+                                                size="x-small"
+                                                class="slds-section__title-action-icon slds-button__icon_left"
+                                                alternativeText="button icon" 
+                                                />
+                            </span>
+                            <span class="slds-truncate" title="{!$Label.c.accountDetail}">{!$Label.c.caseData}</span>
+                        </button>
+                    </h3>
+                    
+                    <div class="slds-section__content" id="accountDetail">
+                        <div class="slds-form" role="list">
+                            
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">
+                                                <lightning:input aura:id="toAmount" label="{!$Label.c.amount}" class="inputAmount" type="number" name="toAmount" value="{!v.caseAmount}" onblur="{!c.handleBlurAmount}" step="0.01"/>                             
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+                                        <span class="slds-form-element__label">{!$Label.c.priority}</span>
+                                        <div class="slds-form-element__control">                                
+                                            <div class="slds-form-element__static">
+                                        		<c:CMP_Dropdown aura:id="currencyDropdown" isSimpleDropdown="true" values="{!v.priorityList}" selectedValue="{!v.casePriority}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">                                        
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">
+                                                <lightning:input aura:id="subject" label = "{!$Label.c.Subject}" class="inputAmount" name="subject" value="{!v.caseSubject}" />     
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>      
+                            </div>
+                            <div class="slds-form__row">
+                                <div class="slds-form__item" role="listitem">
+                                    <div class="slds-form-element slds-form-element_edit slds-form-ecmplement_readonly slds-form-element_stacked slds-hint-parent">
+                                        <div class="slds-form-element__control">
+                                            <div class="slds-form-element__static">
+                                                <lightning:input aura:id="description" label = "{!$Label.c.description}" class="inputAmount" name="description" value="{!v.caseDescription}" />     
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <footer class="slds-modal__footer">
+                <aura:if isTrue="{!v.editCase}">
+                	<button disabled= "{!or(or(empty(v.caseAmount),empty(v.caseCurrency)),v.displayNewCaseButton)}" class="slds-button slds-button_brand" onclick="{! c.handleEditCase }">{!$Label.c.AdminRoles_Save}</button> 
+                    <aura:set attribute="else">
+                		<button disabled= "{!or(or(empty(v.caseAmount),empty(v.caseCurrency)),v.displayNewCaseButton)}" class="slds-button slds-button_brand" onclick="{! c.handleNewCase }">{!$Label.c.PAY_NewCase}</button> 
+                    </aura:set>
+                </aura:if>
+                <button class="slds-button slds-button_neutral" onclick="{! c.closeModal }">{!$Label.c.T_Close}</button>
+            </footer>
+        </div>
+        
+    </section>
+    
+    <div class="slds-backdrop slds-backdrop_open"></div>
+        
+</aura:component>

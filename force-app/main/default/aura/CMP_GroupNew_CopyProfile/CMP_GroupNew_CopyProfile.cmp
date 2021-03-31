@@ -1,0 +1,98 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Copy profile component for group creation (TODO Integration with Mule)
+History
+<Date>			<Author>		<Description>
+10/01/2019		Joaquin Vera Vallés     Initial version-->
+<aura:component>
+
+    <!-- DROPDOWN ATTRIBUTES -->
+    <aura:attribute name="valuesGroup" type="List" description="List of groups to populate the dropdown"/>
+    <aura:attribute name="valuesUser" type="List"  description="List of users to populate the dropdown"/>
+    <aura:attribute name="selectedValue" type="String" default ="" description="Selected option from the dropdown"/>
+    <aura:attribute name="selectedValueUser" type="String"  description="Selected option from the dropdown"/>
+    <aura:attribute name="selectedValueGroup" type="String"  description="Selected option from the dropdown"/>
+    <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text"/>
+    <aura:attribute name="copyIsExpanded" type="boolean" default="true" description="Check for copy profile is expanded"/>
+    <aura:attribute name="optionGroup" type="boolean" default="true" description=""/>
+    <aura:attribute name="optionUser" type="boolean" default="false" description=""/>
+    <aura:attribute name="slectGroupOrUser" type="String" description="Select group or user"/>
+    
+
+    <aura:handler name="dropdownValueSelected" event="c:EVT_DropdownValueSelected" action="{!c.dropdownValueChange}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+
+    <div class="slds-grid slds-grid__collapse">
+            <div class="slds-col">
+                <div class="slds-card__header-title">
+                    <span class="title">
+                        {!$Label.c.GroupNew_CopyProfile}
+                    </span>
+                    <span class="subtitle">
+                        {!$Label.c.GroupNew_CopyProfileHelpText}
+                    </span>
+                </div>
+             </div>
+                <div class="slds-media__figure arrow">
+                    <aura:if isTrue="{!v.copyIsExpanded}">
+                            <div class="button-arrow icon-arrowDown_big" data-title="{!$Label.c.T_Collapse}" onclick="{!c.collapse}"></div>
+                    </aura:if>
+                    <aura:if isTrue="{!not(v.copyIsExpanded)}">
+                            <div class="button-arrow icon-arrowUp_big" data-title="{!$Label.c.T_Expand}" onclick="{!c.expand}"></div>
+                    </aura:if>
+            </div>
+        </div>
+    <aura:if isTrue="{!v.copyIsExpanded}">
+        <div class="container-profile">
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <fieldset class="slds-form-element">
+                        <legend class="slds-form-element__legend slds-form-element__label alignRight">{!$Label.c.GroupNew_Profile}</legend>
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-41" value="{!v.optionGroup}" name="options" onclick="{!c.optionGroup}" aria-describedby="error_01"
+                                checked= "{!v.optionGroup}"/>
+                            <label class="slds-radio__label" for="radio-41">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{!$Label.c.GroupNew_Group}</span>
+                            </label>
+                        </span>
+                        <span class="slds-radio">
+                            <input type="radio" id="radio-42" value="{!v.optionUser}" name="options" onclick="{!c.optionUser}" aria-describedby="error_01"  checked= "{!v.optionUser}"/>
+                            <label class="slds-radio__label" for="radio-42">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{!$Label.c.GroupNew_User}</span>
+                            </label>
+                        </span>
+                    </fieldset>
+                </div>
+                <div class="slds-col">
+                        <div class="slds-form-element  dropdownOrder">
+                                <div class="slds-form-element__label">
+                                    <label  for="text-input-id-3">{!v.slectGroupOrUser}</label>
+                                </div> 
+                                <div class="slds-form-element__control">
+                                    <!-- DROPDOWN MARKUP -->
+                                    <!-- Hand-write class "slds-is-selected" in a "li" element using the browser inspector to see a selected option-->
+                                    <aura:if isTrue="{!v.optionUser}">
+                                        <c:CMP_Dropdown values="{!v.valuesUser}" selectedValue="{!v.selectedValueUser}" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}" aura:id="userDropdown" />
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.optionGroup}">
+                                            <c:CMP_Dropdown values="{!v.valuesGroup}" selectedValue="{!v.selectedValueGroup}" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}" aura:id="groupDropdown"/>
+                                        </aura:if>
+                                </div>
+                                <div class="slds-form-element__button">
+                                        <div class="slds-media__body">
+                                            <button class="slds-button slds-button_brand redButton">{!$Label.c.GroupNew_Copy}</button>              
+                                        </div>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+
+
+</aura:component>

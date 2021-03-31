@@ -1,0 +1,116 @@
+<template>
+    
+         <!-- DROPDOWN ATTRIBUTES -->
+        <!-- <aura:attribute name="values" type="List" default="['AAA','AAA','AAA','AAA','AAA']" description="List of values to populate the dropdown" />
+        <aura:attribute name="selectedValue" type="String" description="Invoice" />
+        <aura:attribute name="helpTextDropdown" type="String" default="Show More" description="Dropdown help text" /> 
+        -->
+        <!-- FULL SCREEN MODAL -->
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container">
+                
+                <!-- MODAL HEADER -->
+                <!-- Añadir la clase oneStep en la etiqueta <header> cuando la barra de progreso tenga un único paso -->
+                <!-- Añadir la clase errorStep en la etiqueta <header> cuando se haya producido un error de sistema -->
+                <header class="slds-modal__header slds-is-fixed errorStep">
+                     <div class="row slds-grid">
+                        <div class="slds-col slds-size_1-of-3">
+                            <!-- BACK BUTTON -->
+                            <button class="slds-button slds-truncate">
+                                <div class="icon icon-arrowLeft_big">{label.B2B_Button_Back}</div> 
+                            </button>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <img class="logo-red" src={logo_symbol_red}/>
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.instantTransfer}</h2>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <!-- CANCEL BUTTON -->
+                            <button class="slds-button slds-truncate">
+                                <div class="icon icon-close">{label.cancelProcess}</div> 
+                            </button>
+                        </div>                    
+                     </div>
+                   
+                     <div class="row">
+                        <!-- PROGRESS BAR -->
+                        <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" role="progressbar">
+                            
+                            <!-- PROGRESS 1/4 -->
+                            <span class="slds-progress-bar__value" style="width:25%">
+                                <span class="slds-assistive-text">{label.progress25}</span>
+                            </span>
+                            
+                            <!-- PROGRESS 2/4 -->
+                            <!--<span class="slds-progress-bar__value" style="width:50%">
+                                <span class="slds-assistive-text">Progress: 50%</span>
+                            </span>-->
+                            
+                            <!-- PROGRESS 3/4 -->
+                            <!--<span class="slds-progress-bar__value" style="width:75%">
+                                <span class="slds-assistive-text">Progress: 75%</span>
+                            </span>-->
+                            
+                            <!-- PROGRESS 4/4 -->
+                            <!--<span class="slds-progress-bar__value" style="width:100%">
+                                <span class="slds-assistive-text">Progress: 100%</span>
+                            </span>-->
+                            
+                        </div>
+                     </div>
+                    
+                </header>
+                
+                <!-- MODAL CONTENT -->
+                <div class="slds-modal__content activation" id="modal-content-id-1">
+                    <div class="slds-grid__content">
+                        
+                        <!-- ERROR ALERT -->
+                        <!-- añadir la clase toast_static para evitar que el toast flote en medio de la pantalla -->
+                        <div class="slds-notify_container slds-is-fixed toast_static">
+                            <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                            <div class="slds-notify slds-notify_toast slds-theme_error slds-scrollable_y" role="status">
+                                <span class="slds-assistive-text">{label.ERROR}</span>
+                                <span class="slds-icon_container slds-icon-utility-error slds-m-right_small slds-no-flex slds-align-top  button-selected icon-warning" data-title="Error"></span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">{label.serviceDown}</h2>
+                                    <p class="notifyText">{label.workingYet}</p>
+                                    <br/>
+                                    <p class="notifyText">{label.errorCode000}</p>
+                                    <!-- ACTION BUTTON -->
+                                    <button class="slds-button slds-button_icon icon-action">
+                                        <span class="action">Action</span>
+                                    </button>
+                                    <!-- RELOAD BUTTON -->
+                                    <!--<button class="slds-button slds-button_icon icon-reload">
+                                        <span class="action">Reload</span>
+                                    </button>-->
+                                </div>
+                                <div class="slds-notify__close">
+                                    <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close"></button>
+                                </div>
+                            </div>
+                        </div> 
+                        
+                        <!-- CONTACT -->
+                        <div class="slds-grid__contact">
+                            <article class="slds-card cardProcessExit">
+                                <div class="slds-card__header">
+                                    <span class="slds-text-heading_small">{label.WaitingAuthorizationResendHelp1}<button class="slds-button button_link">{label.WaitingAuthorizationResendHelp2}<span class="icon icon-phone-support icon_right"></span></button></span> 
+                                </div>  
+                            </article>
+                        </div>
+                        
+                        <!-- BUTTON -->
+                        <div class="slds-grid__button slds-grid">
+                            <button class="slds-button primary button_full button_icon">
+                                Back to payments
+                            </button>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </section> 
+        <div class="slds-backdrop slds-backdrop_open"></div> 
+</template>

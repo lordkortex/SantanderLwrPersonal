@@ -1,0 +1,84 @@
+<aura:component controller="CNT_B2B_Process" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="private" type="Map"     name="currencyGlobalBalance"  default="{}" description="List of Currency's." />
+    <aura:attribute access="private" type="Map"     name="dataPaymentInformation" default="{}" description="Data of other information step." />
+    <aura:attribute access="private" type="Map"     name="dataSelectOrigin"       default="{}" description="Data of origin account step." />
+    <aura:attribute access="private" type="Map"     name="dataSelectDestination"  default="{}" description="Data of destiny account step." />
+    <aura:attribute access="private" type="Map"     name="dataSelectAmount"       default="{}" description="Data of amount step." />
+    <aura:attribute access="private" type="Integer" name="stepBy"                 default="1"  description="Actual step." />
+    <aura:attribute access="private" type="Integer" name="activeBy"               default="1"  description="Active step." />
+    <aura:attribute access="private" type="Integer" name="totalSteps"             default="5"  description="Total of steps." />
+    <aura:attribute access="private" type="List"    name="accountListOrigin"            default="[]" description="List of accounts" />
+    <aura:attribute access="private" type="List"    name="accountListDestination"            default="[]" description="List of accounts" />
+    <aura:attribute access="private" type="Boolean"         name="spinner"               default="false"  description="Spinner loading." />
+    <aura:attribute access="public"  type="String"  name="numberFormat"           default='###,###,###.##'                  description="User number Format" />
+
+    <aura:handler name="init" action="{!c.initComponent}" value="{!this}" />
+
+    <aura:handler name="completeStep" event="c:EVT_B2B_CompleteStep" action="{!c.handleCompleteStep}" />
+    
+    <aura:if isTrue="{!v.spinner eq true}">
+        <lightning:spinner alternativeText="{!$Label.c.Loading}" size="medium" />
+    </aura:if>
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="headerModal" aria-modal="true" aria-describedby="contentModal">
+        <div class="slds-modal__container">
+            <c:CMP_B2B_ProcessHeader activeBy="{!v.activeBy}" hasBackButton="{!and(v.activeBy gt 1, v.activeBy lt v.totalSteps)}"  headerLabel="{!$Label.c.singlePayment}" totalSteps="{!v.totalSteps}" handleBack="{!c.handleBack}" />
+
+            <!--<header class="slds-modal__header slds-is-fixed">
+                <div class="row slds-grid">
+                    <div class="slds-col slds-size_1-of-3">
+                        <aura:if isTrue="{!v.activeBy gt 1}">
+                            <c:CMP_B2B_Button label="{!$Label.c.B2B_Button_Back}" icon="icon-arrowLeft_big" click="{!c.handleBack}" />
+                        </aura:if>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <img class="logo-red" src="{!$Resource.Images + '/logo_symbol_red.svg'}"/>
+                        <h2 id="headerModal" class="slds-modal__title slds-hyphenate">{!$Label.c.singlePayment}</h2>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <c:CMP_B2B_Button label="{!$Label.c.B2B_Button_Cancel}" icon="icon-close" click="{!c.handleCancel}" />
+                    </div>
+                </div>
+                <div class="row">
+                    <c:CMP_B2B_ProgressBar step="{!v.stepBy}" total="{!v.totalSteps}" />
+                </div>
+            </header>-->
+            <div class="slds-modal__content" id="contentModal">
+                <div class="slds-grid__content">
+                    <aura:if isTrue="{!v.activeBy le 4}">
+                        <aura:if isTrue="{!v.stepBy ge 1}">
+                            <div class="first-step">
+                                <c:CMP_B2B_SelectOrigin numberFormat="{!v.numberFormat}" headerLabel="{!$Label.c.singlePayment}" aura:id="selectOrigin" accountList="{!v.accountListOrigin}" activated="{!v.activeBy eq 1}" data="{!v.dataSelectOrigin}" step="{!v.stepBy}" total="{!v.totalSteps}" handleContinue="{!c.handleContinue}"/>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.stepBy ge 2}">
+                            <div class="separation-line"></div>
+                            <c:CMP_B2B_SelectDestination numberFormat="{!v.numberFormat}" aura:id="selectDestination" headerLabel="{!$Label.c.singlePayment}" accountList="{!v.accountListDestination}" activated="{!v.activeBy eq 2}" data="{!v.dataSelectDestination}" step="{!v.stepBy}" total="{!v.totalSteps}" handleContinue="{!c.handleContinue}"/>
+                        </aura:if>
+                       <!-- <aura:if isTrue="{!v.stepBy ge 3}">
+                            <div class="separation-line"></div>
+                            <c:CMP_B2B_SelectAmount aura:id="selectAmount" activated="{!v.activeBy eq 3}" data="{!v.dataSelectAmount}" sourceAccountData="{!v.dataSelectOrigin}" recipientAccountData="{!v.dataSelectDestination}" handleContinue="{!c.handleContinue}"/>
+                        </aura:if>
+                        <aura:if isTrue="{!v.stepBy ge 4}">
+                            <div class="separation-line"></div>
+                            <c:CMP_B2B_PaymentInformation aura:id="paymentInformation" activated="{!v.activeBy eq 4}" data="{!v.dataPaymentInformation}" handleContinue="{!c.handleContinue}"/>
+                        </aura:if>
+                        <div class="no-border" id="endPage" tabindex="-1"> </div>-->
+                    </aura:if>
+                    <!--<aura:if isTrue="{!v.activeBy ge 5}">
+                        <c:CMP_B2B_PaymentSummary
+                            aura:id="paymentSummary"
+                            dataSelectOrigin="{!v.dataSelectOrigin}"
+                            dataSelectDestination="{!v.dataSelectDestination}"
+                            dataSelectAmount="{!v.dataSelectAmount}"
+                            dataPaymentInformation="{!v.dataPaymentInformation}"
+                            />
+                    </aura:if>-->
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>

@@ -1,0 +1,99 @@
+<template>
+        <!-- Spinner -->
+        <div if:true={loading}>
+            <div class="spinnerclass">
+                <lightning-spinner 
+                variant="brand" 
+                size="large" >
+                </lightning-spinner>
+            </div>
+        </div>
+
+    <c-cmp-o-t-v-user-info-permissions-company-detail
+    loading={loading}
+    userselected={selectedUser}
+    lstcountries={lstCountries}
+    lstaccounts={lstAccounts}
+    lstsubsidiaries={lstSubsidiaries}
+    if:true={isOneTrade}
+    oncloseuserinfo={closeuserinfo}>
+</c-cmp-o-t-v-user-info-permissions-company-detail>
+
+    <div class="slds-text-heading">Users</div>
+    <div class="listItems">
+          <div class="slds-text-body_regular">Displaying<strong>{arraySize} users</strong></div>
+    </div> 
+    <!-- TABLE -->
+    <!-- Añadir inactive para desactivar el badget --> 
+     <div class="tablePaymentsContent"> 
+        <div class="slds-grid">
+            <div class="slds-table--header-fixed_container tablePayment"> 
+                <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                    <!-- HEADER -->
+                    <thead>
+                        <tr class="slds-text-title_caps"> 
+                            <th class="headName" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate"> <span class="slds-truncate">NAME</span><span class="button-orderRight icon-arrowDown" data-title="Order"></span></div>
+                            </th> 
+                            <th class="headCountry" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate"><span class="slds-truncate">COUNTRY</span><span class="button-orderRight icon-arrowDown" data-title="Order"></span></div>
+                            </th>
+                            <th class="headPermission" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate"><span class="slds-truncate">MASTER USER</span><span class="button-orderRight icon-arrowDown" data-title="Order"></span></div>
+                            </th>
+                            <th class="headLogin" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate"><span class="slds-truncate">ACCESS TO</span><span class="button-orderRight icon-arrowDown" data-title="Order"></span></div>
+                            </th>
+                            <th class="headStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate"><span class="slds-truncate">PERMISSIONS</span><span class="button-orderRight icon-arrowDown" data-title="Order"></span></div>
+                            </th>
+                        </tr>
+                    </thead>
+    
+                    <!-- BODY -->
+                    <tbody> 
+                        <!-- ROW 1 --> 
+                            <!-- Añadir inactive para desactivar el badget --> 
+                            <!-- Añadir clase feedback para aplicar ese estado --> 
+                            <template for:each={lstusers} for:item="user">
+                                <tr class="slds-hint-parent" aria-selected="false" key={user.index} data-whichrow={user.globalId} data-item={user} onclick={handleUserClick}>        
+                                    <td role="gridcell" class="infoName">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate">{user.name}</span>
+                                        </div>
+                                    </td> 
+                                
+                                    <td role="gridcell" class="infoCountry">
+                                        <div class="slds-grid flexCol">
+                                            <div class="slds-media__figure">
+                                                <img class="sizeFlag" src={user.countryURL}></img>
+                                                <span class="slds-truncate strong">{user.country}</span>
+                                            </div>
+                                        </div>
+                                    </td> 
+                                    <td role="gridcell" class="infoPermission">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate">Yes</span>
+                                        </div>
+                                    </td> 
+                                    <td role="gridcell" class="infoLogin">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate">1 account</span>
+                                        </div>
+                                    </td> 
+                                
+                                    <td role="gridcell" class="infoStatus">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <!-- Utilizar la clase badgeInactive en lugar de badgeCompleted para cambiar la apariencia de la etiqueta -->
+                                                <span class="slds-badge badgeCompleted" title="Active" if:true={user.active}>Active</span>
+                                                <span class="slds-badge badgeInactive" title="Active" if:false={user.active}>Inactive</span>
+                                        </div>
+                                    </td>   
+                                </tr> 
+                           </template>    
+                    </tbody>
+                </table>
+           </div>
+   		</div>
+    </div>
+</template>

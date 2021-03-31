@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event fired from the entitlement edition modal box, to update the profiling table">
+    <aura:attribute name="entitlements" type="List" description="List of entitlements to be added to the table for the given account"/>
+    <aura:attribute name="account" type="String" description="Account for which the entitlements must be added"/>
+</aura:event>

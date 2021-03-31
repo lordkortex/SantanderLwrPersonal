@@ -1,0 +1,34 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <ltng:require scripts="/resource/tostadas" />
+
+    <aura:attribute access="public"     type="Map"      name="steps"                                                            description="Data of the steps." />
+    <aura:attribute access="public"     type="List"     name="accountList"                                                      description="List of account to filter." />
+    <aura:attribute access="public"     type="String"   name="headerLabel"          default="{!$Label.c.B2B_Payment_Header}"    description="Header label" />
+    <aura:attribute access="private"    type="Boolean"  name="showModal"                                                        description="Show or hide modal." />
+    <aura:attribute access="private"    type="List"     name="accountsFiltered"                                                 description="List of filtered accounts." />
+    <aura:attribute access="public"     type="List"     name="filters"              default="[]"                                description="List offilter." />
+    <aura:attribute access="public"     type="Boolean"  name="isForExpenses"                                                    description="Indicates if the account search is for the expenses account." />
+    <aura:attribute access="public"     type="Map"      name="userData"                                                         description="User data." />
+
+    <aura:handler name="selectedCard" event="c:EVT_B2B_Selected_Card" action="{!c.handleSelectedCard}" />
+
+    <aura:method access="public" name="openModal" action="{!c.openModal}"></aura:method>
+
+    <aura:registerEvent name="selectedAccount" type="c:EVT_B2B_SelectedAccount" />
+
+    <aura:if isTrue="{!v.showModal eq true}">
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-modal="true" aria-describedby="searchAccountsModal">
+            <div class="slds-modal__container">
+                <c:CMP_B2B_ProcessHeader steps="{!v.steps}" hasBackButton="true" headerLabel="{!v.headerLabel}"  handleBack="{!c.handleBack}" />
+                <div class="slds-modal__content" id="searchAccountsModal">
+                    <div class="slds-grid__content">
+                        <c:CMP_B2B_FilterAccounts numberFormat='{!v.userData.numberFormat}' filters="{!v.filters}"  accountList="{!v.accountList}" accountsFiltered="{!v.accountsFiltered}" resetSearch="{!v.resetSearch}"/>
+                        <c:CMP_B2B_Grid_Accounts userData='{!v.userData}' filters="{!v.filters}" accountsFiltered="{!v.accountsFiltered}"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

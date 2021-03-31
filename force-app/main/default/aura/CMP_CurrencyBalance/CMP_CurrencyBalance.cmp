@@ -1,0 +1,96 @@
+<!--
+Author:         Shahad Naji
+Company:        Deloitte
+Description:    Second layer to display account information
+History
+<Date>			<Author>		    <Description>
+01/09/2019		Laura Espinel		Design
+25/10/2019		Amanda Fernandez	Layout coding of the page
+28/10/2019		Shahad Naji     	Initial version
+28/10/2019		Shahad Naji 		Interactive web pages and Back-end development
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_CurrencyBalance">
+    
+    
+    <aura:attribute name="iRegister" type="Object" description="Register to display"/>
+    <aura:attribute name="iParentId" type="String" description="Parent Component Id"/>
+    <aura:attribute name="iSortSelected" type="String" default="{!$Label.c.GlobalBalanceOrderOne}" description="Accounts display order"/>
+    <aura:attribute name="iTabSelected" type="String" default="LastUpdateTab" description="Current selected tab"/>
+    <aura:attribute name="iCurrency" type="String" default="" description="The selected currency to make the required changes to calculate the amounts"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="cmpId" type="String" description="Component Id" default=""/>
+    <aura:attribute name="bookBalance" type="Decimal" default="0.0" description="The sum of book balance value of all accounts"/>
+    <aura:attribute name="countryName" type="String" description="Country Name"/> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+  <!--  <aura:handler name="change" value="{!v.iCurrency}" action="{!c.updateCurrency}"/>   -->
+    
+    <div class="slds-card__header slds-grid rowGray">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title titleRowGray">
+                    <aura:if isTrue="{!v.iSortSelected == $Label.c.GlobalBalanceOrderThree}">
+                        {!v.countryName}
+                    </aura:if>
+                    <aura:if isTrue="{!or(v.iSortSelected == $Label.c.GlobalBalanceOrderOne, v.iSortSelected == $Label.c.GlobalBalanceOrderTwo)}">
+                        {!v.iRegister.key}
+                    </aura:if>
+                </div>
+            </div>
+            <aura:if isTrue="{!v.bookBalance != 0}">
+                <div class="slds-media__body balance">
+                    <aura:if isTrue="{!or(v.iSortSelected == $Label.c.GlobalBalanceOrderOne, v.iSortSelected == $Label.c.GlobalBalanceOrderTwo) }">
+                        <c:CMP_displayAmount amount="{!v.bookBalance}" 
+                                             decimalClass="rowGrayDecimals" 
+                                             wholeClass="rowGrayInteger" 
+                                             currency="{!v.iRegister.key}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.iSortSelected == $Label.c.GlobalBalanceOrderThree}">
+                        <c:CMP_displayAmount amount="{!v.bookBalance}" 
+                                             decimalClass="rowGrayDecimals" 
+                                             wholeClass="rowGrayInteger" 
+                                             currency="{!v.iCurrency}"/>
+                    </aura:if>
+                </div>
+                <aura:set attribute="else">
+                    <div class="slds-media__body balance">
+                        <aura:if isTrue="{!or(v.iSortSelected == $Label.c.GlobalBalanceOrderOne, v.iSortSelected == $Label.c.GlobalBalanceOrderTwo) }">
+                            <c:CMP_displayAmount amount="0.00" 
+                                                 decimalClass="rowGrayDecimals" 
+                                                 wholeClass="rowGrayInteger" 
+                                                 currency="{!v.iRegister.key}"/>
+                        </aura:if>
+                        <aura:if isTrue="{!v.iSortSelected == $Label.c.GlobalBalanceOrderThree}">
+                            <c:CMP_displayAmount amount="0.00" 
+                                                 decimalClass="rowGrayDecimals" 
+                                                 wholeClass="rowGrayInteger" 
+                                                 currency="{!v.iCurrency}"/>
+                        </aura:if>                        
+                    </div>
+                </aura:set>
+            </aura:if>            
+            <div class="slds-media__figure arrow">
+                <!-- ICONO EXPANDIR   -->
+                <div id="{!v.cmpId}" aura:id="{!v.cmpId}" class="iElement icon expand slds-show" onclick="{!c.showAction}">
+                    <div class="button-arrow icon-arrowDown_small" title="Expand"></div> 
+                </div>                      
+                <!-- ICONO COLAPSAR -->
+                <div id="{!v.cmpId}" aura:id="{!v.cmpId}" class="iElement icon collapse slds-hide" onclick="{!c.showAction}">
+                    <div class="button-arrow icon-arrowUp_small" title="Collapse"></div>
+                </div>
+            </div>
+        </header>
+    </div>
+    
+    <div class="iElement container slds-hide" id="{!v.cmpId}"  aura:id="{!v.cmpId}"> 
+        <aura:iteration items="{!v.iRegister.value}" var="item" indexVar="key"> 
+            <c:CMP_AccountBalance iParentId="{!v.cmpId}" iAccount="{!item}" iTabSelected="{!v.iTabSelected}" isCashNexus="{!v.isCashNexus}"/>
+            <aura:if isTrue="{!(key+1 != v.iRegister.value.length)}">
+                <div class="containerLine">
+                    <hr class="line"/>
+                </div>
+            </aura:if>
+        </aura:iteration>
+    </div>
+ 
+</aura:component>

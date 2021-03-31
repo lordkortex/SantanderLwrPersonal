@@ -1,0 +1,20 @@
+<apex:component >
+    
+    <div class="slds-dropdown-trigger slds-dropdown-trigger_click slds-is-close">
+        <div class="slds-dropdown slds-dropdown_left slds-popover slds-nubbin_top-left menu">
+            <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                <li class="slds-dropdown__item" role="presentation">
+                    <a class="option" href="javascript:void(0);" role="menuitem" tabindex="0">
+                        <span class="slds-truncate optionName" title="Menu Item One">Movements</span>
+                    </a>
+                </li>
+                <li class="slds-dropdown__item" role="presentation">
+                    <a class="option" href="javascript:void(0);" role="menuitem" tabindex="-1">
+                        <span class="slds-truncate optionName" title="Menu Item Two">Payments</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+</apex:component>

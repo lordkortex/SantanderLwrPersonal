@@ -1,0 +1,33 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to show the IPT Title
+History
+<Date>			<Author>		<Description>
+27/02/2020		R. Alexander Cervino     Initial version-->
+
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_IPTTitle">
+    <!-- RESOURCES -->
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="firstname" type="String"/>
+
+    <!-- NAVSERVICE -->
+    <lightning:navigation aura:id="navService"/>
+
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="slds-col titleContainer">
+    	<div class="slds-text-heading_medium">
+            <div class="title">    
+                <h2  class="slds-modal__title">{!$Label.c.hi}  {!v.firstname}, {!$Label.c.theseAreYourInternationalPayments}</h2>
+                <div class="text_line"></div>
+            </div> 
+            <button class="slds-button primary button_icon" role="option" tabindex="0" aria-selected="true" onclick="{!c.openPaymentUETRTrack}">
+            {!$Label.c.TrackByUETR}<span class="icon-income-expenses"></span>
+            </button>
+        </div>
+    </div>
+</aura:component>

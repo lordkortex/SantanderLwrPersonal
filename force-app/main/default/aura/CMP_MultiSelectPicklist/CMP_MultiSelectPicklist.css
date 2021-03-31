@@ -1,0 +1,176 @@
+.THIS {}
+
+.THIS .container-account-config {
+    background-color: #eff6f9;
+    margin-bottom: 16px;
+    padding: 16px 0 24px 0;
+}
+
+.THIS .container-account-config>.slds-col {
+    margin-bottom: 16px;
+}
+
+.THIS .container-account-config>.slds-col:last-child {
+    margin-bottom: 0;
+}
+
+.THIS .slds-dueling-list__column .slds-button:first-of-type {
+    top: 26px;
+}
+
+.THIS .slds-dueling-list__column .slds-button:last-of-type {
+    left: 4px;
+    position: relative;
+    top: 18px;
+}
+
+.THIS .slds-dueling-list__column .slds-form-element__label {
+    color: #444444;
+    font-size: 12px;
+    height: 18px;
+    margin: 0;
+    margin-bottom: 8px;
+    padding: 0;
+}
+
+.THIS .slds-media__body .slds-truncate {
+    line-height: 16px;
+}
+
+.THIS .slds-dueling-list__column .slds-button {
+    margin-top: 0;
+}
+
+.THIS .slds-button:focus {
+    -webkit-box-shadow: none;
+    border: none;
+    border-color: inherit;
+    box-shadow: none;
+    outline: none;
+}
+
+.THIS .slds-button:active,
+.THIS .button-page {
+    background-color: transparent;
+    border: none;
+}
+
+.THIS .button-page:focus {
+    -webkit-box-shadow: none;
+    border: none;
+    border-color: inherit;
+    box-shadow: none;
+    outline: none;
+}
+
+.THIS .icon-right,
+.THIS .icon-left {
+    color: #ec0000;
+    font-size: 16px;
+}
+
+.THIS .icon-right[disabled]:before {
+    color: #d8d8d8;
+}
+
+.THIS .icon-left[disabled]:before {
+    color: #d8d8d8;
+}
+
+.THIS .slds-dueling-list {
+    flex-direction: row;
+    justify-content: center;
+}
+
+.THIS .slds-dueling-list__options {
+    border: none;
+    max-height: 152px;
+    min-width: 504px;
+    padding-right: 8px;
+}
+
+.THIS .slds-listbox__option_plain {
+    color: #444444;
+    font-size: 12px;
+    line-height: 12px;
+    margin: 0;
+    padding: 6px 0;
+    padding-left: 16px;
+}
+
+.THIS .slds-scrollable_y::-webkit-scrollbar {
+    scroll-margin: 0 10px 0 0;
+    width: 6px;
+}
+
+.THIS .slds-scrollable_y::-webkit-scrollbar-track {
+    border-radius: 10px;
+    margin-top: 8px;
+}
+
+.THIS .slds-scrollable_y::-webkit-scrollbar-track-piece {
+    background: transparent;
+}
+
+.THIS .slds-scrollable_y::-webkit-scrollbar-thumb {
+    background: #dadada;
+    border-radius: 10px;
+}
+
+.THIS .slds-button+.slds-button:last-child {
+    margin-left: 0;
+}
+
+.THIS .lastPill .slds-button:last-child {
+    margin-left: 16px;
+}
+
+.THIS .lastPill {
+    display: flex;
+    justify-content: flex-end;
+    margin: 8px 64px 0;
+}
+
+.THIS .whiteButton {
+    background-color: #ffffff;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ec0000;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 32px;
+    width: 98px;
+}
+
+.THIS .whiteButton:hover {
+    background-color: #f6f6f6;
+    border: solid 1px #ec0000;
+}
+
+.THIS .whiteButton[disabled] {
+    background-color: #ffffff;
+    border: solid 1px #cccccc;
+    color: #cccccc;
+}
+
+.THIS .redButton {
+    background-color: #ec0000;
+    border: solid 1px #ec0000;
+    border-radius: 24px;
+    color: #ffffff;
+    font-family: "SantanderTextW05-Bold";
+    font-size: 14px;
+    height: 32px;
+    margin: 0;
+    width: 152px;
+}
+
+.THIS .redButton:hover {
+    background-color: #cc0000;
+    border: solid 1px #ec0000;
+}
+
+.THIS .redButton[disabled] {
+    background-color: #cccccc;
+    border: solid 1px #cccccc;
+}

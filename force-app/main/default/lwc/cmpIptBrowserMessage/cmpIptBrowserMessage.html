@@ -1,0 +1,31 @@
+<!--
+Author:         R. Alexander Cervino
+Company:        Deloitte
+Description:    Component to show the IPT message about the browser
+History
+<Date>			<Author>		<Description>
+27/02/2020		R. Alexander Cervino     Initial version-->
+<template>
+    <section role="dialog"
+            tabindex="-1"
+            aria-labelledby="modal-heading-01"
+            aria-modal="true"
+            aria-describedby="modal-content-id-1"
+            class="slds-modal slds-fade-in-open">
+        
+        <div class="slds-modal__container modalWarning">
+            <header class="slds-modal__header">
+                <h2
+                    id="modal-heading-01"
+                    class="slds-modal__title slds-hyphenate"
+                >
+                    {changeYourBrowser}
+                </h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <p><span>Internet Explorer 11 </span> {ieBrowser}</p>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

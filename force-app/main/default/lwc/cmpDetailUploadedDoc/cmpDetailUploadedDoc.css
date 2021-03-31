@@ -1,0 +1,36 @@
+/* EXTENDED DETAILS */
+.extendedDetails {
+    margin-top: 16px;
+    padding: 0;
+}
+
+.extendedDetails .slds-button {
+    margin-bottom: 6px;
+}
+
+.extendedDetails .slds-grid .slds-col .row {
+    margin-bottom: 30px;
+}
+
+.extendedDetails .slds-grid .slds-col .row p{
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+    min-height: 21px;
+    color: #444444;
+}
+
+.extendedDetails .slds-grid .slds-col .row > p + p{
+    font-family: "SantanderMicroText-Bd";
+}
+
+.extendedDetails .slds-text-heading_medium {
+    font-size: 20px;
+    font-family: "SantanderHeadlineW05-Rg";
+    line-height: 1.4;
+    color: #444444;
+	padding-bottom: 8px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid #cedee7;
+    width: 100%;
+}

@@ -1,0 +1,45 @@
+.THIS .name .information {
+    min-width: 184px;
+}
+
+.THIS .group .information {
+    min-width: 128px;
+}
+
+.THIS.slds-card {
+    background-color: #ffffff;
+    border: solid 1px #ececec;
+    border-radius: 4px;
+    height: 56px;
+    margin: 0 0 16px 0;
+}
+
+.THIS.slds-card .information {
+    color: #444444;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.THIS.slds-card .name {
+    color: #a2a2a2;
+    font-size: 12px;
+    line-height: 18px;
+}
+
+.THIS.slds-card .slds-card__header {
+    height: 56px;
+    margin: 0;
+    padding: 08px 24px 12px 24px;
+}
+
+.THIS .slds-media>div {
+    margin-right: 40px;
+}
+
+.THIS .rol .information {
+    min-width: 72px;
+}
+
+.THIS .userId .information {
+    min-width: 104px;
+}

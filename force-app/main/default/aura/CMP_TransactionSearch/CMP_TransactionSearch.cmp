@@ -1,0 +1,250 @@
+<!--
+Author:         Guillermo Giral
+Company:        Deloitte
+Description:    Search component for the transactions screen. It includes both
+                the search form and the search pills
+History
+<Date>			<Author>		    <Description>
+30/01/2020		Shahad Naji         Initial version
+17/02/2020      Guillermo Giral     Additional functionalities
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_TransactionDetails">
+    
+    
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <aura:attribute name="hiddeAccountInfo"  type="Boolean"  description="To show or hide account info"/>
+    <aura:attribute name="formValues" type="CNT_TransactionDetails" description="Transaction Search Form Information 'Dropdown values'"/>
+    <aura:attribute name="formFilters" type="Map" default="{}" description="Map of filters taken from the input fields"/>
+    <aura:attribute name="countryList" type="List" description="Country dropdown values"/>
+    <aura:attribute name="accountList" type="List" description="Accouny dropdown values"/>
+    <aura:attribute name="bankList" type="List" description="Bank dropdown values"/>
+    <aura:attribute name="currencyList" type="List" description="Currency dropdown values"/>
+    <aura:attribute name="categoryList" type="List" description="Category dropdown values"/>
+    
+    <aura:attribute name="isSearching"  type="boolean"  default="false"    description="List if is searching for transactions"/>
+
+    <aura:attribute name="selectedCountries" type="List" description="A list of selected countries"/>
+    <aura:attribute name="selectedBanks" type="List" description="A list of selected banks"/>
+    <aura:attribute name="selectedAccounts" type="List" description="A list of selected accounts"/>
+    <aura:attribute name="selectedCurrencies" type="List" description="A list of selected currencies"/>
+    <aura:attribute name="selectedCategory" type="String" description="A list of selected category"/>
+    <aura:attribute name="valueDateFrom" type="String" description="From value for Value Date"/>
+    <aura:attribute name="valueDateTo" type="String" description="To value for Value Date"/>
+    <aura:attribute name="comesFromGlobalBalance" type="Boolean" default="true" description ="Attribute for known if we are navigating from global balance" />
+    <aura:attribute name="showResults" type="Boolean" default="false" description="Boolean attribute to control whether to show the search component or the results component"/>
+    <aura:attribute name="showPills" type="Boolean" default="false" description="Flag to show/hide pills"/>
+    <aura:attribute name="pills" type="List" description="List of pill (strings) to be displayed"/>
+    
+    <!-- EVENTS -->
+    <aura:registerEvent name="fireSearch" type="c:EVT_TransactionSearchEvent"/>
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="clearConcretePill" event="c:EVT_ClearConcretePill" action="{!c.removeOnePill}"/>
+    <aura:handler name="clearSearch" event="c:EVT_SearchPillsClear" action="{!c.removeAllPills}"/>
+    <aura:handler name="clearSearch" event="c:EVT_SearchPillsClear" action="{!c.removeAllPills}"/>
+  
+    <!--<aura:attribute name="placeholderFrom"      type="String"   default="From"            description="Calendar 'From' placeholder"/>
+    <aura:attribute name="placeholderTo"        type="String"   default="To"              description="Calendar 'To' placeholder"/>-->
+    
+    <aura:if isTrue="{!v.isSearching}">
+        <div class="slds-form pillContainer" role="list">
+        
+            <div class="slds-form__row firstRow">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing alignRadio ">
+                        <div class="slds-form-element__label slds-form-element__legend paddingCheckbox textLabel ">{!$Label.c.DownloadBalance_TypeOfInfo}</div>
+                        <span class="slds-radio">
+                            <input type="radio" id="{!$Label.c.LastUpdate}" value="{!$Label.c.LastUpdate}" name="options" aria-describedby="error_01" checked="true" onchange="{!c.getInformation}"/>
+                            <label class="slds-radio__label" for="{!$Label.c.LastUpdate}">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{!$Label.c.LastUpdate}</span>
+                            </label>
+                        </span>
+                        <span class="slds-radio">
+                            <input type="radio" id="{!$Label.c.EndOfDay}" value="{!$Label.c.EndOfDay}" name="options" aria-describedby="error_01" onchange="{!c.getInformation}"/>
+                            <label class="slds-radio__label" for="{!$Label.c.EndOfDay}">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label">{!$Label.c.EndOfDay}</span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+                <div class="slds-form__item colSecond" role="listitem"></div>
+            </div>
+            
+            
+            <div class="slds-form__row row">   
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.Country}</div>                    
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-combobox_container inputSize">
+                                <c:CMP_Dropdown aura:id="countryDropdown" isSimpleDropdown="false" selectAllValues="{!$Label.c.SelectAllCountries}" valuePlaceholder="{!$Label.c.multipleChoice}" values="{!v.countryList}" selectedValues="{!v.selectedCountries}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.Bank}</div>                 
+                        
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-combobox_container inputSize transactionSearch">
+                                <c:CMP_Dropdown aura:id="bankDropdown" isSimpleDropdown="false" selectAllValues="{!$Label.c.AllBanks}" valuePlaceholder="{!$Label.c.multipleChoice}" values="{!v.bankList}" selectedValues="{!v.selectedBanks}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row  row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.Account}</div> 
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-combobox_container inputSize transactionSearch">
+                                <c:CMP_Dropdown aura:id="accountDropdown" isSimpleDropdown="false" selectAllValues="{!$Label.c.AllAccounts}" valuePlaceholder="{!$Label.c.multipleChoice}" values="{!v.accountList}" selectedValues="{!v.selectedAccounts}"/>                         
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.currency}</div>                   
+                        
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-combobox_container inputSize">
+                                <c:CMP_Dropdown aura:id="currencyDropdown" isSimpleDropdown="false" selectAllValues="{!$Label.c.AllCurrencies}" valuePlaceholder="{!$Label.c.multipleChoice}" values="{!v.currencyList}" selectedValues="{!v.selectedCurrencies}"/>
+                        
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel">{!$Label.c.valueDate}</div>
+                        <div class="slds-form-element__control paddingInput">                        
+                            <div class="slds-form slds-form_compound">
+                                <fieldset class="slds-form-element">
+                                    <c:CMP_Calendar aura:id="valueDateCalendar" simple="false" placeholderTo="{!$Label.c.to}" placeholderFrom="{!$Label.c.from}" dateFrom="{!v.valueDateFrom}" dateTo="{!v.valueDateTo}" helpText="dd/MM/yyyy"/>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel ">{!$Label.c.MovementHistory_Category}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-combobox_container inputSize">
+                                <c:CMP_Dropdown aura:id="categoryDropdown" isSimpleDropdown="true" selectAllValues="{!$Label.c.selectOne}" valuePlaceholder="{!$Label.c.selectOne}" values="{!v.categoryList}" selectedValue="{!v.selectedCategory}"/>
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="slds-form__row row">
+                
+                
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing checkboxAlign">
+                        <span class="slds-form-element__label slds-form-element__legend  textLabel paddingCheckbox">{!$Label.c.TypeOfAmount}</span>
+                        
+                        
+                        <div class="slds-form-element ">
+                            <div class="slds-form-element__control paddingInput ">
+                                <div class="slds-checkbox">   
+                                    <input type="checkbox" name="options" id="debitInput" value="{!v.formFilters.debit}" onchange="{!c.getFormFilters}"/>
+                                    <label class="slds-checkbox__label" for="debitInput">
+                                        <span class="slds-checkbox_faux checkFaux"></span>
+                                        <span class="slds-form-element__label">{!$Label.c.Debit}</span>
+                                    </label>
+                                </div>
+                                <div class="slds-checkbox">                                
+                                    <input type="checkbox" name="options" id="creditInput" value="{!v.formFilters.credit}" onchange="{!c.getFormFilters}"/>
+                                    <label class="slds-checkbox__label" for="creditInput">
+                                        <span class="slds-checkbox_faux checkFaux"></span>
+                                        <span class="slds-form-element__label">{!$Label.c.MovementHistory_Credit}</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing  ">
+                        <legend class="slds-form-element__label slds-form-element__legend textLabel">{!$Label.c.MovementHistory_Amount}</legend>
+                        <div class="slds-form-element__control paddingInput">
+                            <!--<input type="text" id="single-form-element-id-03" placeholder="Placeholder Text" class="slds-input" />-->                        
+                            <div class="slds-form slds-form_compound">
+                                <fieldset class="slds-form-element">                                
+                                    <div class="slds-form-element__control ">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row ">
+                                                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                        <input type="text" id="amountFromInput" placeholder="{!$Label.c.from}" class="slds-input inputShadow" value="{!v.formFilters.amountFrom}" onchange="{!c.getFormFilters}"/>                                                    
+                                                    </div>
+                                                </div>
+                                                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                        <input type="text" id="amountToInput" placeholder="{!$Label.c.to}" class="slds-input inputShadow" value="{!v.formFilters.amountTo}" onchange="{!c.getFormFilters}"/>                                                  
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+            </div>
+            <div class="slds-form__row firstRow">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing  ">
+                        <span class="slds-form-element__label slds-form-element__legend  textLabel">{!$Label.c.ClientReference}</span>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="clientRefInput" placeholder="{!$Label.c.WriteAClienteReference}" class="slds-input inputShadow inputLarge" value="{!v.formFilters.clientRef}" onchange="{!c.getFormFilters}" />                                                    
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing   ">
+                        <span class="slds-form-element__label slds-form-element__legend  textLabel ">{!$Label.c.MovementHistory_Description}</span>
+                        <div class="slds-form-element__control   slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="descriptionInput" placeholder="{!$Label.c.WriteAWordOfDescription}" class="slds-input inputShadow inputLarge" value="{!v.formFilters.description}" onchange="{!c.getFormFilters}"/>                                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="slds-form__row lastRow">
+                <div class="slds-form__item paddingInput" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing ">
+                        <div class="slds-media__body lastPill">
+                            <button class="slds-button slds-button_brand whiteButton" onclick="{!c.clear}">{!$Label.c.clear}</button>
+                            <button class="slds-button slds-button_brand redButton" onclick="{!c.search}">{!$Label.c.apply}</button>              
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.showPills}">
+            <c:CMP_Pill pillsContainer="{!v.pills}" showClearAll="true"/>
+        </aura:if>
+</aura:component>

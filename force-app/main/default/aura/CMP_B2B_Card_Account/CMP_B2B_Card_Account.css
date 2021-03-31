@@ -1,0 +1,258 @@
+/* CPC_PARCHE APAÑO PARA CSS */
+.THIS .slds-col {
+    margin-bottom: 0px !important;
+    margin-right: 0px !important;
+}
+
+/* CONTENT ACCOUNT AND INFO ACCOUNT */
+.THIS .content_account {
+	border-radius: 4px; 
+  	background-color: #ffffff;
+    padding: 16px;
+    display: flex;
+    border: solid 1px #cedee7;
+}
+
+.THIS .info_account { 
+    padding-top: 4px;
+    padding-left: 24px; 
+    flex-grow: 1;
+    width: 400px;
+}
+.THIS .info_account h5 {
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 20px; 
+    line-height: 1.4; 
+    color: #444444;
+}
+
+.THIS .info_account .slds-grid {
+  	margin-top: 16px;
+}
+
+.THIS .info_account .slds-col {
+     max-width: 100%;
+}
+
+.THIS .info_account .slds-text-body_small {
+    font-family: "SantanderMicroText";
+    font-size: 14px; 
+    line-height:1.5;
+    letter-spacing: normal;
+    color: #767676;
+}
+
+.THIS .info_account .slds-text-body_regular {
+    font-family: "SantanderMicroText-Bd";
+    font-size: 14px;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #444444;
+}
+
+.THIS .info_account .two-col .slds-col {
+    width: 50%;
+}
+
+.THIS .info_account .two-col .slds-col:nth-child(1) {
+      padding-right: 12px;
+}
+
+.THIS .info_account .two-col .slds-col:nth-child(2) {
+      padding-left: 12px;
+}
+
+/* CARD ACCOUNT */
+.THIS .cardAccount {
+    /*width: 376px;
+    max-width: 376px;*/
+    width: 392px;  /*CUENTA ORIGEN*/
+    border-radius: 4px;
+    box-shadow: 2px 2px 6px 2px rgba(206, 214, 219, 0.4);
+    border: 1px solid #cedee7;
+    border-left: 4px solid #ec0000;
+    background-color: #ffffff;
+    padding: 16px;
+}
+
+.THIS .cardAccount.card-alternative {
+    width: 376px;
+}
+
+.THIS .cardAccount .slds-grid {
+	margin: 0px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+
+/* CARD ACCOUNT HEADER */
+.THIS .cardAccount .slds-card__header {
+	margin: 0 0 16px 0 !important; /* CPC_PARCHE APAÑO PARA CSS */
+    padding: 0 !important; /* CPC_PARCHE APAÑO PARA CSS */
+}
+
+.THIS .cardAccount .slds-card__header .slds-media__body {
+	display: flex;
+    flex-direction: column;
+}
+
+.THIS .cardAccount .slds-card__header .slds-media__figure {
+    margin: 0;
+    margin-left: 16px;
+    display: none;
+}
+
+ /*CARD ACCOUNT BODY*/
+.THIS .cardAccount .slds-card__body { 
+    margin: 0 0 16px 0;
+    padding: 0;
+}
+
+.THIS .cardAccount .slds-card__body .slds-grid {
+    flex-wrap: nowrap;
+}
+
+.THIS .cardAccount .slds-card__body .slds-grid .slds-col {
+    max-width: 179px; /*        QUITAR EN CUENTA DESTINO*/
+    flex: 1 1 auto;
+}
+
+.THIS .cardAccount .slds-card__body .slds-grid .slds-col:last-child {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 161px;
+    margin-left: 16px;
+}
+
+/*CARD FOOTER*/
+.THIS .cardAccount .slds-card__footer {
+    display: flex;
+    justify-content: space-between;
+ 	margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.THIS .cardAccount .slds-card__footer .slds-media__figure {
+    display: flex;
+    align-items: center;
+ 	margin: 0;
+    /*max-width: 300px;       CUENTA ORIGEN*/
+    max-width: 286px;         
+}
+
+.THIS .cardAccount .slds-card__footer .sizeFlag {
+    width: 20px;
+    height: 20px;
+    margin-right: 4px;
+}
+
+.THIS .cardAccount .slds-card__footer .slds-box {
+    border: 1px solid #cedee7;
+    border-radius: 2px;
+    padding: 2px 8px;
+    margin-left: 16px;      
+    /*margin-left: 9px;       CUENTA DESTINO*/
+}
+
+/* CARD ACCOUNT STATES */
+/* INTERACTION */
+.THIS .cardAccount:not([disabled]):hover{
+    border: 1px solid #1bb3bc;
+    border-left: 4px solid #ec0000;
+    cursor: pointer;
+}
+
+/*
+.THIS .cardAccount:not([disabled]):active{
+    border: 1px solid #1bb3bc;
+    border-left: 4px solid #1bb3bc;
+    cursor: pointer;
+}
+*/
+
+.THIS .cardAccount.card-alternative:not([disabled]):hover{
+    border: 1px solid #1bb3bc;
+    border-left: 4px solid #444444;
+    cursor: pointer;
+}
+
+.THIS .cardAccount:not([disabled]):active,
+.THIS .cardAccount.card-alternative:not([disabled]):active {
+    border: 1px solid #1bb3bc;
+    border-left: 4px solid #1bb3bc;
+    cursor: pointer;
+}
+/* CARD SELECTED */
+.THIS .cardAccount.card-selected,
+.THIS .cardAccount.card-alternative.card-selected{
+    border: 1px solid #1bb3bc;
+    border-left: 4px solid #1bb3bc;
+    /*box-shadow: 2px 2px 6px 2px rgba(206, 214, 219, 0.4);         CUENTA DESTINO*/
+}
+
+.THIS .cardAccount.card-selected:not([disabled]):hover,
+.THIS .cardAccount.card-alternative.card-selected:not([disabled]):hover{
+    border: 1px solid #1bb3bc;
+    border-left: 4px solid #1bb3bc;
+    cursor: auto;
+}
+
+.THIS .cardAccount.card-selected .slds-card__header .slds-media__figure {
+    margin: 0;
+    margin-left: 16px;
+    display: block;
+}
+
+/* CARD ALTERNATIVE */
+.THIS .cardAccount.card-alternative {
+    border-left: 4px solid #444444;
+}
+
+/* CARD ACCOUNT ICONS */
+/* ICON SELECTED*/
+.THIS .cardAccount .icon.icon-check_circle:before {
+   font-size: 32px;
+   color: #1bb3bc;
+}
+
+/*CARD TEXT STYLES*/
+.THIS .cardAccount .slds-card__header-title {
+    font-family: "SantanderMicroText-Bd";
+    font-size: 16px;
+    line-height: 24px;
+    min-height: 24px;
+    color: #444444;
+    /*width:100%;       CUENTA DESTINO */
+}
+
+.THIS .cardAccount .card_subtitle {
+    font-size: 16px;
+    line-height: 24px;
+    min-height: 24px;
+    font-family: "SantanderMicroText";
+    color: #444444;
+    margin-bottom: 0px !important; /* CPC_PARCHE APAÑO PARA CSS */
+}
+
+.THIS .cardAccount .slds-text-body_regular {
+    font-size: 14px;
+    line-height: 21px;
+    min-height: 21px;
+    font-family: "SantanderMicroText";
+    color: #444444;
+}
+
+.THIS .cardAccount .slds-text-body_small {
+    font-size: 12px;
+    line-height: 18px;
+    min-height: 18px;
+    font-family: "SantanderMicroText";
+    color: #444444;
+}
+
+.THIS .cardAccount .slds-text-body_small.text-bold,
+.THIS .cardAccount .slds-text-body_regular.text-bold,
+.THIS .cardAccount .slds-text-heading_small.text-bold {
+    font-family: "SantanderMicroText-Bd";
+}

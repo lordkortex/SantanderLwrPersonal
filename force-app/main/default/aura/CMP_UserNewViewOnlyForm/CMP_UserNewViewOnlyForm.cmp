@@ -1,0 +1,267 @@
+<aura:component>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <aura:attribute name="userInfo"     type="Map"  default="{}"   description="Contains the info of the user" />
+
+    <!-- DROPDOWN DATA ATTRIBUTES -->
+    <aura:attribute name="helpTextDropdown"     type="String" default="Show More"   description="Dropdown help text"/>
+    <aura:attribute name="typesList"            type="List"                         description="List of types of user"/>
+    <aura:attribute name="statesList"           type="List"                         description="List of states of user"/>
+    <aura:attribute name="languagesList"        type="List"                         description="Dropdown Of languages data"/>
+    <aura:attribute name="TimeZoneList"         type="List"                         description="Time zone of the user"/>
+    <aura:attribute name="NumberFormatList"     type="List"                         description="Number format of the user"/>
+    <aura:attribute name="dateFormatList"       type="List"                         description="Sets the date format of the user"/>
+    <aura:attribute name="typeAndNumberList"    type="List"                         description="Type of the cryptocalculator"/>
+
+    <!-- CONTROL ATTRIBUTES -->
+    <aura:attribute name="renderCrypto"     type="Boolean" default="true" description="Flag to render the has cryptocalculator block" />
+    <aura:attribute name="renderMobile"     type="Boolean" default="true" description="Flag to check if mobile is enabled" />
+    <aura:attribute name="renderCorporates" type="Boolean" default="true" description="Flag to check if corporates block is rendered" />
+    
+    <aura:handler name="change" value="{!v.userInfo.type_Z}" action="{!c.dataChange}"/>
+    <aura:handler name="change" value="{!v.userInfo.State}" action="{!c.dataChange}"/>
+    <aura:handler name="change" value="{!v.userInfo.tipoVasco}" action="{!c.dataChange}"/>
+
+    <div class="slds-form pillContainer" role="list">
+        <!-- ### USER ID BLOCK -->
+            <div class="slds-form__row firstRow">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr> {!$Label.c.Users_UserId}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputId" placeholder="" class="slds-input inputShadow inputSize" disabled="true" value="{!v.userInfo.userId}" onkeyup="{!c.updateData}" />                                                    
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <!-- ### USER NAME BLOCK -->
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr> {!$Label.c.LogAdmin_Name}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputName" placeholder="" class="slds-input inputShadow inputLarge" disabled="true" value="{!v.userInfo.Name}" onkeyup="{!c.updateData}"/>                                                    
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER SURNAME BLOCK -->
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"> <abbr class="requireText" title="Required field">* </abbr>{!$Label.c.Users_Surname}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputSurname" placeholder="" class="slds-input inputShadow inputLarge" disabled="true" value="{!v.userInfo.Surname}" onkeyup="{!c.updateData}"/>                                                    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ### USER TYPE BLOCK -->
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr>{!$Label.c.Users_Type}</div>
+                            <div class="slds-form-element__control paddingInput"> 
+                                <div class="slds-form-element"> 
+                                    <!-- DROPDOWN MARKUP -->
+                                    <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                        <input type="text" placeholder="" class="slds-input inputShadow inputLarge" disabled="true" value="{!v.userInfo.type_Z}"/>
+                                    </div> 
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER STATE BLOCK -->
+                <div class="slds-form__item colSecond " role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr>{!$Label.c.Users_State}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <input type="text" placeholder="" class="slds-input inputShadow inputLarge" disabled="true" value="{!v.userInfo.State}"/>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <!-- ### USER LANGUAGE BLOCK -->
+            <div class="slds-form__row row"> 
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel "><abbr class="requireText" title="Required field">* </abbr> {!$Label.c.Users_Language}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element"> 
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <input type="text" placeholder="" class="slds-input inputShadow inputLarge" disabled="true" value="{!v.userInfo.Language}"/>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER TIME ZONE BLOCK -->
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel "><abbr class="requireText" title="Required field">* </abbr> {!$Label.c.Users_TimeZone}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <input type="text" placeholder="" class="slds-input inputShadow inputLarge" disabled="true" value="{!v.userInfo.TimeZone}"/>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- ### USER NUMBER FORMAT BLOCK -->
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel "><abbr class="requireText" title="Required field">* </abbr> {!$Label.c.Users_NumberFormat}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <input type="text" placeholder="" class="slds-input inputShadow inputLarge" disabled="true" value="{!v.userInfo.NumberFormat}"/>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER DATE FORMAT BLOCK -->
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel "><abbr class="requireText" title="Required field">* </abbr> {!$Label.c.Users_DateFormat}</div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form-element">
+                                <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                    <input type="text" placeholder="" class="slds-input inputShadow inputLarge" disabled="true" value="{!v.userInfo.dateFormat}"/>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ### USER EMAIL BLOCK -->
+            <div class="slds-form__row row">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr> {!$Label.c.Users_Email}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="text" id="inputEmail" placeholder="" class="slds-input inputShadow inputLarge" disabled="true" value="{!v.userInfo.Email}" onkeyup="{!c.updateData}"/>                                                    
+                        </div>
+                    </div>
+                </div>
+                <!-- ### USER PHONE BLOCK -->
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"> {!$Label.c.Users_Phone}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <input type="tel" id="inputPhone" placeholder="" class="slds-input inputShadow inputSize" disabled="true" value="{!v.userInfo.Phone}" onkeyup="{!c.updateData}"/>                                                    
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- ### USER ADDRESS BLOCK -->
+            <div class="slds-form__row row"> 
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel">{!$Label.c.Users_Address}</div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <textarea type="text" id="inputAddress" placeholder="" class="slds-input inputShadow inputXXL" disabled="true" value="{!v.userInfo.Address}" onkeyup="{!c.updateData}"></textarea>                                             
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ### USER MOBILE APP ACCESS BLOCK -->
+            <aura:if isTrue="{!v.renderMobile}">
+                <div class="slds-form__row radioRow">
+                    <div class="slds-form__item colFirst" role="listitem">
+                        <div class="slds-form-element slds-form-element_horizontal slds-is-editing " >
+                            
+                            <div class="slds-form-element__label slds-form-element__legend radioLabel ">{!$Label.c.Users_MobileAppAccess}</div>
+                            <span class="slds-radio">
+                                <input type="radio" id="mobileYes" disabled="true" value="mobileYes" name="mobile" aria-describedby="error_01" checked="{!v.userInfo.MobileAppAccess == 'Y'}" onclick="{!c.updateRadios}"/>
+                                <label class="slds-radio__label" for="mobileYes">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label marginRadioLabel ">{!$Label.c.Yes}</span>
+                                </label>
+                            </span>
+                            <span class="slds-radio">
+                                <input type="radio" id="mobileFalse" disabled="true" value="radio-44" name="mobile" aria-describedby="error_01"  checked="{!v.userInfo.MobileAppAccess == 'N'}" onclick="{!c.updateRadios}"/>
+                                <label class="slds-radio__label" for="mobileFalse">
+                                    <span class="slds-radio_faux"></span>
+                                    <span class="slds-form-element__label marginRadioLabel ">{!$Label.c.No}</span>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </aura:if>
+            <!-- ### USER CRYPTOCALCULATOR BLOCK -->
+            <aura:if isTrue="{!v.renderCrypto}">
+            <div class="slds-form__row radioRow">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing "> 
+                        <div class="slds-form-element__label slds-form-element__legend radioLabel ">{!$Label.c.Users_IsCryptocalculator}</div>
+                        <span class="slds-radio">
+                            <input type="radio" id="cryptoYes" value="" disabled="true" name="crypto" aria-describedby="error_01" checked="{!v.userInfo.TieneVasco == 'Y'}" onclick="{!c.updateRadios}"/>
+                            <label class="slds-radio__label" for="cryptoYes">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label marginRadioLabel  ">{!$Label.c.Yes}</span>
+                            </label>
+                        </span>
+                        <span class="slds-radio">
+                            <input type="radio" id="cryptoNo" value="" disabled="true" name="crypto" aria-describedby="error_01" checked="{!v.userInfo.TieneVasco == 'N'}" onclick="{!c.updateRadios}" />
+                            <label class="slds-radio__label" for="cryptoNo">
+                                <span class="slds-radio_faux"></span>
+                                <span class="slds-form-element__label marginRadioLabel ">{!$Label.c.No}</span>
+                            </label>
+                        </span>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-form__row row cryptoRow lastRow">
+                <div class="slds-form__item colFirst" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-form-element__label slds-form-element__legend textLabel"><abbr class="requireText" title="Required field">* </abbr>{!$Label.c.Users_TypeAndNumber}</div>
+                        <div class="slds-form-element__control paddingInput"> 
+                            <div class="slds-form-element"> 
+                                <!--<c:CMP_Dropdown aura:id="RolesDropdown" isSimpleDropdown="true" valuePlaceholder="{!$Label.c.LogAdmin_SelectOne}"  
+                                values="{!v.typeAndNumberList}" selectedValue="{!v.userInfo.tipoVasco}" isDisabled="{!v.userInfo.tieneVasco == 'N'}"/>-->
+                                <div class="slds-input-has-icon slds-input-has-icon_right paddingInput">
+                                    <input type="text" id="date-input-id-011" placeholder="" value="{!v.userInfo.VascoNumber}" class="slds-input inputShadow inputSize"  disabled="true" />
+                                    <small>{!$Label.c.Users_CryptoNumber}</small>
+                                </div>
+                            </div>
+                            <aura:if isTrue="{!v.userInfo.tipoVasco == 'Virtual'}">
+                                <div class=" lastPillBig">
+                                    <div data-title="{!$Label.c.Users_ObtainCrypto}"><button class="slds-button slds-button_brand redButtonBig" onclick="{!c.obtainCrypto}">{!$Label.c.Users_ObtainCrypto}</button></div>           
+                                </div>
+                            </aura:if>
+                        </div> 
+                    </div>
+                </div>
+                <div class="slds-form__item colSecond" role="listitem"> </div>
+                </div>
+            </aura:if>
+            
+            
+            <!--  
+            <div class="slds-form__row lastRow">
+                <div class="slds-form__item colSecond" role="listitem">
+                    <div class="slds-form-element slds-form-element_horizontal slds-is-editing noMargin">
+                        <div class="slds-media__body lastPill">
+                            <button class="slds-button slds-button_brand whiteButton" title="Clear">Clear</button>
+                            <button class="slds-button slds-button_brand redButton"  data-title="Apply" >Apply</button>              
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+        
+
+
+    
+        
+</aura:component>

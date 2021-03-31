@@ -1,0 +1,15 @@
+<!--
+Author:         Joaquin Vera Vallés
+Company:        Deloitte
+Description:    Parent component of the global position screen in cash nexus
+History
+<Date>			<Author>		<Description>
+12/03/2020		Joaquin Vera Vallés     Initial version-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access = "Global">
+
+        <c:CMP_CN_Title title="{!$Label.c.T_InternationalPaymentsTracker}"/>
+        <c:CMP_GlobalTitleTabs />
+
+        <c:CMP_GlobalAccountCardTable />
+        
+</aura:component>

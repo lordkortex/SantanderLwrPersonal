@@ -1,0 +1,109 @@
+<template>
+    <c-lwc_b2b_toast data-id="toast"></c-lwc_b2b_toast>
+
+    <div class="searchFiltersAccounts">
+        <div class="slds-grid">
+            <div class="searchFilters">
+                <div class="slds-form-element search">
+                    <div class="slds-form-element__control slds-input-has-icon">
+                        
+                        <!-- El siguiente button de cerrar debe estar oculto hasta que se vaya a escribir en 
+                    el buscador -->
+                        <!-- El movimiento de la lupa y el placeholder está hecho mediante css -->
+                        <!-- <template if:true={searchedStringNotEmpty}> -->
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick={clearInput}>
+                                <div class="slds-button__icon slds-icon-text-light icon-close_filledCircle" aria-hidden="true"></div>
+                                <span class="slds-assistive-text">{label.clear}</span>
+                            </button>
+                        <!-- </template> -->
+                        <!-- Cuando el input tenga un valor seleccionado se le tiene que añadir la clase filledInput -->
+                        <!--disabled="true"-->
+                        <input  type="search" id="text-input-id-1" placeholder={label.SearchPayments} class={searchedStringEmptyClass} name="search" value={searchedstring} onkeydown={setInputOnKeyDown} onblur={setInputOnBlur}/>
+                        
+                        <div class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default icon-search" aria-hidden="true"></div>
+                        
+                    </div>
+                    <!-- Mensaje de error oculto por defecto -->
+            		<div class="errorText">Error! Incorrect user input format.</div>
+                </div>
+                
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">{label.filterBy}</label>
+                    <div class="slds-form-element__control filters">  
+
+                        <c-lwc_b2b_filter-button-dropdown data-id="filter" 
+                            showdropdown={showdropdown} 
+                            label={label.status} 
+                            name="status" 
+                            filterlist={statusdropdownlist} 
+                            selectedfilters={selectedstatuses} 
+                            cleardropdown={resetSearch}
+                            onsavefilters={handleFilter}>
+                        </c-lwc_b2b_filter-button-dropdown>
+
+                        <c-lwc_b2b_filter-button-dropdown data-id="filter" 
+                            showdropdown={showdropdown}
+                            label={label.currency} 
+                            name="currency" 
+                            filterlist={currencydropdownlist} 
+                            selectedfilters={selectedcurrencies} 
+                            cleardropdown={resetsearch} 
+                            onsavefilters={handleFilter}>
+                        </c-lwc_b2b_filter-button-dropdown>
+
+                        <!--PILL 3 COMBOBOX--> 
+                        <div class="slds-combobox_container">
+                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                <!-- Añadir la clase filterButton cuando el boton esté filtrado -->
+                                <button class={filterCounterGTzeroClass} onclick={openFilterModal}>{label.AllFilters}
+                                    <div class="numberSelected">
+                                        <span>{filtercounter}</span>
+                                    </div>
+                                    <div class="icon-more"></div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="rightIcons">
+                <!--DOWNLOAD-->
+                <button class="slds-button button_link" onclick={openDownloadModal}>       
+                    <span class="icon_left icon-download"></span>{label.download}
+                </button> 
+                <!--PRINT-->
+                <button class="slds-button button_link" onclick={printScreen}>        
+                    <span class="icon_left icon-print"></span>{label.T_Print} 
+                </button> 
+            </div>   
+        </div>
+    </div>
+    <template if:true={showfiltermodal}> 
+        <c-lwc_payments-landing-filter-modal data-id="filterModal"
+            showfiltermodal={showfiltermodal} 
+            currentuser={currentuser} 
+            isloading={isloading}                                          
+            clientreference={searchedstring}
+            currencydropdownlist={currencydropdownlist} 
+            selectedcurrencies={selectedcurrencies}
+            statusdropdownlist={statusdropdownlist} 
+            selectedpaymentstatusbox={selectedpaymentstatusbox} 
+            selectedstatuses={selectedstatuses}
+            paymentmethoddropdownlist={paymentmethoddropdownlist} 
+            selectedmethod={selectedmethod}
+            countrydropdownlist={countrydropdownlist} 
+            selectedcountry={selectedcountry}
+            accountlist={accounts}
+            searchedsourceaccount={searchedsourceaccount}
+            account={selectedsourceaccount}
+            fromdecimal={fromdecimal} 
+            todecimal={todecimal}
+            dates={dates}                                          
+            resetsearch={resetsearch}
+            filtercounter={filtercounter}
+            reloadaccounts={reloadaccounts}  
+            applyisclicked={applyisclicked}
+            closemodal={onCloseModal}>
+        </c-lwc_payments-landing-filter-modal>                                                                                      
+     </template>
+</template>

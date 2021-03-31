@@ -1,0 +1,57 @@
+<template>
+
+    <!-- Añadir la clase sky para cambiar el color a blanco por el azul -->
+    <div class="drag-and-drop-t01">
+        <!-- Añadir la clase validating-file cuando se esté cargando el archivo -->
+        <!-- Añadir la clase success-file cuando se haya cargado el archivo con éxito -->
+        <!-- Añadir la clase error-file cuando se haya producido un error al cargar el archivo -->
+        <div class="drag-and-drop_container">
+
+            <!-- DEFAULT CONTENT -->
+            <div class="default slds-grid">
+                <span class="icon icon-upload"></span>
+                <div class="text-infomative">
+                    <div class="slds-text-heading_small">Choose a file or drag and drop here</div>
+                    <div class="slds-text-body_regular">Your files should not exceed 10MB. Valid phormates: .JPG .JPEG
+                        .PNG .GIF .PDF .DOC .DOCX .XLS .XLSX .PPTX .MSG .TX </div>
+                </div>
+            </div>
+
+            <!-- VALIDATING -->
+            <!-- Este div sólo se mostrará cuando el contenedor principal tenga la clase validating-file -->
+            <div class="validating slds-grid">
+                <div role="status" class="slds-spinner">
+                    <img src="/sfsites/c/resource/1594201598000/Images/BS_s-loader.gif" alt="Validating..."></img>
+                </div>
+                <span class="slds-text-heading_small spinner-text">Validating file<span
+                        class="slds-text-body_regular">[file name]</span></span>
+            </div>
+
+            <!-- SUCCESS -->
+            <!-- Este div sólo se mostrará cuando el contenedor principal tenga la clase success-file -->
+            <div class="success slds-grid">
+                <div class="slds-grid">
+                    <span class="icon icon-check_circle"></span>
+                    <span class="slds-text-heading_small">The file[s] has been uploaded successfully<span
+                            class="slds-text-body_regular"> [file name]</span></span>
+                </div>
+                <!--<button class="slds-button button_link"><span class="icon_left icon-upload"></span>Upload new document</button>-->
+            </div>
+
+            <!-- ERROR -->
+            <!-- Este div sólo se mostrará cuando el contenedor principal tenga la clase error-file -->
+            <div class="error slds-grid">
+                <span class="icon icon-upload"></span>
+                <span class="slds-text-heading_small">Component title</span>
+            </div>
+        </div>
+
+        <div class="error-text">Error! Incorrect file.</div>
+
+        <lightning-input type="file" label="Choose a file or drag and drop here" accept="image/png, .zip"
+            onchange={handleFilesChange} multiple>
+        </lightning-input>
+    </div>
+
+
+</template>

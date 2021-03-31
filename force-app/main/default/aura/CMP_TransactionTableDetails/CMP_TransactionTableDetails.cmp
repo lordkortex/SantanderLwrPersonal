@@ -1,0 +1,605 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    <!-- TABLE -->  
+    <table style="margin-bottom: 30px" class="slds-table slds-table_fixed-layout slds-table_resizable-cols slds-table_striped" aria-multiselectable="true" role="grid"> 
+        <!-- HEADER -->        
+        <thead class="textHeader">
+            <tr class="slds-line-height_reset">
+                <th class="slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_asc header colorHeader containerAccount" aria-label="Name" aria-sort="ascending" scope="col">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate ">
+                        <span class="slds-truncate " title="">Account</span>
+                        <!-- Icono Orden descendente -->     
+                        <!--<span class="button-orderRight icon-orderDown__gray" title="Sort by Value Date"></span>-->
+                        <!-- Icono Orden ascendente 
+                        <span class="button-orderRight icon-orderUp__gray" title="Sort by Instructed on"></span>
+                        -->
+                    </div>
+                    
+                    <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">Sorted ascending</span>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-568" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                
+                <th class="slds-is-resizable slds-is-sortable header colorHeader containerBookDate" aria-label="Account Name" aria-sort="none" scope="col">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Status Update">Book Date</span>
+                        <!-- Icono Orden descendente -->     
+                        <span class="button-orderRight icon-orderDown__gray" title="Sort by Value Date"></span>
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-569" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <th class="slds-is-resizable slds-is-sortable header colorHeader containerValueDate" aria-label="Account Name" aria-sort="none" scope="col">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Status Update">Value Date</span>
+                        <span class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true"></span>
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-569" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <th class="slds-is-resizable slds-is-sortable header colorHeader containerCategory" aria-label="Close Date" aria-sort="none" scope="col">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Category">Category</span>
+                        <!-- Icono Orden descendente -->     
+                        <span class="button-orderRight icon-alphabeticalOrderDown__gray " title="Sort by Instructed on"></span>
+                        <!-- Icono Orden ascendente 
+                        <span class="button-orderRight icon-orderUp__gray" title="Sort by Instructed on"></span>
+                        -->
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-570" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                
+                <th class="slds-is-resizable slds-is-sortable header colorHeader containerClientRef" aria-label="Confidence" aria-sort="none" scope="col">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                        <span class="slds-truncate" title="Beneficiary Name"> Cliente Ref.</span>
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Confidence column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-572" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <th class="slds-is-resizable slds-is-sortable header colorHeader containerAmount paddingAmountHeader" aria-label="Amount" aria-sort="none" scope="col">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate alignRight">
+                        <!-- Icono Orden descendente -->
+                        <span class="button-orderLeft icon-orderDown__gray" title="Sort by Settled Amount"></span>
+                        <span class="slds-truncate" title="Beneficiary Entity">Amount</span>
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Amount column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-573" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <th class="slds-is-resizable slds-is-sortable header colorHeader containerBookBalance" aria-label="Contact" aria-sort="none" scope="col">
+                    <span class="slds-assistive-text">Sort by: </span>
+                    <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate alignRight">
+                        
+                        <!-- Icono Orden ascendente 
+                        <span class="button-orderRight icon-orderUp__gray" title="Sort by Instructed on"></span>
+                        -->
+                        <span class="slds-truncate" title="Settled Amount">Book Balance</span>
+                    </div>
+                    <div class="slds-resizable">
+                        <input type="range" aria-label="Contact column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-574" max="1000" min="20" tabindex="0" />
+                    </div>
+                </th>
+                <th class="header colorHeader containerIcon" scope="col">
+                    <div class="slds-truncate slds-assistive-text" title="Actions">Actions</div>
+                </th>
+            </tr>
+        </thead>
+        
+        <!-- BODY -->  
+        <tbody class="fontBody">
+            <!-- ROW 1 --> 
+            <tr class="slds-hint-parent " aria-selected="false">
+               <td role="gridcell" class="containerAccount borderLeft">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class="slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate" title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate" title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center  borderRight" role="gridcell">   
+                    <div class="button-arrow icon-chevronDown__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+                
+                
+            </tr>
+            
+            
+            <!-- ROW 2	-->
+            <tr class="slds-hint-parent border" aria-selected="false">
+                
+                
+                
+                <td role="gridcell" class="containerAccount">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class="slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate " title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate " title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center " role="gridcell">   
+                    <div class="button-arrow icon-chevronDown__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+                
+                
+            </tr>
+            <!-- ROW 3	-->
+            <tr class="slds-hint-parent noInferiorBorder" aria-selected="false">
+                
+                
+                
+                <td role="gridcell" class="containerAccount">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class=" slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate " title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate " title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center " role="gridcell">   
+                    <div class="button-arrow icon-chevronUp__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+                
+                
+            </tr>
+            <div class="widthCard">
+                
+                <table class="slds-table slds-table_fixed-layout slds-table_resizable-cols  widthCard" aria-multiselectable="true" role="grid"> 
+                    
+                    
+                    <th class=" textHeaderHidden colorHeader containerAccount" aria-label="Name" aria-sort="ascending" scope="col">
+                        
+                    </th>
+                    
+                    <th class=" textHeaderHidden colorHeader containerBookDate" aria-label="Account Name" aria-sort="none" scope="col">
+                        
+                    </th>
+                    <th class=" textHeaderHidden colorHeader containerValueDate" aria-label="Account Name" aria-sort="none" scope="col">
+                        
+                    </th>
+                    <th class=" textHeaderHidden colorHeader containerCategory" aria-label="Close Date" aria-sort="none" scope="col">
+                        
+                    </th>
+                    
+                    <th class=" textHeaderHidden colorHeader containerClientRef" aria-label="Confidence" aria-sort="none" scope="col">
+                        
+                    </th>
+                    <th class=" textHeaderHidden colorHeader containerAmount paddingAmountHeader" aria-label="Amount" aria-sort="none" scope="col">
+                        
+                    </th>
+                    <th class="textHeaderHidden colorHeader containerBookBalance" aria-label="Contact" aria-sort="none" scope="col">
+                        
+                    </th>
+                    <th class="textHeaderHidden colorHeader containerIcon" scope="col">
+                        
+                    </th>
+                    <tbody class="fontBody">
+                        
+                        
+                        <tr ><td class="noSuperiorBorder borderLeft"><div class="titleTrack containerAccount" >Transactions details</div></td> <td class="noSuperiorBorder containerBookDate"></td><td class="noSuperiorBorder containerValueDate"></td><td class="noSuperiorBorder containerCategory"></td><td class="noSuperiorBorder containerClientRef"></td><td class="noSuperiorBorder containerAmount"></td><td class="noSuperiorBorder containerBookBalance"></td><td class="noSuperiorBorder borderRight"></td></tr>
+                        <tr></tr>
+                        <tr class="th1 ">
+                            
+                            <td class="th1 containerAccount borderLeft" scope="row">
+                                <div class="slds-truncate titleDetail algo" title="Bank Ref.">Bank Ref.</div>
+                            </td>
+                            <td class="th1 containerBookDate" scope="row">
+                                <div class="slds-truncate titleDetail " title="Description">Description</div>
+                            </td>
+                            <td class=" th1 containerValueDate" scope="row">
+                                
+                            </td>
+                            <td class="th1 containerCategory" scope="row">
+                                
+                            </td>
+                            <td class="th1 containerClientRef" scope="row">
+                            
+                            </td>
+                            <td class="th1 containerAmount" scope="row">
+                                
+                            </td>
+                            <td class="th1 containerBookBalance" scope="row">
+                                
+                            </td>
+                            <td class="th1 borderRight" scope="row">
+                               
+                            </td>
+                            
+                        </tr>
+                        <tr></tr>
+                        <tr class="slds-hint-parent">
+                           
+                            <td scope="row " class="th1 containerAccount borderLeft">
+                                <div class="slds-truncate  algo paddingSeparation" title="SAN987947239ssf9837249827sdf284793">SAN987947239ssf9837249827sdf284793</div>         
+                            </td>
+                 
+                            <td scope="row" class="th1 containerBookDate">
+                                
+                                <div class="paddingSeparation" >
+                                    
+                                    <span class="icon-copy downloadDoc "></span>
+                                <span ><a class="noLink " href="">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></span></div>
+                            </td>
+                            <td scope="row" class="th1 containerValueDate">
+                                
+                            </td>
+                            <td scope="row" class="th1 containerCategory">
+                                
+                            </td>
+                            <td scope="row" class="th1 containerClientRef">
+                                
+                            </td>
+                             <td scope="row" class="th1 containerAmount">
+                                
+                            </td>
+                             <td scope="row" class="th1 containerBookBalance">
+                                
+                            </td>
+                             
+                            <td scope="row" class="th1 borderRight ">
+                                <!--<div class="paddingSeparation">
+                                    <span class="icon-doc downloadDoc "></span>
+                                    <span ><a class="noLink " href="">MT103</a></span>   
+                                </div>   -->                     
+                            </td>
+                                                     
+                        </tr>
+                    </tbody>
+                </table>
+                
+            </div>
+            <!-- ROW 4	-->
+            <tr class="slds-hint-parent border" aria-selected="false">
+                
+                
+                
+                <td role="gridcell" class="containerAccount">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class=" slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate " title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate " title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center " role="gridcell">   
+                    <div class="button-arrow icon-chevronDown__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+                
+                
+            </tr>
+            <!-- ROW 5	-->
+            <tr class="slds-hint-parent border" aria-selected="false">
+                
+                <td role="gridcell" class="containerAccount">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class="slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate " title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate " title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center " role="gridcell">   
+                    <div class="button-arrow icon-chevronDown__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+            </tr>
+            <!-- ROW 6	-->
+            <tr class="slds-hint-parent border" aria-selected="false">
+                
+                <td role="gridcell" class="containerAccount">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class="slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate " title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate " title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center " role="gridcell">   
+                    <div class="button-arrow icon-chevronDown__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+            </tr>
+            <!-- ROW 7	-->
+            <tr class="slds-hint-parent border" aria-selected="false">
+                
+                <td role="gridcell" class="containerAccount">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class=" slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate " title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate " title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center " role="gridcell">   
+                    <div class="button-arrow icon-chevronDown__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+            </tr>
+            <!-- ROW 8	-->
+            <tr class="slds-hint-parent border" aria-selected="false">
+                
+                <td role="gridcell" class="containerAccount">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class="slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate " title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate " title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center " role="gridcell">   
+                    <div class="button-arrow icon-chevronDown__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+            </tr>
+            <!-- ROW 9	-->
+            <tr class="slds-hint-parent border" aria-selected="false">
+                
+                <td role="gridcell" class="containerAccount">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class=" slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate " title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate " title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center " role="gridcell">   
+                    <div class="button-arrow icon-chevronDown__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+            </tr>
+            <!-- ROW 10	-->
+            <tr class="slds-hint-parent border" aria-selected="false">
+                
+                <td role="gridcell" class="containerAccount">
+                    <div class="slds-truncate" title="ES26 0110 7298 5555 8888 1589">ES26 0110 7298 5555 8888 1589</div>
+                </td>
+                <td role="gridcell" class="containerBookDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell" class="containerValueDate">
+                    <div class="slds-truncate" title="20/10/2019">20/10/2019</div>
+                </td>
+                <td role="gridcell"  class="containerCategory">
+                    <div class="slds-truncate" title="BNK">BNK</div>
+                </td>
+                <td role="gridcell"  class="containerClientRef">
+                    <div class="slds-truncate" title="234987947239ssf9837249827sdf284793">234987947239ssf9837249827sdf284793</div>
+                </td>
+                <td class="slds-text-align_right containerAmount paddingAmount" role="gridcell">
+                    <span class="slds-truncate " title="330,00">
+                        -330
+                    </span>
+                    <span class="slds-truncate " title="8.045.086,17 EUR">
+                        ,00 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_right" role="gridcell">
+                    <span class="slds-truncate amountInteger" title="8.045.086,17 EUR">
+                        8.045.086
+                    </span>
+                    <span class="slds-truncate amountDecimals" title="8.045.086,17 EUR">
+                        ,17 EUR
+                    </span>
+                </td>
+                <td class="slds-text-align_center " role="gridcell">   
+                    <div class="button-arrow icon-chevronDown__gray100 arrowDownFormat" title="See detail"></div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</aura:component>

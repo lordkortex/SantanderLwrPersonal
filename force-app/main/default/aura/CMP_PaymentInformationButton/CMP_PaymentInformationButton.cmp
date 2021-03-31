@@ -1,0 +1,19 @@
+<aura:component controller="CNT_PaymentInformationButton" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute 	access="public" 	type="Case" 	name="currentCase"   									description="Current case data"/>
+    <aura:attribute access="public"     name="showSpinner"	                        type="Boolean"  default="false"/>
+    <!-- PAYMENT INFORMATION-->
+    <aura:attribute access="public" name="isOpen" type="Boolean" default="false" description="Boolean flag to open/close modal"/>
+    <aura:attribute access="public" name="paymentObj" type="Object"  description="Payment object to show its infomation in modal "/>
+    
+    <aura:handler 	name="init" 	value="{!this}" 						action="{!c.doInit}"/>
+    
+    <aura:if isTrue="{!v.showSpinner eq true}">
+        <lightning:spinner alternativeText="Loading" size="large" variant="brand" />
+    </aura:if>
+    
+    <lightning:button class="slds-size_full" variant="brand" label="{!$Label.c.PaymentDetails}" title="{!$Label.c.PaymentDetails}" onclick="{! c.handleOpenPaymentDetails }" />
+    
+    <aura:if isTrue="{!v.isOpen}">
+        <c:CMP_PaymentInformation isOpen="{!v.isOpen}" paymentObj="{!v.paymentObj}" displayNewCaseButton="false"/>
+    </aura:if>
+</aura:component>

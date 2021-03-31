@@ -1,0 +1,49 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+    
+    <aura:attribute access="public"         type="Map"          name="userData"                             	description="User data." />
+    <aura:attribute access="public"         type="String"       name="dateValue"		default=""				description="Date Value" />
+    <aura:attribute access="public" 		type="String" 		name="datePlaceholder" 	default="" 				description="List containing the selected dates, or if they are empty, the placeholder for the field" />
+    <aura:attribute access="private" 		type="Boolean" 		name="dateFormat"   	default="false" 		description="Show error text and styles in  Date when incorrect format input"/>
+    <aura:attribute access="private" 		type="Boolean" 		name="errorDate"    	default="false" 		description="Show error text and styles in  Date"/>
+    <aura:attribute access="public"			type="Boolean"		name="isDisabled" 		default="false"			description="TRUE to disable calendar input FALSE to enable calendar input"/>
+    
+    <div class="calendar">
+        <div class="{!v.isDisabled == true ? 'slds-form slds-form_compound disabled' : 'slds-form slds-form_compound'}">
+            <div class="slds-form-element__row">
+                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                    <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                    <aura:if isTrue="{!not(empty(v.dateValue))}">
+                        <label class="slds-form-element__label">{!v.datePlaceholder}</label>
+                    </aura:if>
+                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                        
+                        <!-- Icono que aparecerá cuando este disabled -->
+                        <aura:if isTrue="{!v.isDisabled}">
+                            <div class="slds-button__icon disabled" aria-hidden="true">
+                                <div class="button icon-prohibited"></div>
+                            </div>
+                        </aura:if>
+                        <!-- Icono de cruz que aparece cuando seleccionas una fecha -->                       
+                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right close">
+                                <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                <span class="slds-assistive-text">{!$Label.c.B2B_Clear_text_input}</span>
+                            </button>
+                        
+                        <div class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" aria-hidden="true">
+                            <div class="slds-button__icon icon-calendar"></div>
+                        </div>
+                 
+                        <ui:inputDate aura:id="dateField" value="{!not(empty(v.dateValue)) ? v.dateValue : v.datePlaceholder}" class="field" displayDatePicker="true" format="{!v.userData.dateFormat}" disabled="true"/>
+                    </div>
+                    <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                    <!-- <div class="slds-form-element__help helperText">dd/mm/yyyy</div>  -->
+                    <!-- Cuando el texto introducido sea erronea saldrá un mensaje de error -->
+                    <aura:if isTrue="{!v.errorDate}">
+                        <div class="errorText">{!$Label.c.IncorrectInputFormat}</div>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,40 @@
+<!-- Author:       	 Diego Asis
+     Company:        Deloitte
+     Description:    Function to display only the necessary rows in the tables
+     History
+     <Date>			<Author>			<Description>
+ 	 11/02/2020		Diego Asis		     Initial version
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global"  controller="CNT_ViewAuthorization">
+    <aura:attribute type="Object" name="data" description="Object that contains the info of the user" />
+    
+    <aura:attribute name="itemPosition" type="Integer"/>
+    <aura:attribute name="item" type="Object"/>  
+    
+    <lightning:navigation aura:id="navService"/>
+    
+    <aura:registerEvent name="authorizationsPending" type="c:EVT_AuthorizationsPending" />
+    
+    <tr class="slds-hint-parent border" aria-selected="false">
+        
+        <td role="gridcell" data-title="{!v.item.autorizacion.nombusua}">
+            <div class="slds-truncate" >{!v.item.autorizacion.nombusua}</div>
+        </td>
+        <td role="gridcell" data-title="{!v.item.autorizacion.fecPett}">
+            <div class="slds-truncate" >{!v.item.autorizacion.fecPett}</div>
+        </td >
+        <td role="gridcell"  data-title="{!v.item.autorizacion.accio}">
+            <div class="slds-truncate">{!v.item.autorizacion.accio}</div>
+        </td>
+        <td role="gridcell" data-title="{!$Label.c.T_ViewInformation}">
+            <button class="slds-button slds-button_icon icon-viewProfile" onclick="{!c.goToView}"></button>
+        </td>
+        <td role="gridcell" data-title="{!$Label.c.T_Approve}">
+            <button class="slds-button slds-button_icon icon-check_circle" onclick="{!c.openModalAccept}"></button>
+        </td>
+        <td role="gridcell" data-title="{!$Label.c.T_Reject}">
+            <button class="slds-button slds-button_icon icon-close_emptyCircle" onclick="{!c.openModalReject}"></button>
+        </td>
+    </tr>
+    
+</aura:component>

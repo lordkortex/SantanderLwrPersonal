@@ -1,0 +1,58 @@
+<template>
+    <!-- <aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+            <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" /> -->
+
+
+    <li role="presentation" class="slds-listbox__item ">
+
+                                            
+        <!-- Añadir la clase "registered" para una cuenta registrada-->
+        <div aria-selected="true" id={key} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+            
+            <!-- COLUMNA 1 -->
+            <div class="slds-truncate account">
+                <span class="slds-media__body">
+                <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{account.displayNumber}</span>
+                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{account.alias}</span>
+                <!--Estaablecer condicion por valor booleano = true-->
+                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{label.Registered}</span>
+                </span>
+            </div>
+            
+            <!-- COLUMNA 2 -->
+            <div class="slds-truncate business">
+                <span class="slds-media__body">
+                <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{account.subsidiaryName}</span>
+                <span class="slds-listbox__option-meta slds-listbox__option-meta_entity">{account.bankName}</span>
+                </span>
+            </div>
+            
+            <!-- COLUMNA 3 -->
+            <div class="slds-truncate country">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                <span class="slds-icon_container">
+                    <span class="slds-icon slds-icon_small" aria-hidden="true">
+                        <!--Revisar parametrización de imagenes de países-->
+                       <!-- <img class="sizeFlag" src={account.country}></img>-->
+                    </span>
+                </span>
+                </span>
+                <span class="slds-media__body">
+                <span class="slds-listbox__option-text slds-listbox__option-text_entity bold">{account.countryName}</span>
+                </span>
+            </div>
+            
+            <!-- COLUMNA 4 -->
+            <div class="slds-truncate">
+                <span class="slds-media__body">
+                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                        <div class="slds-box">
+                            <p>{account.currencyCodeAvailableBalance}</p>
+                        </div>
+                    </span>
+                </span>
+            </div>
+        </div>
+    </li>
+
+</template>

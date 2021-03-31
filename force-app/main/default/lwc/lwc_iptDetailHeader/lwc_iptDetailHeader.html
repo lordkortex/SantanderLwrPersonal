@@ -1,0 +1,135 @@
+<template>    
+    <div class="cardTitleGPI">
+        <div class="slds-card__header slds-grid containerInformation">
+            <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title separation">
+                        
+                        <div class="status">
+                            <!-- IN PROGRESS
+                            <div class="status_inProgress">In progress</div> -->
+                            <template if:true={isInProgressStatus}>
+                                <div class="status_inProgress">{label.payment_statusThree}</div>
+                                <template if:true={existsCurrentBank}>
+                                    <div class="subDate">{label.payment_titleOne}&nbsp;{item.currentBank}</div>
+                                </template>
+                            </template>
+            
+                            <!-- REJECTED -->
+                            <template if:true={isRejectedStatus}>
+                                <!-- REJECTED -->
+                                <span class="status_rejected">{label.payment_statusOne}</span>
+                                <template if:true={isEmptyReason}>
+                                    <span class="status_rejected_subtitle"> - {label.reasonNotSpecified}</span>
+                                </template>
+                                <template if:true={existsReason}>
+                                    <span class="status_rejected_subtitle">- {item.reason2}</span>
+                                </template>
+                                <template if:true={existsCurrentBank}>
+                                    <div class="subDate">{label.payment_titleTwo}&nbsp;{item.currentBank}</div>
+                                </template>
+                            </template>
+            
+                            <!-- COMPLETED -->
+                            <template if:true={isCompletedStatus}>
+                                <span class="status_completed">{label.payment_statusTwo}</span>
+                                <template if:true={existsCurrentBank}>
+                                    <div class="subDate">{label.payment_titleOne}&nbsp;{item.currentBank}</div>
+                                </template>
+                            </template>
+
+                            <!-- ON HOLD -->
+                            <!-- <span class="status_onHold">On hold</span>  -->
+                            <template if:true={isOnHoldStatus}>
+                                <!-- ON HOLD -->
+                                <span class="status_onHold">{label.payment_statusFour}</span>
+                                <template if:true={existsCurrentBank}>
+                                    <div class="subDate">{label.payment_titleThree}&nbsp;{item.currentBank}</div>
+                                </template>
+                            </template>
+                            <span class="date">{label.statusUpdate}&nbsp;{item.lastUpdate}</span>
+                        </div>
+
+                        <div class="col-transactionFees">
+                            <template if:true={item.hasForeignExchange}>
+                                <div class="slds-card__header-title transaction">
+                                    <span class="space">{label.creditedAmount}</span>
+                                    <c-lwc_display-amount 
+                                        amount={getConfirmedAmount.amount} 
+                                        decimalclass="slds-truncate currency" 
+                                        wholeclass="slds-truncate number" 
+                                        currency={getConfirmedAmount.tcurrency}>
+                                    </c-lwc_display-amount>
+                                </div>
+                                <div class="slds-card__header-title fees">
+                                    <span class="spaceFee">{label.orderAmount}</span>
+                                    <div>
+                                        <c-lwc_display-amount 
+                                            amount={getInstructedAmount.amount} 
+                                            decimalclass="numberFee" 
+                                            wholeclass="numberFee" 
+                                            currency={getInstructedAmount.tcurrency}>
+                                        </c-lwc_display-amount>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <template if:false={item.hasForeignExchange}>
+                                <div class="slds-card__header-title transaction">
+                                    <span class="space">{label.amount}</span>
+                                    <template if:true={isNotNullUETRCode}>
+                                        <c-lwc_display-amount 
+                                            amount={getInstructedAmount.amount} 
+                                            decimalclass="slds-truncate currency" 
+                                            wholeclass="slds-truncate number" 
+                                            currency={getInstructedAmount.tcurrency}>
+                                        </c-lwc_display-amount>
+                                    </template> 
+                                    <template if:false={isNotNullUETRCode} >
+                                        <c-lwc_display-amount 
+                                            amount={getAmount} 
+                                            decimalclass="slds-truncate currency" 
+                                            wholeclass="slds-truncate number" 
+                                            currency={getCurrency}>
+                                        </c-lwc_display-amount>
+                                    </template>
+                                </div>                                    
+                            </template>
+
+                            <template if:true={areNotFeesEqualToZero}>
+                                <div class="slds-card__header-title fees">
+                                    <span class="spaceFee">{label.Fees}</span>
+                                    <div>
+                                        <template for:each={item.fees} for:item="fee" for:index="index">
+                                            <div key={fee.Id}>
+                                                <c-lwc_child-fee index={index} itemfees={fee}></c-lwc_child-fee>
+                                         <!--   <template data-index=index if:true={isIndexGTZero}>
+                                                &nbsp;<span>/</span>&nbsp; 
+                                                <c-lwc_display-amount 
+                                                    amount={getAmount} 
+                                                    decimalclass="numberFee" 
+                                                    wholeclass="numberFee" 
+                                                    currency={getCurrency}>
+                                                </c-lwc_display-amount>
+                                            </template>
+                                            <template data-index=index if:false={isIndexGTZero}>
+                                                <c-lwc_display-amount 
+                                                    amount={getAmount} 
+                                                    decimalclass="numberFee" 
+                                                    wholeclass="numberFee" 
+                                                    currency={getCurrency}>
+                                                </c-lwc_display-amount>
+                                            </template>-->
+                                            </div>
+                                        </template>
+                                    </div>                    
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="text_line"></div>
+    </div>
+</template>

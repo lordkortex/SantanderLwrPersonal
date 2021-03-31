@@ -1,0 +1,141 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_PaymentsLandingUtilityBar">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public" type="Boolean" 	name="showSubmenu"            default="false" description="Controls is the submenu is open or closed" /> 
+    <aura:attribute access="public" type="Boolean"  name="showRedo"               default="false"/>
+    <aura:attribute access="public" type="Map"  	name="paymentDetails"		  default="{}"    description="Payment details of the selected payment" />
+    <aura:attribute access="public" type="Map" 		name="currentUser"            default="{}"    description="Current user data" />
+    <aura:attribute access="public" type="Map"  	name="actions"				  default="{}"    description="Map of booleans to control which buttons are enabled" />
+    <aura:attribute access="public" type="Map"  	name="signatoryStatus"	      default="{}"    description="To determine if user is signatory of this payment" />
+    <aura:attribute access="public" type="Boolean"  name="reload"                 default="false" />
+    <aura:attribute access="public" type="Map"      name="userData"               default="{}"    description="User data." />
+    <aura:attribute access="public" type="Map"      name="accountData"            default="{}"    description="Account data." />
+    <aura:attribute access="public" type="String"   name="action"                 default="" />
+    <aura:attribute access="public" type="Boolean"  name="spinner"                default="false" />
+    <aura:attribute access="public" type="Boolean"  name="showCancelModal"        default='false' description="Indicates if the cancel payment modal is show."/>
+    <aura:attribute access="public" type="Boolean"  name="showSaveForLaterModal"        default='false' description="Indicates if the Save For Later modal is show."/>
+    <aura:attribute access="public" type="Boolean"  name="showDiscardModal"        default='false' description="Indicates if the discard payment modal is show."/>
+    <aura:attribute access="public" type="Boolean"  name="fromUtilityBar" 		default="false"/>
+    <aura:attribute access="public" type="Boolean"  name="fromDetail" 			default="false"/>
+    <aura:attribute access="public" type="String"   name="onwardPage"              default="landing-payments" />
+    <aura:attribute access="public" type="String"   name="discardDescription"      default="description of discard popup" />
+    <aura:attribute access="public" type="String"   name="discardTittle"              default="description of discard popup" />
+    <aura:attribute access="public" type="Boolean"  name="convertToUserTimezone"  default="true"/>
+
+
+    
+    
+    <lightning:navigation aura:id="navService" />
+    <c:CMP_ServiceComponent aura:id= "service" />
+
+    <aura:handler name="init"   value="{!this}"     action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.reload}" action="{!c.doInit} "/>
+
+    <aura:registerEvent name="clearSelection" type="c:EVT_PAY_ClearSelection" />
+    
+    <aura:handler 	name="cancelSelectedPayment" 	event="c:EVT_B2B_cancelSelectedPayment" action="{!c.handleCancelSelectedPayment}" />
+	<aura:handler   name="goToPaymentDetail"        event="c:EVT_PAY_GoToPaymentDetail"     action="{!c.goToPaymentDetail}" />
+    
+    <c:CMP_B2B_REDOModal payment="{!v.paymentDetails}" showRedo="{!v.showRedo}" clientReference="{!v.paymentDetails.clientReference}" action="{!v.action}" fromUtilityBar='true' />
+    <c:CMP_B2B_Toast aura:id="errorToast" reload="{!v.reload}" />
+
+    <aura:if isTrue="{!v.spinner eq true}">
+        <lightning:spinner alternativeText="{!$Label.c.Loading}" size="medium" />
+    </aura:if>
+
+    <footer class="slds-utility-bar_container barContainer" aria-label="Utility Bar">
+        <h2 class="slds-assistive-text">{!$Label.c.PAY_UtilityBar}</h2>
+            <ul class="slds-utility-bar">
+                <aura:if isTrue="{!v.actions.edit == true}">
+                    <li class="slds-utility-bar__item" onclick="{!c.edit}">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{!$Label.c.editPayment}</span>
+                        </button>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.discard == true}">
+                    <li class="slds-utility-bar__item" onclick="{!c.handleshowDiscardModal}">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">  
+                            <span class="slds-utility-bar__text">{!$Label.c.PAY_discardPayment}</span>
+                        </button>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.reuse == true}">
+                    <li class="slds-utility-bar__item" onclick="{!c.reuse}">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{!$Label.c.PAY_reusePayment}</span>
+                        </button>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.addToTemplate == true}">
+                    <li class="slds-utility-bar__item" onclick="{!c.addToTemplate}">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{!$Label.c.PAY_addToTemplate}</span>
+                        </button>
+                    </li>  
+                </aura:if>
+                <aura:if isTrue="{!v.actions.authorize == true}">
+                    <li class="slds-utility-bar__item" onclick="{!c.authorize}">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{!$Label.c.Authorize}</span>
+                        </button>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.reject == true}">
+                    <li class="slds-utility-bar__item" onclick="{!c.reject}">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                            <span class="slds-utility-bar__text">{!$Label.c.reject}</span>
+                        </button>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.sendToReview == true}">
+                    <li class="slds-utility-bar__item" onclick="{!c.sendToReview}">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false" >
+                            <span class="slds-utility-bar__text">{!$Label.c.PAY_SendToReview}</span>
+                        </button>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.trySaveAgain == true}">
+                    <li class="slds-utility-bar__item" >
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false" >
+                            <span class="slds-utility-bar__text">{!$Label.c.PAY_trySaveAgain}</span>
+                        </button>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.gpiTracker == true}">
+                    <li class="slds-utility-bar__item">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false" >
+                            <span class="slds-utility-bar__text">{!$Label.c.PAY_goToGpiTracker}</span>
+                        </button>
+                    </li>
+                </aura:if>
+                <aura:if isTrue="{!v.actions.cancel == true}">
+                    <li class="slds-utility-bar__item" onclick="{!c.showCancelPaymentModal}">
+                        <button class="slds-button slds-utility-bar__action" aria-pressed="false" >
+                            <span class="slds-utility-bar__text">{!$Label.c.cancel}</span>
+                        </button>
+                    </li>
+                </aura:if>
+                <li class="slds-utility-bar__item" onclick="{!c.clearSelection}">
+                    <button class="slds-button slds-utility-bar__action" aria-pressed="false">
+                        <div class="link icon-close_big">
+                            <span class="slds-utility-bar__text slds-truncate">{!$Label.c.PAY_ClearSelection}</span>
+                        </div> 
+                    </button>
+                </li>
+            </ul>
+	</footer>
+    <aura:if isTrue="{!v.showCancelModal eq true}">
+        <!--<c:CMP_B2B_DiscardPayment fromUtilityBar="{!v.fromUtilityBar}" fromDetail="{!v.fromDetail}"/>-->
+        <c:cmpPayModalRemove onsaveAction="{!c.handleCancel}" oncloseAction="{!c.handleCloseCancel}"  headingMsg="{!$Label.c.B2B_CancelPayment}" contentMsg=""  primaryBtn="{!$Label.c.B2B_CancelPayment_YES}" secondaryBtn="{!$Label.c.B2B_CancelPayment_NO}"/>
+
+    </aura:if>
+    <aura:if isTrue="{!v.showDiscardModal eq true}">
+        <c:cmpPayModalRemove onsaveAction="{!c.handleDiscard}" oncloseAction="{!c.handleCloseDiscard}" headingMsg="{!$Label.c.PAY_discardPayment + ' ' +v.paymentDetails.clientReference+ ' ' + $Label.c.Int}" contentMsg="{!$Label.c.PAY_DiscardDate1 + ' ' + v.paymentDetails.draftDate + ' ' + $Label.c.PAY_DiscardDate2}" primaryBtn="{!$Label.c.Pay_YesDiscard}" secondaryBtn="{!$Label.c.No}"/>
+    </aura:if>
+
+<c:CMP_B2B_Toast aura:id="errorToast" reload="{!v.reload}" /> 
+
+    
+   <!-- <c:CMP_displayDate aura:id='displayDate' userDateFormat="{!v.userData.dateFormat}" dateClass="" date="{!v.paymentDetails.draftDate}"/> -->
+</aura:component>

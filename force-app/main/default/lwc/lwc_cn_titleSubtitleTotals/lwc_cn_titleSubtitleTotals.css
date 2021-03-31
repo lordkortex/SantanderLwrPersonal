@@ -1,0 +1,201 @@
+.titleAccount{
+	width: 100%;
+	margin: 0 0 16px 0;  
+}
+.titleAccount .firstRow{
+	height: 38px;
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 4px;
+}
+.titleAccount .slds-col:last-child{
+    align-items: baseline;
+    justify-content: flex-end;
+}
+.titleAccount .slds-col.account{
+    display: flex;
+}
+.titleAccount .slds-col.title {
+
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+.titleAccount .bookBalanceNumber {
+	display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.titleAccount .bookBalanceNumber .slds-card__header-title.numberSubtitle {
+	padding-left: 33px
+}
+.titleAccount .bookBalance .slds-card__header-title.textSubtitle:first-child {
+	padding-right: 33px
+}
+
+
+
+/* ICONOS Y LINKS */
+
+.titleAccount .icon {
+	display: inline-flex;
+    cursor: pointer;
+}
+
+.titleAccount .icon-copy,
+.titleAccount .icon-details {
+    margin-left: 16px;
+}
+
+.titleAccount .icon-copy:before,
+.titleAccount .icon-details:before {
+	font-size:24px;
+    margin-right: 4px;
+   
+}
+
+.titleAccount .icon-copy:hover:before,
+.titleAccount .icon-details:hover:before,
+.titleAccount .icon-copy:hover .text-link,
+.titleAccount .icon-details:hover .text-link{
+ color:#cc0000;
+}
+
+.titleAccount .text-link {
+	font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 24px;
+}
+
+
+
+
+/* ESTILOS DE TEXTO */
+
+.titleAccount .numberSubtitle,
+.titleAccount .textSubtitle {
+    color: #444444;
+    font-size: 14px;
+    font-family: "SantanderMicroText";
+    line-height: 21px;
+}
+.titleAccount .numberTitle > .bookDecimals {
+    color: #444444;
+    font-size: 24px;
+    font-family:"SantanderHeadlineW05-Bold";
+    line-height: 29px;
+}
+.titleAccount .numberTitle > .bookInteger{
+    color: #444444;
+    font-size: 32px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 38px;
+}
+.titleAccount .title .slds-text-heading_medium {
+	color: #444444;
+	font-family:"SantanderHeadlineW05-Rg";
+	font-size: 28px;
+	line-height: 38px;
+    letter-spacing: normal;
+}
+.titleAccount .title .slds-text-heading_subtitle{
+    color: #444444;
+    display: inline-flex;
+	font-family: "SantanderMicroText";
+	font-size: 14px;
+	line-height: 21px;
+    letter-spacing: normal;
+	
+}
+
+.titleAccount .title .slds-text-body_regular{
+    color: #000000;
+	font-family: "SantanderMicroText";
+	font-size: 12px;
+    letter-spacing: normal;
+}
+
+
+ .slds-button.primary.button_icon {
+	height: 40px;
+    position: relative;
+    right: 0;
+}
+
+ .slds-button.primary {
+	background-color: #ec0000;
+    border-radius: 100px;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 24px;
+    padding: 8px 24px;
+}
+
+.titleAccount .slds-col .title {
+    display: block;
+}
+
+
+ .slds-button.primary:hover {
+    background-color: #cc0000;
+    color: #ffffff;
+    border: 1px solid #cc0000;
+}
+
+ .slds-button.primary:active {
+    background-color: #990000;
+    color: #ffffff;
+    border: 1px solid #990000;
+}
+
+.titleAccount .icon-income-expenses:before{
+    font-size: 24px;
+    color: #ffffff;
+    margin-left: 4px;
+    float: right;
+}
+
+/* LINEA */
+
+.titleAccount .title .text_line{
+	border-bottom: solid 3px #ec0000;
+    width:40px;
+    margin-top: 8px;
+}
+
+@media print {
+    .titleAccount { 
+        flex-direction: column;
+    }
+    .titleAccount .slds-col:last-child { 
+        justify-content: flex-start;
+    }
+     .titleAccount .numberTitle>.bookInteger{
+		font-size: 19px; 
+         line-height: 1.4;
+    }
+     .titleAccount .numberTitle>.bookDecimals { 
+        font-size: 14px; 
+        line-height: 1.5;
+    }
+
+    table {
+        width: 45%;
+    }
+
+    .bookInteger{
+        font-size: 19px; 
+         line-height: 1.4;
+    }
+    .bookDecimal{
+        font-size: 14px; 
+        line-height: 1.5;
+    }
+    
+}
+
+.slds-card__header-title {
+    font-weight: normal;
+}

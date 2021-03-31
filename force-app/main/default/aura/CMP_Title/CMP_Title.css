@@ -1,0 +1,54 @@
+.THIS.slds-text-heading_medium {
+    color: #444444;
+    font-family: SantanderHeadlineW05-Rg;
+    font-size: 20px;
+    height: 28px;
+    margin: 24px 0 16px 0;
+  }
+
+.THIS .actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.THIS .button-add {
+    cursor: pointer;
+    font-size: 24px;
+    margin-right:8px;
+}
+
+.THIS .button-download {
+    cursor: pointer;
+    font-size: 24px;
+    margin-right:8px;
+}
+
+.THIS .button-search {
+    cursor: pointer;
+    font-size: 24px;
+    margin-right:8px;
+    margin-bottom: 8px;
+}
+
+.THIS .actions div:last-child {
+	margin-right: 0px;
+}
+
+.THIS.container {
+    background-color: transparent;
+    margin: 0 16px 0 0;
+    padding: 0;
+}
+
+.THIS .text {
+    color: #444444;
+    display: flex;
+    font-size: 14px;
+}
+
+.THIS .button-search__open {
+    border-bottom: 2px solid #ec0000;
+    font-size: 24px;
+    margin-right:8px;
+    padding-bottom: 6px;
+}

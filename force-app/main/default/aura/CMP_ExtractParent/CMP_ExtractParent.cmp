@@ -1,0 +1,30 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction">
+    
+    <aura:attribute name="hasSearched" type="Boolean" default="false" />
+    <aura:attribute name="AccountList" type="List" description="List of accounts that comes from Global Position" default="[
+    'USD - 00000000000288006',
+    'USD - 00009999999999999',
+    ]"/>
+
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+
+    <div class="breadcrumbs">
+        <div class="slds-text-heading_medium title">
+
+            <span>Extractos</span>
+        </div>
+
+    </div>
+    
+    <c:CMP_ExtractSearch hasSearched ="{!v.hasSearched}" AccountList ="{!v.AccountList}"/>
+    
+    <aura:if isTrue="{!v.hasSearched}">
+
+        <c:CMP_MovementHistoryAccountInformation/>
+
+        <c:CMP_MovementHistoryExtractTable/>
+    
+    </aura:if>  
+
+</aura:component>

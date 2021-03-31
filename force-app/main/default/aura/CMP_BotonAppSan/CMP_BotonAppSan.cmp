@@ -1,0 +1,7 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+ 
+    <lightning:button class="keyManagement" variant="Destructive" label="{!$Label.c.Key_Management}"  onclick="{!c.handleClick}"/>
+
+
+
+</aura:component>

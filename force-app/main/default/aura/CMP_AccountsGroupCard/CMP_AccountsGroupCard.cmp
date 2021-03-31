@@ -1,0 +1,22 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="CNT_CountryBalance">
+
+    <aura:attribute name="cmpId" type="String" description="Component Id"/>
+    <aura:attribute name="iRegister" type="Object" description="Register to display"/>
+    <aura:attribute name="iCurrency" type="String" description="The selected currency to make the required changes to calculate the amounts"/>
+    <aura:attribute name="iSortSelected" type="String" default="{!$Label.c.GlobalBalanceOrderOne}" description="Accounts display order"/>
+    <aura:attribute name="iTabSelected" type="String" default="LastUpdateTab" description="Current selected tab"/>
+    <aura:attribute name="isCashNexus" type="Boolean" default="False" description="True if current user is a Cash Nexus user, else, false"/>
+    <aura:attribute name="index" type="Integer" default="-1" description="The position of the current register to paint"/>
+    <aura:attribute name="countryName" type="String" description="Country Name"/> 
+    <aura:attribute name="bookBalance" type="Decimal" default="0.0" description="The sum of book balance value of all accounts"/>
+    <aura:attribute name="availableBalance" type="Decimal" default="0.0" description="The sum of available balance value of all accounts"/>
+    <aura:attribute name="accounts" type="List" description="Each register of this List contains two attributes: Key: Currency and Value: List of Accounts"/> 
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+   	<aura:handler name="change" value="{!v.iCurrency}" action="{!c.updateCurrency}"/>
+
+
+    <aura:iteration items="{!v.accountCountryList}" var="item" indexVar="key">
+        <c:CMP_AccountsCard iRegister="{!v.iRegister}"  iCurrency="{!v.rCurrentUserCurrency}" iSortSelected="{!v.sortSelected}" iTabSelected="LastUpdateTab" index="{!key}" isCashNexus="{!v.isCashNexus}"/>
+    </aura:iteration>
+</aura:component>

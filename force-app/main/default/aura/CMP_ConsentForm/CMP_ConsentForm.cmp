@@ -1,0 +1,101 @@
+<aura:component controller="CNT_ConsentForm">
+    <ltng:require scripts="/resource/tostadas" />
+
+    <aura:attribute access="private" type="String"  name="accountId" />
+    <aura:attribute access="private" type="String"  name="labelDone" />
+    <aura:attribute access="private" type="Boolean" name="showModal" />
+    <aura:attribute access="private" type="Boolean" name="spinner" />
+    <aura:attribute access="private" type="Account" name="account" />
+    <aura:attribute access="private" type="List"    name="listCountries" />
+    <aura:attribute access="private" type="List"    name="listTypes" />
+    <aura:attribute access="private" type="List"    name="listManagement" />
+
+    <aura:method access="public" name="openModal" action="{!c.openModal}">
+    	<aura:attribute type="String" name="accountId" />
+    </aura:method>
+
+	<aura:registerEvent name="closeModal" type="c:EVT_CloseConsentForm" />
+
+    <aura:if isTrue="{!v.showModal eq true}">
+        <div>
+            <div class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium slds-hyphenate">
+                            <aura:if isTrue="{!empty(v.accountId)}">
+                                    <span>{!$Label.c.NewAccount}&nbsp;{!$Label.c.Account}</span>
+                                <aura:set attribute="else">
+                                    <span>{!$Label.c.edit}&nbsp;{!$Label.c.Account}</span>
+                                </aura:set>
+                            </aura:if>
+                        </h2>
+                    </div>
+                    <div class="slds-modal__content slds-is-relative slds-p-around_medium">
+                    	<aura:if isTrue="{!v.spinner eq true}">
+		                    <lightning:spinner alternativeText="Generando copia..." size="medium" />
+                        </aura:if>
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col slds-size_1-of-2 slds-p-right_small">
+                                <lightning:input label="{!$Label.c.name}" value="{!v.account.Name}" maxlength="80" required="true" />
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-left_small">
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-right_small">
+                                <lightning:select label="{!$Label.c.Country}" value="{!v.account.ACC_PCK_Country__c}" required="true" onchange="{!c.handleCountry}">
+                                    <option value="">{!$Label.c.chooseOne}</option>
+                                    <aura:iteration items="{!v.listCountries}" var="country">
+                                        <option value="{!country.value}">{!country.label}</option>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-left_small">
+                                <lightning:input label="{!$Label.c.bic}" value="{!v.account.ACC_TXT_BIC__c}" maxlength="11" required="true" onchange="{!c.handleCountryBIC}" />
+                            </div>
+                            <div class="slds-col slds-size_1-of-2 slds-p-right_small">
+                                <lightning:select aura:id="consentType" label="{!$Label.c.consentType}" required="true" disabled="true" value="{!v.account.ACC_PCK_Type__c}" >
+                                    <option value="">{!$Label.c.chooseOne}</option>
+                                    <aura:iteration items="{!v.listTypes}" var="type">
+                                        <option value="{!type.value}">{!type.label}</option>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                            <aura:if isTrue="{!v.account.ACC_PCK_Type__c eq $Label.c.Consent_Explicit}">
+                                <div class="slds-col slds-size_1-of-2 slds-p-left_small">
+                                    <lightning:select aura:id="consentManagement" label="{!$Label.c.consentManagement}" value="{!v.account.ACC_PCK_Management__c}" required="true" disabled="true" >
+                                        <option value="">{!$Label.c.chooseOne}</option>
+                                        <aura:iteration items="{!v.listManagement}" var="management">
+                                            <option value="{!management.value}">{!management.label}</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!and(v.account.ACC_PCK_Type__c eq $Label.c.Consent_Explicit, v.account.ACC_PCK_Management__c eq $Label.c.Consent_GTS)}">
+                                <div class="slds-col slds-size_1-of-2 slds-p-right_small slds-p-top_x-small slds-p-bottom_x-small">
+                                    <lightning:input type="checkbox" label="{!$Label.c.Consent_Validation}" checked="{!v.account.ACC_CHK_Validation__c}" />
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-p-left_small">
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-p-right_small">
+                                    <lightning:input type="Date" label="{!$Label.c.Initial_Consent_Date}" value="{!v.account.ACC_DATE_InitialDate__c}" />
+                                </div>
+                                <div class="slds-col slds-size_1-of-2 slds-p-left_small">
+                                    <lightning:input type="Date" label="{!$Label.c.Final_Consent_Date}" value="{!v.account.ACC_DATE_FinalDate__c}" />
+                                </div>
+                            </aura:if>
+                            <div class="slds-hide">
+                                <lightning:input value="{!v.account.ACC_LCK_User__c}" disabled="true" />
+                                <lightning:input value="{!v.account.ACC_TXT_TaxId__c}" disabled="true" />
+                                <lightning:input value="{!v.account.ACC_TXT_CompanyId__c}" disabled="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-modal__footer">
+                        <lightning:button label="{!$Label.c.cancel}" variant="brand" onclick="{!c.btnCancel}" />
+                        <lightning:button label="{!v.labelDone}" variant="brand" onclick="{!c.btnDone}" disabled="{!v.spinner}" />
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+</aura:component>

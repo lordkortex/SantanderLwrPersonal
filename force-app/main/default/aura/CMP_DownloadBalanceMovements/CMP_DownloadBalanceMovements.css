@@ -1,0 +1,414 @@
+.THIS {
+	background-color: rgba(222, 237, 242, 0.4);
+	border: 0px;
+	padding: 32px 64px 24px 64px;
+}
+.THIS .slds-form__item, .THIS .slds-radio {
+	align-items: center;
+	margin-top: 32px;
+}
+.THIS .slds-form__item {
+	padding-left: 0;
+}
+.THIS .slds-form-element__label, .THIS .slds-form-element__legend {
+	color: #444444;
+	font-size: 12px;
+	font-weight: normal;
+	line-height: 21px;
+	margin: 0;
+	margin-right: 16px;
+	padding: 0;
+	padding-left: 0;
+	text-align: right;
+	width: 128px;
+}
+.THIS .slds-radio .slds-form-element__label {
+    margin-right: 26px;
+} 
+.THIS .statement {
+	position: relative;
+	right: 2px;
+}
+.THIS .statement > .slds-form-element__label {
+	width: 128px;
+}
+.THIS .calendar .THIS .slds-form-element__legend, .THIS .calendar .slds-form-element__label {
+	padding-top: 33px;
+}
+.THIS #form-element__accounts {
+	padding-right: 0.75rem;
+	width: 368px;
+}
+.THIS .lastStatement {
+	margin-right: 16px;
+	max-width: 250px;
+	min-width: auto;
+}
+.THIS .uniqueDate, .THIS .doubleDate {
+	align-items: center;
+	display: inline-grid;
+	flex-direction: column;
+	position: relative;
+	right: 12px;
+}
+.THIS .doubleDate {
+	margin-left: 22px;
+}
+.THIS .calendar--single {
+	margin-left: 30px;
+	margin-top: 8px;
+}
+.THIS .doubleDate .calendar--double {
+	margin: 8px 0 0 32px;
+}
+.THIS #form-element__country {
+	min-width: 176px;
+}
+.THIS #form-element__country .fillPill {
+	width: 68px;
+}
+
+.THIS #wrapper-buttons {
+	padding-right: 0.75rem;
+}
+.THIS .slds-radio {
+	display: inline;
+}
+.THIS .slds-radio [type="radio"] + .slds-radio__label .slds-radio_faux {
+	background-color: #ffffff;
+	border: solid 1px #767676;
+	border-radius: 50%;
+	box-shadow: none;
+	color: #ececec;
+	cursor: pointer;
+	height: 20px;
+	margin-right: 10px;
+	position: relative;
+	vertical-align: middle;
+	width: 20px;
+}
+.THIS .slds-radio [type=radio]:checked+.slds-radio__label span:first-child {
+	border: solid 1px #cc0000;
+}
+.THIS .slds-radio [type="radio"]:checked+.slds-radio__label .slds-radio_faux:after {
+	background: #ec0000;
+	border-radius: 50%;
+	box-shadow: none;
+	content: '';
+	height: 10px;
+	left: 50%;
+	position: absolute;
+	top: 50%;
+	transform: translated(-50%, -50%, 0);
+	width: 10px;
+}
+.THIS .calendar input {
+	background-color: rgb(255, 255, 255);
+	border-color: rgb(255, 255, 255);
+	border-image: initial;
+	border-radius: 4px 4px 0 0;
+	border-style: none;
+	border-width: 0;
+	box-shadow: inset 0 -1px 0 0 #8dd9de;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 12px;
+	height: 36px;
+	line-height: 36px;
+	max-width: 144px;
+	padding: 0 1rem 0 .75rem;
+	transition: none;
+	width: 100%;
+}
+.THIS .calendar input:focus {
+	box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+.THIS .calendar input::-webkit-input-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+.THIS .calendar input::-moz-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+.THIS .calendar input:-ms-input-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+.THIS .calendar input:-moz-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+.THIS .calendar .slds-button_icon-bare {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 1;
+	text-transform: none;
+}
+.THIS .calendar .slds-button_icon-bare:before {
+	color: #ec0000;
+	content: "\e90b";
+	cursor: pointer;
+	font-size: 24px;
+}
+.THIS .calendar .slds-button_icon-bare svg {
+	display: none;
+}
+.THIS .textHelp {
+	color: #444444;
+	font-size: 12px;
+	height: 18px;
+	padding-left: 12px;
+	padding-top: 4px;
+}
+.THIS .slds-datepicker .slds-select_container {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-family: 'icomoon' !important;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 1;
+	text-transform: none;
+}
+.THIS .slds-datepicker .slds-select_container:before {
+	border: none;
+	color: #ec0000;
+	content: "\e904";
+	font-size: 19px;
+	height: 8px;
+	right: 4px;
+	top: 13px;
+	transform: rotate(180deg);
+	transform-origin: 50% 50%;
+	width: 8px;
+}
+.THIS .slds-datepicker .slds-select_container:after {
+	border: none;
+	bottom: 13px;
+	color: #ec0000;
+	content: "\e904";
+	font-size: 19px;
+	height: 8px;
+	right: 15px;
+	transform-origin: 50% 50%;
+	width: 8px;
+}
+.THIS .slds-datepicker .slds-text-link {
+	color: #ec0000;
+	font-size: 12px;
+}
+.THIS .slds-datepicker .slds-button__icon {
+	fill: #ec0000;
+}
+.THIS .slds-datepicker td {
+	padding: 0;
+}
+.THIS .slds-datepicker {
+	padding: 8px 16px;
+}
+.THIS .slds-datepicker .slds-day, .THIS .slds-datepicker th, .THIS h2, .THIS .slds-select {
+	font-size: 12px;
+}
+.THIS .slds-select {
+	font-family: SantanderTextW05-Regular;
+	height: 32px;
+}
+.THIS .slds-datepicker td.slds-is-selected > .slds-day {
+	background: #444444;
+}
+.THIS .slds-pill_container {
+	background: transparent;
+	border: 0;
+	margin-left: -3px;
+	width: calc(100% - 32px);
+}
+.THIS #accounts-pills {
+	width: 100%;
+}
+.THIS .slds-pill:focus {
+	box-shadow: none;
+}
+.THIS .fillPill {
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	height: 32px;
+	margin: 3px;
+	margin-left: 0;
+	margin-top: 6px;
+	padding: 8px 8px 8px 16px;
+}
+.THIS .textPill {
+	color: #7c7c7c;
+	font-size: 14px;
+	margin-right: 7px;
+}
+.THIS .slds-pill__remove {
+	height: 16px;
+	margin: 0;
+	padding: 0;
+	width: 16px;
+}
+.THIS .slds-combobox .button-order {
+	border: transparent;
+	border-radius: 4px 4px 0 0;
+	box-shadow: inset 0 -1px 0 0 #8dd9de;
+	height: 36px;
+	width: 100%;
+}
+.THIS .slds-combobox .button-order .arrow {
+	border-left: 1px solid #d2f0f2;
+	bottom: 4px;
+	display: inline-block;
+	height: calc(100% - 8px);
+	position: absolute;
+	right: 0;
+	top: 4px;
+	width: 33px;
+}
+.THIS .slds-combobox .button-order .button-arrow {
+	font-size: 24px;
+	line-height: 28px;
+}
+.THIS .slds-combobox .button-order:focus {
+	box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+.THIS .slds-combobox .button-order:hover {
+	box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+.THIS .slds-combobox .button-selected {
+	font-size: 16px;
+}
+.THIS .slds-combobox .slds-dropdown {
+	border: none;
+	border-radius: 0 0 4px 4px;
+	box-shadow: 0 2px 3px 0 rgba(68, 68, 68, 0.24);
+	left: auto;
+	margin-top: 4px;
+	max-height: 163px;
+	max-width: 356px;
+	min-width: 176px;
+	overflow-y: auto;
+	padding: 8px 0;
+	right: auto;
+	top: 34px;
+	width: 100%;
+}
+.THIS .slds-combobox .slds-icon {
+	margin-right: 8px;
+}
+.THIS .slds-combobox .nameOrder {
+	color: #444444;
+	font-size: 12px;
+}
+.THIS .slds-combobox .optionOrder {
+	align-items: center;
+	display: inline-flex;
+}
+.THIS .slds-combobox .orderSelected {
+	align-items: center;
+	border: 0;
+	color: #444444;
+	display: flex;
+	font-size: 12px;
+	height: 24px;
+	padding: 0 48px 0 12px;
+	width: 100%;
+}
+.THIS .slds-combobox .paddingOption {
+	padding: 6px 10px 6px 8px;
+}
+.THIS .slds-combobox .selectedValue-placeholder {
+	color: #a2a2a2;
+	font-size: 12px;
+}
+.THIS .slds-combobox .selectedValue-filled {
+	color: #444444;
+	font-size: 12px;
+}
+.THIS .slds-combobox .slds-dropdown::-webkit-scrollbar {
+	width: 6px;
+}
+.THIS .slds-combobox .slds-dropdown::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.THIS .slds-combobox .slds-dropdown::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.THIS .slds-combobox .slds-dropdown::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+.THIS .slds-grid_align-end {
+	margin-top: 16px;
+}
+.THIS .redButton {
+	background-color: #ec0000;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ffffff;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	line-height: 30px;
+	margin-left: 0;
+	width: 127px;
+}
+.THIS .redButton:hover {
+	background-color: #cc0000;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ffffff;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	line-height: 30px;
+	margin-left: 0;
+	width: 127px;
+}
+.THIS .redButton:focus {
+	box-shadow: 0 0 2px 1px #dadada;
+}
+.THIS .whiteButton {
+	background-color: #ffffff;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	line-height: 30px;
+	margin-right: 16px;
+	width: 96px;
+}
+.THIS .whiteButton:hover {
+	background-color: #f6f6f6;
+	border: solid 1px #ec0000;
+	border-radius: 24px;
+	color: #ec0000;
+	font-family: "SantanderTextW05-Bold";
+	font-size: 14px;
+	height: 32px;
+	line-height: 30px;
+	margin-right: 16px;
+	width: 96px;
+}
+.THIS .whiteButton:focus {
+	box-shadow: 0 0 2px 1px #dadada;
+}
+.THIS .slds-form_compound .slds-form-element__row .slds-form-element + .slds-form-element {
+	padding-left: 16px;
+}
+.THIS .calendar--single {
+    margin-left: 12px;
+    margin-top: 26px;
+}
+.THIS .slds-radio~.cCMP_Calendar .calendar--single {
+    margin-left: 30px;
+    margin-top: 8px;
+}

@@ -1,0 +1,207 @@
+.modalTerms .slds-backdrop  { 
+    opacity: 0.7;
+    background-color: #444444;
+}
+
+.modalTerms .slds-modal__header {
+    position: relative;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-bottom: none;
+    padding: 24px 72px 24px 24px;
+    text-align: left;
+}
+
+.slds-text-heading_small {
+  color: #444444;
+  font-family: "SantanderMicroText-Bd";
+  font-size: 16px;
+  letter-spacing: normal;
+  line-height: 24px;
+  margin-bottom: 8px;
+}
+
+.slds-modal__container.modalTerms {
+    width: 808px;
+    max-width: 808px;
+    min-width: auto;
+    display:block;
+    padding: 116px 0;
+    height: 562px;
+    box-shadow: 4px 124px 12px 4px rgba(206,214,219,0.4);
+    background-color: transparent;
+}
+
+.modalTerms  .slds-modal__title {
+    font-family: SantanderHeadlineW05-Bold;
+    font-size: 20px;
+    line-height: 28px;
+    color: #444444;
+}
+
+.modalTerms .slds-p-around_medium {
+    padding: 0 8px 0 24px;
+    overflow: hidden;
+}
+
+.modalTerms .textContainer{
+    padding: 0 16px 0 0;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    max-height: 402px;
+    min-height: 402px;
+}
+
+.modalTerms .textContainer::-webkit-scrollbar {
+	width: 6px;
+}
+
+.modalTerms .textContainer::-webkit-scrollbar-track {
+	border-radius: 10px;
+}
+.modalTerms .textContainer::-webkit-scrollbar-track-piece {
+	background: transparent;
+}
+.modalTerms .textContainer::-webkit-scrollbar-thumb {
+	background: #dadada;
+	border-radius: 10px;
+}
+
+.modalTerms p {
+    font-family: SantanderMicroText;
+    font-size: 14px;
+    line-height: 21px;
+    color: #444444;
+    margin-bottom: 21px;
+}
+
+.modalTerms .textContainer p:last-child{
+    margin-bottom: 0;
+}
+
+/* CHECK*/ 
+.modalTerms .slds-form-element__control {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalTerms footer {
+    border-top: none;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    padding: 24px;
+    background-color: #ffffff;
+    text-align: right;
+    box-shadow: none;
+    height: 88px;
+}
+
+.modalTerms .slds-checkbox {
+    display: flex;
+    align-items: center;
+	/* height: 24px; */
+}
+ 
+.modalTerms .slds-checkbox .slds-checkbox__label .slds-form-element__label.checkboxLabel {
+    cursor: pointer;
+	color: #444444;
+	display: inline;
+	font-family: "SantanderMicroText";
+	font-size: 16px;
+	line-height: 24px;
+	vertical-align: middle;
+}
+.modalTerms .slds-checkbox [type=checkbox]+.slds-checkbox__label .slds-checkbox_faux {
+	border-radius: 4px;
+    border-color: #767676;
+	cursor: pointer;
+	height: 24px; 
+	margin-right: 8px;
+	width: 24px;
+}
+
+.modalTerms .slds-checkbox [type="checkbox"]:focus + .slds-checkbox__label .slds-checkbox_faux {
+	box-shadow: none;
+    border-color: #767676;
+}
+
+.modalTerms .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux {
+	border: 2px solid #1bb3bc;
+}
+
+.modalTerms .slds-checkbox [type="checkbox"]:checked + .slds-checkbox__label .slds-checkbox_faux::after {
+	border-bottom: 2px solid #1bb3bc;
+	border-left: 2px solid #1bb3bc;
+	height: 6px;
+	width: 9px;
+}
+
+.modalTerms .slds-checkbox__label .slds-checkbox_faux:active{
+	border: 2px solid #1bb3bc;
+}
+
+/* CONTINUE BUTTON */
+
+.modalTerms button.redButton {
+    color: white;
+    /*width: 97px;*/
+    height: 40px;
+    transition: all 0.2s ease-in-out;
+    background-color: #ec0000;
+    border: 1px solid #ec0000;
+    border-radius: 100px;
+    font-family: "SantanderMicroText-Bd";
+    line-height: 32px;
+    font-size: 16px;
+    margin: 0;
+    text-align: center;
+    cursor: pointer;
+    padding: 0 14px;
+}
+
+.modalTerms .redButton:hover {
+    background-color: #cc0000;
+    border: 1px solid #cc0000;
+    cursor: pointer;
+}
+
+.modalTerms .redButton:focus {
+    box-shadow: 2px 2px 4px 2px rgba(206, 214, 219, 0.64);
+    cursor: pointer;
+}
+
+.modalTerms .redButton:disabled {
+    cursor: not-allowed;
+    background-color:#ffffff;
+    border: 1px solid #cccccc;
+    color:#cccccc;
+}
+
+.text_line{
+    width: 40px;
+    border-bottom: 3px solid #ec0000;
+  }
+
+.slds-list--subDivisions{
+    counter-reset: item;
+}
+.slds-list--subDivisions > li {
+    display: block;
+    position: relative;
+   
+}
+
+.slds-list--subDivisions > p > .slds-list--subDivisions > li{
+     margin-left: 2%;
+}
+
+.slds-list--subDivisions > li:before {
+    content: counters(item, ".") ". ";
+    counter-increment: item;
+
+    right: 10px;
+}
+
+.text-bold-lastUpdateDate {
+  font-family: "SantanderMicroText-Bd";
+}
