@@ -1,0 +1,31 @@
+<template>
+    <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+    <!-- Añadir las clases de este div al componente  -->
+    <div class="slds-form-element textarea">
+        <!-- ESTADO 1: (Hasta que no se empieza a escribir | ENABLE): No aparece el icono icon-close_filledCircle: eliminar el <button></button>-->
+        <!-- ESTADO 2: (Se activa, se empieza a escribir | FILLED): Aparece el icono icon-close_filledCircle. Siempre que se escriba algo, aparecera este icono para poder borrarlo -->
+        <!-- ESTABLECER UN MÁXIMO DE 350 CARACTERES -->
+        
+        <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+        <label class="slds-form-element__label" for="text-input-id-1"></label>
+        
+        <div class="slds-form-element__control">
+            
+            <!-- Cuando el input esté disabled se le añade disabled="true" -->
+            <textarea data-id="textarea-id-01" class="slds-textarea" placeholder={label.cmpTextareaLWC_4} onchange={onchangetext}></textarea>
+            
+            <!-- Icono que aparecerá cuando este disabled -->
+            <div class="slds-button__icon disabled" aria-hidden="true">
+                <div class="button icon-prohibited"></div>
+            </div>
+            
+            <button class="slds-button slds-button_icon" onclick={clearText}>
+                <div class="slds-button__icon icon-close_filledCircle"></div>
+                <span class="slds-assistive-text">{label.cmpTextareaLWC_1}</span>
+            </button>
+        </div>
+        
+        <div class="slds-form-element__help">{label.cmpTextareaLWC_2}</div>
+        <div class="errorText">{label.cmpTextareaLWC_3}</div>
+    </div>
+</template>

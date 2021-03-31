@@ -1,0 +1,215 @@
+<template>  
+    <!-- Spinner -->
+    <!--<div if:true={loading}>
+        <div class="spinnerclass">
+            <lightning-spinner 
+            variant="brand" 
+            size="large" >
+            </lightning-spinner>
+        </div>
+    </div>-->
+     <!-- FULL SCREEN MODAL -->
+     <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1"><!--if:false={loading}-->
+         <div class="slds-modal__container">  
+             <div class="modal-content">  
+                 <header class="slds-modal__header"> 
+                     <div class="title">
+                         <h2 id="modal-heading-01"  class="slds-truncate slds-modal__title">{label.cmpOTVUserInfoPermissions_1}</h2> 
+                         <div class="title-line"></div>
+                     </div>
+                     <div class="slds-media__figure">
+                         <span class="icon icon-close_big" onclick={closeUserInfo}></span>
+                     </div>
+                 </header>
+                 <div class="slds-modal__content slds-scrollable ">
+                     
+                     <div class="slds-grid__title slds-form-element">
+                         <label class="slds-checkbox_toggle slds-grid">
+                             
+                             <!-- Al precionar el toggle y cambiar a inactivo se cambia el estado y el color de la clase "image" -->
+                             <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" checked if:false={disabled} onchange={changeStatus}/>
+                             <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" if:true={disabled} onchange={changeStatus}/>
+                             <span id="checkbox-toggle-15" class="slds-checkbox_faux_container" aria-live="assertive">
+                                 <span class="slds-checkbox_faux"></span>
+                             </span>
+                             <span class="strong active">{label.cmpOTVUserInfoPermissions_2}</span>
+                             <span class="strong inactive">{label.cmpOTVUserInfoPermissions_3}</span>
+                             <div class="user">
+                             
+                                 <!-- Cuando el usuario sea inactivo el color del circulo de "image" es gris -->
+                                 <div class={userselected.color}>
+                                     <img src="" alt=""></img>
+                                     <span class="text">{userselected.lastName}</span>
+                                 </div>
+                                 <div class="flexCol">
+                                     <span>{userselected.name}</span>
+                                 </div>
+                             </div>
+                         </label>
+                     </div>
+                     <div class="slds-grid__content"> 
+                         <div class="slds-grid__personal">
+                             <div class="personalInfo">
+                                 
+                                 <!-- Segun el estado en el que se encuentre el usuario se quitara el disabled de los campos editables-->
+                                 <!-- Si el usuario está active con el toggle y el usuario es activator + configurator el campo del email estara disabled-->
+                                 <!-- Si el usuario está inactive con el toggle o active con el toggle pero el usuario es configurator todos los campos estaran disabled-->
+                                 
+                                 <div class="slds-grid">
+                                     <c-cmp-dropdown-l-w-c class="dropdown_single" arrayoptions={dropdownRole} title="Role" placeholder="Select a Role" onchangeoption={changeOption} value={userselected.role}></c-cmp-dropdown-l-w-c>
+                                 </div>
+                                 <div class="slds-grid">
+                                     <div class="textInput_simple">
+             
+                                         <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                         <div class="slds-form-element input"> 
+                                             <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                             <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVUserInfoPermissions_8}</label> 
+                                             <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                 
+                                                 <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                 <input disabled type="text"  id="text-input-id-11" placeholder="" value={userselected.email} class="slds-input" name="Retention Certificate"/> 
+                                                 
+                                                 <!-- Icono que aparecerá cuando este disabled -->
+                                                 <div class="slds-button__icon disabled" aria-hidden="true">
+                                                     <div class="button icon-prohibited"></div>
+                                                 </div>
+                                                 
+                                                 <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                 <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                     <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                     <span class="slds-assistive-text">{label.cmpOTVUserInfoPermissions_Clear}</span>
+                                                 </button>
+                                                 
+                                                 <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                 <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                 
+                                                 <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                 <div class="errorText">{label.cmpOTVUserInfoPermissions_Error}</div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="slds-grid">
+                                     <div class="flexCol">
+                                         <div class="textInput_simple">
+             
+                                             <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                             <div class="slds-form-element input"> 
+                                                 <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                                 <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVUserInfoPermissions_9}</label> 
+                                                 <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                 
+                                                     <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                     <input disabled type="text" data-id="text-input-id-11" placeholder="" value={userselected.phone} class="slds-input" name="Retention Certificate"/> 
+                                                 
+                                                     <!-- Icono que aparecerá cuando este disabled -->
+                                                     <div class="slds-button__icon disabled" aria-hidden="true">
+                                                         <div class="button icon-prohibited"></div>
+                                                     </div>
+                                                 
+                                                     <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                     <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                         <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                         <span class="slds-assistive-text">{label.cmpOTVUserInfoPermissions_Clear}</span>
+                                                     </button>
+                                                 
+                                                     <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                     <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                 
+                                                     <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                     <div class="errorText">{label.cmpOTVUserInfoPermissions_Error}</div>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="flexCol">
+                                             <div class="textInput_simple">
+             
+                                         <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                         <div class="slds-form-element input"> 
+                                             <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                             <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVUserInfoPermissions_10}</label> 
+                                             
+                                             <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                                 
+                                                 <!-- Cuando el input esté disabled se le añade disabled="true"-->
+                                                    <input disabled type="text" data-id="text-input-id-11" placeholder="" value={userselected.position} class="slds-input" name="Retention Certificate"/> 
+                                                    
+                                                    <!-- Icono que aparecerá cuando este disabled -->
+                                                    <div class="slds-button__icon disabled" aria-hidden="true">
+                                                        <div class="button icon-prohibited"></div>
+                                                    </div>
+                                                    
+                                                    <!-- Icono de cruz para eliminar una vez seleccionada una opción --> 
+                                                    <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right">
+                                                        <div class="slds-button__icon icon-close_filledCircle" aria-hidden="true"></div>
+                                                        <span class="slds-assistive-text">{label.cmpOTVUserInfoPermissions_Clear}</span>
+                                                    </button>
+                                                    
+                                                    <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                                    <!--<div class="slds-form-element__help">Texto de ayuda</div>--> 
+                                                    
+                                                    <!-- Cuando el texto introducido sea erroneo saldrá un mensaje de error -->
+                                                    <div class="errorText">{label.cmpOTVUserInfoPermissions_Error}</div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                        
+                        </div>
+                        <div class="title">
+                            <h2 data-id="modal-heading-01"  class="slds-truncate slds-modal__title">{label.cmpOTVUserInfoPermissions_11}</h2> 
+                            <div class="title-line"></div>
+                        </div>
+                        
+                        <!-- Añadir la clase disabled en el siguiente div, y deshabilitar todos los toggle buttons  -->
+                        <!-- <div class="slds-grid__dropCard disabled"> -->
+                        <div class="slds-grid__dropCard" data-id="dropCard">
+                            <div class="slds-form-element dropCard">
+                                <article class="slds-card country" for:each={lstcountries} for:item="country" key={country} data-id="country">
+                                    <div class="slds-card__header slds-grid">
+                                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                            <div class="slds-media__body">
+                                                <h2 class="slds-card__header-title">
+                                                    <div class="slds-media__figure">
+                                                        <img class="sizeFlag" src={country.url}></img>
+                                                        <span> {country.label}</span>
+                                                    </div>
+                                                </h2>
+                                            </div>
+                                            <div class="slds-form-element" data-item={country}>
+                                                <label class="slds-checkbox_toggle slds-grid">
+                                                    <!--Poner disabled="true" en el siguiente input-->
+                                                    <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" if:true={country.isActive} onchange={handleCountryChange} checked data-item={country.value}/>
+                                                    <input type="checkbox" name="checkbox-toggle-15" value="checkbox-toggle-15" aria-describedby="checkbox-toggle-15" if:false={country.isActive} onchange={handleCountryChange} data-item={country.value}/>
+                                                    <span data-id="checkbox-toggle-15" class="slds-checkbox_faux_container" aria-live="assertive" data-item={country}>
+                                                        <span class="slds-checkbox_faux" data-item={country}></span>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </header>
+                                    </div>
+                                    <div class="slds-form-element__control" for:each={lstsubsidiaries} for:item="subsidiary" key={subsidiary} data-id="subsidiary">
+                                        <!-- <h3>{subsidiary.companyName}</h3> -->
+                                        <c-cmp-o-t-v-filter-accounts-by-country data-id={country.value} onchangeaccount ={changeaccount} country={country.value} subsidiary={subsidiary} lstaccounts={lstaccounts} disabled={disabled}></c-cmp-o-t-v-filter-accounts-by-country>
+                                        <!--<c-cmp-o-t-v-subsidiary-by-country-with-accounts country={country.value} subsidiary={subsidiary} lstaccounts={lstaccounts}  ></c-cmp-o-t-v-subsidiary-by-country-with-accounts>-->
+                                    </div>
+                                </article>
+                         </div> 
+                      </div>   
+                 </div>
+             </div>
+         </div>
+         <!-- STICKY BUTTONS -->
+         <div class="slds-grid__button">      
+             <button class="slds-button primary button_small button_full" onclick={saveUserInfo}>{label.cmpOTVUserInfoPermissions_12}</button>
+             <button class="slds-button secondary button_small button_full" onclick={closeUserInfo}>{label.cmpOTVUserInfoPermissions_13}</button>
+         </div>
+     </section>
+ 
+     <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

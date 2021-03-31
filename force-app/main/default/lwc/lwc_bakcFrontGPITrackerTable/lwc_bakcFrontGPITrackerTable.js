@@ -14,6 +14,19 @@ import sortBySettledAmount from '@salesforce/label/c.sortBySettledAmount';
 import settledAmount from '@salesforce/label/c.settledAmount';
 import actions from '@salesforce/label/c.actions';
 import noData from '@salesforce/label/c.noData';
+import payment_statusOne from '@salesforce/label/c.payment_statusOne';
+import payment_statusTwo from '@salesforce/label/c.payment_statusTwo';
+import payment_statusThree from '@salesforce/label/c.payment_statusThree';
+import payment_statusFour from '@salesforce/label/c.payment_statusFour';
+import trackingDetails from '@salesforce/label/c.trackingDetails';
+import beneficiaryAccount from '@salesforce/label/c.beneficiaryAccount';
+import beneficiaryEntityName from '@salesforce/label/c.beneficiaryEntityName';
+import beneficiaryCountry from '@salesforce/label/c.beneficiaryCountry';
+import reasonForRejection from '@salesforce/label/c.reasonForRejection';
+import document from '@salesforce/label/c.document';
+import downloadMT103 from '@salesforce/label/c.downloadMT103';
+import domain from '@salesforce/label/c.domain';
+import domainBackfront from '@salesforce/label/c.domainBackfront';
 
 //Import styles
 import santanderStyle from '@salesforce/resourceUrl/Lwc_Santander_Icons';
@@ -41,7 +54,20 @@ export default class Lwc_bakcFrontGPITrackerTable extends NavigationMixin(Lightn
         sortBySettledAmount,
         settledAmount,
         actions,
-        noData
+        noData,
+        payment_statusOne,
+        payment_statusTwo,
+        payment_statusThree,
+        payment_statusFour,
+        trackingDetails,
+        beneficiaryAccount,
+        beneficiaryEntityName,
+        beneficiaryCountry,
+        reasonForRejection,
+        document,
+        downloadMT103,
+        domain,
+        domainBackfront
     }
 
      @track paymentsPerPage = 50;
@@ -62,7 +88,75 @@ export default class Lwc_bakcFrontGPITrackerTable extends NavigationMixin(Lightn
      @api isuetrsearch =false;
      @track isIngested = true;
      @api uetr ="uetr searched and used to call the service to optain 'not ingested' records";
+     //Nuevo 
+     @track statusClass = "icon-circle__red";
+     @track statusLabel = this.label.payment_statusOne;
+     @api item;
+     @track showDetail = false;
 
+
+     get getCircleClass(){
+        
+        console.log(this.jsonArray[0].paymentDetail.transactionStatus.status);
+
+        var status =this.jsonArray[0].paymentDetail.transactionStatus.status;
+        var reason =this.jsonArray[0].paymentDetail.transactionStatus.reason;
+        if(status=='RJCT'){
+            this.statusLabel = this.label.payment_statusOne;
+            this.statusClass = "icon-circle__red";
+        }
+        if(status=='ACSC' || status=='ACCC'){
+            //this.statusLabel = this.label.payment_statusTwo;
+            this.statusClass = "icon-circle__green";
+        }
+        if(status=='ACSP'){
+            if(reason=='G000' || reason =='G001' || reason==null || reason=='null'){
+                //this.statusLabel = this.label.payment_statusThree;
+                this.statusClass = "icon-circle__blue";
+            }
+            if(reason=='G002' || reason =='G003' || reason =='G004'){
+                //this.statusLabel = this.label.payment_statusFour;
+                this.statusClass = "icon-circle__orange";
+            }
+        }
+        return 'circle '+this.statusClass;
+    }
+    
+    get getStatusLabel(){
+        var status =this.jsonArray[0].paymentDetail.transactionStatus.status;
+        if(status=='RJCT'){
+            this.statusLabel = this.label.payment_statusOne;
+            //this.statusClass = "icon-circle__red";
+        }
+        if(status=='ACSC' || status=='ACCC'){
+            this.statusLabel = this.label.payment_statusTwo;
+            //this.statusClass = "icon-circle__green";
+        }
+        if(status=='ACSP'){
+            if(reason=='G000' || reason =='G001' || reason==null || reason=='null'){
+                this.statusLabel = this.label.payment_statusThree;
+                //this.statusClass = "icon-circle__blue";
+            }
+            if(reason=='G002' || reason =='G003' || reason =='G004'){
+                this.statusLabel = this.label.payment_statusFour;
+                //this.statusClass = "icon-circle__orange";
+            }
+        }
+        return this.statusLabel;
+    }
+
+    get getNumberFormat(){
+        return this.jsonArray[0].paymentDetail.paymentAmount.numberFormat;
+    }
+
+    get getAmount(){
+        return this.jsonArray[0].paymentDetail.paymentAmount.amount;
+    }
+    
+    get gettcurrency(){
+        return this.jsonArray[0].paymentDetail.paymentAmount.tcurrency;     
+    }
+    //Fin gets
      get filters (){
          return this._filters;
      }
@@ -95,15 +189,27 @@ export default class Lwc_bakcFrontGPITrackerTable extends NavigationMixin(Lightn
 
     get jsonArrayBetweenStartToEnd(){
         var listaAux = this.jsonArray.slice(this.start, this.end);
+        var counter = 0;
         Object.keys(listaAux).forEach(key => {
-            listaAux[key].index = key;
+            //listaAux[key].index = key;
+            listaAux[key].index = counter;
+            counter += 1;
         })
         return listaAux;
     }
-     
-     connectedCallback(){
+
+    connectedCallback(){
         loadStyle(this, santanderStyle + '/style.css');
         this.doInit();
+    }
+
+    renderedCallback(){
+        console.log("*****  renderedCallback lwc_bakcFrontGPITrackerTable");
+        this.template.querySelectorAll('tr').forEach(element => {
+            if(element.innerHTML.includes('c-lwc_swift-payment-table-row')){
+                element.remove();
+            }
+        });
     }
 
     doInit () {
@@ -179,7 +285,10 @@ export default class Lwc_bakcFrontGPITrackerTable extends NavigationMixin(Lightn
                     this.isIngested = true;
 
                     var end;
-                    var parseJSON=res.paymentList;
+                    //var parseJSON=res.paymentList;
+                    //var parseJSONString="[{\"links\": {},\"paymentDetail\": {\"account\": {},\"beneficiaryData\": {\"beneficiaryName\": \"BENEFICIAR\",\"creditorAgent\":{\"agentCode\":\"BSCHBRS0XXX\",\"agentCountry\":\"BR\",\"agentLocation\":\"04543-011SAOPAULO\",\"agentName\":\"BANCOSANTANDER(BRASIL)S.A.\"},\"creditorCreditAccount\":{\"accountId\":\"ES1000490072012110458432\",\"idType\":\"IBA\"}},\"cancellationStatus\":{},\"issueDate\":\"2020-05-08\",\"originatorAgent\":{\"agentCode\":\"BSCHESM0XXX\",\"agentCountry\":\"ES\",\"agentLocation\":\"28660MADRID\",\"agentName\":\"BANCOSANTANDERS.ACIUDADGRUPOSANTANDER.EDF.PAMPA\"},\"originatorData\":{\"originatorAccount\":{\"accountId\":\"ES8100490075473000562155\",\"idType\":\"IBA\"},\"originatorName\":\"SUPERPAGAMENTOS,MEIOS0\"},\"paymentAmount\":{\"amount\":\"20\",\"currency_X\":\"EUR\",\"paymentAmount_FormattedDecimalPart\":\",00\",\"paymentAmount_FormattedEntirePart\":\"20\",\"paymentAmount_FormattedWholeNumber\":\"20,00\",\"tcurrency\":\"EUR\"},\"paymentId\":\"071a3dcc-9102-41ea-957c-3158a35a255d\",\"statusDate\":\"01/06/2020-10:08:37\",\"transactionStatus\":{\"status\":\"ACCC\"},\"valueDate\":\"08/05/2020\"}}]";
+                    var parseJSONString="[{ \"links\": {}, \"paymentDetail\": {\"account\": {},\"beneficiaryData\": { \"beneficiaryName\": \"BENEFICIAR\", \"creditorAgent\": {\"agentCode\": \"BSCHBRS0XXX\",\"agentCountry\": \"BR\",\"agentLocation\": \"04543-011 SAO PAULO\",\"agentName\": \"BANCO SANTANDER (BRASIL) S.A.\" }, \"creditorCreditAccount\": {\"accountId\": \"ES1000490072012110458432\",\"idType\": \"IBA\" }},\"cancellationStatus\": {},\"issueDate\": \"2020-05-08\",\"originatorAgent\": { \"agentCode\": \"BSCHESM0XXX\", \"agentCountry\": \"ES\", \"agentLocation\": \"28660 MADRID\", \"agentName\": \"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA\"},\"originatorData\": { \"originatorAccount\": {\"accountId\": \"ES8100490075473000562155\",\"idType\": \"IBA\" }, \"originatorName\": \"SUPER PAGAMENTOS ,MEIOS 0\"},\"paymentAmount\": { \"amount\": \"40\", \"currency_X\": \"EUR\", \"paymentAmount_FormattedDecimalPart\": \",00\", \"paymentAmount_FormattedEntirePart\": \"80\", \"paymentAmount_FormattedWholeNumber\": \"20,00\", \"tcurrency\": \"EUR\"},\"paymentId\": \"071a3dcc-9102-41ea-957c-3158a35a255d\",\"statusDate\": \"01/06/2020 - 10:08:37\",\"transactionStatus\": { \"status\": \"ACCC\"},\"valueDate\": \"08/05/2020\" }},{ \"links\": {}, \"paymentDetail\": {\"account\": {},\"beneficiaryData\": { \"beneficiaryName\": \"BENEFICIAR\", \"creditorAgent\": {\"agentCode\": \"BSCHBRS0XXX\",\"agentCountry\": \"BR\",\"agentLocation\": \"04543-011 SAO PAULO\",\"agentName\": \"BANCO SANTANDER (BRASIL) S.A.\" }, \"creditorCreditAccount\": {\"accountId\": \"ES1000490072012110458432\",\"idType\": \"IBA\" }},\"cancellationStatus\": {},\"issueDate\": \"2020-05-08\",\"originatorAgent\": { \"agentCode\": \"BSCHESM0XXX\", \"agentCountry\": \"ES\", \"agentLocation\": \"28660 MADRID\", \"agentName\": \"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA\"},\"originatorData\": { \"originatorAccount\": {\"accountId\": \"ES8100490075473000562155\",\"idType\": \"IBA\" }, \"originatorName\": \"SUPER PAGAMENTOS ,MEIOS 0\"},\"paymentAmount\": { \"amount\": \"130\", \"currency_X\": \"EUR\", \"paymentAmount_FormattedDecimalPart\": \",00\", \"paymentAmount_FormattedEntirePart\": \"50\", \"paymentAmount_FormattedWholeNumber\": \"20,00\", \"tcurrency\": \"EUR\"},\"paymentId\": \"071a3dcc-9102-41ea-957c-3158a35a255d\",\"statusDate\": \"01/06/2020 - 10:08:37\",\"transactionStatus\": { \"status\": \"ACCC\"},\"valueDate\": \"08/05/2020\" }},{ \"links\": {}, \"paymentDetail\": {\"account\": {},\"beneficiaryData\": { \"beneficiaryName\": \"BENEFICIAR\", \"creditorAgent\": {\"agentCode\": \"BSCHBRS0XXX\",\"agentCountry\": \"BR\",\"agentLocation\": \"04543-011 SAO PAULO\",\"agentName\": \"BANCO SANTANDER (BRASIL) S.A.\" }, \"creditorCreditAccount\": {\"accountId\": \"ES1000490072012110458432\",\"idType\": \"IBA\" }},\"cancellationStatus\": {},\"issueDate\": \"2020-05-08\",\"originatorAgent\": { \"agentCode\": \"BSCHESM0XXX\", \"agentCountry\": \"ES\", \"agentLocation\": \"28660 MADRID\", \"agentName\": \"BANCO SANTANDER S.A CIUDAD GRUPO SANTANDER.EDF.PAMPA\"},\"originatorData\": { \"originatorAccount\": {\"accountId\": \"ES8100490075473000562155\",\"idType\": \"IBA\" }, \"originatorName\": \"SUPER PAGAMENTOS ,MEIOS 0\"},\"paymentAmount\": { \"amount\": \"320\", \"currency_X\": \"EUR\", \"paymentAmount_FormattedDecimalPart\": \",00\", \"paymentAmount_FormattedEntirePart\": \"20\", \"paymentAmount_FormattedWholeNumber\": \"20,00\", \"tcurrency\": \"EUR\"},\"paymentId\": \"071a3dcc-9102-41ea-957c-3158a35a255d\",\"statusDate\": \"01/06/2020 - 10:08:37\",\"transactionStatus\": { \"status\": \"ACCC\"},\"valueDate\": \"08/05/2020\" }} ]";
+                    var parseJSON = JSON.parse(parseJSONString);
 
                     this.jsonArray = parseJSON;
                         
@@ -372,4 +481,70 @@ export default class Lwc_bakcFrontGPITrackerTable extends NavigationMixin(Lightn
         }  
     }
 
+    //Implementación Rows
+    showHideDetails (event) {
+        this.showDetail = true;
+        console.log('***Showdetail');
+
+        var eventId = event.currentTarget.dataset.uniqueId;
+
+        this.template.querySelectorAll('[data-id="details"][data-unique-id="' + eventId + '"]').forEach(element => {
+            if(element.getAttribute("data-unique-id") === eventId){
+                if(element.getAttribute("class") === "hidden"){
+                    element.classList.remove("hidden");
+                }else{
+                    element.classList.add("hidden");
+                }
+            }
+        });
+
+        this.template.querySelectorAll('[data-id="parentDetails"][data-unique-id="' + eventId + '"]').forEach(element => {
+            element.classList.toggle("noInferiorBorder");
+        });
+        
+        this.template.querySelectorAll('[data-id="icon"][data-unique-id="' + eventId + '"]').forEach(element => {
+            element.classList.toggle("icon-arrowDown_big");
+            element.classList.toggle("icon-arrowUp_big");
+            console.log("toggle arrow");
+        });
+
+        //this.showHideDetailsHelper();
+    }
+
+    showHideDetailsHelper () {
+        try{
+            //var cmp = component.find("details");
+            var cmp = this.template.querySelector('[data-id="details"]');
+            //var cmpParent = component.find("parentDetails");
+            var cmpParent = this.template.querySelector('[data-id="parentDetails"]');
+            //var cmptable = component.find("datailsTable");
+            var cmptable = this.template.querySelector('[data-id="datailsTable"]');
+            // var icon = component.find("icon");
+            var icon = this.template.querySelector('[data-id="icon"]');
+            var pos = this.itemposition;
+    
+            if(cmp!=undefined){
+                cmp.classList.toggle("hidden");
+            }
+    
+            if(pos != undefined && pos!=null){
+                if(this.itemposition%2!=0){
+                    cmptable.classList.add("evenBackground");
+                }
+            }
+    
+            if(icon!=undefined){
+                icon.classList.toggle("icon-arrowDown_small")
+                icon.classList.toggle("icon-arrowUp_small")
+            }
+    
+            if(cmpParent!=undefined){
+                cmpParent.classList.toggle("noInferiorBorder")
+            }
+            
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    //Fin de implementar Rows
 }

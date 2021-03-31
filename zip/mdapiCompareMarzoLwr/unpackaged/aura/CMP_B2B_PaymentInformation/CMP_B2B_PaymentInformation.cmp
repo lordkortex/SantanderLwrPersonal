@@ -1,0 +1,95 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CNT_B2B_PaymentInformation">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="public"         type="Boolean"      name="isModified"           default="true"  description="Indicates if the input data has been modified." />
+    <aura:attribute access="public"         type="Map"          name="data" />
+    <aura:attribute access="public"         type="Map"          name="amountChangeData"                     description="Data of amount step." />
+    <aura:attribute access="public"         type="Map"          name="recipientAccountData" />
+    <aura:attribute access="public"         type="Map"          name="sourceAccountData"    default="{}"    description="Data of origin account step." />
+    <aura:attribute access="public"         type="String"       name="reference"            default=""      description="User input text" /> 
+    <aura:attribute access="public"         type="String"       name="fee"                  default=""      description="Estimated fee for the transaction" /> 
+    <aura:attribute access="public"         type="String"       name="errorRef"             default="" />
+    <aura:attribute access="public"         type="String"       name="errorPurpose"         default="" />   
+    <aura:attribute access="public"         type="Map"          name="steps"                                description="Data of the steps." />
+    <aura:attribute access="public"         type="Map"          name="userData"                             description="User data." />
+    <aura:attribute access="public"         type="Map"          name="accountData"          default="{}"    description="Account data." />
+    <aura:attribute access="public"         type="Boolean"      name="isEditing"                            description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+    <aura:attribute access="public"         type="String"       name="paymentId"            default=""      description="ID of the current payment." />
+    <aura:attribute access="public"         type="Boolean"      name="spinner"              default="false" />
+    <aura:attribute access="public"         type="Map"          name="signLevel"            default="{}" />
+
+    <lightning:navigation aura:id="navService" />
+
+    <aura:attribute access="public" type="Aura.Action" name="handleContinue" />
+    
+    <aura:handler name="init"           action="{!c.initComponent}"   value="{!this}" />
+    <aura:handler name="change"         action="{!c.handleModified}"  value="{!v.isModified}" />
+    <aura:handler name="handleDropdown" action="{!c.handleDropdowns}" event="c:EVT_B2B_handleDropdownsInformation" />
+
+    <aura:method access="public" name="checkContinue" action="{!c.handleCheckContinue}">
+		<aura:attribute type="Integer" name="step" />
+    </aura:method>
+
+    <c:CMP_B2B_Toast aura:id="errorToast" />
+
+    <aura:registerEvent name="completeStep" type="c:EVT_B2B_CompleteStep" />
+
+    <div class="paymentProcess-step4 slds-is-relative" id="step-4" tabindex="-1">
+		<div class="slds-text-heading_large">4. {!$Label.c.CMP_B2B_PaymentInformation}</div>
+        <!--9814: Delete payment method card -->
+        <!--
+		<div class="slds-col card">
+            <div class="slds-text-heading_subtitle">{!$Label.c.transferMethod}</div>
+            <article class="slds-card">
+                <span class="slds-badge">{!$Label.c.Standard}</span>
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                      <div class="slds-media__body title">
+                        <h2 class="slds-card__header-title">
+                            <span>{!$Label.c.BookTobook}</span>
+                        </h2>
+                          <span class="subtitle">{!$Label.c.Immediate}</span>
+                      </div>
+                    </header>
+                </div>
+                <div class="line"></div>
+                <div class="slds-card__body">
+                    <div class="slds-card__header-title">
+                        <span>{!$Label.c.CMP_B2B_PaymentInformation_TransferBetween}</span>
+                    </div>
+                    <aura:if isTrue="{!not(empty(v.amountChangeData.convertedTransactionFee))}">
+                        <span class="subtitle">{!$Label.c.estimatedFee}&nbsp;<c:CMP_displayAmount amount="{!v.amountChangeData.convertedTransactionFee}" decimalClass="number" wholeClass="number" currency="{!v.amountChangeData.convertedTransactionFeeCurrency}" numberFormat="{!v.userData.numberFormat}" /></span>
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{!not(empty(v.amountChangeData.transactionFee))}">
+                                <span class="subtitle">{!$Label.c.estimatedFee}&nbsp;<c:CMP_displayAmount amount="{!v.amountChangeData.transactionFee}" decimalClass="number" wholeClass="number" currency="{!v.amountChangeData.transactionFeeCurrency}" numberFormat="{!v.userData.numberFormat}" /></span>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </article>
+        </div>-->
+        <div class="slds-text-heading_subtitle">{!$Label.c.paymentInformation}</div>
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col">
+                <c:CMP_B2B_Reference value="{!v.data.reference}" errorMSG="{!v.errorRef}" steps="{!v.steps}" isModified="{!v.isModified}" isEditing="{!v.isEditing}" />
+            </div>
+            <div class="slds-col">
+                <c:CMP_B2B_Purpose aura:id="dropdown" name="purpose" selectedValue="{!v.data.purpose}" errorMSG="{!v.errorPurpose}" showDropdown="false" steps="{!v.steps}" isModified="{!v.isModified}" isEditing="{!v.isEditing}" />
+            </div> 
+        </div>    
+        <aura:if isTrue="{!v.sourceAccountData.country eq 'CL'}">
+            <div class="slds-col">
+                <c:CMP_B2B_ComercialCode aura:id="dropdown" name="comercialCode" selectedValue="{!v.data.comercialCode}" steps="{!v.steps}" showDropdown="false" isModified="{!v.isModified}" isEditing="{!v.isEditing}" />
+            </div>
+        </aura:if>
+        <div class="slds-col">
+            <c:CMP_B2B_Description value="{!v.data.description}" steps="{!v.steps}" isModified="{!v.isModified}" isEditing="{!v.isEditing}" />
+        </div>    
+        <aura:if isTrue="{!v.spinner eq true}">
+            <lightning:spinner alternativeText="Loading" size="medium" />
+        </aura:if>
+        <aura:if isTrue="{!v.steps.lastModifiedStep eq 4}">
+            <c:CMP_B2B_ProcessContinueButton handleContinue="{!v.handleContinue}" />
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,12 @@
+<template>
+    <!-- MATRIZ ACTIVADOR-->
+    <c-cmp-o-t-v-accounts-configuration if:true={showStep1} onchangestep={changestep}>                   </c-cmp-o-t-v-accounts-configuration>
+    <!-- MATRIZ ADMIN-->
+    <c-cmp-o-t-v-parent-users-landing   if:true={showStep2}>                   </c-cmp-o-t-v-parent-users-landing>  
+    <!-- MATRIZ ADMIN-->
+    <c-cmp-o-t-v-cancel-service   if:true={showStep5} onchangestep={changestep}> </c-cmp-o-t-v-cancel-service>
+    <!-- SUBSIDIARIA ACTIVADOR-->
+    <c-cmp-o-t-v-parent-company-detail  if:true={showStep3} country={country}> </c-cmp-o-t-v-parent-company-detail>
+    <!-- SUBSIDIARIA ADMIN??--> 
+    <!-- <c-cmp-o-t-v-parent-company-detail  if:false={showStep4}> </c-cmp-o-t-v-parent-company-detail> -->
+</template>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>CMP_B2B_Account_Suggestion</members>
+        <members>CMP_B2B_Authorization</members>
+        <members>CMP_B2B_Grid_Accounts</members>
+        <members>CMP_B2B_InputAmount</members>
+        <members>CMP_B2B_PaymentInformation</members>
+        <members>CMP_B2B_PaymentSummary</members>
+        <members>CMP_B2B_Process</members>
+        <members>CMP_B2B_ProcessHeader</members>
+        <members>CMP_B2B_Reference</members>
+        <members>CMP_B2B_SelectAmount</members>
+        <members>CMP_B2B_SelectDestination</members>
+        <members>CMP_B2B_SelectIndividualAccount</members>
+        <members>CMP_B2B_SelectOrigin</members>
+        <members>CMP_IAM_GlobalPositionParent</members>
+        <members>CMP_IPTHeaderSearchUETR</members>
+        <members>CMP_IPTParent</members>
+        <members>CMP_IPTTable</members>
+        <members>CMP_IPTTrackUETRParent</members>
+        <members>CMP_PaymentsLandingFilters</members>
+        <members>CMP_PaymentsLandingParent</members>
+        <members>CMP_PaymentsLandingPaymentDetail</members>
+        <members>CMP_PaymentsLandingPaymentTracking</members>
+        <members>CMP_PaymentsLandingUtilityBar</members>
+        <members>CMP_PaymentsLoadUserAccounts</members>
+        <members>CMP_backOfficeLoginAs</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <version>51.0</version>
+</Package>

@@ -1,0 +1,120 @@
+.THIS.paymentProcess-step4 {
+    width: 808px;
+    padding: 56px 0 120px 0; 
+    outline: none; /*added by SF*/
+}
+
+.THIS.paymentProcess-step4 .slds-text-heading_large{
+    color: #444444;
+    font-family: "SantanderHeadlineW05-Rg";
+    font-size: 28px;
+    line-height: 34px;
+    padding-bottom: 32px;
+}
+.THIS.paymentProcess-step4 .slds-text-heading_subtitle {
+    color: #444444;
+	font-family: "SantanderMicroText-Bd";
+	font-size: 18px;
+    line-height: 27px;
+	margin-bottom: 16px;
+}
+
+.THIS.paymentProcess-step4 .slds-col.card{
+    margin-bottom: 40px;
+}
+
+/* CARD */
+.THIS.paymentProcess-step4 .slds-card{
+    border-radius: 4px;
+  	border: solid 1px #cedee7;
+  	background-color: #ffffff;
+	width: 392px;
+   	padding: 32px 40px;
+    text-align: center;
+}
+.THIS.paymentProcess-step4 .slds-card .slds-badge {
+    font-family: "SantanderMicroText-Bd";
+    font-size: 12px;
+    line-height: 18px;
+    color: #444444;
+    border-radius: 12px;
+    background-color: #e8f3f6;
+    padding: 0 16px;
+    height: 24px;
+    min-width: 96px;
+    justify-content: center;
+}
+.THIS.paymentProcess-step4 .slds-card__header {
+	margin: 16px 0 0;
+    padding:0;
+} 
+.THIS.paymentProcess-step4 .line{
+	content:"";
+    height: 1px;
+  	background-color: #cedee7;
+    width:100%;
+    margin: 16px 0;
+}
+.THIS.paymentProcess-step4 .slds-card .slds-card__header-title{
+	font-family: "SantanderHeadlineW05-Bold";
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 4px;
+    color: #444444;
+    display: block;
+}
+.THIS.paymentProcess-step4 .slds-card .subtitle{
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    line-height: 22px;
+    color: #767676;
+}
+.THIS.paymentProcess-step4 .slds-card .slds-card__body {
+    margin: 0 0 32px 0;
+}
+.THIS.paymentProcess-step4 .slds-card .slds-card__body .slds-card__header-title {
+    font-family: "SantanderMicroText-Bd";
+    font-size: 14px;
+    line-height: 20px;
+    color: #767676;
+    margin-bottom: 4px;
+}
+.THIS.paymentProcess-step4 .slds-card .slds-card__body .subtitle{
+	font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    color: #767676;
+}
+.THIS.paymentProcess-step4 .slds-card__footer{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.THIS.paymentProcess-step4 .slds-card__footer-action{
+	font-family: "SantanderMicroText";
+    font-size: 14px;
+    color: #ec0000;
+    line-height: 21px;
+}
+.THIS.paymentProcess-step4 .slds-card__footer-action:focus,
+.THIS.paymentProcess-step4 .slds-card__footer-action:hover {
+	text-decoration: none;
+    color: #cc0000;
+}
+.THIS.paymentProcess-step4 .slds-card__footer-action:active {
+	color: #990000;
+}
+
+/* INPUTS LAYOUT*/
+.THIS .slds-grid {
+    display:flex;
+    justify-content: space-between;
+}
+.THIS .slds-grid .slds-col {
+    margin-bottom: 0;
+    flex: none;
+}
+
+.THIS.heightTotal{
+    height: 100vh;
+}

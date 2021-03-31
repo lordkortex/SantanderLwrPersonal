@@ -1,0 +1,20 @@
+<template>
+    <!-- Estado error añadiendo la clase error  -->
+    <!-- Estado disabled añadiendo la clase disabled al div con la clase dropdown_single
+         y el atributo disabeld al input con las clases slds-input slds-combobox__input  -->
+    
+        <lightning-combobox
+                name="progress"
+                label={title}
+                value={value}
+                placeholder={placeholder}
+                options={arrayoptions}
+                onchange={handleChange}
+                variant={variant}>
+        </lightning-combobox>
+<!-- 
+        <p>{value}</p>
+        <span class="slds-form-element__help">Helper text</span>
+        <span class="errorText">No value!</span> -->
+    
+</template>

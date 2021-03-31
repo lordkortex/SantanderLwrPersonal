@@ -233,3 +233,13 @@ div::-webkit-scrollbar-thumb {
 .icon-orderDown:before,   .icon-orderUp:before{
     color:#444444;
 }
+
+
+.hidden{
+    display:none !important;
+}
+
+
+.noInferiorBorder{
+    border-bottom: 0px !important;
+}

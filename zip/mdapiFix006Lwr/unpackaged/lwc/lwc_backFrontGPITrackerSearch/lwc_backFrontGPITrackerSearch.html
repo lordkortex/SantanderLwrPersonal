@@ -1,0 +1,446 @@
+<template>
+       
+    <!-- <aura:handler name="clearSearch" event="c:EVT_SearchPillsClear" action="{!c.clear}"/>
+    <aura:handler name="clearConcretePill" event="c:EVT_ClearConcretePill" action="{!c.removePill}"/> -->
+
+    <!-- <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" /> -->
+
+    <!-- <aura:attribute name="currencyList" type="List" default="['EUR','GPB','USD','BRL','MXN']"/>
+    <aura:attribute name="statusList" type="List" default="['On hold', 'In progress', 'Completed', 'Rejected']"/>
+    <aura:attribute name="countryList" type="List" default="[]"/>
+    <aura:attribute name="selectedCurrency" type="String" default="{!$Label.c.selectOne}"/>
+    <aura:attribute name="selectedCountry" type="String" default="{!$Label.c.selectOne}"/>
+    <aura:attribute name="originCountry" type="String" default="{!$Label.c.selectOne}"/>
+    <aura:attribute name="selectedStatus" type="List"/> 
+    <aura:attribute name="selectedStatusLabel" type="String" default="{!$Label.c.multipleChoice}"/> 
+    <aura:attribute name="accountList" type="List" default="[]"/>
+
+    <aura:attribute name="beneficiaryAccount" type="String" default="" />
+    <aura:attribute name="thatContains" type="String" default="" />
+    <aura:attribute name="settledFrom" type="String" default=""/>
+    <aura:attribute name="settledTo" type="String" default=""/>
+    <aura:attribute name="settledErrorTo" type="String" default=""/> 
+    <aura:attribute name="settledErrorFrom" type="String"/> 
+    <aura:attribute name="selectedUERT" type="String" default=''/> 
+    <aura:attribute name="selectedOrderingAccount" type="String" default=''/> 
+    <aura:attribute name="selectedOrderingBIC" type="String" default=''/>
+    <aura:attribute name="beneficiaryBIC" type="String" default=''/> 
+
+    <aura:attribute name="dateErrorFrom" type="String" default="dd/mm/yyyy"/> 
+    <aura:attribute name="dateErrorTo" type="String" default="dd/mm/yyyy"/> 
+    <aura:attribute name="accountFilter" type="String" default="dd/mm/yyyy"/> 
+
+    <aura:attribute name="dateFrom" type="date" default=""/>
+    <aura:attribute name="dateTo" type="date" default=""/>
+    <aura:attribute name="pillsContainer" type="List" default="[]"/>
+    <aura:attribute name="filters" type="String" default=""/>
+    <aura:attribute name="datesValidity" type="Boolean" default="true"/>
+    
+    <aura:attribute name="selectedType" type="String" default="IN"/>
+    
+    <aura:attribute name="isUETRSearch" type="Boolean" 	default="false"/>
+
+    <aura:attribute name="userData" type="List"/>
+    <aura:attribute name="countryMatch" type="Boolean"/>
+
+    <aura:attribute name="typeValue" type="String" default="option1"/>
+    <aura:attribute name="options" type="List" default="[
+    {'label': 'Sales', 'value': 'option1'},
+    {'label': 'Force', 'value': 'option2'}
+    ]"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+    <aura:registerEvent name="getFilter" type="c:EVT_searchFilter" />
+    <aura:attribute name="showTable" type="Boolean" default="false"/> -->
+    
+    <!-- <c:CMP_ServiceComponent data-id="service"/> -->
+    <c-lwc_service-component data-id="service"></c-lwc_service-component>
+    <div class="slds-card__header slds-grid headerTable">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title titleTable">
+                    {label.latestInternationalPayments}
+                </div>
+            </div>
+            <div class="slds-hide slds-media__body actions"  data-id="headerSection">
+                <!-- <aura:renderIf if:true="{!v.showTable==true}"> -->
+                <template if:true={showtable}>
+                    <div class="button-search-open button-search icon-search " onclick={openSearch} data-id="searchIcon"></div> 
+                </template>
+                <template if:false={showtable}>
+                    <!-- <aura:set attribute="else"> -->
+                    <div class="button-search icon-search button-search-open"></div> 
+                    <!-- </aura:set>
+                </aura:renderIf> -->
+                </template>
+            </div>
+        </header>
+    </div>
+    <div class=" slds-grid mr_Tracker" data-id="GPISearch" style="position: relative !important;">
+        <!-- <lightning:spinner data-id="spinner" variant="base" size="large" alternativeText="{!$Label.c.Loading+ '...'}"/> -->
+        <lightning-spinner data-id="spinner" variant="base" size="large" alternative-text={loading}></lightning-spinner>
+        
+        <div class="mandatoryAccount errorText slds-hide" data-id="mandatoryFields">
+            {label.mandatoryAccountAndBIC}
+        </div>
+        <div class="mandatoryBic errorText slds-hide" data-id="mandatoryBic">
+            {label.LocalSupportCountryError}
+        </div>
+
+        <div class="slds-row">
+            <div class="slds-col account input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <label  for="form-element-01">{label.uert}</label>
+                    </div>
+                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                        <lightning-input type="text" maxlength="36" update-on="keyup" class="slds-input inputShadow inputLarge lwc_input" data-id="uert" value={selecteduert} onchange={handleUETR}></lightning-input>
+                        <div class="slds-hide textHelp errorText" data-id="uetrError">{label.uetrError}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-row">
+            <div class="slds-col account input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <label  for="form-element-01">{label.type}</label>
+                    </div>
+                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                        <lightning-radio-group name="radioButtonGroup"
+                          label=""
+                          options={options}
+                          value={typeValue}
+                          type="button"
+                          onchange={onTypeSelected}>
+                        </lightning-radio-group>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-row">
+            <div class="slds-col account input_text">
+                <div class="slds-form-element">
+                    <!-- <template if:true="{!v.typeValue == 'OUT'}"> -->
+                    <template if:true={typeValueOUT}>
+                        <div class="slds-form-element__label">
+                            <label  for="form-element-01">{label.orderingAccount}</label>
+                        </div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <lightning-input type="text" placeholder={label.writeAnAccountNumber} maxlength="34" class="slds-input inputShadow inputLarge lwc_input" data-id="orderingAccountOUT"  value={selectedOrderingAccount} onchange={handleAccount}></lightning-input>
+                        </div>
+                    </template>
+                    <template if:false={typeValueOUT}>
+                        <!-- <aura:set attribute="else"> -->
+                        <div class="slds-form-element__label">
+                            <label  for="form-element-01">{label.beneficiaryAccount}</label>
+                        </div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <lightning-input type="text" placeholder={label.writeAnAccountNumber} maxlength="34" class="slds-input inputShadow inputLarge lwc_input lwc_input_label" data-id="beneficiaryAccountOut"  value={beneficiaryAccount} update-on="keyup" onchange={handlebeneficiaryAccount}></lightning-input>
+                        </div>
+                        <!-- </aura:set>
+                    </template>  -->
+                    </template>
+                </div>
+            </div>
+            
+            <div class="slds-col account">
+                <div class="slds-col input_text">
+                    <div class="slds-form-element">
+                        <!-- <template if:true="{!v.typeValue == 'OUT'}"> -->
+                        <template if:true={typeValueOUT}>
+                            <div class="slds-form-element__label">
+                                <label  for="form-element-01">{label.orderingBIC}</label>
+                            </div>
+                            <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                                <lightning-input type="text" maxlength="38" class="slds-input inputShadow inputLarge lwc_input" data-id="orderingBIC"  value={selectedOrderingBIC} onchange={handleBIC}></lightning-input>
+                            </div>
+                        </template>
+                            <!-- <aura:set attribute="else"> -->
+                        <template if:false={typeValueOUT}>
+                            <div class="slds-form-element__label">
+                                <label  for="form-element-01">{label.beneficiaryBIC}</label>
+                            </div>
+                            <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                                <lightning-input type="text" maxlength="38" class="slds-input inputShadow inputLarge lwc_input" data-id="beneficiaryBIC"  value={beneficiaryBIC} onchange={handleBIC}></lightning-input>
+                            </div>
+                            <!-- </aura:set>
+                        </template> -->
+                        </template>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        
+
+
+        <div class="slds-row">
+            <div class="slds-col account">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <label  for="form-element-01">{label.status}</label>
+                    </div>
+                    <div class="slds-form-element__control paddingInput">
+                        <div class="slds-combobox_container inputSize">
+                            <!-- <c:CMP_Dropdown data-id="statusDropdown" isSimpleDropdown="false" selectAllValues="{!$Label.c.allStatuses}" valuePlaceholder="{!v.selectedStatusLabel}" values="{!v.statusList}" selectedValues="{!v.selectedStatus}"/> -->
+                            <c-lwc_dropdown data-id="statusDropdown" 
+                                issimpledropdown={isNotSimple}
+                                selectallvalues={label.allStatuses}
+                                valueplaceholder={selectedStatusLabel}
+                                values={statusList}
+                                selectedvalues={selectedStatus}
+                                ondropdownvalueselected={handleStatus}>
+                            </c-lwc_dropdown>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col date">
+                <div class="slds-col input_text">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__label">
+                            <label  for="form-element-01">{label.valueDate}</label>
+                        </div>
+                        <div class="slds-form-element__control paddingInput">                        
+                            <div class="slds-form slds-form_compound">
+                                <fieldset class="slds-form-element" >
+                                    <!-- <c:CMP_Calendar simple="false" placeholderTo="{!$Label.c.to}" placeholderFrom="{!$Label.c.from}" dateFrom="{!v.dateFrom}" dateTo="{!v.dateTo}" helpText="dd/MM/yyyy" validity="{!v.datesValidity}"/> -->
+                                    <!-- <c-lwc_calendar 
+                                        simple={isNotSimple}
+                                        placeholderto={label.to} 
+                                        placeholderfrom={label.fromlabel} 
+                                        datefrom={dateFrom} 
+                                        dateto={dateTo} 
+                                        helptext="dd/MM/yyyy" 
+                                        validity={datesValidity}
+                                        ondatechangefrom={handleCalendarFrom}
+                                        ondatechangeto={handleCalendarTo}>
+                                    </c-lwc_calendar> -->
+
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col">
+                                            <div class="slds-form-element"> 
+                                                <lightning-input  data-id="valueDateFrom" variant="label-hidden" class="inputDateGPI" date-style="short" value={fromDate} type="date" name="input1" placeholder={label.fromlabel} onblur={handleBlurValueDate} onchange={handleCalendarFrom}></lightning-input>
+                                            </div>                                            
+                                            <div class="textHelp">
+                                                {dateErrorFrom}                                                                                                                 
+                                            </div>                                                                                        
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-form-element"> 
+                                                <lightning-input  data-id="valueDateTo" variant="label-hidden" class="inputDateGPI" date-style="short" value={toDate} type="date" name="input1" placeholder={label.to} onblur={handleBlurValueDate} onchange={handleCalendarTo}></lightning-input>
+                                            </div>
+                                            <div class="textHelp">
+                                                {dateErrorTo}                                                            
+                                            </div> 
+                                        </div>
+                                    </div>
+
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+
+
+
+        <div class="slds-row">
+            <div class="slds-col account">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <label  for="form-element-01">{label.currency}</label>
+                    </div>
+                    <div class="slds-form-element__control paddingInput">
+                        <div class="slds-combobox_container inputSize">
+                            <div class="slds-form-element">
+                
+                                <div class="slds-form-element__control">
+                                   <div class="slds-combobox_container">
+                                        <!-- <c:CMP_Dropdown data-id="currencyDropdown" isSimpleDropdown="true" values="{!v.currencyList}" selectedValue="{!v.selectedCurrency}"/> -->
+                                        <c-lwc_dropdown data-id="currencyDropdown" 
+                                            issimpledropdown={isSimple}
+                                            values={currencyList}
+                                            selectedvalue={selectedCurrency}
+                                            ondropdownvalueselected={handleCurrency}>
+                                        </c-lwc_dropdown>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col  status">
+                <div class="slds-col input_text">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__label">
+                            <label  for="form-element-01">{label.settledAmount}</label>
+                        </div>
+                        <div class="slds-form-element__control paddingInput">
+                            <div class="slds-form slds-form_compound">
+                                <fieldset class="slds-form-element">                                
+                                    <div class="slds-form-element__control ">
+                                        <div class="slds-form-element__group">
+                                            <div class="slds-form-element__row noMargin">
+                                                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click">
+                                                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                        <!-- <ui-input-text placeholder={label.fromlabel}  maxlength="17" class="slds-input inputShadow" keyup={validateSettled} format=",00" value={settledFrom} update-on="keyup"  data-id="settledFrom"></ui-input-text> -->
+                                                        <lightning-input type="number" placeholder={label.fromlabel}  maxlength="17" class="slds-input inputShadow lwc_input lwc_input_label" keyup={validateSettled} format=",00" value={settledFrom} update-on="keyup"  data-id="settledFrom" onchange={handlesettledFrom} style="display: flex;"></lightning-input>
+                                                    </div>
+                                                    <div class="slds-hide textHelp errorText" data-id="settledErrorFrom">
+                                                        {settledErrorFrom}
+                                                    </div>
+                                                </div>
+                                                <div class="slds-form-element slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open splitSeparation">
+                                                    <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right inputSize">
+                                                        <!-- <ui-input-text placeholder={label.to}  maxlength="17" class="slds-input inputShadow" keyup={validateSettled} value={settledTo} update-on="keyup" data-id="settledTo"></ui-input-text> -->
+                                                        <lightning-input type="number" placeholder={label.to}  maxlength="17" class="slds-input inputShadow lwc_input lwc_input_label" keyup={validateSettled} value={settledTo} update-on="keyup" data-id="settledTo" onchange={handlesettledTo} style="display: flex;"></lightning-input>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-hide textHelp errorText" data-id="settledErrorTo">
+                                        {settledErrorTo}
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+
+
+        <div class="slds-row">
+            <div class="slds-col account input_text">
+                <div class="slds-form-element">
+                    <!-- <template if:true="{!v.typeValue == 'IN'}"> -->
+                    <template if:true={typeValueIN}>
+                        <div class="slds-form-element__label">
+                            <label  for="form-element-01">{label.orderingAccount}</label>
+                        </div>
+                        <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                            <lightning-input type="text" placeholder={label.writeAnAccountNumber} maxlength="34" class="slds-input inputShadow inputLarge lwc_input" data-id="orderingAccountIN"  value={selectedOrderingAccount} onchange={handleAccount}></lightning-input>
+                        </div>
+                    </template>
+                    <template if:false={typeValueIN}>
+                        <!-- <aura:set attribute="else"> -->
+                            <div class="slds-form-element__label">
+                                <label  for="form-element-01">{label.beneficiaryAccount}</label>
+                            </div>
+                            <div class="slds-form-element__control  slds-input-has-icon slds-input-has-icon_right paddingInput">
+                                <lightning-input type="text" placeholder={label.writeAnAccountNumber} maxlength="34" class="slds-input inputShadow inputLarge lwc_input lwc_input_label" data-id="beneficiaryAccountIN"  value={beneficiaryAccount} update-on="keyup" onchange={handlebeneficiaryAccount}></lightning-input>
+                            </div>
+                        <!-- </aura:set>
+                    </template>  -->
+                    </template>
+                </div>
+            </div>
+            <div class="slds-col  status">
+                <!-- AB - 27/11/2020 - OriginatorCountry-->
+                <!-- <template if:true="{!v.typeValue == 'OUT'}"> -->
+                <!-- <template if:true={typeValueOUT}> -->
+                    <div class="slds-col input_text">
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__label">
+                                <label  for="form-element-01">{label.beneficiaryCountry}</label>
+                            </div>
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control paddingInput">
+                                    <div class="slds-combobox_container inputSize">
+                                        <div class="slds-form-element">
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-combobox_container">
+                                                    <!-- <c:CMP_Dropdown data-id="countryDropdown" isSimpleDropdown="true" values="{!v.countryList}" selectedValue="{!v.selectedCountry}"/> -->
+                                                    <c-lwc_dropdown data-id="countryDropdown" 
+                                                        issimpledropdown={isSimple}
+                                                        values={countryList}
+                                                        selectedvalue={selectedCountry}
+                                                        ondropdownvalueselected={handleCountry}>
+                                                    </c-lwc_dropdown>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <!-- </template> -->
+                    <!-- AB - 27/11/2020 - OriginatorCountry-->
+                <!-- <template if:false={typeValueOUT}>
+                    <!- - <aura:set attribute="else"> - ->
+                        <div class="slds-col input_text">
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__label">
+                                    <label  for="form-element-01">{label.originCountry}</label>
+                                </div>
+                                <div class="slds-form-element">
+                                    <div class="slds-form-element__control paddingInput">
+                                        <div class="slds-combobox_container inputSize">
+                                            <div class="slds-form-element">
+                                                <div class="slds-form-element__control">
+                                                    <div class="slds-combobox_container">
+                                                       <!- - <c:CMP_Dropdown data-id="originCountry" isSimpleDropdown="true" values="{!v.countryList}" selectedValue="{!v.originCountry}"/> - ->
+                                                       <c-lwc_dropdown data-id="originCountry" 
+                                                            issimpledropdown=true
+                                                            values={countryList}
+                                                            selectedvalue={originCountry}>
+                                                        </c-lwc_dropdown>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <!- - </aura:set>
+                </template>      - ->
+                </template> -->
+            </div>
+        </div>
+
+
+        <div class="slds-row">
+            <div class="slds-col account input_text">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__label">
+                        <label  for="form-element-01">{label.thatContains}</label>
+                    </div>
+                    <div class="slds-form-element__control">
+                        <lightning-input type="text" placeholder="Search information about the beneficiary" maxlength="34" class="slds-input inputShadow inputLarge lwc_input lwc_input_label" data-id="thatContains"  value={thatContains} update-on="keyup" onchange={handlerthaContains}></lightning-input>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col  status">
+                <div class="slds-col input_text">
+                    <div class="slds-form-element">
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <div class="slds-form containerSearch" role="list">
+            <div class="slds-form__row">
+                <button onclick={clear} 		class="slds-button slds-button_brand whiteButtonSmall">{label.clear}</button>
+                <button onclick={apply} 		class="slds-button slds-button_brand redButtonSmall">{label.apply}</button>
+                <button onclick={searchUETR} 	class="slds-button slds-button_brand redButtonSmall">{label.trackPaymentByUETR}</button>          
+            </div>
+        </div>
+        
+    </div> 
+
+    <!-- <template if:true="{!v.pillsContainer.length>0}">
+        <c:CMP_SearchPills pillsContainer="{!v.pillsContainer}"/>
+    </template> -->
+    <template if:true={getPillsContainer}>
+        <c-lwc_search-pills pillscontainer={pillsContainer}></c-lwc_search-pills>
+    </template>
+</template>

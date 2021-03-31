@@ -1,0 +1,76 @@
+<template>
+    <!-- Spinner -->
+    <div if:true={loading}>
+        <div class="spinnerclass">
+            <lightning-spinner 
+            variant="brand" 
+            size="large" >
+            </lightning-spinner>
+        </div>
+    </div>
+    
+    <template if:true={condition}>
+        <c-cmp-o-t-v-parent-users-landing ></c-cmp-o-t-v-parent-users-landing>
+    </template>
+                <div class="slds-grid__content" if:false={condition}>
+                      <!-- MÓDULO 1 -->
+                      <div class="welcomingHeader">
+                        <div class="slds-grid">
+                            <div class="slds-col">
+                                <div class="text">
+                                    <div class="slds-text-heading">{label.cmpOTVAccountsConfiguration_1}</div>
+                                    <div class="slds-text-body">{label.cmpOTVAccountsConfiguration_2}</div>
+                                </div>
+                                <button class="slds-button primary button_icon" onclick={handleChange}>
+                                    {label.cmpOTVAccountsConfiguration_3}
+                                </button>
+                            </div>
+                            <div class="slds-col">
+                                <figure class="slds-image">
+                                    <img src={heroReference} alt="Description of the image" />
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MÓDULO 2 -->
+                    <div class="welcomingContent">
+                        <div class="slds-grid">
+                            <div class="slds-col">
+                                <article class="slds-card subsidaries" for:each={countries} for:item="country" key={country} data-id="subsidiary">
+                                    <div class="slds-card__body">
+                                        <div class="slds-media__figure">
+                                            <img class="sizeFlag" src={country.url} data-item={country.value}></img>
+                                            <span class="slds-text-body_regular slds-truncate" data-id="countries">{country.label}</span>
+                                        </div>
+                                    </div>
+                                    <div class="line-card"></div>
+                                    <div class="test" for:each={subsidiaries} for:item="subsidiary" data-id="subsidiary" key={subsidiary}>
+                                        <c-cmp-o-t-v-subsidiary-by-country country={country.value} subsidiary={subsidiary} ></c-cmp-o-t-v-subsidiary-by-country>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="slds-col">
+                                <div class="slds-text-heading">{label.cmpOTVAccountsConfiguration_4}</div>
+                                <div class="slds-text-body">{label.cmpOTVAccountsConfiguration_5}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-grid__minibanner">
+                        <p> 
+                            <span class="bold">Need help?&nbsp;</span>
+                            You can solve your doubts on&nbsp;
+                            <button class="slds-button button_link">help and contact&nbsp;</button>
+                            section or you can&nbsp;
+                            <button class="slds-button button_link">contact us.&nbsp;</button>
+                            If you don’t want to enjoy the One Trade View benefits anymore, you can&nbsp; 
+                            <button class="slds-button button_link" onclick={cancelService} >cancel the service.</button>
+                        </p>
+                    </div>
+                   	<!-- FOOTER -->
+                   	<!--Cambiar la clase "footer" a "footerContact" para añadir el fotter de contacto-->
+                    <div class="footer">
+                        <!--<c:Footer_Contact></c:Footer_Contact>-->
+                        <c-cmp-o-t-v-footer></c-cmp-o-t-v-footer>
+                    </div>
+                </div>
+</template>

@@ -1,0 +1,77 @@
+<template>
+    <!-- utilizar la clase unfolded para mostrar el detalle desplegado -->
+	<div class="companyDetail">
+        
+        <!-- PAYMENT STATUS -->
+        <!-- Añadir la clase inactive al siguiente div -->
+    	<div class="paymentStatus">
+            <!-- TITLE -->
+            <div class="slds-card__header slds-grid containerInformation">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__body">
+                        <div class="slds-card__header-title separation">
+                            
+                            <div class="col-status">
+                                <div class="status-title">
+                                	<!-- IN PROGRESS -->
+                                    <!--<span class="status_inProgress">In Progress</span>-->
+                                    <!-- REJECTED -->
+                                    <!--<span class="status_rejected">Rejected</span>
+                  					<span class="status_rejected_subtitle">- Credit no confirmed</span>-->
+                                    <!-- ON HOLD -->
+                                    <!-- <span class="status_onHold">On hold</span>  -->
+                                    <!-- COMPLETED -->
+                                    <!--<span class="status_completed">Completed</span>-->
+                                    <!-- PENDING AUTHORIZATION -->
+                                    <span class="status_pending">Bamboo Spain</span>
+                                </div>
+                                
+                                
+                                <div class="subDate">Bamboo RBC S.L - CYK8908272</div>
+                                <span class="slds-badge badgeCompleted">Active</span>
+                                <span class="slds-badge badgeDraft">Inactive</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PAYMENT INFORMATION -->
+        <div class="paymentInformation">
+            <table class="slds-table slds-table_cell-buffer slds-no-row-hover">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate ">Parent company</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="body">
+                    <tr class="">
+                        <td data-label="Ordering account" scope="row">
+                            <div class="slds-truncate">Country</div>
+                        </td>
+                        <td data-label="Beneficiary">
+                            <div class="slds-truncate">Permissions</div>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td data-label="Ordering account" scope="row">
+                            <div class="slds-truncate">Spain</div>
+                        </td>
+                        <td data-label="Beneficiary">
+                            <div class="slds-truncate">This company has no acces to your data</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- ACTIONS -->
+        <div class="actions">
+            <button class="slds-button secondary button_small button_full">Cancell access</button>
+        </div>
+    
+    </div>
+</template>

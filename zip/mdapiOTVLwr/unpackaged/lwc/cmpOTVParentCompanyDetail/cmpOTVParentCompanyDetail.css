@@ -1,0 +1,491 @@
+.header_secondary__description{
+    position: absolute;
+    left: 0;
+    width: 100%;
+}
+.contentCompanyDetail{
+    left: 0;
+    margin-top: -24px;
+    width: 100%;
+}
+.contentCompanyDetail .contentPag{
+    margin:0 auto;
+    width: 1224px;
+    padding-top:133px;
+}
+.contentCompanyDetail .footerContact{
+    margin-top:343px;
+}
+.contentCompanyDetail .footer{
+    margin-top:120px;
+}
+.contentCompanyDetail .footerContact .cFooter, 
+.contentCompanyDetail .footer .cFooter_Contact{
+    display:none;
+}
+ .title_container{
+    padding: 24px 0 32px 0;
+    background-color: #f6fafc;
+    box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+ .title_container .slds-align_absolute-center {
+    max-width: 1224px;
+    width: 100%;
+    display: block;
+}
+ .title_container .slds-text-heading_medium {
+	display: flex;
+    justify-content: space-between;
+    position:relative;
+}
+ .title_container .slds-text-heading_medium .title{
+   	margin-bottom:8px; 
+}
+ .title_container .slds-text-heading_medium .title .slds-button{
+   	margin-bottom:8px; 
+}
+ .title_container .slds-text-heading_medium .slds-modal__title{
+    color: #444444;
+  	font-family:"SantanderHeadlineW05-Rg";
+  	font-size: 28px;
+  	line-height:34px;
+}
+ .title_container .text_line{
+  	width:40px;
+    border-bottom:3px solid #ec0000;
+}
+ .title_container .slds-text-heading_subtitle{
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+    color: #444444;
+    margin-top: 8px;
+    max-width: 600px;
+}
+ .title_container .slds-text-heading_subtitle span {
+	font-family: "SantanderMicroText-Bd";
+}
+ .title_container .slds-button {
+    margin-bottom: 8px;
+    border: none;
+}
+.companyDetail {
+	width: 100%;
+    padding: 30px 0 16px 0;  
+}
+
+/* PAYMENT STATUS */
+ .paymentStatus{
+    margin-bottom: 24px;
+}
+ .paymentStatus .containerInformation {
+    margin: 0;
+    padding: 0;
+}
+
+/* TEXT STYLES */
+ .paymentStatus .slds-card__header-title {
+    font-size: 14px;
+    line-height: 1.5;
+    font-family: "SantanderMicroText";
+    color: #444444;
+}
+
+ .paymentStatus .slds-card__header-title  .number{
+    font-size: 32px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 38px;
+}
+
+ .paymentStatus .slds-card__header-title  .currency{
+    font-size: 24px;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 38px;
+}
+
+
+/* COLUMNS AND ROWS */
+ .paymentStatus .separation{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+ .paymentStatus .space{
+    margin-right: 24px;
+}
+
+ .paymentStatus .subDate{
+    margin-top: 4px;
+}
+
+/*  .paymentStatus .date {
+	margin-top: 4px;
+    color: #767676;
+} */
+ .slds-badge+.slds-badge {
+    margin-left:0;
+}
+ .inactive .slds-badge.badgeCompleted,
+ .slds-badge.badgeDraft{
+    display:none;
+}
+ .inactive .slds-badge.badgeDraft{ 
+    display: block;
+}
+/*BADGE*/
+ .slds-badge{
+    margin-top:4px;
+    display: block;
+    border-radius: 100px;
+    border: solid 1px #979797;
+    background-color: #f6f6f6;
+    font-family: SantanderMicroText-Bd;
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #444444;
+    padding: 2px 4px;
+    width: 96px;
+    min-width: 96px;
+    height: 24px;
+    max-width: 96px; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: center; 
+}
+ .slds-badge.badgeDraft{
+    border-color: #767676;
+    background-color: #ececec;
+}
+ .slds-badge.badgePending,
+ .slds-badge.badgeDelayed,
+ .slds-badge.badgeHold{
+    border-color: #ffcc33;
+    background-color: #fff5d7;
+}
+ .slds-badge.badgeReview{
+    border-color: #9e3667;
+    background-color: #ecd7e1;
+}
+ .slds-badge.badgeNotAuthorized,
+ .slds-badge.badgeCanceled,
+ .slds-badge.badgeDenied,
+ .slds-badge.badgeRejected{
+    border-color: #cc0000;
+    background-color: #fccccc;
+}
+ .slds-badge.badgeScheduled,
+ .slds-badge.badgeReleased,
+ .slds-badge.badgeInProgress{
+    border-color: #1bb3bc;
+    background-color: #d2f0f2;
+}
+ .slds-badge.badgeAuthorized,
+ .slds-badge.badgeProcessed,
+ .slds-badge.badgeCompleted{
+    border-color: #63ba68;
+    background-color: #e0f2e1;
+}
+
+/* STATUS */
+ .paymentStatus .slds-card__header-title .status-title{
+    display: flex;
+    align-items: flex-end;
+}
+
+ .paymentStatus .slds-card__header-title .status_pending {
+    color: #444444;
+    font-size: 20px; 
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
+    letter-spacing: normal;
+}
+
+ .paymentStatus .slds-card__header-title .status_inProgress {
+    color: #1bb3bc;
+    font-size: 20px; 
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
+    letter-spacing: normal;
+}
+
+ .paymentStatus .slds-card__header-title  .status_rejected {
+    color: #cc0000;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
+    letter-spacing: normal;
+}
+
+ .paymentStatus .slds-card__header-title .status_rejected_subtitle{
+    color: #cc0000;
+    font-size: 14px; 
+    font-weight: normal;
+    font-family: "SantanderMicroText";
+    line-height: 21px;
+    letter-spacing: normal;
+}
+
+ .paymentStatus .slds-card__header-title  .status_onHold {
+    color: #ffcc33;
+    font-size: 20px; 
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
+    letter-spacing: normal;
+}
+
+ .paymentStatus .slds-card__header-title  .status_completed {
+    color:#63ba68;
+    font-size: 20px;
+    font-weight: normal;
+    font-family: "SantanderHeadlineW05-Bold";
+    line-height: 1.4;
+    letter-spacing: normal;
+}
+
+/* PAYMENT INFORMATION */
+ .paymentInformation {
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff;
+    border-bottom: 1px solid #cedee7;
+    padding: 0 0 16px 16px;
+}
+ .paymentInformation table{
+    width: auto;
+}
+ .paymentInformation thead tr > th{
+        min-width: calc(272px + 40px);
+    width: calc(272px + 40px);
+   	max-width: calc(272px + 40px);
+    padding: 0;
+    padding-right: 40px;
+    padding-bottom: 8px;
+    font-size: 20px;
+    line-height: 28px;
+    min-height: 28px;
+    color: #444444;
+    font-family: "SantanderHeadlineW05-Rg";
+    font-weight: normal;
+}
+
+ .paymentInformation thead tr > th > div{
+    min-width: calc(272px + 40px);
+    width: calc(272px + 40px);
+   	max-width: calc(272px + 40px);
+
+}
+
+ .paymentInformation tbody tr > td{
+        min-width: calc(272px + 40px);
+    width: calc(272px + 40px);
+   	max-width: calc(272px + 40px);
+   	padding: 0;
+    padding-right: 40px;
+   	font-size: 14px;
+   	line-height: 21px;
+    min-height: 21px;
+   	font-family: "SantanderMicroText";
+   	color: #444444;
+}
+
+ .paymentInformation tbody tr > td > div {
+        min-width: calc(272px + 40px);
+    width: calc(272px + 40px);
+   	max-width: calc(272px + 40px);
+}
+ .paymentInformation tbody tr:last-child > td {
+    font-family: "SantanderMicroText-Bd";
+}
+
+
+ .actions{
+    margin-top: 16px;   
+}
+
+/* TOAST */
+
+.slds-notify_container {
+    padding-top: 108px;
+}
+
+ .slds-notify_toast {
+    width: 600px;
+    min-height: 80px;
+    margin: 0;
+    padding: 16px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08);
+}
+
+ .slds-notify__content{
+	display: flex;
+    align-self: flex-start; 
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+ .slds-notify__content .slds-text-heading_small{
+	font-family: SantanderMicroText-Bd;
+    font-size: 16px; 
+    line-height: 1.5; 
+    color: #444444;
+    margin:0;
+}
+ .slds-notify__content .notifyText { 
+    font-family: SantanderMicroText;
+    font-size: 16px; 
+    line-height: 1.5; 
+    color: #444444; 
+}
+
+ .slds-notify__content .action{ 
+    font-family: SantanderMicroText-Bd;
+    font-size: 14px;
+    line-height: 1.43;
+}
+
+/* ICONOS */
+ .slds-notify__close { 
+    height: 24px; 
+    right:16px;
+    top: 16px;
+    width: 24px;
+}
+ .slds-notify__close .slds-button.slds-button_icon {
+    display: flex;
+    text-decoration: none;
+}
+ .slds-notify__close .slds-button.slds-button_icon:before {
+    font-size: 24px;
+}
+ .button-selected{
+    margin-right:8px;
+    pointer-events: none; 
+}
+ .button-selected:before{
+    font-size: 24px;
+}
+ .slds-notify__content .slds-button.slds-button_icon:before { 
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+
+/* INFO */
+ .slds-theme_info { 
+    border: solid 1px #257fa4 ; 
+  	background-color: #f5f9fb;
+}
+
+ .slds-theme_info .icon-information:before { 
+    color: #257fa4 ;  
+}
+
+ .slds-theme_info .icon-close_big:before,
+ .slds-theme_info .slds-notify__content button,
+ .slds-theme_info .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #257fa4;
+}
+
+/* SUCCESS */
+ .slds-theme_success { 
+    border: solid 1px #3a8340; 
+  	background-color: #f7fbf7;  
+}
+
+ .icon-check_circle:before{
+   color: #3a8340; 
+}
+ .slds-theme_success .icon-close_big:before,
+ .slds-theme_success .slds-notify__content button,
+ .slds-theme_success .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #3a8340;
+}
+
+/* WARNING */
+ .slds-theme_warning { 
+    border: solid 1px #946f00; 
+  	background-color: #fffcf5;  
+}
+ .slds-theme_warning button{ 
+    text-decoration: none;
+    box-shadow: none;
+}
+ .slds-theme_warning .slds-notify__close button:focus{ 
+    border: 1px solid #fffcf5;
+}
+ .icon-caution:before{
+   color: #946f00; 
+}
+ .slds-theme_warning .icon-close_big:before,
+ .slds-theme_warning .slds-notify__content button,
+ .slds-theme_warning .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #946f00;
+}
+
+/* ERROR */
+ .slds-theme_error { 
+    border: solid 1px #990000; 
+  	background-color: #fcf2f2;  
+}
+/* .icon-close_emptyCircle:before{
+   color: #990000; 
+}*/
+ .icon-warning:before{
+   color: #990000; 
+}
+ .slds-theme_error .icon-close_big:before,
+ .slds-theme_error .slds-notify__content button,
+ .slds-theme_error .slds-notify__content .slds-button.slds-button_icon:before{ 
+    color: #990000;
+}
+
+
+/* TOAST STATIC */
+ .slds-notify_container.toast_static {
+    padding: 0;
+    display: block;
+    height: auto;
+    position: static;
+}
+
+ .toast_static .slds-theme_info,
+ .toast_static .slds-theme_success,
+ .toast_static .slds-theme_warning,
+ .toast_static .slds-theme_error { 
+    width: 100%;
+    box-shadow: none;
+}
+
+ .toast_static .slds-theme_info .icon-close_big:before,
+ .toast_static .slds-theme_success .icon-close_big:before,
+ .toast_static .slds-theme_warning .icon-close_big:before,
+ .toast_static .slds-theme_error .icon-close_big:before{ 
+    display: none;
+}
+
+/* MOSTRAR ACTION */
+ .slds-theme_info .slds-notify__content button,
+ .slds-theme_success .slds-notify__content button,
+ .slds-theme_warning .slds-notify__content button,
+ .slds-theme_error .slds-notify__content button{ 
+    display: none; 
+}
+
+ .slds-theme_info.action .slds-notify__content button,
+ .slds-theme_success.action .slds-notify__content button,
+ .slds-theme_warning.action .slds-notify__content button,
+ .slds-theme_error.action .slds-notify__content button{ 
+    display: flex;
+    align-self: flex-end;
+    align-items: center;
+    border: none;
+}

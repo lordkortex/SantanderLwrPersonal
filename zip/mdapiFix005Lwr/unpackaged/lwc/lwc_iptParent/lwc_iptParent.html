@@ -1,0 +1,80 @@
+<!--
+  @description       : 
+  @author            : Everis
+  @group             : 
+  @last modified on  : 12-02-2020
+  @last modified by  : Everis
+  Modifications Log 
+  Ver   Date         Author   Modification
+  1.0   12-01-2020   Everis   Initial Version
+-->
+<template>
+    <!-- <c:CMP_ServiceComponent :id="service"/> -->
+    <c-lwc_service-component id="service" onlwciptparent={setAccountsAndPayments}></c-lwc_service-component>
+    <template if:true={isIE}>
+        <c-lwc_ipt-browser-message></c-lwc_ipt-browser-message>
+    </template>
+    <template if:false={isIE}>
+
+         <!-- Show error if user has no access to Payments Tracker -->
+        <template if:true={showNoAccessError}>
+            <!--Error if Account service fails-->
+            <!-- <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.ERROR_NO_ACCESS}"/> -->
+            <c-lwc_cn_scope-notification notificationclass="slds-scoped-notification_error" notificationicon="icon-close_emptyCircle" title={label.ERROR} notificationtitle={label.ERROR} notification-body={label.ERROR_NO_ACCESS}></c-lwc_cn_scope-notification>
+        </template>
+
+        <!-- Spinner -->
+         <template if:true={loading}>  
+            <div class="spinnerclass">
+                <!--<lightning-spinner  id="spinner" variant="brand" size="large" title={loadingText} alternative-text={loadingText}></lightning-spinner>-->
+                <lightning-spinner  id="spinner" variant="brand" size="large" title={label.loading} alternative-text={label.loading}></lightning-spinner>
+            </div>
+        </template>
+         <template if:false={loading}> 
+            <template if:false={showNoAccessError}>
+                 <template if:true={showCashNexusAndAccPayment}>
+                    <!-- Title and subtitle with totals -->
+                    <!-- <c:CMP_CN_Title_Subtitle  title="{!$Label.c.Accounts}" subtitle="{!$Label.c.PaymentsTracker}" fireNavigationEvent="false"/> -->
+                    <c-lwc_cn_title-subtitle onnavigateback={navigateToAccounts} title={label.ACCOUNT} subtitle={label.PAYMENTS_TRACKER} fire-navigation-event="false" ></c-lwc_cn_title-subtitle>
+
+                    <!-- <c:CMP_CN_Title_Subtitle_Totals accountDetails="{!v.accountObj}" accountToCopy="{!v.accountObj.accountNumber}" showTotals="false" source="fromIPTParent" showAccountDetailLink="false" fromCashNexus="{!v.fromCashNexus}" showAccountPayment="{!v.showAccountPayment}"/>																													    -->
+                    <c-lwc_cn_title-subtitle-totals accountdetails={accountObj} accounttocopy={accountObj.accountNumber} showtotals="false" source="fromIPTParent" showaccountdetaillink="false" fromcashnexus={fromCashNexus} showaccountpayment={showAccountPayment}></c-lwc_cn_title-subtitle-totals>
+                </template>
+                <template if:false={showCashNexusAndAccPayment}>
+                        <!--Title-->
+                        <!-- <c:CMP_IPTTitle/> -->
+                        <c-lwc_ipt-title></c-lwc_ipt-title>
+                </template>
+                <template if:true={isErrorAccount}>
+                     <template if:true={isAccountListData}>
+                        <!--First filters-->
+                         <template if:true={showAccountPayment}>
+                            <!--01/04/2020 - Account Payments Tracker-->
+                            <c-lwc_ipt-filters ongetfilterparent={getFilters} isonetrade={isOneTrade} fromcashnexus={fromCashNexus} currencylist={currencyList} accountlist={accountList} filters={filters} isopen={isOpen} isaccountfilter={showAccountPayment} fromdetail={fromdetail}></c-lwc_ipt-filters>
+                        </template>
+                        <template if:false={showAccountPayment}>
+                            <!-- <c:CMP_IPTFilters isOneTrade="{!v.isOneTrade}" fromCashNexus="{!v.fromCashNexus}" currencyList="{!v.currencyList}" accountList="{!v.accountList}" filters="{!v.filters}" isOpen="{!v.isOpen}"/> -->
+                            <c-lwc_ipt-filters ongetfilterparent={getFilters} isonetrade={isOneTrade} fromcashnexus={fromCashNexus} currencylist={currencyList} accountlist={accountList} filters={filters} isopen={isOpen}> </c-lwc_ipt-filters>
+                        </template>
+                        <!--Table-->
+                        <!-- <c:CMP_IPTTable aura:id="paymentsTable" isOneTrade="{!v.isOneTrade}" filters="{!v.filters}" fromCashNexus="{!v.fromCashNexus}"/> -->
+                        <c-lwc_ipt-table onopenadvancedfilters={openSearch} isonetrade={isOneTrade} filters={filters} fromcashnexus={fromCashNexus} fromdetail={fromdetail} fullaccountlist={accountList}> </c-lwc_ipt-table>
+                    </template>
+                </template>
+                <template if:false={isAccountListData}>
+                        <!--Error if Account service fails-->
+                        <!-- <c:CMP_CN_ScopeNotification notificationClass="slds-scoped-notification_error" notificationIcon="icon-close_emptyCircle" title="{!$Label.c.ERROR}" notificationTitle="{!$Label.c.ERROR}" notificationBody="{!$Label.c.ERROR_NOT_RETRIEVED}"/>-->
+                        <c-lwc_cn_scope-notification notificationclass='slds-scoped-notification_error' notificationicon='icon-close_emptyCircle' title={label.ERROR} notificationtitle={label.ERROR} notificationbody={label.ERROR_NOT_RETRIEVED}></c-lwc_cn_scope-notification>
+                </template>
+            </template>
+        </template>
+        
+        <!--Terms and conditions-->
+        <!-- <c:CMP_TermsConditions aura:id="termsConditions" showModal="{!v.showTerms}" country="{!v.country}"/> -->
+        <c-lwc_terms-conditions ontermsconditionsevent={checkTerms}  showmodal={showTerms} country={country}></c-lwc_terms-conditions>
+        <template if:true={getShowWelcomePack}>
+            <!-- <c:CMP_WelcomePackCarousel aura:id="welcomePack" showModal="{!v.showWelcome}"/> -->
+            <c-lwc_welcome-pack-carousel showmodal={showWelcome}></c-lwc_welcome-pack-carousel>
+        </template>
+    </template>
+</template>

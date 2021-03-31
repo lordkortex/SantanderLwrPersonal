@@ -1,0 +1,88 @@
+<template>
+    
+    <c-lwc_service-component data-id="Service" onsuccesscallback={handleSuccessCallback}></c-lwc_service-component>
+
+    <!-- Spinner -->
+    <template if:true={loading}>  
+        <div class="spinnerclass">
+            <lightning-spinner data-id="spinner" variant="brand" size="large" title={isLoading} alternative-text={isLoading}></lightning-spinner>
+        </div>
+    </template> 
+
+    <template if:false={loading}>
+
+        <template if:true={comesFromNone}>
+            <div class="slds-grid titleHistory">
+                <div class="slds-col title">
+                    <div class="slds-text-heading_medium">{label.History_of_statements}</div>
+                    
+                    <div class="text_line"></div>
+                </div>
+            </div>
+        </template>
+    
+        <!-- IF COMES FROM ACCOUNT ////TITLE//// -->
+        <template if:true={comesFromAccounts}>
+            <!--<c-lwc_cn_title-subtitle title="Accounts" subtitle="Statements history"></c-lwc_cn_title-subtitle>-->
+            <c-lwc_cn_title-subtitle 
+                title="Accounts" 
+                subtitle="Statements history"
+                comesfromtracker={comesfromtracker}
+                firenavigationevent={firenavigationevent}>
+            </c-lwc_cn_title-subtitle>
+    
+            <div class="titleSubtitle">
+                <!-- TITLE -->
+                <div class="slds-card__header slds-grid containerInformation">
+                    <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <div class="slds-card__header-title separation">
+                                <div class="title">{accountName}</div>
+                                
+                            </div>
+                            <div class="slds-card__header-title">
+                                <div class="bankAccount">{subsidiaryName}&nbsp; - &nbsp; {accountNumber}</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="text_line"></div>
+            </div>
+            <c-lwc_cn_filters 
+                data-id="filterComponent"  
+                filters={filters}
+                dates={dates} 
+                currentpage="history-of-statements"
+                onfirefilter={handleSearch}
+            >
+            </c-lwc_cn_filters>
+           
+            <!-- dropdownValues="{!v.timePeriods}" -->
+        </template>
+    
+        <template if:true={comesFromNone}>
+            <c-lwc_history-of-statements-search
+                hassearched={hasSearched} 
+                selectedaccount={selectedAccount}
+                dates={dates} 
+                values={accountsListString}
+                ondropdownvalueselected={handleDropdownValueSelected}
+                onbuttonclickedevent={handleSearch}
+            >
+            </c-lwc_history-of-statements-search>
+        </template>
+    
+    
+        <template if:true={hasSearched}>
+            <c-lwc_history-of-statements-table
+                statementslist={tableData} 
+                userdateformat={userDateFormat} 
+                usernumberformat={userNumberFormat}
+                accountcurrency={accountCurrency}
+                selectedaccountobject={selectedAccountObject}
+            >
+            </c-lwc_history-of-statements-table>
+        </template>
+    </template>
+</template>

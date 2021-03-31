@@ -31,7 +31,7 @@
     <!-- <c:CMP_Pagination allData="{!v.receivedList}" paymentsPerPage="{!v.paymentsPerPage}" aura:id="pagination"/> -->
     <c-lwc_pagination alldata={receivedList} paymentsperpage={paymentsPerPage} data-id="pagination"></c-lwc_pagination>
     <div style="position: relative !important;">
-            <lightning-spinner data-id="spinner" variant="brand" size="large" alternative-text={loading}></lightning-spinner>
+    <lightning-spinner data-id="spinner" variant="brand" size="large" alternative-text={loading}></lightning-spinner>
 
     <!-- TABLE -->  
     <div class="slds-table--header-fixed_container">
@@ -137,17 +137,69 @@
                 </thead>
 
                 <tbody class="fontBody" >
-
                     <template if:true={jsonArrayGreater0}>
-                        <!-- <aura:iteration items="{!v.jsonArray}" var="item" start="{!v.start}" end="{!v.end}" indexVar="index"> -->
-                        <template for:each={jsonArrayBetweenStartToEnd} for:item='item'>
-                            <!-- <c:CMP_SwiftPaymentTableRow item="{!item}" itemPosition="{!index}" backfront="true"/> -->
-                            <c-lwc_swift-payment-table-row 
-                                key={item.index} 
-                                item={item} 
-                                itemposition={item.index} 
-                                backfront>
-                            </c-lwc_swift-payment-table-row>
+                        <template for:each={jsonArrayBetweenStartToEnd} for:item='item' for:index="index">
+                            <tr class="slds-hint-parent border" aria-selected="false" data-id="parentDetails" data-unique-id={item.index} key={item.index}>
+                                <td class="slds-text-align_center" role="gridcell">
+                                    <div class={getCircleClass}></div>
+                                </td>
+                                <th scope="row">
+                                    <div class="slds-truncate" >
+                                        <div class="status">{getStatusLabel}</div>
+                                    </div>
+                                </th>
+                                <th scope="row">
+                                    <div class="slds-truncate payment">
+                                        <div class="circle icon-tracking" onclick={openPaymentDetails}></div>
+                                    </div>
+                                </th>
+                                <td role="gridcell">
+                                    <div class="slds-truncate">{item.paymentDetail.statusDate}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <template if:true={backfront}>
+                                        <div class="slds-truncate">{item.paymentDetail.originatorData.originatorAccount.accountId}</div>
+                                    </template>
+                                    <template if:false={backfront}>
+                                        <div class="slds-truncate">{item.paymentDetail.issueDate}</div>
+                                    </template>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate">{item.paymentDetail.valueDate}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate">{item.paymentDetail.beneficiaryData.beneficiaryName}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate">{item.paymentDetail.beneficiaryData.creditorAgent.agentCode}</div>
+                                </td>
+                                <td class="slds-text-align_right" role="gridcell">
+                                    <c-lwc_display-amount
+                                        fromgpi
+                                        numberformat={getNumberFormat}  
+                                        amount={getAmount} 
+                                        decimalclass="slds-truncate amountDecimals" 
+                                        wholeclass="slds-truncate amountInteger" 
+                                        currency={gettcurrency}>
+                                    </c-lwc_display-amount>
+                                </td>
+                                <td class="slds-text-align_center" role="gridcell">   
+                                    <div class="button-arrow icon-arrowDown_big" title="See detail" onclick={showHideDetails} data-id="icon" data-unique-id={item.index}></div>
+                                </td> 
+                            </tr>
+                            <tr key={item.index}>
+                                <!--<div key={item.index} class="hidden widthCard" data-id="details" data-unique-id={item.index}>-->
+                                    <c-lwc_swift-payment-table-row 
+                                        data-unique-id={item.index}
+                                        data-id="details"
+                                        class="hidden" 
+                                        key={item.index} 
+                                        item={item} 
+                                        itemposition={item.index} 
+                                        backfront>
+                                    </c-lwc_swift-payment-table-row>
+                                <!--</div>-->
+                            </tr>
                         </template>
                     </template>
                         

@@ -1,27 +1,6 @@
 <template>
-    <!-- <aura:attribute name="paymentId" type="String" description="Identification code of a payment" />
-    <aura:attribute name="status" type="String"/>
-    <aura:attribute name="statusUpdate" type="String"/>
-    <aura:attribute name="instructed" type="String"/>
-    <aura:attribute name="valueDate" type="String"/>
-    <aura:attribute name="beneficiaryName" type="String"/>
-    <aura:attribute name="beneficiaryEntity" type="String"/>
-    <aura:attribute name="settledAmount" type="String"/>
-    <aura:attribute name="currentCurrency" type="String"/>
-    <aura:attribute name="agent" type="String"/>
-    <aura:attribute name="statusClass" type="String" default="icon-circle__red"/>
-    <aura:attribute name="statusLabel" type="String" default="{!$Label.c.payment_statusOne}"/>
-
-    <aura:attribute name="beneficiaryEntityName" type="String"/>
-    <aura:attribute name="beneficiaryAccount" type="String"/>
-    <aura:attribute name="beneficiaryCountry" type="String"/>
-    <aura:attribute name="reasonRejection" type="String"/>
-    <aura:attribute name="backfront" type="Boolean" default="false"/>
- 
-    <aura:attribute name="itemPosition" type="Integer"/>
-    <aura:attribute name="item" type="Object"/>
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" /> -->
-    <tr class="slds-hint-parent border" aria-selected="false" data-id="parentDetails">
+   
+    <!--<tr class="slds-hint-parent border" aria-selected="false" data-id="parentDetails">
         <td class="slds-text-align_center" role="gridcell">
             <div class={getCircleClass}></div>
         </td>
@@ -39,15 +18,11 @@
             <div class="slds-truncate">{getStatusDate}</div>
         </td>
         <td role="gridcell">
-            <!-- <aura:if isTrue="{!v.backfront}"> -->
             <template if:true={backfront}>
                 <div class="slds-truncate">{getAccountId}</div>
             </template>
-            <!-- <aura:set attribute="else"> -->
             <template if:false={backfront}>
                 <div class="slds-truncate">{getIssueDate}</div>
-            <!-- </aura:set>
-            </aura:if> -->
             </template>
         </td>
         <td role="gridcell">
@@ -60,7 +35,6 @@
             <div class="slds-truncate">{getAgentCode}</div>
         </td>
         <td class="slds-text-align_right" role="gridcell">
-            <!-- <c:CMP_displayAmount fromGPI="true" numberFormat="{!v.item.paymentDetail.paymentAmount.numberFormat}"  amount="{!v.item.paymentDetail.paymentAmount.amount}" decimalClass="slds-truncate amountDecimals" wholeClass="slds-truncate amountInteger" currency="{!v.item.paymentDetail.paymentAmount.tcurrency}"/> -->
             <c-lwc_display-amount
                 fromgpi
                 numberformat={getNumberFormat}  
@@ -73,14 +47,14 @@
         <td class="slds-text-align_center" role="gridcell">   
             <div class="button-arrow icon-arrowDown_small" title="See detail" onclick={showHideDetails} data-id="icon"></div>
         </td>
-    </tr>   
+    </tr>   -->
 
 
 
-        <!-- <template class="hidden widthCard" data-id="details">
+        <!--<template class="hidden widthCard" data-id="details">-->
                     
             <table class="slds-table slds-table_fixed-layout slds-table_resizable-cols widthCard" aria-multiselectable="true" role="grid" data-id="datailsTable"> 
-                <!- - HEADER - ->        
+                <!-- HEADER -->        
                 <tr class="slds-line-height_reset ">
                     <th class="slds-text-align_right  containerIconStatus" scope="col" style="height:0px !important;">   
                     </th>
@@ -176,5 +150,5 @@
                     </tr>
                 </tbody> 
             </table>
-        </template> -->
+        <!--</template>-->
 </template>

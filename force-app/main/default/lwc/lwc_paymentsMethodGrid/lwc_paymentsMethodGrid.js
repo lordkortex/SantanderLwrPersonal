@@ -30,6 +30,12 @@ import refreshBalanceCollout from '@salesforce/label/c.refreshBalanceCollout';
 //Import Apex
 //import encryptData from '@salesforce/apex/CNT_PaymentsMethod.encryptData';
 import checkTypeAvailable from '@salesforce/apex/CNT_PaymentsMethod.checkTypeAvailable';
+import getRawAccounts from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.getRawAccounts';
+import discardAccountsByCountry from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.discardAccountsByCountry';
+import encryptAccountsData from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.encryptAccountsData';
+import callToAccountsWithAttributionsParent from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.callToAccountsWithAttributionsParent';
+import decryptAccountsData from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.decryptAccountsData';
+import filterAccountsByCountryAndCurrency from '@salesforce/apex/CNT_PaymentsLoadUserAccounts.filterAccountsByCountryAndCurrency';
 
 //Import Navigation
 import { NavigationMixin } from 'lightning/navigation';
@@ -109,7 +115,7 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
         const transferTypeParams = this.transfertypeparams;
         const instant_transfer =this.label.PTT_instant_transfer;
         if(transferTypeParams && transferTypeParams.instant_transfer){
-            this.getAccountsToB2BOrigin(this.userData, instant_transfer)
+            this.getAccountsToB2BOrigin(this.userdata, instant_transfer)
             .then( (value) => {
                 return this.handleAccountsToB2BOrigin(value);
             })
@@ -241,7 +247,7 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
     }
 
     getAccountsToB2BOrigin(userData, transferType) {
-        return new Promise(function(masterResolve, masterReject){
+        return new Promise(function(resolve, reject){
  			this.removeAccountsCacheItems()
             .then((value) => {
                 let key = 'AccountsToB2BOrigin'+ transferType;
@@ -249,19 +255,20 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
                 //services.push('add_international_payment_internal'); //07-09-2020 - SNJ - Accounts which can be selected by current logged in user to initiate a payment procedure
                 this.handleRetrieveFromCache(key)
                 .then((value)=> {
-                    if (!value) {
-                        masterResolve(value);
+                    //if (!value) {
+                    if (value != undefined && value != null) {    
+                        resolve(value);
                     } else {
                         this.callToAccountsWithAttributions(userData, transferType)
                         .then((value)=> {
                             return this.filterAccountsToB2BOriginByCountryAndCurrency(userData, value);
                         }).then((value)=> {
-                            return helper.handleSaveToCache(component, helper, key, value);
+                            return this.handleSaveToCache(key, value);
                         }).then((function (value) {
-                            masterResolve(value);
+                            resolve(value);
                         })).catch((error)=> {
                             console.log(error);
-                            masterReject({
+                            reject({
                                 'title': this.label.B2B_Error_Problem_Loading,
                                 'body': this.label.B2B_Problem_accounts,
                                 'noReload': false
@@ -271,7 +278,7 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
                     
                 }).catch((error)=> {
                     console.log(error);
-                    masterReject({
+                    reject({
                         'title': this.label.B2B_Error_Problem_Loading,
                         'body': this.label.B2B_Problem_accounts,
                         'noReload': false
@@ -348,22 +355,44 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
     }
 
 
-    callToAccountsWithAttributions(userData, transferType) {
-        return new Promise((function (masterResolve, masterReject) {
+    /*callToAccountsWithAttributions(userData, transferType) {
+        return new Promise(function (resolve, reject) {
             this.getRawAccountsFiltered(userData).then((function (value) {
-                return this.callToAccountsWithAttributionsParams(component, {'userData': userData, 'transferType': transferType , 'globalPositionAccounts': value})
+                //return this.callToAccountsWithAttributionsParams({'userData': userData, 'transferType': transferType , 'globalPositionAccounts': value})
+                return this.callToAccountsWithAttributionsParams(userData, transferType ,value)
                 .then((function (value) {
-                    masterResolve(value);
+                    resolve(value);
                 })).catch((function (error) {
                     console.log(error);
-                    masterReject({
+                    reject({
                         'title': this.label.B2B_Error_Problem_Loading,
                         'body': this.label.B2B_Problem_accounts,
                         'noReload': false
                     });
                 }));
-            }));
-        }),this);
+            }.bind(this)));
+        }.bind(this));
+    }*/
+
+
+    
+    callToAccountsWithAttributions(userData, transferType) {
+        return new Promise((resolve, reject) => {
+            this.getRawAccountsFiltered(userData)
+            .then(value => {
+                return this.callToAccountsWithAttributionsParams(userData, transferType ,value)  
+            })
+            .then(value => {
+                resolve(value);
+            }).catch(errors => {
+                console.log('Error message: ' + errors);
+                reject({
+                    'title': this.label.B2B_Error_Problem_Loading,
+                    'body': this.label.B2B_Problem_accounts,
+                    'noReload': false
+                });
+            });
+        }, this);           
     }
 
     getRawAccountsFiltered(userData) {
@@ -374,7 +403,7 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
             let key = 'AccountsToList';
             this.handleRetrieveFromCache(key)
             .then( (value) => {
-                if (value) {
+                if (value != undefined && value != null) {
                     resolve(value);
                 } else {
                     console.log('getAccountsToList(userData) ::: userData: ' + JSON.stringify(userData));
@@ -480,11 +509,13 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
         }.bind(this));
     }
 
-    callToAccountsWithAttributionsParams(params) {
-        console.log(params);
-        return new Promise((function (resolve, reject) {
+    callToAccountsWithAttributionsParams(userData, transferType ,value) {
+        return new Promise(function (resolve, reject) {
             callToAccountsWithAttributionsParent({
-                str : params
+                //str : parametros
+                'userData': userData, 
+                'transferType': transferType , 
+                'globalPositionAccounts': value
             })
             .then( response => {
                 let stateRV = response;
@@ -498,12 +529,12 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
                 console.log('### lwc_paymentsMethodGrid ### callToAccountsWithAttributionsParams() ::: Catch error: ' + JSON.stringify(error));
                 reject('REJECT');
             })
-        }), this);
+        }.bind(this));
         
     }
 
     filterAccountsToB2BOriginByCountryAndCurrency(userData, accountList){
-        return new Promise((function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
             filterAccountsByCountryAndCurrency({
                 'userData': userData,
                 'accountList': accountList
@@ -520,7 +551,7 @@ export default class Lwc_paymentsMethodGrid extends NavigationMixin(LightningEle
                 console.log('### lwc_paymentsMethodGrid ### filterAccountsToB2BOriginByCountryAndCurrency() ::: Catch error: ' + JSON.stringify(error));
                 reject('REJECT');
             })
-        }), this);
+        }.bind(this));
     
     }
 }

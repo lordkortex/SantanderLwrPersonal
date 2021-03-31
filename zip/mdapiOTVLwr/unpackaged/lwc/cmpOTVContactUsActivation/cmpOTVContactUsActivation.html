@@ -1,0 +1,243 @@
+<template>
+    <div if:true={showModal} >
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container scroll sizeM">  
+            <div class="modal-content">
+                
+                <!-- MODAL HEADER -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close"  onclick={closeModal}>
+                        <div class="icon-close_big"></div> 
+                        <span class="slds-assistive-text">{label.cmpOTVContactUsActivation_1}</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.cmpOTVContactUsActivation_2}</h2> 
+                </header>
+                
+                <!-- MODAL CONTENT -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    
+                    <!-- TOPIC -->
+                    <div class="topic-report">
+                        <h3>{label.cmpOTVContactUsActivation_3}</h3>
+                
+                        <!-- DROPDOWN -->
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-2">
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class="slds-form-element dropdown">
+                                    <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVContactUsActivation_4}</label>
+                                    
+                                    <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                            
+                                            <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                                            <button class="slds-button button-order" aria-haspopup="true">
+                                                
+                                                <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por
+                                                selectedValue-filled -->
+                                                <div class="slds-border_right selectedValue-filled">{selectedTopic}</div>
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <div class="slds-button__icon arrow" aria-hidden="true">
+                                                    <div class="button-arrow icon-arrowDown_small"></div>
+                                                    <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                                                    <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                                                    <div class="button-arrow icon-arrowUp_small"></div>
+                                                </div>
+                                                <span class="slds-assistive-text"></span>
+                                                
+                                            </button>
+                                            
+                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                            <!-- <div class="slds-form-element__help">Texto de ayuda</div> -->
+                                            
+                                            <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá
+                                            un mensaje de error -->
+                                            <div class="errorText">{label.cmpOTVContactUsActivation_6}</div>
+                                        </div>
+                                        
+                                        <!-- Cuando el button esté disabled el dropdown se oculta -->
+                                        <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                                            <ul class="slds-dropdown__list" role="menu" aria-label={helpTextDropdown}>
+                                                <div for:each={value} for:item="item" key={item} >
+                                                    <li class="slds-dropdown__item" role="presentation" id={item} data-id="slds-dropdown__item">
+                                                        <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                            <div class="slds-truncate optionOrder" onclick={selectTopic}>{item}</div>
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div> 
+                            <div class="slds-col slds-size_1-of-2">
+                                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                                <div class="slds-form-element dropdown">
+                                    <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVContactUsActivation_7}</label>
+                                    
+                                    <div class="slds-combobox slds-dropdown-trigger" aria-expanded="true" aria-haspopup="dialog" role="combobox">
+                                        <div class="slds-dropdown-trigger slds-dropdown-trigger_click">
+                                            
+                                            <!-- Cuando el button esté disabled se le añade disabled="true" y la label anterior debe estar oculta -->
+                                            <button class="slds-button button-order" aria-haspopup="true">
+                                                
+                                                <!-- Cuando se seleccione un valor del dropdown hay que cambiar la clase selectedValue-placeholder por
+                                                selectedValue-filled -->
+                                                <div class="slds-border_right selectedValue-filled">{selectedIssue}</div>
+                                                
+                                                <!-- Icono que aparecerá cuando este disabled -->
+                                                <div class="slds-button__icon disabled" aria-hidden="true">
+                                                    <div class="button icon-prohibited"></div>
+                                                </div>
+                                                
+                                                <div class="slds-button__icon arrow" aria-hidden="true">
+                                                    <div class="button-arrow icon-arrowDown_small"></div>
+                                                    <!-- Cuando el dropdown está en el ESTADO 3, el icono icon-arrowDown_small cambia por icon-arrowUp_small: -->
+                                                    <!-- Comentar la línea de código anterior y descomentar la siguiente: -->
+                                                    <div class="button-arrow icon-arrowUp_small"></div>
+                                                </div>
+                                                <span class="slds-assistive-text"></span>
+                                                
+                                            </button>
+                                            
+                                            <!-- Añadir en el caso en el que se necesite texto de ayuda-->
+                                            <!-- <div class="slds-form-element__help">Texto de ayuda</div> -->
+                                            
+                                            <!-- Cuando la cifra introducida por el usuario no sea correcta saldrá
+                                            un mensaje de error -->
+                                            <div class="errorText">{label.cmpOTVContactUsActivation_9}</div>
+                                        </div>
+                                        
+                                        <!-- Cuando el button esté disabled el dropdown se oculta -->
+                                        <div class="slds-dropdown slds-dropdown_left dropdownOrder">
+                                            <ul class="slds-dropdown__list" role="menu" aria-label={helpTextDropdown}>
+                                                <div for:each={values2} for:item="item" key={item} >
+                                                    <li class="slds-dropdown__item" role="presentation" id={item} data-id="slds-dropdown__item">
+                                                        <a role="menuitemcheckbox" tabindex="0" aria-checked="true">
+                                                            <div class="slds-truncate optionOrder" onclick={selectIssue}>{item}</div>
+                                                        </a>
+                                                    </li>
+                                                </div>
+                                            </ul>
+                                        </div>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    
+                    <!-- FORM -->
+                    <div class="form-details">
+                        <h3>{label.cmpOTVContactUsActivation_10}</h3>
+                        <p>{label.cmpOTVContactUsActivation_11}</p>
+                            <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                            <div class="slds-form-element textarea">
+                                <!-- ESTADO 1: (Hasta que no se empieza a escribir | ENABLE): No aparece el icono icon-close_filledCircle: eliminar el <button></button>-->
+                                <!-- ESTADO 2: (Se activa, se empieza a escribir | FILLED): Aparece el icono icon-close_filledCircle. Siempre que se escriba algo, aparecera este icono para poder borrarlo -->
+                                <!-- ESTABLECER UN MÁXIMO DE 350 CARACTERES -->
+                                
+                                <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                                <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVContactUsActivation_12}</label>
+                                
+                                <div class="slds-form-element__control">
+                                    
+                                    <!-- Cuando el input esté disabled se le añade disabled="true" -->
+                                    <textarea id="textarea-id-01" class="slds-textarea" placeholder="Do you want to add something?" onkeyup={handleDescription}></textarea>
+                                    
+                                    <!-- Icono que aparecerá cuando este disabled -->
+                                    <div class="slds-button__icon disabled" aria-hidden="true">
+                                        <div class="button icon-prohibited"></div>
+                                    </div>
+                                    
+                                    <button class="slds-button slds-button_icon">
+                                        <div class="slds-button__icon icon-close_filledCircle"></div>
+                                        <span class="slds-assistive-text">{label.cmpOTVContactUsActivation_13}</span>
+                                    </button>
+                                </div>
+                                
+                                <!--<div class="slds-form-element__help">{label.cmpOTVContactUsActivation_14}</div>-->
+                                <div class="errorText">{label.cmpOTVContactUsActivation_9}</div>
+                            </div>
+                    </div>
+                    
+                    <!-- ATTACHMENT -->
+                    <!-- Añadir al siguiente div la clase uploaded-file cuando el archivo se haya cargado correctamente -->
+                    <div class="attachment">
+                        <h3>{label.cmpOTVContactUsActivation_15}</h3>
+                        
+                        <!-- DRAG AND DROP -->
+                        <div>
+                                <!-- Añadir la clase slds-drop-zone_drag cuando se arrastre un archivo -->
+                                <!-- Añadir la clase loading-file cuando se esté cargando el archivo -->
+                                <div class="slds-drop-zone drag-and-drop_container">
+                                    
+                                    <div class="slds-grid">
+                                        <div class="slds-grid">
+                                            <span class="icon icon-upload"></span>
+                                            <span class="slds-text-heading_small">{uploadedFile}</span>
+                                        </div>
+                                        <input type="file" data-id="real-file" hidden="hidden" onchange={uploadedFiles}/>
+                                        <button class="slds-button button_full button_small secondary" id="custom-button" onclick={attachFile}>{label.cmpOTVContactUsActivation_17}</button>
+                                    </div>
+                                    
+                                    <!-- Este div sólo se mostrará cuando el contenedor principal tenga la clase loading-file -->
+                                    <div class="slds-grid">
+                                        <div role="status" class="slds-spinner">
+                                            <img src="loader" alt="Loading..."></img>
+                                        </div>
+                                        <span class="slds-text-heading_small spinner-text">{label.cmpOTVContactUsActivation_18}<span class="file-name">[file name]</span></span>
+                                    </div>
+                                    
+                                </div>
+        
+                        </div>
+                        
+                        <!-- SUCCESS ALERT -->
+                        <!-- añadir la clase toast_static para evitar que el toast flote en medio de la pantalla -->
+                        <div class="slds-notify_container slds-is-fixed toast_static">
+                            <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                            <div class="slds-notify slds-notify_toast slds-theme_success action slds-scrollable_y" role="status">
+                                <span class="slds-assistive-text">{label.cmpOTVContactUsActivation_19}</span>
+                                <span class="slds-icon_container slds-icon-utility-success  slds-m-right_small slds-no-flex slds-align-top  button-selected icon-check_circle" data-title="Success"></span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small">{label.cmpOTVContactUsActivation_20}</h2>
+                                    <p class="notifyText">Excel_document-list.xls</p>
+                                    <!-- ACTION BUTTON -->
+                                    <button class="slds-button slds-button_icon icon-remove">
+                                        <span class="action">{label.cmpOTVContactUsActivation_21}</span>
+                                    </button>
+                                    <!-- RELOAD BUTTON -->
+                                    <!--<button class="slds-button slds-button_icon icon-reload">
+                                            <span class="action">Reload</span>
+                                        </button>-->
+                                </div>
+                                <div class="slds-notify__close">
+                                    <button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close" onclick={closeModal}></button>
+                                </div>
+                            </div>
+                        </div> 
+                        
+                    </div>
+                </div>
+                
+                <!-- MODAL FOOTER -->
+                <div class="slds-modal__footer"> 
+                    <div class="modal-footer-buttons">
+                        <button class="slds-button primary button_small button_full" onclick={submitCase}>{label.cmpOTVContactUsActivation_22}</button>        
+                    </div> 
+                </div>
+            </div>
+            
+            </div>
+        </section>
+    </div>
+</template>

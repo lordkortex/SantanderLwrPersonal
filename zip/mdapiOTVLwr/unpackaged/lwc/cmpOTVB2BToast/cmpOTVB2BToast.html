@@ -1,0 +1,34 @@
+<template>
+    <div if:true={showToast}>
+        <div class="demo-only">
+            <!-- añadir la clase toast_static para evitar que el toast flote en medio de la pantalla -->
+            <div class={test}>
+                <!-- añadir la clase action en el siguiente div para mostrar el botón e icono de accion -->
+                <div class={test2} role="status">
+                    <span class="slds-assistive-text">{functionTypeText}</span>
+                    <span class={test3} data-title={functionTypeText}></span>
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small">{notificationTitle}</h2>
+                        <p class="notifyText">{bodyText}</p>
+                        <!-- ACTION BUTTON --> 
+                        <button class={test4} onclick={handleActionToast}>
+                            <span class="action">
+                                <div if:true={contionButton}>
+                                    <div if:true={conditionPaymentDetail}>
+                                        {Label.PAY_goToPaymentDetail}
+                                    </div>
+                                </div>
+                                <div if:false={contionButton}>
+                                        {Label.Reload}
+                                </div>
+                            </span>
+                        </button>
+                    </div>
+                    <div class="slds-notify__close">
+                        <button class="slds-button slds-button_icon icon-close_big" onclick={handleCloseToast}></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

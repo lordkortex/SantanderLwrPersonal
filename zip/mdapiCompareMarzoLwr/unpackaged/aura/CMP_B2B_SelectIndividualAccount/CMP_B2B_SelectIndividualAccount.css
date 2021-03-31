@@ -1,0 +1,291 @@
+.THIS.slds-grid{
+	margin-bottom: 0px;
+    width: 100%;
+}
+
+.THIS.slds-grid:nth-child(3){
+    justify-content: flex-end;
+}
+
+/* INPUT */
+.THIS .inputLookup {
+	width: 808px;
+} 
+
+.THIS .inputLookup .slds-combobox {
+    display: inline-block;
+    width: 100%;
+}
+
+.THIS .inputLookup .slds-button {
+	bottom: 0;
+    height: 24px;
+    margin: auto;
+    right: 16px;
+    top: 0;
+    width: 24px;
+}
+
+.THIS .inputLookup .slds-button__icon {
+    height: 24px;
+    margin: 0;
+    padding: 2px;
+    width: 24px;
+}
+
+.THIS .inputLookup .icon-close_filledCircle:before {
+    color: #cccccc;
+    font-size: 20px;
+}
+
+.THIS .inputLookup .slds-combobox__form-element {
+	height: 48px;
+}
+
+.THIS .inputLookup .slds-combobox__input:active,
+.THIS .inputLookup .slds-combobox__input:focus {
+    border-color: none;
+    box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+
+.THIS .inputLookup .slds-form-element__help {
+    color: #767676;
+	font-family: "SantanderMicroText";
+  	font-size: 14px;
+  	line-height: 20px;
+    margin-left: 16px;
+  	margin-top: 0;
+}
+
+.THIS .inputLookup .slds-form-element__label {
+    color: #767676;
+	font-family: "SantanderMicroText";
+    font-size: 12px;
+    left: 16px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+  	position: absolute;
+    top: 6px;	
+    z-index: 2;
+}
+
+.THIS .inputLookup .slds-form-element__label + .slds-combobox .slds-combobox__form-element .slds-input {
+    padding: 19px 44px 5px 16px;
+}
+
+.THIS .inputLookup .slds-input {
+    border: 1px solid #deedf2;
+    border-bottom: 1px solid #257fa4;
+    border-radius: 4px 4px 0 0;
+    color: #444444;
+    font-family: "SantanderMicroText";
+    font-size: 16px;
+    height: 48px;
+    padding: 0 44px 0 16px; 
+}
+
+/* SCROLLBAR */
+.THIS ::-webkit-input-placeholder { 
+    color: #767676;
+}
+
+.THIS :-moz-placeholder { 
+    color: #767676;
+}
+
+.THIS ::-moz-placeholder { 
+    color: #767676;
+}
+
+.THIS :-ms-input-placeholder { 
+   color: #767676;
+}
+
+.THIS :focus::-webkit-input-placeholder {
+    color: transparent;
+}
+
+/* ERROR INPUT */
+.THIS .error .inputLookup .slds-form-element__help { /* NUEVO */
+    display: none;
+}
+
+/*
+.THIS .inputLookup .slds-form-element__label + .slds-combobox .slds-combobox__form-element .slds-input {
+    padding: 19px 44px 5px 16px;
+}
+*/
+
+.THIS .error.inputLookup .errorText {
+    color: #cc0000;
+    font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0px;
+    margin-left: 16px;
+    /*display: none; Removed by Maria Iñigo */
+}
+
+/* NUEVO
+.THIS .error .helperText {
+    display: none;
+}
+*/ 
+
+.THIS .error .errorText {
+    display: block;
+}
+
+.THIS .error .slds-form-element__label{
+    color: #cc0000;
+}
+
+.THIS .error .slds-input {
+    border-bottom: 1px solid #cc0000;
+}
+.THIS .error .slds-combobox__form-element .slds-input:active,
+.THIS .error .slds-combobox__form-element .slds-input:focus {
+    box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+
+/* DISABLED INPUT */
+.THIS .inputLookup .slds-input[disabled] {
+    background-color: #ffffff;
+    border: solid 1px #cccccc;
+    border-bottom: solid 1px #9bc3d3;
+    color: #767676;
+}
+.THIS .inputLookup .slds-input[disabled] + .slds-button {
+    cursor: not-allowed;
+}
+
+.THIS .inputLookup .slds-input[disabled]:active, 
+.THIS .inputLookup .slds-input[disabled]:focus {
+    box-shadow: none;
+    border-bottom: solid 1px #9bc3d3;
+}
+
+/* DROPDOWN */
+.THIS .inputLookup .slds-box {
+    background-color: #ffffff;
+    border: 1px solid #cedee7;
+    border-radius: 2px;
+  	bottom: 0;
+  	height: 24px;
+    min-width: 40px;
+    padding: 0 8px;
+    right: 0;
+    top: 0;
+}
+
+.THIS .inputLookup .slds-box p {
+    color: #444444;
+  	font-family: "SantanderMicroText";
+  	font-size: 12px;
+  	line-height: 22px;
+  	text-align: center;
+}
+
+.THIS .inputLookup .slds-dropdown {
+	border: none;
+	border-radius: 0 0 4px 4px;
+    box-shadow: 2px 2px 6px 2px rgba(206, 214, 219, 0.4);
+    margin: 0;
+    padding: 0;
+    position: absolute; /*NUEVO*/
+    top: 48px; /*NUEVO*/
+    z-index: 1; /*NUEVO*/
+}
+.THIS .inputLookup .slds-dropdown .slds-listbox__option:hover {
+    cursor: pointer; 
+    /*cursor: auto; NUEVO*/
+}
+
+.THIS .inputLookup .slds-listbox li:hover {
+	box-shadow: 2px 2px 6px 2px rgba(206, 214, 219, 0.4);
+    transform: translate(0px, 0px);
+}
+
+.THIS .inputLookup .slds-listbox .slds-listbox__item:nth-of-type(2n) {
+    background-color: #f9fcfd;
+}
+
+.THIS .inputLookup .slds-listbox_vertical .slds-listbox__option:hover {
+	background-color: unset;
+    cursor: pointer;
+}
+
+.THIS .inputLookup .slds-listbox .slds-media {
+    align-items: initial;
+	min-height: 78px;
+}
+
+.THIS .inputLookup .slds-media {
+    align-items: center;
+    border-bottom: 1px solid #cedee7;
+	min-height: 53px;
+    padding: 16px;
+}
+
+.THIS .inputLookup .slds-media .slds-listbox__option-meta {
+    color: #444444;
+	font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+    margin: 0;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.THIS .inputLookup .slds-media .slds-listbox__option-text {
+    color: #444444;
+	font-family: "SantanderMicroText";
+    font-size: 14px;
+    line-height: 21px;
+}
+
+.THIS .inputLookup .slds-media .slds-listbox__option-text.bold {
+	font-family: "SantanderMicroText-Bd";
+    margin-bottom: 4px;
+}
+
+.THIS .inputLookup .slds-media .slds-listbox__option-text mark {
+	font-family: "SantanderMicroText-Bd";
+    margin: 0 4px;
+}
+
+
+/* BROWSE ACCOUNTS BUTONS */
+.THIS.align-button {
+    justify-content: flex-end;
+}
+
+.THIS.contentButtons {
+    margin-top: 24px;
+}
+
+/* ACCOUNT INFORMATION */
+.THIS.accountInformation {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+.THIS.accountInformation.sixAccounts {
+    margin-top: 0px;
+}
+
+.THIS.accountInformation .slds-text-title {
+    font-size: 18px;
+    line-height: 1.5;
+    font-family: "SantanderMicroText-Bd";
+    color: #444444;
+    margin-bottom: 16px;
+}
+
+.THIS.modal-container__firstStep .hidden, .THIS .accountInformation.hiddens {
+    display: none;
+}

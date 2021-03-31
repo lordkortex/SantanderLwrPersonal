@@ -1,0 +1,463 @@
+<template>
+	<!-- FULL SCREEN MODAL -->
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+        <div class="slds-modal__container"> 
+            <!-- MODAL HEADER -->
+            <!-- Añadir la clase oneStep en la etiqueta <header> cuando la barra de progreso tenga un único paso -->
+            <!-- Añadir la clase errorStep en la etiqueta <header> cuando se haya producido un error de sistema -->
+            <header class="slds-modal__header slds-is-fixed">
+                
+                 <div class="row slds-grid">
+					<div class="slds-col slds-size_1-of-3">
+                        <!-- BACK BUTTON -->
+                        <button class="slds-button button_link" onclick={goBack}> 
+                            <span class="icon-arrowLeft_big icon_left"></span>{label.back}
+                        </button>
+                    </div>
+                     
+                    <div class="slds-col slds-size_1-of-3">
+                        <img class="logo-red" src={logoSymbolRed}/>
+                        <h2  data-id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.Activation}</h2>
+                    </div>
+                     
+                     <div class="slds-col slds-size_1-of-3">
+                        <!-- CANCEL BUTTON -->
+                        <button class="slds-button button_link" onclick={goBack}> 
+                            {label.cancelProcess}<span class="icon-close icon_right"></span>
+                        </button>
+                     </div>
+                 </div>
+                
+                 <div class="row">
+                    <!-- PROGRESS BAR -->
+                    <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar">
+                        <span class="slds-progress-bar__value" style="width:50%">
+                        	<span class="slds-assistive-text">{label.progress}: 50%</span>
+                        </span>
+                    </div>
+                 </div> 
+            </header>
+           
+            <!-- MODAL CONTENT BR-->
+            <div class="slds-modal__content activation"  data-id="modal-content-id-1" if:true={isBR}>
+                
+                <!-- STEPPER -->
+                <div class="stepper">
+                    <div class="stepper_heading slds-grid"> 
+                        <div class="line slds-col"></div>
+                        <div class="step slds-col slds-grid">
+                            <div class="step_number"><span>1</span></div>
+                            <div class="step_title"><span>{label.cmpOTVTermsConditions_1}</span></div>
+                        </div>
+                        <div class="line slds-col"></div>
+                    </div>
+                    
+                    <div class="stepper_subtitle">
+                        <p class="step_subtitle">{label.cmpOTVTermsConditions_2}</p>
+                    </div> 
+                </div>
+                
+                <!-- CONTENT -->
+                <div class="slds-grid__content">  
+                    <div class="slds-grid__download">
+                        <button class="slds-button slds-truncate button_link" onclick={downloadPDF}>
+                            Download PDF file
+                            <span class="icon icon-download icon_right"></span>
+                        </button>
+                    </div>
+                    <div class="slds-grid__textFile">
+                        <div class="textFile">
+                            <h2 class="slds-text-heading">
+                                {label.cmpOTVTermsConditions_3}
+                            </h2>
+                            <div class="slds-text-body">
+                                <p>{label.cmpOTVTermsConditions_4}</p>
+                                <p>{label.cmpOTVTermsConditions_5}</p>
+                                <p class="text-bold">{label.cmpOTVTermsConditions_6}</p>
+                                <ul class="dashList">
+                                	<li>{label.cmpOTVTermsConditions_Owner}: Kacper Patrick.</li>
+                                    <li>{label.cmpOTVTermsConditions_Address}: 1835  Boundary Street.</li>
+                                    <li>{label.cmpOTVTermsConditions_VAT}: 349853920.</li>
+                                    <li>{label.cmpOTVTermsConditions_Public_Registry}: 2349 2399 1024 5883.</li>
+                                    <li>{label.cmpOTVTermsConditions_Email}: kpatrick@bamboocorpora.te</li>
+                                </ul>
+                                <p>{label.cmpOTVTermsConditions_7}</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+				</div>
+            </div>
+			    <!-- MODAL CONTENT PT-->
+            <div class="slds-modal__content activation"  data-id="modal-content-id-1" if:true={isPT}>
+                
+                <!-- STEPPER -->
+                <div class="stepper">
+                    <div class="stepper_heading slds-grid"> 
+                        <div class="line slds-col"></div>
+                        <div class="step slds-col slds-grid">
+                            <div class="step_number"><span>1</span></div>
+                            <div class="step_title"><span>{label.cmpOTVTermsConditions_1}</span></div>
+                        </div>
+                        <div class="line slds-col"></div>
+                    </div>
+                    
+                    <div class="stepper_subtitle">
+                        <p class="step_subtitle">{label.cmpOTVTermsConditions_2}</p>
+                    </div> 
+                </div>
+                
+                <!-- CONTENT -->
+                <div class="slds-grid__content">  
+                    <div class="slds-grid__download">
+                        <button class="slds-button slds-truncate button_link" onclick={downloadPDF}>
+                            Download PDF file
+                            <span class="icon icon-download icon_right"></span>
+                        </button>
+                    </div>
+                    <div class="slds-grid__textFile">
+                        <div class="textFile">
+                            <h2 class="slds-text-heading">
+                                {label.cmpOTVTermsConditions_3}
+                            </h2>
+                            <div class="slds-text-body">
+                                <p>{label.cmpOTVTermsConditions_4}</p>
+                                <p>{label.cmpOTVTermsConditions_5}</p>
+                                <p class="text-bold">{label.cmpOTVTermsConditions_6}</p>
+                                <ul class="dashList">
+                                	<li>{label.cmpOTVTermsConditions_Owner}: Kacper Patrick.</li>
+                                    <li>{label.cmpOTVTermsConditions_Address}: 1835  Boundary Street.</li>
+                                    <li>{label.cmpOTVTermsConditions_VAT}: 349853920.</li>
+                                    <li>{label.cmpOTVTermsConditions_Public_Registry}: 2349 2399 1024 5883.</li>
+                                    <li>{label.cmpOTVTermsConditions_Email}: kpatrick@bamboocorpora.te</li>
+                                </ul>
+                                <p>{label.cmpOTVTermsConditions_7}</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+				</div>
+            </div>
+			    <!-- MODAL CONTENT ES-->
+            <div class="slds-modal__content activation"  data-id="modal-content-id-1" if:true={isES}>
+                
+                <!-- STEPPER -->
+                <div class="stepper">
+                    <div class="stepper_heading slds-grid"> 
+                        <div class="line slds-col"></div>
+                        <div class="step slds-col slds-grid">
+                            <div class="step_number"><span>1</span></div>
+                            <div class="step_title"><span>{label.cmpOTVTermsConditions_1}</span></div>
+                        </div>
+                        <div class="line slds-col"></div>
+                    </div>
+                    
+                    <div class="stepper_subtitle">
+                        <p class="step_subtitle">{label.cmpOTVTermsConditions_2}</p>
+                    </div> 
+                </div>
+                
+                <!-- CONTENT -->
+                <div class="slds-grid__content">  
+                    <div class="slds-grid__download">
+                        <button class="slds-button slds-truncate button_link" onclick={downloadPDF}>
+                            Download PDF file
+                            <span class="icon icon-download icon_right"></span>
+                        </button>
+                    </div>
+                    <div class="slds-grid__textFile">
+                        <div class="textFile">
+                            <h2 class="slds-text-heading">
+                                {label.cmpOTVTermsConditions_3}
+                            </h2>
+                            <div class="slds-text-body">
+                                <p>{label.cmpOTVTermsConditions_4}</p>
+                                <p>{label.cmpOTVTermsConditions_5}</p>
+                                <p class="text-bold">{label.cmpOTVTermsConditions_6}</p>
+                                <ul class="dashList">
+                                	<li>{label.cmpOTVTermsConditions_Owner}: Kacper Patrick.</li>
+                                    <li>{label.cmpOTVTermsConditions_Address}: 1835  Boundary Street.</li>
+                                    <li>{label.cmpOTVTermsConditions_VAT}: 349853920.</li>
+                                    <li>{label.cmpOTVTermsConditions_Public_Registry}: 2349 2399 1024 5883.</li>
+                                    <li>{label.cmpOTVTermsConditions_Email}: kpatrick@bamboocorpora.te</li>
+                                </ul>
+                                <p>{label.cmpOTVTermsConditions_7}</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+				</div>
+            </div>
+			    <!-- MODAL CONTENT PL-->
+            <div class="slds-modal__content activation"  data-id="modal-content-id-1" if:true={isPL}>
+                
+                <!-- STEPPER -->
+                <div class="stepper">
+                    <div class="stepper_heading slds-grid"> 
+                        <div class="line slds-col"></div>
+                        <div class="step slds-col slds-grid">
+                            <div class="step_number"><span>1</span></div>
+                            <div class="step_title"><span>{label.cmpOTVTermsConditions_1}</span></div>
+                        </div>
+                        <div class="line slds-col"></div>
+                    </div>
+                    
+                    <div class="stepper_subtitle">
+                        <p class="step_subtitle">{label.cmpOTVTermsConditions_2}</p>
+                    </div> 
+                </div>
+                
+                <!-- CONTENT -->
+                <div class="slds-grid__content">  
+                    <div class="slds-grid__download">
+                        <button class="slds-button slds-truncate button_link" onclick={downloadPDF}>
+                            Download PDF file
+                            <span class="icon icon-download icon_right"></span>
+                        </button>
+                    </div>
+                    <div class="slds-grid__textFile">
+                        <div class="textFile">
+                            <h2 class="slds-text-heading">
+                                {label.cmpOTVTermsConditions_3}
+                            </h2>
+                            <div class="slds-text-body">
+                                <p>{label.cmpOTVTermsConditions_4}</p>
+                                <p>{label.cmpOTVTermsConditions_5}</p>
+                                <p class="text-bold">{label.cmpOTVTermsConditions_6}</p>
+                                <ul class="dashList">
+                                	<li>{label.cmpOTVTermsConditions_Owner}: Kacper Patrick.</li>
+                                    <li>{label.cmpOTVTermsConditions_Address}: 1835  Boundary Street.</li>
+                                    <li>{label.cmpOTVTermsConditions_VAT}: 349853920.</li>
+                                    <li>{label.cmpOTVTermsConditions_Public_Registry}: 2349 2399 1024 5883.</li>
+                                    <li>{label.cmpOTVTermsConditions_Email}: kpatrick@bamboocorpora.te</li>
+                                </ul>
+                                <p>{label.cmpOTVTermsConditions_7}</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+				</div>
+            </div>
+			    <!-- MODAL CONTENT CL-->
+            <div class="slds-modal__content activation"  data-id="modal-content-id-1" if:true={isCL}>
+                
+                <!-- STEPPER -->
+                <div class="stepper">
+                    <div class="stepper_heading slds-grid"> 
+                        <div class="line slds-col"></div>
+                        <div class="step slds-col slds-grid">
+                            <div class="step_number"><span>1</span></div>
+                            <div class="step_title"><span>{label.cmpOTVTermsConditions_1}</span></div>
+                        </div>
+                        <div class="line slds-col"></div>
+                    </div>
+                    
+                    <div class="stepper_subtitle">
+                        <p class="step_subtitle">{label.cmpOTVTermsConditions_2}</p>
+                    </div> 
+                </div>
+                
+                <!-- CONTENT -->
+                <div class="slds-grid__content">  
+                    <div class="slds-grid__download">
+                        <button class="slds-button slds-truncate button_link" onclick={downloadPDF}>
+                            Download PDF file
+                            <span class="icon icon-download icon_right"></span>
+                        </button>
+                    </div>
+                    <div class="slds-grid__textFile">
+                        <div class="textFile">
+                            <h2 class="slds-text-heading">
+                                {label.cmpOTVTermsConditions_3}
+                            </h2>
+                            <div class="slds-text-body">
+                                <p>{label.cmpOTVTermsConditions_4}</p>
+                                <p>{label.cmpOTVTermsConditions_5}</p>
+                                <p class="text-bold">{label.cmpOTVTermsConditions_6}</p>
+                                <ul class="dashList">
+                                	<li>{label.cmpOTVTermsConditions_Owner}: Kacper Patrick.</li>
+                                    <li>{label.cmpOTVTermsConditions_Address}: 1835  Boundary Street.</li>
+                                    <li>{label.cmpOTVTermsConditions_VAT}: 349853920.</li>
+                                    <li>{label.cmpOTVTermsConditions_Public_Registry}: 2349 2399 1024 5883.</li>
+                                    <li>{label.cmpOTVTermsConditions_Email}: kpatrick@bamboocorpora.te</li>
+                                </ul>
+                                <p>{label.cmpOTVTermsConditions_7}</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+				</div>
+            </div>
+			    <!-- MODAL CONTENT MX-->
+            <div class="slds-modal__content activation"  data-id="modal-content-id-1" if:true={isMX}>
+                
+                <!-- STEPPER -->
+                <div class="stepper">
+                    <div class="stepper_heading slds-grid"> 
+                        <div class="line slds-col"></div>
+                        <div class="step slds-col slds-grid">
+                            <div class="step_number"><span>1</span></div>
+                            <div class="step_title"><span>{label.cmpOTVTermsConditions_1}</span></div>
+                        </div>
+                        <div class="line slds-col"></div>
+                    </div>
+                    
+                    <div class="stepper_subtitle">
+                        <p class="step_subtitle">{label.cmpOTVTermsConditions_2}</p>
+                    </div> 
+                </div>
+                
+                <!-- CONTENT -->
+                <div class="slds-grid__content">  
+                    <div class="slds-grid__download">
+                        <button class="slds-button slds-truncate button_link" onclick={downloadPDF}>
+                            Download PDF file
+                            <span class="icon icon-download icon_right"></span>
+                        </button>
+                    </div>
+                    <div class="slds-grid__textFile">
+                        <div class="textFile">
+                            <h2 class="slds-text-heading">
+                                {label.cmpOTVTermsConditions_3}
+                            </h2>
+                            <div class="slds-text-body">
+                                <p>{label.cmpOTVTermsConditions_4}</p>
+                                <p>{label.cmpOTVTermsConditions_5}</p>
+                                <p class="text-bold">{label.cmpOTVTermsConditions_6}</p>
+                                <ul class="dashList">
+                                	<li>{label.cmpOTVTermsConditions_Owner}: Kacper Patrick.</li>
+                                    <li>{label.cmpOTVTermsConditions_Address}: 1835  Boundary Street.</li>
+                                    <li>{label.cmpOTVTermsConditions_VAT}: 349853920.</li>
+                                    <li>{label.cmpOTVTermsConditions_Public_Registry}: 2349 2399 1024 5883.</li>
+                                    <li>{label.cmpOTVTermsConditions_Email}: kpatrick@bamboocorpora.te</li>
+                                </ul>
+                                <p>{label.cmpOTVTermsConditions_7}</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+				</div>
+            </div>
+			    <!-- MODAL CONTENT GB-->
+            <div class="slds-modal__content activation"  data-id="modal-content-id-1" if:true={isGB}>
+                
+                <!-- STEPPER -->
+                <div class="stepper">
+                    <div class="stepper_heading slds-grid"> 
+                        <div class="line slds-col"></div>
+                        <div class="step slds-col slds-grid">
+                            <div class="step_number"><span>1</span></div>
+                            <div class="step_title"><span>{label.cmpOTVTermsConditions_1}</span></div>
+                        </div>
+                        <div class="line slds-col"></div>
+                    </div>
+                    
+                    <div class="stepper_subtitle">
+                        <p class="step_subtitle">{label.cmpOTVTermsConditions_2}</p>
+                    </div> 
+                </div>
+                
+                <!-- CONTENT -->
+                <div class="slds-grid__content">  
+                    <div class="slds-grid__download">
+                        <button class="slds-button slds-truncate button_link" onclick={downloadPDF}>
+                            Download PDF file
+                            <span class="icon icon-download icon_right"></span>
+                        </button>
+                    </div>
+                    <div class="slds-grid__textFile">
+                        <div class="textFile">
+                            <h2 class="slds-text-heading">
+                                {label.cmpOTVTermsConditions_3}
+                            </h2>
+                            <div class="slds-text-body">
+                                <p>{label.cmpOTVTermsConditions_4}</p>
+                                <p>{label.cmpOTVTermsConditions_5}</p>
+                                <p class="text-bold">{label.cmpOTVTermsConditions_6}</p>
+                                <ul class="dashList">
+                                	<li>{label.cmpOTVTermsConditions_Owner}: Kacper Patrick.</li>
+                                    <li>{label.cmpOTVTermsConditions_Address}: 1835  Boundary Street.</li>
+                                    <li>{label.cmpOTVTermsConditions_VAT}: 349853920.</li>
+                                    <li>{label.cmpOTVTermsConditions_Public_Registry}: 2349 2399 1024 5883.</li>
+                                    <li>{label.cmpOTVTermsConditions_Email}: kpatrick@bamboocorpora.te</li>
+                                </ul>
+                                <p>{label.cmpOTVTermsConditions_7}</p>
+                            </div>
+                        </div>
+                    </div>
+                   
+				</div>
+            </div>
+            
+            <!-- MODAL FOOTER -->
+			<footer class="slds-modal__footer">
+                
+                <!-- CARD AUTHORIZATION STICKY -->
+                <!-- Eliminar la clase card_buttons para mostrar la card-->
+                <!-- Añadir la clase error cuando el tiempo para autorizar el pago haya expirado -->
+                <!-- Añadir la clase local para mostrar la card de autorización local -->
+                <article class="cardAuthorization card_buttons slds-card" data-id ="appGlobalID">
+                    
+                    <!-- CARD HEADER -->
+                    <div class="slds-card__header slds-grid">
+                        
+                        <!-- Header que se muestra por defecto -->
+                        <header class="slds-media slds-has-flexi-truncate">
+                            <div class="slds-media__body">
+                                <div class="card_icon">
+                                    <!-- IMAGEN ID APP -->
+                                    <img class="app_icon" src={id} onclick={goCompletedTerms}/>
+                                    <!-- IMAGEN LOCAL -->
+                            		<div class="icon-signature-pending"></div>
+                                </div>
+                                <h2 class="slds-card__header-title slds-truncate">{label.cmpOTVTermsConditions_8}</h2>
+                                <h2 class="slds-card__header-title slds-truncate">{label.cmpOTVTermsConditions_9}</h2>
+                                <span class="card_subtitle">{label.cmpOTVTermsConditions_10} <button class="slds-button button_link">{label.cmpOTVTermsConditions_11}</button> </span>
+                            </div>
+                        </header>
+                        
+                        <!-- Header que se muestra cuando hay un error porque el tiempo se ha agotado -->  
+                        <header class="slds-media slds-has-flexi-truncate">
+                            <div class="slds-media__body">
+                                <div class="card_icon">
+                                    <!-- IMAGEN ERROR -->
+                                    <img class="error_icon" src={alert}/>
+                                </div>
+                                <h2 class="slds-card__header-title slds-truncate">{label.cmpOTVTermsConditions_12}</h2>
+                                <span class="card_subtitle">{label.cmpOTVTermsConditions_13} <button class="slds-button button_link">{label.cmpOTVTermsConditions_14}</button> </span>
+                            </div>
+                        </header>
+                        
+                    </div>
+                    
+                    <!-- DIVISION LINE -->        
+                    <div class="card-line"></div>
+                    
+                    <!-- CARD BODY -->
+                    <!-- Enlace que se ocultara cuando se produzca un error -->
+                    <div class="slds-card__body">
+                        <button class="slds-button button_link" onclick={goSignedApp}>{label.cmpOTVTermsConditions_15}<span class="icon_right icon-reload"></span></button>
+                    </div>
+                    
+                    
+                    <!-- CARD FOOTER -->
+                    <!-- Footer por defecto. Se ocultará cuando se pulse el botón Accept-->
+                    <footer class="slds-card__footer">
+                        <button class="slds-button primary button_small button_full" onclick={goSignedApp}>{label.cmpOTVTermsConditions_Accept}</button>
+                        <button class="slds-button secondary button_small button_full" onclick={goBack}>{label.back}</button>
+                    </footer>
+                    
+                </article> 
+                
+                    <!-- SUPPORT CENTER -->
+                    <div class="slds-grid__contact">
+                        <div class="quickButtons">
+                            <button class="slds-button primary quickButton_icon"><span class="icon icon-phone-support"></span></button>
+                            <button class="slds-button primary quickButton_icon_text" onclick={goSupportCenter}>Support center<span class="icon icon-phone-support"></span></button>
+                        </div>
+                    </div>
+            </footer>
+        </div>
+    </section> 
+    <div class="slds-backdrop slds-backdrop_open"></div> 
+</template>

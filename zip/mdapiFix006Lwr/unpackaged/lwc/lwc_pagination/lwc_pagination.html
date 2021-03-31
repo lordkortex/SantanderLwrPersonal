@@ -1,0 +1,75 @@
+<template>
+
+    <!-- <aura:registerEvent name="getPageEvent" type="c:EVT_SwiftPaymentTablePagination" /> -->
+
+    <!-- <aura:handler name="change" value="{!v.dropdownCurrentPage}" action="{!c.selectedCurrentPage}"/>
+
+    <aura:handler name="change" value="{!v.currentPage}" action="{!c.buildData}"/> -->
+
+    <div class="slds-card__header slds-grid pagination">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+            <div class="slds-media__body">
+                <div class="slds-card__header-title results">
+                    <template if:true={pageListLength}>
+                        {showingResults}
+                    </template>
+
+                    <template if:false={pageListLength}>
+                        {showingResults2}
+                    </template>
+                </div>
+            </div>
+
+            <div class="label">
+                {label.goToPage}
+            </div>
+
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container paginationDropdown">
+                    <c-lwc_dropdown 
+                        data-id="paginationDropdown" 
+                        issimpledropdown 
+                        values={pageList} 
+                        selectedvalue={dropdownCurrentPage}
+                        ondropdownvalueselected={handleValueSelected}
+                    >
+                    </c-lwc_dropdown>
+                </div>
+            </div>
+
+            <div class="navigationPage">
+                <template if:true={getCurrentPage}>
+                    <div class="button-pageLeft icon-left" title={label.previousPage} onclick={previousPage}></div>
+                </template>
+                <template if:true={pageListLengthGreaterThan}>
+                    <div class="number__gray">1</div>
+                    <template if:true={getCurrentPageGreaterTwo}>
+                        <div class="number__gray">...</div>
+                    </template>
+                </template>
+
+                <template for:each={iterationPageList} for:item='item'>
+                    <span key={item.Id} class="span__align">
+                        <template if:true={item.iscurrerntpage}>
+                            <div class="number__black">{item.value}</div>
+                        </template>
+                        <template if:false={item.iscurrerntpage}>
+                            <div class="number__gray">{item.value}</div>
+                        </template>
+                    </span>
+                </template>
+
+                <template if:true={getPage}>
+                    <template if:true={lastPage}>
+                        <div class="number__gray">...</div>
+                    </template>
+                    <div class="number__gray">{pageList.length}</div>
+                </template>
+
+                <template if:true={getcurrentPageInt}>
+                    <div class="button-pageRight icon-right" title={label.nextPage} onclick={nextPage}></div>
+                </template>
+            </div>
+        </header>
+    </div>
+</template>

@@ -1,0 +1,94 @@
+<aura:component controller="CNT_B2B_Process" implements="forceCommunity:availableForAllPageTypes" extends="c:CMP_PaymentsLoadUserAccounts" access="global">
+    <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+    <aura:attribute access="private" type="Map"     name="paymentDetails"         default="{}" />
+    <aura:attribute access="private" type="List"    name="accountListDestination" default="[]"                          description="List of available destinationaccounts" />
+    <aura:attribute access="private" type="List"    name="accountListOrigin"      default="[]"                          description="List of available origin accounts." />
+    <aura:attribute access="private" type="String"  name="headerLabel"            default="{!$Label.c.instantTransfer}" description="Header label" />
+    <aura:attribute access="public"  type="Map"     name="dataPaymentInformation" default="{}"                          description="Data of other information step." />
+    <aura:attribute access="public"  type="Map"     name="dataSelectOrigin"       default="{}"                          description="Data of origin account step." />
+    <aura:attribute access="public"  type="Map"     name="dataSelectDestination"  default="{}"                          description="Data of destiny account step." />
+    <aura:attribute access="public"  type="Map"     name="dataSelectAmount"       default="{}"                          description="Data of amount step." />
+    <aura:attribute access="private" type="Map"     name="steps"                  default="{}"                          description="Data of the steps." />
+    <aura:attribute access="private" type="Boolean" name="spinner"                default="true" />
+    <aura:attribute access="public"  type="List"    name="paymentData"            default="[]" />
+    <aura:attribute access="public"  type="Map"     name="userData"               default="{}"                          description="User data." />
+    <aura:attribute access="private" type="Map"     name="accountData"            default="{}"                          description="Account data." />
+    <aura:attribute access="public"  type="Map"     name="signLevel"              default="{}" />
+    <aura:attribute access="private" type="String"  name="lastCode"                                                     description="Last used companyId." />
+    
+    <aura:attribute access="public"  type="String"  name="paymentId"              default=""                            description="ID of the current payment." />
+    <aura:attribute access="public"  type="Boolean" name="reload"                 default="false"                       description="Indicates if the conection with the service should be retried." />
+    <aura:attribute access="public"  type="Boolean" name="isEditingProcess"       default="false"                       description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+    <aura:attribute access="public"  type="Boolean" name="isEditing"              default="false"                       description="Indicates if the user is editing an existing payment so field should not be reset on initialisation." />
+ 	<aura:attribute access="public"  type="Map"     name="expensesAccount"        default="{}"                          description="Selected expenses account." />
+    <aura:attribute access="public"  type="Boolean" name="showErrorScreen"        default="false"                       description="Show error screen if service failure on loading step 1." />
+	<aura:attribute access="private" type="Boolean" name="isReuse"                default="false" />
+     
+    <aura:handler name="init"           action="{!c.initComponent}"                value="{!this}" />
+    <aura:handler name="completeStep"   action="{!c.handleCompleteStep}"           event="c:EVT_B2B_CompleteStep" />
+    <aura:handler name="reloadAccounts" action="{!c.handleReloadRetrieveAccounts}" event="c:EVT_B2B_ReloadGetData" />
+
+    <lightning:navigation aura:id="navService"/>
+
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="headerModal" aria-modal="true" aria-describedby="contentModal">
+        <aura:if isTrue="{!v.spinner eq true}">
+            <lightning:spinner alternativeText="{!$Label.c.Loading}" size="medium" />
+        </aura:if>
+
+        <div class="slds-modal__container process">
+            <c:CMP_B2B_ProcessHeader steps="{!v.steps}" hasBackButton="{!and(v.steps.focusStep gt 1, v.steps.focusStep le v.steps.totalSteps)}" headerLabel="{!v.headerLabel}" handleBack="{!c.handleBack}" paymentId="{!v.paymentId}" spinner="{!v.spinner}" />
+            <div id="topFind" tabindex="-1"/>
+            <div class="slds-modal__content" id="contentModal">
+                <div class="slds-is-relative">
+                    <div class="slds-grid__content">
+                        <aura:if isTrue="{!v.showErrorScreen}">
+                    		<c:lwc_modalSystemError ongoToLanding="{!c.goToLanding}" ongoToHelp="{!c.goToHelp}"/>
+							<aura:set attribute="else">
+                                <aura:if isTrue="{!v.steps.focusStep ge 5}">
+                                    <c:CMP_B2B_PaymentSummary
+                                        aura:id="paymentSummary"
+                                        dataSelectOrigin="{!v.dataSelectOrigin}"
+                                        dataSelectDestination="{!v.dataSelectDestination}"
+                                        dataSelectAmount="{!v.dataSelectAmount}"
+                                        dataPaymentInformation="{!v.dataPaymentInformation}"
+                                        userData="{!v.userData}"
+                                        accountData="{!v.accountData}"
+                                        handleBack="{!c.handleBack}"
+                                        paymentId="{!v.paymentId}"
+                                        signLevel="{!v.signLevel}"
+                                        expensesAccount="{!v.expensesAccount}" />
+                                </aura:if>
+                                <aura:if isTrue="{!v.steps.focusStep le 4}">
+                                    <aura:if isTrue="{!v.steps.shownStep ge 1}">
+                                        <div class="first-step">
+                                          <c:CMP_B2B_SelectOrigin aura:id="selectOrigin" steps="{!v.steps}" accountData="{!v.accountData}" userData="{!v.userData}" accountList="{!v.accountListOrigin}" data="{!v.dataSelectOrigin}" handleContinue="{!c.handleContinue}" reload="{!v.reload}" isEditing="{!v.isEditing}" expensesAccount="{!v.expensesAccount}" />
+                                        </div>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.steps.shownStep ge 2}">
+                                        <div class="separation-line"></div>
+                                        <c:CMP_B2B_SelectDestination aura:id="selectDestination" accountData="{!v.accountData}" userData="{!v.userData}" accountList="{!v.accountListDestination}" data="{!v.dataSelectDestination}" sourceAccountData="{!v.dataSelectOrigin}" paymentId="{!v.paymentId}" steps="{!v.steps}" handleContinue="{!c.handleContinue}" reload="{!v.reload}" isEditing="{!v.isEditing}" expensesAccount="{!v.expensesAccount}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.steps.shownStep ge 3}">
+                                        <div class="separation-line"></div>
+                                        <c:CMP_B2B_SelectAmount aura:id="selectAmount" accountData="{!v.accountData}" userData="{!v.userData}" steps="{!v.steps}"  data="{!v.dataSelectAmount}" sourceAccountData="{!v.dataSelectOrigin}" recipientAccountData="{!v.dataSelectDestination}" handleContinue="{!c.handleContinue}" paymentId="{!v.paymentId}" isEditing="{!v.isEditing}"/>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.steps.shownStep ge 4}">
+                                        <div class="separation-line"></div>
+                                        <c:CMP_B2B_PaymentInformation aura:id="paymentInformation" userData="{!v.userData}"  accountData="{!v.accountData}" steps="{!v.steps}"  data="{!v.dataPaymentInformation}" sourceAccountData="{!v.dataSelectOrigin}" recipientAccountData="{!v.dataSelectDestination}" amountChangeData="{!v.dataSelectAmount}" handleContinue="{!c.handleContinue}" isEditing="{!v.isEditing}" paymentId="{!v.paymentId}" signLevel="{!v.signLevel}" />                       
+                                    </aura:if>
+                                    <div class="no-border" id="endPage" tabindex="-1"> </div>
+                                </aura:if>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <c:CMP_B2B_Toast aura:id="errorToast" reload="{!v.reload}"/>
+        
+
+        <div id="bottomFind" tabindex="-1"/>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:component>
