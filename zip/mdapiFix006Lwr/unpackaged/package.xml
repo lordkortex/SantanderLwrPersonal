@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>BackFrontLWC</members>
+        <name>CustomApplication</name>
+    </types>
+    <types>
+        <members>originCountry</members>
+        <name>CustomLabel</name>
+    </types>
+    <types>
+        <members>International_Payments_Tracker_LWC</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>International_Payments_Tracker_LWC</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>lwc_backFrontGPITrackerSearch</members>
+        <members>lwc_backfrontGPITracker</members>
+        <members>lwc_bakcFrontGPITrackerTable</members>
+        <members>lwc_displayAmount</members>
+        <members>lwc_dropdown</members>
+        <members>lwc_pagination</members>
+        <members>lwc_searchPills</members>
+        <members>lwc_serviceComponent</members>
+        <members>lwc_swiftPaymentTableRow</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Lwc_Santander_Icons</members>
+        <name>StaticResource</name>
+    </types>
+    <version>51.0</version>
+</Package>

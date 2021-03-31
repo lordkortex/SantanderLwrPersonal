@@ -1,0 +1,230 @@
+.THIS .alignRight {
+  float: right;
+}
+
+.THIS .amountDecimals {
+  font-size: 10px;
+}
+
+.THIS .border {
+  border: 1px solid #ececec;
+}
+
+.THIS .button-orderLeft {
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.THIS .button-search {
+  cursor: pointer;
+  font-size: 24px;
+  padding: 4px;
+  height: 33px;
+  margin-left: 21px;
+}
+
+.THIS .number__black {
+  font-family: inherit !important;
+}
+.THIS .number__gray {
+  font-family: inherit !important;
+}
+.THIS .amountInteger {
+  font-family: inherit !important;
+}
+.THIS .amountDecimals {
+  font-family: inherit !important;
+}
+
+.THIS .button-orderRight {
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.THIS .button-page {
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.THIS .button-tracking {
+  margin-left: 4px;
+  font-size: 16px;
+}
+
+.THIS .circle {
+  font-size: 24px;
+}
+
+.THIS .colorHeader {
+  color: #444444;
+  /*height:1px;*/
+}
+
+.THIS .backgroundHeader {
+  background-color: #ececec;
+  display: flex;
+  align-items: center;
+}
+
+.THIS .containerIconDetail {
+  width: 72px;
+}
+
+.THIS .containerIconStatus {
+  width: 180px;
+}
+
+.THIS .containerStatus {
+  width: 70px;
+  /*padding-left: 8px;*/
+}
+
+.THIS .containerInstructed {
+  width: 153px;
+}
+.THIS .containerValueDate {
+  width: 139px;
+}
+
+.THIS .containerBenefName {
+  width: 192px;
+}
+.THIS .containerBenefBIC {
+  width: 140px;
+}
+.THIS .containerSettleAmount {
+  width: 150px;
+  justify-content: flex-end;
+}
+
+.THIS .fontBody {
+  color: #444444;
+  font-size: 12px;
+  margin-top: -30px;
+}
+
+.THIS .payment {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+}
+
+.THIS .shadow:hover,
+.THIS .shadow:focus {
+  background-color: #ececec;
+  box-shadow: none !important;
+}
+
+.THIS .shadow:focus:hover {
+  background-color: red;
+  box-shadow: none !important;
+}
+
+/*No coge estas clases ?????*/
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > td,
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > th,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n) > td,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n) > th {
+  background-color: #f9fcfd !important;
+}
+
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > td:hover,
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > th:hover {
+  background-color: #f9fcfd !important;
+}
+
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:hover > td,
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:hover > th {
+  background-color: #ffffff !important;
+}
+
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:nth-of-type(2n):hover > td,
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:nth-of-type(2n):hover > th {
+  background-color: #f9fcfd !important;
+}
+.THIS .slds-table--header-fixed_container::before {
+  content: "";
+  display: block;
+  position: relative;
+  width: 100%;
+  border-bottom: 0px solid rgb(212, 212, 212);
+}
+.THIS .status {
+  width: 57px;
+}
+
+.THIS td {
+  height: 34px;
+  padding: 0;
+}
+.THIS th {
+  padding: 0;
+}
+
+.THIS .textHeader {
+  font-size: 14px;
+
+  /*height: 20px;*/
+}
+
+.THIS .textTracking {
+  color: #ec0000;
+}
+
+/*
+* PRUEBAS PARA TOOLTIPS
+* 
+ * 
+.THIS .tooltip span{
+    display:none;
+}
+.THIS .tooltip:hover {
+    cursor: help;
+    position: relative;
+}
+
+.THIS .tooltip:hover span{
+     border: #c0c0c0 1px dotted;
+    padding: 5px 20px 5px 5px;
+    display: block;
+    z-index: 100;
+    background: url(../images/status-info.png) #f0f0f0 no-repeat 100% 5%;
+    left: 0px;
+    margin: 10px;
+    width: 250px;
+    position: absolute;
+    top: 10px;
+    text-decoration: none;
+}
+*/
+/*  SCROLLBAR PARA DROPDOWN PARA CHROME */
+
+.THIS .slds-table--header-fixed_container {
+  height: 363px;
+  position: relative;
+  padding-top: 2rem;
+  background-color: #ececec;
+}
+
+/* width */
+.THIS div::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+.THIS div::-webkit-scrollbar-track {
+  /*box-shadow: inset 0 0 5px #dadada;*/
+  border-radius: 10px;
+}
+/*Track-piece*/
+.THIS div::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+
+/* Handle */
+.THIS div::-webkit-scrollbar-thumb {
+  background: #dadada;
+  border-radius: 10px;
+}

@@ -1,0 +1,225 @@
+<template>
+    <c-lwc_pagination alldata={receivedList} 
+                    paymentsperpage={paymentsPerPage} 
+                    data-id="pagination"
+                    ongetpageevent={buildData}>
+    </c-lwc_pagination>
+    <div style="position: relative !important;">
+    <lightning-spinner data-id="spinner" variant="brand" size="large" alternative-text={loading}></lightning-spinner>
+
+    <!-- TABLE -->  
+    <div class="slds-table--header-fixed_container">
+        <div class="slds-scrollable_y">
+            <table class="slds-table slds-table_fixed-layout  slds-table--header-fixed  slds-table_resizable-cols slds-table_striped" aria-multiselectable="true" role="grid"> 
+                <!-- HEADER -->  
+                <thead >
+                    <th class="slds-text-align_right header containerIconStatus " scope="col">
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerIconStatus"> </div>
+                    </th>
+                    <th class="slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_asc header colorHeader containerStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                        <span class="slds-assistive-text">{label.sortBy}</span>
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerStatus textHeader">
+                            <span class="slds-truncate">{label.status}</span>
+                            <span class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true"></span>
+                        </div>
+                        <span class="slds-assistive-text" aria-live="assertive" aria-atomic="true">{label.sortedAscending}</span>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-568" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="slds-text-align_right header containerTracking" scope="col">
+                        
+                    </th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Account Name" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{label.sortBy}</span>
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader">
+                            <span class="slds-truncate">{label.statusUpdate}</span>
+                            <span class="slds-icon slds-icon-text-default slds-is-sortable__icon " aria-hidden="true"></span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Account Name column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-569" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class=" slds-is-resizable slds-is-sortable header colorHeader containerOn" aria-label="Contact" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{label.sortBy}</span>
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerInstructed textHeader">
+                            <span class="slds-truncate">{label.orderingAccount}</span>
+                            <!--<aura:if isTrue="{!v.sortinstructed=='desc'}">
+                                    <span class="button-orderRight icon-orderDown__gray" title="{!$Label.c.sortByInstructedOn}"  id="instructed" onclick="{!c.sortBy}"></span>
+                                <aura:set attribute="else">
+                                    <span class="button-orderRight icon-orderUp__gray" title="{!$Label.c.sortByInstructedOn}"  id="instructed" onclick="{!c.sortBy}"></span>
+                                </aura:set>
+                            </aura:if>-->
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Close Date column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-570" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Stage" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{label.sortBy}</span>
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerValueDate textHeader">
+                            <span class="slds-truncate">{label.valueDate}</span>
+                            <template if:true={sortvalueDateDesc}>
+                                <span class="button-orderRight icon-orderDown" title={label.sortByValueDate}  id="valueDate" onclick={sortBy}></span>
+                            </template>
+                            <template if:false={sortvalueDateDesc}>
+                                <span class="button-orderRight icon-orderUp" title={label.sortByValueDate}  id="valueDate2" onclick={sortBy}></span>
+                            </template>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Stage column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-571" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Confidence" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{label.sortBy}</span>
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerBenefName textHeader">
+                            <span class="slds-truncate">{label.beneficiaryName}</span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Confidence column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-572" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="slds-is-resizable slds-is-sortable header colorHeader" aria-label="Amount" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">Sort by: </span>
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerBenefBIC textHeader">
+                            <span class="slds-truncate">{label.beneficiaryBIC}</span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Amount column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-573" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class=" slds-is-resizable slds-is-sortable header colorHeader" aria-label="Contact" aria-sort="none" scope="col">
+                        <span class="slds-assistive-text">{label.sortBy}</span>
+                        <div class="slds-truncate slds-cell-fixed backgroundHeader containerSettleAmount textHeader">  
+                            <template if:true={sortsettledAmountDesc}>
+                                    <span class="button-orderLeft icon-orderDown" title={label.sortBySettledAmount}  id="settledAmount" onclick={sortBy}></span>
+                            </template>
+                                
+                            <template if:false={sortsettledAmountDesc}>
+                                    <span class="button-orderLeft icon-orderUp" title={label.sortBySettledAmount} id="settledAmount2" onclick={sortBy}></span>
+                            </template>
+    
+                            <span class="slds-truncate">{label.settledAmount}</span>
+                        </div>
+                        <div class="slds-resizable">
+                            <input type="range" aria-label="Contact column width" class="slds-resizable__input slds-assistive-text" id="cell-resize-handle-574" max="1000" min="20" tabindex="0" />
+                        </div>
+                    </th>
+                    <th class="header colorHeader containerIconDetail" scope="col">
+                        <div class="slds-truncate slds-assistive-text">{label.actions}</div>
+                    </th>
+                </thead>
+
+                <tbody class="fontBody" >
+                    <template if:true={jsonArrayGreater0}>
+                        <template for:each={jsonArrayBetweenStartToEnd} for:item='item' for:index="index">
+                            <tr class="slds-hint-parent border" aria-selected="false" data-id="parentDetails" data-unique-id={item.index} key={item.index}>
+                                <td class="slds-text-align_center" role="gridcell">
+                                    <div class={item.statusClass}></div>
+                                </td>
+                                <th scope="row">
+                                    <div class="slds-truncate" >
+                                        <div class="status">{item.statusLabel}</div>
+                                    </div>
+                                </th>
+                                <th scope="row">
+                                    <div class="slds-truncate payment">
+                                        <div class="circle icon-tracking" data-unique-id={item.index} onclick={openPaymentDetails}></div>
+                                    </div>
+                                </th>
+                                <td role="gridcell">
+                                    <div class="slds-truncate">{item.paymentDetail.statusDate}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <template if:true={backfront}>
+                                        <div class="slds-truncate">{item.paymentDetail.originatorData.originatorAccount.accountId}</div>
+                                    </template>
+                                    <template if:false={backfront}>
+                                        <div class="slds-truncate">{item.paymentDetail.issueDate}</div>
+                                    </template>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate">{item.paymentDetail.valueDate}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate">{item.paymentDetail.beneficiaryData.beneficiaryName}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate">{item.paymentDetail.beneficiaryData.creditorAgent.agentCode}</div>
+                                </td>
+                                <td class="slds-text-align_right" role="gridcell">
+                                    <!-- <c-lwc_display-amount
+                                        fromgpi
+                                        numberformat={getNumberFormat}  
+                                        amount={getAmount} 
+                                        decimalclass="slds-truncate amountDecimals" 
+                                        wholeclass="slds-truncate amountInteger" 
+                                        currency={gettcurrency}>
+                                    </c-lwc_display-amount> -->
+                                    <template if:true={firstTimeDisplay}>
+                                        <c-lwc_display-amount
+                                            indexgpi={item.index}
+                                            fromgpi
+                                            numberformat={item.NumberFormat}  
+                                            amount={item.Amount} 
+                                            decimalclass="slds-truncate amountDecimals" 
+                                            wholeclass="slds-truncate amountInteger" 
+                                            currency={item.Currency}
+                                            ondisplayamount ={handleDisplayAmount}>
+                                        </c-lwc_display-amount>
+                                    </template> 
+                                    <template if:false={firstTimeDisplay}>
+                                        <div class="slds-truncate">{item.AmountFormated}</div>
+                                    </template>
+                                </td>
+                                <td class="slds-text-align_center" role="gridcell">   
+                                    <div class="button-arrow icon-arrowDown_big" title="See detail" onclick={showHideDetails} data-id="icon" data-unique-id={item.index}></div>
+                                </td> 
+                            </tr>
+                            <tr key={item.index}>
+                                <!--<div key={item.index} class="hidden widthCard" data-id="details" data-unique-id={item.index}>-->
+                                    <c-lwc_swift-payment-table-row 
+                                        data-unique-id={item.index}
+                                        data-id="details"
+                                        class="hidden" 
+                                        key={item.index} 
+                                        item={item} 
+                                        itemposition={item.index} 
+                                        backfront>
+                                    </c-lwc_swift-payment-table-row>
+                                <!--</div>-->
+                            </tr>
+                        </template>
+                    </template>
+                        
+                    <template if:false={jsonArrayGreater0}>
+                            <tr class="slds-hint-parent border" aria-selected="false" data-id="parentDetails">
+                                <td class="slds-text-align_center" role="gridcell">
+                                </td>
+                                <th scope="row">
+                                </th>
+                                <th scope="row">
+                                </th>
+                                <td role="gridcell">
+                                </td>
+                                <td role="gridcell">
+                                </td>
+                                <td role="gridcell" class="nodata">
+                                    <div class="slds-truncate" >{label.noData}</div>
+                                </td> 
+                                <td role="gridcell">
+                                </td>
+                                <td role="gridcell">
+                                </td>
+                                <td class="slds-text-align_right" role="gridcell">
+                                </td>
+                                <td class="slds-text-align_center" role="gridcell">   
+                                </td>
+                            </tr>   
+                    </template>
+                </tbody>
+            </table> 
+        </div>
+    </div>
+</div>
+</template>

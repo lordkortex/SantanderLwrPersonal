@@ -1,0 +1,137 @@
+<template>
+    <!-- Spinner -->
+    <div if:true={loading}>
+        <div class="spinnerclass">
+            <lightning-spinner 
+            variant="brand" 
+            size="large" >
+            </lightning-spinner>
+        </div>
+    </div>
+    <!-- FULL SCREEN -->
+    <div class="contentCompanyDetail" if:false={loading}>
+        <!-- SUCCESS -->
+        <!-- añadir la clase toast_static para evitar que el toast flote en medio de la pantalla -->
+        <div class="slds-notify_container slds-is-fixed" if:true={showToast}>
+			<div class="slds-notify slds-notify_toast slds-theme_success action slds-scrollable_y" role="status">
+				<span class="slds-assistive-text">success</span>
+              	<span class="slds-icon_container slds-icon-utility-success  slds-m-right_small slds-no-flex slds-align-top  button-selected icon-check_circle" data-title="Success"></span>
+              	<div class="slds-notify__content">
+                 	<h2 class="slds-text-heading_small">{label.cmpOTVCompanyDetail_9}</h2>
+        			<p class="notifyText">{label.cmpOTVCompanyDetail_10}</p>
+              	</div>
+              	<div class="slds-notify__close">
+                	<button class="slds-button slds-button_icon icon-close_big" data-title-top-right="Close" onclick={closeToast}></button>
+              	</div>
+            </div>
+        </div> 
+        <!-- HEADER -->
+        <div class="header_secondary__description">
+            <div class="slds-grid title_container">
+                <div class="slds-align_absolute-center">
+                    <div class="slds-col">
+                        <div class="slds-text-heading_medium">
+                            <div class="title">
+                                <button class="slds-button button_link"><span class="icon_left icon-arrowLeft_big"></span>{label.back}</button>
+                                <h2  class="slds-modal__title">{label.cmpOTVCompanyDetail_1}</h2> 
+                            </div>
+                        </div>
+                        <div class="text_line"></div>
+                        <!-- <div class="slds-text-heading_subtitle">
+                            <span>Lorem</span> ipsum dolor sit amet, consectetur adipiscing elit.
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="contentPag">
+                <!-- utilizar la clase unfolded para mostrar el detalle desplegado -->
+	<div class="companyDetail">
+        <!-- PAYMENT STATUS -->
+        <!-- Añadir la clase inactive al siguiente div -->
+    	<div class="paymentStatus">
+            <!-- TITLE -->
+            <div class="slds-card__header slds-grid containerInformation">
+                <div class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__body">
+                        <div class="slds-card__header-title separation">
+                            
+                            <div class="col-status">
+                                <div class="status-title">
+                                	<!-- IN PROGRESS -->
+                                    <!--<span class="status_inProgress">In Progress</span>-->
+                                    <!-- REJECTED -->
+                                    <!--<span class="status_rejected">Rejected</span>
+                  					<span class="status_rejected_subtitle">- Credit no confirmed</span>-->
+                                    <!-- ON HOLD -->
+                                    <!-- <span class="status_onHold">On hold</span>  -->
+                                    <!-- COMPLETED -->
+                                    <!--<span class="status_completed">Completed</span>-->
+                                    <!-- PENDING AUTHORIZATION -->
+                                    <!--<span class="status_pending">Bamboo Spain</span>-->
+                                    <span class="status_pending">{companyDetail.companyName}</span>
+                                </div>
+                                <!--<div class="subDate">Bamboo RBC S.L - CYK8908272</div>-->
+                                <div class="subDate">{companyDetail.companyDetail}</div>
+                                <span class="slds-badge badgeCompleted">Active</span>
+                                <span class="slds-badge badgeDraft">Inactive</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- PAYMENT INFORMATION -->
+        <div class="paymentInformation">
+            <table class="slds-table slds-table_cell-buffer slds-no-row-hover">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate ">{label.cmpOTVCompanyDetail_2}</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="body">
+                    <tr class="">
+                        <td data-label="Ordering account" scope="row">
+                            <div class="slds-truncate">{label.cmpOTVCompanyDetail_3}</div>
+                        </td>
+                        <td data-label="Beneficiary">
+                            <div class="slds-truncate">{label.cmpOTVCompanyDetail_4}</div>
+                        </td>
+                    </tr>
+                    <tr class="">
+                        <td data-label="Ordering account" scope="row">
+                            <!--<div class="slds-truncate">Spain</div>-->
+                            <div class="slds-truncate">{companyDetail.companyCountry}</div>
+                        </td>
+                        <td data-label="Beneficiary">
+                            <div class="slds-truncate" if:true={isCancelled}>{label.cmpOTVCompanyDetail_5}</div>
+                            <div class="slds-truncate" if:false={isCancelled}>{label.cmpOTVCompanyDetail_6}</div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- ACTIONS -->
+        <div class="actions">
+            <button class="slds-button secondary button_small button_full" onclick={cancelServiceModal} if:false={isCancelled}>{label.cmpOTVCompanyDetail_7}</button>
+            <button class="slds-button secondary button_small button_full" onclick={cancelServiceModal} if:true={isCancelled}>{label.cmpOTVCompanyDetail_8}</button>
+        </div>
+        <c-cmp-o-t-v-modal-remove if:true={showCancelModal} oncancelservice={cancelService} type2=true giveaccess={giveAccess} name={companyDetail.companyName}></c-cmp-o-t-v-modal-remove>
+    </div>
+        	<!-- TABLE -->
+            <c-cmp-o-t-v-table-users-company-detail if:true={countryBR} lstusers={lstUsersAux}></c-cmp-o-t-v-table-users-company-detail>
+         	<!-- PAGs -->
+            <!-- Solo se verá este componente cuando las filas de la tabla sean más de 10 -->
+            <!-- <c-cmp-o-t-v-pagination-users-landing if:true={countryBR}></c-cmp-o-t-v-pagination-users-landing> -->
+        </div>
+        <!--Cambiar la clase "footer" a "footerContact" para añadir el fotter de contacto-->
+        <div class="footer">
+            <!--<c:Footer_Contact></c:Footer_Contact>este cual es?-->
+            <c-cmp-o-t-v-footer></c-cmp-o-t-v-footer>
+        </div>
+	</div>
+</template>

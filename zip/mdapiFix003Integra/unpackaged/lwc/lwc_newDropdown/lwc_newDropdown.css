@@ -1,0 +1,301 @@
+.button-order div {
+  width: 100%;
+}
+.button-order {
+  border: 1px solid #deedf2;
+  border-radius: 4px 4px 0 0;
+  box-shadow: inset 0 -1px 0 0 #257fa4;
+  height: 48px;
+  width: 100%;
+  min-width: 368px;
+  background-color: #f6fafc;
+}
+
+.button-order .button-arrow {
+  font-size: 24px;
+  line-height: 28px;
+}
+.button-order:focus {
+  box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+.button-order:hover {
+  box-shadow: inset 0 -2px 0 0 #8dd9de;
+}
+.button-selected {
+  font-size: 16px;
+}
+.button-selected.icon-check:before {
+  color: #63ba68;
+}
+.slds-dropdown {
+  border: none;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 3px 0 rgba(68, 68, 68, 0.24);
+  left: auto;
+  margin-top: 4px;
+  max-height: 176px;
+  min-width: inherit;
+  overflow-y: auto;
+  padding: 0 !important;
+  right: auto;
+  width: 100%;
+}
+
+/*02/04/2020 - Account Payments Tracker*/
+.dropdownOrder__none {
+  display: none;
+}
+.slds-icon {
+  margin-right: 0px;
+  display: none;
+}
+.label {
+  align-items: center;
+  color: #444444;
+  display: flex;
+  font-size: 12px;
+  height: 36px;
+  margin-right: 16px;
+}
+.nameOrder {
+  color: #444444;
+  display: inline;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  line-height: 24px;
+  vertical-align: middle;
+}
+.optionOrder {
+  align-items: center;
+  display: inline-flex;
+}
+.orderSelected {
+  font-family: "SantanderMicroText" !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+
+  align-items: center;
+  border: 0;
+
+  display: flex;
+  height: 24px;
+  padding: 0 33px 0 12px;
+  width: 100%;
+}
+.orderSelectedPlaceholder {
+  font-family: "SantanderMicroText" !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  color: #767676 !important;
+
+  align-items: center;
+  border: 0;
+
+  display: flex;
+  height: 24px;
+  padding: 0 33px 0 12px;
+  width: 100%;
+}
+.paddingOption {
+  padding: 8px 10px 8px 16px !important;
+}
+.paddingOption:hover {
+  background-color: #deedf2 !important;
+}
+.selectedValue-placeholder {
+  color: #a2a2a2;
+  font-size: 12px;
+}
+.selectedValue-filled {
+  color: #444444;
+  font-size: 12px;
+}
+
+/** Dropdown scroll **/
+/* Track */
+.slds-dropdown::-webkit-scrollbar-track {
+  /*box-shadow: inset 0 0 5px #dadada;*/
+  border-radius: 10px;
+}
+
+/* Track Piece*/
+.slds-dropdown::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+
+/* Handle */
+.slds-dropdown::-webkit-scrollbar-thumb {
+  background: #dadada;
+  border-radius: 10px;
+}
+
+.slds-dropdown__item > a:hover,
+.slds-dropdown__item > a:focus,
+.slds-dropdown__item > a:active {
+  background-color: #f6f6f6;
+}
+
+.slds-dropdown__item {
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+/* Finite scroll */
+.slds-combobox .slds-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.slds-combobox .slds-dropdown::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+.slds-combobox .slds-dropdown::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+
+.selectedOption {
+  background-color: #e8f3f6;
+  border-radius: 4px;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.slds-combobox .slds-dropdown::-webkit-scrollbar-thumb {
+  background: #dadada;
+  border-radius: 10px;
+}
+
+.separator {
+  border-left-width: 1px solid #000;
+}
+
+.slds-combobox.disabled button {
+  cursor: not-allowed;
+  user-select: none;
+}
+
+.slds-combobox.disabled:hover .slds-dropdown {
+  display: none;
+}
+
+.slds-combobox.disabled .button-order {
+  background: #f6f6f6;
+  box-shadow: inset 0 -1px 0 0 #a2a2a2;
+}
+
+.slds-combobox.disabled .selectedValue-filled,
+.slds-combobox.disabled .orderSelected {
+  color: #a2a2a2;
+}
+
+.slds-combobox.disabled .icon-arrowDown_small:before {
+  color: #a2a2a2;
+}
+
+.slds-checkbox {
+  align-items: center;
+  display: flex;
+  height: 36px;
+  margin-bottom: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.slds-checkbox:hover {
+  background-color: #e8f3f6;
+  border-radius: 4px;
+}
+
+.slds-checkbox .slds-checkbox__label .slds-form-element__label {
+  color: #444444;
+  display: inline;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  line-height: 24px;
+  vertical-align: middle;
+}
+
+.slds-checkbox .slds-checkbox__label {
+  width: 100%;
+  text-align: left;
+}
+
+.slds-checkbox_faux {
+  border-radius: 4px;
+  color: #222222;
+  cursor: pointer;
+  height: 24px;
+  margin-left: 11px;
+  margin-right: 8px;
+  width: 24px;
+}
+
+.slds-checkbox
+  [type="checkbox"]:checked
+  + .slds-checkbox__label
+  .slds-checkbox_faux {
+  border: 2px solid #1bb3bc;
+}
+
+.slds-checkbox
+  [type="checkbox"]:checked
+  + .slds-checkbox__label
+  .slds-checkbox_faux::after {
+  border-bottom: 2px solid #1bb3bc;
+  border-left: 2px solid #1bb3bc;
+  height: 6px;
+  width: 9px;
+}
+.slds-checkbox__label .slds-checkbox_faux:active {
+  border: 2px solid #1bb3bc;
+}
+
+.input[type="checkbox"]:focus {
+  box-shadow: none;
+}
+.slds-checkbox
+  [type="checkbox"]:focus
+  + .slds-checkbox__label
+  .slds-checkbox_faux {
+  box-shadow: none;
+}
+.slds-checkbox
+  [type="checkbox"]:checked
+  + .slds-checkbox__label
+  .slds-checkbox_faux:after {
+  border-bottom: 2px solid #1bb3bc;
+  border-left: 2px solid #1bb3bc;
+  height: 6px;
+  width: 9px;
+}
+
+.slds-checkbox
+  [type="checkbox"]:checked
+  + .slds-checkbox__label
+  .slds-checkbox_faux {
+  border: 2px solid #1bb3bc;
+}
+
+/*02/04/2020 - Account Payments Tracker*/
+.slds-button[disabled] {
+  background-color: #f6f6f6;
+  border-color: #dadada;
+  cursor: not-allowed;
+  box-shadow: inset 0 -1px 0 0 #9bc3d3;
+}
+
+.slds-button[disabled] .icon-arrowDown_small:before {
+  color: #cccccc;
+}
+.slds-button[disabled]:hover {
+  box-shadow: inset 0 -1px 0 0 #9bc3d3 !important;
+}
+.slds-button__icon.arrow {
+  width: 24px !important;
+  height: 24px;
+  margin: 12px 16px;
+}
+
+.dropdownOrder {
+  box-shadow: inset 0 -1px 0 0 #cedee7;
+  background-color: #f6fafc;
+}

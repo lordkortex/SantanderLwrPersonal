@@ -356,6 +356,15 @@
                     }
                     if (
                       sParameterName[0] ===
+                      $A.get("$Label.c.PARAM_transferType")
+                    ) {
+                      if (!$A.util.isEmpty(sParameterName[1])) {
+                        transferType = sParameterName[1];
+                        component.set("v.transferType", transferType);
+                      }
+                    }
+                    if (
+                      sParameterName[0] ===
                       $A.get("$Label.c.PARAM_paymentMethod")
                     ) {
                       if (!$A.util.isEmpty(sParameterName[1])) {
@@ -374,15 +383,6 @@
                         component.set("v.paymentDraft", paymentDraft);
                       }
                     }
-                    if (
-                      sParameterName[0] ===
-                      $A.get("$Label.c.PARAM_transferType")
-                    ) {
-                      if (!$A.util.isEmpty(sParameterName[1])) {
-                        transferType = sParameterName[1];
-                        component.set("v.transferType", transferType);
-                      }
-                    }
                   }
                 }
                 if (
@@ -394,7 +394,11 @@
                   var serviceIdIIT = "add_inter_paym_int_cust_diff_group";
                   var serviceIdB2B = "add_international_payment_internal";
 
-                  if (!$A.util.isEmpty(paymentDetails.productId)) {
+                  if (
+                    !$A.util.isEmpty(paymentDetails.productId) &&
+                    (paymentDetails.productId === b2bprodId ||
+                      paymentDetails.productId === IIPprodId)
+                  ) {
                     if (paymentDetails.productId === b2bprodId) {
                       transferType = $A.get("$Label.c.PTT_instant_transfer");
                     } else if (paymentDetails.productId === IIPprodId) {
@@ -402,7 +406,6 @@
                         "$Label.c.PTT_international_transfer_single"
                       );
                     }
-                    component.set("v.transferType", transferType);
                   } else {
                     if (paymentDetails.serviceId === serviceIdB2B) {
                       transferType = $A.get("$Label.c.PTT_instant_transfer");
@@ -412,6 +415,7 @@
                       );
                     }
                   }
+                  component.set("v.transferType", transferType);
                 }
                 if (
                   transferType == $A.get("$Label.c.PTT_instant_transfer") ||
@@ -466,8 +470,8 @@
   initEditingProcess: function (component, helper) {
     return new Promise(
       $A.getCallback(function (resolve, reject) {
-        let paymentId = component.get("v.paymentId");
         let paymentDetails = component.get("v.paymentDetails");
+        let paymentId = paymentDetails.paymentId;
         if (!$A.util.isEmpty(paymentId) && !$A.util.isEmpty(paymentDetails)) {
           component.set("v.isEditingProcess", true);
           component.set("v.isEditing", true);
@@ -578,6 +582,11 @@
             paymentDraft.amountReceive = amountReceive;
             paymentDraft.amountSend = amountSend;
             paymentDraft.amountEnteredFrom = amountEnteredFrom;
+
+            paymentDraft.reference = paymentDetails.clientReference;
+            paymentDraft.description = paymentDetails.subject;
+            paymentDraft.purpose = paymentDetails.purpose;
+
             component.set("v.paymentDraft", paymentDraft);
             let selectAmount = component.find("selectAmount");
             selectAmount.editingProcess(amountEntered, amountEnteredFrom);
@@ -612,6 +621,42 @@
         var state = response.getState();
         if (state === "ERROR") {
           var errors = response.getError();
+          if (errors) {
+            if (errors[0] && errors[0].message) {
+              console.log("Error message: " + errors[0].message);
+              reject(response.getError()[0]);
+            }
+          } else {
+            console.log("Unknown error");
+          }
+        } else if (state === "SUCCESS") {
+          result = response.getReturnValue();
+        }
+        resolve(result);
+      });
+      $A.enqueueAction(action);
+    });
+  },
+
+  /*
+    Author:        	H. Estivalis
+    Company:        Deloitte
+    Description:    Encryption for page navigation
+    History:
+    <Date>          <Author>            <Description>
+    18/06/2020      H. Estivalis        Initial version - adapted from B2B
+    */
+  encrypt: function (component, data) {
+    return new Promise(function (resolve, reject) {
+      let action = component.get("c.encryptData");
+      action.setParams({
+        str: data
+      });
+      action.setCallback(this, function (response) {
+        let result = "null";
+        let state = response.getState();
+        if (state === "ERROR") {
+          let errors = response.getError();
           if (errors) {
             if (errors[0] && errors[0].message) {
               console.log("Error message: " + errors[0].message);
@@ -764,6 +809,7 @@
       this
     );
   },
+
   postFraud: function (component, event, helper) {
     return new Promise(function (resolve, reject) {
       try {

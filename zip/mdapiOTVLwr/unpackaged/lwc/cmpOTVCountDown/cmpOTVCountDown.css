@@ -1,0 +1,162 @@
+/* PROGRESS RING  */
+.progress-ring_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: #f6fafc;
+  padding: 24px 0;
+}
+
+.progress-ring_container.sizeS,
+.progress-ring_container__update.sizeS {
+  width: 808px;
+}
+
+.progress-ring_container.sizeM,
+.progress-ring_container__update.sizeM {
+  width: 1224px;
+}
+
+.slds-progress-ring,
+.slds-progress-ring__progress {
+  height: 56px;
+  width: 56px;
+  border-radius: 50%;
+}
+
+.slds-progress-ring__progress {
+  transform: rotateZ(45deg);
+}
+
+.slds-progress-ring__content {
+  top: 4.2px;
+  right: 4.2px;
+  bottom: 4.2px;
+  left: 4.2px;
+}
+
+/* PROGRESS RING AVAILABLE & NOT AVAILABLE  */
+.available .progress-ring_text,
+.notAvailable .progress-ring_text {
+  max-width: 272px;
+  margin: 0 0 0 16px;
+}
+
+.available .progress-ring_text p,
+.notAvailable .progress-ring_text p {
+  font-family: SantanderMicroText;
+  font-size: 14px;
+  line-height: 21px;
+  color: #444444;
+}
+
+.available .progress-ring_text p > span,
+.notAvailable .progress-ring_text p > span {
+  font-family: SantanderMicroText-Bd;
+}
+
+.available .slds-progress-ring {
+  background-color: #cccccc;
+}
+
+.available .slds-progress-ring__content {
+  background-color: #f6fafc;
+}
+
+.available .slds-progress-ring__progress__25 {
+  border-top: solid 4.2px #137e84;
+  border-right: solid 4.2px transparent;
+  border-bottom: solid 4.2px transparent;
+  border-left: solid 4.2px transparent;
+}
+
+.available .slds-progress-ring__progress__50 {
+  border-top: solid 4.2px #137e84;
+  border-right: solid 4.2px #137e84;
+  border-bottom: solid 4.2px transparent;
+  border-left: solid 4.2px transparent;
+}
+
+.available .slds-progress-ring__progress__75 {
+  border-top: solid 4.2px #137e84;
+  border-right: solid 4.2px #137e84;
+  border-bottom: solid 4.2px #137e84;
+  border-left: solid 4.2px transparent;
+}
+
+.available .slds-progress-ring__progress__100 {
+  border-top: solid 4.2px #137e84;
+  border-right: solid 4.2px #137e84;
+  border-bottom: solid 4.2px #137e84;
+  border-left: solid 4.2px #137e84;
+}
+
+.available .slds-progress-ring__content p {
+  font-family: SantanderMicroText-Bd;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  color: #444444;
+}
+
+.notAvailable .icon-information {
+  font-size: 32px;
+  margin: 12px;
+}
+
+.notAvailable .icon-information:before {
+  color: #137e84;
+}
+
+.notAvailable .slds-progress-ring__progress,
+.notAvailable .slds-progress-ring,
+.notAvailable .slds-progress-ring__content {
+  background-color: #e8f3f6;
+}
+
+/* PROGRESS RING UPDATE  */
+.progress-ring_container__update {
+  padding: 22px 0;
+  border-radius: 4px;
+  background-color: #f6fafc;
+}
+
+.progress-ring_container__update p {
+  font-family: SantanderMicroText;
+  font-size: 14px;
+  line-height: 21px;
+  color: #767676;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.progress-ring_container__update .icon-reload {
+  font-size: 24px;
+  margin-left: 4px;
+}
+
+.progress-ring_container__update
+  .slds-button.secondary:hover
+  .icon-reload::before {
+  color: white;
+}
+
+.progress-ring_container__update .slds-button.secondary {
+  display: flex;
+  cursor: pointer;
+  margin: auto;
+}
+
+.progress-ring_container__update .slds-button.secondary {
+  font-size: 16px;
+  line-height: 24px;
+  font-family: "SantanderMicroText";
+  height: 32px;
+}
+
+/*  .progress-ring_container__update .slds-button:hover, 
+ .progress-ring_container__update .slds-button:focus, 
+ .progress-ring_container__update .slds-button:active, 
+ .progress-ring_container__update .slds-button:visited {
+    text-decoration: none;
+} */

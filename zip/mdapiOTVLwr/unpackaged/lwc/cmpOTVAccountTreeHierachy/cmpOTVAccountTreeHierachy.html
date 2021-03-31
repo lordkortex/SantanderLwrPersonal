@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Account Hierarchy">
+      <div class="slds-m-top_medium slds-m-bottom_x-large">
+
+        <template if:true={CountryPicklistValues.data}>
+            <lightning-combobox name="country"
+                                label="Account Country"
+                                value={value}
+                                placeholder="Select Country"
+                                options={CountryPicklistValues.data.values}
+                                onchange={handleChange} >
+            </lightning-combobox>
+      </template>
+
+        <template if:true={isSelected}>
+            <div class="slds-p-around_medium lgc-bg">
+                <lightning-tree items={accounts} header="Matrix Accounts"></lightning-tree>
+            </div>
+        </template>
+      </div>
+    </lightning-card>
+</template>

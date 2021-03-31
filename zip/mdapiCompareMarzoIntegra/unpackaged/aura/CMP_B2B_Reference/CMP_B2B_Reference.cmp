@@ -1,0 +1,102 @@
+<aura:component
+  implements="forceCommunity:availableForAllPageTypes"
+  access="global"
+>
+  <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="isModified"
+    description="Indicates if the input data has been modified."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="resetData"
+    description="Indicates if the input data has been changed."
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="showMiniLabel"
+    default="false"
+    description="Control to show mini label."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="value"
+    description="Value of input."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="errorMSG"
+    default=""
+    description="Error message."
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="data"
+    default="{}"
+    description="Data of the transaction"
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="steps"
+    description="Data of the steps."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="isEditing"
+    default="false"
+    description="Indicates if the user is editing an existing payment so field should not be reset on initialisation."
+  />
+
+  <aura:handler name="init" action="{!c.init}" value="{!this}" />
+
+  <div
+    class="{!(not(empty(v.errorMSG)) ? 'error' : '') + ' slds-form-element input'}"
+  >
+    <aura:if isTrue="{!or(v.showMiniLabel eq true, not(empty(v.value)))}">
+      <label class="slds-form-element__label" for="reference-input"
+        >{!$Label.c.B2B_Reference}</label
+      >
+    </aura:if>
+    <div
+      class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right"
+    >
+      <input
+        autocomplete="off"
+        type="text"
+        id="reference-input"
+        placeholder="{!$Label.c.B2B_Reference}"
+        class="slds-input"
+        name="User input text"
+        value="{!v.value}"
+        onfocus="{!c.handleFocus}"
+        onblur="{!c.handleBlur}"
+        oninput="{!c.handleInput}"
+      />
+      <aura:if isTrue="{!not(empty(v.value))}">
+        <button
+          class="slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+          onclick="{!c.handleClear}"
+        >
+          <div
+            class="slds-button__icon icon-close_filledCircle"
+            aria-hidden="true"
+          ></div>
+          <span class="slds-assistive-text">{!$Label.c.clearTheTextArea}</span>
+        </button>
+      </aura:if>
+      <aura:if isTrue="{!not(empty(v.errorMSG))}">
+        <div class="errorText">{!v.errorMSG}</div>
+      </aura:if>
+    </div>
+  </div>
+</aura:component>

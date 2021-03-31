@@ -1,0 +1,25 @@
+<template>
+    <div class="list-exchange">
+        <div class="exchange"><span class="icon-fx"></span> 1 {selectedcurrency} =</div>
+        <ul>
+			<template for:each={exchangeratesshow} for:item="item" >
+			<c-lwc_child-global-exchange-rates-single key={item.divisa} item={item} numberformat={userpreferrednumberformat} selectedcurrency={selectedcurrency}></c-lwc_child-global-exchange-rates-single>
+			
+				<!--	<template if:true={divisaNEselectedCurrency}>
+					<li key={item.value}>{item.divisa}&nbsp;
+						<strong>  
+							<c-lwc_display-amount 
+							amount={item.value}
+							decimalclass="" 
+							wholeclass="" 
+							wholedecimal="true" 
+							numberofdec='5'
+							currency=''
+							numberformat={userpreferrednumberformat}></c-lwc_display-amount>
+						</strong>
+					</li>
+				</template>-->
+            </template>
+        </ul>
+    </div>
+</template>

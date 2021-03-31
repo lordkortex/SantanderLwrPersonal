@@ -1,0 +1,232 @@
+.algo {
+  overflow: inherit;
+  position: relative;
+  z-index: 1;
+  margin-left: -16px;
+}
+
+.alignRight {
+  float: right;
+}
+.amountDecimals {
+  font-family: "SantanderTextW05-Bold";
+  font-size: 10px;
+}
+.amountInteger {
+  font-family: "SantanderTextW05-Bold";
+}
+.benfAccount {
+  width: 100px;
+  height: 18px;
+  padding-right: 80px;
+}
+.border {
+  border: 1px solid #ececec;
+}
+.borders {
+  border: none;
+}
+.button-arrow {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.button-orderLeft {
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.button-orderRight {
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.button-page {
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.button-tracking {
+  margin-left: 4px;
+  font-size: 16px;
+}
+
+.circle {
+  font-size: 24px;
+}
+
+.colorHeader {
+  color: #444444;
+}
+
+.containerIconDetail {
+  width: 72px;
+}
+
+.containerIconStatus {
+  width: 40px;
+}
+
+.containerStatus {
+  width: 70px;
+}
+
+.containerTracking {
+  width: 76px;
+}
+.details {
+  width: 1180px;
+  height: 82px;
+  padding: 0px 0px 0px 24px;
+}
+.downloadDoc {
+  font-size: 16px;
+}
+
+.firstCell {
+  margin-left: -16px;
+}
+.fontBody {
+  color: #444444;
+  font-size: 12px;
+}
+.header {
+  background-color: #ececec;
+  border: 1px solid #ececec;
+  height: 32px;
+}
+.lastCell {
+  width: 200px;
+}
+.noInferiorBorder {
+  border-bottom: 0px !important;
+}
+.noIconContainer {
+  padding: 15px 0px 5px 0px;
+}
+.noLink {
+  cursor: pointer;
+  text-decoration: none;
+  color: #444444;
+}
+
+.paddingSeparation {
+  padding-bottom: 16px;
+}
+.payment {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+}
+.shadow:hover,
+.shadow:focus {
+  background-color: #ececec;
+  box-shadow: none !important;
+}
+.shadow:focus:hover {
+  background-color: red;
+  box-shadow: none !important;
+}
+.slds-card__header {
+  padding: 9px 0 8px 0;
+  margin: 0;
+}
+.noSuperiorBorder {
+  border-top: 0px;
+}
+.slds-table_cell-buffer tr > th:first-child {
+  padding-left: 0;
+}
+.slds-table_striped tbody tr:nth-of-type(2n) > td,
+.slds-table_striped tbody tr:nth-of-type(2n) > th,
+.slds-table--striped tbody tr:nth-of-type(2n) > td,
+.slds-table--striped tbody tr:nth-of-type(2n) > th {
+  background-color: #f9fcfd;
+}
+.slds-table_striped tbody tr:nth-of-type(2n) > td:hover,
+.slds-table_striped tbody tr:nth-of-type(2n) > th:hover {
+  background-color: #f9fcfd;
+}
+.slds-table:not(.slds-no-row-hover) tbody tr:hover > td,
+.slds-table:not(.slds-no-row-hover) tbody tr:hover > th {
+  background-color: #ffffff;
+}
+.slds-table:not(.slds-no-row-hover) tbody tr:nth-of-type(2n):hover > td,
+.slds-table:not(.slds-no-row-hover) tbody tr:nth-of-type(2n):hover > th {
+  background-color: #f9fcfd;
+}
+
+.evenBackground {
+  background-color: #f9fcfd !important;
+}
+
+.status {
+  width: 57px;
+}
+td,
+th {
+  height: 34px;
+  padding: 0px;
+}
+.th1 {
+  height: 18px;
+  padding: 0px;
+}
+
+.textHeader {
+  font-family: "SantanderTextW05-Bold";
+  font-size: 14px;
+  height: 20px;
+}
+.textTracking {
+  color: #ec0000;
+  font-family: "SantanderTextW05-Bold";
+}
+.titleDetail {
+  color: #a2a2a2;
+  margin-top: 8px;
+}
+.widthCell {
+  width: 150px;
+}
+.whiteFill {
+  background-color: #ffffff;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.textHeaderHidden {
+  visibility: collapse;
+}
+
+.noHeight {
+  height: 0px !important;
+}
+
+.borderLeft {
+  border-left: 1px solid #ececec;
+  width: 40px;
+}
+.borderRight {
+  border-right: 1px solid #ececec;
+}
+.titleTrack {
+  overflow: inherit;
+  position: relative;
+  z-index: 1;
+  margin-top: 0px;
+  padding-left: 24px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #444444;
+}
+
+.widthCard {
+  width: 1180px;
+  padding-left: 0px;
+  padding-right: 0px;
+}

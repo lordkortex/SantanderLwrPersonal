@@ -1,0 +1,145 @@
+<template>
+    <!-- Component Markup -->
+
+    <!--<lightning-button variant="brand" label="Width" title="Brand action"  onclick={updateWidth}></lightning-button>-->
+
+    <div class="loginClass">
+       <template if:true={label}>
+           <label class="slds-form-element__label">{label}</label>
+       </template>
+       <div class="slds-combobox_container">
+           <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" data-id="resultsDiv" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+               <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                   <div data-id="lookup-pill" class={lookupPillClass}>
+                       <!-- Selected Value Pill -->
+                       <!--lightning-pill class="fullWidth" label={selectedRecordLabel} name={selectedRecordValue} onremove={removeItem} style="width: 100%;">                               
+                           <lightning-icon icon-name={iconname} size="x-small" alternative-text="icon"></lightning-icon>
+                       </lightning-pill>-->
+
+                       <span class="slds-pill slds-pill_link">
+                        <span class="slds-pill__icon_container">
+                          <lightning-icon size="xx-small" icon-name="utility:user" alternative-text="Approved" title="Approved" class="my-icon"></lightning-icon>
+                        </span>
+                        <div class="slds-pill__action" style="text-align: center;" title="Full pill label verbiage mirrored here">
+                          <span class="slds-pill__label">{selectedRecordLabel}</span>
+                        </div>
+                        <button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="Remove" onclick={removeItem}>
+                          <lightning-icon icon-name="utility:close" alternative-text="Approved" title="Approved"></lightning-icon>
+                          <span class="slds-assistive-text">Remove</span>
+                        </button>
+                      </span>
+                
+
+                       <!--<lightning-pill class="slds-pill__label fullWidth" label={selectedRecordLabel} name={selectedRecordValue} onremove={removeItem}>                               
+                               <lightning-icon icon-name={iconname} size="x-small" alternative-text="icon"></lightning-icon>
+                       </lightning-pill>-->
+
+
+                       <!-- <span class="slds-pill fullWidth">                            
+                           <span class="slds-icon_container slds-icon-standard-people slds-pill__icon_container" title="People">
+                               <svg class="slds-icon" aria-hidden="true">
+                                   <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#people"></use>
+                               </svg>
+                               <span class="slds-assistive-text">People</span>
+                           </span>                                                        
+                           <span class="slds-pill__label">{selectedRecordLabel}</span>                            
+                           <button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="Remove" onremove={removeItem}>
+                             <svg class="slds-button__icon" aria-hidden="true">
+                               <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                             </svg>
+                             <span class="slds-assistive-text">Remove</span>
+                           </button>
+                       </span> -->
+
+                       <!--<span class="slds-pill slds-pill_link">
+                           <span class="slds-pill__icon_container">
+                             <span class="slds-icon_container slds-icon-standard-account" title="Account">
+                               <svg class="slds-icon" aria-hidden="true">
+                                 <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+                               </svg>
+                               <span class="slds-assistive-text">Account</span>
+                             </span>
+                           </span>
+                           <a href="#" class="slds-pill__action" title="Full pill label verbiage mirrored here">
+                             <span class="slds-pill__label">Pill Label</span>
+                           </a>
+                           <button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="Remove">
+                             <svg class="slds-button__icon" aria-hidden="true">
+                               <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                             </svg>
+                             <span class="slds-assistive-text">Remove</span>
+                           </button>
+                         </span>-->
+
+
+
+
+                       <!-- <div class="slds-pill_container">
+                               <li class="slds-listbox-item" role="presentation">
+                                   <span class="slds-pill" role="option" aria-selected="true">
+                                   <span class="slds-icon_container slds-icon-standard-case slds-pill__icon_container" title="Case">
+                                       <svg class="slds-icon" aria-hidden="true">
+                                       <use xlink:href="/assets/icons/standard-sprite/svg/symbols.svg#case"></use>
+                                       </svg>
+                                       <span class="slds-assistive-text">Case</span>
+                                   </span>
+                                   <span class="slds-pill__label" title="Full pill label verbiage mirrored here">Pill Label</span>
+                                   <span class="slds-icon_container slds-pill__remove" title="Remove">
+                                       <svg class="slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                       <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                       </svg>
+                                   </span>
+                                   </span>
+                               </li>
+                         </div> -->
+
+
+
+
+
+
+
+
+
+                   </div>
+                   <div data-id="lookupField" class={lookupFieldClass}>
+                       <!-- Icon, Search Bar, Search Icon -->
+                       <lightning-icon class="slds-combobox__input-entity-icon" icon-name={iconname} size="large" alternative-text="icon"></lightning-icon>
+                       <input  data-id="inputLookup" class="inputBox slds-input" label=" " placeholder={placeholder} onblur={blurEvent} onclick={showRecords} onkeyup={searchRecords} value={searchString} autocomplete="off" variant="label-hidden" id="combobox-id-1"></input> 
+                       <lightning-icon class="slds-input__icon" icon-name="utility:search" size="x-small" alternative-text="search"></lightning-icon>
+                       <lightning-spinner class="slds-hide" data-id="Spinner" alternative-text="Loading" size="small" variant="brand"></lightning-spinner>
+                   </div>
+               </div>
+               <!-- Dropdown List -->
+               <template if:false={message}>
+                   <template if:true={dataFilled}>
+                       <div data-id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" >
+                           <ul class="slds-listbox slds-listbox_vertical recordListBox" role="presentation">                        
+                               <!-- To display Drop down List -->                                
+                               <template for:each={recordsList} for:item="rec" >
+                                   <li key={rec} data-id={rec.value} class="slds-listbox__item eachItem" onmousedown={selectItem} >
+                                       <div class="slds-media slds-listbox__option_entity">
+                                           <lightning-icon icon-name={iconname} size="medium" alternative-text="icon"></lightning-icon>
+                                           <span class="verticalAlign slds-truncate">{rec.label}</span>
+                                       </div>
+                                   </li>
+                               </template>                                 
+                           </ul>
+                       </div>  
+                   </template>                       
+               </template>
+                           <!-- To display Error Message -->
+               <template if:true={message}>
+                   <div data-id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" >
+                       <ul class="slds-listbox slds-listbox_vertical recordListBox" role="presentation">
+                           <li class="slds-listbox__item">
+                               <span class="slds-media slds-listbox__option_entity">{message}</span>
+                           </li>                                                    
+                       </ul>
+                   </div>
+               </template>
+
+           </div>
+       </div>
+   </div>
+</template>

@@ -1,0 +1,235 @@
+.THIS.companyDetail {
+  width: 100%;
+  padding: 30px 0 16px 0;
+}
+
+/* PAYMENT STATUS */
+.THIS .paymentStatus {
+  margin-bottom: 24px;
+}
+.THIS .paymentStatus .containerInformation {
+  margin: 0;
+  padding: 0;
+}
+
+/* TEXT STYLES */
+.THIS .paymentStatus .slds-card__header-title {
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: "SantanderMicroText";
+  color: #444444;
+}
+
+.THIS .paymentStatus .slds-card__header-title .number {
+  font-size: 32px;
+  font-family: "SantanderHeadlineW05-Bold";
+  line-height: 38px;
+}
+
+.THIS .paymentStatus .slds-card__header-title .currency {
+  font-size: 24px;
+  font-family: "SantanderHeadlineW05-Bold";
+  line-height: 38px;
+}
+
+/* COLUMNS AND ROWS */
+.THIS .paymentStatus .separation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.THIS .paymentStatus .space {
+  margin-right: 24px;
+}
+
+.THIS .paymentStatus .subDate {
+  margin-top: 4px;
+}
+
+/* .THIS .paymentStatus .date {
+	margin-top: 4px;
+    color: #767676;
+} */
+.THIS .slds-badge + .slds-badge {
+  margin-left: 0;
+}
+.THIS .inactive .slds-badge.badgeCompleted,
+.THIS .slds-badge.badgeDraft {
+  display: none;
+}
+.THIS .inactive .slds-badge.badgeDraft {
+  display: block;
+}
+/*BADGE*/
+.THIS .slds-badge {
+  margin-top: 4px;
+  display: block;
+  border-radius: 100px;
+  border: solid 1px #979797;
+  background-color: #f6f6f6;
+  font-family: SantanderMicroText-Bd;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #444444;
+  padding: 2px 4px;
+  width: 96px;
+  min-width: 96px;
+  height: 24px;
+  max-width: 96px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+}
+.THIS .slds-badge.badgeDraft {
+  border-color: #767676;
+  background-color: #ececec;
+}
+.THIS .slds-badge.badgePending,
+.THIS .slds-badge.badgeDelayed,
+.THIS .slds-badge.badgeHold {
+  border-color: #ffcc33;
+  background-color: #fff5d7;
+}
+.THIS .slds-badge.badgeReview {
+  border-color: #9e3667;
+  background-color: #ecd7e1;
+}
+.THIS .slds-badge.badgeNotAuthorized,
+.THIS .slds-badge.badgeCanceled,
+.THIS .slds-badge.badgeDenied,
+.THIS .slds-badge.badgeRejected {
+  border-color: #cc0000;
+  background-color: #fccccc;
+}
+.THIS .slds-badge.badgeScheduled,
+.THIS .slds-badge.badgeReleased,
+.THIS .slds-badge.badgeInProgress {
+  border-color: #1bb3bc;
+  background-color: #d2f0f2;
+}
+.THIS .slds-badge.badgeAuthorized,
+.THIS .slds-badge.badgeProcessed,
+.THIS .slds-badge.badgeCompleted {
+  border-color: #63ba68;
+  background-color: #e0f2e1;
+}
+
+/* STATUS */
+.THIS .paymentStatus .slds-card__header-title .status-title {
+  display: flex;
+  align-items: flex-end;
+}
+
+.THIS .paymentStatus .slds-card__header-title .status_pending {
+  color: #444444;
+  font-size: 20px;
+  font-weight: normal;
+  font-family: "SantanderHeadlineW05-Bold";
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+.THIS .paymentStatus .slds-card__header-title .status_inProgress {
+  color: #1bb3bc;
+  font-size: 20px;
+  font-weight: normal;
+  font-family: "SantanderHeadlineW05-Bold";
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+.THIS .paymentStatus .slds-card__header-title .status_rejected {
+  color: #cc0000;
+  font-size: 20px;
+  font-weight: normal;
+  font-family: "SantanderHeadlineW05-Bold";
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+.THIS .paymentStatus .slds-card__header-title .status_rejected_subtitle {
+  color: #cc0000;
+  font-size: 14px;
+  font-weight: normal;
+  font-family: "SantanderMicroText";
+  line-height: 21px;
+  letter-spacing: normal;
+}
+
+.THIS .paymentStatus .slds-card__header-title .status_onHold {
+  color: #ffcc33;
+  font-size: 20px;
+  font-weight: normal;
+  font-family: "SantanderHeadlineW05-Bold";
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+.THIS .paymentStatus .slds-card__header-title .status_completed {
+  color: #63ba68;
+  font-size: 20px;
+  font-weight: normal;
+  font-family: "SantanderHeadlineW05-Bold";
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+/* PAYMENT INFORMATION */
+.THIS .paymentInformation {
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #cedee7;
+  padding: 0 0 16px 16px;
+}
+.THIS .paymentInformation table {
+  width: auto;
+}
+.THIS .paymentInformation thead tr > th {
+  min-width: calc(272px + 40px);
+  width: calc(272px + 40px);
+  max-width: calc(272px + 40px);
+  padding: 0;
+  padding-right: 40px;
+  padding-bottom: 8px;
+  font-size: 20px;
+  line-height: 28px;
+  min-height: 28px;
+  color: #444444;
+  font-family: "SantanderHeadlineW05-Rg";
+  font-weight: normal;
+}
+
+.THIS .paymentInformation thead tr > th > div {
+  min-width: calc(272px + 40px);
+  width: calc(272px + 40px);
+  max-width: calc(272px + 40px);
+}
+
+.THIS .paymentInformation tbody tr > td {
+  min-width: calc(272px + 40px);
+  width: calc(272px + 40px);
+  max-width: calc(272px + 40px);
+  padding: 0;
+  padding-right: 40px;
+  font-size: 14px;
+  line-height: 21px;
+  min-height: 21px;
+  font-family: "SantanderMicroText";
+  color: #444444;
+}
+
+.THIS .paymentInformation tbody tr > td > div {
+  min-width: calc(272px + 40px);
+  width: calc(272px + 40px);
+  max-width: calc(272px + 40px);
+}
+.THIS .paymentInformation tbody tr:last-child > td {
+  font-family: "SantanderMicroText-Bd";
+}
+
+.THIS .actions {
+  margin-top: 16px;
+}

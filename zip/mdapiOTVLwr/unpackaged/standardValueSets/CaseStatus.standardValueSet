@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>New</fullName>
+        <default>true</default>
+        <label>New</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>InProgress</fullName>
+        <default>false</default>
+        <label>In Progress</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>In progress</fullName>
+        <default>false</default>
+        <label>CAU2</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>CAU1</fullName>
+        <default>false</default>
+        <label>CAU1</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>IT</fullName>
+        <default>false</default>
+        <label>IT</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Closed Solved</fullName>
+        <default>false</default>
+        <label>Solved</label>
+        <closed>true</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Closed Cancelled</fullName>
+        <default>false</default>
+        <label>Closed</label>
+        <closed>true</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Pending of Authorization</fullName>
+        <default>false</default>
+        <label>Pending of Authorization</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Management Process</fullName>
+        <default>false</default>
+        <label>Management Process</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Petition bank request</fullName>
+        <default>false</default>
+        <label>Petition bank request</label>
+        <closed>false</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Refunded funds</fullName>
+        <default>false</default>
+        <label>Refunded funds</label>
+        <closed>true</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Dismissed</fullName>
+        <default>false</default>
+        <label>Dismissed</label>
+        <closed>true</closed>
+    </standardValue>
+    <standardValue>
+        <fullName>Reopen</fullName>
+        <default>false</default>
+        <label>Reopen</label>
+        <closed>false</closed>
+    </standardValue>
+</StandardValueSet>

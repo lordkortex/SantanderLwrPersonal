@@ -1,0 +1,307 @@
+<aura:component
+  implements="forceCommunity:availableForAllPageTypes"
+  access="global"
+  controller="CNT_B2B_PaymentInformation"
+>
+  <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+  <!-- CORE ATTRIBUTES -->
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="paymentDraft"
+    default="{}"
+    description="Indicates the data of the payment"
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="userData"
+    description="User data."
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="step3field"
+    default="{}"
+    description="Fields in the payment information."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="transferType"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="steps"
+    description="Data of the steps."
+  />
+  <aura:attribute access="public" type="Aura.Action" name="handleContinue" />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="spinner"
+    default="false"
+  />
+
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="isModified"
+    default="true"
+    description="Indicates if the input data has been modified."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="fee"
+    default=""
+    description="Estimated fee for the transaction"
+  />
+  <aura:attribute access="public" type="String" name="errorRef" default="" />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="errorPurpose"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="errorPaymentReason"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="errorCharges"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="isEditing"
+    description="Indicates if the user is editing an existing payment so field should not be reset on initialisation."
+  />
+  <aura:attribute access="public" type="Map" name="signLevel" default="{}" />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="navigatorInfo"
+    default="{}"
+  />
+  <aura:attribute access="public" type="Date" name="processDate" default="" />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="isCalendarDisabled"
+    default="false"
+    description="TRUE to disable calendar input FALSE to enable calendar input"
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="calendarPlaceholder"
+    default=""
+    description="The placeholder for CMP_PAY_CalendarInput"
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="showClientReferenceFistColumn"
+    default="true"
+    description="TRUE to show CMP_B2B_Reference input in the first column FALSE to hide it from the first column"
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="showClientReferenceSecondColumn"
+    default="false"
+    description="TRUE to show CMP_B2B_Reference input in the second column FALSE to hide it from the second column"
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="showProcessDate"
+    default="false"
+    description="TRUE to show CMP_PAY_CalendarInput input FALSE to hide it"
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="showPurposeDropdown"
+    default="true"
+    description="TRUE to show CMP_B2B_Purpose and FALSE to hide CMP_B2B_Purpose"
+  />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="showComercialCode"
+    default="false"
+    description="TRUE to show CMP_B2B_ComercialCode and FALSE to hide CMP_B2B_ComercialCode"
+  />
+  <aura:attribute
+    access="public"
+    type="List"
+    name="charges"
+    default="[]"
+    description="List of values to populate the charges"
+  />
+  <aura:attribute
+    access="public"
+    type="List"
+    name="paymentPurpose"
+    default="[]"
+    description="List of values to populate the dropdown"
+  />
+
+  <lightning:navigation aura:id="navService" />
+
+  <aura:handler name="init" action="{!c.initComponent}" value="{!this}" />
+  <aura:handler
+    name="change"
+    action="{!c.handleModified}"
+    value="{!v.isModified}"
+  />
+  <aura:handler
+    name="handleDropdown"
+    action="{!c.handleDropdowns}"
+    event="c:EVT_B2B_handleDropdownsInformation"
+  />
+
+  <aura:method
+    access="public"
+    name="checkContinue"
+    action="{!c.handleCheckContinue}"
+  >
+    <aura:attribute type="Integer" name="step" />
+  </aura:method>
+
+  <aura:registerEvent name="completeStep" type="c:EVT_B2B_CompleteStep" />
+
+  <c:CMP_B2B_Toast aura:id="errorToast" />
+
+  <div class="paymentProcess-step4 slds-is-relative" id="step-4" tabindex="-1">
+    <div class="slds-text-heading_subtitle">
+      {!$Label.c.PAY_PaymentSummary_details}
+    </div>
+    <div class="slds-grid slds-wrap">
+      <div class="slds-col">
+        <aura:if isTrue="{!v.step3field.clientReference}">
+          <!--cliente reference-->
+          <c:CMP_B2B_Reference
+            value="{!v.paymentDraft.reference}"
+            errorMSG="{!v.errorRef}"
+            steps="{!v.steps}"
+            isModified="{!v.isModified}"
+            isEditing="{!v.isEditing}"
+          />
+        </aura:if>
+      </div>
+      <div class="slds-col">
+        <!--<aura:if isTrue="{!v.step3field.reference}">
+                    <c:CMP_B2B_Reference value="{!v.paymentDraft.reference}" errorMSG="{!v.errorRef}" steps="{!v.steps}" isModified="{!v.isModified}" isEditing="{!v.isEditing}" />
+                </aura:if>-->
+        <aura:if isTrue="{!v.step3field.paymentPurpose}">
+          <!--payment purpose-->
+          <c:CMP_PAY_FilterDropdown
+            aura:id="purposeDropdown"
+            values="{!v.paymentPurpose}"
+            selectedValue="{!v.paymentDraft.purpose}"
+            helpTextDropdown="{!$Label.c.Show_More}"
+            isSimpleDropdown="true"
+            label="{!$Label.c.B2B_PaymentPurpose}"
+            isDisabled="false"
+            valuesPlaceholder=""
+            clearDropdown="false"
+            errorText="{!v.errorPurpose}"
+          />
+          <!--<c:CMP_B2B_Purpose aura:id="dropdown" name="purpose" selectedValue="{!v.paymentDraft.purpose}" errorMSG="{!v.errorPurpose}" showDropdown="false" steps="{!v.steps}" isModified="{!v.isModified}" isEditing="{!v.isEditing}" />
+                -->
+        </aura:if>
+
+        <aura:if isTrue="{!v.step3field.charges}">
+          <!--charges-->
+          <!--ToDo MA <c:CMP_PAY_FilterDropdown/>-->
+          <c:CMP_PAY_FilterDropdown
+            aura:id="charges"
+            values="{!v.charges}"
+            selectedValue="{!v.paymentDraft.chargeBearer}"
+            helpTextDropdown="{!$Label.c.Show_More}"
+            isSimpleDropdown="true"
+            label="{!$Label.c.charges}"
+            isDisabled="false"
+            valuesPlaceholder=""
+            clearDropdown="false"
+            errorText="{!v.errorCharges}"
+          />
+        </aura:if>
+        <aura:if isTrue="{!v.step3field.paymentReason}">
+          <!--payment reason-->
+          <!--ToDo MA <c:CMP_PAY_FilterDropdown/>-->
+          <c:CMP_PAY_FilterDropdown
+            aura:id="paymentReason"
+            values="{!v.charges}"
+            selectedValues="{!v.paymentDraft.chargeBearer}"
+            helpTextDropdown="{!$Label.c.Show_More}"
+            isSimpleDropdown="true"
+            label="{!$Label.c.B2B_PaymentPurpose}"
+            isDisabled="false"
+            valuesPlaceholder=""
+            clearDropdown="false"
+            errorText="{!v.errorPaymentReason}"
+          />
+        </aura:if>
+      </div>
+    </div>
+    <aura:if isTrue="{!v.step3field.commercialCode}"
+      ><!--commercial code-->
+      <div class="slds-col">
+        <c:CMP_B2B_ComercialCode
+          aura:id="comercialCode"
+          name="comercialCode"
+          selectedValue="{!v.paymentDraft.comercialCode}"
+          steps="{!v.steps}"
+          showDropdown="false"
+          isModified="{!v.isModified}"
+          isEditing="{!v.isEditing}"
+        />
+      </div>
+    </aura:if>
+    <div class="slds-col">
+      <!--commercial code-->
+      <c:CMP_B2B_Description
+        value="{!v.paymentDraft.description}"
+        steps="{!v.steps}"
+        isModified="{!v.isModified}"
+        isEditing="{!v.isEditing}"
+      />
+    </div>
+    <!--<div class="slds-col">
+            <aura:if isTrue="{!v.step3field.reference}">
+                <c:CMP_B2B_Reference value="{!v.paymentDraft.reference}" errorMSG="{!v.errorRef}" steps="{!v.steps}" isModified="{!v.isModified}" isEditing="{!v.isEditing}" />
+            </aura:if>
+        </div>-->
+    <aura:if isTrue="{!v.spinner eq true}">
+      <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+    <!--<aura:if isTrue="{!v.steps.lastModifiedStep eq 3}">
+            <c:CMP_B2B_ProcessContinueButton handleContinue="{!v.handleContinue}" />
+        </aura:if>-->
+
+    <aura:if
+      isTrue="{!and(v.paymentDraft.destinationAccount.country == 'BR', v.paymentDraft.paymentCurrency == 'BRL')}"
+    >
+      <aura:if
+        isTrue="{!or(v.paymentDraft.purpose == $Label.c.PAY_other, and(v.paymentDraft.amountsend >= 10000,and(v.paymentDraft.purpose != $Label.c.PAY_purpose72502,v.paymentDraft.purpose !=  $Label.c.PAY_purpose67500)))}"
+      >
+        <c:cmpUploadDocumentBrasil
+          oninformfiles="{!c.updateFiles}"
+          paymentId="{!v.paymentDraft.paymentId}"
+        />
+      </aura:if>
+    </aura:if>
+  </div>
+</aura:component>

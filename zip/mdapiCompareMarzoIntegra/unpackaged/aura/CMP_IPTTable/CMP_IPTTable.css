@@ -1,0 +1,241 @@
+.THIS.tableGPI {
+  box-shadow: inset 0 1px 0 0 #cedee7;
+  padding-top: 44px;
+}
+
+.THIS .icon-arrowDown,
+.THIS .icon-arrowUp {
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 4px;
+}
+.THIS .icon-arrowDown:before,
+.THIS .icon-arrowUp:before {
+  color: #767676;
+}
+
+.THIS.tableGPI:before {
+  display: none;
+}
+.THIS .circle {
+  font-size: 24px;
+}
+.THIS .containerBeneficiary {
+  /*width: 21.5%;*/
+  width: 263px;
+}
+.THIS .containerIconDetail {
+  width: 40px;
+}
+.THIS .containerIconStatus {
+  /*width: 3.9%;*/
+  width: 48px;
+}
+.THIS .containerOrigen {
+  /*width: 23%;*/
+  width: 282px;
+}
+
+.THIS .containerSettled .slds-truncate {
+  display: flex;
+  /*width: 17.4%;*/
+  width: 227px;
+  justify-content: flex-end;
+}
+.THIS .containerStatus {
+  /*width: 16.1%;*/
+  width: 197px;
+}
+.THIS .containerValue {
+  /*width: 9.9%;*/
+  width: 127px;
+}
+
+.THIS .containerValue .slds-truncate {
+  display: flex;
+}
+
+.THIS tbody td {
+  padding: 12px 0px 12px 0;
+}
+
+.THIS tbody td.statusInfo {
+  padding-right: 74px;
+}
+
+.THIS tbody td.originInfo {
+  padding-right: 32px;
+}
+
+.THIS tbody td.beneficiaryInfo {
+  padding-right: 13px;
+}
+
+.THIS tbody td.valueDateInfo {
+  padding-right: 28px;
+  padding-left: 24px;
+}
+
+.THIS .icon-doc103:before,
+.THIS .icon-tracking:before {
+  cursor: pointer;
+}
+.THIS .icon-tracking,
+.THIS .icon-doc103 {
+  font-size: 24px;
+}
+
+.THIS .slds-is-sortable .slds-th__action:hover,
+.THIS .slds-is-sortable .slds-th__action:focus,
+.THIS .slds-is-sortable.slds-has-focus .slds-th__action,
+.THIS .slds-is-sortable.slds-has-focus .slds-th__action:hover,
+.THIS .slds-is-sortable.slds-has-focus .slds-th__action:focus {
+  background-color: unset;
+}
+.THIS .slds-table--header-fixed thead th {
+  padding: 0 8px 0 0;
+}
+.THIS .slds-table_striped tbody tr > td {
+  box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+.THIS .slds-table_striped tbody tr:first-child > td {
+  box-shadow: inset 0 -1px 0 0 #cedee7, inset 0 1px 0 0 #cedee7;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n + 1) > td {
+  background-color: #fcfefe;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > td {
+  background-color: #ffffff;
+}
+.THIS.slds-table--header-fixed_container,
+.THIS.slds-table_edit_container,
+.THIS.slds-is-relative {
+  margin-bottom: 16px;
+}
+.THIS .slds-text-align_right .slds-grid_align-spread {
+  display: initial;
+  justify-content: flex-end;
+}
+.THIS .status {
+  font-family: SantanderTextW05-Bold;
+}
+.THIS tbody .nodata {
+  padding: 8px 16px 8px 24px;
+}
+.THIS tbody .nodata div {
+  color: #a2a2a2;
+}
+.THIS tbody td {
+  padding: 12px 8px 12px 0;
+}
+.THIS tbody td.slds-text-align_center.status {
+  padding: 0 8px;
+  vertical-align: middle;
+}
+.THIS tbody td.slds-text-align_center.tracking {
+  padding: 12px 8px;
+  vertical-align: top;
+}
+.THIS tbody td.slds-text-align_left {
+  padding-right: 16px;
+}
+.THIS tbody td.slds-text-align_right {
+  padding-right: 0;
+}
+.THIS tbody > tr {
+  height: 66px;
+  vertical-align: top;
+}
+.THIS .text {
+  color: #444444;
+  font-size: 14px;
+}
+.THIS .amountDecimals {
+  font-family: "SantanderTextW05-Bold";
+  font-size: 12px;
+}
+.THIS .amountInteger {
+  font-family: "SantanderTextW05-Bold";
+}
+.THIS thead .slds-truncate {
+  color: #767676;
+  font-size: 14px;
+  font-weight: normal;
+  height: 20px;
+  line-height: 20px;
+  margin: 12px 0;
+  min-height: 20px;
+  padding: 0;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  overflow: inherit;
+}
+
+/*No results found*/
+
+.THIS .container_noResults {
+  height: 342px;
+  background-color: rgba(239, 246, 249, 0.4);
+  padding: 84px 454px;
+}
+
+.THIS .container_noResults.results-background {
+  background-image: url("/sfsites/c/resource/Images/Leaf.png");
+  background-position: bottom right;
+  background-repeat: no-repeat;
+}
+
+.THIS .container_noResults .slds-media__figure {
+  display: flex;
+  justify-content: center;
+  font-size: 40px;
+  margin: 0 0 12px 0;
+}
+
+.THIS .container_noResults .slds-text-title {
+  text-align: center;
+  font-family: SantanderMicroText-Bd;
+  font-size: 16px;
+  line-height: 22px;
+  color: #cc0000;
+  margin-bottom: 12px;
+}
+
+.THIS .container_noResults .slds-text-align_center {
+  font-size: 14px;
+  color: #a2a2a2;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.THIS .container_noResults .pill-button {
+  display: flex;
+  justify-content: center;
+}
+
+.THIS .container_noResults .redButton {
+  height: 32px;
+  border-radius: 100px;
+  color: #ffffff;
+  background-color: #ec0000;
+  border: 1px solid #ec0000;
+  font-family: SantanderMicroText-Bd;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  padding: 0 13px;
+  cursor: pointer;
+}
+
+.THIS .container_noResults .redButton:focus {
+  box-shadow: 2px 2px 4px 2px rgba(206, 214, 219, 0.64);
+}
+
+.THIS .container_noResults .redButton:hover {
+  background-color: #cc0000;
+  border: 1px solid #cc0000;
+}
+
+.THIS .icon-warning:before {
+  color: #cc0000;
+}

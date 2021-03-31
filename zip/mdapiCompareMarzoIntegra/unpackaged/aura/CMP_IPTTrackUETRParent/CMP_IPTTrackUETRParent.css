@@ -1,0 +1,35 @@
+.THIS.contentPayments {
+  /*position: absolute;
+    left: 0;*/
+  margin-top: -24px;
+  margin-bottom: 64px;
+  width: 100%;
+}
+.THIS.contentPayments .contentPag {
+  margin: 0 auto;
+  width: 1224px;
+}
+
+.THIS.contentPayments .UETR {
+  padding: 162px 0 0 0;
+  max-width: 1224px;
+  width: 100%;
+  margin: auto;
+}
+.THIS.contentPayments .UETR .textInfo {
+  min-height: 17px;
+}
+
+.THIS.contentPayments .UETR .textInfo p {
+  font-family: SantanderMicroText;
+  font-size: 12px;
+  line-height: 17px;
+  color: #767676;
+}
+
+.THIS.contentPayments .UETR .textInfo p > span {
+  font-family: SantanderMicroText-Bd;
+  font-size: 12px;
+  line-height: 17px;
+  color: #767676;
+}

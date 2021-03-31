@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>cmpOTVParentUsersLanding</members>
+        <members>cmpOTVModal</members>
+        <members>cmpOTVHeaderUserLanding</members>
+        <members>cmpOTVFiltersUsersLanding</members>
+        <members>cmpOTVTableUsersLanding</members>
+        <members>cmpOTVPaginationUsersLanding</members>
+        <members>cmpOTVFooter</members>
+        <members>cmpFiltersLWC</members>
+        <members>cmpOTVUserInfoPermissions</members>
+        <members>cmpDropdownLWC</members>
+        <members>cmpOTVFilterAccountsByCountry</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>OTVTermsAndConditionsPDF_OldVersions</members>
+        <members>filters_LWC</members>
+        <members>DesignSystem</members>
+        <members>dropdown_LWC</members>
+        <name>StaticResource</name>
+    </types>
+    <types>
+		<members>OTV_UpdateAccountAdmin</members>
+		<name>Flow</name>
+	</types>
+   <version>51.0</version>
+</Package>

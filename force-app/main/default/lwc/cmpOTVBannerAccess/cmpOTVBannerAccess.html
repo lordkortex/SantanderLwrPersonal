@@ -1,0 +1,29 @@
+<template>
+    <!-- Añadir la clase paymentsLanding para esa versión -->
+    <!-- Añadir la clase paymentsTraker para esa versión  -->
+    <!-- Añadir la clase globalPosition para esa versión  -->
+    <div class="bannerOTV paymentsLanding" if:true={type2}> 
+        <div class="icon icon-close"></div>  
+        <div class="content">
+            <div class="slds-text-body">{label.cmpOTVBannerAccess_2}</div>
+            <button class="slds-button secondary button_full" onclick={checkRole}>{label.cmpOTVBannerAccess_4}</button>
+        </div>
+        <div class="background-images"></div>  
+    </div>
+    <div class="bannerOTV paymentsTraker"  if:true={type3}> 
+        <div class="icon icon-close"></div>  
+        <div class="content">
+            <div class="slds-text-body">{label.cmpOTVBannerAccess_3}</div>
+            <button class="slds-button secondary button_full" onclick={checkRole}>{label.cmpOTVBannerAccess_4}</button>
+        </div>
+        <div class="background-images"></div>  
+    </div>
+    <div class="bannerOTV globalPosition" if:true={type1}> 
+        <div class="icon icon-close"></div>  
+        <div class="content">
+            <div class="slds-text-body">{label.cmpOTVBannerAccess_1}</div>
+            <button class="slds-button secondary button_full" onclick={checkRole}>{label.cmpOTVBannerAccess_4}</button>
+        </div>
+        <div class="background-images"></div>  
+    </div>
+</template>

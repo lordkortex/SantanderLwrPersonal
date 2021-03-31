@@ -1,0 +1,78 @@
+<template>
+    <c-lwc_service-component data-id="Service" onsuccesscallback={successcallback}></c-lwc_service-component>
+    <div class="contentPayments">
+        <div>
+            <!-- HEADER -->
+           <div if:true={comesfromtracker}>
+                <c-lwc_ipt-header-search-uetr 
+                    comesfromsso={comesFromSSO}
+                    searchvalue={searchvalue}
+                    issearched={issearched}
+                    noresults={noresults}
+                    result={result}
+                    isingested={isingested}
+                    comesfromtracker={comesfromtracker}
+                    onresults={handleResultsEvent}>
+                </c-lwc_ipt-header-search-uetr> 
+            </div>
+            <div if:false={comesfromtracker}>
+                <c-lwc_ipt-header-search-uetr-public 
+                    searchvalue={searchvalue}
+                    issearched={issearched}
+                    noresults={noresults}
+                    result={result}
+                    isingested={isingested}
+                    comesfromtracker={comesfromtracker}
+                    onresults={handleResultsEvent}
+                    uetr={uetr} > 
+                </c-lwc_ipt-header-search-uetr-public> 
+            <!--    <c-lwc_ipt-header-search-uetr 
+                    comesfromsso={comesFromSSO}
+                    searchvalue={searchvalue}
+                    issearched={issearched}
+                    noresults={noresults}
+                    result={result}
+                    isingested={isingested}
+                    comesfromtracker={comesfromtracker}
+                    onresults={handleResultsEvent}>
+                </c-lwc_ipt-header-search-uetr> -->
+            </div>
+            <!-- SEARCHED PAGE -->
+            <template if:true={issearched}>               
+                <!-- DISPLAYING -->
+                <div class="UETR">
+                    <div class="textInfo">
+                        <p>{label.Displaying}<span>&nbsp;{resultNotNull}&nbsp;{label.item}&nbsp;</span>{label.searchedBy}<span>&nbsp;"{searchvalue}"</span>
+                        </p>
+                    </div>
+                    
+                    <!-- NO RESULTS -->
+                    <div if:true={noresults}>
+                        <c-lwc_ipt-search-uetr-error 
+                            searchvalue={searchvalue}
+                            issearched={issearched}
+                            onresetsearch={handleResetSearchEvent}> 
+                        </c-lwc_ipt-search-uetr-error>
+                    </div>
+                    
+                    <!-- RESULTS --> 
+                    <div if:true={resultNotNull}>
+                        <!-- TRACK DETAILS -->
+                        <c-lwc_ipt-detail-parent 
+                            onerroronload={handleError}
+                            uetrsearchresult={result}
+                            ispaymentingested={isingested}
+                            comesfromuetrsearch="true"
+                            comesfromtracker={comesfromtracker}
+                            comesfromsso={comesFromSSO}>
+                        </c-lwc_ipt-detail-parent>
+                    </div>
+                </div>
+            </template>
+            <!-- BEGINNING PAGE -->
+            <div if:false={issearched}>
+               <c-lwc_ipt-search-uetr></c-lwc_ipt-search-uetr>
+            </div>
+        </div>
+    </div>
+</template>

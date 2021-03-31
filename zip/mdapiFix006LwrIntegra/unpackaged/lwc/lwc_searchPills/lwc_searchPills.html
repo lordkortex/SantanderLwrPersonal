@@ -1,0 +1,24 @@
+<template>
+    <div class="slds-media pillContainer pillsPadding">
+        <div class=" slds-media__body ">           
+            <!-- <aura:iteration items="{!v.pillsContainer}" var="item"> -->
+            <template for:each={pillscontainer} for:item='item' for:index="index">
+                <!-- <aura:if isTrue="{!item[1]!=null}"> -->
+                <template if:true={getItem1True}>
+                    <div class="slds-pill  fillPill" role="option" tabindex="0" aria-selected="true" key={item.index}>
+                        <span class="slds-pill__label textPill" >{getItem1}</span>
+                        <div class="slds-icon_container slds-pill__remove" title={label.remove} onclick={removePill}>
+                            <div class="slds-button button-page icon-delete sizeXPill" title={label.remove} onclick={removePill} id={getItem0}></div> 
+                            <span class="slds-assistive-text">{label.remove}</span>
+                        </div>
+                    </div>
+                <!-- </aura:if> -->
+                </template>
+            <!-- </aura:iteration> -->
+            </template>
+        </div>
+        <div class="slds-media__figure lastPill" role="option" tabindex="0" aria-selected="true">
+            <div class="slds-button button-page icon-deleteAll" title={label.remove} onclick={clearSearch}></div>
+        </div> 
+    </div>    
+</template>

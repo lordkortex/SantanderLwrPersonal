@@ -1,0 +1,91 @@
+<template>
+    <!-- Spinner -->
+    <div if:true={loading}>
+        <div class="spinnerclass">
+            <lightning-spinner 
+            variant="brand" 
+            size="large" >
+            </lightning-spinner>
+        </div>
+    </div>
+    <div class="cancelService" if:false={loading}>
+        <div class="slds-grid title_container">
+            <div class="slds-align_absolute-center">
+                <div class="slds-col">
+    
+                    <div class="slds-text-heading_medium">
+                        <div class="title">
+                            <button class="slds-button button_link"><span class="icon_left icon-arrowLeft_big" onclick={goBack}></span>{label.back}</button>
+                            <h2  class="slds-modal__title">{label.cmpOTVCancelService_1}</h2> 
+                        </div>
+                    </div>
+                    
+                    <div class="text_line"></div>
+                    
+                    <div class="slds-text-heading_subtitle">
+                        <span>{name}</span> {label.cmpOTVCancelService_2}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content_cancelService">
+            <div class="section_title">{label.cmpOTVCancelService_3}</div>
+            <c-cmp-dropdown-l-w-c class="dropdown_single small sky" data-id="reason" arrayoptions={arrayOptions} title={title} variant={variant} placeholder={reason} onchangeoption={changeOption}></c-cmp-dropdown-l-w-c>
+            <div if:true={showInput}>
+                <div class="section_title">{label.cmpOTVCancelService_4}</div>
+                <div class="aditional_text_16">{label.cmpOTVCancelService_5}</div>
+                <!-- Cuando salga un error en el input añadir la clase error al siguiente div -->
+                <!-- Añadir la clase sky cuando vaya a ser azulito en el padre-->
+                <div class="textarea sky slds-form-element" data-id="description">    
+                    <!-- ESTADO 1: (Hasta que no se empieza a escribir | ENABLE): No aparece el icono icon-close_filledCircle: eliminar el <button></button>-->
+                    <!-- ESTADO 2: (Se activa, se empieza a escribir | FILLED): Aparece el icono icon-close_filledCircle. Siempre que se escriba algo, aparecera este icono para poder borrarlo -->
+                    <!-- ESTABLECER UN MÁXIMO DE 350 CARACTERES -->
+                    
+                    <!-- Cuando no haya nada escrito en el input la label se oculta y cuando se escriba algo la label aparece -->
+                    <label class="slds-form-element__label" for="text-input-id-1">{label.cmpOTVCancelService_5}</label>
+                    
+                    <div class="slds-form-element__control">
+                        
+                        <!-- Cuando el input esté disabled se le añade disabled="true" -->
+                        <textarea id="textarea-id-01" class="slds-textarea" placeholder={label.cmpOTVContactUsActivation_11} onchange={changeDescription}></textarea>
+                        
+                        <!-- Icono que aparecerá cuando este disabled -->
+                        <div class="slds-button__icon disabled" aria-hidden="true">
+                            <div class="button icon-prohibited"></div>
+                        </div>
+                        
+                        <button class="slds-button slds-button_icon">
+                            <div class="slds-button__icon icon-close_filledCircle"></div>
+                            <span class="slds-assistive-text">{label.cmpOTVCancelService_12}</span>
+                        </button>
+                    </div>
+                    
+                    <div class="slds-form-element__help">{label.cmpOTVCancelService_13}</div>
+                    <div class="errorText">{label.cmpOTVCancelService_14}</div>
+                </div>
+                <div class="section_title">{label.cmpOTVCancelService_6}</div>
+                <div class="aditional_text_20">{label.cmpOTVCancelService_7}</div>
+                <div class="aditional_text_16">{label.cmpOTVCancelService_8}</div>
+                <fieldset class="slds-form-element checkbox">
+                    <div class="slds-form-element__control">
+                        <div class="slds-checkbox slds-truncate">
+                            <!-- Añadir el atributo disabled="true" en el input para deshabilitar el checkbox -->
+                            <input disabled type="checkbox" name="options" data-id ='checkbox' id="checkbox-unique-id-21" value="checkbox-unique-id-21" onclick={acceptTerms}/>
+                            <!-- <input disabled type="checkbox" name="options" data-id="checkbox-unique-id-21" value="checkbox-unique-id-21" if:true={isError} onclick={acceptTerms}/> -->
+                            <label class="slds-checkbox__label" for="checkbox-unique-id-21">
+                                <!-- Añadir la clase intermedite para mostrar un guión en lugar de un check cuando el checkbox está seleccionado -->
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-form-element__label checkboxLabel">{label.cmpOTVCancelService_9}</span>
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="buttons">
+                <button class="slds-button primary button_full" onclick={cancelService}>{label.cmpOTVCancelService_10}</button>
+                <button class="slds-button secondary button_full" onclick={goBack}>{label.cmpOTVCancelService_11}</button>
+            </div>
+        </div>  
+        <c-cmp-o-t-v-footer> </c-cmp-o-t-v-footer>
+    </div>
+</template>

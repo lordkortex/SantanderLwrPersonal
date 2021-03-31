@@ -1,0 +1,16 @@
+<template>
+    <template if:true={divisaNEselectedCurrency}>
+        <li>{item.divisa}
+            <strong>  
+                <c-lwc_display-amount 
+                amount={item.value}
+                decimalclass="" 
+                wholeclass="" 
+                wholedecimal="true" 
+                numberofdec='5'
+                currency=''
+                numberformat={userpreferrednumberformat}></c-lwc_display-amount>
+            </strong>
+        </li>
+    </template>
+</template>

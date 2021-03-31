@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardValueSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sorted>false</sorted>
+    <standardValue>
+        <fullName>Support</fullName>
+        <default>false</default>
+        <label>Support</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Operative</fullName>
+        <default>false</default>
+        <label>Operative</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Technical</fullName>
+        <default>false</default>
+        <label>Technical</label>
+    </standardValue>
+    <standardValue>
+        <fullName>Screening Dow Jones</fullName>
+        <default>false</default>
+        <label>Screening Dow Jones</label>
+    </standardValue>
+</StandardValueSet>

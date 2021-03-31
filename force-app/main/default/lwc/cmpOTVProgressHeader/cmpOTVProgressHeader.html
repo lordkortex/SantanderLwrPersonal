@@ -1,0 +1,49 @@
+<template>
+            <!-- MODAL HEADER -->
+            <!-- Añadir la clase oneStep en la etiqueta <header> cuando la barra de progreso tenga un único paso -->
+            <!-- Añadir la clase errorStep en la etiqueta <header> cuando se haya producido un error de sistema -->
+    <header class="slds-modal__header slds-is-fixed progressHeader">
+                
+        <div class="row slds-grid">
+           <div class="slds-col slds-size_1-of-3">
+               <!-- BACK BUTTON -->
+               <button class="slds-button button_link" onclick={goBack}> 
+                   <span class="icon-arrowLeft_big icon_left"></span>{label.back}
+               </button>
+           </div>
+            
+           <div class="slds-col slds-size_1-of-3">
+               <img class="logo-red" src={logo}/>
+               <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.cmpOTVTalkWithAnExpert_1}</h2>
+           </div>
+            
+            <div class="slds-col slds-size_1-of-3">
+               <!-- CANCEL BUTTON -->
+               <!--<button class="slds-button button_link"> 
+                   Cancel process<span class="icon-close icon_right"></span>
+               </button>-->
+            </div>
+        </div>
+       
+        <div>
+        <!-- <div class="row"> -->
+           <!-- PROGRESS BAR -->
+           <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar">
+               <!-- PROGRESS 1/3 -->
+               <!--<span class="slds-progress-bar__value" style="width:33%">
+                   <span class="slds-assistive-text">Progress: 33%</span>
+               </span>-->
+               
+               <!-- PROGRESS 2/3 -->
+               <!--<span class="slds-progress-bar__value" style="width:66%">
+                   <span class="slds-assistive-text">Progress: 66%</span>
+               </span>-->
+               
+               <!-- PROGRESS 3/3 -->
+               <span class="slds-progress-bar__value" style="width:100%">
+                   <span class="slds-assistive-text">{label.cmpOTVTalkWithAnExpert_2}</span>
+               </span>
+           </div>
+        </div> 
+   </header>
+</template>

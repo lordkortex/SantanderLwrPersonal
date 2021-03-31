@@ -1,0 +1,501 @@
+<aura:component
+  implements="forceCommunity:availableForAllPageTypes"
+  access="global"
+  controller="CNT_B2B_SelectAmount"
+>
+  <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+
+  <!-- CORE ATTRIBUTES -->
+  <aura:attribute access="public" type="Map" name="paymentDraft" default="{}" />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="userData"
+    default="{}"
+    description="User data."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="transferType"
+    default=""
+    description="Operation type that identify the particular operation universe"
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="steps"
+    description="Data of the steps."
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="step3field"
+    default="{}"
+    description="Fields in the payment information."
+  />
+  <aura:attribute access="public" type="Aura.Action" name="handleContinue" />
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="spinner"
+    default="false"
+    description="Spinner loading."
+  />
+
+  <aura:attribute
+    access="private"
+    type="Boolean"
+    name="isLoading"
+    default="true"
+    description="Spinner loading."
+  />
+  <aura:attribute
+    access="public"
+    type="Decimal"
+    name="convertedAmount"
+    description="Amount returned from calculation to be saved to amountReceive or amountSend."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="exchangeRateToShow"
+    description=""
+  />
+  <aura:attribute
+    access="private"
+    type="String"
+    name="errorMSG"
+    default=""
+    description="Indicates the error when clicked on continue."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="errorRef"
+    default=""
+    description="Indicates the error when clicked on continue."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="errorPurpose"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="errorPaymentReason"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="errorCharges"
+    default=""
+  />
+  <aura:attribute
+    access="private"
+    type="String"
+    name="timeSourceBalance"
+    default="12:34"
+    description="Time at which the source account balance was last updated."
+  />
+  <aura:attribute
+    access="private"
+    type="String"
+    name="timeRecipientBalance"
+    default="01:00"
+    description="Time at which the recipient account balance was last updated."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="isEditing"
+    default="false"
+    description="Indicates if the user is editing an existing payment so field should not be reset on initialisation."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="disableFrom"
+    default="false"
+    description="Disable the From field for CIB user when they input a value in the To field."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="disableTo"
+    default="false"
+    description="Disable the To field for CIB user when they input a value in the From field."
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="showBothAmountInput"
+    default="false"
+    description="TRUE to show both amount inputs or FALSE one of them"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="disabledContinue"
+    default="false"
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="rateCurrencies"
+    default=""
+    description="Rate currencies"
+  />
+  <aura:attribute access="public" type="Map" name="signLevel" default="{}" />
+  <aura:attribute
+    access="public"
+    type="List"
+    name="charges"
+    default="[]"
+    description="List of values to populate the charges"
+  />
+  <aura:attribute
+    access="public"
+    type="List"
+    name="paymentPurpose"
+    default="[]"
+    description="List of values to populate the dropdown"
+  />
+
+  <aura:handler name="init" action="{!c.initComponent}" value="{!this}" />
+  <aura:handler
+    name="changeInputAmount"
+    action="{!c.handleChange}"
+    event="c:EVT_B2B_InputAmount"
+  />
+  <!--SNJ_DEPRECATED : ToDo DELETE NEXT LINE -->
+  <!-- <aura:handler name="change"            action="{!c.handleCurrencyChange}"   value="{!v.paymentDraft.destinationAccount.currencyCodeAvailableBalance}" /> -->
+
+  <aura:method
+    access="public"
+    name="checkContinue"
+    action="{!c.handleCheckContinue}"
+  >
+    <aura:attribute type="Integer" name="step" />
+  </aura:method>
+
+  <aura:method
+    access="public"
+    name="editingProcess"
+    action="{!c.handleEditingProcess}"
+  >
+    <aura:attribute type="Decimal" name="amountEntered" />
+    <aura:attribute type="String" name="amountEnteredFrom" />
+  </aura:method>
+
+  <aura:registerEvent name="completeStep" type="c:EVT_B2B_CompleteStep" />
+
+  <div
+    class="{! 'paymentProcessStep3 slds-is-relative ' + (v.steps.shownStep eq 3 ? 'heightTotal' : '')}"
+    id="step-3"
+    tabindex="-1"
+  >
+    <c:cmpPayStepHeader
+      stepNumber="3"
+      stepTitle="{!$Label.c.B2B_Step_3_Header}"
+    />
+    <div class="paymentStep_body">
+      <div class="amountBalance">
+        <c:CMP_B2B_InputAmount
+          aura:id="sourceAmountInput"
+          elementLabel="{!not(empty(v.paymentDraft.sourceAccount.alias)) ? $Label.c.B2B_Step_3_From + ' ' + v.paymentDraft.sourceAccount.alias : $Label.c.B2B_Step_3_From + ' ' + v.paymentDraft.sourceAccount.displayNumber}"
+          numberFormat="{!v.userData.numberFormat}"
+          accCurrency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+          value="{!v.paymentDraft.amountSend}"
+          inputId="sourceAmountInput"
+          errorMSG="{!v.errorMSG}"
+          handleChange="{!c.handleChangeSend}"
+          steps="{!v.steps}"
+          isModified="{!v.isModified}"
+          disableFrom="{!v.disableFrom}"
+          disableTo="{!v.disableTo}"
+          disabled="{!v.disableFrom}"
+          isCib="{!v.userData.cib}"
+          showBalanceInfo="{! not(empty(v.paymentDraft.sourceAccount.amountAvailableBalance))}"
+          balanceValue="{!v.paymentDraft.sourceAccount.amountAvailableBalance}"
+          balanceCurrency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+          dateText="{!v.paymentDraft.sourceAccount.lastUpdateAvailableBalance}"
+          timeText="{!v.timeSourceBalance}"
+          dateFormat="{!v.userData.dateFormat}"
+          showBothAmountInput="{!v.showBothAmountInput}"
+        />
+        <aura:if isTrue="{!v.showBothAmountInput}">
+          <div class="indicativeRate">
+            <aura:if
+              isTrue="{!and(!empty(v.paymentDraft.exchangeRate), v.paymentDraft.exchangeRate ne 0)}"
+            >
+              <aura:if
+                isTrue="{!or(v.accountData.cib eq false, empty(v.accountData.cib))}"
+              >
+                <aura:if isTrue="{!v.paymentDraft.fromOrigin eq true}">
+                  <div class="slds-text-align_center bold">
+                    <c:CMP_displayAmount
+                      amount="{!v.exchangeRateToShow}"
+                      decimalClass="bold"
+                      wholeClass="bold"
+                      numberOfDec="4"
+                      wholeDecimal="true"
+                      numberFormat="{!v.userData.numberFormat}"
+                    />
+
+                    {!v.rateCurrencies}
+                  </div>
+                  <div class="slds-text-align_center">
+                    {!$Label.c.B2B_Step_3_Indicative_Rate + ' ' +
+                    v.paymentDraft.timestamp}
+                  </div>
+                  <aura:set attribute="else">
+                    <div class="slds-text-align_center bold">
+                      <c:CMP_displayAmount
+                        amount="{!v.exchangeRateToShow}"
+                        decimalClass="bold"
+                        wholeClass="bold"
+                        numberOfDec="4"
+                        wholeDecimal="true"
+                        numberFormat="{!v.userData.numberFormat}"
+                      />
+                      {!v.rateCurrencies}
+                    </div>
+                    <div class="slds-text-align_center">
+                      {!$Label.c.B2B_Step_3_Indicative_Rate + ' ' +
+                      v.paymentDraft.timestamp}
+                    </div>
+                  </aura:set>
+                </aura:if>
+              </aura:if>
+            </aura:if>
+            <div class="icon"><span class="icon-income-expenses"> </span></div>
+          </div>
+          <c:CMP_B2B_InputAmount
+            aura:id="recipientAmountInput"
+            elementLabel="{!not(empty(v.paymentDraft.destinationAccount.alias)) ? $Label.c.B2B_Step_3_To + ' ' + v.paymentDraft.destinationAccount.alias :$Label.c.B2B_Step_3_To + ' ' + v.paymentDraft.destinationAccount.displayNumber}"
+            numberFormat="{!v.userData.numberFormat}"
+            accCurrency="{!v.paymentDraft.paymentCurrency}"
+            value="{!v.paymentDraft.amountReceive}"
+            inputId="recipientAmountInput"
+            errorMSG=""
+            handleChange="{!c.handleChangeReceive}"
+            steps="{!v.steps}"
+            isModified="{!v.isModified}"
+            disableFrom="{!v.disableFrom}"
+            disableTo="{!v.disableTo}"
+            disabled="{!v.disableTo}"
+            isCib="{!v.userData.cib}"
+            showBalanceInfo="false"
+            showMoreInfoText="true"
+            moreInfoLabel="{!$Label.c.B2B_Country}"
+            moreInfoValue="{!v.paymentDraft.destinationAccount.countryName}"
+            dateFormat="{!v.userData.dateFormat}"
+            showBothAmountInput="{!v.showBothAmountInput}"
+          />
+          <!--SNJ_DEPRECATED-->
+          <!--<aura:set attribute="else">
+                             <c:CMP_B2B_InputAmount aura:id="sourceAmountInput"
+                                       elementLabel="{!not(empty(v.paymentDraft.sourceAccount.alias)) ? $Label.c.B2B_Step_3_To + ' ' + v.paymentDraft.sourceAccount.alias :$Label.c.B2B_Step_3_To + ' ' + v.paymentDraft.sourceAccount.displayNumber}"                
+                                       numberFormat="{!v.userData.numberFormat}"
+                                       accCurrency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+                                       value="{!v.paymentDraft.amountReceive}"
+                                       inputId="sourceAmountInput"
+                                       errorMSG=""
+                                       handleChange="{!c.handleChangeReceive}"
+                                       steps="{!v.steps}"
+                                       isModified="{!v.isModified}"
+                                       disableFrom="{!v.disableFrom}"
+                                       disableTo="{!v.disableTo}"
+                                       disabled="{!v.disableTo}"
+                                       isCib="{!v.userData.cib}"
+                                       showBalanceInfo="false"
+                                       showMoreInfoText="true"
+                                       moreInfoLabel="{!$Label.c.B2B_Country}"
+                                       moreInfoValue="{!v.paymentDraft.sourceAccount.countryName}"
+                                       dateFormat ="{!v.userData.dateFormat}"
+                                       showBothAmountInput = "{!v.showBothAmountInput}"
+                                       />
+                		</aura:set>-->
+        </aura:if>
+      </div>
+      <!--SNJ_DEPRECATED-->
+      <!--<div class="from">
+
+           
+            <aura:if isTrue="{!v.showBothAmountInput}">
+                <aura:if isTrue="{!not(empty(v.paymentDraft.sourceAccount.alias))}">
+                    <div class="slds-text-heading_subtitle">{!$Label.c.B2B_Step_3_From + ' ' + v.paymentDraft.sourceAccount.alias}</div>
+                    <aura:set attribute="else">
+                        <div class="slds-text-heading_subtitle">{!$Label.c.B2B_Step_3_From + ' ' + v.paymentDraft.sourceAccount.displayNumber}</div>
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+            <div class="slds-grid">
+                <c:CMP_B2B_InputAmount aura:id="sourceAmountInput"
+                    numberFormat="{!v.userData.numberFormat}"
+                    accCurrency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+                    value="{!v.paymentDraft.amountSend}"
+                    inputId="sourceAmountInput"
+                    errorMSG="{!v.errorMSG}"
+                    handleChange="{!c.handleChangeSend}"
+                    steps="{!v.steps}"
+                    isModified="{!v.isModified}"
+                    disableFrom="{!v.disableFrom}"
+                    disableTo="{!v.disableTo}"
+                    disabled="{!v.disableFrom}"
+                    isCib="{!v.userData.cib}" />
+                <aura:if isTrue="{! not(empty(v.paymentDraft.sourceAccount.amountAvailableBalance))}">
+                    <div class="slds-form-element box">
+                        <div class="slds-box availableBalance">
+                            <h2 class="slds-text-heading_small slds-truncate">{!$Label.c.B2B_Available_Balance}</h2>
+                            <p class="slds-truncate">
+                                <c:CMP_displayAmount
+                                    aura:id ="avaibleBalanceRow"
+                                    amount="{!v.paymentDraft.sourceAccount.amountAvailableBalance}"
+                                    decimalClass="slds-truncate"
+                                    wholeClass="slds-truncate"
+                                    currency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+                                    numberFormat="{!v.userData.numberFormat}" />
+                            </p>
+                        </div>
+                        <div class="textBox">
+                            <div class="icon-time"></div>
+                            <span class="text">{!$Label.c.PAY_UpdatedAt}<span class="textBold">&nbsp;{!v.timeSourceBalance}</span></span>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+        </div>-->
+      <!--SNJ_DEPRECATED-->
+      <!--<aura:if isTrue="{!v.showBothAmountInput}">
+            <div>
+                <div class="icon-arrowDown"></div>
+                <aura:if isTrue="{!and(!empty(v.paymentDraft.exchangeRate), v.paymentDraft.exchangeRate ne 0)}">
+                    <aura:if isTrue="{!or(v.accountData.cib eq false, empty(v.accountData.cib))}">
+                        <div class="slds-box indicativeRate">
+                            <h2 class="slds-text-heading_small slds-truncate">
+                                <aura:if isTrue="{!v.paymentDraft.fromOrigin eq true}">
+                                    <span class="amount">
+                                        <c:CMP_displayAmount
+                                            amount="{!v.exchangeRateToShow}"
+                                            decimalClass="amount"
+                                            wholeClass="amount"
+                                            numberOfDec="4"
+                                            wholeDecimal = "true"
+                                            numberFormat="{!v.userData.numberFormat}" />
+                                        {!$Label.c.EUR} / {!$Label.c.GBP}
+                                    </span>
+                                    <aura:set attribute="else">
+                                        <span class="amount">
+                                            <c:CMP_displayAmount
+                                                amount="{!v.exchangeRateToShow}"
+                                                decimalClass="amount"
+                                                wholeClass="amount"
+                                                numberOfDec="4"
+                                                wholeDecimal = "true"
+                                                numberFormat="{!v.userData.numberFormat}" />
+                                            {!$Label.c.EUR} / {!$Label.c.GBP}
+                                        </span>
+                                    </aura:set>
+                                </aura:if>
+                            </h2>
+                            <p>
+                                {!$Label.c.B2B_Step_3_Indicative_Rate}<span class="hour">{!v.paymentDraft.timestamp}</span>
+                            </p>
+                        </div>
+                    </aura:if>
+                </aura:if>
+            </div>
+            <div class="to">
+                <aura:if isTrue="{!not(empty(v.paymentDraft.destinationAccount.alias))}">
+                    <div class="slds-text-heading_subtitle">{!$Label.c.B2B_Step_3_To + ' ' + v.paymentDraft.destinationAccount.alias}</div>
+                    <aura:set attribute="else">
+                        <div class="slds-text-heading_subtitle">{!$Label.c.B2B_Step_3_To + ' ' + v.paymentDraft.destinationAccount.displayNumber}</div>
+                    </aura:set>
+                </aura:if>
+                <div class="slds-grid">
+                    <c:CMP_B2B_InputAmount aura:id="recipientAmountInput"
+                        numberFormat="{!v.userData.numberFormat}"
+                        accCurrency="{!v.paymentDraft.destinationAccount.currencyCodeAvailableBalance}"
+                        value="{!v.paymentDraft.amountReceive}"
+                        inputId="recipientAmountInput"
+                        errorMSG=""
+                        handleChange="{!c.handleChangeReceive}"
+                        steps="{!v.steps}"
+                        isModified="{!v.isModified}"
+                        disableFrom="{!v.disableFrom}"
+                        disableTo="{!v.disableTo}"
+                        disabled="{!v.disableTo}"
+                        isCib="{!v.userData.cib}" />
+                   
+                    <aura:if isTrue="{!v.showCurrencyDropdown}">
+                        <c:CMP_PAY_FilterDropdown
+                            aura:id="recipientAccountCurrencies"
+                            values="{!v.currencyList}"
+                            selectedValue=""
+                            deselectOption="false"
+                            helpTextDropdown="{!$Label.c.Show_More}"
+                            isSimpleDropdown="true"
+                            label="{!$Label.c.currency}"
+                            isDisabled="false"
+                            valuesPlaceholder=""
+                            errorText="{!$Label.c.IncorrectInputFormat}" />
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{! and(not(empty(v.paymentDraft.destinationAccount.amountAvailableBalance)), (v.showRecipientAvailableBalance == true))}">
+                                <div class="slds-form-element box">
+                                    <div class="slds-box availableBalance">
+                                        <h2 class="slds-text-heading_small slds-truncate">{!$Label.c.B2B_Available_Balance}</h2>
+                                        <p class="slds-truncate">
+                                            <c:CMP_displayAmount
+                                                aura:id="avaibleBalanceRow"
+                                                amount="{!v.paymentDraft.destinationAccount.amountAvailableBalance}"
+                                                decimalClass="slds-truncate"
+                                                wholeClass="slds-truncate"
+                                                currency="{!v.paymentDraft.destinationAccount.currencyCodeAvailableBalance}"
+                                                numberFormat="{!v.userData.numberFormat}" />
+                                        </p>
+                                    </div>
+                                    <div class="textBox">
+                                        <div class="icon-time"></div>
+                                        <span class="text">{!$Label.c.PAY_UpdatedAt}<span class="textBold">&nbsp;{!v.timeRecipientBalance}</span></span>
+                                    </div>
+                                </div>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+        </aura:if>-->
+      <aura:if isTrue="{!v.paymentDraft.productId ne null}">
+        <c:CMP_B2B_PaymentInformation
+          aura:id="paymentInformation"
+          paymentDraft="{!v.paymentDraft}"
+          userData="{!v.userData}"
+          steps="{!v.steps}"
+          handleContinue="{!c.handleContinue}"
+          isEditing="{!v.isEditing}"
+          transferType="{!v.transferType}"
+          signLevel="{!v.signLevel}"
+          step3field="{!v.step3field}"
+          errorRef="{!v.errorRef}"
+          errorPurpose="{!v.errorPurpose}"
+          errorCharges="{!v.errorCharges}"
+          errorPaymentReason="{!v.errorPaymentReason}"
+          charges="{!v.charges}"
+          paymentPurpose="{!v.paymentPurpose}"
+        />
+      </aura:if>
+      <aura:if isTrue="{!v.spinner eq true}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+      </aura:if>
+      <aura:if isTrue="{!v.steps.lastModifiedStep eq 3}">
+        <c:CMP_B2B_ProcessContinueButton handleContinue="{!v.handleContinue}" />
+      </aura:if>
+      <c:CMP_B2B_Toast aura:id="errorToast" />
+    </div>
+  </div>
+</aura:component>

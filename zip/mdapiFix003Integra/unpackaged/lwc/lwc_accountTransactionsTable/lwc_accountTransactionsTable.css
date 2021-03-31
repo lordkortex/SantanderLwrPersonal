@@ -1,0 +1,385 @@
+/* ACCOUNT TRANSACTIONS CSS */
+.tableGPI {
+  padding-top: 0;
+}
+.tableGPI:before {
+  display: none;
+}
+.circle {
+  font-size: 24px;
+}
+.containerCategory {
+  width: calc(67px + 56px);
+}
+.containerIconDetail {
+  width: 105px;
+}
+.containerClientReference {
+  width: calc(264px + 32px);
+}
+.containerValueDate {
+  width: calc(75px + 40px);
+}
+.containerAmount {
+  width: calc(58px + 199px - 32px);
+}
+.containerBookDate {
+  width: calc(145px - 16px);
+}
+.containerBookBalance {
+  width: calc(99px + 116px);
+}
+
+/* ICON */
+
+.tableGPI .slds-button {
+  cursor: pointer;
+  padding-right: 16px;
+  justify-content: flex-end;
+  border: 0px;
+}
+.icon.icon-arrowRight_big {
+  color: #ec0000;
+}
+.icon.icon-arrowRight_big:hover {
+  color: #cc0000;
+}
+.icon.icon-arrowRight_big {
+  font-family: "SantanderMicroText" !important;
+  font-size: 14px;
+  line-height: 21px;
+}
+.icon.icon-arrowRight_big:before {
+  font-family: "icomoon" !important;
+  font-size: 24px;
+  float: right;
+  width: 24px;
+  margin-left: 2px;
+}
+
+.icon-arrowDown,
+.icon-arrowUp {
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 4px;
+  vertical-align: sub;
+}
+.icon-arrowDown:before,
+.icon-arrowUp:before {
+  color: #767676;
+}
+.slds-is-sortable .slds-th__action:hover,
+.slds-is-sortable .slds-th__action:focus,
+.slds-is-sortable.slds-has-focus .slds-th__action,
+.slds-is-sortable.slds-has-focus .slds-th__action:hover,
+.slds-is-sortable.slds-has-focus .slds-th__action:focus {
+  background-color: unset;
+}
+
+.slds-table--header-fixed thead th {
+  padding: 0 8px 0 0;
+}
+.slds-table_striped tbody tr > td {
+  box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+.slds-table_striped tbody tr:first-child > td {
+  box-shadow: inset 0 -1px 0 0 #cedee7, inset 0 1px 0 0 #cedee7;
+}
+.slds-table_striped tbody tr:nth-of-type(2n + 1) > td {
+  background-color: #fcfefe;
+}
+.slds-table_striped tbody tr:nth-of-type(2n) > td {
+  background-color: #ffffff;
+}
+.slds-table--header-fixed_container,
+.slds-table_edit_container,
+.slds-is-relative {
+  margin-bottom: 16px;
+}
+
+.status {
+  font-family: SantanderTextW05-Bold;
+}
+tbody .nodata {
+  padding: 8px 16px 8px 24px;
+}
+tbody .nodata div {
+  color: #a2a2a2;
+}
+tbody td {
+  padding: 0;
+  padding-left: 16px;
+}
+
+tbody td.slds-text-align_center {
+  padding: 16px;
+}
+
+tbody > tr {
+  height: 56px;
+}
+.slds-truncate {
+  color: #444444;
+  font-size: 14px;
+  line-height: 21px;
+  font-family: "SantanderMicroText";
+}
+
+.text.amountDecimals {
+  font-family: "SantanderMicroText-Bd";
+}
+.text.amountInteger {
+  font-family: "SantanderMicroText-Bd";
+  font-size: 18px;
+  line-height: 27px;
+}
+thead .slds-truncate {
+  color: #767676;
+  font-size: 14px;
+  font-weight: normal;
+  height: 20px;
+  line-height: 20px;
+  margin: 12px 0;
+  min-height: 20px;
+  padding: 0;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  overflow: inherit;
+}
+thead tr th {
+  box-shadow: inset 0 1px 0 0 #cedee7;
+  padding: 0;
+  padding-left: 16px;
+}
+.slds-text-align_right .slds-grid.slds-grid_align-spread {
+  justify-content: flex-end;
+}
+
+/* SEARCH TRANSACTIONS CSS*/
+.tableSearch {
+  padding-top: 0;
+  width: 1224px;
+}
+.tableSearch:before {
+  display: none;
+}
+
+.tableSearch thead {
+  height: 44px;
+}
+/*.tableSearch tbody>tr {
+    height: 75px;
+}*/
+
+.tableSearch .slds-table thead th {
+  padding: 12px 0;
+}
+
+.tableSearch .slds-table td {
+  padding: 14px 0 15px 0;
+  vertical-align: super;
+}
+
+.tableSearch .slds-table thead th.containerCategory,
+.tableSearch .slds-table td.infoCategory {
+  width: 115px;
+  padding-right: 24px;
+}
+.tableSearch .slds-table thead th.containerIconDetail {
+  width: 81px;
+}
+.tableSearch .slds-table thead th.containerClientReference,
+.tableSearch .slds-table td.infoClient {
+  width: 288px;
+  padding-right: 24px;
+}
+.tableSearch .slds-table thead th.containerValueDate,
+.tableSearch .slds-table td.infoValueDate {
+  width: 115px;
+  padding-right: 40px;
+}
+.tableSearch .slds-table thead th.containerAmount,
+.tableSearch .slds-table td.infoAmount {
+  width: 224px;
+  padding-right: 24px;
+}
+.tableSearch .slds-table thead th.containerBookDate,
+.tableSearch .slds-table td.infoBookDate {
+  width: 121px;
+  padding-right: 24px;
+}
+.tableSearch .slds-table thead th.containerAccount,
+.tableSearch .slds-table td.infoAccount {
+  width: 280px;
+  padding-right: 24px;
+  padding-left: 16px;
+}
+
+.iconLinkContainer {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding-right: 16px;
+}
+.icon-arrowRight_big:before {
+  font-size: 24px;
+}
+.icon-arrowDown,
+.icon-arrowUp {
+  cursor: pointer;
+  font-size: 20px;
+  margin: 0 4px;
+  vertical-align: sub;
+}
+.icon-arrowDown:before,
+.icon-arrowUp:before {
+  color: #767676;
+}
+.slds-is-sortable .slds-th__action:hover,
+.slds-is-sortable .slds-th__action:focus,
+.slds-is-sortable.slds-has-focus .slds-th__action,
+.slds-is-sortable.slds-has-focus .slds-th__action:hover,
+.slds-is-sortable.slds-has-focus .slds-th__action:focus {
+  background-color: unset;
+}
+.slds-table_striped tbody tr > td {
+  box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+.slds-table_striped tbody tr:first-child > td {
+  box-shadow: inset 0 -1px 0 0 #cedee7, inset 0 1px 0 0 #cedee7;
+}
+.slds-table_striped tbody tr:nth-of-type(2n + 1) > td {
+  background-color: #fcfefe;
+}
+.slds-table_striped tbody tr:nth-of-type(2n) > td {
+  background-color: #ffffff;
+}
+.slds-table--header-fixed_container,
+.slds-table_edit_container,
+.slds-is-relative {
+  margin-bottom: 16px;
+}
+
+tbody .nodata {
+  padding: 8px 16px 8px 24px;
+}
+tbody .nodata div {
+  color: #a2a2a2;
+}
+.slds-truncate {
+  color: #444444;
+  font-size: 14px;
+  line-height: 21px;
+  font-family: "SantanderMicroText";
+}
+.text-link {
+  font-size: 14px;
+  line-height: 24px;
+  font-family: "SantanderMicroText";
+  margin-right: 2px;
+}
+.text.amountDecimals {
+  font-family: "SantanderMicroText-Bd";
+}
+.text.amountInteger {
+  font-family: "SantanderMicroText-Bd";
+  font-size: 18px;
+  line-height: 27px;
+}
+thead .slds-truncate {
+  color: #767676;
+  font-size: 14px;
+  font-weight: normal;
+  height: 20px;
+  line-height: 20px;
+  min-height: 20px;
+  padding: 0;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  overflow: inherit;
+}
+thead tr th {
+  box-shadow: inset 0 1px 0 0 #cedee7;
+}
+.slds-text-align_right .slds-grid.slds-grid_align-spread {
+  justify-content: flex-end;
+}
+
+@media print {
+  .tableGPI {
+    width: 100%;
+    max-width: 100%;
+  }
+  .slds-table thead th,
+  .slds-table_striped tbody tr > td {
+    width: auto !important;
+    padding: 5px !important;
+  }
+  tbody > tr {
+    height: auto;
+  }
+  .tableGPI .slds-table thead th.containerIconDetail,
+  .icon-arrowDown,
+  .icon-arrowUp,
+  .slds-table_striped tbody tr > td:last-child {
+    display: none;
+  }
+  thead .slds-truncate {
+    font-size: 10px;
+  }
+  .slds-truncate {
+    font-size: 10px;
+  }
+  .text.amountInteger {
+    font-size: 10px;
+  }
+}
+
+@media print {
+  .tableSearch {
+    width: 100%;
+    max-width: 100%;
+  }
+  .slds-table thead th,
+  .slds-table_striped tbody tr > td {
+    width: auto !important;
+    padding: 5px !important;
+  }
+
+  .tableSearch .slds-table thead th.containerIconDetail,
+  .icon-arrowDown,
+  .icon-arrowUp,
+  .slds-table_striped tbody tr > td:last-child {
+    display: none;
+  }
+  thead .slds-truncate {
+    font-size: 10px;
+  }
+  tbody tr {
+    page-break-inside: avoid;
+    page-break-before: always;
+  }
+  .slds-truncate {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .text.amountInteger {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .tableSearch .slds-table thead th.containerAccount {
+    width: 170px !important;
+  }
+  .tableSearch .slds-table thead th.containerClientReference {
+    width: 200px !important;
+  }
+  .tableSearch .slds-table thead th.containerAmount {
+    width: 100px !important;
+  }
+  .tableSearch {
+    margin-top: 20px;
+  }
+  .tableSearch thead {
+    display: table-row-group;
+  }
+}

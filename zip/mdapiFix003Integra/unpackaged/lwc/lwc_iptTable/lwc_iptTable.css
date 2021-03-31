@@ -1,0 +1,241 @@
+.tableGPI {
+  box-shadow: inset 0 1px 0 0 #cedee7;
+  padding-top: 44px;
+}
+
+.icon-arrowDown,
+.icon-arrowUp {
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 4px;
+}
+.icon-arrowDown:before,
+.icon-arrowUp:before {
+  color: #767676;
+}
+
+.tableGPI:before {
+  display: none;
+}
+.circle {
+  font-size: 24px;
+}
+.containerBeneficiary {
+  /*width: 21.5%;*/
+  width: 263px;
+}
+.containerIconDetail {
+  width: 40px;
+}
+.containerIconStatus {
+  /*width: 3.9%;*/
+  width: 48px;
+}
+.containerOrigen {
+  /*width: 23%;*/
+  width: 282px;
+}
+
+.containerSettled .slds-truncate {
+  display: flex;
+  /*width: 17.4%;*/
+  width: 227px;
+  justify-content: flex-end;
+}
+.containerStatus {
+  /*width: 16.1%;*/
+  width: 197px;
+}
+.containerValue {
+  /*width: 9.9%;*/
+  width: 127px;
+}
+
+.containerValue .slds-truncate {
+  display: flex;
+}
+
+tbody td {
+  padding: 12px 0px 12px 0;
+}
+
+tbody td.statusInfo {
+  padding-right: 74px;
+}
+
+tbody td.originInfo {
+  padding-right: 32px;
+}
+
+tbody td.beneficiaryInfo {
+  padding-right: 13px;
+}
+
+tbody td.valueDateInfo {
+  padding-right: 28px;
+  padding-left: 24px;
+}
+
+.icon-doc103:before,
+.icon-tracking:before {
+  cursor: pointer;
+}
+.icon-tracking,
+.icon-doc103 {
+  font-size: 24px;
+}
+
+.slds-is-sortable .slds-th__action:hover,
+.slds-is-sortable .slds-th__action:focus,
+.slds-is-sortable.slds-has-focus .slds-th__action,
+.slds-is-sortable.slds-has-focus .slds-th__action:hover,
+.slds-is-sortable.slds-has-focus .slds-th__action:focus {
+  background-color: unset;
+}
+.slds-table--header-fixed thead th {
+  padding: 0 8px 0 0;
+}
+.slds-table_striped tbody tr > td {
+  box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+.slds-table_striped tbody tr:first-child > td {
+  box-shadow: inset 0 -1px 0 0 #cedee7, inset 0 1px 0 0 #cedee7;
+}
+.slds-table_striped tbody tr:nth-of-type(2n + 1) > td {
+  background-color: #fcfefe;
+}
+.slds-table_striped tbody tr:nth-of-type(2n) > td {
+  background-color: #ffffff;
+}
+.slds-table--header-fixed_container,
+.slds-table_edit_container,
+.slds-is-relative {
+  margin-bottom: 16px;
+}
+.slds-text-align_right .slds-grid_align-spread {
+  display: initial;
+  justify-content: flex-end;
+}
+.status {
+  font-family: SantanderTextW05-Bold;
+}
+tbody .nodata {
+  padding: 8px 16px 8px 24px;
+}
+tbody .nodata div {
+  color: #a2a2a2;
+}
+tbody td {
+  padding: 12px 8px 12px 0;
+}
+tbody td.slds-text-align_center.status {
+  padding: 0 8px;
+  vertical-align: middle;
+}
+tbody td.slds-text-align_center.tracking {
+  padding: 12px 8px;
+  vertical-align: top;
+}
+tbody td.slds-text-align_left {
+  padding-right: 16px;
+}
+tbody td.slds-text-align_right {
+  padding-right: 0;
+}
+tbody > tr {
+  height: 66px;
+  vertical-align: top;
+}
+.text {
+  color: #444444;
+  font-size: 14px;
+}
+.amountDecimals {
+  font-family: "SantanderTextW05-Bold";
+  font-size: 12px;
+}
+.amountInteger {
+  font-family: "SantanderTextW05-Bold";
+}
+thead .slds-truncate {
+  color: #767676;
+  font-size: 14px;
+  font-weight: normal;
+  height: 20px;
+  line-height: 20px;
+  margin: 12px 0;
+  min-height: 20px;
+  padding: 0;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  overflow: inherit;
+}
+
+/*No results found*/
+
+.container_noResults {
+  height: 342px;
+  background-color: rgba(239, 246, 249, 0.4);
+  padding: 84px 454px;
+}
+
+.container_noResults.results-background {
+  background-image: url("/sfsites/c/resource/Images/Leaf.png");
+  background-position: bottom right;
+  background-repeat: no-repeat;
+}
+
+.container_noResults .slds-media__figure {
+  display: flex;
+  justify-content: center;
+  font-size: 40px;
+  margin: 0 0 12px 0;
+}
+
+.container_noResults .slds-text-title {
+  text-align: center;
+  font-family: SantanderMicroText-Bd;
+  font-size: 16px;
+  line-height: 22px;
+  color: #cc0000;
+  margin-bottom: 12px;
+}
+
+.container_noResults .slds-text-align_center {
+  font-size: 14px;
+  color: #a2a2a2;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.container_noResults .pill-button {
+  display: flex;
+  justify-content: center;
+}
+
+.container_noResults .redButton {
+  height: 32px;
+  border-radius: 100px;
+  color: #ffffff;
+  background-color: #ec0000;
+  border: 1px solid #ec0000;
+  font-family: SantanderMicroText-Bd;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  padding: 0 13px;
+  cursor: pointer;
+}
+
+.container_noResults .redButton:focus {
+  box-shadow: 2px 2px 4px 2px rgba(206, 214, 219, 0.64);
+}
+
+.container_noResults .redButton:hover {
+  background-color: #cc0000;
+  border: 1px solid #cc0000;
+}
+
+.icon-warning:before {
+  color: #cc0000;
+}

@@ -1,0 +1,83 @@
+.slds-listbox__option-text {
+  padding-left: 1.35rem;
+}
+
+.leftPaddingClass {
+  padding-left: 2rem;
+  box-shadow: inset 0 -1px 0 0 #8dd9de;
+  border-radius: 4px 4px 0 0;
+  border: none;
+}
+
+.slds-pill__label {
+  padding-left: 2rem;
+}
+.leftPaddingClass:focus {
+  padding-left: 2rem;
+  box-shadow: inset 0 -2px 0 0 #8dd9de;
+  border: none;
+}
+
+.pillSize {
+  width: 150% !important;
+}
+
+.slds-pill-container {
+  box-shadow: inset 0 -2px 0 0 #8dd9de;
+  border-radius: 4px 4px 0 0;
+}
+
+.slds-pill__action {
+  border: none !important;
+}
+
+/*.lookup{
+    min-height:40px;
+    margin-top: 0!important;
+    width: 70%!important;
+    left: 65.2%!important;
+    top: 100%!important;
+    border-radius: 0px 0px 0px 0px;
+}*/
+
+.lookup {
+  min-height: 40px;
+  margin-top: 0 !important;
+  width: 62% !important;
+  left: 69% !important;
+  top: 100% !important;
+  border-radius: 0px 0px 0px 0px;
+}
+
+.slds-lookup {
+  position: relative;
+  width: 100%;
+  display: inline-flex;
+}
+
+.slds-form-element__label {
+  color: #444444;
+  font-size: 12px;
+  height: 36px;
+  line-height: 36px;
+  margin-bottom: 0;
+  margin-left: 32px;
+  padding: 0 16px 0 0;
+  text-align: right;
+  width: 128px;
+}
+
+.slds-input {
+  background-color: #fff;
+  border-radius: 4px 4px 0 0;
+  border-style: none;
+  border-width: 0;
+  box-shadow: inset 0 -1px 0 0 #8dd9de;
+  color: #444444;
+  display: inline-block;
+  font-size: 13px;
+  height: 36px;
+  line-height: 36px;
+  transition: none;
+  width: 100%;
+}

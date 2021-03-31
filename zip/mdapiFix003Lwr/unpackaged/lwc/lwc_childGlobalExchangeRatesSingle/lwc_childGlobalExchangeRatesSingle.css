@@ -1,0 +1,47 @@
+.list-exchange {
+  margin-bottom: 16px;
+}
+.exchange {
+  color: #444444;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 8px;
+  display: flex;
+}
+.exchange .icon-fx {
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  margin-right: 8px;
+}
+.exchange .icon-fx:before {
+  color: #ec0000 !important;
+}
+ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+li {
+  /*width:50%;*/
+  display: flex;
+  width: 172px;
+  color: #444444;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}
+.separationComponent:nth-child(2n + 1) {
+  padding-right: 12px;
+}
+li:nth-child(2n + 2) {
+  padding-left: 12px;
+}
+
+li strong {
+  font-family: "SantanderMicroText-Bd";
+  font-size: 14px;
+  padding-left: 8px;
+}

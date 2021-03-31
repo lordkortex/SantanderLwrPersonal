@@ -1,0 +1,28 @@
+<template>
+    <footer class="slds-card__footer" if:true={isshow}>
+        <li role="presentation" class="slds-listbox__item">
+            <div id="option1" class="slds-media slds-listbox__option" role="option">
+                <span class="slds-media__body">
+                    <article class="slds-card optionCard">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__body">
+                                    <div class="slds-card__header-title">
+                                        <div class="slds-form-element">
+                                            <label class="slds-checkbox_toggle slds-grid">
+                                                <span
+                                                    class="slds-form-element__label slds-m-bottom_none">{account.accountId}
+                                                </span>
+                                            </label>
+                                        </div>
+                                        <div class="subtitleText">{account.alias}</div>
+                                    </div>
+                                </div>
+                            </header>
+                        </div>
+                    </article>
+                </span>
+            </div>
+        </li>
+    </footer>
+</template>

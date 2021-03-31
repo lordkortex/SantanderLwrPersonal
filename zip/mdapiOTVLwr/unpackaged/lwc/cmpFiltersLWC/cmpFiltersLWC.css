@@ -1,0 +1,96 @@
+.slds-combobox_container {
+  /* margin-right: 8px;   */
+  margin-right: var(--size-spacing-02);
+}
+.slds-button.buttons {
+  /* height: 32px; */
+  height: var(--size-spacing-06);
+  /* border-radius: 4px; */
+  border-radius: var(--size-border-radius-02);
+  /* border: solid 1px #cedee7; */
+  border: solid 1px var(--color-medium-sky);
+  /* background-color:#f6fafc; */
+  background-color: var(--color-sky-30);
+  font-family: "SantanderMicroText";
+  /* font-size: 14px; */
+  font-size: var(--size-font-02);
+  text-align: left;
+  /* color: #444444; */
+  color: var(--color-dark-grey);
+  /* padding: 0 36px 0px 8px; */
+  padding: 0 36px 0 var(--size-spacing-02);
+  line-height: 21px;
+  display: inline-flex;
+  width: fit-content;
+}
+.slds-button.buttons:hover {
+  border: solid 1px var(--color-dark-sky);
+  /* background-color: #e8f3f6; */
+  background-color: var(--color-sky-70);
+}
+.slds-button.buttons:hover .icon-arrowDown_small:before,
+.slds-button.buttons:hover .icon-arrowUp_small:before,
+.slds-button.buttons:hover .icon-more:before {
+  /* color: #990000; */
+  color: var(--color-ruby);
+}
+.slds-button.buttons .icon-arrowDown_small,
+.slds-button.buttons .icon-arrowUp_small,
+.slds-button.buttons .icon-more {
+  right: 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  /* width: 24px; */
+  width: var(--size-spacing-05);
+  height: var(--size-spacing-05);
+  /* margin: 4px; */
+  margin: var(--size-spacing-01);
+}
+.slds-button.buttons .icon-arrowDown_small:before,
+.slds-button.buttons .icon-arrowUp_small:before,
+.slds-button.buttons .icon-more:before {
+  /* font-size:24px;  */
+  font-size: var(--size-font-06);
+}
+.slds-button.buttons .numberSelected {
+  display: none;
+}
+.slds-button.buttons.filterButton .numberSelected {
+  display: inline-flex;
+  /* border: 1px solid #cc0000; */
+  border: 1px solid var(--color-boston);
+  /* border-radius: 50%; */
+  border-radius: var(--size-border-radius-05);
+  /* width: 16px; */
+  width: var(--size-spacing-04);
+  /* font-size: 12px; */
+  font-size: var(--size-font-01);
+  /* line-height: 16px; */
+  line-height: var(--size-line-height-01);
+  /* height: 16px; */
+  height: var(--size-spacing-04);
+  /* margin-left: 12px; */
+  margin-left: var(--size-spacing-03);
+  /* padding: 0 4px; */
+  padding: 0 var(--size-spacing-01);
+  /* top: 32px; */
+  top: var(--size-spacing-06);
+  font-family: "SantanderMicroText-Bd";
+  align-items: center;
+  color: var(--color-ruby);
+}
+.slds-combobox.slds-dropdown-trigger.slds-dropdown-trigger_click .slds-popover,
+.slds-combobox.slds-dropdown-trigger.slds-dropdown-trigger_click
+  .icon-arrowUp_small,
+.slds-combobox.slds-dropdown-trigger.slds-dropdown-trigger_click.slds-is-open
+  .icon-arrowDown_small {
+  display: none;
+}
+
+.slds-combobox.slds-dropdown-trigger.slds-dropdown-trigger_click.slds-is-open
+  .slds-popover,
+.slds-combobox.slds-dropdown-trigger.slds-dropdown-trigger_click.slds-is-open
+  .icon-arrowUp_small {
+  display: block;
+}

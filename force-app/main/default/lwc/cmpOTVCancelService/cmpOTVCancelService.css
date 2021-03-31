@@ -1,0 +1,444 @@
+.cancelService {
+  position: absolute;
+  left: 0;
+  top: calc(100px - 24px);
+  width: 100%;
+  z-index: 0;
+}
+.cancelService .content_cancelService {
+  width: 808px;
+  margin: 0 auto;
+  padding-bottom: 120px;
+}
+.cancelService .title_container {
+  padding: 24px 0 32px 0;
+  background-color: #f6fafc;
+  box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+.cancelService .title_container .slds-align_absolute-center {
+  max-width: 1224px;
+  width: 100%;
+  display: block;
+}
+.cancelService .title_container .slds-text-heading_medium {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.cancelService .title_container .slds-text-heading_medium .title {
+  margin-bottom: 8px;
+}
+.cancelService .title_container .slds-text-heading_medium .title .slds-button {
+  margin-bottom: 8px;
+}
+.cancelService .title_container .slds-text-heading_medium .slds-modal__title {
+  color: #444444;
+  font-family: "SantanderHeadlineW05-Rg";
+  font-size: 28px;
+  line-height: 34px;
+}
+.cancelService .title_container .text_line {
+  width: 40px;
+  border-bottom: 3px solid #ec0000;
+}
+.cancelService .title_container .slds-text-heading_subtitle {
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 21px;
+  color: #444444;
+  margin-top: 8px;
+  max-width: 600px;
+}
+.cancelService .title_container .slds-text-heading_subtitle span {
+  font-family: "SantanderMicroText-Bd";
+}
+.cancelService .title_container .slds-button {
+  margin-bottom: 8px;
+  border: none;
+}
+/* TEXT STYLE  */
+.section_title {
+  font-family: SantanderHeadlineW05-Bold;
+  font-size: 20px;
+  line-height: 28px;
+  color: #444444;
+  margin: 24px 0 16px 0;
+}
+.aditional_text_20 {
+  font-family: SantanderHeadlineW05-Rg;
+  font-size: 20px;
+  line-height: 28px;
+  color: #444444;
+  margin: 0 0 24px 0;
+}
+.aditional_text_16 {
+  font-family: SantanderMicroText;
+  font-size: 16px;
+  line-height: 24px;
+  color: #444444;
+  margin: 0 0 24px 0;
+}
+/* TEXTAREA */
+/* Esta clase en el componente que sea añadido  */
+.textarea .slds-form-element {
+  min-height: 112px;
+}
+
+.textarea .slds-form-element__label {
+  color: #767676;
+  font-family: SantanderMicroText;
+  font-size: 12px;
+  left: 16px;
+  line-height: 17px;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 6px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.textarea .slds-form-element__control {
+  height: 88px;
+  font-size: 0;
+}
+
+.textarea .slds-form-element__help {
+  color: #767676;
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 20px;
+  margin-left: 16px;
+  margin-top: 0;
+}
+
+.textarea .slds-textarea {
+  background-color: #ffffff;
+  width: 100%;
+  min-height: 88px;
+  -webkit-appearance: none;
+  resize: none;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #deedf2;
+  border-image: initial;
+  border-radius: 4px 4px 0 0;
+  transition: border 0.1s linear 0s, background-color 0.1s linear 0s;
+  padding: 12px 16px 12px 16px;
+  border-bottom: 1px solid #257fa4;
+  font-family: SantanderMicroText;
+  font-size: 16px;
+  line-height: 24px;
+  overflow: hidden;
+}
+.textarea.sky .slds-textarea {
+  background-color: #f5f9fb !important;
+}
+
+.textarea .slds-textarea:focus,
+.textarea .slds-textarea:active {
+  background-color: rgb(255, 255, 255);
+  outline: 0px;
+  box-shadow: inset 0 -1px 0 0 #257fa4;
+}
+
+.textarea .icon-close_filledCircle:before {
+  color: #cccccc;
+  font-size: 20px;
+}
+.textarea .slds-button {
+  position: absolute;
+  right: 12px;
+  top: 14px;
+  height: 24px;
+  right: 16px;
+  width: 24px;
+}
+.textarea
+  .slds-form-element__label
+  + .slds-form-element__control
+  .slds-textarea {
+  padding: 19px 56px 12px 16px;
+}
+.textarea textarea::-webkit-input-placeholder {
+  color: #767676;
+}
+/* Firefox 18- */
+.textarea textarea:-moz-placeholder {
+  color: #767676;
+}
+/* Firefox 19+ */
+.textarea textarea::-moz-placeholder {
+  color: #767676;
+}
+.textarea textarea:-ms-input-placeholder {
+  color: #767676;
+}
+
+.textarea textarea::placeholder {
+  color: #767676;
+}
+.textarea textarea:focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+/* TEXTAREA ERROR */
+.textarea.slds-form-element.error .slds-form-element__help {
+  display: none;
+}
+.textarea.slds-form-element .errorText {
+  color: #cc0000;
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0px;
+  margin-left: 16px;
+  display: none;
+}
+.textarea.slds-form-element.error .errorText {
+  display: block;
+}
+.textarea.slds-form-element.error .slds-form-element__label {
+  color: #cc0000;
+}
+.textarea.slds-form-element.error .slds-form-element__control .slds-textarea {
+  border-bottom: 1px solid #cc0000;
+  box-shadow: none;
+}
+.textarea.slds-form-element.error
+  .slds-form-element__control
+  .slds-textarea:active,
+.textarea.slds-form-element.error
+  .slds-form-element__control
+  .slds-textarea:focus {
+  box-shadow: inset 0 -1px 0 0 #cc0000;
+}
+/* TEXTAREA DISABLED*/
+.textarea .slds-button__icon.disabled {
+  display: none;
+  margin: 14px 18px;
+  width: 20px;
+  height: 20px;
+}
+.textarea .slds-textarea[disabled]:hover + .slds-button__icon.disabled,
+.textarea .slds-textarea[disabled] + .slds-button__icon.disabled:hover {
+  display: block;
+}
+.textarea .slds-textarea[disabled] + .slds-button__icon.disabled {
+  bottom: 0;
+  height: 20px;
+  margin: 0;
+  right: 18px;
+  top: 14px;
+  width: 20px;
+  position: absolute;
+  padding: 0;
+}
+.textarea
+  .slds-textarea[disabled]
+  + .slds-button__icon.disabled
+  + .slds-button {
+  display: none;
+}
+
+.textarea .slds-button__icon.disabled .icon-prohibited {
+  font-size: 20px;
+  cursor: default;
+}
+.textarea .slds-button__icon.disabled .icon-prohibited:before {
+  color: #767676;
+}
+.textarea .slds-textarea[disabled] {
+  background-color: #ececec !important;
+  border: solid 1px #cccccc !important;
+  cursor: auto;
+  box-shadow: none !important;
+  color: #767676 !important;
+}
+
+.textarea .slds-textarea[disabled]:active,
+.textarea .slds-textarea[disabled]:focus {
+  box-shadow: none !important;
+}
+/* BUTTONS  */
+.cancelService .content_cancelService .buttons {
+  margin: 40px 0 120px 0;
+}
+.cancelService .content_cancelService .buttons .slds-button + .slds-button {
+  margin-left: 24px;
+}
+
+.textarea.sky .slds-textarea {
+  background-color: #f5f9fb !important;
+}
+/* CHECKBOX */
+.checkbox .slds-checkbox .slds-form-element__label {
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  line-height: 24px;
+  color: #444444;
+  margin: 0;
+}
+.checkbox .slds-checkbox .slds-form-element__label {
+  cursor: pointer;
+}
+.checkbox .slds-checkbox .slds-checkbox_faux {
+  border-radius: 4px;
+  border-color: #767676;
+  cursor: pointer;
+  height: 24px;
+  margin-right: 8px;
+  width: 24px;
+}
+
+.checkbox
+  .slds-checkbox
+  [type="checkbox"]:focus
+  + .slds-checkbox__label
+  .slds-checkbox_faux {
+  box-shadow: none;
+  border-color: #767676;
+}
+
+.checkbox
+  .slds-checkbox
+  [type="checkbox"]:checked
+  + .slds-checkbox__label
+  .slds-checkbox_faux {
+  border: 2px solid #1bb3bc;
+}
+
+.checkbox
+  .slds-checkbox
+  [type="checkbox"]:checked
+  + .slds-checkbox__label
+  .slds-checkbox_faux::after {
+  border-bottom: 2px solid #1bb3bc;
+  border-left: 2px solid #1bb3bc;
+  height: 6px;
+  width: 9px;
+}
+
+.checkbox
+  .slds-checkbox
+  [type="checkbox"]:checked
+  + .slds-checkbox__label
+  .slds-checkbox_faux.intermedite::after {
+  transform: none;
+  width: 12px;
+  height: 1px;
+  border-bottom: none;
+  border-left: none;
+  border: 1px solid #1bb3bc;
+  left: calc((100% - 12px) / 2);
+}
+
+.checkbox .slds-checkbox .slds-checkbox__label .slds-checkbox_faux:active {
+  border: 2px solid #1bb3bc;
+}
+
+.checkbox
+  .slds-checkbox
+  [type="checkbox"]:disabled
+  + .slds-checkbox__label
+  .slds-checkbox_faux {
+  border-color: #cccccc;
+  background-color: #ffffff;
+  cursor: auto;
+}
+
+.checkbox
+  .slds-checkbox
+  [type="checkbox"]:disabled
+  + .slds-checkbox__label
+  .slds-checkbox_faux
+  + .slds-form-element__label {
+  color: #cccccc;
+  cursor: auto;
+}
+
+.checkbox
+  .slds-checkbox
+  [type="checkbox"]:disabled
+  + .slds-checkbox__label
+  .slds-checkbox_faux::after {
+  border-bottom: 2px solid #cccccc;
+  border-left: 2px solid #cccccc;
+  height: 6px;
+  width: 9px;
+}
+
+.checkbox
+  .slds-checkbox
+  [type="checkbox"]:disabled
+  + .slds-checkbox__label
+  .slds-checkbox_faux.intermedite::after {
+  transform: none;
+  width: 12px;
+  height: 1px;
+  border-bottom: none;
+  border-left: none;
+  border: 1px solid #cccccc;
+  left: calc((100% - 12px) / 2);
+}
+.checkbox .slds-checkbox .check {
+  display: flex;
+}
+.checkbox .slds-checkbox .checkbox {
+  padding: 40px 0;
+}
+.checkbox .slds-checkbox .checkbox:first-child {
+  margin-right: 24px;
+}
+
+/* CANCEL SERVICE */
+
+.title_container {
+  position: relative;
+  left: 0;
+  width: 100%;
+  padding: 24px 0 32px 0;
+  background-color: #f6fafc;
+  box-shadow: inset 0 -1px 0 0 #cedee7;
+}
+.title_container .slds-align_absolute-center {
+  max-width: 1224px;
+  width: 100%;
+  display: block;
+}
+.title_container .slds-text-heading_medium {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.title_container .slds-text-heading_medium .title {
+  margin-bottom: 8px;
+}
+.title_container .slds-text-heading_medium .title .slds-button {
+  margin-bottom: 8px;
+}
+.title_container .slds-text-heading_medium .slds-modal__title {
+  color: #444444;
+  font-family: "SantanderHeadlineW05-Rg";
+  font-size: 28px;
+  line-height: 34px;
+}
+.title_container .text_line {
+  width: 40px;
+  border-bottom: 3px solid #ec0000;
+}
+.title_container .slds-text-heading_subtitle {
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 21px;
+  color: #444444;
+  margin-top: 8px;
+  max-width: 600px;
+}
+.title_container .slds-text-heading_subtitle span {
+  font-family: "SantanderMicroText-Bd";
+}
+.title_container .slds-button {
+  margin-bottom: 8px;
+  border: none;
+}

@@ -1,0 +1,563 @@
+.THIS.process-summary {
+  padding-bottom: 120px;
+}
+.THIS.process-summary .slds-card {
+  width: 808px;
+  border-radius: 4px;
+}
+
+/* TEXT STYLE */
+.THIS .card-summary,
+.THIS .card-amount {
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 21px;
+  color: #444444;
+}
+
+.THIS .card-summary .bold,
+.THIS .card-amount .bold {
+  font-family: "SantanderMicroText-Bd";
+}
+
+.THIS .card-summary .slds-card__header-title,
+.THIS .card-amount .slds-card__header-title {
+  font-family: "SantanderHeadlineW05-Bold";
+  font-size: 20px;
+  line-height: 28px;
+  color: #257fa4;
+}
+
+.THIS .card-summary .slds-card__header-title .slds-text-heading__small,
+.THIS .card-amount .slds-card__header-title .slds-text-heading__small {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.THIS .card-summary .section-title,
+.THIS .card-amount .section-title {
+  font-family: "SantanderHeadlineW05-Rg";
+  font-size: 20px;
+  line-height: 28px;
+  color: #444444;
+}
+
+.THIS .card-summary .slds-text-title,
+.THIS .card-amount .slds-text-title {
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  line-height: 24px;
+  color: #444444;
+}
+
+.THIS .card-summary .slds-text-title.bold,
+.THIS .card-amount .slds-text-title.bold {
+  font-family: "SantanderMicroText-Bd";
+}
+
+/* CARD SUMMARY */
+.THIS .card-summary {
+  /*border: 1px solid #cedee7;*/
+  box-shadow: inset 0 0 0 1px #cedee7;
+  border: none;
+}
+
+.THIS .card-summary .row {
+  margin-bottom: 16px;
+}
+.THIS .card-summary .row:last-child {
+  margin-bottom: 0;
+}
+.THIS .card-summary .slds-card__header {
+  border-bottom: 1px solid #cedee7;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.08);
+  padding: 0;
+  margin: 0;
+}
+
+.THIS .card-summary .slds-card__header .slds-col {
+  min-width: 344px;
+  max-width: 344px;
+  width: 344px;
+  margin: 24px;
+}
+
+.THIS .card-summary .slds-card__header .slds-col:nth-child(2) {
+  min-width: 24px;
+  max-width: 24px;
+  width: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+}
+
+.THIS .line:first-of-type {
+  width: 1px;
+  height: 24px;
+  background-color: #cedee7;
+}
+
+.THIS .line:last-of-type {
+  width: 1px;
+  height: 100%;
+  background-color: #cedee7;
+}
+
+.THIS .card-summary .icon {
+  transform: rotate(90deg);
+  margin: 4px 0;
+}
+
+.THIS .card-summary .icon:before {
+  font-size: 24px;
+  color: #257fa4;
+}
+
+.THIS .card-summary .slds-button.button_link {
+  line-height: 21px;
+}
+
+.THIS .card-summary .slds-card__body {
+  margin: 0;
+  padding: 24px;
+}
+
+.THIS .card-summary .slds-card__body .slds-col {
+  min-width: 344px;
+  max-width: 344px;
+}
+
+/*.THIS .card-summary .slds-card__body .slds-col:nth-child(2) {
+    min-width: 72px;
+    max-width: 72px;
+}*/
+
+/*.THIS .card-summary .slds-card__body .section-content .slds-col:nth-child(2) {​​
+
+margin-left: 72px;
+
+}​​*/
+
+.THIS .card-summary .slds-card__body .section-content .slds-col:nth-child(2n) {
+  margin-left: 72px;
+}
+
+.THIS .slds-media__figure {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.THIS .slds-media__figure img.sizeFlag {
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+}
+
+/* CARD AMOUNT */
+.THIS .card-amount {
+  box-shadow: 2px 2px 6px 2px rgba(0, 0, 0, 0.08);
+  margin-top: 16px;
+  padding: 24px;
+}
+
+.THIS .card-amount .slds-card__header {
+  padding: 0;
+  margin: 0;
+}
+
+.THIS .card-amount .slds-card__body {
+  margin: 0;
+  margin-top: 16px;
+  padding: 0;
+}
+
+.THIS .card-amount .slds-card__header .slds-media > .slds-grid,
+.THIS .card-amount .slds-card__body > .slds-grid {
+  justify-content: space-between;
+}
+
+.THIS .card-amount .slds-card__body > .slds-grid {
+  border-bottom: 1px solid #cedee7;
+  padding: 8px 0;
+}
+
+.THIS .card-amount .slds-card__body > div.slds-grid:first-child {
+  padding-top: 0;
+}
+
+.THIS .card-amount .slds-card__body > div.slds-grid:nth-child(4) {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* CARD AMOUNT CONFIRM
+.THIS .card-amount .exchange-rate,
+.THIS .card-amount ~ .cardAuthorization{
+    display: none;
+}*/
+
+/*.THIS .card-amount.confirm .exchange-rate{  
+.THIS .card-amount .exchange-rate{
+    display: block;
+}
+
+/*.THIS .card-amount.confirm ~ .cardAuthorization{  
+.THIS .card-amount ~ .cardAuthorization{
+    display: flex;
+}
+
+/*.THIS .card-amount.confirm + .buttons{  
+.THIS .card-amount + .buttons{
+    display: none;
+}*/
+
+.THIS .cardAuthorization {
+  margin-top: 16px;
+}
+
+/* CARD AMOUNT SIMPLE */
+.THIS .card-amount.simple .slds-card__body {
+  display: none;
+}
+
+/* EXCHANGE RATE */
+.THIS .exchange-rate {
+  margin-top: 16px;
+}
+
+.THIS .exchange-rate .progress-ring_container__update,
+.THIS .exchange-rate .progress-ring_container.notAvailable {
+  display: none;
+}
+
+.THIS .exchange-rate.update .progress-ring_container.available,
+.THIS .exchange-rate.update .progress-ring_container.notAvailable {
+  display: none;
+}
+
+.THIS .exchange-rate.update .progress-ring_container__update {
+  display: flex;
+}
+
+.THIS .exchange-rate.not-available .progress-ring_container.available,
+.THIS .exchange-rate.not-available .progress-ring_container__update {
+  display: none;
+}
+
+.THIS .exchange-rate.not-available .progress-ring_container.notAvailable {
+  display: flex;
+}
+
+/* PROGRESS RING  */
+.THIS .progress-ring_container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: #f6fafc;
+  padding: 24px 0;
+}
+
+.THIS .progress-ring_container.sizeS,
+.THIS .progress-ring_container__update.sizeS {
+  width: 808px;
+}
+
+.THIS .progress-ring_container.sizeM,
+.THIS .progress-ring_container__update.sizeM {
+  width: 1224px;
+}
+
+.THIS .slds-progress-ring,
+.THIS .slds-progress-ring__progress {
+  height: 56px;
+  width: 56px;
+  border-radius: 50%;
+}
+
+.THIS .slds-progress-ring__progress {
+  transform: rotateZ(45deg);
+}
+
+.THIS .slds-progress-ring__content {
+  top: 4.2px;
+  right: 4.2px;
+  bottom: 4.2px;
+  left: 4.2px;
+}
+
+/* PROGRESS RING AVAILABLE & NOT AVAILABLE  */
+.THIS .available .progress-ring_text,
+.THIS .notAvailable .progress-ring_text {
+  max-width: 272px;
+  margin: 0 0 0 16px;
+}
+
+.THIS .available .progress-ring_text p,
+.THIS .notAvailable .progress-ring_text p {
+  font-family: SantanderMicroText;
+  font-size: 14px;
+  line-height: 21px;
+  color: #444444;
+}
+
+.THIS .available .progress-ring_text p > span,
+.THIS .notAvailable .progress-ring_text p > span {
+  font-family: SantanderMicroText-Bd;
+}
+
+.THIS .available .slds-progress-ring {
+  background-color: #cccccc;
+}
+
+.THIS .available .slds-progress-ring__content {
+  background-color: #f6fafc;
+}
+
+.THIS .available .slds-progress-ring__progress__25 {
+  border-top: solid 4.2px #137e84;
+  border-right: solid 4.2px transparent;
+  border-bottom: solid 4.2px transparent;
+  border-left: solid 4.2px transparent;
+}
+
+.THIS .available .slds-progress-ring__progress__50 {
+  border-top: solid 4.2px #137e84;
+  border-right: solid 4.2px #137e84;
+  border-bottom: solid 4.2px transparent;
+  border-left: solid 4.2px transparent;
+}
+
+.THIS .available .slds-progress-ring__progress__75 {
+  border-top: solid 4.2px #137e84;
+  border-right: solid 4.2px #137e84;
+  border-bottom: solid 4.2px #137e84;
+  border-left: solid 4.2px transparent;
+}
+
+.THIS .available .slds-progress-ring__progress__100 {
+  border-top: solid 4.2px #137e84;
+  border-right: solid 4.2px #137e84;
+  border-bottom: solid 4.2px #137e84;
+  border-left: solid 4.2px #137e84;
+}
+
+.THIS .available .slds-progress-ring__content p {
+  font-family: SantanderMicroText-Bd;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  color: #444444;
+}
+
+.THIS .notAvailable .icon-information {
+  font-size: 32px;
+  margin: 12px;
+}
+
+.THIS .notAvailable .icon-information:before {
+  color: #137e84;
+}
+
+.THIS .notAvailable .slds-progress-ring__progress,
+.THIS .notAvailable .slds-progress-ring,
+.THIS .notAvailable .slds-progress-ring__content {
+  background-color: #e8f3f6;
+}
+
+/* PROGRESS RING UPDATE  */
+.THIS .progress-ring_container__update {
+  padding: 22px 0;
+  border-radius: 4px;
+  background-color: #f6fafc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.THIS .progress-ring_container__update p {
+  font-family: SantanderMicroText;
+  font-size: 14px;
+  line-height: 20px;
+  color: #767676;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* BUTTONS */
+.THIS .buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.THIS .buttons .slds-button + .slds-button {
+  margin-left: 24px;
+}
+
+/* TOOLTIPS */
+.THIS .tooltip__content {
+  display: flex;
+  align-items: center;
+  position: absolute;
+}
+
+.THIS .tooltip .slds-popover {
+  display: none;
+}
+
+.THIS .tooltip:hover .slds-popover,
+.THIS .tooltip .slds-popover.show {
+  display: block;
+}
+
+.THIS .tooltip .slds-popover__body {
+  padding: 0;
+}
+
+.THIS .slds-popover_tooltip {
+  max-width: 392px;
+  min-width: 392px;
+  background: rgb(22, 50, 92);
+  border: none;
+  border-radius: 4px;
+  background-color: #ffffff;
+  padding: 8px 16px 16px 16px;
+  box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.08);
+}
+
+.THIS .tooltip .slds-popover__body .title {
+  font-size: 16px;
+  color: #ec0000;
+  font-family: "SantanderMicroText-Bd";
+  line-height: 24px;
+}
+
+.THIS .tooltip .slds-popover__body .line {
+  margin: 8px 0 8px 0;
+  height: 1px;
+  background-color: #ec0000;
+}
+
+.THIS .tooltip .slds-popover__body .text {
+  font-family: "SantanderMicroText-Lt";
+  font-size: 16px;
+  line-height: 24px;
+  color: #444444;
+}
+
+.THIS .tooltip .slds-button_icon {
+  line-height: 1;
+  vertical-align: middle;
+  justify-content: center;
+  /*color: rgb(107, 109, 112);*/
+  flex-shrink: 0;
+  margin: 0 0 0 4px;
+}
+
+.THIS .tooltip .slds-button__icon {
+  width: 16px;
+  height: 16px;
+}
+
+.THIS .tooltip .slds-button__icon:before {
+  font-size: 16px;
+  color: #257fa4;
+}
+
+/* TOOLTIPS RIGHT  */
+.THIS .tooltip_right__top,
+.THIS .tooltip_right__bottom {
+  height: 21px;
+  display: flex;
+  padding-top: 3px;
+  padding-bottom: 2px;
+}
+
+.THIS .tooltip_right__top .slds-popover {
+  position: absolute;
+  bottom: 41px;
+  right: -350px;
+}
+
+.THIS .tooltip_right__bottom .slds-popover {
+  position: absolute;
+  top: 41px;
+  right: -350px;
+}
+
+/* TOP RIGHT  */
+.THIS .tooltip_right__top .slds-nubbin_bottom::before,
+.THIS .tooltip_right__top .slds-nubbin_bottom::after {
+  width: 24px;
+  height: 24px;
+  transform: rotate(45deg);
+  content: "";
+  background-color: #ffffff;
+  left: 21px;
+  bottom: -12px;
+  margin-left: 0;
+  box-shadow: 4px 3px 8px -4px rgba(0, 0, 0, 0.08) !important;
+  z-index: -1;
+  border-radius: 0 0 4px 0;
+}
+
+/* BOTTOM RIGHT  */
+.THIS .tooltip_right__bottom .slds-nubbin_bottom::before,
+.THIS .tooltip_right__bottom .slds-nubbin_bottom::after {
+  width: 24px;
+  height: 24px;
+  transform: rotate(45deg);
+  content: "";
+  background-color: #ffffff;
+  left: 21px;
+  /* bottom: 125px; */
+  top: -12px;
+  margin-left: 0;
+  box-shadow: -4px -3px 8px -4px rgba(0, 0, 0, 0.08) !important;
+  z-index: -1;
+  border-radius: 4px 0 0 0;
+}
+
+/* STEPPER TEXT */
+.THIS.stepper_text {
+  width: 100%;
+  margin-top: 52px;
+  margin-bottom: 32px;
+}
+
+/* STEPPER TEXT HEADING */
+.THIS.stepper_text .stepper_heading {
+  width: 100%;
+  min-height: 34px;
+}
+
+.THIS.stepper_text .stepper_heading .line {
+  height: 1px;
+  background-color: #cedee7;
+  margin-top: 20px;
+}
+
+.THIS.stepper_text .stepper_heading .slds-col:nth-child(2) {
+  max-width: fit-content;
+  margin: 0 auto;
+}
+
+.THIS.stepper_text .stepper_heading .step {
+  padding-right: 24px;
+  padding-left: 24px;
+}
+
+.THIS.stepper_text .stepper_heading .step .step_title {
+  max-width: 808px;
+  min-height: 34px;
+}
+
+.THIS.stepper_text .step_title > span {
+  font-family: "SantanderHeadlineW05-Rg";
+  font-size: 28px;
+  line-height: 34px;
+  color: #444444;
+}

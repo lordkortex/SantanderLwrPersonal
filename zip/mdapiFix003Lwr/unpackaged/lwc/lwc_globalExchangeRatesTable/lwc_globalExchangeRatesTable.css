@@ -1,0 +1,85 @@
+.title_container {
+  margin: 0 0 8px 0;
+}
+
+.slds-text-heading_medium {
+  color: #444444;
+  font-family: "SantanderHeadlineW05-Rg";
+  font-size: 20px;
+  line-height: 1.4;
+  margin-bottom: 8px;
+}
+
+.text_line {
+  width: 40px;
+  border-bottom: solid 3px #ec0000;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  color: #444444;
+  line-height: 1.5;
+}
+
+.subtitle-date {
+  color: #767676;
+  font-family: "SantanderMicroText";
+  font-size: 14px;
+  line-height: 1.43;
+}
+
+/* CAROUSEL */
+.nav-carousel {
+  margin: 16px 0 24px;
+  position: relative;
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+.slds-carousel__indicators {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin: var(--lwc-spacingXSmall, 0.5rem) 0;
+  top: 0px;
+}
+.slds-carousel__indicator {
+  margin: 0 4px;
+}
+.slds-carousel__indicator-action {
+  width: 8px;
+  height: 8px;
+  border-radius: 10px;
+  background-color: #cccccc;
+  border: none;
+  transition: all 0.2s ease-in-out;
+}
+.slds-carousel__indicator-action:hover {
+  background-color: #ec0000;
+}
+.slds-carousel__indicator-action.slds-is-active {
+  background-color: #ec0000;
+}
+
+.slds-carousel__arrow {
+  position: absolute;
+  font-size: 24px;
+  left: 0;
+  top: 0px;
+  width: 24px;
+  height: 24px;
+  line-height: 1;
+  text-decoration: none;
+}
+.slds-carousel__arrow.arrow_right {
+  left: auto;
+  right: 0;
+}
+.slds-carousel__arrow > span:before {
+  color: #444444;
+  transition: all 0.2s ease-in-out;
+}

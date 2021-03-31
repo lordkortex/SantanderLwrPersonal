@@ -1,0 +1,307 @@
+/*.pillContainer {
+	margin-bottom: 16px;
+    padding-right: 16px;
+}*/
+.buttonAccounts {
+  padding: 0 24px;
+}
+
+.textHelp {
+  margin-top: 12px !important;
+  color: red !important;
+}
+
+.slds-dropdown {
+  z-index: unset;
+  left: unset;
+  float: unset;
+  min-width: unset;
+  transform: unset;
+  max-width: none;
+  margin-top: 0.125re;
+}
+
+.slds-popover {
+  z-index: 98000 !important;
+}
+
+.buttonCurrency {
+  width: 107px;
+}
+
+.buttonAmount {
+  width: auto !important;
+}
+.icon {
+  cursor: pointer;
+}
+
+.icon-filter {
+  margin-left: 8px;
+  margin-right: 4px;
+}
+
+.icon-download {
+  margin-left: 4px;
+}
+
+.icon-download:before,
+.icon-filter:before {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 24px;
+  vertical-align: middle;
+}
+div:focus {
+  box-shadow: none;
+  outline: none;
+}
+.pillContainer .slds-popover {
+  background-color: #ffffff;
+  border: 1px solid #deedf2;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px 0 rgba(68, 68, 64, 0.24);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 4px;
+  padding: 0px;
+  position: absolute;
+  top: 32px;
+}
+.pillContainer .accountCombobox {
+  width: 392px;
+  max-height: 330px;
+}
+.pillContainer .amountCombobox {
+  width: 272px;
+}
+.pillContainer .accountCombobox .slds-popover__body {
+  padding: 14px 0px 8px 0px;
+  max-height: 264px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.pillContainer .amountCombobox .slds-popover__body {
+  padding: 16px 16px 0px 16px;
+}
+.pillContainer .slds-form-element {
+  padding: 0px;
+}
+.pillContainer .slds-popover__footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 16px 16px 16px;
+  border-top: none;
+}
+.redButton {
+  border-radius: 100px;
+  font-family: "SantanderMicroText-Bd";
+  font-size: 16px;
+  height: 40px;
+  line-height: 24px;
+  padding: 0px;
+  width: 72px;
+}
+.whiteButton {
+  border-radius: 100px;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  height: 40px;
+  line-height: 24px;
+  padding: 0px;
+  width: 90px;
+}
+.pillContainer .slds-button_outline-brand {
+  border: 1px solid #cedee7;
+  border-radius: 4px;
+  background-color: #eff6f9;
+  color: #444444;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1.5;
+  height: 32px;
+  margin-left: 0;
+  margin-right: 8px;
+}
+.pillContainer .slds-button_outline-brand:hover {
+  background-color: #e2eff4;
+}
+
+.pillContainer .slds-button_outline-brand:active {
+  background-color: #ffffff;
+  color: #cc0000;
+  font-family: "SantanderTextW05-Bold";
+}
+.pillContainer .slds-button_outline-brand.buttonSelected:hover {
+  border: 1px solid #cedee7;
+  border-radius: 4px;
+  background-color: #ffffff;
+  color: #cc0000;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: "SantanderTextW05-Bold";
+  line-height: 1.5;
+  height: 32px;
+  margin-left: 0;
+  margin-right: 8px;
+}
+.pillContainer .slds-form-element__control {
+  display: flex;
+  position: relative;
+}
+.pillContainer .slds-form-element .slds-form-element__control {
+  display: flex;
+  flex-direction: column;
+}
+.slds-form-element__label {
+  color: #767676;
+  font-family: "SantanderMicroText";
+  font-size: 12px;
+  line-height: 17px;
+  margin: 0 0 4px 0;
+  padding: 0;
+}
+.slds-media__body {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+}
+.slds-checkbox {
+  align-items: center;
+  display: flex;
+  height: 36px;
+  margin-bottom: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+.slds-checkbox:hover {
+  background-color: #e8f3f6;
+  border-radius: 4px;
+}
+.slds-checkbox .slds-checkbox__label .slds-form-element__label.checkboxLabel {
+  color: #444444;
+  display: inline;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  line-height: 24px;
+  vertical-align: middle;
+}
+
+.slds-checkbox_faux {
+  border-radius: 4px;
+  color: #222222;
+  cursor: pointer;
+  height: 24px;
+  margin-left: 11px;
+  margin-right: 8px;
+  width: 24px;
+}
+
+.slds-checkbox
+  [type="checkbox"]:checked
+  + .slds-checkbox__label
+  .slds-checkbox_faux {
+  border: 2px solid #1bb3bc;
+}
+
+.slds-checkbox
+  [type="checkbox"]:checked
+  + .slds-checkbox__label
+  .slds-checkbox_faux::after {
+  border-bottom: 2px solid #1bb3bc;
+  border-left: 2px solid #1bb3bc;
+  height: 6px;
+  width: 9px;
+}
+.slds-checkbox__label .slds-checkbox_faux:active {
+  border: 2px solid #1bb3bc;
+}
+.slds-input {
+  border: 1px solid #deedf2;
+  border-bottom: 1px solid #257fa4;
+  border-radius: 4px;
+  background-color: #f6fafc;
+  color: #444444;
+  cursor: pointer;
+  font-family: "SantanderMicroText";
+  font-size: 16px;
+  height: 48px;
+  line-height: 24px;
+  width: 240px;
+}
+.slds-input:focus {
+  border-bottom: 2px solid #257fa4 !important;
+  color: #444444 !important;
+  border-top: 1px solid #deedf2 !important;
+  border-left: 1px solid #deedf2 !important;
+  border-right: 1px solid #deedf2 !important;
+  background-color: #f6fafc !important;
+}
+
+.text-link {
+  font-size: 14px;
+  line-height: 32px;
+}
+
+.textHelp {
+  align-items: center;
+  color: #444444;
+  display: flex;
+  font-family: "SantanderMicroText";
+  font-size: 12px;
+  height: 21px;
+  padding-left: 12px;
+  margin-bottom: 8px;
+}
+
+.accountCombobox .slds-popover__body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.accountCombobox .slds-popover__body::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+.accountCombobox .slds-popover__body::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+.accountCombobox .slds-popover__body::-webkit-scrollbar-thumb {
+  background: #dadada;
+  border-radius: 10px;
+}
+
+.pillContainer ::-webkit-input-placeholder {
+  color: #767676;
+}
+
+.pillContainer :-moz-placeholder {
+  /* Firefox 18- */
+  color: #767676;
+}
+
+.pillContainer ::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #767676;
+}
+
+.pillContainer :-ms-input-placeholder {
+  color: #767676;
+}
+
+.pillContainer :focus::-webkit-input-placeholder {
+  color: transparent;
+}
+
+.slds-input:active,
+.slds-input:focus {
+  box-shadow: none;
+}
+input[type="checkbox"]:focus {
+  box-shadow: none;
+}
+.slds-checkbox
+  [type="checkbox"]:focus
+  + .slds-checkbox__label
+  .slds-checkbox_faux {
+  box-shadow: none;
+}

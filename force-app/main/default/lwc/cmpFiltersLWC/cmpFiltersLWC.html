@@ -1,0 +1,34 @@
+<template>
+	<!-- FILTER 1: SINGLE CHOICE --> 
+	<div class="slds-combobox_container">
+		<div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="true" aria-haspopup="dialog" role="combobox" data-id="dropdown" onclick={openDropdown}>
+			
+			<!-- Añadir la clase filterButton cuando el boton esté filtrado -->
+			<button class="slds-button buttons">{title}
+				<div class="numberSelected">
+					<span>2</span>
+				</div>
+				<!-- Cuando el dropdown está cerrado -->
+				<div class="icon-arrowDown_small"></div>
+				
+				<!-- Cuando el dropdown está abierto -->
+				<div class="icon-arrowUp_small"></div>
+			</button>
+			<div class="slds-popover">
+				<lightning-radio-group 	name={title}
+										label={title}
+										options={arrayoptions}
+										value={value}
+										type="radio"
+										onchange={handleOnChange}
+										data-id="filter">
+				</lightning-radio-group>
+				<!-- Añadir la clase clearAll cuando el boton esté filtrado -->
+				<div class="buttons clearAll">
+					<lightning-button variant="brand" label="Clear" onclick={clearFilter} class="slds-m-left_x-small"></lightning-button>
+					<lightning-button variant="brand" label="Clear all" title="Primary action" onclick={clearFilter} class="slds-m-left_x-small"></lightning-button>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

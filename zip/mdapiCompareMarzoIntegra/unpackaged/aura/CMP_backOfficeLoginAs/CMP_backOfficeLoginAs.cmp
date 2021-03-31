@@ -1,0 +1,36 @@
+<aura:component
+  implements="force:appHostable"
+  controller="CNT_backOfficeLoginAsController"
+>
+  <aura:attribute
+    name="selectedUserId"
+    type="String"
+    description="User selected in the lookup"
+  />
+
+  <lightning:navigation aura:id="navService" />
+  <!--  'Account.Parent.Name', 'CONTACT_TXT_GlobalId__c', 'CHK_MultiOneTrade__c', 'CONTACT_CHK_Mercury__c', 'CONTACT_Country__c', 'CONTACT_TXT_BIC__c'-->
+
+  <!-- Markup -->
+  <c:CMP_ServiceComponent aura:id="Service" />
+  <lightning:card
+    title="Search for a user to login as"
+    iconName="standard:user"
+    footer=""
+  >
+    <c:CMP_loginAsLookup
+      objectName="Contact"
+      fieldNames="['Name', 'FirstName', 'LastName']"
+      label="Search for a user to log in"
+      iconName="standard:user"
+      value="{!v.selectedUserId}"
+    />
+    <lightning:button
+      variant="brand"
+      label="Log in"
+      title="Brand action"
+      disabled="{!or(v.selectedUserId == undefined, v.selectedUserId == '')}"
+      onclick="{!c.login}"
+    />
+  </lightning:card>
+</aura:component>

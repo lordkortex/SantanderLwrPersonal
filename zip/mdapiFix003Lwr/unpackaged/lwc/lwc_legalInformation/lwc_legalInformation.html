@@ -1,0 +1,127 @@
+<template>
+    
+    <!-- BRAZIL -->
+    <template if:true={isBrazil}>    
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{label.legalInformation_br}</div>
+            <div class="text_line"></div>
+        </div> 
+
+        <div class="privacyInfoContainer">
+            <p>Instituição Financeira autorizada a funcionar pelo Banco Central do Brasil.</p>
+            <p> Banco Santander (Brasil) S.A., CNPJ: 90.400.888/0001-42</p>
+            <p> Av. Presidente Juscelino Kubitscheck 2041/2235 – Vila Olímpia – São Paulo/SP.</p>
+            <p> Copyright © 2020.</p>
+            <p> Santander</p>
+            <p> Todos os direitos reservados.</p>
+            <p> Atualização: Fevereiro de 2020.</p>
+            
+        </div>
+    </template>
+
+   <!-- CASH NEXUS -->
+   <template if:true={isCashNexus}>
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{label.legalNotice}</div>
+            <div class="text_line"></div>
+        </div>
+
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{label.legalNexus1}</p>
+                <br></br>
+                <p>{label.legalNexus2}</p>
+            </div>
+        </div>
+    </template>
+
+    <!-- SPAIN -->
+    <template if:true={isSpain}>
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{label.legalNotice_es}</div>
+            <div class="text_line"></div>
+        </div>
+
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{label.legalNexus1_es}</p>
+                <br></br>
+                <p>{label.legalNexus2_es}</p>
+            </div>
+        </div>
+    </template>
+
+    <!-- GREAT BRITAIN
+    <template if:true={isGreatBritain}>
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{label.legalNotice}</div>
+            <div class="text_line"></div>
+        </div>
+
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>{label.legalNexus1}</p>
+                <br></br>
+                <p>{label.legalNexus2}</p>
+            </div>
+        </div>
+    </template> -->
+
+    <!-- CHILE -->
+    <template if:true={isChile}>
+        <div class="slds-col titleContainer">
+            <div class="slds-text-heading_medium">{label.legalNotice_es}</div>
+            <div class="text_line"></div>
+        </div>
+
+        <div class="privacyInfoContainer">
+            <div class="slds-text-body_regular">
+                <p>Los presentes Términos y Condiciones, así como todos aquellos aspectos derivados o que estén relacionados con ellos, se regirán de conformidad con la ley -chilena.
+                <br></br>
+                Para todos los efectos legales, las partes fijan su domicilio en la ciudad y comuna de Santiago.
+                <br></br>
+                Serán los Tribunales Ordinarios de Justicia quienes tienen competencia exclusiva para resolver cualquier disputa surgida o que guarde relación con los presentes Términos y Condiciones, incluidas aquellas controversias relativas a la existencia, validez o finalización de estos Términos y Condiciones.
+                </p>
+            </div>
+        </div>
+    </template>
+
+    <!-- POLAND -->
+    <template if:true={isPoland}>
+        <template if:true={isLanguagePoland}>
+            <div class="slds-col titleContainer">
+                <div class="slds-text-heading_medium">{label.legalNotice}</div>
+                <div class="text_line"></div>
+            </div>
+
+            <div class="privacyInfoContainer">
+                <div class="slds-text-body_regular">
+                    <p>{label.legalPoland1}</p>
+                    <br></br>
+                    <p>{label.legalPoland2_pl}</p>
+                    <br></br>
+                    <p>Opłata za połączenie z infolinią banku zgodna z taryfą danego operatora. Słowniczek pojęć i definicji dotyczących usług reprezentatywnych, wynikających z rozporządzenia Ministra Rozwoju i Finansów z dnia 14 lipca 2017 r. w sprawie wykazu usług reprezentatywnych powiązanych z rachunkiem płatniczym, dostępny jest na stronie &nbsp;<a href="https://www.santander.pl/PAD" class="text-link">https://www.santander.pl/PAD</a>&nbsp; oraz w placówkach banku.</p>
+                    <br></br>
+                    <p>Santander Bank Polska (dawniej BZ WBK) oferuje m.in.: rachunki płatnicze: &nbsp;<a href="https://www.santander.pl/klient-indywidualny/konta" class="text-link">konta osobiste</a>&nbsp; (w tym &nbsp;<a href="https://www.santander.pl/klient-indywidualny/konta/konto-jakie-chce-dla-mlodych" class="text-link">konto dla młodych</a>), konta walutowe, konta oszczędnościowe oraz lokaty terminowe, &nbsp;<a href="https://www.santander.pl/klient-indywidualny/kredyty/kredyt-gotowkowy" class="text-link">kredyty gotówkowe</a>, &nbsp;<a href="https://www.santander.pl/klient-indywidualny/kredyty/kredyt-mieszkaniowy" class="text-link">kredyty hipoteczne</a>, 
+                        karty debetowe, &nbsp;<a href="https://www.santander.pl/klient-indywidualny/karty-platnosci-i-kantor" class="text-link">karty kredytowe</a>, a także &nbsp;<a href="https://www.santander.pl/klient-indywidualny/oszczednosci-i-inwestycje/fundusze-inwestycyjne" class="text-link">fundusze inwestycyjne</a>&nbsp; i &nbsp;<a href="https://www.santander.pl/klient-indywidualny/ubezpieczenia" class="text-link">ubezpieczenia</a>. 
+                        W ofercie dla firm znajdą Państwo m.in.: &nbsp;<a href="https://www.santander.pl/firmy/konta" class="text-link">konta firmowe</a>, kredyty na bieżącą działalność, kredyty inwestycyjne oraz usługi faktoringu i &nbsp;<a href="https://www.santander.pl/firmy/leasing" class="text-link">leasingu</a>.</p>
+                    <br></br>
+                </div>
+            </div>
+        </template>
+        <template if:true={isNotLanguagePoland}>
+                <div class="slds-col titleContainer">
+                    <div class="slds-text-heading_medium">{label.legalNotice}</div>
+                    <div class="text_line"></div>
+                </div>
+                <div class="privacyInfoContainer">
+                    <div class="slds-text-body_regular">
+                        <p>{label.legalPoland1}</p>
+                        <br></br>
+                        <p>{label.legalPoland2}</p>
+                    </div>
+                </div>
+        </template>
+    </template>
+
+</template>

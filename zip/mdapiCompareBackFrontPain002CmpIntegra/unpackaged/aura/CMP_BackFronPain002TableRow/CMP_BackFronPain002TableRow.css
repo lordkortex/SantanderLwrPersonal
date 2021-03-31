@@ -1,0 +1,238 @@
+.THIS .algo {
+  overflow: inherit;
+  position: relative;
+  z-index: 1;
+  margin-left: -16px;
+}
+
+.THIS .alignRight {
+  float: right;
+}
+.THIS .amountDecimals {
+  font-family: "SantanderTextW05-Bold";
+  font-size: 10px;
+}
+
+.THIS .button-add {
+  cursor: pointer;
+  font-size: 24px;
+  padding: 10px 0 10px 0px;
+}
+
+.THIS .amountInteger {
+  font-family: "SantanderTextW05-Bold";
+}
+.THIS .benfAccount {
+  width: 100px;
+  height: 18px;
+  padding-right: 80px;
+}
+.THIS .border {
+  border: 1px solid #ececec;
+}
+.THIS .borders {
+  border: none;
+}
+.THIS .button-arrow {
+  cursor: pointer;
+  font-size: 24px;
+}
+
+.THIS .button-orderLeft {
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.THIS .button-orderRight {
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+.THIS .button-page {
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.THIS .button-tracking {
+  margin-left: 4px;
+  font-size: 16px;
+}
+
+.THIS .circle {
+  font-size: 24px;
+}
+
+.THIS .colorHeader {
+  color: #444444;
+}
+
+.THIS .containerIconDetail {
+  width: 72px;
+}
+
+.THIS .containerIconStatus {
+  width: 40px;
+}
+
+.THIS .containerStatus {
+  width: 70px;
+}
+
+.THIS .containerTracking {
+  width: 76px;
+}
+.THIS .details {
+  width: 1180px;
+  height: 82px;
+  padding: 0px 0px 0px 24px;
+}
+.THIS .downloadDoc {
+  font-size: 16px;
+}
+
+.THIS .firstCell {
+  margin-left: -16px;
+}
+.THIS .fontBody {
+  color: #444444;
+  font-size: 12px;
+}
+.THIS .header {
+  background-color: #ececec;
+  border: 1px solid #ececec;
+  height: 32px;
+}
+.THIS .lastCell {
+  width: 200px;
+}
+.THIS.noInferiorBorder {
+  border-bottom: 0px !important;
+}
+.THIS .noIconContainer {
+  padding: 15px 0px 5px 0px;
+}
+.THIS .noLink {
+  cursor: pointer;
+  text-decoration: none;
+  color: #444444;
+}
+
+.THIS .paddingSeparation {
+  padding-bottom: 16px;
+}
+.THIS .payment {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+}
+.THIS .shadow:hover,
+.THIS .shadow:focus {
+  background-color: #ececec;
+  box-shadow: none !important;
+}
+.THIS .shadow:focus:hover {
+  background-color: red;
+  box-shadow: none !important;
+}
+.THIS .slds-card__header {
+  padding: 9px 0 8px 0;
+  margin: 0;
+}
+.THIS.noSuperiorBorder {
+  border-top: 0px;
+}
+.THIS .slds-table_cell-buffer tr > th:first-child {
+  padding-left: 0;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > td,
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > th,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n) > td,
+.THIS .slds-table--striped tbody tr:nth-of-type(2n) > th {
+  background-color: #f9fcfd;
+}
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > td:hover,
+.THIS .slds-table_striped tbody tr:nth-of-type(2n) > th:hover {
+  background-color: #f9fcfd;
+}
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:hover > td,
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:hover > th {
+  background-color: #ffffff;
+}
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:nth-of-type(2n):hover > td,
+.THIS .slds-table:not(.slds-no-row-hover) tbody tr:nth-of-type(2n):hover > th {
+  background-color: #f9fcfd;
+}
+
+.THIS .evenBackground {
+  background-color: #f9fcfd !important;
+}
+
+.THIS .status {
+  width: 57px;
+}
+.THIS td,
+.THIS th {
+  height: 34px;
+  padding: 0px;
+}
+.THIS .th1 {
+  height: 18px;
+  padding: 0px;
+}
+
+.THIS .textHeader {
+  font-family: "SantanderTextW05-Bold";
+  font-size: 14px;
+  height: 20px;
+}
+.THIS .textTracking {
+  color: #ec0000;
+  font-family: "SantanderTextW05-Bold";
+}
+.THIS .titleDetail {
+  color: #a2a2a2;
+  margin-top: 8px;
+}
+.THIS .widthCell {
+  width: 150px;
+}
+.THIS .whiteFill {
+  background-color: #ffffff;
+}
+
+.THIS.hidden {
+  display: none !important;
+}
+
+.THIS .textHeaderHidden {
+  visibility: collapse;
+}
+
+.THIS .noHeight {
+  height: 0px !important;
+}
+
+.THIS .borderLeft {
+  border-left: 1px solid #ececec;
+}
+.THIS .borderRight {
+  border-right: 1px solid #ececec;
+}
+.THIS .titleTrack {
+  overflow: inherit;
+  position: relative;
+  z-index: 1;
+  margin-top: 0px;
+  padding-left: 24px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #444444;
+}
+
+.THIS .widthCard {
+  width: 1180px;
+  padding-left: 0px;
+  padding-right: 0px;
+}

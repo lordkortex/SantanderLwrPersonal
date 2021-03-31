@@ -1,0 +1,134 @@
+<template>
+    <!-- Spinner -->
+    <div if:true={loading}>
+        <div class="spinnerclass">
+            <lightning-spinner 
+            variant="brand" 
+            size="large" >
+            </lightning-spinner>
+        </div>
+    </div>
+	<!-- FULL SCREEN MODAL -->
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" if:false={loading}>
+        <div class="slds-modal__container"> 
+            <!-- MODAL HEADER -->
+            <!-- Añadir la clase oneStep en la etiqueta <header> cuando la barra de progreso tenga un único paso -->
+            <!-- Añadir la clase errorStep en la etiqueta <header> cuando se haya producido un error de sistema -->
+            <header class="slds-modal__header slds-is-fixed">
+                 <div class="row slds-grid">
+					<div class="slds-col slds-size_1-of-3">
+                         <!-- BACK BUTTON -->
+                        <button class="slds-button button_link" onclick={goBack}> 
+                            <span class="icon-arrowLeft_big icon_left"></span>{label.back}
+                        </button>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                    	<img class="logo-red" src={logoSymbolRed}/>
+                        <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.Activation}</h2>
+                    </div>
+                    <div class="slds-col slds-size_1-of-3">
+                        <!-- CANCEL BUTTON -->
+                        <button class="slds-button button_link" onclick={cancelProcess}> 
+                            {label.cancelProcess}<span class="icon-close icon_right"></span>
+                        </button>
+                    </div>                    
+                 </div>
+               
+                 <div class="row">
+                    <!-- PROGRESS BAR -->
+                    <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar">
+                        
+                        <!-- STEP 1/2 -->
+                        <!--<span class="slds-progress-bar__value" style="width:50%">
+                        	<span class="slds-assistive-text">Progress: 50%</span>
+                        </span>-->
+                        
+                        <!-- STEP 2/2 -->
+                        <!-- El porcentaje de la barra de progreso variará según el paso. Para ello se modificará el width del atributo style -->
+                        <span class="slds-progress-bar__value" style="width:50%">
+                        	<span class="slds-assistive-text">{label.progress}: 50%</span>
+                        </span>
+                        
+                    </div>
+                 </div>
+                
+            </header>
+            
+            <!-- MODAL CONTENT -->
+            <div class="slds-modal__content activation" id="modal-content-id-1">
+                
+                <!-- STEPPER -->
+                <div class="stepper">
+                    <div class="stepper_heading slds-grid"> 
+                        <div class="line slds-col"></div>
+                        <div class="step slds-col slds-grid">
+                            <div class="step_number"><span>2</span></div>
+                            <div class="step_title"><span>{label.cmpOTVUsersSelection_1}</span></div>
+                        </div>
+                        <div class="line slds-col"></div>
+                    </div>
+                    
+                    <div class="stepper_subtitle">
+                        <p class="step_subtitle">{label.cmpOTVUsersSelection_2}</p>
+                    </div>
+                </div>
+                
+                    <!-- GRID CONTENT -->
+                    <div class="slds-grid__content">
+                        <div class="slds-grid__card">
+                            <div class="slds-col">
+                                <!--CARD-->
+                                <!-- Añadir o eliminar la clase "card-selected" para seleccionar o deseleccionar la card  -->
+                                <article class="cardUsers slds-card" data-item={user.userGlobalId} onclick={usrSelected} for:each={lstusers} for:item="user" key={user} data-id="user">
+                                    <div class="slds-card__header" data-item={user.userGlobalId}>
+                                        <header class="slds-media slds-has-flexi-truncate" data-item={user.userGlobalId}>
+                                            <div class="slds-media__body" data-item={user.userGlobalId}>
+                                                <div class="infoName slds-grid " data-item={user.userGlobalId}>
+                                                    <div class="image blue" data-item={user.userGlobalId}>
+                                                        <img alt="" src=""></img><!--TODO meter src imagen usuario-->
+                                                        <span class="text">{user.initials}</span>
+                                                    </div>
+                                                    <div data-item={user.userGlobalId}>
+                                                        <div class="slds-truncate slds-text-body_regular strong">{user.fullName}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="infoBank" data-item={user.userGlobalId}>
+                                                    <div class="slds-truncate slds-text-body_regular">{user.companyName}</div>
+                                                </div>
+                                                <div class="slds-media__figure" data-item={user.userGlobalId}>
+                                                    <img class="sizeFlag" src={user.imgCountry}></img>
+                                                    <div class="slds-text-body_regular text-bold slds-truncate">{user.countryName}</div>
+                                                </div>
+                                            </div>
+                                            <!-- ICONO CHECK -->
+                                            <!-- Este icono se muestra cuando la card está seleccionada -->
+                                            <div class="slds-media__figure">
+                                                <span class="icon icon-check_circle"></span>
+                                            </div>
+                                        </header>
+                                    </div>
+                                </article>
+                            </div>    
+                        </div>
+                    </div>
+                    
+                    <!-- CONTINUE BUTTON-->
+                    <div class="slds-grid__button">
+                        <button class="slds-button primary button_full button_icon" onclick={goToOneTrade}>
+                            Continue
+                        </button>
+                    </div> 
+                    
+                    <!-- CONTACT BUTTON -->
+                    <div class="slds-grid__contact">
+                        <div class="quickButtons">
+                            <button class="slds-button primary quickButton_icon"><span class="icon icon-phone-support"></span></button>
+                            <button class="slds-button primary quickButton_icon_text" onclick={goSupportCenter}>Support center<span class="icon icon-phone-support"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+ 
+    </section> 
+    <div class="slds-backdrop slds-backdrop_open"></div> 
+</template>

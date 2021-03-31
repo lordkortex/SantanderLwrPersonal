@@ -1,0 +1,275 @@
+<template>
+        <!-- Service Component -->
+        <c-lwc_service-component onsuccesscallback={successcallback}></c-lwc_service-component>
+
+        <!-- Pagination -->
+        <c-lwc_cn_pagination 
+            data-id="pagination" 
+            alldata={transactionresultsNotNull} 
+            maximumrecords={maximumrecords} 
+            isiam={isiam}
+            paymentsperpage={transactionsPerPage}
+            namelisttodisplay={label.Account_Transactions} 
+            pagelist={listofpages}
+            todisplay={transactionResultsLength}
+            ongetpageevent={doBuildTablePage}
+            oncurrentpage={doBuildTablePage}
+        > 
+        </c-lwc_cn_pagination>
+
+        <!-- TABLE -->
+        <template if:true={sourcePageEqualsGlobalBalance}>
+            <div class="slds-table--header-fixed_container tableGPI">
+                <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                    <!-- HEADER -->
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <!-- Book Date column-->
+                            <th class="containerBookDate" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate" >
+                                    {label.ExtractSearch_BookDate}
+                                    <template if:true={sortBookDateEqualsDesc}>
+                                        <!-- Descending order icon -->
+                                        <span class="button-orderRight icon-arrowDown" data-id="BookDate" data-sort="desc" onclick={sortBy}></span>
+                                    </template>
+                                    <template if:false={sortBookDateEqualsDesc}>
+                                        <!-- Ascending order icon -->
+                                        <span class="button-orderRight icon-arrowUp" data-id="BookDate" data-sort="asc" onclick={sortBy}></span>  
+                                    </template>
+                                </div>
+                            </th>
+                            
+                            <!-- Value Date column -->
+                            <th class="containerValueDate" scope="col">
+                                <div class="slds-truncate" >{label.valueDate}</div>
+                            </th>
+
+                            <!-- Category column -->
+                            <th class="containerCategory" scope="col">
+                                <div class="slds-truncate">
+                                    {label.MovementHistory_Category}
+                                    <template if:true={sortCategoryEqualsDesc}>
+                                        <!-- Descending order icon -->
+                                        <span class="button-orderRight icon-arrowDown" data-id="Category" data-sort="desc" onclick={sortBy}></span>
+                                    </template>
+                                    <template if:false={sortCategoryEqualsDesc}>
+                                        <!-- Ascending order icon -->
+                                        <span class="button-orderRight icon-arrowUp" data-id="Category" data-sort="asc" onclick={sortBy}></span>  
+                                    </template>
+                                    
+                                </div>
+                            </th>
+
+                            <!-- Client Ref column -->
+                            <th class="slds-is-sortable containerClientReference" aria-label="Stage" aria-sort="none" scope="col">
+                                <div class="slds-truncate">{label.MovementHistory_CustomerRef}</div>
+                            </th>
+
+                            <!-- Amount column -->
+                            <th class="slds-is-sortable slds-text-align_right containerAmount" aria-label="Confidence" aria-sort="none" scope="col">
+                                <span class="slds-assistive-text">{label.sortBy}</span>
+                                <div class="slds-truncate">
+                                    <template if:true={sortAmountEqualsDesc}>
+                                        <span class="button-orderRight icon-arrowDown" data-id="amount" data-sort="desc" onclick={sortBy}></span>
+                                    </template>
+                                    <template if:false={sortAmountEqualsDesc}>
+                                        <span class="button-orderRight icon-arrowUp" data-id="amount" data-sort="asc" onclick={sortBy}></span>  
+                                    </template>
+                                    
+                                    {label.MovementHistory_Amount}
+                                </div>
+                            </th>
+                            <!-- <th class="slds-is-sortable slds-text-align_right containerBookBalance" aria-label="Stage" aria-sort="none" scope="col">
+                                <div class="slds-truncate">{label.Book_Balance}</div>
+                            </th> -->
+                            <th class="containerIconDetail" scope="col">
+                                <div class="slds-truncate slds-assistive-text">{label.Detail}</div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <!-- BODY -->
+                    <tbody>
+                        <!--<aura:iteration items="{transactionResults}" var="item" start="{start}" end="{end}" indexVar="index">-->
+
+                        <template for:each={iterationTransactionResults} for:item='item' for:index="index">
+                            <tr key={item.id} class="slds-hint-parent" aria-selected="false">
+                                <!-- <span class="span__align"> -->
+                                    <td role="gridcell" class="infoBookDate">
+                                        <div class="slds-grid slds-grid_align-spread"> 
+                                            <span class="slds-truncate text">{item.value.obtTransacBusqueda.formattedBookDate}</span>
+                                        </div>
+                                    </td>
+                        
+                                    <td role="gridcell" class="infoValueDate">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate text">{item.value.obtTransacBusqueda.formattedValueDate}</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td role="gridcell" class="infoCategory">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate text">{item.value.obtTransacBusqueda.tipoTransaccion}</span>
+                                        </div>
+                                        
+                                    </td>
+                                    
+                                    <td role="gridcell" class="infoClientReference">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <span class="slds-truncate text">{item.value.obtTransacBusqueda.refCliente}</span>
+                                        </div>
+                                    </td>
+                                    
+                                    <td class="slds-text-align_right infoAmount" role="gridcell">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <div class="slds-truncate" >
+                                                <span class="text amountInteger">{item.value.obtTransacBusqueda.importeEntero}</span>
+                                                <span class="text amountDecimals">{item.value.obtTransacBusqueda.importeDecimalMoneda}</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                
+                                    <td class="slds-text-align_right" role="gridcell">
+                                        <div class="slds-grid slds-grid_align-spread">
+                                            <div class="slds-truncate slds-button">
+                                                <div class="icon icon-arrowRight_big" data-id={item.index} onclick={navigateToExtractDetail}>{label.Detail}</div>
+                                            </div>
+                                        </div>
+                                        
+                                    </td> 
+                                <!-- </span>  -->
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        
+            <!-- If coming from the navegation menu -->
+        <template if:false={sourcePageEqualsGlobalBalance}>
+
+            <!-- TABLE -->
+            <div class="slds-table--header-fixed_container tableSearch">
+                <table class="slds-table slds-no-row-hover slds-table_fixed-layout slds-table_striped" aria-multiselectable="true" role="grid">
+                    <!-- HEADER -->
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th class="slds-is-sortable containerAccount" aria-label="Stage" aria-sort="none" scope="col">
+                                <div class="slds-truncate" >{label.accountAndAlias}</div>
+                            </th>
+                            <th class="containerBookDate" aria-label="Name" aria-sort="ascending" scope="col">
+                                <div class="slds-truncate" >
+                                    {label.ExtractSearch_BookDate}
+                                    <template if:true={sortBookDateEqualsDesc}>
+                                        <!-- Descending order icon -->
+                                        <span class="button-orderRight icon-arrowDown" data-id="BookDate" data-sort="desc" onclick={sortBy}></span>
+                                    </template>
+                                    <template if:false={sortBookDateEqualsDesc}>
+                                        <!-- Ascending order icon -->
+                                        <span class="button-orderRight icon-arrowUp" data-id="BookDate" data-sort="asc" onclick={sortBy}></span>  
+                                    </template>
+                                </div>
+                            </th>
+                            
+                            <th class="containerValueDate" scope="col">
+                                <div class="slds-truncate" >{label.valueDate}</div>
+                            </th>
+                            <th class="containerCategory" scope="col">
+                                <div class="slds-truncate">
+                                    {label.MovementHistory_Category}
+                                    <template if:true={sortCategoryEqualsDesc}>
+                                        <!-- Descending order icon -->
+                                        <span class="button-orderRight icon-arrowDown" data-id="Category" data-sort="desc" onclick={sortBy}></span>
+                                    </template>
+                                    <template if:false={sortCategoryEqualsDesc}>
+                                        <!-- Ascending order icon -->
+                                        <span class="button-orderRight icon-arrowUp" data-id="Category" data-sort="asc" onclick={sortBy}></span>  
+                                    </template>
+                                </div>
+                            </th>
+                            <th class="slds-is-sortable containerClientReference" aria-label="Stage" aria-sort="none" scope="col">
+                                <div class="slds-truncate">{label.MovementHistory_CustomerRef}</div>
+                            </th>
+                            <th class="slds-is-sortable slds-text-align_right containerAmount" aria-label="Confidence" aria-sort="none" scope="col">
+                                <span class="slds-assistive-text">{label.sortBy}</span>
+                                <div class="slds-truncate" >
+                                    {label.MovementHistory_Amount}
+                                    <template if:true={sortAmountEqualsDesc}>
+                                        <span class="button-orderRight icon-arrowDown" data-id="amount" data-sort="desc" onclick={sortBy}></span>
+                                    </template>
+                                    <template if:false={sortAmountEqualsDesc}>
+                                        <span class="button-orderRight icon-arrowUp" data-id="amount" data-sort="asc" onclick={sortBy}></span>  
+                                    </template>
+                                </div>
+                            </th>
+                            <th class="containerIconDetail" scope="col">
+                                <div class="slds-truncate slds-assistive-text">{label.Detail}</div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <!-- BODY -->
+                    <tbody>
+                        <!-- Row iteration -->
+                        
+                        <!--<aura:iteration items="{transactionResults}" var="item" start="{start}" end="{end}" indexVar="index">-->
+                        <template for:each={iterationTransactionResults} for:item='item' for:index="index">
+                            <!-- Row data -->
+                            <tr key={item.id} class="slds-hint-parent" aria-selected="false">
+                                <!-- <span  class="span__align"> -->
+                                <td class="infoAccount" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <div class="slds-truncate">
+                                            <div class="text">{item.value.obtTransacBusqueda.cuentaExtracto}</div>
+                                            <div class="text">{item.value.obtTransacBusqueda.aliasCuentaPerfilado}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <td role="gridcell" class="infoBookDate">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{item.value.obtTransacBusqueda.formattedBookDate}</span>
+                                    </div>
+                                </td>
+                                
+                                <td role="gridcell" class="infoBookDate">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{item.value.obtTransacBusqueda.formattedValueDate}</span>
+                                    </div>
+                                </td>
+                                
+                                <td class="infoCategory" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{item.value.obtTransacBusqueda.tipoTransaccion}</span>
+                                    </div>
+                                </td>
+                                
+                                <td class="infoClient" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <span class="slds-truncate text">{item.value.obtTransacBusqueda.refCliente}</span>
+                                    </div>
+                                </td>
+                                
+                                <td class="slds-text-align_right infoAmount" role="gridcell">
+                                    <div class="slds-grid slds-grid_align-spread">
+                                        <div class="slds-truncate" >
+                                            <span class="text amountInteger">{item.value.obtTransacBusqueda.importeEntero}</span>
+                                            <span class="text amountDecimals">{item.value.obtTransacBusqueda.importeDecimalMoneda}</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                
+                                <td class="slds-text-align_center" role="gridcell">
+                                    <div class="iconLinkContainer" data-id={item.index} onclick={navigateToExtractDetail}>
+                                        <span class="text-link" >{label.Detail}</span>
+                                        <span class="icon-arrowRight_big"></span>
+                                    </div>
+                                </td>                         
+                            <!-- </span> -->
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+</template>

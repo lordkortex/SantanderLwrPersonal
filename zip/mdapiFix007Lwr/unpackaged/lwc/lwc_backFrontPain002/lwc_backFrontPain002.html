@@ -1,0 +1,19 @@
+<template>
+
+    <c-lwc_pain002-search 
+        showtable={showTable}
+        ongetfilter={getFilters}
+    >
+    </c-lwc_pain002-search>
+
+    <template if:true={isFiltersEmpty}>
+        <div class="hidden" data-id="table">
+            <template if:true={isPain0021}>
+                <c-lwc_back-front-pain002-table filters={filters}></c-lwc_back-front-pain002-table>
+            </template>
+            <template if:false={isPain0021}>
+                <c-cmp-o-t-v-parent-users-landing filters={filters} is-backfront={isBackfront}></c-cmp-o-t-v-parent-users-landing>
+            </template>   
+        </div>
+    </template>
+</template>

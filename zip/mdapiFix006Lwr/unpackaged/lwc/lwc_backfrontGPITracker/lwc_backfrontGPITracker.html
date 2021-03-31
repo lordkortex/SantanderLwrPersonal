@@ -1,0 +1,9 @@
+<template>
+    <c-lwc_back-front-g-p-i-tracker-search showtable={showTable} isuetrsearch={isuetrsearch} uetr={uetr} ongetfilter={getFilters}></c-lwc_back-front-g-p-i-tracker-search>
+
+    <template if:true={ready}>
+        <!-- <div class="hidden" data-id="table"> -->
+            <c-lwc_bakc-front-g-p-i-tracker-table filters={filters} isuetrsearch={isuetrsearch} uetr={uetr}></c-lwc_bakc-front-g-p-i-tracker-table>
+        <!-- </div> -->
+    </template>
+</template>

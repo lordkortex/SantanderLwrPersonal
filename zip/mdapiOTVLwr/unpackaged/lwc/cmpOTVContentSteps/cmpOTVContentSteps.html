@@ -1,0 +1,74 @@
+<template>
+	
+	<!-- MODAL DOWNLOAD IT HERE -->
+	<c-lwc_-download-app show={showDownload} onhidemodal={showDownloadFalse}></c-lwc_-download-app>
+	
+	<div class="contentSteps">
+        <div class="container">
+ 			<!-- TYPE 01-->
+            <div class="type01" if:true={type1}>
+            	<div class="headerText">
+                	<div class="slds-text-heading">{label.cmpOTVContentSteps_1}</div>
+            	</div>
+            	<div class="slds-grid" >
+                	<div class="slds-col">
+                    	<figure class="slds-image">
+                    		<img src={illustrationStep1} alt="Description of the image" />
+                		</figure>
+                    	<div class="stepper_heading slds-grid"> 
+                    		<div class="step slds-grid">
+                            	<div class="step_number"><span>1</span></div>
+                                <div class="step_title"><span>{label.cmpOTVContentSteps_2}</span></div>
+                        	</div>
+                    	</div>
+                    	<div class="stepper_subtitle slds-grid">
+                        	<p class="step_subtitle">{label.cmpOTVContentSteps_3}
+								
+							<!-- CLICK DOWNLOAD IT HERE -->
+							<a onclick={showDownloadTrue}>&nbsp;{label.cmpOTVContentSteps_4}</a></p>
+                    	</div>
+                	</div>
+                	<div class="slds-col">
+                    	<figure class="slds-image">
+                    		<img src={illustrationStep2} alt="Description of the image" />
+                		</figure>
+                    	<div class="stepper_heading slds-grid"> 
+                        	<div class="step slds-grid">
+                           		<div class="step_number"><span>2</span></div>
+                                <div class="step_title"><span>{label.cmpOTVContentSteps_5}</span></div>
+                            </div>
+                    	</div>
+                    	<div class="stepper_subtitle slds-grid">
+                        	<p class="step_subtitle">{label.cmpOTVContentSteps_6}</p>
+                    	</div>
+                	</div>
+            	</div>
+            </div>
+            
+            <!--TYPE02-->
+            <div class="type02" if:true={type2}>
+            	<div class="headerText">
+                	<div class="slds-text-heading">{label.cmpOTVContentSteps_7}</div>
+            	</div>
+            	<div class="slds-grid" >
+                	<div class="slds-col">
+                    	<figure class="slds-image">
+                    		<img src={illustrationStep1} alt="Description of the image" />
+                		</figure>
+                    	<div class="stepper_heading slds-grid"> 
+                        	<div class="step slds-grid">
+                            	<div class="step_number"><span>1</span></div>
+                                <div class="step_title"><span>{label.cmpOTVContentSteps_8}</span></div>
+                        	</div>
+                    	</div>
+                    	<div class="stepper_subtitle slds-grid">
+                        	<p class="step_subtitle">{label.cmpOTVContentSteps_9}
+                            	<a onclick={showDownloadTrue}>&nbsp;{label.cmpOTVContentSteps_10}</a>
+                            </p>
+                    	</div>
+                	</div>
+            	</div>
+            </div>
+        </div>
+    </div>
+</template>

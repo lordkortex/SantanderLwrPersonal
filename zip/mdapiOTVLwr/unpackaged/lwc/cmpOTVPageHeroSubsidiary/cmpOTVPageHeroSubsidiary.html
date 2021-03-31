@@ -1,0 +1,21 @@
+<template>
+    <div class="welcomingHeader">
+        <div class="slds-grid">
+            <div class="slds-col">
+                <div class="text">
+                    <div class="slds-text-heading">{label.cmpOTVPageHeroSubsidiary_1}</div>
+                    <div class="slds-text-body"><span>{matrixOwnerName}</span> {label.cmpOTVPageHeroSubsidiary_2}</div>
+                </div>
+                <button class="slds-button primary button_full" onclick={goToSteps}>
+                    {label.cmpOTVPageHeroSubsidiary_3}
+                </button>
+                
+            </div>
+            <div class="slds-col">
+                <figure class="slds-image">
+                    <img src={heroReference} alt="Description of the image" />
+                </figure>
+            </div>
+        </div>
+    </div>
+</template>

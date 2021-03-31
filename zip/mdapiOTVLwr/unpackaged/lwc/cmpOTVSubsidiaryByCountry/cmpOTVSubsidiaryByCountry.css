@@ -1,0 +1,324 @@
+/* MODAL FULL SCREEN */
+.modalFullScreen .slds-modal__container {
+  min-width: 100%;
+  height: 100%;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #f6f6f6;
+  padding: 0px;
+}
+
+/* MODAL HEADER */
+.modalFullScreen .slds-modal__header {
+  border-bottom: none;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  padding: 0px;
+  width: 100%;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  background-color: #cc0000;
+}
+
+.modalFullScreen .slds-modal__header .row {
+  padding-left: 100px;
+  margin: 0 auto;
+  width: 1440px;
+  height: 64px;
+  align-items: center;
+}
+
+.modalFullScreen .slds-modal__header .slds-col {
+  display: flex;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* MODAL CONTENT */
+.modalFullScreen .slds-modal__content {
+  /*background-color: #f6fafc;*/
+  background-color: #ffffff;
+  margin-top: 76px;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+.modalFullScreen .slds-modal__content:last-child {
+  box-shadow: none;
+}
+
+.modalFullScreen .slds-modal__content .slds-grid__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding-bottom: 140px;
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #dadada;
+  border-radius: 10px;
+}
+
+.modalFullScreen .footerContact {
+  margin-top: 343px;
+}
+.modalFullScreen .footer {
+  margin-top: 120px;
+}
+.modalFullScreen .footerContact .cFooter,
+.modalFullScreen .footer .cFooter_Contact {
+  display: none;
+}
+
+/* CONTACT  */
+.slds-grid__contact {
+  position: absolute;
+  z-index: 10;
+  right: 40px;
+  bottom: 40px;
+}
+
+.welcomingHeader {
+  background-color: #ffffff;
+  width: 100%;
+  padding-top: 64px;
+  position: relative;
+}
+
+.welcomingHeader .test .slds-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 72px 108px 80px;
+}
+
+.welcomingHeader .slds-image {
+  width: 600px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.welcomingHeader .text {
+  width: 392px;
+}
+
+.welcomingHeader .text .slds-text-heading {
+  font-family: "SantanderHeadlineW05-Bold";
+  font-size: 36px;
+  line-height: 43px;
+  color: #444444;
+  margin-bottom: 24px;
+}
+
+.welcomingHeader .text .slds-text-body {
+  font-family: "SantanderHeadlineW05-Rg";
+  font-size: 28px;
+  line-height: 34px;
+  color: #444444;
+  margin-bottom: 32px;
+}
+
+.welcomingHeader .test .slds-col:first-child {
+  margin-right: 24px;
+  padding: 56px 0 60px 0;
+}
+.welcomingContent {
+  width: 100%;
+  background-color: #f6fafc;
+}
+
+.welcomingContent > .test > .slds-grid {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.welcomingContent > .test > .slds-grid > .slds-col:first-child {
+  padding: 72px 72px 80px 108px;
+}
+.welcomingContent > .test > .slds-grid > .slds-col:last-child {
+  max-width: 392px;
+  margin: 72px 292px 0px 0px;
+}
+
+.slds-text-heading {
+  font-family: "SantanderHeadlineW05-Bold";
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 1.19;
+  color: #444444;
+  margin-bottom: 16px;
+}
+
+.slds-text-body {
+  font-family: "SantanderHeadlineW05-Rg";
+  font-size: 20px;
+  line-height: 1.4;
+  color: #444444;
+}
+
+/* CARD INFORMATIVE SUBSIDARIES  */
+
+.welcomingContent .slds-card + .slds-card {
+  margin-top: 24px;
+}
+
+.welcomingContent .slds-card.subsidaries {
+  width: 576px;
+  border-radius: 4px;
+  background-color: #ffffff;
+  border: none;
+  padding: 24px;
+}
+
+.welcomingContent .slds-card.subsidaries .slds-card__body {
+  padding: 0 0 24px 0;
+  margin: 0px;
+}
+
+.welcomingContent .slds-card.subsidaries .slds-media__figure {
+  margin: 0px;
+}
+
+.welcomingContent
+  .slds-card.subsidaries
+  .slds-card__body
+  .slds-media__figure
+  .sizeFlag {
+  width: 28px;
+  height: 28px;
+  margin-right: 12px;
+}
+
+.welcomingContent
+  .slds-card.subsidaries
+  .slds-card__body
+  .slds-media__figure
+  .slds-text-body_regular {
+  font-family: SantanderMicroText-Bd;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #444444;
+}
+
+.welcomingContent .slds-card.subsidaries .line-card {
+  width: 100%;
+  height: 1px;
+  background-color: #cedee7;
+}
+
+.slds-card__footer {
+  padding: 16px 0 0 0;
+  margin: 0px;
+  text-align: unset;
+}
+
+.slds-card__footer .test .slds-grid .slds-col .slds-text-body_regular {
+  font-family: SantanderMicroText;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: normal;
+  color: #444444;
+}
+
+.slds-card__footer .slds-grid {
+  margin-bottom: 16px;
+}
+
+.slds-card__footer .slds-grid:last-child {
+  margin-bottom: 0px;
+}
+
+.slds-card__footer .slds-grid .slds-col:nth-child(even) {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.slds-card__footer .slds-grid .slds-col:nth-child(even) .slds-media__figure {
+  height: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.slds-card__footer
+  .slds-grid
+  .slds-col:nth-child(even)
+  .slds-media__figure
+  .icon {
+  margin-right: 8px;
+  font-size: 24px;
+}
+
+.slds-card__footer
+  .slds-grid
+  .slds-col:nth-child(even)
+  .slds-media__figure
+  .icon.icon-check_circle,
+.slds-card__footer
+  .slds-grid.confirmed
+  .slds-col:nth-child(even)
+  .slds-media__figure
+  .icon.icon-refresh {
+  display: none;
+}
+
+.slds-card__footer
+  .slds-grid.confirmed
+  .slds-col:nth-child(even)
+  .slds-media__figure
+  .icon.icon-check_circle,
+.slds-card__footer
+  .slds-grid
+  .slds-col:nth-child(even)
+  .slds-media__figure
+  .icon.icon-refresh {
+  display: block;
+}
+
+.slds-card__footer
+  .slds-grid
+  .slds-col:nth-child(even)
+  .slds-media__figure
+  .icon-check_circle:before {
+  color: #3a8340;
+}
+
+.slds-card__footer
+  .slds-grid
+  .slds-col:nth-child(even)
+  .slds-media__figure
+  .icon-refresh:before {
+  color: #946f00;
+}
+
+.slds-card__footer
+  .slds-grid
+  .slds-col:nth-child(even)
+  .slds-media__figure
+  .slds-text-body_regular {
+  line-height: 20px;
+  color: #946f00;
+}
+
+.slds-card__footer
+  .slds-grid.confirmed
+  .slds-col:nth-child(even)
+  .slds-media__figure
+  .slds-text-body_regular {
+  line-height: 20px;
+  color: #3a8340;
+}

@@ -1,0 +1,162 @@
+<aura:component
+  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+  access="global"
+>
+  <!-- RESOURCES -->
+  <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+  <c:CMP_ServiceComponent aura:id="Service" />
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <!-- ATTRIBUTES -->
+  <aura:attribute
+    name="isSearched"
+    type="Boolean"
+    default="false"
+    description="Check if we already searched or not"
+  />
+  <aura:attribute
+    name="searchValue"
+    type="String"
+    default=""
+    description="Text entered by user"
+  />
+  <aura:attribute
+    name="noResults"
+    type="Boolean"
+    default="false"
+    description="Check if we recived results to show or not"
+  />
+  <aura:attribute
+    name="isIngested"
+    type="Boolean"
+    default="true"
+    description="Check if the payment is ingested in the system"
+  />
+  <aura:attribute
+    name="result"
+    type="Object"
+    description="result searching by UETR code"
+  />
+  <aura:attribute
+    name="comesFromTracker"
+    type="Boolean"
+    default="false"
+    description="flag to check if back button is checked"
+  />
+  <aura:attribute
+    name="uetr"
+    type="String"
+    default=""
+    description="Text entered by user"
+  />
+
+  <!-- AM - 05/11/2020 - Portugal SSO Tracker -->
+  <aura:attribute
+    name="comesFromSSO"
+    type="Boolean"
+    default="false"
+    description="flag to check if comes from SSO with params"
+  />
+  <aura:attribute
+    name="comesFromSSOSearched"
+    type="Boolean"
+    default="false"
+    description="flag to check if comes from SSO with params and has been searched"
+  />
+  <aura:attribute
+    name="urlParamsChecked"
+    type="Boolean"
+    default="false"
+    description="flag to check if the url params have been read"
+  />
+  <aura:handler name="change" value="{!v.result}" action="{!c.hideSpinner}" />
+
+  <!-- AM - 25/11/2020 - Nexus Tracker-->
+  <aura:attribute
+    name="showBackButton"
+    type="Boolean"
+    default="false"
+    description="flag to show back button or not"
+  />
+
+  <!--<aura:if isTrue="{!v.comesFromSSO}">
+    	<div><lightning:spinner aura:id="spinnerUETR" variant="brand" size="large"  alternativeText="{!$Label.c.Loading+ '...'}"/></div>
+    </aura:if>-->
+
+  <aura:if isTrue="{!v.urlParamsChecked}">
+    <div class="contentPayments">
+      <div>
+        <!-- HEADER -->
+        <aura:if isTrue="{!v.comesFromTracker}">
+          <c:CMP_IPTHeaderSearchUETR
+            comesFromSSO="{!v.comesFromSSO}"
+            comesFromSSOSearched="{!v.comesFromSSOSearched}"
+            searchValue="{!v.searchValue}"
+            isSearched="{!v.isSearched}"
+            noResults="{!v.noResults}"
+            result="{!v.result}"
+            isIngested="{!v.isIngested}"
+            comesFromTracker="{!v.comesFromTracker}"
+            showBackButton="{!v.showBackButton}"
+          />
+          <aura:set attribute="else">
+            <c:CMP_IPTHeaderSearchUETRPublic
+              searchValue="{!v.searchValue}"
+              isSearched="{!v.isSearched}"
+              noResults="{!v.noResults}"
+              result="{!v.result}"
+              isIngested="{!v.isIngested}"
+              comesFromTracker="{!v.comesFromTracker}"
+              uetr="{!uetr}"
+            />
+          </aura:set>
+        </aura:if>
+
+        <!-- SEARCHED PAGE -->
+        <aura:if isTrue="{!v.isSearched}">
+          <!-- DISPLAYING -->
+          <div class="UETR">
+            <div class="textInfo">
+              <p>
+                {!$Label.c.Displaying}<span
+                  >&nbsp;{!if(and(v.result == undefined, v.result == null), 0,
+                  1)}&nbsp;{!$Label.c.item}&nbsp;</span
+                >{!$Label.c.searchedBy}<span>&nbsp;"{!v.searchValue}"</span>
+              </p>
+            </div>
+
+            <!-- NO RESULTS -->
+            <aura:if isTrue="{!or(v.result == undefined, v.result == null)}">
+              <c:CMP_IPTSearchUETRError
+                searchValue="{!v.searchValue}"
+                isSearched="{!v.isSearched}"
+              />
+            </aura:if>
+
+            <!-- RESULTS -->
+            <aura:if
+              isTrue="{!not(or(v.result == undefined, v.result == null))}"
+            >
+              <!-- TRACK DETAILS -->
+              <c:CMP_IPTDetailParent
+                UETRSearchResult="{!v.result}"
+                isPaymentIngested="{!v.isIngested}"
+                comesFromUETRSearch="true"
+                comesFromTracker="{!v.comesFromTracker}"
+                comesFromSSO="{!v.comesFromSSO}"
+              />
+            </aura:if>
+          </div>
+          <!-- BEGINNING PAGE -->
+          <aura:set attribute="else">
+            <aura:if
+              isTrue="{!or(v.comesFromSSO == false,and(v.comesFromSSO, v.comesFromSSOSearched))}"
+            >
+              <c:CMP_IPTSearchUETR />
+            </aura:if>
+          </aura:set>
+        </aura:if>
+      </div>
+    </div>
+  </aura:if>
+</aura:component>

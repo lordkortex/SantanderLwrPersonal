@@ -1,0 +1,718 @@
+<aura:component
+  implements="forceCommunity:availableForAllPageTypes"
+  access="global"
+  controller="CNT_B2B_PaymentSummary"
+>
+  <ltng:require styles="{!$Resource.Santander_Icons + '/style.css'}" />
+  <ltng:require
+    scripts="{!$Resource.cometd}"
+    afterScriptsLoaded="{!c.onCometdLoaded}"
+  />
+
+  <!-- CORE ATTRIBUTES -->
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="paymentDraft"
+    default="{}"
+    description="Indicates the data of the payment"
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="userData"
+    default="{}"
+    description="User data."
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="transferType"
+    default=""
+    description="Operation type that identify the particular operation universe"
+  />
+  <aura:attribute access="public" type="Aura.Action" name="handleBack" />
+
+  <aura:attribute
+    access="public"
+    type="Decimal"
+    name="total"
+    default=""
+    description="Amount to be sent plus the transfer fee"
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="onwardPage"
+    default="landing-payments"
+  />
+  <aura:attribute access="public" type="Map" name="signLevel" default="{}" />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="showOTP"
+    default="false"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="tokenOK"
+    default="false"
+  />
+  <aura:attribute access="public" type="String" name="OTP" default="" />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="OTPErrorMessage"
+    default=""
+    description="Can be {!$Label.c.OTPWrongCheckSMS} or {!$Label.c.OTPExpiredRequestNew}"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="reload"
+    default="false"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="disabledSignature"
+    default="false"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="expiredFX"
+    default="false"
+  />
+  <aura:attribute access="public" type="String" name="FXDateTime" />
+  <aura:attribute access="public" type="Aura.Action" name="reloadAction" />
+  <aura:attribute access="public" type="Map" name="limitsData" default="{}" />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="spinner"
+    default="false"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="spinnerVerificationCode"
+    default="false"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="spinnerCountDown"
+    default="false"
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="errorSign"
+    default="false"
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="totalAmountLabel"
+    default="{!$Label.c.amountToBeCharged}"
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="exchangeRateLabel"
+    default="{!$Label.c.indicativeExchangeRate}"
+  />
+  <aura:attribute
+    access="public"
+    type="Map"
+    name="navigatorInfo"
+    default="{}"
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="urgencyIndicator"
+    default="Standard"
+  />
+  <aura:attribute access="public" type="Object" name="localWindow" />
+  <aura:attribute access="public" type="String" name="sessionId" />
+  <aura:attribute access="public" type="Object" name="cometd" />
+  <aura:attribute access="public" type="Object[]" name="cometdSubscriptions" />
+  <aura:attribute access="public" type="String" name="scaUid" />
+  <aura:attribute access="public" type="String" name="feesString" default="" />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="debitAmountString"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="exchangeRateString"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="paymentAmountString"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="String"
+    name="valueDateString"
+    default=""
+  />
+  <aura:attribute
+    access="public"
+    type="Boolean"
+    name="errorOTP"
+    default="false"
+  />
+
+  <lightning:navigation aura:id="navService" />
+
+  <aura:handler name="init" action="{!c.initComponent}" value="{!this}" />
+  <aura:handler name="change" action="{!v.reloadAction}" value="{!v.reload}" />
+
+  <aura:registerEvent name="completeStep" type="c:EVT_B2B_CompleteStep" />
+
+  <div class="stepper_text">
+    <div class="stepper_heading slds-grid">
+      <div class="line slds-col"></div>
+      <div class="step slds-col slds-grid">
+        <div class="step_title">
+          <span>{!$Label.c.PAY_PaymentSummary_header}</span>
+        </div>
+      </div>
+      <div class="line slds-col"></div>
+    </div>
+  </div>
+  <!-- PROCESS SUMMARY -->
+  <div class="process-summary">
+    <!-- CARD SUMMARY -->
+    <article class="slds-card card-summary">
+      <!-- CARD SUMMARY HEADER -->
+      <div class="slds-card__header">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+          <div class="slds-media__body slds-grid">
+            <div class="slds-col">
+              <div class="row">
+                <h2 class="slds-card__header-title">
+                  {!$Label.c.PAY_Summary_from}
+                </h2>
+              </div>
+              <div class="row">
+                <div class="slds-text-title slds-truncate bold">
+                  {!v.paymentDraft.sourceAccount.displayNumber}
+                </div>
+                <div class="slds-text-title slds-truncate">
+                  {!v.paymentDraft.sourceAccount.alias}
+                </div>
+              </div>
+              <div class="row">
+                <div class="slds-truncate">
+                  {!v.paymentDraft.sourceAccount.subsidiaryName}
+                </div>
+                <div>
+                  <button class="slds-button button_link slds-truncate">
+                    <span class="slds-truncate"
+                      >{!v.paymentDraft.sourceAccount.bankName}</span
+                    >
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="slds-media__figure">
+                  <img
+                    class="sizeFlag"
+                    src="{!$Resource.Flags + '/' + v.paymentDraft.sourceAccount.country + '.svg'}"
+                  />
+                  <span class="bold slds-truncate"
+                    >{!v.paymentDraft.sourceAccount.countryName}</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="slds-col">
+              <div class="line"></div>
+              <div class="icon icon-arrowUp"></div>
+              <div class="line"></div>
+            </div>
+            <div class="slds-col">
+              <div class="row">
+                <h2 class="slds-card__header-title">
+                  {!$Label.c.PAY_Summary_To}
+                </h2>
+              </div>
+              <div class="row">
+                <div class="slds-text-title slds-truncate bold">
+                  {!v.paymentDraft.destinationAccount.displayNumber}
+                </div>
+                <div class="slds-text-title slds-truncate">
+                  {!v.paymentDraft.destinationAccount.alias}
+                </div>
+              </div>
+              <div class="row">
+                <div class="slds-truncate">
+                  {!v.paymentDraft.destinationAccount.subsidiaryName}
+                </div>
+                <div>
+                  <button class="slds-button button_link slds-truncate">
+                    <span class="slds-truncate"
+                      >{!v.paymentDraft.destinationAccount.bankName}</span
+                    >
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="slds-media__figure">
+                  <img
+                    class="sizeFlag"
+                    src="{!$Resource.Flags + '/' + v.paymentDraft.destinationAccount.country + '.svg'}"
+                  />
+                  <span class="bold slds-truncate"
+                    >{!v.paymentDraft.destinationAccount.countryName}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+      </div>
+      <!-- CARD SUMMARY BODY -->
+      <div class="slds-card__body slds-card__body_inner">
+        <div class="row">
+          <div class="section-title slds-truncate">
+            {!$Label.c.PAY_PaymentSummary_details}
+          </div>
+        </div>
+        <div class="section-content slds-grid">
+          <div class="slds-col">
+            <aura:if isTrue="{! !empty(v.valueDateString)}">
+              <div class="row">
+                <div class="slds-truncate">{!$Label.c.valueDate}</div>
+                <div class="bold slds-truncate">{!v.valueDateString}</div>
+              </div>
+            </aura:if>
+            <div class="row">
+              <div class="slds-truncate">{!$Label.c.ClientReference}</div>
+              <div class="bold slds-truncate">{!v.paymentDraft.reference}</div>
+            </div>
+            <!--Payment Reason para destino UK D&F-->
+            <aura:if isTrue="{! !empty(v.paymentDraft.reason)}">
+              <div class="row">
+                <div class="slds-truncate">
+                  {!$Label.c.PAY_PaymentSummary_payReason}
+                </div>
+                <div class="bold slds-truncate">{!v.paymentDraft.reason}</div>
+              </div>
+            </aura:if>
+            <aura:if isTrue="{! !empty(v.paymentDraft.description)}">
+              <div class="row">
+                <div class="slds-truncate">{!$Label.c.reference}</div>
+                <div class="bold slds-truncate">
+                  {!v.paymentDraft.description}
+                </div>
+              </div>
+            </aura:if>
+            <!--Cuenta comisiones para origen CL o PL-->
+            <aura:if isTrue="{! !empty(v.paymentDraft.expensesAccount)}">
+              <div class="row">
+                <div class="slds-truncate">
+                  {!$Label.c.PAY_PaymentSummary_feesHolder}
+                </div>
+                <div class="bold slds-truncate">
+                  {!v.paymentDraft.expensesAccount.subsidiaryName}
+                </div>
+              </div>
+            </aura:if>
+          </div>
+          <!--Comentado por css corregido incluyendo un margen para no necesitar incluir esta columna-->
+          <!--div class="slds-col"-->
+          <!--/div-->
+          <div class="slds-col">
+            <div class="row">
+              <div class="slds-truncate">{!$Label.c.PaymentMethod}</div>
+              <aura:if isTrue="{! !empty(v.paymentDraft.parsedPaymentMethod)}">
+                <div class="bold slds-truncate">
+                  {!v.paymentDraft.parsedPaymentMethod}
+                </div>
+                <aura:set attribute="else">
+                  <div class="bold slds-truncate">-</div>
+                </aura:set>
+              </aura:if>
+            </div>
+            <!--Payment purpose obligatorio para destino BR D&F-->
+            <aura:if
+              isTrue="{!(v.paymentDraft.destinationAccount.country eq 'BR')}"
+            >
+              <div class="row">
+                <div class="slds-truncate">{!$Label.c.B2B_PaymentPurpose}</div>
+                <aura:if isTrue="{! !empty(v.paymentDraft.purpose)}">
+                  <div class="bold slds-truncate">
+                    {!v.paymentDraft.purpose}
+                  </div>
+                  <aura:set attribute="else">
+                    <div class="bold slds-truncate">-</div>
+                  </aura:set>
+                </aura:if>
+              </div>
+            </aura:if>
+            <aura:if isTrue="{! !empty(v.paymentDraft.chargeBearer)}">
+              <div class="row">
+                <div class="slds-truncate">{!$Label.c.charges}</div>
+                <div class="bold slds-truncate">
+                  {!v.paymentDraft.chargeBearer}
+                </div>
+              </div>
+            </aura:if>
+            <!--Cuenta comisiones para origen CL o PL-->
+            <aura:if isTrue="{! !empty(v.paymentDraft.expensesAccount)}">
+              <div class="row">
+                <div class="slds-truncate">
+                  {!$Label.c.B2B_Expenses_Account}
+                </div>
+                <div class="bold slds-truncate">
+                  {!v.paymentDraft.expensesAccount.displayNumber}
+                </div>
+              </div>
+              <div class="row">
+                <div class="slds-truncate">
+                  {!$Label.c.PAY_PaymentSummary_feesBank}
+                </div>
+                <div class="bold slds-truncate">
+                  {!v.paymentDraft.expensesAccount.bankName}
+                </div>
+              </div>
+            </aura:if>
+
+            <!--Swift old functionality-->
+            <aura:if isTrue="{!(v.paymentDraft.sourceAccount.country eq 'CL')}">
+              <div class="row">
+                <div class="slds-truncate">{!$Label.c.RUT}</div>
+                <div class="bold slds-truncate">
+                  {!v.paymentDraft.documentNumber}
+                </div>
+                <aura:set attribute="else">
+                  <div class="slds-truncate">{!$Label.c.B2B_Swift_code}</div>
+                  <div class="bold slds-truncate">
+                    {!v.paymentDraft.destinationAccount.codigoBic}
+                  </div>
+                </aura:set>
+              </div>
+            </aura:if>
+
+            <!--PENDIENTE Beneficiary e-mail address para destino CL-->
+            <!--aura:if isTrue="{! !empty(v.paymentDraft.PENDIENTE)}">
+                            <div class="row">
+                                <div class="slds-truncate">{!$Label.c.PENDIENTE}</div>
+                                <div class="bold slds-truncate">{!v.paymentDraft.PENDIENTE}</div>
+                            </div>
+                        </aura:if-->
+
+            <!--PENDIENTE Commercial code para destino CL-->
+            <!--aura:if isTrue="{! !empty(v.paymentDraft.PENDIENTE)}">
+                            <div class="row">
+                                <div class="slds-truncate">{!$Label.c.PENDIENTE}</div>
+                                <div class="bold slds-truncate">{!v.paymentDraft.PENDIENTE}</div>
+                            </div>
+                        </aura:if-->
+          </div>
+        </div>
+        <!--PENDIENTE: definir atributos para los document1 , document2-->
+        <!--Uploaded documentation-->
+        <aura:if isTrue="{! v.paymentDraft.documents.length gt 0}">
+          <div class="row"></div>
+          <div class="row">
+            <div class="section-title slds-truncate">
+              {!$Label.c.PAY_PaymentSummary_upDoc}
+            </div>
+          </div>
+          <div class="section-content slds-grid slds-wrap">
+            <aura:iteration
+              items="{!v.paymentDraft.documents}"
+              var="item"
+              indexVar="key"
+            >
+              <div class="slds-col">
+                <div class="row">
+                  <div class="slds-truncate">{!$Label.c.document} {key+1}</div>
+                  <div class="bold slds-truncate">{!item.name}</div>
+                </div>
+              </div>
+            </aura:iteration>
+          </div>
+        </aura:if>
+      </div>
+    </article>
+    <!-- CARD AMOUNT -->
+    <!-- Añadir la calse confirm para ocultar los botones y mostrar el bloque exchange rate junto con la card de autorización -->
+    <!-- Añadir la clase simple para mostrar únicamente el <header> de la card -->
+    <article class="slds-card card-amount">
+      <!-- CARD AMOUNT HEADER -->
+      <div class="slds-card__header">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+          <div class="slds-media__body slds-grid">
+            <h2 class="slds-card__header-title">{!$Label.c.amount}</h2>
+            <aura:if
+              isTrue="{!and(v.paymentDraft.amountReceive!=null,!v.paymentDraft.amountReceive!=undefined)}"
+            >
+              <!--PARA PROBAR h2 class="slds-card__header-title"><c:CMP_displayAmount outputString = "{!v.debitAmountString}" aura:id ="avaibleBalanceRow" amount="{!v.total}" decimalClass="slds-text-heading_small" currencyClass="slds-text-heading_small" currency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}" numberFormat="{!v.userData.numberFormat}" /></h2-->
+              <!--ORIGINAL h2 class="slds-card__header-title">5.437<span class="slds-text-heading_small">,93 EUR</span></h2-->
+              <h2 class="slds-card__header-title">
+                <c:CMP_displayAmount
+                  outputString="{!v.paymentAmountString}"
+                  amount="{!v.paymentDraft.amountReceive}"
+                  decimalClass="slds-text-heading_small"
+                  currencyClass="slds-text-heading_small"
+                  currency="{!v.paymentDraft.destinationAccount.currencyCodeAvailableBalance}"
+                  numberFormat="{!v.userData.numberFormat}"
+                />
+              </h2>
+              <aura:set attribute="else">
+                <h2 class="slds-card__header-title">
+                  <c:CMP_displayAmount
+                    outputString="{!v.paymentAmountString}"
+                    amount="{!v.paymentDraft.amountSend}"
+                    decimalClass="slds-text-heading_small"
+                    currencyClass="slds-text-heading_small"
+                    currency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+                    numberFormat="{!v.userData.numberFormat}"
+                  />
+                </h2>
+              </aura:set>
+            </aura:if>
+          </div>
+        </header>
+      </div>
+      <!-- CARD AMOUNT BODY -->
+      <div class="slds-card__body slds-card__body_inner">
+        <aura:if
+          isTrue="{!v.paymentDraft.destinationAccount.currencyCodeAvailableBalance != v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+        >
+          <div class="slds-grid">
+            <div>
+              <div class="tooltip__content">
+                <div class="text">{!$Label.c.exchangeRate}</div>
+                <div class="tooltip tooltip_right__top">
+                  <button
+                    class="slds-button slds-button_icon"
+                    aria-describedby="help"
+                    aria-disabled="true"
+                  >
+                    <span
+                      class="slds-button__icon icon icon-information"
+                    ></span>
+                    <span class="slds-assistive-text">{!$Label.c.help}</span>
+                  </button>
+                  <div
+                    class="slds-popover slds-popover_tooltip slds-nubbin_bottom"
+                    role="tooltip"
+                    id="help"
+                  >
+                    <div class="slds-popover__body">
+                      <div class="title">{!v.exchangeRateLabel}</div>
+                      <div class="line"></div>
+                      <div class="text">
+                        {!$Label.c.PAY_PaymentSummary_tooltip1}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <!--Formato actual: 1 EUR = 4,91 PLN-->
+              <aura:if isTrue="{! !empty(v.paymentDraft.exchangeRate)}">
+                <div class="text">
+                  <!--c:CMP_displayAmount aura:id ="avaibleBalanceRow" amount="{!v.paymentDraft.exchangeRate}" decimalClass="text" wholeClass="text" currency="{!$Label.c.EUR}" numberFormat="{!v.userData.numberFormat}"  outputString = "{!v.exchangeRateString}" /> / {!$Label.c.GBP}-->
+                  <c:CMP_displayAmount
+                    amount="1"
+                    decimalClass="text"
+                    wholeClass="text"
+                    currency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+                    numberFormat="{!v.userData.numberFormat}"
+                  />
+                  =
+                  <c:CMP_displayAmount
+                    aura:id="avaibleBalanceRow"
+                    amount="{!v.paymentDraft.exchangeRate}"
+                    decimalClass="text"
+                    wholeClass="text"
+                    currency="{!v.paymentDraft.destinationAccount.currencyCodeAvailableBalance}"
+                    numberFormat="{!v.userData.numberFormat}"
+                    outputString="{!v.exchangeRateString}"
+                  />
+                </div>
+                <aura:set attribute="else">
+                  <div class="text">-</div>
+                </aura:set>
+              </aura:if>
+            </div>
+          </div>
+          <div class="slds-grid">
+            <div>
+              <!--Amount in ...-->
+              <div class="text">
+                {!$Label.c.amountIn + ' '}<span
+                  >{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}</span
+                >
+              </div>
+            </div>
+            <div>
+              <aura:if isTrue="{! !empty(v.paymentDraft.amountSend)}">
+                <div class="number">
+                  <c:CMP_displayAmount
+                    amount="{!v.paymentDraft.amountSend}"
+                    decimalClass="number"
+                    wholeClass="number"
+                    currency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+                    numberFormat="{!v.userData.numberFormat}"
+                  />
+                </div>
+                <aura:set attribute="else">
+                  <div class="number">-</div>
+                </aura:set>
+              </aura:if>
+            </div>
+          </div>
+        </aura:if>
+
+        <div class="slds-grid">
+          <div>
+            <div class="tooltip__content">
+              <div class="text">{!$Label.c.Fee}</div>
+              <div class="tooltip tooltip_right__top">
+                <button
+                  class="slds-button slds-button_icon"
+                  aria-describedby="help"
+                  aria-disabled="true"
+                >
+                  <span class="slds-button__icon icon icon-information"></span>
+                  <span class="slds-assistive-text">{!$Label.c.help}</span>
+                </button>
+                <div
+                  class="slds-popover slds-popover_tooltip slds-nubbin_bottom"
+                  role="tooltip"
+                  id="help"
+                >
+                  <div class="slds-popover__body">
+                    <div class="title">{!$Label.c.transferFee}</div>
+                    <div class="line"></div>
+                    <div class="text">
+                      {!$Label.c.PAY_PaymentSummary_tooltip2}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <aura:if
+              isTrue="{!not(empty(v.paymentDraft.convertedTransactionFee))}"
+            >
+              <div class="number">
+                <c:CMP_displayAmount
+                  outputString="{!v.feesString}"
+                  amount="{!v.paymentDraft.convertedTransactionFee}"
+                  decimalClass="number"
+                  wholeClass="number"
+                  currency="{!v.paymentDraft.convertedTransactionFeeCurrency}"
+                  numberFormat="{!v.userData.numberFormat}"
+                />
+              </div>
+              <aura:set attribute="else">
+                <aura:if isTrue="{!not(empty(v.paymentDraft.transactionFee))}">
+                  <div class="number">
+                    <c:CMP_displayAmount
+                      outputString="{!v.feesString}"
+                      amount="{!v.paymentDraft.transactionFee}"
+                      decimalClass="number"
+                      wholeClass="number"
+                      currency="{!v.paymentDraft.transactionFeeCurrency}"
+                      numberFormat="{!v.userData.numberFormat}"
+                    />
+                  </div>
+                  <aura:set attribute="else">
+                    <div class="number">-</div>
+                  </aura:set>
+                </aura:if>
+              </aura:set>
+            </aura:if>
+          </div>
+        </div>
+        <div class="slds-grid">
+          <div>
+            Total amount in
+            <span
+              >{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}</span
+            >
+          </div>
+          <div class="bold">
+            <c:CMP_displayAmount
+              outputString="{!v.debitAmountString}"
+              aura:id="avaibleBalanceRow"
+              amount="{!v.total}"
+              currency="{!v.paymentDraft.sourceAccount.currencyCodeAvailableBalance}"
+              numberFormat="{!v.userData.numberFormat}"
+            />
+          </div>
+        </div>
+
+        <!-- EXCHANGE RATE -->
+        <aura:if isTrue="{!v.showOTP}">
+          <aura:if
+            isTrue="{!and(and(v.signLevel.signatory eq 'true', v.signLevel.lastSign eq 'true'), v.paymentDraft.sourceAccount.currencyCodeAvailableBalance != v.paymentDraft.destinationAccount.currencyCodeAvailableBalance)}"
+          >
+            <c:CMP_CountDown
+              minutes="5"
+              FXAction="{!c.reloadFX}"
+              update="true"
+              expiredFX="{!v.expiredFX}"
+              spinner="{!v.spinnerCountDown}"
+            />
+          </aura:if>
+        </aura:if>
+      </div>
+    </article>
+
+    <!-- CONFIRMATION BUTTONS -->
+    <aura:if isTrue="{!v.showOTP}">
+      <aura:if isTrue="{!v.expiredFX == false}">
+        <c:CMP_WaitingAuthorization
+          expired="{!v.expiredFX}"
+          localUser="{!and(v.userData.cashNexus == false, v.userData.multiOneTrade==false)}"
+          errorOTP="{!v.errorOTP}"
+          spinner="{!v.spinnerVerificationCode}"
+          resendAction="{!c.sendOTP_Strategic}"
+          error="{!or(v.errorSign,v.expiredFX)}"
+        />
+      </aura:if>
+      <aura:set attribute="else">
+        <div class="buttons">
+          <button
+            class="slds-button primary button_full"
+            onclick="{!c.handleConfirm}"
+          >
+            {!$Label.c.confirmPayment}
+          </button>
+          <button
+            class="slds-button secondary button_full"
+            onclick="{!v.handleBack}"
+          >
+            {!$Label.c.editPayment}
+          </button>
+        </div>
+      </aura:set>
+    </aura:if>
+
+    <c:CMP_B2B_Toast aura:id="errorToast" reload="{!v.reload}" />
+    <aura:if isTrue="{!v.spinner eq true}">
+      <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+  </div>
+</aura:component>

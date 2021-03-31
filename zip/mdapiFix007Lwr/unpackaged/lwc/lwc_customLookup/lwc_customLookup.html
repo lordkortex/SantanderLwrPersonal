@@ -1,0 +1,55 @@
+<template>
+           
+    <div onmouseleave={doOnblur} data-id="searchRes" class="slds-form-element slds-lookup slds-is-close" data-select="single">
+        <label class="slds-form-element__label" for="lookup-348">{label}</label>
+        <!--This part is for display search bar for lookup-->  
+        <div class="slds-form-element__control">
+            
+            <div class="slds-input-has-icon slds-input-has-icon--right">
+                <!-- This markup is for when an record is selected -->
+                <div data-id="lookup-pill" class="slds-pill-container slds-hide pillSize">
+                    <!--<lightning-pill class="pillSize" label={selectedrecord.Name} name={selectedrecord.Name} onremove={clear}></lightning-pill>-->
+                    <span class="slds-pill slds-pill_link pillSize">
+                        <div class="slds-pill__action" style="text-align: left;" title="Full pill label verbiage mirrored here">
+                          <span class="slds-pill__label">{selectedrecord.Name}</span>
+                        </div>
+                        <button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="Remove" onclick={clear}>
+                          <lightning-icon icon-name="utility:close" alternative-text="Approved" title="Approved"></lightning-icon>
+                          <span class="slds-assistive-text">Remove</span>
+                        </button>
+                      </span>
+                </div>
+
+                <div data-id="lookupField" class="slds-show">
+                    <lightning-icon class="slds-input__icon slds-show" icon-name="utility:search" size="x-small" alternative-text="search"></lightning-icon>
+                    <!--<span class="slds-icon_container  slds-combobox__input-entity-icon" title="record">
+                        <lightning:icon class="slds-icon slds-icon slds-icon_small slds-icon-text-default" iconName="{!v.IconName}" size="x-small" alternativeText="icon"/>
+                        <span class="slds-assistive-text"></span>
+                    </span>-->
+                    <lightning-input type="text" onclick={doOnfocus} update-on="keyup" keyup={keyPressController} class={inputClass} value={searchKeyWord} placeholder={Label.search}></lightning-input>
+                </div>   
+            </div>
+        </div>
+        <!--This part is for Display typehead lookup result List-->  
+        <ul class="lookup slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid slds-lookup__menu slds" role="listbox">
+            <lightning-spinner class="slds-hide" variant="brand" size="small" data-id="mySpinner"></lightning-spinner>
+            <center>{message}</center> 
+            <template for:each={getListOfSearchRecords} for:item="singleRec">
+                <c-lwc_custom-lookup-result 
+                    key={singleRec.index} 
+                    orecord={singleRec} 
+                    iconname={iconname}
+                    onoselectedrecordevent={handleComponentEvent}
+                >
+                </c-lwc_custom-lookup-result>
+                <!--<li key={singleRec.index}  role="presentation" class="slds-listbox__item" onclick={selectRecord}>
+                    <span data-id="listbox-option-unique-id-01" class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">  
+                        <span class="slds-media__body">  
+                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">{singleRec.Name}</span>
+                        </span>
+                    </span>
+                </li>-->
+            </template>
+        </ul> 
+    </div> 
+</template>

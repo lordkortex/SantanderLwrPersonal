@@ -1,0 +1,154 @@
+<template>
+   
+    <!--<tr class="slds-hint-parent border" aria-selected="false" data-id="parentDetails">
+        <td class="slds-text-align_center" role="gridcell">
+            <div class={getCircleClass}></div>
+        </td>
+        <th scope="row">
+            <div class="slds-truncate" >
+                <div class="status">{statusLabel}</div>
+            </div>
+        </th>
+        <th scope="row">
+            <div class="slds-truncate payment">
+                <div class="circle icon-tracking" onclick={openPaymentDetails}></div>
+            </div>
+        </th>
+        <td role="gridcell">
+            <div class="slds-truncate">{getStatusDate}</div>
+        </td>
+        <td role="gridcell">
+            <template if:true={backfront}>
+                <div class="slds-truncate">{getAccountId}</div>
+            </template>
+            <template if:false={backfront}>
+                <div class="slds-truncate">{getIssueDate}</div>
+            </template>
+        </td>
+        <td role="gridcell">
+            <div class="slds-truncate">{getValueDate}</div>
+        </td>
+        <td role="gridcell">
+            <div class="slds-truncate">{getBeneficiaryName}</div>
+        </td>
+        <td role="gridcell">
+            <div class="slds-truncate">{getAgentCode}</div>
+        </td>
+        <td class="slds-text-align_right" role="gridcell">
+            <c-lwc_display-amount
+                fromgpi
+                numberformat={getNumberFormat}  
+                amount={getAmount} 
+                decimalclass="slds-truncate amountDecimals" 
+                wholeclass="slds-truncate amountInteger" 
+                currency={gettcurrency}>
+            </c-lwc_display-amount>
+        </td>
+        <td class="slds-text-align_center" role="gridcell">   
+            <div class="button-arrow icon-arrowDown_small" title="See detail" onclick={showHideDetails} data-id="icon"></div>
+        </td>
+    </tr>   -->
+
+
+
+        <!--<template class="hidden widthCard" data-id="details">-->
+                    
+            <table class="slds-table slds-table_fixed-layout slds-table_resizable-cols widthCard" aria-multiselectable="true" role="grid" data-id="datailsTable"> 
+                <!-- HEADER -->        
+                <!-- <tr class="slds-line-height_reset ">
+                    <th class="slds-text-align_right  containerIconStatus" scope="col" style="height:0px !important;">   
+                    </th>
+                    <th class=" noHeight slds-is-resizable slds-is-sortable slds-is-sorted slds-is-sorted_asc containerStatus" aria-label="Name" aria-sort="ascending" scope="col">
+                    </th>
+                    <th class="noHeight slds-text-align_right containerTracking" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Account Name" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Close Date" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Stage" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Confidence" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Amount" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight slds-is-resizable slds-is-sortable" aria-label="Contact" aria-sort="none" scope="col">
+                    </th>
+                    <th class="noHeight containerIconDetail" scope="col">
+                    </th>
+                </tr> -->
+                
+                
+                <tbody class="fontBody">
+                        <tr ><td class="noSuperiorBorder borderLeft"><div class="titleTrack" >{label.trackingDetails}</div></td> <td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder"></td><td class="noSuperiorBorder borderRight"></td></tr>                   
+                        <tr></tr>
+                        <tr class="th1 ">
+                        <td class="th1 borderLeft" scope="row">   
+                        </td>
+                        <td class="th1" scope="row">
+                            <div class="slds-truncate titleDetail firstCell algo">{label.beneficiaryAccount}</div>
+                        </td>
+                        <td class="slds-text-align_right  containerTracking  th1" scope="row">
+                            
+                        </td>
+                        <td class="slds-text-align_right  containerStatus th1" scope="row">
+                            
+                        </td>
+                        <td class="th1" scope="row">
+                            <div class="slds-truncate titleDetail">{label.beneficiaryEntityName}</div>
+                        </td>
+                        <td class="th1" scope="row">
+                            <div class="slds-truncate titleDetail">{label.beneficiaryCountry}</div>
+                        </td>
+                        <td class="th1" scope="row">
+                            <template if:true={statusOne}>
+                                <div class="slds-truncate titleDetail">{label.reasonForRejection}</div>
+                            </template>
+                        </td>
+                        <td class="th1" scope="row">
+                            <div class="slds-truncate titleDetail">{label.document}</div>
+                        </td>
+                        <td class="th1" scope="row">
+                            <div></div>
+                        </td>
+                        <td class="borderRight"></td>
+                    </tr>
+                    <tr></tr>
+                    <tr class="slds-hint-parent">
+                        <td class="th1 noIconContainer borderLeft" scope="row">
+                        </td>
+                        <td scope="row " class="th1">
+                            <div class="slds-truncate firstCell algo paddingSeparation">{getAccounIdBeneficiary}</div>         
+                        </td>
+                        <td scope="row " class="th1">
+                        </td>
+                        <td scope="row " class=" containerStatus th1">
+                            
+                        </td>
+                        <td scope="row" class="th1">
+                            <div class="slds-truncate  paddingSeparation">{getAgentNameBeneficiary}</div>
+                        </td>
+                        <td scope="row" class="th1">
+                            <div class="slds-truncate paddingSeparation">{getAgentCountryBeneficiary}</div>
+                        </td>
+                        <td scope="row" class="th1">
+                            <template if:true={statusOne}>
+                                <div class="slds-truncate paddingSeparation">{getReason}</div>
+                            </template>
+                        </td>
+                        <td scope="row" class="th1 ">
+                            <div class="paddingSeparation">
+                                <span class="icon-doc103 downloadDoc "></span>
+                                <span ><a class="noLink " href=""  onclick={downloadMT103} data-id={itemposition}  title={label.downloadMT103}>MT-103</a></span> 
+                            </div>                        
+                        </td>
+                        
+                        <td scope="row" class="th1">
+                            
+                        </td>
+                        <td ></td>
+                    </tr>
+                </tbody> 
+            </table>
+        <!--</template>-->
+</template>

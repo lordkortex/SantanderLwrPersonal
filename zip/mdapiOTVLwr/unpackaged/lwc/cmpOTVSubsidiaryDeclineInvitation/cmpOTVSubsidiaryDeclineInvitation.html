@@ -1,0 +1,63 @@
+<template>
+    <!-- FULL SCREEN MODAL -->
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open modalFullScreen" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+            <div class="slds-modal__container"> 
+                <!-- MODAL HEADER -->
+                <!-- Añadir la clase oneStep en la etiqueta <header> cuando la barra de progreso tenga un único paso -->
+                <!-- Añadir la clase errorStep en la etiqueta <header> cuando se haya producido un error de sistema -->
+                <header class="slds-modal__header slds-is-fixed">
+                    <div class="row slds-grid">
+                        <div class="slds-col slds-size_1-of-3">
+                                <!-- BACK BUTTON -->
+                            <button class="slds-button button_link" onclick={goBack}> 
+                                <span class="icon-arrowLeft_big icon_left"></span>{label.back}
+                            </button>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                            <img class="logo-red" src={logo_symbol_red}/>
+                            <h2 id="modal-heading-01" class="slds-modal__title slds-hyphenate">{label.DeclineInvitation}</h2>
+                        </div>
+                        <div class="slds-col slds-size_1-of-3">
+                        </div>                    
+                    </div>
+                
+                    <div class="row">
+                        <!-- PROGRESS BAR -->
+                        <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="20" role="progressbar">
+                            <span class="slds-progress-bar__value" style="width:100%">
+                                <span class="slds-assistive-text">{label.progress}: 100%</span>
+                            </span>
+                            
+                        </div>
+                    </div>
+                </header>
+
+                <!-- MODAL CONTENT -->
+                <div class="slds-modal__content" id="modal-content-id-1">
+                    <div class="slds-grid__content">
+                        <div class="slds-grid">
+                            <div class="slds-col">
+                                <figure class="slds-image">
+                                    <img src={talkWithAnExpert} alt="Description of the image" />
+                                </figure>
+                                <div class="text">
+                                    <div class="slds-text-heading">{label.cmpOTVSubsidiaryDeclineInvitation_1}</div>
+                                    <div class="slds-text-body">{label.cmpOTVSubsidiaryDeclineInvitation_2}</div>
+                                </div>
+                            </div>
+                            <div class="line slds-col"></div>
+                            <div class="slds-col">
+                                    <div class="titleStep">{label.cmpOTVSubsidiaryDeclineInvitation_3}</div>
+                                    <c-cmp-dropdown-l-w-c class="dropdown_single" arrayoptions={dropdownReason} title="Reason" placeholder="Select a reason" onchangeoption={changeReason}></c-cmp-dropdown-l-w-c>
+                                    <div class="titleStep">{label.cmpOTVSubsidiaryDeclineInvitation_4}</div>
+                                    <c-cmp-textarea-l-w-c onchangetext={changeDetails}></c-cmp-textarea-l-w-c>
+                                    <button class="slds-button primary button_full" onclick={openModal}>{label.cmpOTVTalkWithAnExpert_14}</button>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+                </div> 
+            </section>
+            <c-cmp-o-t-v-modal-template if:true={showDeclineModal} oncancelservice={sendDecline} showmodal=true></c-cmp-o-t-v-modal-template>
+        <div class="slds-backdrop slds-backdrop_open"></div> 
+</template>
